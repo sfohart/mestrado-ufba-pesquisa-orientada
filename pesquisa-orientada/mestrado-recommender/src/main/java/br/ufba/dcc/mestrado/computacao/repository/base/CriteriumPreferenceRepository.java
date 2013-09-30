@@ -3,75 +3,9 @@ package br.ufba.dcc.mestrado.computacao.repository.base;
 import java.io.Serializable;
 import java.util.List;
 
-import br.ufba.dcc.mestrado.computacao.recommender.CriteriumPreference;
+import org.apache.mahout.cf.taste.model.Preference;
 
 public interface CriteriumPreferenceRepository extends Serializable {
-
-	/**
-	 * 
-	 * @return
-	 */
-	Long countAll();
-	
-	/**
-	 * 
-	 * @return
-	 */
-	List<CriteriumPreference> findAll();
-	
-	/**
-	 * 
-	 * @param limit
-	 * @param offset
-	 * @return
-	 */
-	List<CriteriumPreference> findAll(Integer limit, Integer offset);
-
-	/**
-	 * 
-	 * @param userID
-	 * @return
-	 */
-	Long countAllByUser(Long userID);
-	
-	/**
-	 * 
-	 * @param userID
-	 * @return
-	 */
-	List<CriteriumPreference> findAllUser(Long userID);
-	
-	/**
-	 * 
-	 * @param userID
-	 * @param limit
-	 * @param offset
-	 * @return
-	 */
-	List<CriteriumPreference> findAllUser(Long userID, Integer limit, Integer offset);
-
-	/**
-	 * 
-	 * @param itemID
-	 * @return
-	 */
-	Long countAllByItem(Long itemID);
-	
-	/**
-	 * 
-	 * @param itemID
-	 * @return
-	 */
-	List<CriteriumPreference> findAllByItem(Long itemID);
-	
-	/**
-	 * 
-	 * @param itemID
-	 * @param limit
-	 * @param offset
-	 * @return
-	 */
-	List<CriteriumPreference> findAllByItem(Long itemID, Integer limit, Integer offset);
 	
 	/**
 	 * 
@@ -85,7 +19,7 @@ public interface CriteriumPreferenceRepository extends Serializable {
 	 * @param criteriumID
 	 * @return
 	 */
-	List<CriteriumPreference> findAllByCriterium(Long criteriumID);
+	List<Preference> findAllByCriterium(Long criteriumID);
 	
 	/**
 	 * 
@@ -94,6 +28,6 @@ public interface CriteriumPreferenceRepository extends Serializable {
 	 * @param offset
 	 * @return
 	 */
-	List<CriteriumPreference> findAllByCriterium(Long criteriumID, Integer limit, Integer offset);
+	List<Preference> findAllByCriterium(Long criteriumID, Integer limit, Integer offset);
 	
 }

@@ -3,81 +3,17 @@ package br.ufba.dcc.mestrado.computacao.service.base;
 import java.io.Serializable;
 import java.util.List;
 
+import org.apache.mahout.cf.taste.common.TasteException;
 import org.apache.mahout.cf.taste.eval.RecommenderBuilder;
 import org.apache.mahout.cf.taste.impl.recommender.AllUnknownItemsCandidateItemsStrategy;
 import org.apache.mahout.cf.taste.model.DataModel;
+import org.apache.mahout.cf.taste.model.Preference;
 import org.apache.mahout.cf.taste.recommender.CandidateItemsStrategy;
 import org.apache.mahout.cf.taste.recommender.MostSimilarItemsCandidateItemsStrategy;
 
-import br.ufba.dcc.mestrado.computacao.recommender.CriteriumPreference;
+import br.ufba.dcc.mestrado.computacao.recommender.MultiCriteriaRecommender;
 
 public interface RecommenderService extends Serializable {
-
-	/**
-	 * 
-	 * @return
-	 */
-	Long countAll();
-	
-	/**
-	 * 
-	 * @return
-	 */
-	List<CriteriumPreference> findAll();
-	
-	/**
-	 * 
-	 * @param limit
-	 * @param offset
-	 * @return
-	 */
-	List<CriteriumPreference> findAll(Integer limit, Integer offset);
-
-	/**
-	 * 
-	 * @param userID
-	 * @return
-	 */
-	Long countAllByUser(Long userID);
-	
-	/**
-	 * 
-	 * @param userID
-	 * @return
-	 */
-	List<CriteriumPreference> findAllUser(Long userID);
-	
-	/**
-	 * 
-	 * @param userID
-	 * @param limit
-	 * @param offset
-	 * @return
-	 */
-	List<CriteriumPreference> findAllUser(Long userID, Integer limit, Integer offset);
-
-	/**
-	 * 
-	 * @param itemID
-	 * @return
-	 */
-	Long countAllByItem(Long itemID);
-	
-	/**
-	 * 
-	 * @param itemID
-	 * @return
-	 */
-	List<CriteriumPreference> findAllByItem(Long itemID);
-	
-	/**
-	 * 
-	 * @param itemID
-	 * @param limit
-	 * @param offset
-	 * @return
-	 */
-	List<CriteriumPreference> findAllByItem(Long itemID, Integer limit, Integer offset);
 	
 	/**
 	 * 
@@ -91,7 +27,7 @@ public interface RecommenderService extends Serializable {
 	 * @param criteriumID
 	 * @return
 	 */
-	List<CriteriumPreference> findAllByCriterium(Long criteriumID);
+	List<Preference> findAllByCriterium(Long criteriumID);
 	
 	/**
 	 * 
@@ -100,14 +36,21 @@ public interface RecommenderService extends Serializable {
 	 * @param offset
 	 * @return
 	 */
-	List<CriteriumPreference> findAllByCriterium(Long criteriumID, Integer limit, Integer offset);
+	List<Preference> findAllByCriterium(Long criteriumID, Integer limit, Integer offset);
 	
 	/**
 	 * 
-	 * @param criteriumPreferences
+	 * @param Preferences
 	 * @return
 	 */
-	DataModel buildUserDataModel(List<CriteriumPreference> criteriumPreferences);
+	DataModel buildUserDataModel(Long criteriumID);
+	
+	/**
+	 * 
+	 * @param Preferences
+	 * @return
+	 */
+	DataModel buildItemDataModel(Long criteriumID);
 	
 
 	/**
@@ -125,4 +68,11 @@ public interface RecommenderService extends Serializable {
 	 * @return
 	 */
 	RecommenderBuilder createItemBasedRecomenderBuilder(DataModel dataModel);
+	
+	/**
+	 * 
+	 * @return
+	 * @throws TasteException
+	 */
+	MultiCriteriaRecommender buildMultiCriteriaRecommender() throws TasteException;
 }

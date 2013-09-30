@@ -7,6 +7,7 @@ import org.springframework.context.annotation.Import;
 
 import br.ufba.dcc.mestrado.computacao.repository.RecommenderRepositoryConfig;
 import br.ufba.dcc.mestrado.computacao.repository.base.CriteriumPreferenceRepository;
+import br.ufba.dcc.mestrado.computacao.repository.base.RecommenderCriteriumRepository;
 import br.ufba.dcc.mestrado.computacao.service.base.RecommenderService;
 import br.ufba.dcc.mestrado.computacao.service.impl.RecommenderServiceImpl;
 
@@ -17,9 +18,14 @@ public class RecommenderServiceConfig {
 	@Autowired
 	private CriteriumPreferenceRepository criteriumPreferenceRepository;
 	
+	@Autowired
+	private RecommenderCriteriumRepository recommenderCriteriumRepository;
+	
 	@Bean
 	public RecommenderService recommenderService() {
-		return new RecommenderServiceImpl(criteriumPreferenceRepository);
+		return new RecommenderServiceImpl(
+				criteriumPreferenceRepository,
+				recommenderCriteriumRepository);
 	}
 
 }

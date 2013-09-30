@@ -13,7 +13,9 @@ import org.springframework.jdbc.datasource.DriverManagerDataSource;
 import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
 
 import br.ufba.dcc.mestrado.computacao.repository.base.CriteriumPreferenceRepository;
+import br.ufba.dcc.mestrado.computacao.repository.base.RecommenderCriteriumRepository;
 import br.ufba.dcc.mestrado.computacao.repository.impl.CriteriumPreferenceRepositoryImpl;
+import br.ufba.dcc.mestrado.computacao.repository.impl.RecommenderCriteriumRepositoryImpl;
 
 @Configuration
 @PropertySource(value = "classpath:persistence.properties")
@@ -59,5 +61,10 @@ public class RecommenderRepositoryConfig {
 	@Bean
 	public CriteriumPreferenceRepository criteriumPreferenceRepository() {
 		return new CriteriumPreferenceRepositoryImpl();
+	}
+	
+	@Bean
+	public RecommenderCriteriumRepository recommenderCriteriumRepository() {
+		return new RecommenderCriteriumRepositoryImpl();
 	}
 }
