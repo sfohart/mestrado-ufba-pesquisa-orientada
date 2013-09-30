@@ -8,12 +8,12 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
-import br.ufba.dcc.mestrado.computacao.entities.ohloh.OhLohBaseEntity;
+import br.ufba.dcc.mestrado.computacao.entities.BaseEntity;
 import br.ufba.dcc.mestrado.computacao.entities.ohloh.language.OhLohLanguageEntity;
 
 @Entity
 @Table(name = OhLohAnalysisLanguageEntity.NODE_NAME)
-public class OhLohAnalysisLanguageEntity implements OhLohBaseEntity<Long> {
+public class OhLohAnalysisLanguageEntity implements BaseEntity<Long> {
 
 	/**
 	 * 

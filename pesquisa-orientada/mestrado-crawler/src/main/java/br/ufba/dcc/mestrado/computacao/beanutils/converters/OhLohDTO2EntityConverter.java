@@ -6,11 +6,11 @@ import org.apache.commons.beanutils.BeanUtils;
 import org.apache.commons.beanutils.ConversionException;
 import org.apache.commons.beanutils.Converter;
 
-import br.ufba.dcc.mestrado.computacao.entities.ohloh.OhLohBaseEntity;
+import br.ufba.dcc.mestrado.computacao.entities.BaseEntity;
 import br.ufba.dcc.mestrado.computacao.ohloh.data.OhLohResultDTO;
 import br.ufba.dcc.mestrado.computacao.util.ConverterHandler;
 
-public class OhLohDTO2EntityConverter<DTO extends OhLohResultDTO, ID extends Number, E extends OhLohBaseEntity<ID>> implements Converter {
+public class OhLohDTO2EntityConverter<DTO extends OhLohResultDTO, ID extends Number, E extends BaseEntity<ID>> implements Converter {
 	
 	private Object defaultValue = null;
     private boolean useDefault = true;
@@ -38,7 +38,7 @@ public class OhLohDTO2EntityConverter<DTO extends OhLohResultDTO, ID extends Num
             }
 		}
 		
-		if (value instanceof OhLohBaseEntity) {
+		if (value instanceof BaseEntity) {
 			return value;
 		}
 		

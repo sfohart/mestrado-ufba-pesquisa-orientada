@@ -15,13 +15,13 @@ import javax.persistence.OneToOne;
 import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
 
-import br.ufba.dcc.mestrado.computacao.entities.ohloh.OhLohBaseEntity;
+import br.ufba.dcc.mestrado.computacao.entities.BaseEntity;
 import br.ufba.dcc.mestrado.computacao.entities.ohloh.factoid.OhLohFactoidEntity;
 import br.ufba.dcc.mestrado.computacao.entities.ohloh.project.OhLohProjectEntity;
 
 @Entity
 @Table(name = OhLohAnalysisEntity.NODE_NAME)
-public class OhLohAnalysisEntity implements OhLohBaseEntity<Long> {
+public class OhLohAnalysisEntity implements BaseEntity<Long> {
 
 	/**
 	 * 

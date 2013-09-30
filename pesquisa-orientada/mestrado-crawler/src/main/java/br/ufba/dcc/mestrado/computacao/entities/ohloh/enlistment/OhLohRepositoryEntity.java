@@ -7,11 +7,11 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
-import br.ufba.dcc.mestrado.computacao.entities.ohloh.OhLohBaseEntity;
+import br.ufba.dcc.mestrado.computacao.entities.BaseEntity;
 
 @Entity
 @Table(name = OhLohRepositoryEntity.NODE_NAME)
-public class OhLohRepositoryEntity implements OhLohBaseEntity<Long> {
+public class OhLohRepositoryEntity implements BaseEntity<Long> {
 
 	/**
 	 * 

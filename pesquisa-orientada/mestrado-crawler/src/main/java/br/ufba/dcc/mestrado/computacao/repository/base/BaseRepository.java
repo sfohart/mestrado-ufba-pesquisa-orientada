@@ -3,9 +3,9 @@ package br.ufba.dcc.mestrado.computacao.repository.base;
 import java.io.Serializable;
 import java.util.List;
 
-import br.ufba.dcc.mestrado.computacao.entities.ohloh.OhLohBaseEntity;
+import br.ufba.dcc.mestrado.computacao.entities.BaseEntity;
 
-public interface BaseRepository<ID extends Number, E extends OhLohBaseEntity<ID>> extends Serializable {
+public interface BaseRepository<ID extends Number, E extends BaseEntity<ID>> extends Serializable {
 
 	public Long countAll();
 	public List<E> findAll();	

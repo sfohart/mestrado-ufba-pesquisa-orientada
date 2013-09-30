@@ -6,11 +6,11 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
-import br.ufba.dcc.mestrado.computacao.entities.ohloh.OhLohBaseEntity;
+import br.ufba.dcc.mestrado.computacao.entities.BaseEntity;
 
 @Entity
 @Table(name = OhLohTagEntity.NODE_NAME)
-public class OhLohTagEntity implements OhLohBaseEntity<Long> {
+public class OhLohTagEntity implements BaseEntity<Long> {
 	/**
 	 * 
 	 */

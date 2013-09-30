@@ -8,11 +8,12 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import br.ufba.dcc.mestrado.computacao.entities.BaseEntity;
 import br.ufba.dcc.mestrado.computacao.entities.ohloh.project.OhLohProjectEntity;
 
 @Entity
 @Table(name = OhLohCrawlerProjectEntity.NODE_NAME)
-public class OhLohCrawlerProjectEntity  implements OhLohBaseEntity<Long> {
+public class OhLohCrawlerProjectEntity  implements BaseEntity<Long> {
 
 	/**
 	 * 

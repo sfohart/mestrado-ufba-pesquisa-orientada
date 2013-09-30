@@ -8,11 +8,11 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
-import br.ufba.dcc.mestrado.computacao.entities.ohloh.OhLohBaseEntity;
+import br.ufba.dcc.mestrado.computacao.entities.BaseEntity;
 
 @Entity
 @Table(name=OhLohKudoScoreEntity.NODE_NAME)
-public class OhLohKudoScoreEntity implements OhLohBaseEntity<Long> {
+public class OhLohKudoScoreEntity implements BaseEntity<Long> {
 	
 	/**
 	 * 

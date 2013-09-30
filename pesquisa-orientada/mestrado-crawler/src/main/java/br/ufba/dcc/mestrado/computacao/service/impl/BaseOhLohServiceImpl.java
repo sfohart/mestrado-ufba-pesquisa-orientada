@@ -1,12 +1,12 @@
 package br.ufba.dcc.mestrado.computacao.service.impl;
 
-import br.ufba.dcc.mestrado.computacao.entities.ohloh.OhLohBaseEntity;
+import br.ufba.dcc.mestrado.computacao.entities.BaseEntity;
 import br.ufba.dcc.mestrado.computacao.ohloh.data.OhLohResultDTO;
 import br.ufba.dcc.mestrado.computacao.repository.base.BaseRepository;
 import br.ufba.dcc.mestrado.computacao.service.base.BaseOhLohService;
 import br.ufba.dcc.mestrado.computacao.util.ConverterHandler;
 
-public abstract class BaseOhLohServiceImpl<DTO extends OhLohResultDTO, ID extends Number, E extends OhLohBaseEntity<ID>>
+public abstract class BaseOhLohServiceImpl<DTO extends OhLohResultDTO, ID extends Number, E extends BaseEntity<ID>>
 		implements BaseOhLohService<DTO, ID, E> {
 
 	private Class<DTO> dtoClass;

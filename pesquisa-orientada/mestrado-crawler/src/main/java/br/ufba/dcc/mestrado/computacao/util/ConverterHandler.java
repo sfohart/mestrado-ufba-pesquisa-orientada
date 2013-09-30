@@ -13,7 +13,7 @@ import org.apache.commons.beanutils.ConvertUtils;
 import org.apache.commons.beanutils.converters.SqlTimestampConverter;
 
 import br.ufba.dcc.mestrado.computacao.beanutils.converters.OhLohDTO2EntityConverter;
-import br.ufba.dcc.mestrado.computacao.entities.ohloh.OhLohBaseEntity;
+import br.ufba.dcc.mestrado.computacao.entities.BaseEntity;
 import br.ufba.dcc.mestrado.computacao.entities.ohloh.account.OhLohAccountEntity;
 import br.ufba.dcc.mestrado.computacao.entities.ohloh.analysis.OhLohAnalysisEntity;
 import br.ufba.dcc.mestrado.computacao.entities.ohloh.analysis.OhLohAnalysisLanguagesEntity;
@@ -26,7 +26,7 @@ import br.ufba.dcc.mestrado.computacao.ohloh.data.analysis.OhLohAnalysisLanguage
 import br.ufba.dcc.mestrado.computacao.ohloh.data.kudoskore.OhLohKudoScoreDTO;
 import br.ufba.dcc.mestrado.computacao.ohloh.data.stack.OhLohStackDTO;
 
-public class ConverterHandler<DTO extends OhLohResultDTO, ID extends Number, E extends OhLohBaseEntity<ID>> {
+public class ConverterHandler<DTO extends OhLohResultDTO, ID extends Number, E extends BaseEntity<ID>> {
 	
 	private Class<DTO> dtoClass;
 	private Class<E> entityClass;

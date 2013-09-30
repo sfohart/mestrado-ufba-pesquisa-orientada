@@ -6,11 +6,11 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
-import br.ufba.dcc.mestrado.computacao.entities.ohloh.OhLohBaseEntity;
+import br.ufba.dcc.mestrado.computacao.entities.BaseEntity;
 
 @Entity
 @Table(name = OhLohLicenseEntity.NODE_NAME)
-public class OhLohLicenseEntity implements OhLohBaseEntity<Long> {
+public class OhLohLicenseEntity implements BaseEntity<Long> {
 
 	/**
 	 * 

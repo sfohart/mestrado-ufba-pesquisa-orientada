@@ -4,4 +4,6 @@ import br.ufba.dcc.mestrado.computacao.entities.ohloh.project.OhLohProjectEntity
 
 public interface OhLohProjectRepository extends BaseRepository<Long, OhLohProjectEntity>{
 
+	OhLohProjectEntity findByName(String name);
+	
 }

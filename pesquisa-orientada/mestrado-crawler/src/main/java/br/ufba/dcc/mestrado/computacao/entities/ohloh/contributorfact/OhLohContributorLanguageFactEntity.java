@@ -7,11 +7,11 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
-import br.ufba.dcc.mestrado.computacao.entities.ohloh.OhLohBaseEntity;
+import br.ufba.dcc.mestrado.computacao.entities.BaseEntity;
 
 @Entity
 @Table(name=OhLohContributorLanguageFactEntity.NODE_NAME)
-public class OhLohContributorLanguageFactEntity implements OhLohBaseEntity<Long> {
+public class OhLohContributorLanguageFactEntity implements BaseEntity<Long> {
 	
 	/**
 	 * 

@@ -10,11 +10,11 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
-import br.ufba.dcc.mestrado.computacao.entities.ohloh.OhLohBaseEntity;
+import br.ufba.dcc.mestrado.computacao.entities.BaseEntity;
 
 @Entity
 @Table(name=OhLohContributorFactEntity.NODE_NAME)
-public class OhLohContributorFactEntity implements OhLohBaseEntity<Long> {
+public class OhLohContributorFactEntity implements BaseEntity<Long> {
 	
 	/**
 	 * 

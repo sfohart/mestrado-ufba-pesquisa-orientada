@@ -10,12 +10,12 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
-import br.ufba.dcc.mestrado.computacao.entities.ohloh.OhLohBaseEntity;
+import br.ufba.dcc.mestrado.computacao.entities.BaseEntity;
 import br.ufba.dcc.mestrado.computacao.entities.ohloh.kudoskore.OhLohKudoScoreEntity;
 
 @Entity
 @Table(name = OhLohAccountEntity.NODE_NAME)
-public class OhLohAccountEntity implements OhLohBaseEntity<Long> {
+public class OhLohAccountEntity implements BaseEntity<Long> {
 
 	/**
 	 * 

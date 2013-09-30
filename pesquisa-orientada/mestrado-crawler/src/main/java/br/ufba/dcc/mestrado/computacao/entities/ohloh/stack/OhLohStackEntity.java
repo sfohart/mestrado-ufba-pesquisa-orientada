@@ -12,12 +12,12 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
-import br.ufba.dcc.mestrado.computacao.entities.ohloh.OhLohBaseEntity;
+import br.ufba.dcc.mestrado.computacao.entities.BaseEntity;
 import br.ufba.dcc.mestrado.computacao.entities.ohloh.account.OhLohAccountEntity;
 
 @Entity
 @Table(name = OhLohStackEntity.NODE_NAME)
-public class OhLohStackEntity implements OhLohBaseEntity<Long> {
+public class OhLohStackEntity implements BaseEntity<Long> {
 
 	/**
 	 * 

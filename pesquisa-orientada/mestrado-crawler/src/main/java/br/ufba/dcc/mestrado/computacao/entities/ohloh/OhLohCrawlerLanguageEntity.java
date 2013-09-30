@@ -6,9 +6,11 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+import br.ufba.dcc.mestrado.computacao.entities.BaseEntity;
+
 @Entity
 @Table(name = OhLohCrawlerLanguageEntity.NODE_NAME)
-public class OhLohCrawlerLanguageEntity  implements OhLohBaseEntity<Long> {
+public class OhLohCrawlerLanguageEntity  implements BaseEntity<Long> {
 
 	/**
 	 * 

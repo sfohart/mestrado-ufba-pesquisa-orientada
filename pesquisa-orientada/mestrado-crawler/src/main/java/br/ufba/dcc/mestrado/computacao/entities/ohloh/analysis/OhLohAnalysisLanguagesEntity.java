@@ -11,11 +11,11 @@ import javax.persistence.OneToOne;
 import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
 
-import br.ufba.dcc.mestrado.computacao.entities.ohloh.OhLohBaseEntity;
+import br.ufba.dcc.mestrado.computacao.entities.BaseEntity;
 
 @Entity
 @Table(name=OhLohAnalysisLanguagesEntity.NODE_NAME)
-public class OhLohAnalysisLanguagesEntity implements OhLohBaseEntity<Long> {
+public class OhLohAnalysisLanguagesEntity implements BaseEntity<Long> {
 
 	/**
 	 * 

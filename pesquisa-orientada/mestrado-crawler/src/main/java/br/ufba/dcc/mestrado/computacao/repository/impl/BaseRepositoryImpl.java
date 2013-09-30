@@ -12,10 +12,10 @@ import javax.persistence.criteria.Root;
 import org.apache.log4j.Logger;
 import org.springframework.transaction.annotation.Transactional;
 
-import br.ufba.dcc.mestrado.computacao.entities.ohloh.OhLohBaseEntity;
+import br.ufba.dcc.mestrado.computacao.entities.BaseEntity;
 import br.ufba.dcc.mestrado.computacao.repository.base.BaseRepository;
 
-public class BaseRepositoryImpl<ID extends Number, E extends OhLohBaseEntity<ID>>
+public class BaseRepositoryImpl<ID extends Number, E extends BaseEntity<ID>>
 	implements BaseRepository<ID, E> {
 	
 	private Logger logger = Logger.getLogger(this.getClass().getName());

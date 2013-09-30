@@ -7,11 +7,12 @@ import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import br.ufba.dcc.mestrado.computacao.entities.BaseEntity;
 import br.ufba.dcc.mestrado.computacao.entities.ohloh.project.OhLohProjectEntity;
 
 @Entity
 @Table(name = OhLohCrawlerStackEntity.NODE_NAME)
-public class OhLohCrawlerStackEntity  implements OhLohBaseEntity<Long> {
+public class OhLohCrawlerStackEntity  implements BaseEntity<Long> {
 
 	/**
 	 * 
