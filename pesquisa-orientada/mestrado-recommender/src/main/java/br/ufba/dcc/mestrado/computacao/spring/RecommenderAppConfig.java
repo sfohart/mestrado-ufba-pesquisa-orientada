@@ -1,6 +1,7 @@
 package br.ufba.dcc.mestrado.computacao.spring;
 
 
+import org.apache.mahout.cf.taste.common.TasteException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
@@ -9,6 +10,7 @@ import org.springframework.context.annotation.Import;
 import org.springframework.context.annotation.PropertySource;
 
 import br.ufba.dcc.mestrado.computacao.main.Main;
+import br.ufba.dcc.mestrado.computacao.recommender.MultiCriteriaRecommender;
 import br.ufba.dcc.mestrado.computacao.service.RecommenderServiceConfig;
 import br.ufba.dcc.mestrado.computacao.service.base.RecommenderService;
 
@@ -24,6 +26,11 @@ public class RecommenderAppConfig {
 	@Bean
 	public Main main() {
 		return new Main(recommenderService);
+	}
+	
+	@Bean
+	public MultiCriteriaRecommender multiCriteriaRecommender() throws TasteException {
+		return recommenderService.buildMultiCriteriaRecommender();
 	}
 	
 	

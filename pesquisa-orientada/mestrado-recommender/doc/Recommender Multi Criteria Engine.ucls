@@ -1,0 +1,175 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<class-diagram version="1.1.4" icons="true" automaticImage="PNG" always-add-relationships="false" generalizations="true" 
+  realizations="true" associations="true" dependencies="false" nesting-relationships="true">  
+  <class id="1" language="java" name="br.ufba.dcc.mestrado.computacao.recommender.MultiCriteriaRecommender" 
+    project="mestrado-recommender" 
+    file="/mestrado-recommender/src/main/java/br/ufba/dcc/mestrado/computacao/recommender/MultiCriteriaRecommender.java" 
+    binary="false" corner="BOTTOM_RIGHT">    
+    <position height="333" width="439" x="922" y="37"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
+      visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <interface id="2" language="java" name="org.apache.mahout.cf.taste.recommender.Recommender" 
+    project="mestrado-recommender" 
+    file="C:/Users/leandro.ferreira/.m2/repository/org/apache/mahout/mahout-core/0.8/mahout-core-0.8.jar" binary="true" 
+    corner="BOTTOM_RIGHT">    
+    <position height="171" width="303" x="922" y="410"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
+      visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </interface>  
+  <interface id="3" language="java" name="br.ufba.dcc.mestrado.computacao.recommender.PreferenceAggregatorStrategy" 
+    project="mestrado-recommender" 
+    file="/mestrado-recommender/src/main/java/br/ufba/dcc/mestrado/computacao/recommender/PreferenceAggregatorStrategy.java" 
+    binary="false" corner="BOTTOM_RIGHT">    
+    <position height="81" width="276" x="583" y="410"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
+      visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </interface>  
+  <class id="4" language="java" name="br.ufba.dcc.mestrado.computacao.recommender.AveragePreferenceAggregatorStrategy" 
+    project="mestrado-recommender" 
+    file="/mestrado-recommender/src/main/java/br/ufba/dcc/mestrado/computacao/recommender/AveragePreferenceAggregatorStrategy.java" 
+    binary="false" corner="BOTTOM_RIGHT">    
+    <position height="117" width="276" x="267" y="37"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
+      visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="5" language="java" name="br.ufba.dcc.mestrado.computacao.recommender.WeightedAverageAggregatorStrategy" 
+    project="mestrado-recommender" 
+    file="/mestrado-recommender/src/main/java/br/ufba/dcc/mestrado/computacao/recommender/WeightedAverageAggregatorStrategy.java" 
+    binary="false" corner="BOTTOM_RIGHT">    
+    <position height="135" width="299" x="583" y="37"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
+      visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <interface id="6" language="java" name="org.apache.mahout.cf.taste.recommender.RecommendedItem" 
+    project="mestrado-recommender" 
+    file="C:/Users/leandro.ferreira/.m2/repository/org/apache/mahout/mahout-core/0.8/mahout-core-0.8.jar" binary="true" 
+    corner="BOTTOM_RIGHT">    
+    <position height="99" width="186" x="41" y="37"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
+      visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </interface>  
+  <interface id="7" language="java" name="org.apache.mahout.cf.taste.recommender.CandidateItemsStrategy" 
+    project="mestrado-recommender" 
+    file="C:/Users/leandro.ferreira/.m2/repository/org/apache/mahout/mahout-core/0.8/mahout-core-0.8.jar" binary="true" 
+    corner="BOTTOM_RIGHT">    
+    <position height="81" width="328" x="1265" y="410"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
+      visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </interface>  
+  <interface id="8" language="java" name="org.apache.mahout.cf.taste.recommender.MostSimilarItemsCandidateItemsStrategy" 
+    project="mestrado-recommender" 
+    file="C:/Users/leandro.ferreira/.m2/repository/org/apache/mahout/mahout-core/0.8/mahout-core-0.8.jar" binary="true" 
+    corner="BOTTOM_RIGHT">    
+    <position height="81" width="261" x="1937" y="410"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
+      visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </interface>  
+  <class id="9" language="java" name="org.apache.mahout.cf.taste.impl.recommender.AllUnknownItemsCandidateItemsStrategy" 
+    project="mestrado-recommender" 
+    file="C:/Users/leandro.ferreira/.m2/repository/org/apache/mahout/mahout-core/0.8/mahout-core-0.8.jar" binary="true" 
+    corner="BOTTOM_RIGHT">    
+    <position height="99" width="264" x="1633" y="410"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
+      visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="10" language="java" name="org.apache.mahout.cf.taste.impl.recommender.AbstractCandidateItemsStrategy" 
+    project="mestrado-recommender" 
+    file="C:/Users/leandro.ferreira/.m2/repository/org/apache/mahout/mahout-core/0.8/mahout-core-0.8.jar" binary="true" 
+    corner="BOTTOM_RIGHT">    
+    <position height="153" width="328" x="1633" y="37"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
+      visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <interface id="11" language="java" name="org.apache.mahout.cf.taste.recommender.ItemBasedRecommender" 
+    project="mestrado-recommender" 
+    file="C:/Users/leandro.ferreira/.m2/repository/org/apache/mahout/mahout-core/0.8/mahout-core-0.8.jar" binary="true" 
+    corner="BOTTOM_RIGHT">    
+    <position height="189" width="418" x="922" y="621"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
+      visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </interface>  
+  <realization id="12">    
+    <end type="SOURCE" refId="5"/>    
+    <end type="TARGET" refId="3"/>  
+  </realization>  
+  <generalization id="13">    
+    <end type="SOURCE" refId="11"/>    
+    <end type="TARGET" refId="2"/>  
+  </generalization>  
+  <association id="14">    
+    <end type="SOURCE" refId="1" navigable="false">      
+      <attribute id="15" name="recommenderMap"/>      
+      <multiplicity id="16" minimum="0" maximum="2147483647"/>    
+    </end>    
+    <end type="TARGET" refId="2" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <realization id="17">    
+    <end type="SOURCE" refId="10"/>    
+    <end type="TARGET" refId="7"/>  
+  </realization>  
+  <realization id="18">    
+    <end type="SOURCE" refId="1"/>    
+    <end type="TARGET" refId="2"/>  
+  </realization>  
+  <association id="19">    
+    <end type="SOURCE" refId="1" navigable="false">      
+      <attribute id="20" name="preferenceAggregatorStrategy"/>      
+      <multiplicity id="21" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="3" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <realization id="22">    
+    <end type="SOURCE" refId="4"/>    
+    <end type="TARGET" refId="3"/>  
+  </realization>  
+  <generalization id="23">    
+    <end type="SOURCE" refId="9"/>    
+    <end type="TARGET" refId="10"/>  
+  </generalization>  
+  <realization id="24">    
+    <end type="SOURCE" refId="10"/>    
+    <end type="TARGET" refId="8"/>  
+  </realization>  
+  <classifier-display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+    accessors="true" visibility="true">    
+    <attributes public="true" package="true" protected="true" private="true" static="true"/>    
+    <operations public="true" package="true" protected="true" private="true" static="true"/>  
+  </classifier-display>  
+  <association-display labels="true" multiplicity="true"/>
+</class-diagram>

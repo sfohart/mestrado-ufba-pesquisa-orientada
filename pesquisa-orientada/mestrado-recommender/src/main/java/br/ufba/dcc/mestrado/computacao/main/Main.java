@@ -32,7 +32,11 @@ public class Main {
 	public void run() throws TasteException {
 		logger.info("Running");
 		
+		long startTime = System.currentTimeMillis();		
 		MultiCriteriaRecommender recommender = getService().buildMultiCriteriaRecommender();
+		long endTime = System.currentTimeMillis();
+				
+		logger.info(String.format("Tempo gasto construindo recommender: %d", endTime - startTime));
 		
 		/*DataModelBuilder modelBuilder = new DataModelBuilder() {
 			@Override
@@ -53,13 +57,17 @@ public class Main {
 		
 		logger.info(String.format("usuário de teste: id %d", userID));
 		
+		startTime = System.currentTimeMillis();
 		List<RecommendedItem> test = recommender.recommend(userID, 10);
+		endTime = System.currentTimeMillis();
+		
+		logger.info(String.format("Tempo recomendando ítens: %d", endTime - startTime));
 		
 		if (test != null) {
 			for (RecommendedItem item : test) {
 				System.out.println(String.format("User ID %d, Item ID %d, Preference Value %f", userID, item.getItemID(), item.getValue()));
 				
-				Map<Long,Float> justify = recommender.justifyRecommendation(userID, item.getItemID());
+				Map<Long,Float> justify = recommender.justifyPreferenceValue(userID, item.getItemID());
 				for (Map.Entry<Long,Float> entry : justify.entrySet()) {
 					System.out.println(String.format("\tCriterium %d Value %f", entry.getKey(), entry.getValue()));
 				}

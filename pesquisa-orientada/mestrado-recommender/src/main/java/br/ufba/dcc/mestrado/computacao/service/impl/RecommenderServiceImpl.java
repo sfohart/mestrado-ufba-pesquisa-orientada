@@ -4,6 +4,12 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.TreeMap;
+import java.util.concurrent.Callable;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.FutureTask;
 
 import org.apache.mahout.cf.taste.common.TasteException;
 import org.apache.mahout.cf.taste.eval.RecommenderBuilder;
@@ -20,6 +26,7 @@ import org.apache.mahout.cf.taste.impl.recommender.GenericUserBasedRecommender;
 import org.apache.mahout.cf.taste.impl.similarity.CachingItemSimilarity;
 import org.apache.mahout.cf.taste.impl.similarity.CachingUserSimilarity;
 import org.apache.mahout.cf.taste.impl.similarity.LogLikelihoodSimilarity;
+import org.apache.mahout.cf.taste.impl.similarity.PearsonCorrelationSimilarity;
 import org.apache.mahout.cf.taste.model.DataModel;
 import org.apache.mahout.cf.taste.model.Preference;
 import org.apache.mahout.cf.taste.model.PreferenceArray;
@@ -48,6 +55,42 @@ public class RecommenderServiceImpl implements RecommenderService {
 	
 	private CriteriumPreferenceRepository criteriumPreferenceRepository;
 	private RecommenderCriteriumRepository recommenderCriteriumRepository;
+	
+	/**
+	 * 
+	 * @author leandro.ferreira
+	 *
+	 */
+	protected class RecommenderItemDataModelCallable implements Callable<DataModel> {
+		private Long criteriumID;
+		
+		public RecommenderItemDataModelCallable(Long criteriumID) {
+			this.criteriumID = criteriumID;
+		}
+
+		@Override
+		public DataModel call() throws Exception {			
+			return buildItemDataModel(criteriumID);
+		}
+	}
+	
+	/**
+	 * 
+	 * @author leandro.ferreira
+	 *
+	 */
+	protected class RecommenderUserDataModelCallable implements Callable<DataModel> {
+		private Long criteriumID;
+		
+		public RecommenderUserDataModelCallable(Long criteriumID) {
+			this.criteriumID = criteriumID;
+		}
+
+		@Override
+		public DataModel call() throws Exception {			
+			return buildUserDataModel(criteriumID);
+		}
+	}
 	
 	
 	public RecommenderServiceImpl(
@@ -143,14 +186,15 @@ public class RecommenderServiceImpl implements RecommenderService {
 			@Override
 			public Recommender buildRecommender(DataModel dataModel) throws TasteException {
 				
-				UserSimilarity baseUserSimilarity = new LogLikelihoodSimilarity(dataModel);
+				UserSimilarity baseUserSimilarity = new PearsonCorrelationSimilarity(dataModel);
 				UserSimilarity userSimilarity = new CachingUserSimilarity(baseUserSimilarity, dataModel);
 				
 				UserNeighborhood baseUserNeighborhood = new NearestNUserNeighborhood(10, 0.7, userSimilarity, dataModel);
 				UserNeighborhood userNeighborhood = new CachingUserNeighborhood(baseUserNeighborhood, dataModel);
 				
 				Recommender baseRecommender = new GenericUserBasedRecommender(dataModel, userNeighborhood, userSimilarity);
-				return baseRecommender;
+				Recommender recommender = new CachingRecommender(baseRecommender);
+				return recommender;
 			}
 		};
 		
@@ -163,32 +207,71 @@ public class RecommenderServiceImpl implements RecommenderService {
 			@Override
 			public Recommender buildRecommender(DataModel dataModel) throws TasteException {
 				
-				ItemSimilarity baseItemSimilarity = new LogLikelihoodSimilarity(dataModel);
+				ItemSimilarity baseItemSimilarity = new PearsonCorrelationSimilarity(dataModel);
 				ItemSimilarity itemSimilarity = new CachingItemSimilarity(baseItemSimilarity, dataModel);
 				
 				CandidateItemsStrategy candidateItemsStrategy = new AllUnknownItemsCandidateItemsStrategy();
 				MostSimilarItemsCandidateItemsStrategy mostSimilarItemsCandidateItemsStrategy = new AllUnknownItemsCandidateItemsStrategy();
 				
 				Recommender baseRecommender = new GenericItemBasedRecommender(dataModel, itemSimilarity, candidateItemsStrategy, mostSimilarItemsCandidateItemsStrategy);
-				return baseRecommender;
+				Recommender recommender = new CachingRecommender(baseRecommender);
+				return recommender;
 			}
 		};
 		
 		return recommenderBuilder;
 	}
 
+	/**
+	 * Cria um recomendador multi-dimensional.
+	 * Utiliza threads para criar
+	 */
 	public MultiCriteriaRecommender buildMultiCriteriaRecommender() throws TasteException {
 		List<RecommenderCriteriumEntity> criteriaList = getRecommenderCriteriumRepository().findAll();
 		
+		ExecutorService executor = Executors.newFixedThreadPool(criteriaList.size());
+
+		Map<Long, FutureTask<DataModel>> futureTaskMap = new TreeMap<>();		
 		Map<Long, Recommender> recommenderMap = new HashMap<>();
+		
 		if (criteriaList != null) {
 			for (RecommenderCriteriumEntity criterium : criteriaList) {
-				DataModel dataModel = buildUserDataModel(criterium.getId());
-				RecommenderBuilder recommenderBuilder = createItemBasedRecomenderBuilder(dataModel);
+				RecommenderUserDataModelCallable callable = 
+						new RecommenderUserDataModelCallable(criterium.getId());
 				
-				Recommender recommender = recommenderBuilder.buildRecommender(dataModel);
-				recommenderMap.put(criterium.getId(), recommender);
+				FutureTask<DataModel> futureTask = new FutureTask<>(callable);				
+				futureTaskMap.put(criterium.getId(), futureTask);
+				executor.execute(futureTask);
 			}
+			
+			while (true) {
+				boolean allDone = true;
+				
+				for (FutureTask<DataModel> futureTask : futureTaskMap.values()) {
+					if (! futureTask.isDone()) {
+						allDone = false;
+					}
+				}
+				
+				if (allDone) {
+					executor.shutdown();
+					break;
+				}
+			}
+						
+			for (Map.Entry<Long, FutureTask<DataModel>> entry : futureTaskMap.entrySet()) {		
+				try {
+					DataModel dataModel = entry.getValue().get();
+					RecommenderBuilder recommenderBuilder = createItemBasedRecomenderBuilder(dataModel);
+					
+					Recommender recommender = recommenderBuilder.buildRecommender(dataModel);
+					recommenderMap.put(entry.getKey(), recommender);
+				} catch (ExecutionException ex) {
+					ex.printStackTrace();
+				} catch (InterruptedException e) {
+					e.printStackTrace();
+				}
+			}			
 		}
 		
 		MultiCriteriaRecommender multiCriteriaRecommender = new MultiCriteriaRecommender(recommenderMap);

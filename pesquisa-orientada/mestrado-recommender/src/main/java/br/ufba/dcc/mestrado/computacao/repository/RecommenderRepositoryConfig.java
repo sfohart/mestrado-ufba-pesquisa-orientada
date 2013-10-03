@@ -13,8 +13,10 @@ import org.springframework.jdbc.datasource.DriverManagerDataSource;
 import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
 
 import br.ufba.dcc.mestrado.computacao.repository.base.CriteriumPreferenceRepository;
+import br.ufba.dcc.mestrado.computacao.repository.base.OhLohAccountRepository;
 import br.ufba.dcc.mestrado.computacao.repository.base.RecommenderCriteriumRepository;
 import br.ufba.dcc.mestrado.computacao.repository.impl.CriteriumPreferenceRepositoryImpl;
+import br.ufba.dcc.mestrado.computacao.repository.impl.OhLohAccountRepositoryImpl;
 import br.ufba.dcc.mestrado.computacao.repository.impl.RecommenderCriteriumRepositoryImpl;
 
 @Configuration
@@ -66,5 +68,10 @@ public class RecommenderRepositoryConfig {
 	@Bean
 	public RecommenderCriteriumRepository recommenderCriteriumRepository() {
 		return new RecommenderCriteriumRepositoryImpl();
+	}
+	
+	@Bean 
+	public OhLohAccountRepository ohLohAccountRepository() {
+		return new OhLohAccountRepositoryImpl(); 
 	}
 }
