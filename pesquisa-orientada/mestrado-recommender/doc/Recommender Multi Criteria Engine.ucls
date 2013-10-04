@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <class-diagram version="1.1.4" icons="true" automaticImage="PNG" always-add-relationships="false" generalizations="true" 
   realizations="true" associations="true" dependencies="false" nesting-relationships="true">  
-  <class id="1" language="java" name="br.ufba.dcc.mestrado.computacao.recommender.MultiCriteriaRecommender" 
+  <class id="1" language="java" name="br.ufba.dcc.mestrado.computacao.recommender.impl.MultiCriteriaRecommenderImpl" 
     project="mestrado-recommender" 
-    file="/mestrado-recommender/src/main/java/br/ufba/dcc/mestrado/computacao/recommender/MultiCriteriaRecommender.java" 
+    file="/mestrado-recommender/src/main/java/br/ufba/dcc/mestrado/computacao/recommender/impl/MultiCriteriaRecommenderImpl.java" 
     binary="false" corner="BOTTOM_RIGHT">    
     <position height="333" width="439" x="922" y="37"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
@@ -34,9 +34,10 @@
       <operations public="true" package="true" protected="true" private="true" static="true"/>    
     </display>  
   </interface>  
-  <class id="4" language="java" name="br.ufba.dcc.mestrado.computacao.recommender.AveragePreferenceAggregatorStrategy" 
+  <class id="4" language="java" 
+    name="br.ufba.dcc.mestrado.computacao.recommender.impl.AveragePreferenceAggregatorStrategy" 
     project="mestrado-recommender" 
-    file="/mestrado-recommender/src/main/java/br/ufba/dcc/mestrado/computacao/recommender/AveragePreferenceAggregatorStrategy.java" 
+    file="/mestrado-recommender/src/main/java/br/ufba/dcc/mestrado/computacao/recommender/impl/AveragePreferenceAggregatorStrategy.java" 
     binary="false" corner="BOTTOM_RIGHT">    
     <position height="117" width="276" x="267" y="37"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
@@ -45,9 +46,10 @@
       <operations public="true" package="true" protected="true" private="true" static="true"/>    
     </display>  
   </class>  
-  <class id="5" language="java" name="br.ufba.dcc.mestrado.computacao.recommender.WeightedAverageAggregatorStrategy" 
+  <class id="5" language="java" 
+    name="br.ufba.dcc.mestrado.computacao.recommender.impl.WeightedAverageAggregatorStrategy" 
     project="mestrado-recommender" 
-    file="/mestrado-recommender/src/main/java/br/ufba/dcc/mestrado/computacao/recommender/WeightedAverageAggregatorStrategy.java" 
+    file="/mestrado-recommender/src/main/java/br/ufba/dcc/mestrado/computacao/recommender/impl/WeightedAverageAggregatorStrategy.java" 
     binary="false" corner="BOTTOM_RIGHT">    
     <position height="135" width="299" x="583" y="37"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 

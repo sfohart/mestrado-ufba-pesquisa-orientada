@@ -33,29 +33,16 @@ public class Main {
 		logger.info("Running");
 		
 		long startTime = System.currentTimeMillis();		
-		MultiCriteriaRecommender recommender = getService().buildMultiCriteriaRecommender();
+		
+		Long userID = 7732L;
+		logger.info(String.format("usuário de teste: id %d", userID));
+		
+		MultiCriteriaRecommender recommender = getService().buildMultiCriteriaRecommender(userID);
 		long endTime = System.currentTimeMillis();
 				
 		logger.info(String.format("Tempo gasto construindo recommender: %d", endTime - startTime));
 		
-		/*DataModelBuilder modelBuilder = new DataModelBuilder() {
-			@Override
-			public DataModel buildDataModel(FastByIDMap<PreferenceArray> trainingData) {
-				return new GenericDataModel(trainingData);
-			}
-		};*/
-				
-		/*Random random = new Random(System.currentTimeMillis());
-		int skip = random.nextInt(recommender.getNumUsers() - 1);*/
 		
-		Long userID = 7732L;
-		
-		/*LongPrimitiveIterator userIdIterator = recommender.getUserIDs();
-		for (int i = 0; i < skip; i++) {
-			userID = userIdIterator.next();
-		}*/
-		
-		logger.info(String.format("usuário de teste: id %d", userID));
 		
 		startTime = System.currentTimeMillis();
 		List<RecommendedItem> test = recommender.recommend(userID, 10);
@@ -74,28 +61,7 @@ public class Main {
 			}
 		}
 		
-		/*RecommenderEvaluator meanAverageErrorEvaluator = new AverageAbsoluteDifferenceRecommenderEvaluator();
-		RecommenderEvaluator rootMeanSquaredEvaluator = new RMSRecommenderEvaluator();
 		
-		RecommenderIRStatsEvaluator  evaluator2 = new GenericRecommenderIRStatsEvaluator();
-		
-		double meanAverageError = meanAverageErrorEvaluator.evaluate(recommenderBuilder, modelBuilder, dataModel, 0.95, 0.5);
-		double rootMeanSquared = rootMeanSquaredEvaluator.evaluate(recommenderBuilder, modelBuilder, dataModel, 0.95, 0.5);
-		
-        System.out.println("mean average error: " + meanAverageError);
-        System.out.println("root mean squared: " + rootMeanSquared);
-
-        try {
-            IRStatistics stats = evaluator2.evaluate(
-                    recommenderBuilder, modelBuilder, dataModel, null, 2,
-                    0.0,
-                    0.5
-            );
-            System.out.println("recall: " + stats.getRecall());
-            System.out.println("precision: " + stats.getPrecision());
-        } catch (Throwable t) {
-            System.out.println("throwing " + t);
-        }*/
 	}
 	
 	public static void main(String[] args) throws TasteException {

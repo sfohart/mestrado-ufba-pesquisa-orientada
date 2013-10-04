@@ -71,6 +71,14 @@ public interface RecommenderService extends Serializable {
 	
 	/**
 	 * 
+	 * @param userId
+	 * @return
+	 * @throws TasteException
+	 */
+	MultiCriteriaRecommender buildMultiCriteriaRecommender(Long userId) throws TasteException;
+	
+	/**
+	 * 
 	 * @return
 	 * @throws TasteException
 	 */

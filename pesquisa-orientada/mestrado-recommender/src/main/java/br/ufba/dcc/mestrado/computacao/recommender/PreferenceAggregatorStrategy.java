@@ -12,6 +12,6 @@ import br.ufba.dcc.mestrado.computacao.exception.RecommenderException;
  */
 public interface PreferenceAggregatorStrategy extends Serializable {
 
-	float aggregatePreferenceValues(Map<Long,Float> estimatedMap, Long userID) throws RecommenderException;
+	float aggregatePreferenceValues(Map<Long,Float> estimatedMap) throws RecommenderException;
 	
 }

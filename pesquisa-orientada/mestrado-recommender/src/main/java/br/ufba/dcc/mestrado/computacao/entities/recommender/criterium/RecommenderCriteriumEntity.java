@@ -26,9 +26,6 @@ public class RecommenderCriteriumEntity implements BaseEntity<Long> {
 	@Column(name = "name")
 	private String name;
 	
-	@Column (name = "weight")
-	private Float weight;
-	
 	public Long getId() {
 		return id;
 	}
@@ -44,14 +41,5 @@ public class RecommenderCriteriumEntity implements BaseEntity<Long> {
 	public void setName(String name) {
 		this.name = name;
 	}
-
-	public Float getWeight() {
-		return weight;
-	}
-
-	public void setWeight(Float weight) {
-		this.weight = weight;
-	}
-	
 	
 }

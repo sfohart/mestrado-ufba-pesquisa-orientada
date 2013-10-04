@@ -19,13 +19,13 @@ import org.apache.mahout.cf.taste.impl.model.GenericItemPreferenceArray;
 import org.apache.mahout.cf.taste.impl.model.GenericUserPreferenceArray;
 import org.apache.mahout.cf.taste.impl.neighborhood.CachingUserNeighborhood;
 import org.apache.mahout.cf.taste.impl.neighborhood.NearestNUserNeighborhood;
+import org.apache.mahout.cf.taste.impl.recommender.AbstractRecommender;
 import org.apache.mahout.cf.taste.impl.recommender.AllUnknownItemsCandidateItemsStrategy;
 import org.apache.mahout.cf.taste.impl.recommender.CachingRecommender;
 import org.apache.mahout.cf.taste.impl.recommender.GenericItemBasedRecommender;
 import org.apache.mahout.cf.taste.impl.recommender.GenericUserBasedRecommender;
 import org.apache.mahout.cf.taste.impl.similarity.CachingItemSimilarity;
 import org.apache.mahout.cf.taste.impl.similarity.CachingUserSimilarity;
-import org.apache.mahout.cf.taste.impl.similarity.LogLikelihoodSimilarity;
 import org.apache.mahout.cf.taste.impl.similarity.PearsonCorrelationSimilarity;
 import org.apache.mahout.cf.taste.model.DataModel;
 import org.apache.mahout.cf.taste.model.Preference;
@@ -39,9 +39,13 @@ import org.apache.mahout.cf.taste.similarity.UserSimilarity;
 import org.springframework.stereotype.Service;
 
 import br.ufba.dcc.mestrado.computacao.entities.recommender.criterium.RecommenderCriteriumEntity;
+import br.ufba.dcc.mestrado.computacao.entities.recommender.criterium.UserRecommenderCriteriumEntity;
 import br.ufba.dcc.mestrado.computacao.recommender.MultiCriteriaRecommender;
+import br.ufba.dcc.mestrado.computacao.recommender.impl.MultiCriteriaRecommenderImpl;
+import br.ufba.dcc.mestrado.computacao.recommender.impl.WeightedAverageAggregatorStrategy;
 import br.ufba.dcc.mestrado.computacao.repository.base.CriteriumPreferenceRepository;
 import br.ufba.dcc.mestrado.computacao.repository.base.RecommenderCriteriumRepository;
+import br.ufba.dcc.mestrado.computacao.repository.base.UserRecommenderCriteriumRepository;
 import br.ufba.dcc.mestrado.computacao.service.base.RecommenderService;
 
 @Service
@@ -55,6 +59,7 @@ public class RecommenderServiceImpl implements RecommenderService {
 	
 	private CriteriumPreferenceRepository criteriumPreferenceRepository;
 	private RecommenderCriteriumRepository recommenderCriteriumRepository;
+	private UserRecommenderCriteriumRepository userRecommenderCriteriumRepository;
 	
 	/**
 	 * 
@@ -95,9 +100,11 @@ public class RecommenderServiceImpl implements RecommenderService {
 	
 	public RecommenderServiceImpl(
 			CriteriumPreferenceRepository criteriumPreferenceRepository,
-			RecommenderCriteriumRepository recommenderCriteriumRepository) {
+			RecommenderCriteriumRepository recommenderCriteriumRepository,
+			UserRecommenderCriteriumRepository userRecommenderCriteriumRepository) {
 		this.criteriumPreferenceRepository = criteriumPreferenceRepository;
 		this.recommenderCriteriumRepository = recommenderCriteriumRepository;
+		this.userRecommenderCriteriumRepository = userRecommenderCriteriumRepository;
 	}
 
 	public CriteriumPreferenceRepository getCriteriumPreferenceRepository() {
@@ -106,6 +113,10 @@ public class RecommenderServiceImpl implements RecommenderService {
 	
 	public RecommenderCriteriumRepository getRecommenderCriteriumRepository() {
 		return recommenderCriteriumRepository;
+	}
+	
+	public UserRecommenderCriteriumRepository getUserRecommenderCriteriumRepository() {
+		return userRecommenderCriteriumRepository;
 	}
 	
 	public Long countAllByCriterium(Long criteriumID) {
@@ -222,17 +233,12 @@ public class RecommenderServiceImpl implements RecommenderService {
 		return recommenderBuilder;
 	}
 
-	/**
-	 * Cria um recomendador multi-dimensional.
-	 * Utiliza threads para criar
-	 */
-	public MultiCriteriaRecommender buildMultiCriteriaRecommender() throws TasteException {
-		List<RecommenderCriteriumEntity> criteriaList = getRecommenderCriteriumRepository().findAll();
-		
+	protected Map<Long, DataModel> doDataModelMap(List<RecommenderCriteriumEntity> criteriaList) {
 		ExecutorService executor = Executors.newFixedThreadPool(criteriaList.size());
 
-		Map<Long, FutureTask<DataModel>> futureTaskMap = new TreeMap<>();		
-		Map<Long, Recommender> recommenderMap = new HashMap<>();
+		Map<Long, FutureTask<DataModel>> futureTaskMap = new TreeMap<>();
+		
+		Map<Long, DataModel> dataModelMap = new HashMap<>();
 		
 		if (criteriaList != null) {
 			for (RecommenderCriteriumEntity criterium : criteriaList) {
@@ -262,10 +268,7 @@ public class RecommenderServiceImpl implements RecommenderService {
 			for (Map.Entry<Long, FutureTask<DataModel>> entry : futureTaskMap.entrySet()) {		
 				try {
 					DataModel dataModel = entry.getValue().get();
-					RecommenderBuilder recommenderBuilder = createItemBasedRecomenderBuilder(dataModel);
-					
-					Recommender recommender = recommenderBuilder.buildRecommender(dataModel);
-					recommenderMap.put(entry.getKey(), recommender);
+					dataModelMap.put(entry.getKey(), dataModel);
 				} catch (ExecutionException ex) {
 					ex.printStackTrace();
 				} catch (InterruptedException e) {
@@ -274,8 +277,70 @@ public class RecommenderServiceImpl implements RecommenderService {
 			}			
 		}
 		
-		MultiCriteriaRecommender multiCriteriaRecommender = new MultiCriteriaRecommender(recommenderMap);
-		return multiCriteriaRecommender;
+		return dataModelMap;
+	}
+	
+	protected Map<Long, RecommenderBuilder> doRecommenderBuilderMap(Map<Long, DataModel> dataModelMap) {
+		Map<Long, RecommenderBuilder> recommenderBuilderMap = new HashMap<>();
+		
+		if (dataModelMap != null) {			
+						
+			for (Map.Entry<Long, DataModel> entry : dataModelMap.entrySet()) {		
+				DataModel dataModel = entry.getValue();
+				RecommenderBuilder recommenderBuilder = createItemBasedRecomenderBuilder(dataModel);
+				
+				dataModelMap.put(entry.getKey(), dataModel);
+				recommenderBuilderMap.put(entry.getKey(), recommenderBuilder);
+			}			
+		}
+		
+		return recommenderBuilderMap;
+	}
+	
+	public MultiCriteriaRecommender buildMultiCriteriaRecommender(Long userId) throws TasteException {
+		List<UserRecommenderCriteriumEntity> userCriteriaList = getUserRecommenderCriteriumRepository().findAllByUser(userId);
+		
+		MultiCriteriaRecommender recommender = null;
+		
+		if (userCriteriaList != null) {			
+			List<RecommenderCriteriumEntity> criteriaList = new ArrayList<>();
+			Map<Long,Float> weightMap = new HashMap<>();
+			for (UserRecommenderCriteriumEntity userCriterium : userCriteriaList) {
+				criteriaList.add(userCriterium.getCriterium());
+				weightMap.put(userCriterium.getCriteriumId(), userCriterium.getWeight());
+			}
+			
+			if (criteriaList != null) {
+				Map<Long, DataModel> dataModelMap = doDataModelMap(criteriaList);
+				Map<Long, RecommenderBuilder> recommenderBuilderMap = doRecommenderBuilderMap(dataModelMap);
+				
+				WeightedAverageAggregatorStrategy aggregatorStrategy = new WeightedAverageAggregatorStrategy(weightMap);
+				CandidateItemsStrategy candidateItemsStrategy = new AllUnknownItemsCandidateItemsStrategy();
+				recommender = new MultiCriteriaRecommenderImpl(candidateItemsStrategy, dataModelMap, recommenderBuilderMap, aggregatorStrategy);
+			}
+		}
+		
+		return recommender;
+		
+	}
+	
+	/**
+	 * Cria um recomendador multi-dimensional.
+	 * Utiliza threads para criar
+	 */
+	public MultiCriteriaRecommender buildMultiCriteriaRecommender() throws TasteException {
+		List<RecommenderCriteriumEntity> criteriaList = getRecommenderCriteriumRepository().findAll();
+		
+		MultiCriteriaRecommender recommender = null;
+		
+		if (criteriaList != null) {
+			Map<Long, DataModel> dataModelMap = doDataModelMap(criteriaList);
+			Map<Long, RecommenderBuilder> recommenderBuilderMap = doRecommenderBuilderMap(dataModelMap);
+			
+			recommender = new MultiCriteriaRecommenderImpl(dataModelMap, recommenderBuilderMap);		
+		}
+		
+		return recommender;
 	}
 	
 }

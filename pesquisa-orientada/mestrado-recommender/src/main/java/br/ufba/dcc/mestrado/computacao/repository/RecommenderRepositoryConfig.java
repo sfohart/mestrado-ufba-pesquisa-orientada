@@ -15,9 +15,11 @@ import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
 import br.ufba.dcc.mestrado.computacao.repository.base.CriteriumPreferenceRepository;
 import br.ufba.dcc.mestrado.computacao.repository.base.OhLohAccountRepository;
 import br.ufba.dcc.mestrado.computacao.repository.base.RecommenderCriteriumRepository;
+import br.ufba.dcc.mestrado.computacao.repository.base.UserRecommenderCriteriumRepository;
 import br.ufba.dcc.mestrado.computacao.repository.impl.CriteriumPreferenceRepositoryImpl;
 import br.ufba.dcc.mestrado.computacao.repository.impl.OhLohAccountRepositoryImpl;
 import br.ufba.dcc.mestrado.computacao.repository.impl.RecommenderCriteriumRepositoryImpl;
+import br.ufba.dcc.mestrado.computacao.repository.impl.UserRecommenderCriteriumRepositoryImpl;
 
 @Configuration
 @PropertySource(value = "classpath:persistence.properties")
@@ -68,6 +70,11 @@ public class RecommenderRepositoryConfig {
 	@Bean
 	public RecommenderCriteriumRepository recommenderCriteriumRepository() {
 		return new RecommenderCriteriumRepositoryImpl();
+	}
+	
+	@Bean
+	public UserRecommenderCriteriumRepository userRecommenderCriteriumRepository() {
+		return new UserRecommenderCriteriumRepositoryImpl();
 	}
 	
 	@Bean 

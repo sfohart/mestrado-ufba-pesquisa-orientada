@@ -1,9 +1,10 @@
-package br.ufba.dcc.mestrado.computacao.recommender;
+package br.ufba.dcc.mestrado.computacao.recommender.impl;
 
 import java.util.Map;
 
 import br.ufba.dcc.mestrado.computacao.exception.InvalidCriteriumWeighException;
 import br.ufba.dcc.mestrado.computacao.exception.RecommenderException;
+import br.ufba.dcc.mestrado.computacao.recommender.PreferenceAggregatorStrategy;
 
 /**
  * 
@@ -22,12 +23,16 @@ public class WeightedAverageAggregatorStrategy implements PreferenceAggregatorSt
 	
 	private Map<Long, Float> weightMap;
 	
+	/**
+	 * 
+	 * @param weightMap Tabela de pesos a ser utilizada
+	 */
 	public WeightedAverageAggregatorStrategy(Map<Long, Float> weightMap) {
 		this.weightMap = weightMap;
 	}
 
 	@Override
-	public float aggregatePreferenceValues(Map<Long, Float> estimatedMap, Long userID) throws RecommenderException {
+	public float aggregatePreferenceValues(Map<Long, Float> estimatedMap) throws RecommenderException {
 		float aggregated = 0;
 		float denominator = 0;
 		

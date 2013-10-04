@@ -29,7 +29,7 @@ public class RecommenderAppConfig {
 	}
 	
 	@Bean
-	public MultiCriteriaRecommender multiCriteriaRecommender() throws TasteException {
+	public MultiCriteriaRecommender multiCriteriaRecommenderImpl() throws TasteException {
 		return recommenderService.buildMultiCriteriaRecommender();
 	}
 	

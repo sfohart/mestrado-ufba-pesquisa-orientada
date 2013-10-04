@@ -47,7 +47,7 @@ public class PreferenceEntity implements BaseEntity<Long> {
 	
 	@OneToMany(mappedBy = "preference")
 	private List<PreferenceEntryEntity> preferenceEntryList;
-
+	
 	public Long getId() {
 		return id;
 	}
