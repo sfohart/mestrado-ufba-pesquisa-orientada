@@ -7,7 +7,12 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.TreeMap;
 import java.util.concurrent.Callable;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.FutureTask;
 
 import org.apache.log4j.Logger;
 import org.apache.mahout.cf.taste.common.Refreshable;
@@ -341,8 +346,13 @@ public class MultiCriteriaRecommenderImpl implements MultiCriteriaRecommender {
 		FastIDSet itemsID = getAllOtherItems(userID);
 		TopItems.Estimator<Long> estimator = new CachedEstimator(userID);
 		
-		List<RecommendedItem> topItems = TopItems
-		        .getTopItems(howMany, itemsID.iterator(), rescorer, estimator);
+		long startTime = System.currentTimeMillis();
+		
+		List<RecommendedItem> topItems = TopItems.getTopItems(howMany, itemsID.iterator(), rescorer, estimator);
+		
+		long endTime = System.currentTimeMillis();
+		
+		logger.info(String.format("TopItems.getTopItems: time elapsed = %d ms", endTime - startTime));
 
 		logger.debug(String.format("Recommendations are: %s", topItems.toString()));
 	    return topItems;
@@ -355,11 +365,18 @@ public class MultiCriteriaRecommenderImpl implements MultiCriteriaRecommender {
 	 * @throws TasteException
 	 */
 	protected FastIDSet getAllOtherItems(long userID) throws TasteException {
+		long startTime = System.currentTimeMillis();
+		
 		FastIDSet itemIDs = new FastIDSet();
+		
 		for (Map.Entry<Long, Recommender> entry : recommenderMap.entrySet()) {
 			PreferenceArray preferencesFromUser = entry.getValue().getDataModel().getPreferencesFromUser(userID);
 			itemIDs.addAll(candidateItemsStrategy.getCandidateItems(userID, preferencesFromUser, entry.getValue().getDataModel()));
 		}
+		
+		long endTime = System.currentTimeMillis();
+		
+		logger.info(String.format("getAllOtherItems: Time elapsed = %d ms | %d Items ", endTime - startTime, itemIDs.size()));
 		
 		return itemIDs;
 	}
@@ -393,11 +410,42 @@ public class MultiCriteriaRecommenderImpl implements MultiCriteriaRecommender {
 	 */
 	@Override
 	public Map<Long,Float> justifyPreferenceValue(long userID, long itemID) throws TasteException {
-		Map<Long,Float> estimatedMap = new HashMap<Long, Float>();
+		
+		ExecutorService executor = Executors.newFixedThreadPool(recommenderMap.size());
+		Map<Long, FutureTask<Float>> futureTaskMap = new TreeMap<>();
+		
 		for (Map.Entry<Long, Recommender> entry : recommenderMap.entrySet()) {
-			Recommender recommender = entry.getValue();
-			float estimated = recommender.estimatePreference(userID, itemID);
-			estimatedMap.put(entry.getKey(), estimated);
+			EstimatorCallable callable = new EstimatorCallable(entry.getValue(), userID, itemID);
+			FutureTask<Float> futureTask = new FutureTask<>(callable);
+			futureTaskMap.put(entry.getKey(), futureTask);
+			executor.execute(futureTask);
+		}
+		
+		while (true) {
+			boolean allDone = true;
+			
+			for (FutureTask<Float> futureTask : futureTaskMap.values()) {
+				if (! futureTask.isDone()) {
+					allDone = false;
+				}
+			}
+			
+			if (allDone) {
+				executor.shutdown();
+				break;
+			}
+		}
+		
+		Map<Long,Float> estimatedMap = new HashMap<Long, Float>();
+		for (Map.Entry<Long, FutureTask<Float>> entry : futureTaskMap.entrySet()) {	
+			try {
+				float estimated = entry.getValue().get();
+				estimatedMap.put(entry.getKey(), estimated);
+			} catch (ExecutionException ee) {
+				ee.printStackTrace();
+			} catch (InterruptedException ie) {
+				ie.printStackTrace();
+			}
 		}
 		
 		return estimatedMap;
@@ -628,6 +676,24 @@ public class MultiCriteriaRecommenderImpl implements MultiCriteriaRecommender {
 		@Override
 		public double estimate(Long itemID) throws TasteException {			
 			return doEstimatePreference(userID, itemID);
+		}		
+	}
+	
+	protected final class EstimatorCallable implements Callable<Float> {
+
+		private Recommender recommender;
+		private Long userID;
+		private Long itemID;
+
+		EstimatorCallable(Recommender recommender, Long userID, Long itemID) {
+			this.recommender = recommender;
+			this.userID = userID;
+			this.itemID = itemID;
+		}
+		
+		@Override
+		public Float call() throws Exception {			
+			return recommender.estimatePreference(userID, itemID);
 		}
 		
 	}

@@ -11,6 +11,7 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.FutureTask;
 
+import org.apache.log4j.Logger;
 import org.apache.mahout.cf.taste.common.TasteException;
 import org.apache.mahout.cf.taste.eval.RecommenderBuilder;
 import org.apache.mahout.cf.taste.impl.common.FastByIDMap;
@@ -19,11 +20,11 @@ import org.apache.mahout.cf.taste.impl.model.GenericItemPreferenceArray;
 import org.apache.mahout.cf.taste.impl.model.GenericUserPreferenceArray;
 import org.apache.mahout.cf.taste.impl.neighborhood.CachingUserNeighborhood;
 import org.apache.mahout.cf.taste.impl.neighborhood.NearestNUserNeighborhood;
-import org.apache.mahout.cf.taste.impl.recommender.AbstractRecommender;
 import org.apache.mahout.cf.taste.impl.recommender.AllUnknownItemsCandidateItemsStrategy;
 import org.apache.mahout.cf.taste.impl.recommender.CachingRecommender;
 import org.apache.mahout.cf.taste.impl.recommender.GenericItemBasedRecommender;
 import org.apache.mahout.cf.taste.impl.recommender.GenericUserBasedRecommender;
+import org.apache.mahout.cf.taste.impl.recommender.PreferredItemsNeighborhoodCandidateItemsStrategy;
 import org.apache.mahout.cf.taste.impl.similarity.CachingItemSimilarity;
 import org.apache.mahout.cf.taste.impl.similarity.CachingUserSimilarity;
 import org.apache.mahout.cf.taste.impl.similarity.PearsonCorrelationSimilarity;
@@ -51,6 +52,7 @@ import br.ufba.dcc.mestrado.computacao.service.base.RecommenderService;
 @Service
 public class RecommenderServiceImpl implements RecommenderService {
 
+	private Logger logger = Logger.getLogger(RecommenderServiceImpl.class.getName());
 	
 	/**
 	 * 
@@ -298,6 +300,7 @@ public class RecommenderServiceImpl implements RecommenderService {
 	}
 	
 	public MultiCriteriaRecommender buildMultiCriteriaRecommender(Long userId) throws TasteException {
+		logger.info(String.format("Building MultiCriteriaRecommender to user '%d'", userId));
 		List<UserRecommenderCriteriumEntity> userCriteriaList = getUserRecommenderCriteriumRepository().findAllByUser(userId);
 		
 		MultiCriteriaRecommender recommender = null;
@@ -315,7 +318,8 @@ public class RecommenderServiceImpl implements RecommenderService {
 				Map<Long, RecommenderBuilder> recommenderBuilderMap = doRecommenderBuilderMap(dataModelMap);
 				
 				WeightedAverageAggregatorStrategy aggregatorStrategy = new WeightedAverageAggregatorStrategy(weightMap);
-				CandidateItemsStrategy candidateItemsStrategy = new AllUnknownItemsCandidateItemsStrategy();
+				//CandidateItemsStrategy candidateItemsStrategy = new AllUnknownItemsCandidateItemsStrategy();
+				CandidateItemsStrategy candidateItemsStrategy = new PreferredItemsNeighborhoodCandidateItemsStrategy(); 
 				recommender = new MultiCriteriaRecommenderImpl(candidateItemsStrategy, dataModelMap, recommenderBuilderMap, aggregatorStrategy);
 			}
 		}
@@ -329,6 +333,7 @@ public class RecommenderServiceImpl implements RecommenderService {
 	 * Utiliza threads para criar
 	 */
 	public MultiCriteriaRecommender buildMultiCriteriaRecommender() throws TasteException {
+		logger.info("Building default MultiCriteriaRecommender");
 		List<RecommenderCriteriumEntity> criteriaList = getRecommenderCriteriumRepository().findAll();
 		
 		MultiCriteriaRecommender recommender = null;

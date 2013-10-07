@@ -15,13 +15,13 @@ import br.ufba.dcc.mestrado.computacao.service.base.RecommenderService;
 import br.ufba.dcc.mestrado.computacao.spring.RecommenderAppConfig;
 
 @Component
-public class Main {
+public class RecommenderMain {
 	
-	private Logger logger = Logger.getLogger(Main.class.getName());
+	private Logger logger = Logger.getLogger(RecommenderMain.class.getName());
 	private RecommenderService service;
 	
 	@Autowired
-	public Main(RecommenderService service) {
+	public RecommenderMain(RecommenderService service) {
 		this.service = service;
 	}
 	
@@ -34,21 +34,19 @@ public class Main {
 		
 		long startTime = System.currentTimeMillis();		
 		
-		Long userID = 7732L;
+		Long userID = 234911L;
 		logger.info(String.format("usuário de teste: id %d", userID));
 		
 		MultiCriteriaRecommender recommender = getService().buildMultiCriteriaRecommender(userID);
 		long endTime = System.currentTimeMillis();
 				
-		logger.info(String.format("Tempo gasto construindo recommender: %d", endTime - startTime));
-		
-		
-		
+		logger.info(String.format("Tempo gasto construindo recommender parao usuário '%d': %d", userID, endTime - startTime));
+				
 		startTime = System.currentTimeMillis();
-		List<RecommendedItem> test = recommender.recommend(userID, 10);
+		List<RecommendedItem> test = recommender.recommend(userID, 10);		
 		endTime = System.currentTimeMillis();
 		
-		logger.info(String.format("Tempo recomendando ítens: %d", endTime - startTime));
+		logger.info(String.format("Tempo recomendando ítens para o usuário '%d': %d", userID, endTime - startTime));
 		
 		if (test != null) {
 			for (RecommendedItem item : test) {
@@ -60,18 +58,16 @@ public class Main {
 				}
 			}
 		}
-		
-		
 	}
 	
 	public static void main(String[] args) throws TasteException {
 		AnnotationConfigApplicationContext context = 
 		          new AnnotationConfigApplicationContext(RecommenderAppConfig.class);
 		
-		Main main = context.getBean(Main.class);
+		RecommenderMain recommenderMain = context.getBean(RecommenderMain.class);
 		
-		if (main != null) {
-			main.run();
+		if (recommenderMain != null) {
+			recommenderMain.run();
 		}
 		
 		context.close();
