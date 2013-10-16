@@ -74,8 +74,8 @@ public class MultiCriteriaRecommenderImpl implements MultiCriteriaRecommender {
 	 * @param recommenderMap
 	 */
 	public MultiCriteriaRecommenderImpl(
-			Map<Long,DataModel> dataModelMap,
-			Map<Long,RecommenderBuilder> recommenderBuilderMap) throws TasteException {
+			FastByIDMap<DataModel> dataModelMap,
+			FastByIDMap<RecommenderBuilder> recommenderBuilderMap) throws TasteException {
 		this   (MultiCriteriaRecommenderImpl.getDefaultCandidateItemsStrategy(),
 				dataModelMap,
 				recommenderBuilderMap,
@@ -89,7 +89,7 @@ public class MultiCriteriaRecommenderImpl implements MultiCriteriaRecommender {
 	 * @throws TasteException
 	 */
 	public MultiCriteriaRecommenderImpl(
-			Map<Long,DataModel> dataModelMap,
+			FastByIDMap<DataModel> dataModelMap,
 			RecommenderBuilder recommenderBuilder) throws TasteException {
 		this   (MultiCriteriaRecommenderImpl.getDefaultCandidateItemsStrategy(),
 				dataModelMap,
@@ -105,8 +105,8 @@ public class MultiCriteriaRecommenderImpl implements MultiCriteriaRecommender {
 	 */
 	public MultiCriteriaRecommenderImpl(
 			CandidateItemsStrategy candidateItemsStrategy,			
-			Map<Long,DataModel> dataModelMap,
-			Map<Long,RecommenderBuilder> recommenderBuilderMap) throws TasteException {
+			FastByIDMap<DataModel> dataModelMap,
+			FastByIDMap<RecommenderBuilder> recommenderBuilderMap) throws TasteException {
 		this   (candidateItemsStrategy,				
 				dataModelMap,
 				recommenderBuilderMap,
@@ -122,7 +122,7 @@ public class MultiCriteriaRecommenderImpl implements MultiCriteriaRecommender {
 	 */
 	public MultiCriteriaRecommenderImpl(
 			CandidateItemsStrategy candidateItemsStrategy,			
-			Map<Long,DataModel> dataModelMap,
+			FastByIDMap<DataModel> dataModelMap,
 			RecommenderBuilder recommenderBuilder) throws TasteException {
 		this   (candidateItemsStrategy,				
 				dataModelMap,
@@ -140,7 +140,7 @@ public class MultiCriteriaRecommenderImpl implements MultiCriteriaRecommender {
 	 */
 	public MultiCriteriaRecommenderImpl(
 			CandidateItemsStrategy candidateItemsStrategy,
-			Map<Long,DataModel> dataModelMap,
+			FastByIDMap<DataModel> dataModelMap,
 			RecommenderBuilder recommenderBuilder,
 			PreferenceAggregatorStrategy preferenceAggregatorStrategy) throws TasteException {
 		
@@ -164,8 +164,8 @@ public class MultiCriteriaRecommenderImpl implements MultiCriteriaRecommender {
 	 */
 	public MultiCriteriaRecommenderImpl(
 			CandidateItemsStrategy candidateItemsStrategy,
-			Map<Long,DataModel> dataModelMap,
-			Map<Long,RecommenderBuilder> recommenderBuilderMap,
+			FastByIDMap<DataModel> dataModelMap,
+			FastByIDMap<RecommenderBuilder> recommenderBuilderMap,
 			PreferenceAggregatorStrategy preferenceAggregatorStrategy) throws TasteException {
 		
 		this.candidateItemsStrategy = candidateItemsStrategy;
@@ -228,7 +228,8 @@ public class MultiCriteriaRecommenderImpl implements MultiCriteriaRecommender {
 	 * @param recommenderBuilder
 	 * @throws TasteException
 	 */
-	protected void initializeRecommenders(Map<Long, DataModel> dataModelMap,
+	protected void initializeRecommenders(
+			FastByIDMap<DataModel> dataModelMap,
 			RecommenderBuilder recommenderBuilder)
 			throws TasteException {
 		this.recommenderMap = new HashMap<>();
@@ -244,8 +245,9 @@ public class MultiCriteriaRecommenderImpl implements MultiCriteriaRecommender {
 	 * @param recommenderBuilderMap
 	 * @throws TasteException
 	 */
-	protected void initializeRecommenders(Map<Long, DataModel> dataModelMap,
-			Map<Long, RecommenderBuilder> recommenderBuilderMap)
+	protected void initializeRecommenders(
+			FastByIDMap<DataModel> dataModelMap,
+			FastByIDMap<RecommenderBuilder> recommenderBuilderMap)
 			throws TasteException {
 		this.recommenderMap = new HashMap<>();
 		for (Map.Entry<Long,DataModel> entry : dataModelMap.entrySet()) {
@@ -399,7 +401,7 @@ public class MultiCriteriaRecommenderImpl implements MultiCriteriaRecommender {
 	protected float doEstimatePreference (long userID, long itemID) throws TasteException {
 		float estimated = 0;
 		
-		Map<Long,Float> estimatedMap = justifyPreferenceValue(userID, itemID);
+		FastByIDMap<Float> estimatedMap = justifyPreferenceValue(userID, itemID);
 		estimated = preferenceAggregatorStrategy.aggregatePreferenceValues(estimatedMap);
 		
 		return estimated;
@@ -409,7 +411,7 @@ public class MultiCriteriaRecommenderImpl implements MultiCriteriaRecommender {
 	 * @see br.ufba.dcc.mestrado.computacao.recommender.impl.MultiCriteriaRecommender#justifyPreferenceValue(long, long)
 	 */
 	@Override
-	public Map<Long,Float> justifyPreferenceValue(long userID, long itemID) throws TasteException {
+	public FastByIDMap<Float> justifyPreferenceValue(long userID, long itemID) throws TasteException {
 		
 		ExecutorService executor = Executors.newFixedThreadPool(recommenderMap.size());
 		Map<Long, FutureTask<Float>> futureTaskMap = new TreeMap<>();
@@ -436,7 +438,7 @@ public class MultiCriteriaRecommenderImpl implements MultiCriteriaRecommender {
 			}
 		}
 		
-		Map<Long,Float> estimatedMap = new HashMap<Long, Float>();
+		FastByIDMap<Float> estimatedMap = new FastByIDMap<Float>();
 		for (Map.Entry<Long, FutureTask<Float>> entry : futureTaskMap.entrySet()) {	
 			try {
 				float estimated = entry.getValue().get();

@@ -6,6 +6,7 @@ import java.util.Map;
 
 import org.apache.mahout.cf.taste.common.Refreshable;
 import org.apache.mahout.cf.taste.common.TasteException;
+import org.apache.mahout.cf.taste.impl.common.FastByIDMap;
 import org.apache.mahout.cf.taste.model.DataModel;
 import org.apache.mahout.cf.taste.recommender.IDRescorer;
 import org.apache.mahout.cf.taste.recommender.RecommendedItem;
@@ -45,7 +46,7 @@ public interface MultiCriteriaRecommender extends Recommender {
 	 * @return
 	 * @throws TasteException
 	 */
-	public Map<Long, Float> justifyPreferenceValue(long userID, long itemID) throws TasteException;
+	public FastByIDMap<Float> justifyPreferenceValue(long userID, long itemID) throws TasteException;
 
 	/**
 	 * 

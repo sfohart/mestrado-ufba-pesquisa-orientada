@@ -5,6 +5,7 @@ import java.util.Map;
 import java.util.logging.Logger;
 
 import org.apache.mahout.cf.taste.common.TasteException;
+import org.apache.mahout.cf.taste.impl.common.FastByIDMap;
 import org.apache.mahout.cf.taste.recommender.RecommendedItem;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
@@ -52,7 +53,7 @@ public class RecommenderMain {
 			for (RecommendedItem item : test) {
 				System.out.println(String.format("User ID %d, Item ID %d, Preference Value %f", userID, item.getItemID(), item.getValue()));
 				
-				Map<Long,Float> justify = recommender.justifyPreferenceValue(userID, item.getItemID());
+				FastByIDMap<Float> justify = recommender.justifyPreferenceValue(userID, item.getItemID());
 				for (Map.Entry<Long,Float> entry : justify.entrySet()) {
 					System.out.println(String.format("\tCriterium %d Value %f", entry.getKey(), entry.getValue()));
 				}

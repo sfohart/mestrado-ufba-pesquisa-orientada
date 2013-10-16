@@ -235,12 +235,12 @@ public class RecommenderServiceImpl implements RecommenderService {
 		return recommenderBuilder;
 	}
 
-	protected Map<Long, DataModel> doDataModelMap(List<RecommenderCriteriumEntity> criteriaList) {
+	protected FastByIDMap<DataModel> doDataModelMap(List<RecommenderCriteriumEntity> criteriaList) {
 		ExecutorService executor = Executors.newFixedThreadPool(criteriaList.size());
 
 		Map<Long, FutureTask<DataModel>> futureTaskMap = new TreeMap<>();
 		
-		Map<Long, DataModel> dataModelMap = new HashMap<>();
+		FastByIDMap<DataModel> dataModelMap = new FastByIDMap<DataModel>();
 		
 		if (criteriaList != null) {
 			for (RecommenderCriteriumEntity criterium : criteriaList) {
@@ -282,8 +282,8 @@ public class RecommenderServiceImpl implements RecommenderService {
 		return dataModelMap;
 	}
 	
-	protected Map<Long, RecommenderBuilder> doRecommenderBuilderMap(Map<Long, DataModel> dataModelMap) {
-		Map<Long, RecommenderBuilder> recommenderBuilderMap = new HashMap<>();
+	protected FastByIDMap<RecommenderBuilder> doRecommenderBuilderMap(FastByIDMap<DataModel> dataModelMap) {
+		FastByIDMap<RecommenderBuilder> recommenderBuilderMap = new FastByIDMap<RecommenderBuilder>();
 		
 		if (dataModelMap != null) {			
 						
@@ -307,15 +307,15 @@ public class RecommenderServiceImpl implements RecommenderService {
 		
 		if (userCriteriaList != null) {			
 			List<RecommenderCriteriumEntity> criteriaList = new ArrayList<>();
-			Map<Long,Float> weightMap = new HashMap<>();
+			FastByIDMap<Float> weightMap = new FastByIDMap<>();
 			for (UserRecommenderCriteriumEntity userCriterium : userCriteriaList) {
 				criteriaList.add(userCriterium.getCriterium());
 				weightMap.put(userCriterium.getCriteriumId(), userCriterium.getWeight());
 			}
 			
 			if (criteriaList != null) {
-				Map<Long, DataModel> dataModelMap = doDataModelMap(criteriaList);
-				Map<Long, RecommenderBuilder> recommenderBuilderMap = doRecommenderBuilderMap(dataModelMap);
+				FastByIDMap<DataModel> dataModelMap = doDataModelMap(criteriaList);
+				FastByIDMap<RecommenderBuilder> recommenderBuilderMap = doRecommenderBuilderMap(dataModelMap);
 				
 				WeightedAverageAggregatorStrategy aggregatorStrategy = new WeightedAverageAggregatorStrategy(weightMap);
 				//CandidateItemsStrategy candidateItemsStrategy = new AllUnknownItemsCandidateItemsStrategy();
@@ -339,8 +339,8 @@ public class RecommenderServiceImpl implements RecommenderService {
 		MultiCriteriaRecommender recommender = null;
 		
 		if (criteriaList != null) {
-			Map<Long, DataModel> dataModelMap = doDataModelMap(criteriaList);
-			Map<Long, RecommenderBuilder> recommenderBuilderMap = doRecommenderBuilderMap(dataModelMap);
+			FastByIDMap<DataModel> dataModelMap = doDataModelMap(criteriaList);
+			FastByIDMap<RecommenderBuilder> recommenderBuilderMap = doRecommenderBuilderMap(dataModelMap);
 			
 			recommender = new MultiCriteriaRecommenderImpl(dataModelMap, recommenderBuilderMap);		
 		}

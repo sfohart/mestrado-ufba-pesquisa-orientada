@@ -2,9 +2,11 @@ package br.ufba.dcc.mestrado.computacao.recommender.impl;
 
 import java.util.Map;
 
+import org.apache.mahout.cf.taste.impl.common.FastByIDMap;
+
 import br.ufba.dcc.mestrado.computacao.exception.InvalidCriteriumWeighException;
 import br.ufba.dcc.mestrado.computacao.exception.RecommenderException;
-import br.ufba.dcc.mestrado.computacao.recommender.PreferenceAggregatorStrategy;
+import br.ufba.dcc.mestrado.computacao.recommender.aggregator.AbstractPreferenceAggregatorStrategy;
 
 /**
  * 
@@ -14,25 +16,25 @@ import br.ufba.dcc.mestrado.computacao.recommender.PreferenceAggregatorStrategy;
  * @author leandro.ferreira
  *
  */
-public class WeightedAverageAggregatorStrategy implements PreferenceAggregatorStrategy {
+public class WeightedAverageAggregatorStrategy extends AbstractPreferenceAggregatorStrategy {
 
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 5064149387431508318L;
 	
-	private Map<Long, Float> weightMap;
+	private FastByIDMap<Float> weightMap;
 	
 	/**
 	 * 
 	 * @param weightMap Tabela de pesos a ser utilizada
 	 */
-	public WeightedAverageAggregatorStrategy(Map<Long, Float> weightMap) {
+	public WeightedAverageAggregatorStrategy(FastByIDMap<Float> weightMap) {
 		this.weightMap = weightMap;
 	}
 
 	@Override
-	public float aggregatePreferenceValues(Map<Long, Float> estimatedMap) throws RecommenderException {
+	public float aggregatePreferenceValues(FastByIDMap<Float> estimatedMap) throws RecommenderException {
 		float aggregated = 0;
 		float denominator = 0;
 		
@@ -51,5 +53,7 @@ public class WeightedAverageAggregatorStrategy implements PreferenceAggregatorSt
 		
 		return aggregated;
 	}
+
+	
 
 }
