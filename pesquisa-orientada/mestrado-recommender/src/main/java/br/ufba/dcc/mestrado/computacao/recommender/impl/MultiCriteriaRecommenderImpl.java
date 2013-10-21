@@ -13,6 +13,7 @@ import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.FutureTask;
+import java.util.concurrent.ThreadFactory;
 
 import org.apache.log4j.Logger;
 import org.apache.mahout.cf.taste.common.Refreshable;
@@ -42,8 +43,10 @@ import org.apache.mahout.common.LongPair;
 import br.ufba.dcc.mestrado.computacao.exception.NotSupportedException;
 import br.ufba.dcc.mestrado.computacao.recommender.MultiCriteriaRecommender;
 import br.ufba.dcc.mestrado.computacao.recommender.PreferenceAggregatorStrategy;
+import br.ufba.dcc.mestrado.computacao.recommender.aggregator.AveragePreferenceAggregatorStrategy;
 
 import com.google.common.base.Preconditions;
+import com.google.common.util.concurrent.ThreadFactoryBuilder;
 
 /**
  * 
@@ -80,6 +83,10 @@ public class MultiCriteriaRecommenderImpl implements MultiCriteriaRecommender {
 				dataModelMap,
 				recommenderBuilderMap,
 				new AveragePreferenceAggregatorStrategy());		
+	}
+	
+	public PreferenceAggregatorStrategy getPreferenceAggregatorStrategy() {
+		return preferenceAggregatorStrategy;
 	}
 	
 	/**
@@ -413,7 +420,12 @@ public class MultiCriteriaRecommenderImpl implements MultiCriteriaRecommender {
 	@Override
 	public FastByIDMap<Float> justifyPreferenceValue(long userID, long itemID) throws TasteException {
 		
-		ExecutorService executor = Executors.newFixedThreadPool(recommenderMap.size());
+		ThreadFactoryBuilder threadFactoryBuilder = new ThreadFactoryBuilder();
+		threadFactoryBuilder.setPriority(Thread.MIN_PRIORITY);
+		
+		ThreadFactory threadFactory = threadFactoryBuilder.build();
+		
+		ExecutorService executor = Executors.newFixedThreadPool(recommenderMap.size(), threadFactory);
 		Map<Long, FutureTask<Float>> futureTaskMap = new TreeMap<>();
 		
 		for (Map.Entry<Long, Recommender> entry : recommenderMap.entrySet()) {
@@ -694,8 +706,9 @@ public class MultiCriteriaRecommenderImpl implements MultiCriteriaRecommender {
 		}
 		
 		@Override
-		public Float call() throws Exception {			
-			return recommender.estimatePreference(userID, itemID);
+		public Float call() throws Exception {		
+			float estimated = recommender.estimatePreference(userID, itemID); 
+			return estimated;
 		}
 		
 	}

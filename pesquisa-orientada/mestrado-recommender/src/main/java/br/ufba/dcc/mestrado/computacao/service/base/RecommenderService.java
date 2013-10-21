@@ -5,13 +5,16 @@ import java.util.List;
 
 import org.apache.mahout.cf.taste.common.TasteException;
 import org.apache.mahout.cf.taste.eval.RecommenderBuilder;
+import org.apache.mahout.cf.taste.impl.common.FastByIDMap;
 import org.apache.mahout.cf.taste.impl.recommender.AllUnknownItemsCandidateItemsStrategy;
 import org.apache.mahout.cf.taste.model.DataModel;
 import org.apache.mahout.cf.taste.model.Preference;
 import org.apache.mahout.cf.taste.recommender.CandidateItemsStrategy;
 import org.apache.mahout.cf.taste.recommender.MostSimilarItemsCandidateItemsStrategy;
 
+import br.ufba.dcc.mestrado.computacao.entities.recommender.criterium.RecommenderCriteriumEntity;
 import br.ufba.dcc.mestrado.computacao.recommender.MultiCriteriaRecommender;
+import br.ufba.dcc.mestrado.computacao.recommender.MultiCriteriaRecommenderBuilder;
 
 public interface RecommenderService extends Serializable {
 	
@@ -70,6 +73,19 @@ public interface RecommenderService extends Serializable {
 	RecommenderBuilder createItemBasedRecomenderBuilder(DataModel dataModel);
 	
 	/**
+	 * @param criteriaList
+	 * @return
+	 */
+	FastByIDMap<DataModel> createUserDataModelMap(List<RecommenderCriteriumEntity> criteriaList);
+	
+	/**
+	 * 
+	 * @param criteriaList
+	 * @return
+	 */
+	FastByIDMap<DataModel> createItemDataModelMap(List<RecommenderCriteriumEntity> criteriaList);
+	
+	/**
 	 * 
 	 * @param userId
 	 * @return
@@ -83,4 +99,22 @@ public interface RecommenderService extends Serializable {
 	 * @throws TasteException
 	 */
 	MultiCriteriaRecommender buildMultiCriteriaRecommender() throws TasteException;
+	
+	
+	/**
+	 * 
+	 */
+	MultiCriteriaRecommenderBuilder createMultiCriteriaRecommenderBuilder() throws TasteException;
+
+	/**
+	 * 
+	 */
+	List<RecommenderCriteriumEntity> findAllCriteria();
+
+	/**
+	 * @param userID
+	 */
+	FastByIDMap<Float> findUserCriteriaWeight(Long userID);
+	
+	
 }

@@ -10,6 +10,7 @@ import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.FutureTask;
+import java.util.concurrent.ThreadFactory;
 
 import org.apache.log4j.Logger;
 import org.apache.mahout.cf.taste.common.TasteException;
@@ -27,6 +28,7 @@ import org.apache.mahout.cf.taste.impl.recommender.GenericUserBasedRecommender;
 import org.apache.mahout.cf.taste.impl.recommender.PreferredItemsNeighborhoodCandidateItemsStrategy;
 import org.apache.mahout.cf.taste.impl.similarity.CachingItemSimilarity;
 import org.apache.mahout.cf.taste.impl.similarity.CachingUserSimilarity;
+import org.apache.mahout.cf.taste.impl.similarity.LogLikelihoodSimilarity;
 import org.apache.mahout.cf.taste.impl.similarity.PearsonCorrelationSimilarity;
 import org.apache.mahout.cf.taste.model.DataModel;
 import org.apache.mahout.cf.taste.model.Preference;
@@ -39,11 +41,14 @@ import org.apache.mahout.cf.taste.similarity.ItemSimilarity;
 import org.apache.mahout.cf.taste.similarity.UserSimilarity;
 import org.springframework.stereotype.Service;
 
+import com.google.common.util.concurrent.ThreadFactoryBuilder;
+
 import br.ufba.dcc.mestrado.computacao.entities.recommender.criterium.RecommenderCriteriumEntity;
 import br.ufba.dcc.mestrado.computacao.entities.recommender.criterium.UserRecommenderCriteriumEntity;
 import br.ufba.dcc.mestrado.computacao.recommender.MultiCriteriaRecommender;
+import br.ufba.dcc.mestrado.computacao.recommender.MultiCriteriaRecommenderBuilder;
+import br.ufba.dcc.mestrado.computacao.recommender.aggregator.WeightedAverageAggregatorStrategy;
 import br.ufba.dcc.mestrado.computacao.recommender.impl.MultiCriteriaRecommenderImpl;
-import br.ufba.dcc.mestrado.computacao.recommender.impl.WeightedAverageAggregatorStrategy;
 import br.ufba.dcc.mestrado.computacao.repository.base.CriteriumPreferenceRepository;
 import br.ufba.dcc.mestrado.computacao.repository.base.RecommenderCriteriumRepository;
 import br.ufba.dcc.mestrado.computacao.repository.base.UserRecommenderCriteriumRepository;
@@ -63,12 +68,16 @@ public class RecommenderServiceImpl implements RecommenderService {
 	private RecommenderCriteriumRepository recommenderCriteriumRepository;
 	private UserRecommenderCriteriumRepository userRecommenderCriteriumRepository;
 	
+	protected interface DataModelCallable extends Callable<DataModel> {
+		DataModel call() throws Exception;
+	}
+	
 	/**
 	 * 
 	 * @author leandro.ferreira
 	 *
 	 */
-	protected class RecommenderItemDataModelCallable implements Callable<DataModel> {
+	protected class RecommenderItemDataModelCallable implements DataModelCallable {
 		private Long criteriumID;
 		
 		public RecommenderItemDataModelCallable(Long criteriumID) {
@@ -86,7 +95,7 @@ public class RecommenderServiceImpl implements RecommenderService {
 	 * @author leandro.ferreira
 	 *
 	 */
-	protected class RecommenderUserDataModelCallable implements Callable<DataModel> {
+	protected class RecommenderUserDataModelCallable implements DataModelCallable {
 		private Long criteriumID;
 		
 		public RecommenderUserDataModelCallable(Long criteriumID) {
@@ -199,7 +208,7 @@ public class RecommenderServiceImpl implements RecommenderService {
 			@Override
 			public Recommender buildRecommender(DataModel dataModel) throws TasteException {
 				
-				UserSimilarity baseUserSimilarity = new PearsonCorrelationSimilarity(dataModel);
+				UserSimilarity baseUserSimilarity = new LogLikelihoodSimilarity(dataModel);
 				UserSimilarity userSimilarity = new CachingUserSimilarity(baseUserSimilarity, dataModel);
 				
 				UserNeighborhood baseUserNeighborhood = new NearestNUserNeighborhood(10, 0.7, userSimilarity, dataModel);
@@ -235,8 +244,14 @@ public class RecommenderServiceImpl implements RecommenderService {
 		return recommenderBuilder;
 	}
 
-	protected FastByIDMap<DataModel> doDataModelMap(List<RecommenderCriteriumEntity> criteriaList) {
-		ExecutorService executor = Executors.newFixedThreadPool(criteriaList.size());
+	public FastByIDMap<DataModel> createUserDataModelMap(List<RecommenderCriteriumEntity> criteriaList) {
+		
+		ThreadFactoryBuilder threadFactoryBuilder = new ThreadFactoryBuilder();
+		threadFactoryBuilder.setPriority(Thread.MIN_PRIORITY);
+		
+		ThreadFactory threadFactory = threadFactoryBuilder.build();
+		
+		ExecutorService executor = Executors.newFixedThreadPool(criteriaList.size(), threadFactory);
 
 		Map<Long, FutureTask<DataModel>> futureTaskMap = new TreeMap<>();
 		
@@ -244,14 +259,47 @@ public class RecommenderServiceImpl implements RecommenderService {
 		
 		if (criteriaList != null) {
 			for (RecommenderCriteriumEntity criterium : criteriaList) {
-				RecommenderUserDataModelCallable callable = 
-						new RecommenderUserDataModelCallable(criterium.getId());
+				DataModelCallable callable = new RecommenderUserDataModelCallable(criterium.getId());
 				
 				FutureTask<DataModel> futureTask = new FutureTask<>(callable);				
 				futureTaskMap.put(criterium.getId(), futureTask);
 				executor.execute(futureTask);
 			}
+		}
 			
+		return createDataModelMap(executor, futureTaskMap, dataModelMap);
+	}
+	
+	public FastByIDMap<DataModel> createItemDataModelMap(List<RecommenderCriteriumEntity> criteriaList) {
+		ThreadFactoryBuilder threadFactoryBuilder = new ThreadFactoryBuilder();
+		threadFactoryBuilder.setPriority(Thread.MIN_PRIORITY);
+		
+		ThreadFactory threadFactory = threadFactoryBuilder.build();
+		
+		ExecutorService executor = Executors.newFixedThreadPool(criteriaList.size(), threadFactory);
+
+		Map<Long, FutureTask<DataModel>> futureTaskMap = new TreeMap<>();
+		
+		FastByIDMap<DataModel> dataModelMap = new FastByIDMap<DataModel>();
+		
+		if (criteriaList != null) {
+			for (RecommenderCriteriumEntity criterium : criteriaList) {
+				DataModelCallable callable = new RecommenderItemDataModelCallable(criterium.getId());
+				
+				FutureTask<DataModel> futureTask = new FutureTask<>(callable);				
+				futureTaskMap.put(criterium.getId(), futureTask);
+				executor.execute(futureTask);
+			}
+		}
+		
+		return createDataModelMap(executor, futureTaskMap, dataModelMap);
+	}
+
+	protected FastByIDMap<DataModel> createDataModelMap(
+			ExecutorService executor,
+			Map<Long, FutureTask<DataModel>> futureTaskMap,
+			FastByIDMap<DataModel> dataModelMap) {
+		if (! futureTaskMap.isEmpty()) {
 			while (true) {
 				boolean allDone = true;
 				
@@ -282,7 +330,24 @@ public class RecommenderServiceImpl implements RecommenderService {
 		return dataModelMap;
 	}
 	
-	protected FastByIDMap<RecommenderBuilder> doRecommenderBuilderMap(FastByIDMap<DataModel> dataModelMap) {
+	protected FastByIDMap<RecommenderBuilder> doUserBasedRecommenderBuilderMap(FastByIDMap<DataModel> dataModelMap) {
+		FastByIDMap<RecommenderBuilder> recommenderBuilderMap = new FastByIDMap<RecommenderBuilder>();
+		
+		if (dataModelMap != null) {			
+						
+			for (Map.Entry<Long, DataModel> entry : dataModelMap.entrySet()) {		
+				DataModel dataModel = entry.getValue();
+				RecommenderBuilder recommenderBuilder = createUserBasedRecomenderBuilder(dataModel);
+				
+				dataModelMap.put(entry.getKey(), dataModel);
+				recommenderBuilderMap.put(entry.getKey(), recommenderBuilder);
+			}			
+		}
+		
+		return recommenderBuilderMap;
+	}
+	
+	protected FastByIDMap<RecommenderBuilder> doItemBasedRecommenderBuilderMap(FastByIDMap<DataModel> dataModelMap) {
 		FastByIDMap<RecommenderBuilder> recommenderBuilderMap = new FastByIDMap<RecommenderBuilder>();
 		
 		if (dataModelMap != null) {			
@@ -299,33 +364,65 @@ public class RecommenderServiceImpl implements RecommenderService {
 		return recommenderBuilderMap;
 	}
 	
-	public MultiCriteriaRecommender buildMultiCriteriaRecommender(Long userId) throws TasteException {
-		logger.info(String.format("Building MultiCriteriaRecommender to user '%d'", userId));
-		List<UserRecommenderCriteriumEntity> userCriteriaList = getUserRecommenderCriteriumRepository().findAllByUser(userId);
+	@Override
+	public FastByIDMap<Float> findUserCriteriaWeight(Long userID) {
+		FastByIDMap<Float> weightMap = new FastByIDMap<>();
+		List<UserRecommenderCriteriumEntity> userCriteriaList = getUserRecommenderCriteriumRepository().findAllByUser(userID);
 		
-		MultiCriteriaRecommender recommender = null;
-		
-		if (userCriteriaList != null) {			
+		if (userCriteriaList != null) {
 			List<RecommenderCriteriumEntity> criteriaList = new ArrayList<>();
-			FastByIDMap<Float> weightMap = new FastByIDMap<>();
+			
 			for (UserRecommenderCriteriumEntity userCriterium : userCriteriaList) {
 				criteriaList.add(userCriterium.getCriterium());
 				weightMap.put(userCriterium.getCriteriumId(), userCriterium.getWeight());
 			}
+		}
+		
+		return weightMap;
+	}
+	
+	@Override
+	public List<RecommenderCriteriumEntity> findAllCriteria() {
+		return getRecommenderCriteriumRepository().findAll();
+	}
+	
+	public MultiCriteriaRecommender buildMultiCriteriaRecommender(Long userId) throws TasteException {
+		logger.info(String.format("Building MultiCriteriaRecommender to user '%d'", userId));
+		
+		FastByIDMap<Float> weightMap = findUserCriteriaWeight(userId);
+		List<RecommenderCriteriumEntity> criteriaList = findAllCriteria();
+		
+		MultiCriteriaRecommender recommender = null;
+		
+		if (criteriaList != null) {
+			FastByIDMap<DataModel> dataModelMap = createUserDataModelMap(criteriaList);
+			MultiCriteriaRecommenderBuilder builder = createMultiCriteriaRecommenderBuilder();
 			
-			if (criteriaList != null) {
-				FastByIDMap<DataModel> dataModelMap = doDataModelMap(criteriaList);
-				FastByIDMap<RecommenderBuilder> recommenderBuilderMap = doRecommenderBuilderMap(dataModelMap);
-				
-				WeightedAverageAggregatorStrategy aggregatorStrategy = new WeightedAverageAggregatorStrategy(weightMap);
-				//CandidateItemsStrategy candidateItemsStrategy = new AllUnknownItemsCandidateItemsStrategy();
-				CandidateItemsStrategy candidateItemsStrategy = new PreferredItemsNeighborhoodCandidateItemsStrategy(); 
-				recommender = new MultiCriteriaRecommenderImpl(candidateItemsStrategy, dataModelMap, recommenderBuilderMap, aggregatorStrategy);
-			}
+			recommender = builder.buildRecommender(dataModelMap, weightMap);
 		}
 		
 		return recommender;
+	}
+	
+	public MultiCriteriaRecommenderBuilder createMultiCriteriaRecommenderBuilder() throws TasteException {
+		MultiCriteriaRecommenderBuilder builder = new MultiCriteriaRecommenderBuilder() {
+			
+			@Override
+			public MultiCriteriaRecommender buildRecommender(
+					FastByIDMap<DataModel> dataModelMap, 
+					FastByIDMap<Float> criteriaWeightMap) throws TasteException {
+				
+				FastByIDMap<RecommenderBuilder> recommenderBuilderMap = doUserBasedRecommenderBuilderMap(dataModelMap);
+				WeightedAverageAggregatorStrategy aggregatorStrategy = new WeightedAverageAggregatorStrategy(criteriaWeightMap);
+				
+				CandidateItemsStrategy candidateItemsStrategy = new PreferredItemsNeighborhoodCandidateItemsStrategy(); 
+				MultiCriteriaRecommender recommender = new MultiCriteriaRecommenderImpl(candidateItemsStrategy, dataModelMap, recommenderBuilderMap, aggregatorStrategy);
+				
+				return recommender;
+			}
+		};
 		
+		return builder;
 	}
 	
 	/**
@@ -339,8 +436,8 @@ public class RecommenderServiceImpl implements RecommenderService {
 		MultiCriteriaRecommender recommender = null;
 		
 		if (criteriaList != null) {
-			FastByIDMap<DataModel> dataModelMap = doDataModelMap(criteriaList);
-			FastByIDMap<RecommenderBuilder> recommenderBuilderMap = doRecommenderBuilderMap(dataModelMap);
+			FastByIDMap<DataModel> dataModelMap = createUserDataModelMap(criteriaList);
+			FastByIDMap<RecommenderBuilder> recommenderBuilderMap = doUserBasedRecommenderBuilderMap(dataModelMap);
 			
 			recommender = new MultiCriteriaRecommenderImpl(dataModelMap, recommenderBuilderMap);		
 		}

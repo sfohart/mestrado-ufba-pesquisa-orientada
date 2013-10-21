@@ -13,6 +13,7 @@ public interface MultiCriteriaRecommenderEvaluator {
 	double evaluate(MultiCriteriaRecommenderBuilder multiCriteriaRecommenderBuilder,
             MultiCriteriaDataModelBuilder multiCriteriaDataModelBuilder,
             FastByIDMap<DataModel> dataModelMap,
+            FastByIDMap<Float> criteriaWeightMap,
             double trainingPercentage,
             double evaluationPercentage) throws TasteException;
 	

@@ -10,6 +10,7 @@ import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
+import java.util.concurrent.ThreadFactory;
 import java.util.concurrent.atomic.AtomicInteger;
 
 import org.apache.mahout.cf.taste.common.NoSuchItemException;
@@ -37,6 +38,7 @@ import br.ufba.dcc.mestrado.computacao.recommender.PreferenceAggregatorStrategy;
 
 import com.google.common.base.Preconditions;
 import com.google.common.collect.Lists;
+import com.google.common.util.concurrent.ThreadFactoryBuilder;
 
 public abstract class AbstractDifferenceMultiCriteriaRecommenderEvaluator implements
 		MultiCriteriaRecommenderEvaluator {
@@ -49,7 +51,7 @@ public abstract class AbstractDifferenceMultiCriteriaRecommenderEvaluator implem
 	private float minPreference;
 	private PreferenceAggregatorStrategy preferenceAggregatorStrategy;
 
-	protected AbstractDifferenceMultiCriteriaRecommenderEvaluator(PreferenceAggregatorStrategy preferenceAggregatorStrategy) {
+	public AbstractDifferenceMultiCriteriaRecommenderEvaluator(PreferenceAggregatorStrategy preferenceAggregatorStrategy) {
 		this.random = RandomUtils.getRandom();
 		this.maxPreference = Float.NaN;
 		this.minPreference = Float.NaN;
@@ -84,12 +86,13 @@ public abstract class AbstractDifferenceMultiCriteriaRecommenderEvaluator implem
 		Integer numUsers = 0;
 		for (DataModel dataModel : dataModelMap.values()) {
 			if (numUsers == 0) {
-				dataModel.getNumUsers();
+				numUsers = dataModel.getNumUsers();
 			} else if (numUsers != dataModel.getNumUsers()) {
 				throw new InvalidMultiCriteriaDataModelException();
 			}
 		}
 				
+		//TODO: checar porque está dando erro aqui.
 		Preconditions.checkArgument(numUsers != 0, "Invalid DataModel map{}", dataModelMap);
 		
 		return numUsers;
@@ -106,7 +109,10 @@ public abstract class AbstractDifferenceMultiCriteriaRecommenderEvaluator implem
 		
 		Preconditions.checkArgument(dataModelMap.size() > 0);
 		
-		iterator = dataModelMap.get(0).getUserIDs();
+		for (Map.Entry<Long, DataModel> entry : dataModelMap.entrySet()) {
+			iterator = entry.getValue().getUserIDs();
+			break;
+		}
 		
 		return iterator;
 	}
@@ -116,6 +122,7 @@ public abstract class AbstractDifferenceMultiCriteriaRecommenderEvaluator implem
 			MultiCriteriaRecommenderBuilder multiCriteriaRecommenderBuilder,
 			MultiCriteriaDataModelBuilder multiCriteriaDataModelBuilder,
 			FastByIDMap<DataModel> dataModelMap, 
+			FastByIDMap<Float> criteriaWeightMap,
 			double trainingPercentage,
 			double evaluationPercentage) throws TasteException {
 
@@ -140,20 +147,18 @@ public abstract class AbstractDifferenceMultiCriteriaRecommenderEvaluator implem
 		FastByIDMap<FastByIDMap<PreferenceArray>> testPrefs = new FastByIDMap<FastByIDMap<PreferenceArray>>(
 	        1 + (int) (evaluationPercentage * numUsers));
 
-		FastByIDMap<DataModel> dataModel = null;
-	    
 		LongPrimitiveIterator it = getUserIDs(dataModelMap);
 		
 		while (it.hasNext()) {
 			long userID = it.nextLong();
 			if (random.nextDouble() < evaluationPercentage) {
-				splitOneUsersPrefs(trainingPercentage, trainingPrefs, testPrefs, userID, dataModel);
+				splitOneUsersPrefs(trainingPercentage, trainingPrefs, testPrefs, userID, dataModelMap);
 			}
 		}
 	    
 	    FastByIDMap<DataModel> trainingModel = multiCriteriaDataModelBuilder.buildDataModel(trainingPrefs);
 	    
-	    MultiCriteriaRecommender recommender = multiCriteriaRecommenderBuilder.buildRecommender(trainingModel);
+	    MultiCriteriaRecommender recommender = multiCriteriaRecommenderBuilder.buildRecommender(trainingModel, criteriaWeightMap);
 	    
 	    double result = getEvaluation(testPrefs, recommender);
 	    log.info("Evaluation result: {}", result);
@@ -275,6 +280,11 @@ public abstract class AbstractDifferenceMultiCriteriaRecommenderEvaluator implem
 		Collection<Callable<Void>> estimateCallables = Lists.newArrayList();
 	    AtomicInteger noEstimateCounter = new AtomicInteger();
 	    
+	    for (Map.Entry<Long, FastByIDMap<PreferenceArray>> entry : testPrefs.entrySet()) {
+	    	Callable<Void> callable = new PreferenceEstimateCallable(recommender, entry.getKey(), entry.getValue(), noEstimateCounter);
+	    	estimateCallables.add(callable);
+	    }
+	    
 	    //TODO: a implementar
 	    
 	    log.info("Beginning evaluation of {} users", estimateCallables.size());
@@ -301,7 +311,13 @@ public abstract class AbstractDifferenceMultiCriteriaRecommenderEvaluator implem
 
 		Collection<Callable<Void>> wrappedCallables = wrapWithStatsCallables(callables, noEstimateCounter, timing);
 		int numProcessors = Runtime.getRuntime().availableProcessors();
-		ExecutorService executor = Executors.newFixedThreadPool(numProcessors);
+		
+		ThreadFactoryBuilder threadFactoryBuilder = new ThreadFactoryBuilder();
+		threadFactoryBuilder.setPriority(Thread.MIN_PRIORITY);
+		
+		ThreadFactory threadFactory = threadFactoryBuilder.build();
+		
+		ExecutorService executor = Executors.newFixedThreadPool(numProcessors, threadFactory);
 		
 		log.info(
 				"Starting timing of {} tasks in {} threads",
@@ -449,5 +465,5 @@ public abstract class AbstractDifferenceMultiCriteriaRecommenderEvaluator implem
 		}
 
 	}
-
+	
 }

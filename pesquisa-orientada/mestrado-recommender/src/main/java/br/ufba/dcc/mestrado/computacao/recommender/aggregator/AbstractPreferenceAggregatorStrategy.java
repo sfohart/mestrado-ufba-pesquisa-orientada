@@ -15,6 +15,8 @@ public abstract class AbstractPreferenceAggregatorStrategy implements Preference
 	 * 
 	 */
 	private static final long serialVersionUID = 1563633487571324512L;
+	
+	protected abstract void reset();
 
 	@Override
 	public Preference aggregatePreferences(FastByIDMap<Preference> estimatedPreferences) throws RecommenderException {
@@ -40,5 +42,6 @@ public abstract class AbstractPreferenceAggregatorStrategy implements Preference
 		
 		return new GenericPreference(userID, itemID, aggregated);
 	}
+	
 	
 }

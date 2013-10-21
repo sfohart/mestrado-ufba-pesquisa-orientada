@@ -6,7 +6,7 @@
     project="mestrado-recommender" 
     file="/mestrado-recommender/src/main/java/br/ufba/dcc/mestrado/computacao/entities/recommender/criterium/RecommenderCriteriumEntity.java" 
     binary="false" corner="BOTTOM_RIGHT">    
-    <position height="148" width="286" x="377" y="225"/>    
+    <position height="130" width="286" x="376" y="243"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
       visibility="true">      
       <attributes public="true" package="true" protected="true" private="true" static="true"/>      
@@ -17,7 +17,7 @@
     project="mestrado-recommender" 
     file="/mestrado-recommender/src/main/java/br/ufba/dcc/mestrado/computacao/entities/recommender/preference/PreferenceEntity.java" 
     binary="false" corner="BOTTOM_RIGHT">    
-    <position height="148" width="295" x="42" y="225"/>    
+    <position height="148" width="295" x="41" y="243"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
       visibility="true">      
       <attributes public="true" package="true" protected="true" private="true" static="true"/>      
@@ -29,7 +29,7 @@
     project="mestrado-recommender" 
     file="/mestrado-recommender/src/main/java/br/ufba/dcc/mestrado/computacao/entities/recommender/preference/PreferenceEntryEntity.java" 
     binary="false" corner="BOTTOM_RIGHT">    
-    <position height="148" width="295" x="42" y="37"/>    
+    <position height="148" width="295" x="41" y="37"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
       visibility="true">      
       <attributes public="true" package="true" protected="true" private="true" static="true"/>      
@@ -40,7 +40,7 @@
     project="mestrado-crawler" 
     file="/mestrado-crawler/src/main/java/br/ufba/dcc/mestrado/computacao/entities/ohloh/project/OhLohProjectEntity.java" 
     binary="false" corner="BOTTOM_RIGHT">    
-    <position height="418" width="243" x="42" y="413"/>    
+    <position height="418" width="243" x="41" y="431"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
       visibility="true">      
       <attributes public="true" package="true" protected="true" private="true" static="true"/>      
@@ -51,7 +51,7 @@
     project="mestrado-crawler" 
     file="/mestrado-crawler/src/main/java/br/ufba/dcc/mestrado/computacao/entities/ohloh/account/OhLohAccountEntity.java" 
     binary="false" corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="580" y="624"/>    
+    <position height="418" width="248" x="683" y="431"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
       visibility="true">      
       <attributes public="true" package="true" protected="true" private="true" static="true"/>      
@@ -62,7 +62,7 @@
     project="mestrado-crawler" 
     file="/mestrado-crawler/src/main/java/br/ufba/dcc/mestrado/computacao/entities/ohloh/project/OhLohLicenseEntity.java" 
     binary="false" corner="BOTTOM_RIGHT">    
-    <position height="148" width="243" x="325" y="871"/>    
+    <position height="148" width="243" x="324" y="889"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
       visibility="true">      
       <attributes public="true" package="true" protected="true" private="true" static="true"/>      
@@ -73,75 +73,103 @@
     project="mestrado-crawler" 
     file="/mestrado-crawler/src/main/java/br/ufba/dcc/mestrado/computacao/entities/ohloh/project/OhLohTagEntity.java" 
     binary="false" corner="BOTTOM_RIGHT">    
-    <position height="130" width="243" x="42" y="871"/>    
+    <position height="130" width="243" x="41" y="889"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
       visibility="true">      
       <attributes public="true" package="true" protected="true" private="true" static="true"/>      
       <operations public="false" package="false" protected="false" private="false" static="false"/>    
     </display>  
   </class>  
-  <association id="8">    
+  <class id="8" language="java" 
+    name="br.ufba.dcc.mestrado.computacao.entities.recommender.criterium.UserRecommenderCriteriumEntity" 
+    project="mestrado-recommender" 
+    file="/mestrado-recommender/src/main/java/br/ufba/dcc/mestrado/computacao/entities/recommender/criterium/UserRecommenderCriteriumEntity.java" 
+    binary="false" corner="BOTTOM_RIGHT">    
+    <position height="166" width="286" x="645" y="37"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
+      visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="false" package="false" protected="false" private="false" static="false"/>    
+    </display>  
+  </class>  
+  <association id="9">    
     <end type="SOURCE" refId="4" navigable="false">      
-      <attribute id="9" name="ohLohLicenses"/>      
-      <multiplicity id="10" minimum="0" maximum="2147483647"/>    
+      <attribute id="10" name="ohLohLicenses"/>      
+      <multiplicity id="11" minimum="0" maximum="2147483647"/>    
     </end>    
     <end type="TARGET" refId="6" navigable="true"/>    
     <display labels="true" multiplicity="true"/>  
   </association>  
-  <association id="11">    
+  <association id="12">    
     <end type="SOURCE" refId="2" navigable="false">      
-      <attribute id="12" name="project"/>      
-      <multiplicity id="13" minimum="0" maximum="1"/>    
-    </end>    
-    <end type="TARGET" refId="4" navigable="true"/>    
-    <display labels="true" multiplicity="true"/>  
-  </association>  
-  <association id="14">    
-    <end type="SOURCE" refId="4" navigable="false">      
-      <attribute id="15" name="ohLohTags"/>      
-      <multiplicity id="16" minimum="0" maximum="2147483647"/>    
-    </end>    
-    <end type="TARGET" refId="7" navigable="true"/>    
-    <display labels="true" multiplicity="true"/>  
-  </association>  
-  <association id="17">    
-    <bendpoint x="286" y="208"/>    
-    <end type="SOURCE" refId="3" navigable="false">      
-      <attribute id="18" name="preference"/>      
-      <multiplicity id="19" minimum="0" maximum="1"/>    
-    </end>    
-    <end type="TARGET" refId="2" navigable="true"/>    
-    <display labels="true" multiplicity="true"/>  
-  </association>  
-  <association id="20">    
-    <end type="SOURCE" refId="3" navigable="false">      
-      <attribute id="21" name="criterium">        
-        <position height="18" width="49" x="346" y="181"/>      
-      </attribute>      
-      <multiplicity id="22" minimum="0" maximum="1"/>    
-    </end>    
-    <end type="TARGET" refId="1" navigable="true"/>    
-    <display labels="true" multiplicity="true"/>  
-  </association>  
-  <association id="23">    
-    <end type="SOURCE" refId="2" navigable="false">      
-      <attribute id="24" name="account"/>      
-      <multiplicity id="25" minimum="0" maximum="1"/>    
-    </end>    
-    <end type="TARGET" refId="5" navigable="true"/>    
-    <display labels="true" multiplicity="true"/>  
-  </association>  
-  <association id="26">    
-    <end type="SOURCE" refId="2" navigable="false">      
-      <attribute id="27" name="preferenceEntryList"/>      
-      <multiplicity id="28" minimum="0" maximum="2147483647"/>    
+      <attribute id="13" name="preferenceEntryList"/>      
+      <multiplicity id="14" minimum="0" maximum="2147483647"/>    
     </end>    
     <end type="TARGET" refId="3" navigable="true"/>    
     <display labels="true" multiplicity="true"/>  
   </association>  
+  <association id="15">    
+    <end type="SOURCE" refId="2" navigable="false">      
+      <attribute id="16" name="account"/>      
+      <multiplicity id="17" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="5" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="18">    
+    <end type="SOURCE" refId="2" navigable="false">      
+      <attribute id="19" name="project"/>      
+      <multiplicity id="20" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="4" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="21">    
+    <bendpoint x="692" y="243"/>    
+    <end type="SOURCE" refId="8" navigable="false">      
+      <attribute id="22" name="account"/>      
+      <multiplicity id="23" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="5" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="24">    
+    <end type="SOURCE" refId="4" navigable="false">      
+      <attribute id="25" name="ohLohTags"/>      
+      <multiplicity id="26" minimum="0" maximum="2147483647"/>    
+    </end>    
+    <end type="TARGET" refId="7" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="27">    
+    <end type="SOURCE" refId="8" navigable="false">      
+      <attribute id="28" name="criterium"/>      
+      <multiplicity id="29" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="1" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="30">    
+    <end type="SOURCE" refId="3" navigable="false">      
+      <attribute id="31" name="criterium">        
+        <position height="18" width="49" x="346" y="181"/>      
+      </attribute>      
+      <multiplicity id="32" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="1" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="33">    
+    <end type="SOURCE" refId="3" navigable="false">      
+      <attribute id="34" name="preference"/>      
+      <multiplicity id="35" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="2" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
   <classifier-display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
     accessors="true" visibility="true">    
-    <attributes public="true" package="true" protected="true" private="true" static="true"/>    
+    <attributes public="true" package="true" protected="true" private="true" static="false"/>    
     <operations public="false" package="false" protected="false" private="false" static="false"/>  
   </classifier-display>  
   <association-display labels="true" multiplicity="true"/>

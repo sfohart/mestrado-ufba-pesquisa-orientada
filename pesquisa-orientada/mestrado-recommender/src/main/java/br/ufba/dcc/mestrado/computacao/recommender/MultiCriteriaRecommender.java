@@ -73,5 +73,10 @@ public interface MultiCriteriaRecommender extends Recommender {
 	 * 
 	 */
 	public void clear();
+	
+	/*
+	 * 
+	 */
+	public PreferenceAggregatorStrategy getPreferenceAggregatorStrategy();
 
 }

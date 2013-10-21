@@ -6,6 +6,8 @@ import org.apache.mahout.cf.taste.model.DataModel;
 
 public interface MultiCriteriaRecommenderBuilder {
 
-	MultiCriteriaRecommender buildRecommender(FastByIDMap<DataModel> dataModelMap) throws TasteException;
+	MultiCriteriaRecommender buildRecommender(
+			FastByIDMap<DataModel> dataModelMap, 
+			FastByIDMap<Float> criteriaWeightMap) throws TasteException;
 	
 }
