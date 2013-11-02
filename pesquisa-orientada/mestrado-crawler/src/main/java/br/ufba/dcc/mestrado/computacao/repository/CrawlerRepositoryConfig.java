@@ -10,7 +10,10 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.core.env.Environment;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
+import org.springframework.orm.jpa.JpaTransactionManager;
 import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
+import org.springframework.transaction.PlatformTransactionManager;
+import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 import br.ufba.dcc.mestrado.computacao.repository.base.OhLohAccountRepository;
 import br.ufba.dcc.mestrado.computacao.repository.base.OhLohAnalysisLanguageRepository;
@@ -38,6 +41,7 @@ import br.ufba.dcc.mestrado.computacao.repository.impl.OhLohStackRepositoryImpl;
 import br.ufba.dcc.mestrado.computacao.repository.impl.OhLohTagRepositoryImpl;
 
 @Configuration
+@EnableTransactionManagement
 @PropertySource(value = {	
 	"classpath:persistence.properties"
 })
@@ -79,6 +83,17 @@ public class CrawlerRepositoryConfig {
 		entityManagerFactoryBean.setJpaProperties(connectionProperties);
 		
 		return entityManagerFactoryBean;
+	}
+	
+	/**
+	 * @see http://www.baeldung.com/2011/12/26/transaction-configuration-with-jpa-and-spring-3-1/
+	 * @return
+	 */
+	@Bean
+	public PlatformTransactionManager transactionManager() {
+		JpaTransactionManager transactionManager = new JpaTransactionManager();
+		transactionManager.setEntityManagerFactory(entityManagerFactoryBean().getObject());
+		return transactionManager;
 	}
 	
 	@Bean

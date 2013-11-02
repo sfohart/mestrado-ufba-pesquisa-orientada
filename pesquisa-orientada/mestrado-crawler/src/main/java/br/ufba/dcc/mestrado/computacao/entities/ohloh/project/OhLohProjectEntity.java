@@ -11,6 +11,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import br.ufba.dcc.mestrado.computacao.entities.BaseEntity;
@@ -87,6 +88,18 @@ public class OhLohProjectEntity implements BaseEntity<Long> {
 
 	@ManyToMany(cascade=CascadeType.ALL)
 	private List<OhLohTagEntity> ohLohTags;
+	
+	@OneToMany(cascade=CascadeType.ALL)
+	private List<OhLohLinkEntity> ohLohLinks;
+	
+
+	public List<OhLohLinkEntity> getOhLohLinks() {
+		return ohLohLinks;
+	}
+
+	public void setOhLohLinks(List<OhLohLinkEntity> ohLohLinks) {
+		this.ohLohLinks = ohLohLinks;
+	}
 
 	public Long getId() {
 		return id;

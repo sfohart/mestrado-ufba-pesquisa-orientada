@@ -24,6 +24,7 @@
 		<class>br.ufba.dcc.mestrado.computacao.entities.ohloh.kudoskore.OhLohKudoScoreEntity</class>
 		<class>br.ufba.dcc.mestrado.computacao.entities.ohloh.language.OhLohLanguageEntity</class>
 		<class>br.ufba.dcc.mestrado.computacao.entities.ohloh.project.OhLohLicenseEntity</class>
+		<class>br.ufba.dcc.mestrado.computacao.entities.ohloh.project.OhLohLinkEntity</class>
 		<class>br.ufba.dcc.mestrado.computacao.entities.ohloh.project.OhLohProjectEntity</class>
 		<class>br.ufba.dcc.mestrado.computacao.entities.ohloh.project.OhLohTagEntity</class>
 		<class>br.ufba.dcc.mestrado.computacao.entities.ohloh.sizefact.OhLohSizeFactEntity</class>

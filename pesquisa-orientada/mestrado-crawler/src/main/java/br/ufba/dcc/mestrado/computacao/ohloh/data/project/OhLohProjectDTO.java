@@ -85,6 +85,9 @@ public class OhLohProjectDTO implements OhLohResultDTO {
 
 	@XStreamAlias("licenses")
 	private List<OhLohLicenseDTO> ohLohLicenses;
+	
+	@XStreamAlias("links")
+	private List<OhLohLinkDTO> ohLohLinks;
 
 	@XStreamAlias("tags")	
 	private List<OhLohTagDTO> ohLohTags;
@@ -247,6 +250,14 @@ public class OhLohProjectDTO implements OhLohResultDTO {
 
 	public void setOhLohAnalysis(OhLohAnalysisDTO ohLohAnalysis) {
 		this.ohLohAnalysis = ohLohAnalysis;
+	}
+
+	public List<OhLohLinkDTO> getOhLohLinks() {
+		return ohLohLinks;
+	}
+
+	public void setOhLohLinks(List<OhLohLinkDTO> ohLohLinks) {
+		this.ohLohLinks = ohLohLinks;
 	}
 
 }

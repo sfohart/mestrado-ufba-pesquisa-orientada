@@ -380,10 +380,10 @@ public class OhLohCrawler {
 							config.setOhLohProject(projectEntity);
 							
 							//baixando os stacks do projeto
-							downloadStack(projectEntity);
+							//downloadStack(projectEntity);
 							
 							//baixando as an�lises do projeto
-							downloadAnalysis(projectEntity);
+							//downloadAnalysis(projectEntity);
 							
 							projectCrawlerConfigRepository.save(config);
 						}
