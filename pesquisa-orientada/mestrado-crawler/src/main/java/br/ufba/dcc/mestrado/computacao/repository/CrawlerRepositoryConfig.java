@@ -76,6 +76,14 @@ public class CrawlerRepositoryConfig {
 		connectionProperties.put("hibernate.use_sql_comments", env.getProperty("hibernate.use_sql_comments"));
 		connectionProperties.put("hibernate.dialect", env.getProperty("hibernate.dialect"));
 		
+		//Hibernate Search
+		connectionProperties.put("hibernate.search.default.directory_provider", env.getProperty("hibernate.search.default.directory_provider"));
+		connectionProperties.put("hibernate.search.default.indexBase", env.getProperty("hibernate.search.default.indexBase"));
+		connectionProperties.put("hibernate.search.default.optimizer.operation_limit.max", env.getProperty("hibernate.search.default.optimizer.operation_limit.max"));
+		connectionProperties.put("hibernate.search.default.optimizer.transaction_limit.max", env.getProperty("hibernate.search.default.optimizer.transaction_limit.max"));
+		
+		
+		
 		LocalContainerEntityManagerFactoryBean  entityManagerFactoryBean = new LocalContainerEntityManagerFactoryBean();
 
 		entityManagerFactoryBean.setPersistenceUnitName(env.getProperty("persistenceUnitName"));

@@ -8,6 +8,9 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import org.hibernate.search.annotations.ContainedIn;
+import org.hibernate.search.annotations.IndexedEmbedded;
+
 import br.ufba.dcc.mestrado.computacao.entities.BaseEntity;
 import br.ufba.dcc.mestrado.computacao.entities.ohloh.language.OhLohLanguageEntity;
 
@@ -28,6 +31,7 @@ public class OhLohAnalysisLanguageEntity implements BaseEntity<Long> {
 	@Column(name = "language_id", insertable = false, updatable = false)
 	private Long languageId;
 
+	@IndexedEmbedded
 	@ManyToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = "language_id", referencedColumnName = "id")
 	private OhLohLanguageEntity ohLohLanguage;
@@ -38,6 +42,7 @@ public class OhLohAnalysisLanguageEntity implements BaseEntity<Long> {
 	@Column(name = "color")
 	private String color;
 
+	@ContainedIn
 	@ManyToOne
 	@JoinColumn(name = "analysis_languages_id", referencedColumnName = "id")
 	private OhLohAnalysisLanguagesEntity ohLohAnalysisLanguages;

@@ -15,6 +15,13 @@ import javax.persistence.OneToOne;
 import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
 
+import org.hibernate.search.annotations.Analyze;
+import org.hibernate.search.annotations.ContainedIn;
+import org.hibernate.search.annotations.Field;
+import org.hibernate.search.annotations.Index;
+import org.hibernate.search.annotations.IndexedEmbedded;
+import org.hibernate.search.annotations.Store;
+
 import br.ufba.dcc.mestrado.computacao.entities.BaseEntity;
 import br.ufba.dcc.mestrado.computacao.entities.ohloh.factoid.OhLohFactoidEntity;
 import br.ufba.dcc.mestrado.computacao.entities.ohloh.project.OhLohProjectEntity;
@@ -39,6 +46,7 @@ public class OhLohAnalysisEntity implements BaseEntity<Long> {
 	@Column(name = "project_id", updatable = false, insertable = false)
 	private Long projectId;
 
+	@ContainedIn
 	@ManyToOne(optional = false)
 	@JoinColumn(name = "project_id", referencedColumnName = "id")
 	private OhLohProjectEntity ohlohProject;
@@ -70,6 +78,7 @@ public class OhLohAnalysisEntity implements BaseEntity<Long> {
 	@OneToMany(mappedBy = "ohLohAnalysis")
 	private List<OhLohFactoidEntity> ohLohFactoids;
 
+	@IndexedEmbedded
 	@OneToOne(cascade = CascadeType.ALL, fetch=FetchType.EAGER)
 	@PrimaryKeyJoinColumn
 	private OhLohAnalysisLanguagesEntity ohLohAnalysisLanguages;
@@ -77,9 +86,9 @@ public class OhLohAnalysisEntity implements BaseEntity<Long> {
 	@Column(name = "main_language_id")
 	private Long mainLanguageId;
 
+	@Field(name = "projectMainLanguageName", index = Index.YES, analyze = Analyze.YES, store = Store.NO)
 	@Column(name = "main_language_name")
-	private String mainLanguageName;
-	
+	private String mainLanguageName;	
 	
 	@Column(name = "twelve_month_commit_count")	
 	private Long twelveMonthCommitCount;

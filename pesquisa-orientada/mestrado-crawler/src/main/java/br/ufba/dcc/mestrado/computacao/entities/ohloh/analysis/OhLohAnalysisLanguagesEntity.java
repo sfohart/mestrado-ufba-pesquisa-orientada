@@ -11,6 +11,9 @@ import javax.persistence.OneToOne;
 import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
 
+import org.hibernate.search.annotations.ContainedIn;
+import org.hibernate.search.annotations.IndexedEmbedded;
+
 import br.ufba.dcc.mestrado.computacao.entities.BaseEntity;
 
 @Entity
@@ -30,11 +33,13 @@ public class OhLohAnalysisLanguagesEntity implements BaseEntity<Long> {
 	
 	@OneToOne(mappedBy="ohLohAnalysisLanguages")
 	@PrimaryKeyJoinColumn
+	@ContainedIn
 	private OhLohAnalysisEntity ohLohAnalysis;
 	
 	@Column(name="graph_url")
 	private String graphURL;
 	
+	@IndexedEmbedded
 	@OneToMany(mappedBy="ohLohAnalysisLanguages")
 	private List<OhLohAnalysisLanguageEntity> content;
 

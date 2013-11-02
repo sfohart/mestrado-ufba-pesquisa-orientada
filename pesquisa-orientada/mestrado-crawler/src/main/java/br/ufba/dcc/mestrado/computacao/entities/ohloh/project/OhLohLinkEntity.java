@@ -5,6 +5,11 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+import org.hibernate.search.annotations.Analyze;
+import org.hibernate.search.annotations.Field;
+import org.hibernate.search.annotations.Index;
+import org.hibernate.search.annotations.Store;
+
 import br.ufba.dcc.mestrado.computacao.entities.BaseEntity;
 
 @Entity
@@ -22,10 +27,13 @@ public class OhLohLinkEntity implements BaseEntity<Long> {
 	@GeneratedValue
 	private Long id;
 	
+	@Field(name="linkCategory", index=Index.YES, analyze=Analyze.YES, store=Store.NO)
 	private String category;
 	
+	@Field(name="linkTitle", index=Index.YES, analyze=Analyze.YES, store=Store.NO)
 	private String title;
 	
+	@Field(name="linkURL", index=Index.YES, analyze=Analyze.YES, store=Store.NO)
 	private String url;
 
 	public Long getId() {

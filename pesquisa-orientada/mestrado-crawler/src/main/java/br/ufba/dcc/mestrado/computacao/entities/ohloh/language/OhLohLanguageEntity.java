@@ -5,6 +5,11 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+import org.hibernate.search.annotations.Analyze;
+import org.hibernate.search.annotations.Field;
+import org.hibernate.search.annotations.Index;
+import org.hibernate.search.annotations.Store;
+
 import br.ufba.dcc.mestrado.computacao.entities.BaseEntity;
 
 @Entity
@@ -21,12 +26,15 @@ public class OhLohLanguageEntity implements BaseEntity<Long> {
 	@Id
 	private Long id;
 	
+	@Field(name = "languageName", index = Index.YES, analyze = Analyze.YES, store = Store.NO)
 	@Column(nullable = false, unique = true)
 	private String name;
 	
+	@Field(name = "languageNiceName", index = Index.YES, analyze = Analyze.YES, store = Store.NO)
 	@Column(name = "nice_name")
 	private String niceName;
 	
+	@Field(name = "languageCategory", index = Index.YES, analyze = Analyze.YES, store = Store.NO)
 	private String category;
 	
 	private Long code;
