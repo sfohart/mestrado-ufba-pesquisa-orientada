@@ -26,15 +26,15 @@ public class OhLohLanguageEntity implements BaseEntity<Long> {
 	@Id
 	private Long id;
 	
-	@Field(name = "languageName", index = Index.YES, analyze = Analyze.YES, store = Store.NO)
+	@Field(index = Index.YES, analyze = Analyze.YES, store = Store.NO)
 	@Column(nullable = false, unique = true)
 	private String name;
 	
-	@Field(name = "languageNiceName", index = Index.YES, analyze = Analyze.YES, store = Store.NO)
+	@Field(index = Index.YES, analyze = Analyze.YES, store = Store.NO)
 	@Column(name = "nice_name")
 	private String niceName;
 	
-	@Field(name = "languageCategory", index = Index.YES, analyze = Analyze.YES, store = Store.NO)
+	@Field(index = Index.YES, analyze = Analyze.YES, store = Store.NO)
 	private String category;
 	
 	private Long code;

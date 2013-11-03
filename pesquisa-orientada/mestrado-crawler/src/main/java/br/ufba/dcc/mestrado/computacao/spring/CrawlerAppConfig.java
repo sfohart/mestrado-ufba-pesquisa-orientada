@@ -9,10 +9,10 @@ import org.springframework.context.annotation.PropertySource;
 import org.springframework.context.support.PropertySourcesPlaceholderConfigurer;
 import org.springframework.core.env.Environment;
 
-import br.ufba.dcc.mestrado.computacao.ohloh.IndexerRunner;
 import br.ufba.dcc.mestrado.computacao.ohloh.crawler.OhLohCrawler;
 import br.ufba.dcc.mestrado.computacao.ohloh.crawler.OhLohProjectCrawler;
 import br.ufba.dcc.mestrado.computacao.ohloh.restful.client.OhLohRestfulClient;
+import br.ufba.dcc.mestrado.computacao.search.IndexerRunner;
 import br.ufba.dcc.mestrado.computacao.service.CrawlerServiceConfig;
 
 @Configuration

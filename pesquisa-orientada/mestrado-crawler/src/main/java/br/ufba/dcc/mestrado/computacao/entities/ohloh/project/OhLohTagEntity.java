@@ -27,7 +27,7 @@ public class OhLohTagEntity implements BaseEntity<Long> {
 	@GeneratedValue
 	private Long id;
 	
-	@Field(name="tagName", index=Index.YES, analyze=Analyze.YES, store=Store.NO)
+	@Field(index=Index.YES, analyze=Analyze.YES, store=Store.NO)
 	@Column(name = "name", unique = true, nullable = false)
 	private String name;
 

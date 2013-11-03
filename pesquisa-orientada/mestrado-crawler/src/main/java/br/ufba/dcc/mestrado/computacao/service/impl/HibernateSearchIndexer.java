@@ -1,12 +1,15 @@
 package br.ufba.dcc.mestrado.computacao.service.impl;
 
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.Future;
+
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
 import org.hibernate.CacheMode;
 import org.hibernate.search.MassIndexer;
 import org.hibernate.search.batchindexing.MassIndexerProgressMonitor;
-import org.hibernate.search.jmx.IndexingProgressMonitor;
+import org.hibernate.search.impl.SimpleIndexingProgressMonitor;
 import org.hibernate.search.jpa.FullTextEntityManager;
 import org.hibernate.search.jpa.Search;
 
@@ -27,23 +30,32 @@ public class HibernateSearchIndexer implements Indexer {
 	}
 
 	@Override
-	public void buildIndex() throws InterruptedException {
+	public void buildIndex() throws InterruptedException, ExecutionException {
 		FullTextEntityManager fullTextEntityManager = Search.getFullTextEntityManager(entityManager);
 		MassIndexer massIndexer = fullTextEntityManager.createIndexer(
 				OhLohProjectEntity.class
 				);
 		
 		
-		MassIndexerProgressMonitor monitor = new IndexingProgressMonitor();
+		MassIndexerProgressMonitor monitor = new SimpleIndexingProgressMonitor();
 		
 		massIndexer.batchSizeToLoadObjects( 25 )
-		 .cacheMode( CacheMode.NORMAL )
-		 .threadsToLoadObjects( 5 )
-		 .idFetchSize( 150 )
-		 .threadsForSubsequentFetching( 20 )
-		 .progressMonitor( monitor ) //a MassIndexerProgressMonitor implementation
-		 .startAndWait();
+			.cacheMode( CacheMode.NORMAL )
+			.threadsToLoadObjects( 5 )
+			.idFetchSize( 150 )
+			.threadsForSubsequentFetching( 20 )
+			.progressMonitor( monitor ); //a MassIndexerProgressMonitor implementation
+		 
+		massIndexer.optimizeOnFinish(true);
 
+		Future<?> future = massIndexer.start();
+		while (! future.isDone()) {
+			Thread.sleep(10000);
+		}
+		
+		System.out.println("Canceling indexer thread: " + future.cancel(true));
+		
+		
 	}
 
 }

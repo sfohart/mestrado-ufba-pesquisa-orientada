@@ -28,11 +28,11 @@ public class OhLohLicenseEntity implements BaseEntity<Long> {
 	@GeneratedValue
 	private Long id;
 
-	@Field(name="licenseName", index=Index.YES, analyze=Analyze.YES, store=Store.NO)
+	@Field(index=Index.YES, analyze=Analyze.YES, store=Store.NO)
 	@Column(unique = true)
 	private String name;
 
-	@Field(name="licenseNiceName", index=Index.YES, analyze=Analyze.YES, store=Store.NO)
+	@Field(index=Index.YES, analyze=Analyze.YES, store=Store.NO)
 	@Column(name = "nice_name")
 	private String niceName;
 	

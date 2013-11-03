@@ -17,6 +17,7 @@ import javax.persistence.Table;
 
 import org.hibernate.search.annotations.Analyze;
 import org.hibernate.search.annotations.ContainedIn;
+import org.hibernate.search.annotations.DocumentId;
 import org.hibernate.search.annotations.Field;
 import org.hibernate.search.annotations.Index;
 import org.hibernate.search.annotations.IndexedEmbedded;
@@ -38,6 +39,7 @@ public class OhLohAnalysisEntity implements BaseEntity<Long> {
 	public final static String NODE_NAME = "analysis";
 
 	@Id
+	@DocumentId
 	private Long id;
 
 	@Column(name = "url")
@@ -46,9 +48,9 @@ public class OhLohAnalysisEntity implements BaseEntity<Long> {
 	@Column(name = "project_id", updatable = false, insertable = false)
 	private Long projectId;
 
-	@ContainedIn
 	@ManyToOne(optional = false)
 	@JoinColumn(name = "project_id", referencedColumnName = "id")
+	@ContainedIn
 	private OhLohProjectEntity ohlohProject;
 
 	@Column(name = "updated_at")
@@ -78,15 +80,15 @@ public class OhLohAnalysisEntity implements BaseEntity<Long> {
 	@OneToMany(mappedBy = "ohLohAnalysis")
 	private List<OhLohFactoidEntity> ohLohFactoids;
 
-	@IndexedEmbedded
 	@OneToOne(cascade = CascadeType.ALL, fetch=FetchType.EAGER)
 	@PrimaryKeyJoinColumn
+	@IndexedEmbedded
 	private OhLohAnalysisLanguagesEntity ohLohAnalysisLanguages;
 
 	@Column(name = "main_language_id")
 	private Long mainLanguageId;
 
-	@Field(name = "projectMainLanguageName", index = Index.YES, analyze = Analyze.YES, store = Store.NO)
+	@Field(index = Index.YES, analyze = Analyze.YES, store = Store.NO)
 	@Column(name = "main_language_name")
 	private String mainLanguageName;	
 	

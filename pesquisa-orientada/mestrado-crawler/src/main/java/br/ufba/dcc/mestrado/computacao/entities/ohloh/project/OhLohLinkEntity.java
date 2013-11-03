@@ -27,13 +27,13 @@ public class OhLohLinkEntity implements BaseEntity<Long> {
 	@GeneratedValue
 	private Long id;
 	
-	@Field(name="linkCategory", index=Index.YES, analyze=Analyze.YES, store=Store.NO)
+	@Field(index=Index.YES, analyze=Analyze.YES, store=Store.NO)
 	private String category;
 	
-	@Field(name="linkTitle", index=Index.YES, analyze=Analyze.YES, store=Store.NO)
+	@Field(index=Index.YES, analyze=Analyze.YES, store=Store.NO)
 	private String title;
 	
-	@Field(name="linkURL", index=Index.YES, analyze=Analyze.YES, store=Store.NO)
+	@Field(index=Index.YES, analyze=Analyze.YES, store=Store.NO)
 	private String url;
 
 	public Long getId() {

@@ -39,8 +39,8 @@ public class OhLohAnalysisLanguagesEntity implements BaseEntity<Long> {
 	@Column(name="graph_url")
 	private String graphURL;
 	
-	@IndexedEmbedded
 	@OneToMany(mappedBy="ohLohAnalysisLanguages")
+	@IndexedEmbedded
 	private List<OhLohAnalysisLanguageEntity> content;
 
 	public Long getId() {

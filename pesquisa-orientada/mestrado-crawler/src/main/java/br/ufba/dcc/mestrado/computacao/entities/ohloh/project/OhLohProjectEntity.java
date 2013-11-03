@@ -26,7 +26,7 @@ import br.ufba.dcc.mestrado.computacao.entities.ohloh.analysis.OhLohAnalysisEnti
 
 @Entity
 @Table(name = OhLohProjectEntity.NODE_NAME)
-@Indexed(index = OhLohProjectEntity.NODE_NAME) //Hibernate Search
+@Indexed(index = OhLohProjectEntity.NODE_NAME) 
 public class OhLohProjectEntity implements BaseEntity<Long> {
 
 	/**
@@ -40,7 +40,7 @@ public class OhLohProjectEntity implements BaseEntity<Long> {
 	private Long id;
 	
 	@Column(name = "name")
-	@Field(name = "projectName", index = Index.YES, analyze = Analyze.YES, store = Store.NO)
+	@Field(index = Index.YES, analyze = Analyze.YES, store = Store.NO)
 	private String name;
 
 	@Column(name = "url")
@@ -55,7 +55,7 @@ public class OhLohProjectEntity implements BaseEntity<Long> {
 	@Column(name = "updated_at")
 	private Timestamp updatedAt;
 
-	@Field(name = "projectDescription", index = Index.YES, analyze = Analyze.YES, store = Store.NO)
+	@Field(index = Index.YES, analyze = Analyze.YES, store = Store.NO)
 	@Column(name = "description", length = 10000)
 	private String description;
 
@@ -89,23 +89,22 @@ public class OhLohProjectEntity implements BaseEntity<Long> {
 	@Column(name = "analysis_id", insertable = false, updatable = false)
 	private Long analysisId;
 
-	@IndexedEmbedded
 	@ManyToOne(cascade=CascadeType.ALL, fetch=FetchType.EAGER, targetEntity=OhLohAnalysisEntity.class)
 	@JoinColumn(name = "analysis_id", referencedColumnName = "id")
+	@IndexedEmbedded
 	private OhLohAnalysisEntity ohLohAnalysis;
 
-	@IndexedEmbedded
 	@ManyToMany(cascade=CascadeType.ALL)
+	@IndexedEmbedded
 	private List<OhLohLicenseEntity> ohLohLicenses;
 
-	@IndexedEmbedded
 	@ManyToMany(cascade=CascadeType.ALL)
+	@IndexedEmbedded
 	private List<OhLohTagEntity> ohLohTags;
 	
-	@IndexedEmbedded
 	@OneToMany(cascade=CascadeType.ALL)
+	@IndexedEmbedded
 	private List<OhLohLinkEntity> ohLohLinks;
-	
 
 	public List<OhLohLinkEntity> getOhLohLinks() {
 		return ohLohLinks;

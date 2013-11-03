@@ -31,9 +31,9 @@ public class OhLohAnalysisLanguageEntity implements BaseEntity<Long> {
 	@Column(name = "language_id", insertable = false, updatable = false)
 	private Long languageId;
 
-	@IndexedEmbedded
 	@ManyToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = "language_id", referencedColumnName = "id")
+	@IndexedEmbedded
 	private OhLohLanguageEntity ohLohLanguage;
 
 	@Column(name = "percentage")
@@ -42,9 +42,9 @@ public class OhLohAnalysisLanguageEntity implements BaseEntity<Long> {
 	@Column(name = "color")
 	private String color;
 
-	@ContainedIn
 	@ManyToOne
 	@JoinColumn(name = "analysis_languages_id", referencedColumnName = "id")
+	@ContainedIn
 	private OhLohAnalysisLanguagesEntity ohLohAnalysisLanguages;
 
 	@Column(name = "content")
