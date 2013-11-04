@@ -1,6 +1,7 @@
 package br.ufba.dcc.mestrado.computacao.repository.base;
 
-import java.util.List;
+import org.hibernate.search.jpa.FullTextQuery;
+import org.hibernate.search.query.facet.FacetingRequest;
 
 import br.ufba.dcc.mestrado.computacao.entities.ohloh.project.OhLohProjectEntity;
 
@@ -8,5 +9,7 @@ public interface OhLohProjectRepository extends BaseRepository<Long, OhLohProjec
 
 	OhLohProjectEntity findByName(String name);
 	
-	List<OhLohProjectEntity> findAllByFullTextQuery(String query);
+	FullTextQuery findAllByFullTextQuery(String query);
+	
+	FacetingRequest createTagFacetingRequest();
 }

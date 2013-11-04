@@ -9,15 +9,17 @@ import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 
 import org.hibernate.search.jpa.FullTextEntityManager;
+import org.hibernate.search.jpa.FullTextQuery;
 import org.hibernate.search.jpa.Search;
 import org.hibernate.search.query.dsl.QueryBuilder;
+import org.hibernate.search.query.facet.FacetSortOrder;
+import org.hibernate.search.query.facet.FacetingRequest;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
-import br.ufba.dcc.mestrado.computacao.entities.ohloh.analysis.OhLohAnalysisEntity;
 import br.ufba.dcc.mestrado.computacao.entities.ohloh.project.OhLohProjectEntity;
-import br.ufba.dcc.mestrado.computacao.entities.ohloh.project.OhLohTagEntity;
 import br.ufba.dcc.mestrado.computacao.repository.base.OhLohProjectRepository;
+import br.ufba.dcc.mestrado.computacao.search.SearchFacetsEnum;
 import br.ufba.dcc.mestrado.computacao.search.SearchFieldsEnum;
 
 @Repository
@@ -65,15 +67,44 @@ public class OhLohProjectRepositoryImpl extends BaseRepositoryImpl<Long, OhLohPr
 		return projectEntity;
 	}
 	
-	@Transactional(readOnly = true)
-	public List<OhLohProjectEntity> findAllByFullTextQuery(String query) {
+	public FacetingRequest createTagFacetingRequest() {
 		FullTextEntityManager fullTextEntityManager = Search.getFullTextEntityManager(getEntityManager());
 		QueryBuilder queryBuilder = fullTextEntityManager
 				.getSearchFactory()
 				.buildQueryBuilder()
 				.forEntity(OhLohProjectEntity.class)
 				.get();
-
+		
+		FacetingRequest facetingRequest = queryBuilder
+				.facet()
+				.name("tagFacetRequest")
+				.onField(SearchFacetsEnum.tagFacet.facetName())
+				.discrete()
+				.orderedBy(FacetSortOrder.COUNT_ASC)
+				.includeZeroCounts(false)
+				.createFacetingRequest();
+		
+		return facetingRequest;
+	}
+	
+	@Transactional(readOnly = true)
+	public FullTextQuery findAllByFullTextQuery(String query) {
+		FullTextEntityManager fullTextEntityManager = Search.getFullTextEntityManager(getEntityManager());
+		QueryBuilder queryBuilder = fullTextEntityManager
+				.getSearchFactory()
+				.buildQueryBuilder()
+				.forEntity(OhLohProjectEntity.class)
+				.get();
+		
+		FacetingRequest facetingRequest = queryBuilder
+				.facet()
+				.name("tagFacetRequest")
+				.onField(SearchFacetsEnum.tagFacet.facetName())
+				.discrete()
+				.orderedBy(FacetSortOrder.COUNT_ASC)
+				.includeZeroCounts(false)
+				.createFacetingRequest();
+		
 		org.apache.lucene.search.Query luceneQuery = queryBuilder
 				.keyword()
 				.onField(SearchFieldsEnum.projectName.fieldName())
@@ -93,13 +124,13 @@ public class OhLohProjectRepositoryImpl extends BaseRepositoryImpl<Long, OhLohPr
 				.matching(query)
 				.createQuery();
 		
-		javax.persistence.Query jpaQuery = fullTextEntityManager.createFullTextQuery(
+		FullTextQuery fullTextQuery = fullTextEntityManager.createFullTextQuery(
 				luceneQuery, 
 				OhLohProjectEntity.class);
 		
-		List<OhLohProjectEntity> resultList = jpaQuery.getResultList();
 		
-		return resultList;
+		
+		return fullTextQuery;
 	}
 	
 }

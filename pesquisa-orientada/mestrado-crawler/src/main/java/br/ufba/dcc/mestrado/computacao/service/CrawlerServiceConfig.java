@@ -17,12 +17,14 @@ import br.ufba.dcc.mestrado.computacao.service.base.OhLohAnalysisService;
 import br.ufba.dcc.mestrado.computacao.service.base.OhLohLanguageService;
 import br.ufba.dcc.mestrado.computacao.service.base.OhLohProjectService;
 import br.ufba.dcc.mestrado.computacao.service.base.OhLohStackService;
+import br.ufba.dcc.mestrado.computacao.service.base.SearchService;
 import br.ufba.dcc.mestrado.computacao.service.impl.HibernateSearchIndexer;
 import br.ufba.dcc.mestrado.computacao.service.impl.OhLohAccountServiceImpl;
 import br.ufba.dcc.mestrado.computacao.service.impl.OhLohAnalysisServiceImpl;
 import br.ufba.dcc.mestrado.computacao.service.impl.OhLohLanguageServiceImpl;
 import br.ufba.dcc.mestrado.computacao.service.impl.OhLohProjectServiceImpl;
 import br.ufba.dcc.mestrado.computacao.service.impl.OhLohStackServiceImpl;
+import br.ufba.dcc.mestrado.computacao.service.impl.SearchServiceImpl;
 
 @Configuration
 @Import(CrawlerRepositoryConfig.class)
@@ -71,6 +73,11 @@ public class CrawlerServiceConfig {
 	@Bean
 	public Indexer indexer() {
 		return new HibernateSearchIndexer();
+	}
+	
+	@Bean
+	public SearchService searchService() {
+		return new SearchServiceImpl();
 	}
 
 }

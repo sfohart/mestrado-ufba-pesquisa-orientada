@@ -8,6 +8,7 @@ import javax.persistence.Table;
 
 import org.hibernate.search.annotations.Analyze;
 import org.hibernate.search.annotations.Field;
+import org.hibernate.search.annotations.Fields;
 import org.hibernate.search.annotations.Index;
 import org.hibernate.search.annotations.Store;
 
@@ -27,7 +28,10 @@ public class OhLohTagEntity implements BaseEntity<Long> {
 	@GeneratedValue
 	private Long id;
 	
-	@Field(index=Index.YES, analyze=Analyze.YES, store=Store.NO)
+	@Fields({
+			@Field(name = "name", index=Index.YES, analyze=Analyze.YES, store=Store.NO),
+			@Field(name = "tag_facet", analyze=Analyze.NO)
+	})
 	@Column(name = "name", unique = true, nullable = false)
 	private String name;
 
