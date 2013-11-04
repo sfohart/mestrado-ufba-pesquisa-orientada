@@ -29,7 +29,8 @@ public class IndexerRunner {
 			indexer.buildIndex();
 			
 			SearchResult searchResult = searchService.findAllProjects("pdf");
-			logger.info(String.format("%d Hits, %d facets", searchResult.getProjectList().size(), searchResult.getTagFacetsList().size() ));
+			
+			logger.info(String.format("%d Hits, %d facets", searchResult.getTotalResults(), searchResult.getTagFacetsList().size() ));
 			
 		} catch (InterruptedException e) {
 			e.printStackTrace();

@@ -1,7 +1,6 @@
 package br.ufba.dcc.mestrado.computacao.service.impl;
 
 import java.util.concurrent.ExecutionException;
-import java.util.concurrent.Future;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -31,7 +30,7 @@ public class HibernateSearchIndexer implements Indexer {
 
 	@Override
 	public void buildIndex() throws InterruptedException, ExecutionException {
-		FullTextEntityManager fullTextEntityManager = Search.getFullTextEntityManager(entityManager);
+		FullTextEntityManager fullTextEntityManager = Search.getFullTextEntityManager(getEntityManager());
 		MassIndexer massIndexer = fullTextEntityManager.createIndexer(
 				OhLohProjectEntity.class
 				);
@@ -43,19 +42,21 @@ public class HibernateSearchIndexer implements Indexer {
 			.cacheMode( CacheMode.NORMAL )
 			.threadsToLoadObjects( 5 )
 			.idFetchSize( 150 )
-			.threadsForSubsequentFetching( 20 )
+			.threadsForSubsequentFetching( 50 )
 			.progressMonitor( monitor ); //a MassIndexerProgressMonitor implementation
 		 
 		massIndexer.optimizeOnFinish(true);
 
-		Future<?> future = massIndexer.start();
+		/*Future<?> future = massIndexer.start();
 		while (! future.isDone()) {
 			Thread.sleep(10000);
 		}
 		
-		System.out.println("Canceling indexer thread: " + future.cancel(true));
+		System.out.println("Canceling indexer thread: " + future.cancel(true));*/
 		
+		massIndexer.startAndWait();
 		
+		getEntityManager().close();
 	}
 
 }

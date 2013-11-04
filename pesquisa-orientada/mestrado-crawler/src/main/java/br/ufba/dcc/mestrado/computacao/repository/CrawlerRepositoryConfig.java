@@ -62,7 +62,7 @@ public class CrawlerRepositoryConfig {
 		return dataSource; 
 	}
 	
-	@Bean
+	@Bean(destroyMethod="destroy")
 	public LocalContainerEntityManagerFactoryBean  entityManagerFactoryBean() {
 		
 		Properties connectionProperties = new Properties();

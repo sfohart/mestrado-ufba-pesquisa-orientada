@@ -5,6 +5,7 @@ import java.util.List;
 import org.hibernate.search.jpa.FullTextQuery;
 import org.hibernate.search.query.engine.spi.FacetManager;
 import org.hibernate.search.query.facet.Facet;
+import org.hibernate.search.query.facet.FacetSelection;
 import org.hibernate.search.query.facet.FacetingRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -26,14 +27,20 @@ public class SearchServiceImpl implements SearchService {
 	
 	
 	public class SearchResult {
+		
+		private Integer totalResults;
+		
 		private List<Facet> tagFacetsList;
 		private List<OhLohProjectEntity> projectList;
 		
-		private SearchResult(List<Facet> tagFacetsList,
-				List<OhLohProjectEntity> projectList) {
+		private SearchResult(
+				List<Facet> tagFacetsList,
+				List<OhLohProjectEntity> projectList,
+				Integer totalResults) {
 			super();
 			this.tagFacetsList = tagFacetsList;
 			this.projectList = projectList;
+			this.totalResults = totalResults;
 		}
 		
 		public List<Facet> getTagFacetsList() {
@@ -43,10 +50,38 @@ public class SearchServiceImpl implements SearchService {
 		public List<OhLohProjectEntity> getProjectList() {
 			return projectList;
 		}
+		
+		public Integer getTotalResults() {
+			return totalResults;
+		}
 	}
 	
 	@Transactional(readOnly = true)
 	public SearchResult findAllProjects(String query) {
+		return findAllProjects(query, null, null);
+	}
+	
+	@Transactional(readOnly = true)
+	public SearchResult findAllProjects(String query, Integer startPosition, Integer maxResult) {
+		return findAllProjects(query, startPosition, maxResult, (List<Facet>) null);
+	}
+	
+	@Transactional(readOnly = true)
+	public SearchResult findAllProjects(
+			String query, 
+			Integer startPosition, 
+			Integer maxResult,
+			List<Facet> selectedFacets) {
+		return findAllProjects(query, startPosition, maxResult, selectedFacets, null);
+	}
+	
+	@Transactional(readOnly = true)
+	public SearchResult findAllProjects(
+			String query, 
+			Integer startPosition, 
+			Integer maxResult,
+			List<Facet> selectedFacets,
+			List<Facet> desselectedFacets) {
 		FullTextQuery fullTextQuery = projectRepository.findAllByFullTextQuery(query);
 		
 		FacetManager facetManager = fullTextQuery.getFacetManager();
@@ -55,9 +90,30 @@ public class SearchServiceImpl implements SearchService {
 		facetManager.enableFaceting(facetingRequest);
 		
 		List<Facet> tagFacets = facetManager.getFacets(facetingRequest.getFacetingName());
-		List<OhLohProjectEntity> projectList = fullTextQuery.getResultList();
 		
-		SearchResult searchResult = new SearchResult(tagFacets, projectList);
+		if (startPosition != null) {
+			fullTextQuery.setFirstResult(startPosition);
+		}
+		
+		if (maxResult != null) {
+			fullTextQuery.setMaxResults(maxResult);
+		}
+		
+		if (selectedFacets != null && ! selectedFacets.isEmpty()) {
+			FacetSelection facetSelection = facetManager.getFacetGroup(facetingRequest.getFacetingName());
+			facetSelection.selectFacets((Facet[]) selectedFacets.toArray());
+		}
+		
+		if (desselectedFacets != null && ! desselectedFacets.isEmpty()) {
+			FacetSelection facetSelection = facetManager.getFacetGroup(facetingRequest.getFacetingName());
+			facetSelection.deselectFacets((Facet[]) desselectedFacets.toArray());
+		}
+				
+		Integer totalResults = fullTextQuery.getResultSize();
+		
+		List<OhLohProjectEntity> projectList = fullTextQuery.getResultList();		
+		
+		SearchResult searchResult = new SearchResult(tagFacets, projectList, totalResults);
 		return searchResult;
 	}
 
