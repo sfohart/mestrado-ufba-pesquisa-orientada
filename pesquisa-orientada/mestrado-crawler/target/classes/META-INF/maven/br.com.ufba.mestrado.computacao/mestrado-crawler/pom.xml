@@ -18,6 +18,12 @@
 		<hibernate.version>4.2.3.Final</hibernate.version>
 		<hibernate-jpa-2.0-api.version>1.0.1.Final</hibernate-jpa-2.0-api.version>
 		<postgresql.version>9.2-1003-jdbc4</postgresql.version>
+		
+		<hibernate-search.version>4.4.0.Final</hibernate-search.version>
+		
+		<!-- 
+		<lucene.version>4.5.1</lucene.version>
+		 -->
 	</properties>
 
 	<dependencies>
@@ -33,19 +39,49 @@
 			<groupId>org.hibernate</groupId>
 			<artifactId>hibernate-core</artifactId>
 			<version>${hibernate.version}</version>
-		</dependency>
-		
+		</dependency>		
 		<dependency>
 			<groupId>org.hibernate</groupId>
 			<artifactId>hibernate-entitymanager</artifactId>
 			<version>${hibernate.version}</version>
 		</dependency>
-		
 		<dependency>
 			<groupId>org.hibernate.javax.persistence</groupId>
 			<artifactId>hibernate-jpa-2.0-api</artifactId>
 			<version>${hibernate-jpa-2.0-api.version}</version>
 		</dependency>
+		
+		<!-- Hibernate Search -->
+		<dependency>
+			<groupId>org.hibernate</groupId>
+			<artifactId>hibernate-search</artifactId>
+			<version>${hibernate-search.version}</version>			
+		</dependency>
+		<dependency>
+			<groupId>org.hibernate</groupId>
+			<artifactId>hibernate-search-analyzers</artifactId>
+			<version>${hibernate-search.version}</version>			
+		</dependency>
+		<dependency>
+		    <groupId>org.hibernate</groupId>
+		    <artifactId>hibernate-search-infinispan</artifactId>
+		    <version>${hibernate-search.version}</version>
+		</dependency>
+		
+		<!-- Lucene -->
+		<!-- 
+		<dependency>
+			<groupId>org.apache.lucene</groupId>
+			<artifactId>lucene-core</artifactId>
+			<version>${lucene.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.lucene</groupId>
+			<artifactId>lucene-facet</artifactId>
+			<version>${lucene.version}</version>
+		</dependency>
+		 -->
+		
 	
 		<!-- RESTfulie -->
 		<dependency>
