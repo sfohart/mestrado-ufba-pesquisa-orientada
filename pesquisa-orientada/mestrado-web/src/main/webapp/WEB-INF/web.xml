@@ -4,6 +4,46 @@
 	xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd"
 	version="3.0">
 	<display-name>mestrado-web</display-name>
+
+	<!-- Bootstrap the root application context as usual using ContextLoaderListener -->
+	<listener>
+		<listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
+	</listener>
+
+	<listener>
+		<listener-class>org.springframework.web.context.request.RequestContextListener</listener-class>
+	</listener>
+
+	<listener>
+		<listener-class>org.springframework.web.util.Log4jConfigListener</listener-class>
+	</listener>
+
+	<filter>
+		<filter-name>requestContextFilter</filter-name>
+		<filter-class>org.springframework.web.filter.RequestContextFilter</filter-class>
+	</filter>
+	<filter-mapping>
+		<filter-name>requestContextFilter</filter-name>
+		<url-pattern>/*</url-pattern>
+	</filter-mapping>
+
+	<!-- Configure ContextLoaderListener to use AnnotationConfigWebApplicationContext 
+		instead of the default XmlWebApplicationContext -->
+	<context-param>
+		<param-name>contextClass</param-name>
+		<param-value>
+          org.springframework.web.context.support.AnnotationConfigWebApplicationContext
+      </param-value>
+	</context-param>
+
+	<!-- Configuration locations must consist of one or more comma- or space-delimited
+       fully-qualified @Configuration classes. Fully-qualified packages may also be
+       specified for component-scanning -->
+	<context-param>
+		<param-name>contextConfigLocation</param-name>
+		<param-value>br.com.ufba.mestrado.computacao.spring.WebAppConfig</param-value>
+	</context-param>
+	
 	<servlet>
 		<servlet-name>Faces Servlet</servlet-name>
 		<servlet-class>javax.faces.webapp.FacesServlet</servlet-class>
@@ -13,6 +53,8 @@
 		<servlet-name>Faces Servlet</servlet-name>
 		<url-pattern>*.jsf</url-pattern>
 	</servlet-mapping>
+	
+	
 	<welcome-file-list>
 	    <welcome-file>index.jsf</welcome-file>
 	</welcome-file-list>

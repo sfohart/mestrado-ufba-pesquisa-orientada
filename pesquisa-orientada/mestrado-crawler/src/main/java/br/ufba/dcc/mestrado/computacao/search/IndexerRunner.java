@@ -11,7 +11,7 @@ import org.springframework.context.annotation.AnnotationConfigApplicationContext
 
 import br.ufba.dcc.mestrado.computacao.service.base.Indexer;
 import br.ufba.dcc.mestrado.computacao.service.base.SearchService;
-import br.ufba.dcc.mestrado.computacao.service.impl.SearchServiceImpl.SearchResult;
+import br.ufba.dcc.mestrado.computacao.service.impl.SearchServiceImpl.SearchResponse;
 import br.ufba.dcc.mestrado.computacao.spring.CrawlerAppConfig;
 
 public class IndexerRunner {
@@ -28,7 +28,7 @@ public class IndexerRunner {
 		try {
 			indexer.buildIndex();
 			
-			SearchResult searchResult = searchService.findAllProjects("pdf");
+			SearchResponse searchResult = searchService.findAllProjects("pdf");
 			
 			logger.info(String.format("%d Hits, %d facets", searchResult.getTotalResults(), searchResult.getTagFacetsList().size() ));
 			

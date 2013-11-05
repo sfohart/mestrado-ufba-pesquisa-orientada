@@ -20,6 +20,16 @@
 			<groupId>org.apache.mahout</groupId>
 			<artifactId>mahout-core</artifactId>
 			<version>${mahout.version}</version>
+			<exclusions>
+				<exclusion>
+					<groupId>org.apache.lucene</groupId>
+					<artifactId>lucene-core</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>org.apache.lucene</groupId>
+					<artifactId>lucene-analyzers-common</artifactId>
+				</exclusion>
+			</exclusions>
 		</dependency>
 	
 		<!-- Mestrado Crawler -->

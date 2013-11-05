@@ -11,7 +11,6 @@
 
 	<properties>
 		<jsf.version>2.2.4</jsf.version>
-		
 	</properties>
 
 	<repositories>
@@ -20,11 +19,34 @@
 			<name>PrimeFaces Maven Repository</name>
 			<url>http://repository.primefaces.org</url>
 			<layout>default</layout>
-		</repository>		
+		</repository>
 	</repositories>
+	
+	
+	<build>
+	    <plugins>
+	        <plugin>
+			    <groupId>org.apache.maven.plugins</groupId>
+			    <artifactId>maven-war-plugin</artifactId>
+			    <version>2.4</version>
+	        </plugin>
+	    </plugins>
+	</build>
 
 	<dependencies>
+		<!-- Mestrado -->
+		<dependency>
+			<groupId>br.com.ufba.mestrado.computacao</groupId>
+			<artifactId>mestrado-crawler</artifactId>
+			<version>${project.version}</version>
+		</dependency>		
+		<dependency>
+			<groupId>br.com.ufba.mestrado.computacao</groupId>
+			<artifactId>mestrado-recommender</artifactId>
+			<version>${project.version}</version>
+		</dependency>
 
+		<!-- JSF -->
 		<dependency>
 			<groupId>org.primefaces</groupId>
 			<artifactId>primefaces</artifactId>
@@ -40,19 +62,24 @@
 			<artifactId>jsf-impl</artifactId>
 			<version>${jsf.version}</version>
 		</dependency>
-
-		<dependency>
-			<groupId>br.com.ufba.mestrado.computacao</groupId>
-			<artifactId>mestrado-crawler</artifactId>
-			<version>${project.version}</version>
-		</dependency>
-
-		
-
 		<dependency>
 			<groupId>com.sun.facelets</groupId>
 			<artifactId>jsf-facelets</artifactId>
 			<version>1.1.14</version>
+		</dependency>
+
+		<!-- SPRING FRAMEWORK -->
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-web</artifactId>
+			<version>${spring.version}</version>
+		</dependency>
+		
+		<!-- SPRING FRAMEWORK -->
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-webmvc</artifactId>
+			<version>${spring.version}</version>
 		</dependency>
 
 	</dependencies>

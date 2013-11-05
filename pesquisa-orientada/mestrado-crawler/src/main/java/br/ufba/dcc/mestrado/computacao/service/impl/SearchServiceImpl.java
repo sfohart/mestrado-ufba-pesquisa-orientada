@@ -25,15 +25,14 @@ public class SearchServiceImpl implements SearchService {
 	@Autowired
 	private OhLohProjectRepository projectRepository;
 	
-	
-	public class SearchResult {
+	public class SearchResponse {
 		
 		private Integer totalResults;
 		
 		private List<Facet> tagFacetsList;
 		private List<OhLohProjectEntity> projectList;
 		
-		private SearchResult(
+		private SearchResponse(
 				List<Facet> tagFacetsList,
 				List<OhLohProjectEntity> projectList,
 				Integer totalResults) {
@@ -57,17 +56,17 @@ public class SearchServiceImpl implements SearchService {
 	}
 	
 	@Transactional(readOnly = true)
-	public SearchResult findAllProjects(String query) {
+	public SearchResponse findAllProjects(String query) {
 		return findAllProjects(query, null, null);
 	}
 	
 	@Transactional(readOnly = true)
-	public SearchResult findAllProjects(String query, Integer startPosition, Integer maxResult) {
+	public SearchResponse findAllProjects(String query, Integer startPosition, Integer maxResult) {
 		return findAllProjects(query, startPosition, maxResult, (List<Facet>) null);
 	}
 	
 	@Transactional(readOnly = true)
-	public SearchResult findAllProjects(
+	public SearchResponse findAllProjects(
 			String query, 
 			Integer startPosition, 
 			Integer maxResult,
@@ -76,7 +75,7 @@ public class SearchServiceImpl implements SearchService {
 	}
 	
 	@Transactional(readOnly = true)
-	public SearchResult findAllProjects(
+	public SearchResponse findAllProjects(
 			String query, 
 			Integer startPosition, 
 			Integer maxResult,
@@ -113,7 +112,7 @@ public class SearchServiceImpl implements SearchService {
 		
 		List<OhLohProjectEntity> projectList = fullTextQuery.getResultList();		
 		
-		SearchResult searchResult = new SearchResult(tagFacets, projectList, totalResults);
+		SearchResponse searchResult = new SearchResponse(tagFacets, projectList, totalResults);
 		return searchResult;
 	}
 

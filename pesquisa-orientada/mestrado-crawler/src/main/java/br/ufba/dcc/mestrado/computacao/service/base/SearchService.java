@@ -5,16 +5,16 @@ import java.util.List;
 
 import org.hibernate.search.query.facet.Facet;
 
-import br.ufba.dcc.mestrado.computacao.service.impl.SearchServiceImpl.SearchResult;
+import br.ufba.dcc.mestrado.computacao.service.impl.SearchServiceImpl.SearchResponse;
 
 public interface SearchService extends Serializable {
 
-	SearchResult findAllProjects(String query);
+	SearchResponse findAllProjects(String query);
 	
-	SearchResult findAllProjects(String query, Integer startPosition, Integer maxResult);
+	SearchResponse findAllProjects(String query, Integer startPosition, Integer maxResult);
 	
-	SearchResult findAllProjects(String query, Integer startPosition, Integer maxResult, List<Facet> selectedFacets);
+	SearchResponse findAllProjects(String query, Integer startPosition, Integer maxResult, List<Facet> selectedFacets);
 	
-	SearchResult findAllProjects(String query, Integer startPosition, Integer maxResult, List<Facet> selectedFacets, List<Facet> desselectedFacets);
+	SearchResponse findAllProjects(String query, Integer startPosition, Integer maxResult, List<Facet> selectedFacets, List<Facet> desselectedFacets);
 	
 }

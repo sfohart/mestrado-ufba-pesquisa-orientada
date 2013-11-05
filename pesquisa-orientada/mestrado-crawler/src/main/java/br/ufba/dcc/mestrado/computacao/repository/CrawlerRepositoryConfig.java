@@ -77,11 +77,23 @@ public class CrawlerRepositoryConfig {
 		connectionProperties.put("hibernate.dialect", env.getProperty("hibernate.dialect"));
 		
 		//Hibernate Search
-		connectionProperties.put("hibernate.search.default.directory_provider", env.getProperty("hibernate.search.default.directory_provider"));
-		connectionProperties.put("hibernate.search.default.indexBase", env.getProperty("hibernate.search.default.indexBase"));
-		connectionProperties.put("hibernate.search.default.optimizer.operation_limit.max", env.getProperty("hibernate.search.default.optimizer.operation_limit.max"));
-		connectionProperties.put("hibernate.search.default.optimizer.transaction_limit.max", env.getProperty("hibernate.search.default.optimizer.transaction_limit.max"));
+		if (env.containsProperty("hibernate.search.default.directory_provider"))
+			connectionProperties.put("hibernate.search.default.directory_provider", env.getProperty("hibernate.search.default.directory_provider"));
 		
+		if (env.containsProperty("hibernate.search.default.indexBase"))
+			connectionProperties.put("hibernate.search.default.indexBase", env.getProperty("hibernate.search.default.indexBase"));
+		
+		if (env.containsProperty("hibernate.search.default.optimizer.operation_limit.max"))
+			connectionProperties.put("hibernate.search.default.optimizer.operation_limit.max", env.getProperty("hibernate.search.default.optimizer.operation_limit.max"));
+		
+		if (env.containsProperty("hibernate.search.default.optimizer.transaction_limit.max"))
+			connectionProperties.put("hibernate.search.default.optimizer.transaction_limit.max", env.getProperty("hibernate.search.default.optimizer.transaction_limit.max"));
+		
+		if (env.containsProperty("hibernate.search.lucene_version"))
+			connectionProperties.put("hibernate.search.lucene_version", env.getProperty("hibernate.search.lucene_version"));
+		
+		if  (env.containsProperty("hibernate.search.analyzer"))
+			connectionProperties.put("hibernate.search.analyzer", env.getProperty("hibernate.search.analyzer"));
 		
 		
 		LocalContainerEntityManagerFactoryBean  entityManagerFactoryBean = new LocalContainerEntityManagerFactoryBean();
