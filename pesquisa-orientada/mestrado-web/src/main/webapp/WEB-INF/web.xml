@@ -41,7 +41,7 @@
        specified for component-scanning -->
 	<context-param>
 		<param-name>contextConfigLocation</param-name>
-		<param-value>br.com.ufba.mestrado.computacao.spring.WebAppConfig</param-value>
+		<param-value>br.ufba.dcc.mestrado.computacao</param-value>
 	</context-param>
 	
 	<servlet>

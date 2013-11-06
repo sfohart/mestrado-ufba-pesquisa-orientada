@@ -1,22 +1,28 @@
-package br.com.ufba.mestrado.computacao.web;
+package br.ufba.dcc.mestrado.computacao.web;
+
+import java.io.Serializable;
 
 import javax.faces.bean.ManagedBean;
+import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
-import org.springframework.stereotype.Controller;
+import org.springframework.beans.factory.annotation.Qualifier;
 
 import br.ufba.dcc.mestrado.computacao.search.SearchRequest;
 import br.ufba.dcc.mestrado.computacao.service.base.SearchService;
 import br.ufba.dcc.mestrado.computacao.service.impl.SearchServiceImpl.SearchResponse;
 
-@Component
 @ManagedBean(name="mainMB")
 @ViewScoped
-public class MainManageBean {
+public class MainManageBean implements Serializable{
 	
-	@Autowired(required = true)
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -2856136549457564028L;
+
+	@ManagedProperty("#{searchService}")
 	private SearchService searchService;
 
 	private SearchRequest searchRequest;

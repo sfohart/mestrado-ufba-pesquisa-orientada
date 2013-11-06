@@ -13,9 +13,11 @@ import org.springframework.stereotype.Repository;
 import br.ufba.dcc.mestrado.computacao.entities.ohloh.project.OhLohTagEntity;
 import br.ufba.dcc.mestrado.computacao.repository.base.OhLohTagRepository;
 
-@Repository
+@Repository(OhLohTagRepositoryImpl.BEAN_NAME)
 public class OhLohTagRepositoryImpl extends BaseRepositoryImpl<Long, OhLohTagEntity>
 		implements OhLohTagRepository {
+	
+	public static final String BEAN_NAME =  "ohLohTagRepository";
 
 	/**
 	 * 

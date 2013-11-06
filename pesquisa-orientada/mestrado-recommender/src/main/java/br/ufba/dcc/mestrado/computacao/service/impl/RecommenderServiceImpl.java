@@ -39,6 +39,7 @@ import org.apache.mahout.cf.taste.recommender.MostSimilarItemsCandidateItemsStra
 import org.apache.mahout.cf.taste.recommender.Recommender;
 import org.apache.mahout.cf.taste.similarity.ItemSimilarity;
 import org.apache.mahout.cf.taste.similarity.UserSimilarity;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.google.common.util.concurrent.ThreadFactoryBuilder;
@@ -54,7 +55,7 @@ import br.ufba.dcc.mestrado.computacao.repository.base.RecommenderCriteriumRepos
 import br.ufba.dcc.mestrado.computacao.repository.base.UserRecommenderCriteriumRepository;
 import br.ufba.dcc.mestrado.computacao.service.base.RecommenderService;
 
-@Service
+@Service(RecommenderServiceImpl.BEAN_NAME)
 public class RecommenderServiceImpl implements RecommenderService {
 
 	private Logger logger = Logger.getLogger(RecommenderServiceImpl.class.getName());
@@ -64,8 +65,15 @@ public class RecommenderServiceImpl implements RecommenderService {
 	 */
 	private static final long serialVersionUID = -541832144049879214L;
 	
+	public static final String BEAN_NAME =  "recommenderService";
+	
+	@Autowired
 	private CriteriumPreferenceRepository criteriumPreferenceRepository;
+	
+	@Autowired
 	private RecommenderCriteriumRepository recommenderCriteriumRepository;
+	
+	@Autowired
 	private UserRecommenderCriteriumRepository userRecommenderCriteriumRepository;
 	
 	protected interface DataModelCallable extends Callable<DataModel> {
@@ -106,16 +114,6 @@ public class RecommenderServiceImpl implements RecommenderService {
 		public DataModel call() throws Exception {			
 			return buildUserDataModel(criteriumID);
 		}
-	}
-	
-	
-	public RecommenderServiceImpl(
-			CriteriumPreferenceRepository criteriumPreferenceRepository,
-			RecommenderCriteriumRepository recommenderCriteriumRepository,
-			UserRecommenderCriteriumRepository userRecommenderCriteriumRepository) {
-		this.criteriumPreferenceRepository = criteriumPreferenceRepository;
-		this.recommenderCriteriumRepository = recommenderCriteriumRepository;
-		this.userRecommenderCriteriumRepository = userRecommenderCriteriumRepository;
 	}
 
 	public CriteriumPreferenceRepository getCriteriumPreferenceRepository() {

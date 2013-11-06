@@ -16,6 +16,6 @@
 
 	<!-- Indica ao spring que os beans estao representados por anotacoes -->
 	<context:annotation-config />
-	<context:component-scan base-package="br.com.ufba.mestrado.computacao" />
+	<context:component-scan base-package="br.ufba.dcc.mestrado.computacao" />
 
 </beans>

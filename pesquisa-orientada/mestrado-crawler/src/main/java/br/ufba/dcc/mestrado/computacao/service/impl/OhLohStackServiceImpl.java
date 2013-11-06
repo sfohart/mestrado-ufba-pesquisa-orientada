@@ -23,10 +23,17 @@ import br.ufba.dcc.mestrado.computacao.repository.base.OhLohStackRepository;
 import br.ufba.dcc.mestrado.computacao.service.base.OhLohProjectService;
 import br.ufba.dcc.mestrado.computacao.service.base.OhLohStackService;
 
-@Service
+@Service(OhLohStackServiceImpl.BEAN_NAME)
 public class OhLohStackServiceImpl extends BaseOhLohServiceImpl<OhLohStackDTO, Long, OhLohStackEntity>
 		implements OhLohStackService {
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 2776699453019711606L;
+	
+	public static final String BEAN_NAME =  "ohLohStackService";
+
 	protected Logger logger = Logger.getLogger(OhLohStackServiceImpl.class.getName());
 
 	@Autowired

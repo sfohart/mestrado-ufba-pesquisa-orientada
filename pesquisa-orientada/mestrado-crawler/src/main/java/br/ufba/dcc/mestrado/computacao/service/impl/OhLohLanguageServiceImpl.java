@@ -11,9 +11,16 @@ import br.ufba.dcc.mestrado.computacao.ohloh.data.language.OhLohLanguageDTO;
 import br.ufba.dcc.mestrado.computacao.repository.base.OhLohLanguageRepository;
 import br.ufba.dcc.mestrado.computacao.service.base.OhLohLanguageService;
 
-@Service
+@Service(OhLohLanguageServiceImpl.BEAN_NAME)
 public class OhLohLanguageServiceImpl extends BaseOhLohServiceImpl<OhLohLanguageDTO, Long, OhLohLanguageEntity>
 		implements OhLohLanguageService {
+	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 2789509366943106982L;
+	
+	public static final String BEAN_NAME =  "ohLohLanguageService";
 	
 	private Logger logger = Logger.getLogger(OhLohLanguageServiceImpl.class.getName());
 

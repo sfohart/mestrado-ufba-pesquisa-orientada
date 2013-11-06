@@ -2,7 +2,7 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<parent>
-		<groupId>br.com.ufba.mestrado.computacao</groupId>
+		<groupId>br.ufba.dcc.mestrado.computacao</groupId>
 		<artifactId>pesquisa-orientada</artifactId>
 		<version>0.0.1-SNAPSHOT</version>
 	</parent>
@@ -34,14 +34,9 @@
 	</build>
 
 	<dependencies>
-		<!-- Mestrado -->
+		<!-- Mestrado -->				
 		<dependency>
-			<groupId>br.com.ufba.mestrado.computacao</groupId>
-			<artifactId>mestrado-crawler</artifactId>
-			<version>${project.version}</version>
-		</dependency>		
-		<dependency>
-			<groupId>br.com.ufba.mestrado.computacao</groupId>
+			<groupId>br.ufba.dcc.mestrado.computacao</groupId>
 			<artifactId>mestrado-recommender</artifactId>
 			<version>${project.version}</version>
 		</dependency>

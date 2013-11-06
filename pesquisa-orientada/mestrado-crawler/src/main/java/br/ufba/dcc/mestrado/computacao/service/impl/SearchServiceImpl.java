@@ -15,13 +15,16 @@ import br.ufba.dcc.mestrado.computacao.entities.ohloh.project.OhLohProjectEntity
 import br.ufba.dcc.mestrado.computacao.repository.base.OhLohProjectRepository;
 import br.ufba.dcc.mestrado.computacao.service.base.SearchService;
 
-@Service
+@Service(SearchServiceImpl.BEAN_NAME)
 public class SearchServiceImpl implements SearchService {
 	
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 3064132003293997500L;
+	
+	public static final String BEAN_NAME =  "searchService";
+	
 	@Autowired
 	private OhLohProjectRepository projectRepository;
 	

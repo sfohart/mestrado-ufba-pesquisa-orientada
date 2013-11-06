@@ -1,10 +1,16 @@
 package br.ufba.dcc.mestrado.computacao.search;
 
+import java.io.Serializable;
 import java.util.List;
 
 import org.hibernate.search.query.facet.Facet;
 
-public class SearchRequest {
+public class SearchRequest implements Serializable {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -7968326126442789673L;
+	
 	private String query;
 	private List<Facet> selectedFacets;
 	private List<Facet> deselectedFacets;

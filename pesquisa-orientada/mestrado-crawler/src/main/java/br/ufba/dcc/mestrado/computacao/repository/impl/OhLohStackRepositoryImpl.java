@@ -5,10 +5,12 @@ import org.springframework.stereotype.Repository;
 import br.ufba.dcc.mestrado.computacao.entities.ohloh.stack.OhLohStackEntity;
 import br.ufba.dcc.mestrado.computacao.repository.base.OhLohStackRepository;
 
-@Repository
+@Repository(OhLohStackRepositoryImpl.BEAN_NAME)
 public class OhLohStackRepositoryImpl extends
 		BaseRepositoryImpl<Long, OhLohStackEntity> implements OhLohStackRepository {
 
+	public static final String BEAN_NAME =  "ohLohStackRepository";
+	
 	/**
 	 * 
 	 */
