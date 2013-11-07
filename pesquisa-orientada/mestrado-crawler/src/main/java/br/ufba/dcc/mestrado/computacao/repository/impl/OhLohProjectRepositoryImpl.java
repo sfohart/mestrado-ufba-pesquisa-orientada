@@ -97,15 +97,6 @@ public class OhLohProjectRepositoryImpl
 				.forEntity(OhLohProjectEntity.class)
 				.get();
 		
-		FacetingRequest facetingRequest = queryBuilder
-				.facet()
-				.name("tagFacetRequest")
-				.onField(SearchFacetsEnum.tagFacet.facetName())
-				.discrete()
-				.orderedBy(FacetSortOrder.COUNT_ASC)
-				.includeZeroCounts(false)
-				.createFacetingRequest();
-		
 		org.apache.lucene.search.Query luceneQuery = queryBuilder
 				.keyword()
 				.onField(SearchFieldsEnum.projectName.fieldName())

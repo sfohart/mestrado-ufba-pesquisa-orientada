@@ -22,7 +22,7 @@ public class OhLohLanguageServiceImpl extends BaseOhLohServiceImpl<OhLohLanguage
 	
 	public static final String BEAN_NAME =  "ohLohLanguageService";
 	
-	private Logger logger = Logger.getLogger(OhLohLanguageServiceImpl.class.getName());
+	private static Logger logger = Logger.getLogger(OhLohLanguageServiceImpl.class);
 
 	@Autowired
 	public OhLohLanguageServiceImpl(OhLohLanguageRepository repository) {

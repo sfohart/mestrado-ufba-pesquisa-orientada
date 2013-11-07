@@ -58,7 +58,7 @@ import br.ufba.dcc.mestrado.computacao.service.base.RecommenderService;
 @Service(RecommenderServiceImpl.BEAN_NAME)
 public class RecommenderServiceImpl implements RecommenderService {
 
-	private Logger logger = Logger.getLogger(RecommenderServiceImpl.class.getName());
+	private static Logger logger = Logger.getLogger(RecommenderServiceImpl.class.getName());
 	
 	/**
 	 * 

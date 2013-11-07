@@ -180,6 +180,53 @@ nav ul li a:hover
         margin-left:75px;
 }
 
+#searchresult {
+	line-height: 25px;
+	font-family: 'Open Sans', sans-serif;
+	clear: both;
+	width: auto;
+	max-width: 900px;
+	margin: 0 auto;
+}
+
+#searchresult h2 {
+	font-size: 20px;
+	border-bottom: 1px solid #D6D0C1;
+	padding: 20px 0;
+	margin-bottom: 20px;
+}
+
+#searchresult article
+{
+        float:left;
+        width: auto;
+		max-width: 900px;
+        margin-right:45px;
+        font-size:14px;
+        padding-bottom: 45px;
+}
+
+#searchresult article h3
+{
+        font-family: 'Open Sans', sans-serif;
+        font-size:20px;
+        margin-bottom:10px;
+        margin-left:75px;
+}
+
+#searchresult article img
+{
+        float:left;
+}
+
+#searchresult article p
+{
+        line-height:25px;
+        font-family: 'Open Sans', sans-serif;
+        margin-left:75px;
+}
+
+
 #slider_content1, #slider_content2, #slider_content3
 {
         line-height: 25px;

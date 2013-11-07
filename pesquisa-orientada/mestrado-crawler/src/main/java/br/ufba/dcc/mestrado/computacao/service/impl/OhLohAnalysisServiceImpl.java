@@ -34,7 +34,7 @@ public class OhLohAnalysisServiceImpl extends BaseOhLohServiceImpl<OhLohAnalysis
 
 	public static final String BEAN_NAME =  "ohLohAnalysisService";
 	
-	private Logger logger = Logger.getLogger(OhLohAnalysisServiceImpl.class.getName());
+	private static Logger logger = Logger.getLogger(OhLohAnalysisServiceImpl.class.getName());
 	
 	@Autowired
 	public OhLohAnalysisServiceImpl(OhLohAnalysisRepository repository) {

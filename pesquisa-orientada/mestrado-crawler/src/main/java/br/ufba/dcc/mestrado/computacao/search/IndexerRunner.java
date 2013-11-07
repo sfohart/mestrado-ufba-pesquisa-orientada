@@ -2,8 +2,6 @@ package br.ufba.dcc.mestrado.computacao.search;
 
 import java.util.concurrent.ExecutionException;
 
-
-
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
@@ -11,12 +9,11 @@ import org.springframework.context.annotation.AnnotationConfigApplicationContext
 
 import br.ufba.dcc.mestrado.computacao.service.base.Indexer;
 import br.ufba.dcc.mestrado.computacao.service.base.SearchService;
-import br.ufba.dcc.mestrado.computacao.service.impl.SearchServiceImpl.SearchResponse;
 import br.ufba.dcc.mestrado.computacao.spring.CrawlerAppConfig;
 
 public class IndexerRunner {
 	
-	private Logger logger = Logger.getLogger(IndexerRunner.class);
+	private static Logger logger = Logger.getLogger(IndexerRunner.class);
 	
 	@Autowired
 	private Indexer indexer;

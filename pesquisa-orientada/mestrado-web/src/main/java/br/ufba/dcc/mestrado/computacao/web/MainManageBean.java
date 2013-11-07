@@ -4,17 +4,14 @@ import java.io.Serializable;
 
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
-import javax.faces.bean.ViewScoped;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
+import javax.faces.bean.SessionScoped;
 
 import br.ufba.dcc.mestrado.computacao.search.SearchRequest;
+import br.ufba.dcc.mestrado.computacao.search.SearchResponse;
 import br.ufba.dcc.mestrado.computacao.service.base.SearchService;
-import br.ufba.dcc.mestrado.computacao.service.impl.SearchServiceImpl.SearchResponse;
 
 @ManagedBean(name="mainMB")
-@ViewScoped
+@SessionScoped
 public class MainManageBean implements Serializable{
 	
 	/**

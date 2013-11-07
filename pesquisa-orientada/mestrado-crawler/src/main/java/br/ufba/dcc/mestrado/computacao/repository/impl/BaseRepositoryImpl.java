@@ -18,7 +18,7 @@ import br.ufba.dcc.mestrado.computacao.repository.base.BaseRepository;
 public class BaseRepositoryImpl<ID extends Number, E extends BaseEntity<ID>>
 	implements BaseRepository<ID, E> {
 	
-	private Logger logger = Logger.getLogger(this.getClass().getName());
+	private static Logger logger = Logger.getLogger(BaseRepositoryImpl.class);
 
 	/**
 	 * 

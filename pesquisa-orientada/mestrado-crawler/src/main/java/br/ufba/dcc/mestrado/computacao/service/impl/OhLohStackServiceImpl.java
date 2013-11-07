@@ -34,7 +34,7 @@ public class OhLohStackServiceImpl extends BaseOhLohServiceImpl<OhLohStackDTO, L
 	
 	public static final String BEAN_NAME =  "ohLohStackService";
 
-	protected Logger logger = Logger.getLogger(OhLohStackServiceImpl.class.getName());
+	protected static Logger logger = Logger.getLogger(OhLohStackServiceImpl.class.getName());
 
 	@Autowired
 	public OhLohStackServiceImpl(OhLohStackRepository repository) {

@@ -5,7 +5,7 @@ import java.util.List;
 
 import org.hibernate.search.query.facet.Facet;
 
-import br.ufba.dcc.mestrado.computacao.service.impl.SearchServiceImpl.SearchResponse;
+import br.ufba.dcc.mestrado.computacao.search.SearchResponse;
 
 public interface SearchService extends Serializable {
 
