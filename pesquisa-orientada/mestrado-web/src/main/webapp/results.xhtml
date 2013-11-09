@@ -1,13 +1,52 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
-"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:h="http://java.sun.com/jsf/html"
-	xmlns:ui="http://java.sun.com/jsf/facelets">
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://xmlns.jcp.org/jsf/passthrough">
 
 	<h:body>
 		<ui:composition template="layout/mainLayout.xhtml">
-			<ui:define name="titlePage">Teste</ui:define>
+			<ui:define name="titlePage">Resultado da Busca</ui:define>
+			
+			<ui:define name="content">
+			
+				<section class="container">
+					<ui:include src="layout/searchBar.xhtml"   />
+					
+					<div class="container-fluid">
+						<div class="row-fluid">
+							<!-- barra lateral de tags -->
+							<div class="span2 tag-tooltip">
+								<h6>Tags Selecionadas</h6>
+								<ul class="nav nav-pills nav-stacked">
+									<ui:repeat var="" value="#{mainMB.searchResponse.tagFacetsList}">
+									</ui:repeat>
+								</ul>
+								
+								
+								<h6>Tags Relacionadas</h6>
+								<ul class="nav nav-pills nav-stacked">
+									<ui:repeat var="" value="#{mainMB.searchResponse.tagFacetsList}">
+										<li>
+											<a href="#" title=""
+												data-toggle="tooltip" data-placement="right" data-original-title="filtar por teste">
+												<i class="icon-plus-sign"></i>
+												teste
+											</a>							
+										</li>
+									</ui:repeat>
+								</ul>
+							</div>
+						
+						</div>
+					</div>
+					
+				</section>
+			
+			</ui:define>
+			
+			
 		</ui:composition>
 	</h:body>
 </html>

@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!DOCTYPE html>
+<ui:composition  
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://xmlns.jcp.org/jsf/passthrough"
+	>
+	
+	<!-- Barra de navegação -->
+	<div class="navbar">
+		<div class="navbar-inner">
+			<a class="brand pull-left" href="#">Projetos</a>
+			<h:form class="navbar-search pull-right">
+				<h:inputText
+					value="#{mainMB.searchRequest.query}" 
+					styleClass="search-query" p:placeholder="Digite aqui" />
+					
+				<h:commandButton
+					value="Buscar"
+					style="margin: 0 0 0 10px"
+					styleClass="btn" 
+					action="#{mainMB.searchProjects}" />
+			</h:form>
+		</div>
+	</div>
+	
+</ui:composition>

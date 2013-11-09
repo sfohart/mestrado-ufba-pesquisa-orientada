@@ -1,13 +1,75 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
-"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:h="http://java.sun.com/jsf/html"
-	xmlns:ui="http://java.sun.com/jsf/facelets">
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://xmlns.jcp.org/jsf/passthrough"
+	>
 
 	<h:body>
 		<ui:composition template="layout/mainLayout.xhtml">
-			<ui:define name="titlePage">Teste</ui:define>
-		</ui:composition>
+			<ui:define name="titlePage">Sfohart</ui:define>
+			
+			<ui:define name="header">
+				<ui:include src="layout/indexHeader.xhtml" />
+			</ui:define>
+			
+			
+			<ui:define name="content">
+				<section class="container">
+					
+					<ui:include src="layout/indexJumbotron.xhtml"  />
+					
+					<div class="searchstart well">
+						<h:form styleClass="form-search" style="margin: 0 auto" >
+							<h:inputText
+								value="#{mainMB.searchRequest.query}"
+								p:placeholder="Digite o seu termo de busca aqui"																
+								style="height: 50px; font-size: large" 
+								styleClass="input-xxlarge search-query"  />
+
+							<h:commandButton
+								value="Buscar"
+								action="#{mainMB.searchProjects}"
+								style="height: 60px; font-size: large; margin-left: 10px"   
+								styleClass="btn btn-large" />
+						</h:form>						
+					</div>
+					
+					<hr/>
+					
+					<div class="row-fluid">
+						<div class="span4">
+							<h4>Busque projetos por palavras chave</h4>
+							<p class="text-justify">
+								Vale quase tudo. O nome do projeto, o tipo, a linguagem de programação em que
+								ele foi escrito...
+							</p>					
+						</div>
+						
+						<div class="span4">
+							<h4>Dê a sua opinião sobre cada projeto</h4>
+							<p class="text-justify">
+								Se você utiliza ou já utilizou um determinado projeto, opine sobre ele! Dê uma nota
+								para cada critério de qualidade relacionado a ele, e, se possível, descreva a sua experiência
+								com o software em questão.
+							</p>					
+						</div>
+						
+						<div class="span4">
+							<h4>Dê a sua opinião sobre cada projeto</h4>
+							<p class="text-justify">
+								Cras justo odio, dapibus ac facilisis in, egestas eget quam. 
+								Fusce dapibus, tellus ac cursus commodo, 
+								tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus.
+							</p>					
+						</div>
+					</div>
+					
+				</section>				
+			</ui:define>
+			
+		</ui:composition>		
 	</h:body>
 </html>

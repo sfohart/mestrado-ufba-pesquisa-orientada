@@ -1,0 +1,71 @@
+﻿header {
+	position:relative;
+	width:auto;
+	max-width:900px;
+	margin: 0 auto 20px auto;
+}
+
+
+header div a, header div a:hover {
+	text-decoration: none;
+}
+
+.logo-header  {  
+  margin: 0px !important;
+  
+}
+
+.jumbotron , .searchstart{
+	margin: 60px 0;
+	text-align: center;
+}
+.jumbotron h1 {
+	font-size: 72px;
+	line-height: 1;
+}
+.jumbotron .btn {
+	font-size: 21px;
+	padding: 14px 24px;
+}
+
+.text-justify {
+	text-align: justify;
+}
+
+
+div.bigstars div.rateit-range
+{
+    background: url(../img/star-white32.png);
+    height: 32px;
+}
+ 
+div.bigstars div.rateit-hover
+{
+    background: url(../img/star-gold32.png);
+}
+ 
+div.bigstars div.rateit-selected
+{
+    background: url(../img/star-red32.png);
+}
+ 
+div.bigstars div.rateit-reset
+{
+    background: url(../img/star-black32.png);
+    width: 32px;
+    height: 32px;
+}
+ 
+div.bigstars div.rateit-reset:hover
+{
+    background: url(../img/star-white32.png);
+}
+
+#copyright {
+	background: #1D1D1D;
+	height: 70px;
+	position: absolute;
+	bottom: 0;
+	left: 0;
+	width: 100%;
+}
