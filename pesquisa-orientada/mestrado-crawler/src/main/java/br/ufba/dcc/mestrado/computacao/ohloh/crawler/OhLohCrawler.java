@@ -1,8 +1,8 @@
 package br.ufba.dcc.mestrado.computacao.ohloh.crawler;
 
 import java.util.List;
+import java.util.logging.Logger;
 
-import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
@@ -33,12 +33,13 @@ import br.ufba.dcc.mestrado.computacao.service.base.OhLohProjectService;
 import br.ufba.dcc.mestrado.computacao.service.base.OhLohStackService;
 import br.ufba.dcc.mestrado.computacao.spring.CrawlerAppConfig;
 
+
 @Component
 public class OhLohCrawler {
 
 	private static final String OHLOH_PROJECT_SORT_BY_ID = "id";
 
-	public static Logger logger = Logger.getLogger(OhLohCrawler.class);
+	public static Logger logger = Logger.getLogger(OhLohCrawler.class.getName());
 	
 	@Autowired
 	private OhLohRestfulClient restfulClient;

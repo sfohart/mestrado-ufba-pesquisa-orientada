@@ -1,4 +1,4 @@
-package br.com.ufba.mestrado.computacao.service.basic;
+package br.ufba.dcc.mestrado.computacao.service.basic;
 
 import java.io.Serializable;
 

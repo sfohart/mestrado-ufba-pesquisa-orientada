@@ -55,7 +55,7 @@ import com.google.common.util.concurrent.ThreadFactoryBuilder;
  */
 public class MultiCriteriaRecommenderImpl implements MultiCriteriaRecommender {
 	
-	private Logger logger = Logger.getLogger(MultiCriteriaRecommenderImpl.class.getName());
+	private static Logger logger = Logger.getLogger(MultiCriteriaRecommenderImpl.class.getName());
 	
 	private Map<Long,Recommender> recommenderMap;	
 	private PreferenceAggregatorStrategy preferenceAggregatorStrategy;

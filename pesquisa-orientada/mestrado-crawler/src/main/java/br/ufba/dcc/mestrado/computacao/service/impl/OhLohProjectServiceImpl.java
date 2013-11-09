@@ -21,9 +21,17 @@ import br.ufba.dcc.mestrado.computacao.repository.base.OhLohTagRepository;
 import br.ufba.dcc.mestrado.computacao.service.base.OhLohAnalysisService;
 import br.ufba.dcc.mestrado.computacao.service.base.OhLohProjectService;
 
-@Service
+@Service(OhLohProjectServiceImpl.BEAN_NAME)
 public class OhLohProjectServiceImpl extends BaseOhLohServiceImpl<OhLohProjectDTO, Long, OhLohProjectEntity>
 		implements OhLohProjectService {
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -3493252321709174022L;
+	
+	
+	public static final String BEAN_NAME =  "ohLohProjectService";
 
 	@Autowired
 	public OhLohProjectServiceImpl(OhLohProjectRepository repository) {

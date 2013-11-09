@@ -8,7 +8,7 @@ import org.springframework.stereotype.Repository;
 import br.ufba.dcc.mestrado.computacao.entities.ohloh.OhLohCrawlerStackEntity;
 import br.ufba.dcc.mestrado.computacao.repository.base.OhLohCrawlerStackRepository;
 
-@Repository
+@Repository(OhLohCrawlerStackRepositoryImpl.BEAN_NAME)
 public class OhLohCrawlerStackRepositoryImpl extends BaseRepositoryImpl<Long, OhLohCrawlerStackEntity>
 	implements OhLohCrawlerStackRepository {
 
@@ -16,6 +16,8 @@ public class OhLohCrawlerStackRepositoryImpl extends BaseRepositoryImpl<Long, Oh
 	 * 
 	 */
 	private static final long serialVersionUID = 7801826722021443632L;
+	
+	public static final String BEAN_NAME =  "ohLohCrawlerStackRepository";
 
 	public OhLohCrawlerStackRepositoryImpl() {
 		super(OhLohCrawlerStackEntity.class);

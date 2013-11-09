@@ -23,11 +23,18 @@ import br.ufba.dcc.mestrado.computacao.repository.base.OhLohTagRepository;
 import br.ufba.dcc.mestrado.computacao.service.base.OhLohAnalysisService;
 import br.ufba.dcc.mestrado.computacao.service.base.OhLohLanguageService;
 
-@Service
+@Service(OhLohAnalysisServiceImpl.BEAN_NAME)
 public class OhLohAnalysisServiceImpl extends BaseOhLohServiceImpl<OhLohAnalysisDTO, Long, OhLohAnalysisEntity>
 		implements OhLohAnalysisService {
 
-	private Logger logger = Logger.getLogger(OhLohAnalysisServiceImpl.class.getName());
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 3582447874034562222L;
+
+	public static final String BEAN_NAME =  "ohLohAnalysisService";
+	
+	private static Logger logger = Logger.getLogger(OhLohAnalysisServiceImpl.class.getName());
 	
 	@Autowired
 	public OhLohAnalysisServiceImpl(OhLohAnalysisRepository repository) {

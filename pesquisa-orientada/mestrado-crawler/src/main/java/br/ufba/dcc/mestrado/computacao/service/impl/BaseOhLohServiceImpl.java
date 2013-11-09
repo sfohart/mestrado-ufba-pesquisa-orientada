@@ -9,6 +9,11 @@ import br.ufba.dcc.mestrado.computacao.util.ConverterHandler;
 public abstract class BaseOhLohServiceImpl<DTO extends OhLohResultDTO, ID extends Number, E extends BaseEntity<ID>>
 		implements BaseOhLohService<DTO, ID, E> {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 382951858584438559L;
+	
 	private Class<DTO> dtoClass;
 	private Class<E> entityClass;
 	

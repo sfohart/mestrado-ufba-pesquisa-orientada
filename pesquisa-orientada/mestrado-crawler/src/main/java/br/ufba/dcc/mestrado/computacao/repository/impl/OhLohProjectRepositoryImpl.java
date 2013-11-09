@@ -1,7 +1,5 @@
 package br.ufba.dcc.mestrado.computacao.repository.impl;
 
-import java.util.List;
-
 import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
@@ -22,14 +20,17 @@ import br.ufba.dcc.mestrado.computacao.repository.base.OhLohProjectRepository;
 import br.ufba.dcc.mestrado.computacao.search.SearchFacetsEnum;
 import br.ufba.dcc.mestrado.computacao.search.SearchFieldsEnum;
 
-@Repository
-public class OhLohProjectRepositoryImpl extends BaseRepositoryImpl<Long, OhLohProjectEntity>
+@Repository(OhLohProjectRepositoryImpl.BEAN_NAME)
+public class OhLohProjectRepositoryImpl 
+		extends BaseRepositoryImpl<Long, OhLohProjectEntity>
 		implements OhLohProjectRepository {
 
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 7801826722021443632L;
+	
+	public static final String BEAN_NAME =  "ohLohProjectRepository";
 
 	public OhLohProjectRepositoryImpl() {
 		super(OhLohProjectEntity.class);
@@ -95,15 +96,6 @@ public class OhLohProjectRepositoryImpl extends BaseRepositoryImpl<Long, OhLohPr
 				.buildQueryBuilder()
 				.forEntity(OhLohProjectEntity.class)
 				.get();
-		
-		FacetingRequest facetingRequest = queryBuilder
-				.facet()
-				.name("tagFacetRequest")
-				.onField(SearchFacetsEnum.tagFacet.facetName())
-				.discrete()
-				.orderedBy(FacetSortOrder.COUNT_ASC)
-				.includeZeroCounts(false)
-				.createFacetingRequest();
 		
 		org.apache.lucene.search.Query luceneQuery = queryBuilder
 				.keyword()

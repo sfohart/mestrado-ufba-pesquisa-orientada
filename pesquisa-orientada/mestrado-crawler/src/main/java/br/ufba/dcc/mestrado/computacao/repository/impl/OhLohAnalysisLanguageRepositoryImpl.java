@@ -5,7 +5,7 @@ import org.springframework.stereotype.Repository;
 import br.ufba.dcc.mestrado.computacao.entities.ohloh.analysis.OhLohAnalysisLanguageEntity;
 import br.ufba.dcc.mestrado.computacao.repository.base.OhLohAnalysisLanguageRepository;
 
-@Repository
+@Repository(OhLohAnalysisLanguageRepositoryImpl.BEAN_NAME)
 public class OhLohAnalysisLanguageRepositoryImpl extends BaseRepositoryImpl<Long, OhLohAnalysisLanguageEntity>
 		implements OhLohAnalysisLanguageRepository {
 
@@ -13,6 +13,8 @@ public class OhLohAnalysisLanguageRepositoryImpl extends BaseRepositoryImpl<Long
 	 * 
 	 */
 	private static final long serialVersionUID = 7801826722021443632L;
+	
+	public static final String BEAN_NAME =  "ohLohAnalysisLanguageRepository";
 
 	public OhLohAnalysisLanguageRepositoryImpl() {
 		super(OhLohAnalysisLanguageEntity.class);

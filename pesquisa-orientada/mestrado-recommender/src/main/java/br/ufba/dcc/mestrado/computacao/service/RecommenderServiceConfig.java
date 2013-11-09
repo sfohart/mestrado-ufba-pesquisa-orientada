@@ -27,10 +27,7 @@ public class RecommenderServiceConfig {
 	
 	@Bean
 	public RecommenderService recommenderService() {
-		return new RecommenderServiceImpl(
-				criteriumPreferenceRepository,
-				recommenderCriteriumRepository,
-				userRecommenderCriteriumRepository);
+		return new RecommenderServiceImpl();
 	}
 
 }

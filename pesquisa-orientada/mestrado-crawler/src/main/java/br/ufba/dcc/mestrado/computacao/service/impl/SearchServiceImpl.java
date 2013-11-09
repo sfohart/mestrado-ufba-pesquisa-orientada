@@ -13,47 +13,23 @@ import org.springframework.transaction.annotation.Transactional;
 
 import br.ufba.dcc.mestrado.computacao.entities.ohloh.project.OhLohProjectEntity;
 import br.ufba.dcc.mestrado.computacao.repository.base.OhLohProjectRepository;
+import br.ufba.dcc.mestrado.computacao.search.SearchResponse;
 import br.ufba.dcc.mestrado.computacao.service.base.SearchService;
 
-@Service
+@Service(SearchServiceImpl.BEAN_NAME)
 public class SearchServiceImpl implements SearchService {
 	
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 3064132003293997500L;
+	
+	public static final String BEAN_NAME =  "searchService";
+	
 	@Autowired
 	private OhLohProjectRepository projectRepository;
 	
-	public class SearchResponse {
-		
-		private Integer totalResults;
-		
-		private List<Facet> tagFacetsList;
-		private List<OhLohProjectEntity> projectList;
-		
-		private SearchResponse(
-				List<Facet> tagFacetsList,
-				List<OhLohProjectEntity> projectList,
-				Integer totalResults) {
-			super();
-			this.tagFacetsList = tagFacetsList;
-			this.projectList = projectList;
-			this.totalResults = totalResults;
-		}
-		
-		public List<Facet> getTagFacetsList() {
-			return tagFacetsList;
-		}
-		
-		public List<OhLohProjectEntity> getProjectList() {
-			return projectList;
-		}
-		
-		public Integer getTotalResults() {
-			return totalResults;
-		}
-	}
+	
 	
 	@Transactional(readOnly = true)
 	public SearchResponse findAllProjects(String query) {
