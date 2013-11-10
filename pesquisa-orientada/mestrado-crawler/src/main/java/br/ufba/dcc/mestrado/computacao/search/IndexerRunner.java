@@ -25,7 +25,10 @@ public class IndexerRunner {
 		try {
 			indexer.buildIndex();
 			
-			SearchResponse searchResult = searchService.findAllProjects("pdf");
+			SearchRequest searchRequest = new SearchRequest();
+			searchRequest.setQuery("pdf");
+			
+			SearchResponse searchResult = searchService.findAllProjects(searchRequest);
 			
 			logger.info(String.format("%d Hits, %d facets", searchResult.getTotalResults(), searchResult.getTagFacetsList().size() ));
 			

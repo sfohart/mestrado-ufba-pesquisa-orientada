@@ -12,7 +12,7 @@
 	<div class="navbar">
 		<div class="navbar-inner">
 			<a class="brand pull-left" href="#">Projetos</a>
-			<h:form class="navbar-search pull-right">
+			<div class="navbar-search pull-right">
 				<h:inputText
 					value="#{mainMB.searchRequest.query}" 
 					styleClass="search-query" p:placeholder="Digite aqui" />
@@ -21,8 +21,9 @@
 					value="Buscar"
 					style="margin: 0 0 0 10px"
 					styleClass="btn" 
-					action="#{mainMB.searchProjects}" />
-			</h:form>
+					actionListener="#{mainMB.searchProjects}"  >
+				</h:commandButton>
+			</div>
 		</div>
 	</div>
 	

@@ -98,7 +98,7 @@ public class OhLohProjectEntity implements BaseEntity<Long> {
 	@IndexedEmbedded
 	private List<OhLohLicenseEntity> ohLohLicenses;
 
-	@ManyToMany(cascade=CascadeType.ALL)
+	@ManyToMany(cascade=CascadeType.ALL, fetch=FetchType.EAGER)
 	@IndexedEmbedded
 	private List<OhLohTagEntity> ohLohTags;
 	

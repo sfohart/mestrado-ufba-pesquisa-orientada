@@ -1,5 +1,7 @@
 package br.ufba.dcc.mestrado.computacao.service.impl;
 
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 import org.hibernate.search.jpa.FullTextQuery;
@@ -13,6 +15,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import br.ufba.dcc.mestrado.computacao.entities.ohloh.project.OhLohProjectEntity;
 import br.ufba.dcc.mestrado.computacao.repository.base.OhLohProjectRepository;
+import br.ufba.dcc.mestrado.computacao.search.SearchRequest;
 import br.ufba.dcc.mestrado.computacao.search.SearchResponse;
 import br.ufba.dcc.mestrado.computacao.service.base.SearchService;
 
@@ -31,64 +34,64 @@ public class SearchServiceImpl implements SearchService {
 	
 	
 	
-	@Transactional(readOnly = true)
-	public SearchResponse findAllProjects(String query) {
-		return findAllProjects(query, null, null);
-	}
+	
 	
 	@Transactional(readOnly = true)
-	public SearchResponse findAllProjects(String query, Integer startPosition, Integer maxResult) {
-		return findAllProjects(query, startPosition, maxResult, (List<Facet>) null);
-	}
-	
-	@Transactional(readOnly = true)
-	public SearchResponse findAllProjects(
-			String query, 
-			Integer startPosition, 
-			Integer maxResult,
-			List<Facet> selectedFacets) {
-		return findAllProjects(query, startPosition, maxResult, selectedFacets, null);
-	}
-	
-	@Transactional(readOnly = true)
-	public SearchResponse findAllProjects(
-			String query, 
-			Integer startPosition, 
-			Integer maxResult,
-			List<Facet> selectedFacets,
-			List<Facet> desselectedFacets) {
-		FullTextQuery fullTextQuery = projectRepository.findAllByFullTextQuery(query);
+	public SearchResponse findAllProjects(SearchRequest searchRequest) {
+		SearchResponse searchResult =  null;
 		
-		FacetManager facetManager = fullTextQuery.getFacetManager();
-		
-		FacetingRequest facetingRequest = projectRepository.createTagFacetingRequest();
-		facetManager.enableFaceting(facetingRequest);
-		
-		List<Facet> tagFacets = facetManager.getFacets(facetingRequest.getFacetingName());
-		
-		if (startPosition != null) {
-			fullTextQuery.setFirstResult(startPosition);
+		if (searchRequest != null && searchRequest.getQuery() != null) {
+			FullTextQuery fullTextQuery = projectRepository.findAllByFullTextQuery(searchRequest.getQuery());
+			
+			FacetManager facetManager = fullTextQuery.getFacetManager();
+			
+			FacetingRequest facetingRequest = projectRepository.createTagFacetingRequest();
+			facetManager.enableFaceting(facetingRequest);
+			
+			List<Facet> tagFacets = facetManager.getFacets(facetingRequest.getFacetingName());
+			
+			Comparator<Facet> inverseComparator = new Comparator<Facet>() {
+				@Override
+				public int compare(Facet facet1, Facet facet2) {
+					int result = 0;
+					
+					if (facet1.getCount() > facet2.getCount()) {
+						result = -1;
+					} else if (facet2.getCount() > facet1.getCount()) {
+						return 1;
+					}
+					
+					return result;
+				}
+			};
+			
+			Collections.sort(tagFacets, inverseComparator);
+			
+			if (searchRequest.getStartPosition() != null && searchRequest.getStartPosition() > 0) {
+				fullTextQuery.setFirstResult(searchRequest.getStartPosition());
+			}
+			
+			if (searchRequest.getMaxResult() != null && searchRequest.getMaxResult() > 0) {
+				fullTextQuery.setMaxResults(searchRequest.getMaxResult());
+			}
+			
+			if (searchRequest.getSelectedFacets() != null && ! searchRequest.getSelectedFacets().isEmpty()) {
+				FacetSelection facetSelection = facetManager.getFacetGroup(facetingRequest.getFacetingName());
+				facetSelection.selectFacets(searchRequest.getSelectedFacets().toArray(new Facet[0]));
+			}
+			
+			if (searchRequest.getDeselectedFacets() != null && ! searchRequest.getDeselectedFacets().isEmpty()) {
+				FacetSelection facetSelection = facetManager.getFacetGroup(facetingRequest.getFacetingName());
+				facetSelection.deselectFacets(searchRequest.getDeselectedFacets().toArray(new Facet[0]));
+			}
+			
+			Integer totalResults = fullTextQuery.getResultSize();
+			
+			List<OhLohProjectEntity> projectList = fullTextQuery.getResultList();		
+			
+			searchResult = new SearchResponse(tagFacets, projectList, totalResults);
 		}
 		
-		if (maxResult != null) {
-			fullTextQuery.setMaxResults(maxResult);
-		}
-		
-		if (selectedFacets != null && ! selectedFacets.isEmpty()) {
-			FacetSelection facetSelection = facetManager.getFacetGroup(facetingRequest.getFacetingName());
-			facetSelection.selectFacets((Facet[]) selectedFacets.toArray());
-		}
-		
-		if (desselectedFacets != null && ! desselectedFacets.isEmpty()) {
-			FacetSelection facetSelection = facetManager.getFacetGroup(facetingRequest.getFacetingName());
-			facetSelection.deselectFacets((Facet[]) desselectedFacets.toArray());
-		}
-				
-		Integer totalResults = fullTextQuery.getResultSize();
-		
-		List<OhLohProjectEntity> projectList = fullTextQuery.getResultList();		
-		
-		SearchResponse searchResult = new SearchResponse(tagFacets, projectList, totalResults);
 		return searchResult;
 	}
 

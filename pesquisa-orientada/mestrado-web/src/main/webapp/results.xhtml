@@ -3,6 +3,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:p="http://xmlns.jcp.org/jsf/passthrough">
 
 	<h:body>
@@ -12,38 +13,135 @@
 			<ui:define name="content">
 			
 				<section class="container">
-					<ui:include src="layout/searchBar.xhtml"   />
-					
-					<div class="container-fluid">
-						<div class="row-fluid">
-							<!-- barra lateral de tags -->
-							<div class="span2 tag-tooltip">
-								<h6>Tags Selecionadas</h6>
-								<ul class="nav nav-pills nav-stacked">
-									<ui:repeat var="" value="#{mainMB.searchResponse.tagFacetsList}">
-									</ui:repeat>
-								</ul>
-								
-								
-								<h6>Tags Relacionadas</h6>
-								<ul class="nav nav-pills nav-stacked">
-									<ui:repeat var="" value="#{mainMB.searchResponse.tagFacetsList}">
-										<li>
-											<a href="#" title=""
-												data-toggle="tooltip" data-placement="right" data-original-title="filtar por teste">
-												<i class="icon-plus-sign"></i>
-												teste
-											</a>							
-										</li>
-									</ui:repeat>
-								</ul>
-							</div>
+					<h:form>
+						<ui:include src="layout/searchBar.xhtml"   />
 						
+						<div class="container-fluid">
+							<div class="row-fluid">
+								
+								<!-- barra lateral de tags -->
+								<h:panelGroup id="tagSideBar" layout="block" styleClass="span2 tag-tooltip" >
+									<h6>Tags Selecionadas</h6>
+									<ul class="nav nav-pills nav-stacked">
+										<ui:repeat var="selectedFacet" value="#{mainMB.searchRequest.selectedFacets}">
+											<li class="active">
+												<h:commandLink
+													actionListener="#{mainMB.removeFacetsFromFilter}"
+													p:data-toggle="tooltip" 
+													p:data-placement="right" 
+													p:data-original-title="parar de filtar por #{selectedFacet.value}">
+													
+													<f:param  name="facetValue" value="#{selectedFacet.value}" />
+													<i class="icon-minus-sign"></i>
+													<h:outputText value=" #{selectedFacet.value} (#{selectedFacet.count})" />
+													
+												</h:commandLink>												
+											</li>
+										</ui:repeat>
+									</ul>
+									
+									
+									<h6>Tags Relacionadas</h6>
+									<ul class="nav nav-pills nav-stacked">
+										<ui:repeat var="unselectedFacet" value="#{mainMB.searchResponse.tagFacetsList}">
+											<li>
+												<h:commandLink
+													actionListener="#{mainMB.addFacetsToFilter}"
+													p:data-toggle="tooltip" 
+													p:data-placement="right" 
+													p:data-original-title="filtar por #{unselectedFacet.value}">
+													
+													<f:param  name="facetValue" value="#{unselectedFacet.value}" />
+													<i class="icon-plus-sign"></i>
+													<h:outputText value=" #{unselectedFacet.value} (#{unselectedFacet.count})" />
+															
+												</h:commandLink>
+											</li>
+										</ui:repeat>
+									</ul>
+								</h:panelGroup>
+								
+								<h:panelGroup id="searchResult" layout="block" styleClass="span10">
+									<ul class="breadcrumb">
+										<li>Exibindo x  de y resultados</li>
+									</ul>
+								
+									<section>
+										<ul class="media-list">
+											<ui:repeat var="project" value="#{mainMB.searchResponse.projectList}">
+												<li class="media well">
+
+													<h:outputLink>
+														<h4><h:outputText value="#{project.name}"  /></h4>
+													</h:outputLink>
+													
+													<h:outputLink styleClass="pull-left">
+														<img class="media-object" data-src="holder.js/64x64" src="img/no_logo.png" />
+													</h:outputLink>
+													
+													<div class="media-body">
+														<p class="expander">
+															<h:outputText value="#{project.description}" />
+														</p>
+														
+														<div class="tags">
+															<span class="icon-tags"></span>
+															<ui:repeat var="tag" value="#{project.ohLohTags}">
+																<span class="label"><h:outputText value="#{tag.name}" /> </span>
+															</ui:repeat>
+														</div>
+													</div>
+										
+												</li>
+											</ui:repeat>
+										</ul>
+									</section>
+								</h:panelGroup>
+								
+								<!-- Paginação -->
+								<h:panelGroup
+									rendered="#{mainMB.searchResponse.totalResults > 10}" 
+									id="pagination" layout="block" 
+									styleClass="pagination pagination-centered">
+									<ul>
+										<li class="disabled">
+											<h:commandLink actionListener="#{mainMB.searchProjects}"  >
+												<f:param  name="page" value="first" />
+												«
+											</h:commandLink>
+										</li>
+										
+										
+										<li class="active">
+											<a href="#?page=1">1</a>
+										</li>
+										<li>
+											<a href="#?page=2">2</a></li>
+										<li><a href="#?page=3">3</a></li>
+										<li><a href="#?page=4">4</a></li>
+										<li><a href="#?page=5">5</a></li>
+										
+										<li class="disabled">
+											<h:commandLink actionListener="#{mainMB.searchProjects}">
+												<f:param  name="page" value="last" />
+												»												
+											</h:commandLink>
+										</li>										
+									</ul>
+								</h:panelGroup>
+														
+							</div>
 						</div>
-					</div>
-					
+					</h:form>
 				</section>
-			
+				
+				<!-- tooltip das tags -->
+				<script>
+					$('.tag-tooltip').tooltip({
+						selector: "a[data-toggle=tooltip]"
+					})
+				</script>
+				
 			</ui:define>
 		</ui:composition>
 	</h:body>

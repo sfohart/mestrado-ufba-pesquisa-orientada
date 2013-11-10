@@ -37,6 +37,15 @@
 		<ui:insert name="footer">
 			<ui:include src="footer.xhtml" />
 		</ui:insert>
+		
+		<!-- leia mais para a descricao do projeto -->
+		<script>
+			$('.expander').expander({
+				slicePoint: 300,
+				expandText: '[Leia mais]',
+				userCollapseText: '[Esconder]'
+			});
+		</script>
 	
 	</h:body>
 

@@ -1,6 +1,7 @@
 package br.ufba.dcc.mestrado.computacao.search;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.hibernate.search.query.facet.Facet;
@@ -14,6 +15,16 @@ public class SearchRequest implements Serializable {
 	private String query;
 	private List<Facet> selectedFacets;
 	private List<Facet> deselectedFacets;
+	
+	private Integer startPosition; 
+	private Integer maxResult;
+	
+	public SearchRequest() {
+		this.selectedFacets = new ArrayList<>();
+		this.deselectedFacets = new ArrayList<>();
+		this.startPosition = 0;
+		this.maxResult = 10;
+	}
 	
 	public String getQuery() {
 		return query;
@@ -38,4 +49,21 @@ public class SearchRequest implements Serializable {
 	public void setDeselectedFacets(List<Facet> deselectedFacets) {
 		this.deselectedFacets = deselectedFacets;
 	}
+
+	public Integer getStartPosition() {
+		return startPosition;
+	}
+
+	public void setStartPosition(Integer startPosition) {
+		this.startPosition = startPosition;
+	}
+
+	public Integer getMaxResult() {
+		return maxResult;
+	}
+
+	public void setMaxResult(Integer maxResult) {
+		this.maxResult = maxResult;
+	}
+	
 }

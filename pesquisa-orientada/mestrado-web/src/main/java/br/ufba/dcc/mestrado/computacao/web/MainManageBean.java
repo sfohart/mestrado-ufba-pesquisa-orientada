@@ -1,10 +1,15 @@
 package br.ufba.dcc.mestrado.computacao.web;
 
 import java.io.Serializable;
+import java.util.Map;
 
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
+import javax.faces.context.FacesContext;
+import javax.faces.event.ActionEvent;
+
+import org.hibernate.search.query.facet.Facet;
 
 import br.ufba.dcc.mestrado.computacao.search.SearchRequest;
 import br.ufba.dcc.mestrado.computacao.search.SearchResponse;
@@ -49,12 +54,63 @@ public class MainManageBean implements Serializable{
 		return searchResponse;
 	}
 	
-	public String searchProjects() {
-		this.searchResponse = searchService.findAllProjects(getSearchRequest().getQuery());
-		
-		return "results?faces-redirect=true";
+	public void searchProjects(ActionEvent event) {
+		this.searchResponse = getSearchService().findAllProjects(getSearchRequest());
 	}
 	
-	
+	public void removeFacetsFromFilter(ActionEvent event) {
+		Map<String, String> params = 
+				FacesContext
+					.getCurrentInstance()
+					.getExternalContext()
+					.getRequestParameterMap();
+		
+		String facetValue = params.get("facetValue");
+		
+		if (getSearchRequest() != null && getSearchRequest().getSelectedFacets() != null) {
+			Facet deselectedFacet = null;
+			for (Facet facet : getSearchRequest().getSelectedFacets()) {
+				if (facet.getValue().equals(facetValue)) {
+					deselectedFacet = facet;
+					break;
+				}
+			}
+			
+			if (deselectedFacet != null) {
+				getSearchRequest().getSelectedFacets().remove(deselectedFacet);
+				getSearchRequest().getDeselectedFacets().add(deselectedFacet);
+			}
+		}
+		
+		searchProjects(event);
+	}
+
+	public void addFacetsToFilter(ActionEvent event) {
+		Map<String, String> params = 
+				FacesContext
+					.getCurrentInstance()
+					.getExternalContext()
+					.getRequestParameterMap();
+		
+		String facetValue = params.get("facetValue");
+		
+		if (getSearchResponse() != null && getSearchResponse().getTagFacetsList() != null) {
+			Facet selectedFacet = null;
+			for (Facet facet : getSearchResponse().getTagFacetsList()) {
+				if (facet.getValue().equals(facetValue)) {
+					selectedFacet = facet;
+					break;
+				}
+			}
+			
+			if (selectedFacet != null) {
+				getSearchRequest().getSelectedFacets().add(selectedFacet);
+				getSearchResponse().getTagFacetsList().remove(selectedFacet);
+			}
+			
+		}
+		
+		searchProjects(event);
+	}
 	
 }
