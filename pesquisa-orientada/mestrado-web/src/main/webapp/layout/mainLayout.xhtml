@@ -15,17 +15,19 @@
 		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></meta>
 		<meta name="viewport" content="width=device-width, initial-scale=1.0"></meta>
 		
-		<link href="css/main.css" rel="stylesheet" media="screen"></link>
-		<link href="css/bootstrap.min.css" rel="stylesheet" media="screen"></link>		
+		<h:outputStylesheet library="default" name="css/main.css" />
+		<h:outputStylesheet library="default" name="css/bootstrap.css" />
 		
+		<h:outputScript library="default" name="js/jquery-1.10.2.js" />
+		<h:outputScript library="default" name="js/bootstrap.min.js" />
+		<h:outputScript library="default" name="js/holder.js" />
+		<h:outputScript library="default" name="js/jquery.expander.min.js" />
+		<h:outputScript library="default" name="js/bootstrap-paginator.min.js" />
 		
 	</h:head>
 
 	<h:body>
-		<script src="js/jquery-1.10.2.js"></script>
-		<script src="js/bootstrap.min.js"></script>
-		<script src="js/holder.js"></script>
-		<script src="js/jquery.expander.min.js"></script>
+		
 	
 		<ui:insert name="header">
 			<ui:include src="mainHeader.xhtml" />

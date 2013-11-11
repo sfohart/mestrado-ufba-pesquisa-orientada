@@ -1,4 +1,4 @@
-package br.ufba.dcc.mestrado.computacao.web;
+package br.ufba.dcc.mestrado.computacao.web.managedbean;
 
 import java.io.Serializable;
 import java.util.Map;
@@ -80,6 +80,10 @@ public class MainManageBean implements Serializable{
 		getSearchRequest().setStartPosition(startPosition);
 		
 		this.searchResponse = getSearchService().findAllProjects(getSearchRequest());
+		
+		
+		getSearchRequest().getDeselectedFacets().addAll(getSearchResponse().getTagFacetsList());
+		getSearchRequest().getDeselectedFacets().removeAll(getSearchRequest().getSelectedFacets());
 	}
 	
 	public void removeFacetsFromFilter(ActionEvent event) {
@@ -101,8 +105,11 @@ public class MainManageBean implements Serializable{
 			}
 			
 			if (deselectedFacet != null) {
+				if (! getSearchRequest().getDeselectedFacets().contains(deselectedFacet)) {
+					getSearchRequest().getDeselectedFacets().add(deselectedFacet);
+				}
+				
 				getSearchRequest().getSelectedFacets().remove(deselectedFacet);
-				getSearchRequest().getDeselectedFacets().add(deselectedFacet);
 			}
 		}
 		
@@ -128,8 +135,11 @@ public class MainManageBean implements Serializable{
 			}
 			
 			if (selectedFacet != null) {
-				getSearchRequest().getSelectedFacets().add(selectedFacet);
-				getSearchResponse().getTagFacetsList().remove(selectedFacet);
+				if (! getSearchRequest().getSelectedFacets().contains(selectedFacet)) {
+					getSearchRequest().getSelectedFacets().add(selectedFacet);
+				}
+				
+				getSearchRequest().getDeselectedFacets().remove(selectedFacet);
 			}
 			
 		}

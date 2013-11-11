@@ -1,4 +1,4 @@
-package br.ufba.dcc.mestrado.computacao.web;
+package br.ufba.dcc.mestrado.computacao.web.managedbean;
 
 import java.io.Serializable;
 

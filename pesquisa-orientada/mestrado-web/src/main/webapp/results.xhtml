@@ -43,7 +43,7 @@
 									
 									<h6>Tags Relacionadas</h6>
 									<ul class="nav nav-pills nav-stacked">
-										<ui:repeat var="unselectedFacet" value="#{mainMB.searchResponse.tagFacetsList}">
+										<ui:repeat var="unselectedFacet" value="#{mainMB.searchRequest.deselectedFacets}">
 											<li>
 												<h:commandLink
 													actionListener="#{mainMB.addFacetsToFilter}"
