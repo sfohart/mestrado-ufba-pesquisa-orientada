@@ -55,6 +55,30 @@ public class MainManageBean implements Serializable{
 	}
 	
 	public void searchProjects(ActionEvent event) {
+		Map<String, String> params = 
+				FacesContext
+					.getCurrentInstance()
+					.getExternalContext()
+					.getRequestParameterMap();
+		
+		String pageParam = params.get("page");
+		
+		Integer startPosition = null;
+		
+		if ("first".equals(pageParam)) {
+			startPosition = 0;
+		} else if ("last".equals(pageParam)) {
+			Integer page = getSearchResponse().getTotalResults() / getSearchRequest().getMaxResult();
+			startPosition = getSearchRequest().getMaxResult() * page;
+		} else if (pageParam != null){
+			Integer page = Integer.parseInt(pageParam);
+			if (page != null && page > 0) {
+				startPosition = getSearchRequest().getMaxResult() * page;
+			}
+		}
+		
+		getSearchRequest().setStartPosition(startPosition);
+		
 		this.searchResponse = getSearchService().findAllProjects(getSearchRequest());
 	}
 	

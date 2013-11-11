@@ -62,25 +62,41 @@
 								</h:panelGroup>
 								
 								<h:panelGroup id="searchResult" layout="block" styleClass="span10">
-									<ul class="breadcrumb">
-										<li>Exibindo x  de y resultados</li>
-									</ul>
+									
+									<h:panelGroup layout="block" id="breadcrump" rendered="#{mainMB.searchResponse.totalResults > 0}">
+										<!-- Exibindo quantidade de resultados -->
+										<ul class="breadcrumb">
+											<li>
+												Exibindo 
+													<h:outputText value="#{mainMB.searchRequest.startPosition + 1}"  />  
+												a 
+													<h:outputText value="#{
+														mainMB.searchRequest.startPosition + mainMB.searchRequest.maxResult > mainMB.searchResponse.totalResults ?
+														mainMB.searchResponse.totalResults : 
+														mainMB.searchRequest.startPosition + mainMB.searchRequest.maxResult
+													}"  />
+												de
+													<h:outputText value="#{mainMB.searchResponse.totalResults}"  />
+											</li>
+										</ul>
+									</h:panelGroup>
 								
 									<section>
 										<ul class="media-list">
 											<ui:repeat var="project" value="#{mainMB.searchResponse.projectList}">
 												<li class="media well">
 
-													<h:outputLink>
-														<h4><h:outputText value="#{project.name}"  /></h4>
-													</h:outputLink>
+													<h:link outcome="projectDetail" >
+														<f:param name="projectId" value="#{project.id}" />
+														<h4><h:outputText value="#{project.name}"  /></h4>														
+													</h:link>
 													
 													<h:outputLink styleClass="pull-left">
-														<img class="media-object" data-src="holder.js/64x64" src="img/no_logo.png" />
+														<img class="media-object" data-src="holder.js/64x64" src="#{project.mediumLogoURL}" />
 													</h:outputLink>
 													
 													<div class="media-body">
-														<p class="expander">
+														<p class="text-expander">
 															<h:outputText value="#{project.description}" />
 														</p>
 														
@@ -104,24 +120,42 @@
 									id="pagination" layout="block" 
 									styleClass="pagination pagination-centered">
 									<ul>
-										<li class="disabled">
+										<li>
 											<h:commandLink actionListener="#{mainMB.searchProjects}"  >
 												<f:param  name="page" value="first" />
 												«
 											</h:commandLink>
 										</li>
 										
-										
-										<li class="active">
-											<a href="#?page=1">1</a>
+										<li>
+											<h:commandLink actionListener="#{mainMB.searchProjects}"  >
+												<f:param  name="page" value="1" />
+												1
+											</h:commandLink>
 										</li>
 										<li>
-											<a href="#?page=2">2</a></li>
-										<li><a href="#?page=3">3</a></li>
-										<li><a href="#?page=4">4</a></li>
-										<li><a href="#?page=5">5</a></li>
+											<h:commandLink actionListener="#{mainMB.searchProjects}"  >
+												<f:param  name="page" value="2" />
+												2
+											</h:commandLink>
+										</li><li>
+											<h:commandLink actionListener="#{mainMB.searchProjects}"  >
+												<f:param  name="page" value="3" />
+												3
+											</h:commandLink>
+										</li><li>
+											<h:commandLink actionListener="#{mainMB.searchProjects}"  >
+												<f:param  name="page" value="4" />
+												4
+											</h:commandLink>
+										</li><li>
+											<h:commandLink actionListener="#{mainMB.searchProjects}"  >
+												<f:param  name="page" value="5" />
+												5
+											</h:commandLink>
+										</li>
 										
-										<li class="disabled">
+										<li>
 											<h:commandLink actionListener="#{mainMB.searchProjects}">
 												<f:param  name="page" value="last" />
 												»												
