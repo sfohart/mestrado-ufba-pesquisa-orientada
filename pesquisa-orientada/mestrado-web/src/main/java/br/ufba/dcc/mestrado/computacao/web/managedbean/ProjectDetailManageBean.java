@@ -1,6 +1,7 @@
 package br.ufba.dcc.mestrado.computacao.web.managedbean;
 
 import java.io.Serializable;
+import java.util.List;
 
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
@@ -24,6 +25,8 @@ public class ProjectDetailManageBean implements Serializable {
 	
 	private OhLohProjectEntity project;
 	
+	private String[] projectDescritionParagraphs;
+	
 	public ProjectDetailManageBean() {
 		this.project = new OhLohProjectEntity();
 	}
@@ -31,6 +34,10 @@ public class ProjectDetailManageBean implements Serializable {
 	public void init(ComponentSystemEvent event) {
 		if (getProject() != null && getProject().getId() != null) {
 			this.project = getProjectService().findById(getProject().getId());
+			
+			if (this.project.getDescription() != null) {
+				this.projectDescritionParagraphs = project.getDescription().split("\n");
+			}
 		}
 	}
 	
@@ -50,6 +57,10 @@ public class ProjectDetailManageBean implements Serializable {
 		this.projectService = projectService;
 	}
 
+	public String[] getProjectDescritionParagraphs() {
+		return projectDescritionParagraphs;
+	}
+	
 	public String detailProject() {
 		return "projectDetail";
 	}

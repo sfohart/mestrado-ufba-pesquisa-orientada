@@ -39,9 +39,11 @@
 						
 						<div class="span6">
 							<h:panelGroup id="projectDescription" p:itemprop="description" >
-								<p>
-								<h:outputText value="#{projectDetailMB.project.description}" /> 
-								</p>
+								<ui:repeat var="paragraph" value="#{projectDetailMB.projectDescritionParagraphs}">
+									<p>
+										<h:outputText value="#{paragraph}" /> 
+									</p>
+								</ui:repeat>
 							</h:panelGroup>
 							
 							<div class="row"></div>
@@ -49,7 +51,7 @@
 							<h:panelGroup id="projectTags" p:itemprop="tags" styleClass="tags">
 								<span class="icon-tags"></span>
 								<ui:repeat var="tag" value="#{projectDetailMB.project.ohLohTags}">
-									<span class="label"><h:outputText value="#{tag.name}" /> </span>
+									<span class="label label-info"><h:outputText value="#{tag.name}" /> </span>
 								</ui:repeat>
 							</h:panelGroup>
 						</div>

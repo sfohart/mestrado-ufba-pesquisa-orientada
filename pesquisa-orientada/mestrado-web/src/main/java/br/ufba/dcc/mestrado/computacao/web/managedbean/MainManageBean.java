@@ -1,6 +1,7 @@
 package br.ufba.dcc.mestrado.computacao.web.managedbean;
 
 import java.io.Serializable;
+import java.util.List;
 import java.util.Map;
 
 import javax.faces.bean.ManagedBean;
@@ -11,9 +12,12 @@ import javax.faces.event.ActionEvent;
 
 import org.hibernate.search.query.facet.Facet;
 
+import br.ufba.dcc.mestrado.computacao.entities.ohloh.project.OhLohProjectEntity;
 import br.ufba.dcc.mestrado.computacao.search.SearchRequest;
 import br.ufba.dcc.mestrado.computacao.search.SearchResponse;
 import br.ufba.dcc.mestrado.computacao.service.base.SearchService;
+import br.ufba.dcc.mestrado.computacao.web.pagination.LazyLoadingDataModel;
+import br.ufba.dcc.mestrado.computacao.web.pagination.PageList;
 
 @ManagedBean(name="mainMB")
 @ViewScoped
@@ -28,7 +32,50 @@ public class MainManageBean implements Serializable{
 	private SearchService searchService;
 
 	private SearchRequest searchRequest;
-	private SearchResponse searchResponse;
+	
+	private LazyLoadingDataModel<Long, OhLohProjectEntity> dataModel;
+	private PageList pageList;
+	
+	public MainManageBean() {
+		this.searchRequest = new SearchRequest();
+		
+		this.dataModel = new LazyLoadingDataModel<Long, OhLohProjectEntity>() {
+
+			/**
+			 * 
+			 */
+			private static final long serialVersionUID = 6859894771619835765L;
+
+			@Override
+			public void load(int startPosition, int maxResult) {
+				
+				getSearchRequest().setStartPosition(startPosition);
+				getSearchRequest().setMaxResult(maxResult);
+				
+				SearchResponse searchResponse = getSearchService().findAllProjects(getSearchRequest());
+				
+				List<OhLohProjectEntity> data = searchResponse.getProjectList();
+				this.setWrappedData(data);
+				
+				getSearchRequest().getDeselectedFacets().clear();
+				getSearchRequest().getDeselectedFacets().addAll(searchResponse.getTagFacetsList());
+				getSearchRequest().getDeselectedFacets().removeAll(getSearchRequest().getSelectedFacets());
+				
+				this.setRowCount(data.size());
+				
+				Integer currentPage = (startPosition / maxResult) + 1;
+				
+				PageList pageList = new PageList(currentPage, searchResponse.getTotalResults(), maxResult);
+				setPageList(pageList);
+			}
+		};
+		
+		this.dataModel.setPageSize(10);
+	}
+	
+	public LazyLoadingDataModel<Long, OhLohProjectEntity> getDataModel() {
+		return dataModel;
+	}
 	
 	public SearchService getSearchService() {
 		return searchService;
@@ -36,10 +83,6 @@ public class MainManageBean implements Serializable{
 	
 	public void setSearchService(SearchService searchService) {
 		this.searchService = searchService;
-	}
-	
-	public MainManageBean() {
-		this.searchRequest = new SearchRequest();
 	}
 	
 	public SearchRequest getSearchRequest() {
@@ -50,8 +93,12 @@ public class MainManageBean implements Serializable{
 		this.searchRequest = searchRequest;
 	}
 	
-	public SearchResponse getSearchResponse() {
-		return searchResponse;
+	public PageList getPageList() {
+		return pageList;
+	}
+	
+	public void setPageList(PageList pageList) {
+		this.pageList = pageList;
 	}
 	
 	public void searchProjects(ActionEvent event) {
@@ -64,26 +111,20 @@ public class MainManageBean implements Serializable{
 		String pageParam = params.get("page");
 		
 		Integer startPosition = null;
+		Integer pageSize = getDataModel().getPageSize();
 		
-		if ("first".equals(pageParam)) {
-			startPosition = 0;
-		} else if ("last".equals(pageParam)) {
-			Integer page = getSearchResponse().getTotalResults() / getSearchRequest().getMaxResult();
-			startPosition = getSearchRequest().getMaxResult() * page;
-		} else if (pageParam != null){
+		if (pageParam != null){
 			Integer page = Integer.parseInt(pageParam);
 			if (page != null && page > 0) {
-				startPosition = getSearchRequest().getMaxResult() * page;
+				startPosition = getDataModel().getPageSize() * (page - 1);
 			}
+		} else {
+			startPosition = 0;
 		}
 		
 		getSearchRequest().setStartPosition(startPosition);
 		
-		this.searchResponse = getSearchService().findAllProjects(getSearchRequest());
-		
-		
-		getSearchRequest().getDeselectedFacets().addAll(getSearchResponse().getTagFacetsList());
-		getSearchRequest().getDeselectedFacets().removeAll(getSearchRequest().getSelectedFacets());
+		getDataModel().load(startPosition, pageSize);
 	}
 	
 	public void removeFacetsFromFilter(ActionEvent event) {
@@ -125,9 +166,9 @@ public class MainManageBean implements Serializable{
 		
 		String facetValue = params.get("facetValue");
 		
-		if (getSearchResponse() != null && getSearchResponse().getTagFacetsList() != null) {
+		if (getSearchRequest() != null && getSearchRequest().getDeselectedFacets() != null) {
 			Facet selectedFacet = null;
-			for (Facet facet : getSearchResponse().getTagFacetsList()) {
+			for (Facet facet : getSearchRequest().getDeselectedFacets()) {
 				if (facet.getValue().equals(facetValue)) {
 					selectedFacet = facet;
 					break;
