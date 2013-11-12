@@ -4,17 +4,22 @@
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:ui="http://java.sun.com/jsf/facelets"
 	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://xmlns.jcp.org/jsf/passthrough"
 	>
       
 			<div class="jumbotron">
 				<h1>Que tal conhecer mais sobre software livre?</h1>
-				<p class="lead">				
+				<p>				
 					Muita gente desconhece o fato de que existe um software de código aberto para
 					a maioria dos softwares pelos quais pagou. Em muitos casos, esse software pago não
 					atende totalmente as necessidades dos seus usuários. Este é um bom lugar para começar procurar,
 					já que nossos usuários levam muita coisa em consideração para avaliar
 					a qualidade de um software. 
 				</p>
+				<p>
+					<h:outputLink styleClass="btn btn-primary btn-lg" p:role="button" value="learnMore.jsf">Saiba mais</h:outputLink>
+				</p>
+				
 			</div>
       
 </ui:composition>

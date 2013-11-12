@@ -12,34 +12,18 @@
 			<ui:define name="titlePage">Sfohart</ui:define>
 			
 			<ui:define name="header">
-				<ui:include src="layout/indexHeader.xhtml" />
+				<ui:include src="layout/indexHeader.xhtml"  />
 			</ui:define>
-			
 			
 			<ui:define name="content">
 				<section class="container">
-					
+				
 					<ui:include src="layout/indexJumbotron.xhtml"  />
-					
-					<div class="searchstart well">
-						<h:form styleClass="form-search" style="margin: 0 auto" >
-							<h:inputText
-								value="#{mainMB.searchRequest.query}"
-								p:placeholder="Digite o seu termo de busca aqui"																
-								style="height: 50px; font-size: large" 
-								styleClass="input-xxlarge search-query"  />
-
-							<h:commandButton
-								value="Buscar"
-								style="height: 60px; font-size: large; margin-left: 10px"   
-								styleClass="btn btn-large" />
-						</h:form>						
-					</div>
 					
 					<hr/>
 					
-					<div class="row-fluid">
-						<div class="span4">
+					<div class="row">
+						<div class="col-md-4">
 							<h4>Busque projetos por palavras chave</h4>
 							<p class="text-justify">
 								Vale quase tudo. O nome do projeto, o tipo, a linguagem de programação em que
@@ -47,7 +31,7 @@
 							</p>					
 						</div>
 						
-						<div class="span4">
+						<div class="col-md-4">
 							<h4>Dê a sua opinião sobre cada projeto</h4>
 							<p class="text-justify">
 								Se você utiliza ou já utilizou um determinado projeto, opine sobre ele! Dê uma nota
@@ -56,7 +40,7 @@
 							</p>					
 						</div>
 						
-						<div class="span4">
+						<div class="col-md-4">
 							<h4>Dê a sua opinião sobre cada projeto</h4>
 							<p class="text-justify">
 								Cras justo odio, dapibus ac facilisis in, egestas eget quam. 

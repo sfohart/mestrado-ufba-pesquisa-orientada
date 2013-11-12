@@ -1,20 +1,57 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
 <!DOCTYPE html>
-<ui:composition 
-	xmlns:h="http://java.sun.com/jsf/html"
-	xmlns:ui="http://java.sun.com/jsf/facelets"
-	xmlns:f="http://java.sun.com/jsf/core"
-	>
+<html xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:pretty="http://ocpsoft.com/prettyfaces"
+      xmlns:passthrough="http://xmlns.jcp.org/jsf/passthrough"
+      >
       
-	<!-- HEADER -->
-	<header>			
-		<div class="page-header">
-			<ul class="nav nav-pills pull-right">
-				<li class="active"><a href="index.jsf">Home</a></li>
-				<li><a href="#">Sobre</a></li>
-				<li><a href="#">Contato</a></li>
-			</ul>
-			<h3 class="muted">Sfohart</h3>
-		</div>		
-	</header>
-</ui:composition>
+	<h:head>
+        <f:view contentType="text/html" />
+		
+		<title>
+			<ui:insert name="titlePage" />
+		</title>
+		
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></meta>
+		<meta name="viewport" content="width=device-width, initial-scale=1.0"></meta>
+		
+		<h:outputStylesheet library="default" name="css/main.css" />
+		<h:outputStylesheet library="default" name="css/bootstrap.css" />
+		
+		<h:outputScript library="default" name="js/jquery-1.10.2.js" />
+		<h:outputScript library="default" name="js/bootstrap.min.js" />
+		<h:outputScript library="default" name="js/holder.js" />
+		<h:outputScript library="default" name="js/jquery.expander.min.js" />
+		<h:outputScript library="default" name="js/bootstrap-paginator.min.js" />
+		
+	</h:head>
+
+	<h:body>
+		
+		<div id="wrap">
+			<ui:insert name="header">
+				<ui:include src="mainHeader.xhtml" />
+			</ui:insert>
+			
+			<ui:insert name="content">
+			</ui:insert>
+		</div>
+		
+		<ui:insert name="footer">
+			<ui:include src="footer.xhtml" />
+		</ui:insert>
+		
+		<!-- leia mais para a descricao do projeto -->
+		<script>
+			$('.text-expander').expander({
+				slicePoint: 300,
+				expandText: '[Leia mais]',
+				userCollapseText: '[Esconder]'
+			});
+		</script>
+	
+	</h:body>
+
+</html>

@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:pretty="http://ocpsoft.com/prettyfaces"
+	xmlns:p="http://xmlns.jcp.org/jsf/passthrough">
+
+	<h:body>
+		<ui:composition template="layout/mainLayout.xhtml">
+		
+			<ui:define name="titlePage">Entrar</ui:define>
+				
+			<ui:define name="content">				
+				<section class="container">
+				
+					<div class="row">
+						<div class="span7">
+							<h4>Seja bem vindo!</h4>
+							<p class="text-justify">
+								Você pode utilizar o sistema sem efetuar login ou ter uma conta. Mas como o intuito desta comunidade é ser
+								colaborativo, ajude-nos a prover um serviço de maior qualidade:
+							</p>
+							<div class="well">
+								<ul class="text-justify">
+									<li>
+										Associe os projetos que você utiliza/utilizou à sua conta e encontre outros usuários para
+										compartilhar experiências.
+									</li>						
+									<li>
+										Avalie os projetos sob diferentes critérios de qualidade e compartilhe as suas impressões sobre
+										eles.
+									</li>
+									<li>
+										Receba sugestões de projetos interessantes ao seu perfil de usuário/desenvolvedor.
+									</li>
+								</ul>
+							</div>
+							<p>
+								<a href="newAccount.html" class="btn btn-success">Cadastre-se </a>
+								e conte-nos a sua história como usuário de software livre - é de graça!
+							</p>
+						</div>
+						
+						<div class="span5">
+							<div class="well">
+								<h:form>
+									<fieldset>
+										<legend>Entrar</legend>
+										<div class="control-group">
+											<div class="input-prepend">
+												<span class="add-on">
+													<i class="icon-user"></i>
+												</span>
+												<h:inputText styleClass="input-xlarge ghost" id="login"  p:placeholder="Nome de Usuário" />												
+											</div>
+										</div>
+										
+										<div class="control-group">
+											<div class="input-prepend">
+												<span class="add-on">
+													<i class=" icon-eye-close"></i>
+												</span>
+												<h:inputText styleClass="input-xlarge ghost" id="senha"  p:placeholder="Senha" />												
+											</div>
+										</div>
+									</fieldset>
+								</h:form>
+							</div>
+						</div>
+					</div>
+				
+				
+				</section>
+			</ui:define>
+		
+		</ui:composition>
+	</h:body>
+</html>

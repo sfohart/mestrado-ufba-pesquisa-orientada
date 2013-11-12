@@ -61,14 +61,24 @@
 								<h5>Referências</h5>
 								
 								<dl class="dl-horizontal">
-									<dt><a href="#">Links do Projeto</a></dt>
+									<dt><a href="#">Links do Projeto:</a></dt>
 									<dd style="margin-bottom: .5em;">
 										<ui:repeat var="link" value="#{projectDetailMB.project.ohLohLinks}">
 											<h:link value="#{link.url}">
 												<h:outputText value="#{link.title}" />
 											</h:link>
 										</ui:repeat>
-									</dd>								
+										<h:outputText  value=" " />
+									</dd>
+									
+									<dt><a href="#">Licenças:</a></dt>	
+									<dd style="margin-bottom: .5em;">
+										<ui:repeat var="license" value="#{projectDetailMB.project.ohLohLicenses}">
+											<h:link value="#{license.name}">
+												<h:outputText value="#{license.niceName}" />
+											</h:link>
+										</ui:repeat>
+									</dd>						
 								</dl>
 							</h:panelGroup>
 						</div>

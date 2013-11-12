@@ -3,6 +3,8 @@
 <html xmlns:h="http://java.sun.com/jsf/html"
       xmlns:ui="http://java.sun.com/jsf/facelets"
       xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:pretty="http://ocpsoft.com/prettyfaces"
+      xmlns:passthrough="http://xmlns.jcp.org/jsf/passthrough"
       >
       
 	<h:head>
@@ -28,13 +30,14 @@
 
 	<h:body>
 		
-	
-		<ui:insert name="header">
-			<ui:include src="mainHeader.xhtml" />
-		</ui:insert>
-		
-		<ui:insert name="content">
-		</ui:insert>
+		<div id="wrap">
+			<ui:insert name="header">
+				<ui:include src="mainHeader.xhtml" />
+			</ui:insert>
+			
+			<ui:insert name="content">
+			</ui:insert>
+		</div>
 		
 		<ui:insert name="footer">
 			<ui:include src="footer.xhtml" />

@@ -4,6 +4,7 @@
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:ui="http://java.sun.com/jsf/facelets"
 	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:pretty="http://ocpsoft.com/prettyfaces"
 	xmlns:p="http://xmlns.jcp.org/jsf/passthrough">
 
 	<h:body>
@@ -11,16 +12,13 @@
 			<ui:define name="titlePage">Resultado da Busca</ui:define>
 			
 			<ui:define name="content">
-			
 				<section class="container">
-					<h:form>
-						<ui:include src="layout/searchBar.xhtml"   />
+					<h:form id="searchResults">
 						
-						<div class="container-fluid">
-							<div class="row-fluid">
+							<div class="row">
 								
 								<!-- barra lateral de tags -->
-								<h:panelGroup id="tagSideBar" layout="block" styleClass="span2 tag-tooltip" >
+								<h:panelGroup id="tagSideBar" layout="block" styleClass="col-md-3 tag-tooltip" >
 									<h6>Tags Selecionadas</h6>
 									<ul class="nav nav-pills nav-stacked">
 										<ui:repeat var="selectedFacet" value="#{mainMB.searchRequest.selectedFacets}">
@@ -32,7 +30,7 @@
 													p:data-original-title="parar de filtar por #{selectedFacet.value}">
 													
 													<f:param  name="facetValue" value="#{selectedFacet.value}" />
-													<i class="icon-minus-sign"></i>
+													<i class="glyphicon glyphicon-minus-sign"></i>
 													<h:outputText value=" #{selectedFacet.value} (#{selectedFacet.count})" />
 													
 												</h:commandLink>												
@@ -52,7 +50,7 @@
 													p:data-original-title="filtar por #{unselectedFacet.value}">
 													
 													<f:param  name="facetValue" value="#{unselectedFacet.value}" />
-													<i class="icon-plus-sign"></i>
+													<i class="glyphicon glyphicon-plus-sign"></i>
 													<h:outputText value=" #{unselectedFacet.value} (#{unselectedFacet.count})" />
 															
 												</h:commandLink>
@@ -61,7 +59,7 @@
 									</ul>
 								</h:panelGroup>
 								
-								<h:panelGroup id="searchResult" layout="block" styleClass="span10">
+								<h:panelGroup id="searchResult" layout="block" styleClass="col-md-9">
 									
 									<h:panelGroup layout="block" id="breadcrump" rendered="#{mainMB.dataModel.rowAvailable}">
 										<!-- Exibindo quantidade de resultados -->
@@ -91,12 +89,14 @@
 															<h:outputText value="#{project.description}" />
 														</p>
 														
-														<div class="tags">
-															<span class="icon-tags"></span>
+														<h:panelGroup id="tagsPanel" rendered="#{not empty project.ohLohTags}">
+															<span class="glyphicon glyphicon-tags" style="margin-right: 5px"></span>
 															<ui:repeat var="tag" value="#{project.ohLohTags}">
-																<span class="label label-info"><h:outputText value="#{tag.name}" /> </span>
-															</ui:repeat>
-														</div>
+	      														<span class="label label-info"><h:outputText value="#{tag.name}" /></span>      														
+															</ui:repeat>      														
+														</h:panelGroup>
+														
+    
 													</div>
 										
 												</li>
@@ -108,9 +108,8 @@
 								<!-- Paginação -->
 								<h:panelGroup
 									rendered="#{mainMB.pageList.totalPages > 1}"
-									id="pagination" layout="block" 
-									styleClass="pagination pagination-centered">
-									<ul>
+									id="pagination" layout="block" styleClass="text-center" >
+									<ul class="pagination">
 										<li class="#{mainMB.pageList.currentPage eq mainMB.pageList.firstPage ? 'disabled' : ''}">
 											<h:commandLink actionListener="#{mainMB.searchProjects}" disabled="#{mainMB.pageList.currentPage eq mainMB.pageList.firstPage}" >
 												<f:param  name="page" value="#{mainMB.pageList.firstPage}" />
@@ -118,7 +117,7 @@
 											</h:commandLink>
 										</li>
 										
-										<li class="#{mainMB.pageList.currentPage eq mainMB.pageList.previousPage ? 'active' : ''}">
+										<li class="#{mainMB.pageList.currentPage eq mainMB.pageList.previousPage ? 'disabled' : ''}">
 											<h:commandLink actionListener="#{mainMB.searchProjects}" disabled="#{mainMB.pageList.currentPage eq mainMB.pageList.previousPage}" >
 												<f:param  name="page" value="#{mainMB.pageList.previousPage}" />
 												anterior
@@ -134,7 +133,7 @@
 											</li>
 										</ui:repeat>
 										
-										<li class="#{mainMB.pageList.currentPage eq mainMB.pageList.nextPage ? 'active' : ''}">
+										<li class="#{mainMB.pageList.currentPage eq mainMB.pageList.nextPage ? 'disabled' : ''}">
 											<h:commandLink actionListener="#{mainMB.searchProjects}" disabled="#{mainMB.pageList.currentPage eq mainMB.pageList.nextPage}" >
 												<f:param  name="page" value="#{mainMB.pageList.nextPage}" />
 												próximo
@@ -152,7 +151,6 @@
 								</h:panelGroup>
 														
 							</div>
-						</div>
 					</h:form>
 				</section>
 				
