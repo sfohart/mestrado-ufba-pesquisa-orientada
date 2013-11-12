@@ -24,6 +24,7 @@ import br.ufba.dcc.mestrado.computacao.repository.base.OhLohCrawlerProjectReposi
 import br.ufba.dcc.mestrado.computacao.repository.base.OhLohCrawlerStackRepository;
 import br.ufba.dcc.mestrado.computacao.repository.base.OhLohLanguageRepository;
 import br.ufba.dcc.mestrado.computacao.repository.base.OhLohLicenseRepository;
+import br.ufba.dcc.mestrado.computacao.repository.base.OhLohLinkRepository;
 import br.ufba.dcc.mestrado.computacao.repository.base.OhLohProjectRepository;
 import br.ufba.dcc.mestrado.computacao.repository.base.OhLohStackRepository;
 import br.ufba.dcc.mestrado.computacao.repository.base.OhLohTagRepository;
@@ -36,6 +37,7 @@ import br.ufba.dcc.mestrado.computacao.repository.impl.OhLohCrawlerProjectReposi
 import br.ufba.dcc.mestrado.computacao.repository.impl.OhLohCrawlerStackRepositoryImpl;
 import br.ufba.dcc.mestrado.computacao.repository.impl.OhLohLanguageRepositoryImpl;
 import br.ufba.dcc.mestrado.computacao.repository.impl.OhLohLicenseRepositoryImpl;
+import br.ufba.dcc.mestrado.computacao.repository.impl.OhLohLinkRepositoryImpl;
 import br.ufba.dcc.mestrado.computacao.repository.impl.OhLohProjectRepositoryImpl;
 import br.ufba.dcc.mestrado.computacao.repository.impl.OhLohStackRepositoryImpl;
 import br.ufba.dcc.mestrado.computacao.repository.impl.OhLohTagRepositoryImpl;
@@ -176,4 +178,8 @@ public class CrawlerRepositoryConfig {
 		return new OhLohTagRepositoryImpl();
 	}
 	
+	@Bean 
+	public OhLohLinkRepository ohLohLinkRepository() {
+		return new OhLohLinkRepositoryImpl();
+	}
 }
