@@ -9,12 +9,14 @@ import br.ufba.dcc.mestrado.computacao.repository.CrawlerRepositoryConfig;
 import br.ufba.dcc.mestrado.computacao.repository.base.OhLohAccountRepository;
 import br.ufba.dcc.mestrado.computacao.repository.base.OhLohAnalysisRepository;
 import br.ufba.dcc.mestrado.computacao.repository.base.OhLohLanguageRepository;
+import br.ufba.dcc.mestrado.computacao.repository.base.OhLohLinkRepository;
 import br.ufba.dcc.mestrado.computacao.repository.base.OhLohProjectRepository;
 import br.ufba.dcc.mestrado.computacao.repository.base.OhLohStackRepository;
 import br.ufba.dcc.mestrado.computacao.service.base.Indexer;
 import br.ufba.dcc.mestrado.computacao.service.base.OhLohAccountService;
 import br.ufba.dcc.mestrado.computacao.service.base.OhLohAnalysisService;
 import br.ufba.dcc.mestrado.computacao.service.base.OhLohLanguageService;
+import br.ufba.dcc.mestrado.computacao.service.base.OhLohLinkService;
 import br.ufba.dcc.mestrado.computacao.service.base.OhLohProjectService;
 import br.ufba.dcc.mestrado.computacao.service.base.OhLohStackService;
 import br.ufba.dcc.mestrado.computacao.service.base.SearchService;
@@ -22,6 +24,7 @@ import br.ufba.dcc.mestrado.computacao.service.impl.HibernateSearchIndexer;
 import br.ufba.dcc.mestrado.computacao.service.impl.OhLohAccountServiceImpl;
 import br.ufba.dcc.mestrado.computacao.service.impl.OhLohAnalysisServiceImpl;
 import br.ufba.dcc.mestrado.computacao.service.impl.OhLohLanguageServiceImpl;
+import br.ufba.dcc.mestrado.computacao.service.impl.OhLohLinkServiceImpl;
 import br.ufba.dcc.mestrado.computacao.service.impl.OhLohProjectServiceImpl;
 import br.ufba.dcc.mestrado.computacao.service.impl.OhLohStackServiceImpl;
 import br.ufba.dcc.mestrado.computacao.service.impl.SearchServiceImpl;
@@ -44,6 +47,9 @@ public class CrawlerServiceConfig {
 	
 	@Autowired
 	private OhLohStackRepository ohLohStackRepository;
+	
+	@Autowired
+	private OhLohLinkRepository ohLohLinkRepository;
 	
 	@Bean
 	public OhLohAccountService ohLohAccountService() {
@@ -68,6 +74,11 @@ public class CrawlerServiceConfig {
 	@Bean
 	public OhLohStackService ohLohStackService() {
 		return new OhLohStackServiceImpl(ohLohStackRepository);
+	}
+	
+	@Bean
+	public OhLohLinkService ohLohLinkService() {
+		return new OhLohLinkServiceImpl(ohLohLinkRepository);
 	}
 	
 	@Bean
