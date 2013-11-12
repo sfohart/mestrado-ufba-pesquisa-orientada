@@ -33,9 +33,6 @@ public class SearchServiceImpl implements SearchService {
 	private OhLohProjectRepository projectRepository;
 	
 	
-	
-	
-	
 	@Transactional(readOnly = true)
 	public SearchResponse findAllProjects(SearchRequest searchRequest) {
 		SearchResponse searchResult =  null;

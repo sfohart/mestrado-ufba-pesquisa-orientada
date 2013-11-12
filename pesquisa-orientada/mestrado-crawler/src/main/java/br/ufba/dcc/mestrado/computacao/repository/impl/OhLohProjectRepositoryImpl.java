@@ -36,21 +36,29 @@ public class OhLohProjectRepositoryImpl
 		super(OhLohProjectEntity.class);
 	}
 
-	@Override
-	@Transactional(readOnly = true)
+	@Override	
 	public OhLohProjectEntity findById(Long id) {		
 		OhLohProjectEntity result = super.findById(id);
 		
 		if (result != null) {
-			result.getOhLohLicenses();
-			result.getOhLohTags();
+			
+			if (result.getOhLohLicenses() != null) {
+				result.getOhLohLicenses().size();
+			}
+			
+			if (result.getOhLohTags() != null) {
+				result.getOhLohTags().size();
+			}
+			
+			if (result.getOhLohLinks() != null) {
+				result.getOhLohLinks().size();
+			}
 		}
 		
 		return result;
 	}
 	
 	@Override
-	@Transactional(readOnly = true)
 	public OhLohProjectEntity findByName(String name) {
 		CriteriaBuilder criteriaBuilder = getEntityManager().getCriteriaBuilder();
 		CriteriaQuery<OhLohProjectEntity> criteriaQuery = criteriaBuilder.createQuery(getEntityClass());
@@ -88,7 +96,6 @@ public class OhLohProjectRepositoryImpl
 		return facetingRequest;
 	}
 	
-	@Transactional(readOnly = true)
 	public FullTextQuery findAllByFullTextQuery(String query) {
 		FullTextEntityManager fullTextEntityManager = Search.getFullTextEntityManager(getEntityManager());
 		QueryBuilder queryBuilder = fullTextEntityManager

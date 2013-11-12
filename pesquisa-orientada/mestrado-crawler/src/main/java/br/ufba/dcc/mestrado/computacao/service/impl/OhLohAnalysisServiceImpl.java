@@ -62,21 +62,6 @@ public class OhLohAnalysisServiceImpl extends BaseOhLohServiceImpl<OhLohAnalysis
 	@Autowired
 	private OhLohLanguageService languageService;
 	
-	public Long countAll() {
-		return analysisRepository.countAll();
-	}
-	
-	public OhLohAnalysisEntity findById(Long id) {
-		OhLohAnalysisEntity result = analysisRepository.findById(id);
-		
-		return result;
-	}
-	
-	public List<OhLohAnalysisEntity> findAll(Integer startAt, Integer offset) {
-		return analysisRepository.findAll(startAt, offset);
-	}
-	
-	
 	@Override
 	public void validateEntity(OhLohAnalysisEntity entity) throws Exception {
 		super.validateEntity(entity);

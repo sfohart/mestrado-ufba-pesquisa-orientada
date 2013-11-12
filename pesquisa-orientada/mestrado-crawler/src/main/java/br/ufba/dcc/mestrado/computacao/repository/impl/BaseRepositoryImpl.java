@@ -4,6 +4,7 @@ import java.util.List;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.PersistenceUnitUtil;
 import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
@@ -46,12 +47,10 @@ public class BaseRepositoryImpl<ID extends Number, E extends BaseEntity<ID>>
 		this.entityManager = entityManager;
 	}
 
-	@Transactional
 	public List<E> findAll(){
 		return findAll(null);
 	}
 	
-	@Transactional
 	public List<E> findAll(String orderBy){
 		TypedQuery<E> query = null;
 		if (orderBy == null || "".equals(orderBy)) {
@@ -88,7 +87,6 @@ public class BaseRepositoryImpl<ID extends Number, E extends BaseEntity<ID>>
 		return query;		
 	}
 	
-	@Transactional
 	public List<E> findAll(Integer startAt, Integer offset, String orderBy) {
 		TypedQuery<E> query = null;
 		if (orderBy == null || "".equals(orderBy)) {
@@ -105,17 +103,18 @@ public class BaseRepositoryImpl<ID extends Number, E extends BaseEntity<ID>>
 		
 		return result;
 	}
-	@Transactional
+	
 	public List<E> findAll(Integer startAt, Integer offset) {
 		return findAll(startAt, offset, null);
 	}
 	
-	@Transactional
 	public E findById(ID id) {
-		return entityManager.find(entityClass, id);
+		E entity = getEntityManager().find(entityClass, id);
+		
+		
+		return entity;
 	}
 	
-	@Transactional
 	public E save(E entity) {
 		if (entity != null) {
 			if (entity.getId() != null) {
@@ -129,25 +128,21 @@ public class BaseRepositoryImpl<ID extends Number, E extends BaseEntity<ID>>
 		return entity;
 	}
 	
-	@Transactional
 	public E add(E entity) {
 		entityManager.persist(entity);
 		return entity;
 	}
 	
-	@Transactional
 	public E update(E entity) {
 		return entityManager.merge(entity);
 	}
 	
-	@Transactional
 	public E delete(E entity) {
 		entityManager.remove(entity);
 		return entity;
 	}
 
 	@Override
-	@Transactional
 	public Long countAll() {
 		CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
 		CriteriaQuery<Long> criteriaQuery = criteriaBuilder.createQuery(Long.class);

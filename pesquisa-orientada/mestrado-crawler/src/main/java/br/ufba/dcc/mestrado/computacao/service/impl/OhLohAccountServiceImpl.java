@@ -1,7 +1,5 @@
 package br.ufba.dcc.mestrado.computacao.service.impl;
 
-import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -25,19 +23,6 @@ public class OhLohAccountServiceImpl extends BaseOhLohServiceImpl<OhLohAccountDT
 	public OhLohAccountServiceImpl(OhLohAccountRepository repository) {
 		super(repository, OhLohAccountDTO.class, OhLohAccountEntity.class);
 	}
-	
-	public Long countAll() {
-		return getRepository().countAll();
-	}
-	
-	public OhLohAccountEntity findById(Long id) {
-		return getRepository().findById(id);
-	}
-	
-	public List<OhLohAccountEntity> findAll(Integer startAt, Integer offset) {
-		return getRepository().findAll(startAt, offset);
-	}
-	
 	
 	@Override
 	public OhLohAccountEntity process(OhLohAccountDTO dto) throws Exception{

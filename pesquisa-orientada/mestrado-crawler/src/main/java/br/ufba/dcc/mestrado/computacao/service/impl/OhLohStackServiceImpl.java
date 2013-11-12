@@ -37,27 +37,14 @@ public class OhLohStackServiceImpl extends BaseOhLohServiceImpl<OhLohStackDTO, L
 	protected static Logger logger = Logger.getLogger(OhLohStackServiceImpl.class.getName());
 
 	@Autowired
-	public OhLohStackServiceImpl(OhLohStackRepository repository) {
-		super(repository, OhLohStackDTO.class, OhLohStackEntity.class);
-	}
-
-	
-	@Autowired
 	private OhLohProjectService projectService;
 	
 	@Autowired
 	private OhLohRestfulClient restfulClient;
 	
-	public Long countAll() {
-		return getRepository().countAll();
-	}
-	
-	public OhLohStackEntity findById(Long id) {
-		return getRepository().findById(id);
-	}
-	
-	public List<OhLohStackEntity> findAll(Integer startAt, Integer offset) {
-		return getRepository().findAll(startAt, offset);
+	@Autowired
+	public OhLohStackServiceImpl(OhLohStackRepository repository) {
+		super(repository, OhLohStackDTO.class, OhLohStackEntity.class);
 	}
 	
 	@Override

@@ -28,19 +28,6 @@ public class OhLohLanguageServiceImpl extends BaseOhLohServiceImpl<OhLohLanguage
 	public OhLohLanguageServiceImpl(OhLohLanguageRepository repository) {
 		super(repository, OhLohLanguageDTO.class, OhLohLanguageEntity.class);
 	}
-
-	
-	public Long countAll() {
-		return getRepository().countAll();
-	}
-	
-	public OhLohLanguageEntity findById(Long id) {
-		return getRepository().findById(id);
-	}
-	
-	public List<OhLohLanguageEntity> findAll(Integer startAt, Integer offset) {
-		return getRepository().findAll(startAt, offset);
-	}
 	
 	@Override
 	public OhLohLanguageEntity process(OhLohLanguageDTO dto) throws Exception{

@@ -51,18 +51,6 @@ public class OhLohProjectServiceImpl extends BaseOhLohServiceImpl<OhLohProjectDT
 	@Autowired
 	private OhLohRestfulClient restfulClient;
 	
-	public Long countAll() {
-		return getRepository().countAll();
-	}
-	
-	public OhLohProjectEntity findById(Long id) {
-		return getRepository().findById(id);
-	}
-	
-	public List<OhLohProjectEntity> findAll(Integer startAt, Integer offset) {
-		return getRepository().findAll(startAt, offset);
-	}
-	
 	@Override
 	public void validateEntity(OhLohProjectEntity entity) throws Exception {
 		super.validateEntity(entity);

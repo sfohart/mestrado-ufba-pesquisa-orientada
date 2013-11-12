@@ -1,5 +1,9 @@
 package br.ufba.dcc.mestrado.computacao.service.impl;
 
+import java.util.List;
+
+import org.springframework.transaction.annotation.Transactional;
+
 import br.ufba.dcc.mestrado.computacao.entities.BaseEntity;
 import br.ufba.dcc.mestrado.computacao.ohloh.data.OhLohResultDTO;
 import br.ufba.dcc.mestrado.computacao.repository.base.BaseRepository;
@@ -38,6 +42,7 @@ public abstract class BaseOhLohServiceImpl<DTO extends OhLohResultDTO, ID extend
 	}
 	
 	@Override
+	@Transactional
 	public E process(DTO dto) throws Exception {
 		E entity = buildEntity(dto);
 		validateEntity(entity);
@@ -53,8 +58,61 @@ public abstract class BaseOhLohServiceImpl<DTO extends OhLohResultDTO, ID extend
 		return entity;
 	}
 
+	
+	@Transactional
 	public E saveEntity(E entity) throws Exception {
 		return repository.save(entity);
 	}
 
+	@Transactional(readOnly = true)
+	public Long countAll() {
+		return repository.countAll();
+	}
+
+	@Transactional(readOnly = true)
+	public List<E> findAll() {
+		return repository.findAll();
+	}
+
+	@Transactional(readOnly = true)
+	public List<E> findAll(String orderBy) {
+		return repository.findAll(orderBy);
+	}
+
+	@Transactional(readOnly = true)
+	public List<E> findAll(Integer startAt, Integer offset) {
+		return repository.findAll(startAt, offset);
+	}
+
+	@Transactional(readOnly = true)
+	public List<E> findAll(Integer startAt, Integer offset, String orderBy) {
+		return repository.findAll(startAt, offset, orderBy);
+	}
+
+	@Transactional(readOnly = true)
+	public E findById(ID id) {
+		return repository.findById(id);
+	}
+
+	@Transactional
+	public E save(E entity) throws Exception {
+		return repository.save(entity);
+	}
+
+	@Transactional
+	public E add(E entity) throws Exception {
+		return repository.add(entity);
+	}
+
+	@Transactional
+	public E update(E entity) throws Exception {
+		return repository.update(entity);
+	}
+
+	@Transactional
+	public E delete(E entity) throws Exception {
+		return repository.delete(entity);
+	}
+
+	
 }
