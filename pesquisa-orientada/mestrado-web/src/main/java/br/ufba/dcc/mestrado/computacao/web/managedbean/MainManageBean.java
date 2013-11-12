@@ -9,6 +9,7 @@ import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
+import javax.faces.event.ComponentSystemEvent;
 
 import org.hibernate.search.query.facet.Facet;
 
@@ -71,6 +72,11 @@ public class MainManageBean implements Serializable{
 		};
 		
 		this.dataModel.setPageSize(10);
+	}
+	
+	
+	public String loadResults() {
+		return "results.jsf?faces-redirect=true&query=" + getSearchRequest().getQuery();
 	}
 	
 	public LazyLoadingDataModel<Long, OhLohProjectEntity> getDataModel() {

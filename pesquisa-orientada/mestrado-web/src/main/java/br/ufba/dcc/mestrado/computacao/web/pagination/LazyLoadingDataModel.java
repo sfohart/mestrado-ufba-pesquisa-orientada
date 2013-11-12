@@ -3,7 +3,6 @@ package br.ufba.dcc.mestrado.computacao.web.pagination;
 import java.io.Serializable;
 import java.util.List;
 
-import javax.faces.model.DataModel;
 import javax.faces.model.ListDataModel;
 
 import br.ufba.dcc.mestrado.computacao.entities.BaseEntity;
