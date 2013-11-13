@@ -16,10 +16,6 @@
 		
 			<ui:define name="titlePage">Nova Avaliação</ui:define>
 			
-			<ui:define name="header">
-				<ui:include src="layout/indexHeader.xhtml"  />
-			</ui:define>
-			
 			<ui:define name="content">
 				<section class="container">
 					<h:panelGroup id="projectReviewError" layout="block" styleClass="alert alert-danger col-md-12" rendered="#{projectReviewMB.project.id eq null}">
@@ -71,16 +67,20 @@
 										<legend>Dê sua opinião</legend>
 										<div class="form-group">
 											<h:outputLabel  for="reviewTitle">Título</h:outputLabel>
-											<h:inputText id="reviewTitle" styleClass="form-control" />
+											<h:inputText id="reviewTitle" styleClass="form-control"
+												value="#{projectReviewMB.preference.preferenceReview.title}"  />
 										</div>
 										
 										<div class="form-group">
 											<h:outputLabel  for="reviewDescription">Descrição</h:outputLabel>
-											<h:inputTextarea id="reviewDescription" styleClass="form-control" rows="5" />
+											<h:inputTextarea id="reviewDescription" styleClass="form-control" rows="5"
+												value="#{projectReviewMB.preference.preferenceReview.description}" 
+												/>
 										</div>
 									</fieldset>
 									
-									<h:commandButton styleClass="btn btn-primary" value="Enviar">
+									<h:commandButton styleClass="btn btn-primary" value="Enviar"
+										action="#{projectReviewMB.saveReview}">
 									</h:commandButton>
 								</h:form>
 							</div>

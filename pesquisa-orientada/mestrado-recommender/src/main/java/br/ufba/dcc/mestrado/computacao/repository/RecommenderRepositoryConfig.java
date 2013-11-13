@@ -1,10 +1,16 @@
 package br.ufba.dcc.mestrado.computacao.repository;
 
+import java.util.Properties;
+
+import javax.sql.DataSource;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
 import org.springframework.core.env.Environment;
+import org.springframework.jdbc.datasource.DriverManagerDataSource;
+import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
 
 import br.ufba.dcc.mestrado.computacao.repository.base.CriteriumPreferenceRepository;
 import br.ufba.dcc.mestrado.computacao.repository.base.OhLohAccountRepository;
@@ -21,7 +27,7 @@ public class RecommenderRepositoryConfig {
 	@Autowired
 	private Environment environment;
 	
-	/*@Bean
+	@Bean
 	public DataSource dataSource() {
 		DriverManagerDataSource dataSource = new DriverManagerDataSource();
 		
@@ -54,7 +60,7 @@ public class RecommenderRepositoryConfig {
 		entityManagerFactoryBean.setJpaProperties(connectionProperties);
 		
 		return entityManagerFactoryBean;
-	}*/
+	}
 	
 	@Bean
 	public CriteriumPreferenceRepository criteriumPreferenceRepository() {

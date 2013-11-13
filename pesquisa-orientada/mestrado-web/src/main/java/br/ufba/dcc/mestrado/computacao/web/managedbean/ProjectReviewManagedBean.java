@@ -13,6 +13,7 @@ import br.ufba.dcc.mestrado.computacao.entities.ohloh.project.OhLohProjectEntity
 import br.ufba.dcc.mestrado.computacao.entities.recommender.criterium.RecommenderCriteriumEntity;
 import br.ufba.dcc.mestrado.computacao.entities.recommender.preference.PreferenceEntity;
 import br.ufba.dcc.mestrado.computacao.entities.recommender.preference.PreferenceEntryEntity;
+import br.ufba.dcc.mestrado.computacao.entities.recommender.preference.PreferenceReviewEntity;
 import br.ufba.dcc.mestrado.computacao.service.base.OhLohProjectService;
 import br.ufba.dcc.mestrado.computacao.service.base.RecommenderCriteriumService;
 
@@ -77,6 +78,7 @@ public class ProjectReviewManagedBean implements Serializable {
 			List<RecommenderCriteriumEntity> criteriumList = getCriteriumService().findAll();
 			if (criteriumList != null) {
 				this.preference = new PreferenceEntity();
+				this.preference.setPreferenceReview(new PreferenceReviewEntity());
 				
 				List<PreferenceEntryEntity> preferenceEntryEntityList = new ArrayList<PreferenceEntryEntity>();
 				for (RecommenderCriteriumEntity criterium : criteriumList) {
@@ -90,6 +92,10 @@ public class ProjectReviewManagedBean implements Serializable {
 				this.preference.setPreferenceEntryList(preferenceEntryEntityList);
 			}
 		}
+	}
+	
+	public String saveReview() {
+		return "projectReviews.jsf?faces-redirect=true&includeViewParams=true&projectId=" + project.getId();
 	}
 
 }

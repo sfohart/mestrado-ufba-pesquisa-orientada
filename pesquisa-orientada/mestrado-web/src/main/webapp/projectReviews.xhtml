@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://xmlns.jcp.org/jsf/passthrough">
+	
+	<f:metadata>
+		<f:viewParam id="projectId" name="projectId" value="#{projectDetailMB.project.id}" required="true"  requiredMessage="#{messages['project.detail.error.projectId']}"  />
+		<f:event listener="#{projectDetailMB.init}" type="preRenderView"/>
+	</f:metadata>
+	
+	
+	<h:body>
+		<ui:composition template="layout/mainLayout.xhtml">
+			<ui:define name="titlePage">Detalhes do Projeto</ui:define>
+			
+		</ui:composition>
+	</h:body>
+</html>

@@ -6,7 +6,6 @@
 	<persistence-unit name="ohloh-crawler">
 	
 		<provider>org.hibernate.ejb.HibernatePersistence</provider>
-		
 		<class>br.ufba.dcc.mestrado.computacao.entities.ohloh.OhLohCrawlerLanguageEntity</class>
 		<class>br.ufba.dcc.mestrado.computacao.entities.ohloh.OhLohCrawlerProjectEntity</class>
 		<class>br.ufba.dcc.mestrado.computacao.entities.ohloh.OhLohCrawlerStackEntity</class>
@@ -30,6 +29,6 @@
 		<class>br.ufba.dcc.mestrado.computacao.entities.ohloh.sizefact.OhLohSizeFactEntity</class>
 		<class>br.ufba.dcc.mestrado.computacao.entities.ohloh.stack.OhLohStackEntity</class>
 		<class>br.ufba.dcc.mestrado.computacao.entities.ohloh.stack.OhLohStackEntryEntity</class>
-
+		<exclude-unlisted-classes>false</exclude-unlisted-classes>
 	</persistence-unit>
 </persistence>

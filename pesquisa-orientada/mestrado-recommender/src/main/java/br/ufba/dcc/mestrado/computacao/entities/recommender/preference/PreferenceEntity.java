@@ -48,6 +48,9 @@ public class PreferenceEntity implements BaseEntity<Long> {
 	@OneToMany(mappedBy = "preference")
 	private List<PreferenceEntryEntity> preferenceEntryList;
 	
+	@ManyToOne
+	private PreferenceReviewEntity preferenceReview;
+	
 	public Long getId() {
 		return id;
 	}
@@ -96,4 +99,13 @@ public class PreferenceEntity implements BaseEntity<Long> {
 		this.preferenceEntryList = preferenceEntryList;
 	}
 
+	public PreferenceReviewEntity getPreferenceReview() {
+		return preferenceReview;
+	}
+
+	public void setPreferenceReview(PreferenceReviewEntity preferenceReview) {
+		this.preferenceReview = preferenceReview;
+	}
+
+	
 }

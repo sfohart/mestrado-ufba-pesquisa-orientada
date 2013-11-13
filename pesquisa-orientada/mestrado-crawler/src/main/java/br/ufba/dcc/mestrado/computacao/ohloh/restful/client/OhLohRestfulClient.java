@@ -1,5 +1,6 @@
 package br.ufba.dcc.mestrado.computacao.ohloh.restful.client;
 
+import java.io.Serializable;
 import java.text.MessageFormat;
 import java.util.Arrays;
 import java.util.List;
@@ -51,8 +52,13 @@ import br.ufba.dcc.mestrado.computacao.ohloh.restful.responses.OhLohSizeFactResp
 import br.ufba.dcc.mestrado.computacao.ohloh.restful.responses.OhLohStackResponse;
 
 @Scope("singleton")
-public class OhLohRestfulClient {
+public class OhLohRestfulClient implements Serializable {
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -6670332212734792427L;
+
 	public static Logger logger = Logger.getLogger(OhLohRestfulClient.class);
 	
 	/**

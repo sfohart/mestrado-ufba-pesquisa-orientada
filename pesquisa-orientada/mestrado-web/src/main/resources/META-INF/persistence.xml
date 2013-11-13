@@ -33,6 +33,7 @@
 		<class>br.ufba.dcc.mestrado.computacao.entities.recommender.criterium.UserRecommenderCriteriumEntity</class>
 		<class>br.ufba.dcc.mestrado.computacao.entities.recommender.preference.PreferenceEntity</class>
 		<class>br.ufba.dcc.mestrado.computacao.entities.recommender.preference.PreferenceEntryEntity</class>
+		<class>br.ufba.dcc.mestrado.computacao.entities.recommender.preference.PreferenceReviewEntity</class>
 		<exclude-unlisted-classes>false</exclude-unlisted-classes>
 	</persistence-unit>
 </persistence>

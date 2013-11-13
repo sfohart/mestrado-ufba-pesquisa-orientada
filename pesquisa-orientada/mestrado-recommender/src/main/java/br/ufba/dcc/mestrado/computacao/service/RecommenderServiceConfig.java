@@ -9,7 +9,9 @@ import br.ufba.dcc.mestrado.computacao.repository.RecommenderRepositoryConfig;
 import br.ufba.dcc.mestrado.computacao.repository.base.CriteriumPreferenceRepository;
 import br.ufba.dcc.mestrado.computacao.repository.base.RecommenderCriteriumRepository;
 import br.ufba.dcc.mestrado.computacao.repository.base.UserRecommenderCriteriumRepository;
+import br.ufba.dcc.mestrado.computacao.service.base.RecommenderCriteriumService;
 import br.ufba.dcc.mestrado.computacao.service.base.RecommenderService;
+import br.ufba.dcc.mestrado.computacao.service.impl.RecommenderCriteriumServiceImpl;
 import br.ufba.dcc.mestrado.computacao.service.impl.RecommenderServiceImpl;
 
 @Configuration
@@ -28,6 +30,11 @@ public class RecommenderServiceConfig {
 	@Bean
 	public RecommenderService recommenderService() {
 		return new RecommenderServiceImpl();
+	}
+	
+	@Bean
+	public RecommenderCriteriumService recommenderCriteriumService() {
+		return new RecommenderCriteriumServiceImpl(recommenderCriteriumRepository);
 	}
 
 }

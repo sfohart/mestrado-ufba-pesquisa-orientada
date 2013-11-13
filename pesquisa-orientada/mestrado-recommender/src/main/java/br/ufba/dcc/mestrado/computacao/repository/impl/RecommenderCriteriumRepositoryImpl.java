@@ -13,7 +13,7 @@ import org.springframework.stereotype.Repository;
 import br.ufba.dcc.mestrado.computacao.entities.recommender.criterium.RecommenderCriteriumEntity;
 import br.ufba.dcc.mestrado.computacao.repository.base.RecommenderCriteriumRepository;
 
-@Repository
+@Repository(RecommenderCriteriumRepositoryImpl.BEAN_NAME)
 public class RecommenderCriteriumRepositoryImpl extends BaseRepositoryImpl<Long, RecommenderCriteriumEntity>
 	implements RecommenderCriteriumRepository {
 	
@@ -21,6 +21,8 @@ public class RecommenderCriteriumRepositoryImpl extends BaseRepositoryImpl<Long,
 	 * 
 	 */
 	private static final long serialVersionUID = -7582764504151627470L;
+	
+	public static final String BEAN_NAME =  "recommenderCriteriumRepository";
 
 	public RecommenderCriteriumRepositoryImpl() {
 		super(RecommenderCriteriumEntity.class);

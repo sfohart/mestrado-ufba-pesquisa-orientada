@@ -1,5 +1,6 @@
 package br.ufba.dcc.mestrado.computacao.util;
 
+import java.io.Serializable;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -26,7 +27,13 @@ import br.ufba.dcc.mestrado.computacao.ohloh.data.analysis.OhLohAnalysisLanguage
 import br.ufba.dcc.mestrado.computacao.ohloh.data.kudoskore.OhLohKudoScoreDTO;
 import br.ufba.dcc.mestrado.computacao.ohloh.data.stack.OhLohStackDTO;
 
-public class ConverterHandler<DTO extends OhLohResultDTO, ID extends Number, E extends BaseEntity<ID>> {
+public class ConverterHandler<DTO extends OhLohResultDTO, ID extends Number, E extends BaseEntity<ID>> 
+		implements Serializable {
+	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -3946201995848552435L;
 	
 	private Class<DTO> dtoClass;
 	private Class<E> entityClass;
