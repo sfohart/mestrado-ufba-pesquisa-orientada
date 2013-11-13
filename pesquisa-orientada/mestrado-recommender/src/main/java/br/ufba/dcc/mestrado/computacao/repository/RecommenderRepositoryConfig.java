@@ -27,7 +27,7 @@ public class RecommenderRepositoryConfig {
 	@Autowired
 	private Environment environment;
 	
-	@Bean
+	/*@Bean
 	public DataSource dataSource() {
 		DriverManagerDataSource dataSource = new DriverManagerDataSource();
 		
@@ -61,7 +61,7 @@ public class RecommenderRepositoryConfig {
 		
 		return entityManagerFactoryBean;
 	}
-	
+*/	
 	@Bean
 	public CriteriumPreferenceRepository criteriumPreferenceRepository() {
 		return new CriteriumPreferenceRepositoryImpl();

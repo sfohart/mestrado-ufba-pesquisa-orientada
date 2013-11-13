@@ -22,8 +22,13 @@ public class IndexerRunner {
 	private SearchService searchService;
 	
 	public void run() {
-		try {
+		/*try {
 			indexer.buildIndex();
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		} catch (ExecutionException e) {
+			e.printStackTrace();
+		}*/
 			
 			SearchRequest searchRequest = new SearchRequest();
 			searchRequest.setQuery("pdf");
@@ -32,11 +37,6 @@ public class IndexerRunner {
 			
 			logger.info(String.format("%d Hits, %d facets", searchResult.getTotalResults(), searchResult.getTagFacetsList().size() ));
 			
-		} catch (InterruptedException e) {
-			e.printStackTrace();
-		} catch (ExecutionException e) {
-			e.printStackTrace();
-		}
 	}
 	
 	public static void main(String[] args) {
