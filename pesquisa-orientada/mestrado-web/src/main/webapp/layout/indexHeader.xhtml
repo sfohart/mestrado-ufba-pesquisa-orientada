@@ -27,7 +27,7 @@
   						<h:inputText styleClass="form-control" p:placeholder="Digite aqui"  value="#{mainMB.searchRequest.query}" />
   					</div>
   					<h:commandButton styleClass="btn btn-default" value="Buscar"
-  						action="#{mainMB.loadResults}" 
+  						action="results.jsf?faces-redirect=true&amp;includeViewParams=true" 
   						actionListener="#{mainMB.searchProjects}" >
   					</h:commandButton>
   				</h:form>

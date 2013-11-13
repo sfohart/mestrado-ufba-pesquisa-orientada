@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:pretty="http://ocpsoft.com/prettyfaces"
+	xmlns:p="http://xmlns.jcp.org/jsf/passthrough">
+	
+	<f:metadata>
+		<f:viewParam id="projectId" name="projectId" value="#{projectReviewMB.project.id}" required="true" requiredMessage="#{messages['project.review.error.projectId']}"  />
+		<f:event listener="#{mainMB.init}" type="preRenderView"  />
+	</f:metadata>
+
+	<h:body>
+		<ui:composition template="layout/mainLayout.xhtml">
+		
+			<ui:define name="titlePage">Entrar</ui:define>
+			
+			<ui:define name="header">
+				<ui:include src="layout/indexHeader.xhtml"  />
+			</ui:define>
+			
+			<ui:define name="content">
+				<section class="container">
+					<h:panelGroup id="projectReviewError" layout="block" styleClass="alert alert-danger col-md-12" rendered="#{empty projectReviewMB.project.id}">
+						<strong>Vish! </strong>
+						<h:message for="projectId"  />
+					</h:panelGroup>					
+				</section>
+			</ui:define>
+			
+		</ui:composition>
+	</h:body>
+</html>

@@ -107,6 +107,18 @@ public class MainManageBean implements Serializable{
 		this.pageList = pageList;
 	}
 	
+	public void init(ComponentSystemEvent event) {
+		if (getSearchRequest() != null 
+				&& getSearchRequest().getQuery() != null
+				&& ! "".equals(getSearchRequest().getQuery())) {
+			
+			Integer first = 0;
+			Integer pageSize = 10;
+			
+			getDataModel().load(first, pageSize);
+		}
+	}
+	
 	public void searchProjects(ActionEvent event) {
 		Map<String, String> params = 
 				FacesContext

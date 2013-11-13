@@ -7,8 +7,7 @@
 	xmlns:p="http://xmlns.jcp.org/jsf/passthrough">
 	
 	<f:metadata>
-		<f:viewParam id="projectId" name="projectId" value="#{projectDetailMB.project.id}" required="true">
-		</f:viewParam>
+		<f:viewParam id="projectId" name="projectId" value="#{projectDetailMB.project.id}" required="true"  requiredMessage="#{messages['project.detail.error.projectId']}"  />
 		<f:event listener="#{projectDetailMB.init}" type="preRenderView"/>
 	</f:metadata>
 	
@@ -23,14 +22,18 @@
 			<ui:define name="content">
 			
 				<section class="container">
+					<h:panelGroup id="projectDetailAlert" layout="block" styleClass="alert alert-danger col-md-12" rendered="#{empty projectDetailMB.project.id}">
+						<strong>Vish! </strong>
+						<h:message for="projectId"  />
+					</h:panelGroup>
 				
 					<h:panelGroup id="projectTitle" layout="block" styleClass="row">
-						<div class="span1">
+						<div class="col-md-1">
 							<a class="pull-left" href="#">
 								<img class="media-object" data-src="holder.js/64x64" src="#{projectDetailMB.project.mediumLogoURL}"  />
 							</a>
 						</div>
-						<div class="span11">
+						<div class="col-md-9">
 							<h2> <h:outputText value="#{projectDetailMB.project.name}" /> </h2>
 						</div>
 					</h:panelGroup>
@@ -38,10 +41,10 @@
 					
 					<h:panelGroup id="projectSummary" layout="block" styleClass="row">
 					
-						<h3>Sumário</h3>
+						<h2>Sumário</h2>
 						<hr />
 						
-						<div class="span6">
+						<div class="col-md-6">
 							<h:panelGroup id="projectDescription" p:itemprop="description" >
 								<ui:repeat var="paragraph" value="#{projectDetailMB.projectDescritionParagraphs}">
 									<p>
@@ -51,16 +54,16 @@
 							</h:panelGroup>
 							
 							<div class="row"></div>
-
-							<h:panelGroup id="projectTags" p:itemprop="tags" styleClass="tags">
-								<span class="icon-tags"></span>
+							
+							<h:panelGroup id="tagsPanel" rendered="#{not empty projectDetailMB.project.ohLohTags}">
+								<span class="glyphicon glyphicon-tags" style="margin-right: 5px"></span>
 								<ui:repeat var="tag" value="#{projectDetailMB.project.ohLohTags}">
-									<span class="label label-info"><h:outputText value="#{tag.name}" /> </span>
-								</ui:repeat>
-							</h:panelGroup>
+									<span class="label label-info"><h:outputText value="#{tag.name}" /></span>      														
+								</ui:repeat>      														
+							</h:panelGroup>							
 						</div>
 						
-						<div class="span6">
+						<div class="col-md-6">
 							<h:panelGroup id="projectReferences" layout="block" styleClass="well">
 								<h5>Referências</h5>
 								
@@ -79,7 +82,7 @@
 									<dd style="margin-bottom: .5em;">
 										<ui:repeat var="license" value="#{projectDetailMB.project.ohLohLicenses}">
 											<h:link value="#{license.name}">
-												<h:outputText value="#{license.niceName}" />
+												<h:outputText value="#{license.name}" />
 											</h:link>
 										</ui:repeat>
 									</dd>						
@@ -87,6 +90,13 @@
 							</h:panelGroup>
 						</div>
 					
+					</h:panelGroup>
+					
+					<h:panelGroup id="communityPanel" layout="block" styleClass="row">
+					
+						<h2>Comunidade</h2>
+						<hr />
+						
 					</h:panelGroup>
 				
 				</section>

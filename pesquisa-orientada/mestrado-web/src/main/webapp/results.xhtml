@@ -3,154 +3,159 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:ui="http://java.sun.com/jsf/facelets"
-	xmlns:f="http://java.sun.com/jsf/core"
-	xmlns:pretty="http://ocpsoft.com/prettyfaces"
+	xmlns:f="http://java.sun.com/jsf/core"	
 	xmlns:p="http://xmlns.jcp.org/jsf/passthrough">
+	
+	<f:metadata>
+		<f:viewParam id="query" name="query" value="#{mainMB.searchRequest.query}"  />
+		<f:event listener="#{mainMB.init}" type="preRenderView"  />
+	</f:metadata>
 
 	<h:body>
 		<ui:composition template="layout/mainLayout.xhtml">
+			
 			<ui:define name="titlePage">Resultado da Busca</ui:define>
 			
 			<ui:define name="content">
-				<section class="container">
-					<h:form id="searchResults">
-						
-							<div class="row">
+				<section class="container">					
+					<h:form id="searchResults">						
+						<div class="row">
+							
+							<!-- barra lateral de tags -->
+							<h:panelGroup id="tagSideBar" layout="block" styleClass="col-md-3 tag-tooltip" >
+								<h4>Tags Selecionadas</h4>
+								<ul class="nav nav-pills nav-stacked">
+									<ui:repeat var="selectedFacet" value="#{mainMB.searchRequest.selectedFacets}">
+										<li class="active">
+											<h:commandLink
+												actionListener="#{mainMB.removeFacetsFromFilter}"
+												p:data-toggle="tooltip" 
+												p:data-placement="right" 
+												p:data-original-title="parar de filtar por #{selectedFacet.value}">
+												
+												<f:param  name="facetValue" value="#{selectedFacet.value}" />
+												<i class="glyphicon glyphicon-minus-sign"></i>
+												<h:outputText value=" #{selectedFacet.value}" />
+												<span class="badge"><h:outputText value="#{selectedFacet.count}" /> </span>
+												
+											</h:commandLink>												
+										</li>
+									</ui:repeat>
+								</ul>
 								
-								<!-- barra lateral de tags -->
-								<h:panelGroup id="tagSideBar" layout="block" styleClass="col-md-3 tag-tooltip" >
-									<h6>Tags Selecionadas</h6>
-									<ul class="nav nav-pills nav-stacked">
-										<ui:repeat var="selectedFacet" value="#{mainMB.searchRequest.selectedFacets}">
-											<li class="active">
-												<h:commandLink
-													actionListener="#{mainMB.removeFacetsFromFilter}"
-													p:data-toggle="tooltip" 
-													p:data-placement="right" 
-													p:data-original-title="parar de filtar por #{selectedFacet.value}">
-													
-													<f:param  name="facetValue" value="#{selectedFacet.value}" />
-													<i class="glyphicon glyphicon-minus-sign"></i>
-													<h:outputText value=" #{selectedFacet.value} (#{selectedFacet.count})" />
-													
-												</h:commandLink>												
-											</li>
-										</ui:repeat>
-									</ul>
-									
-									
-									<h6>Tags Relacionadas</h6>
-									<ul class="nav nav-pills nav-stacked">
-										<ui:repeat var="unselectedFacet" value="#{mainMB.searchRequest.deselectedFacets}">
-											<li>
-												<h:commandLink
-													actionListener="#{mainMB.addFacetsToFilter}"
-													p:data-toggle="tooltip" 
-													p:data-placement="right" 
-													p:data-original-title="filtar por #{unselectedFacet.value}">
-													
-													<f:param  name="facetValue" value="#{unselectedFacet.value}" />
-													<i class="glyphicon glyphicon-plus-sign"></i>
-													<h:outputText value=" #{unselectedFacet.value} (#{unselectedFacet.count})" />
-															
-												</h:commandLink>
-											</li>
-										</ui:repeat>
+								
+								<h4>Tags Relacionadas</h4>
+								<ul class="nav nav-pills nav-stacked">
+									<ui:repeat var="unselectedFacet" value="#{mainMB.searchRequest.deselectedFacets}">
+										<li>
+											<h:commandLink
+												actionListener="#{mainMB.addFacetsToFilter}"
+												p:data-toggle="tooltip" 
+												p:data-placement="right" 
+												p:data-original-title="filtar por #{unselectedFacet.value}">
+												
+												<f:param  name="facetValue" value="#{unselectedFacet.value}" />
+												<i class="glyphicon glyphicon-plus-sign"></i>
+												<h:outputText value=" #{unselectedFacet.value}" />
+												<span class="badge"><h:outputText value="#{unselectedFacet.count}" /> </span>
+											</h:commandLink>
+										</li>
+									</ui:repeat>
+								</ul>
+							</h:panelGroup>
+							
+							<h:panelGroup id="searchResult" layout="block" styleClass="col-md-9">
+								
+								<h:panelGroup layout="block" id="breadcrump" rendered="#{mainMB.dataModel.rowAvailable}">
+									<!-- Exibindo quantidade de resultados -->
+									<ul class="breadcrumb">
+										<li>
+											Exibindo página <h:outputText value="#{mainMB.pageList.currentPage}" /> de <h:outputText value="#{mainMB.pageList.totalPages}" /> 
+										</li>
 									</ul>
 								</h:panelGroup>
-								
-								<h:panelGroup id="searchResult" layout="block" styleClass="col-md-9">
-									
-									<h:panelGroup layout="block" id="breadcrump" rendered="#{mainMB.dataModel.rowAvailable}">
-										<!-- Exibindo quantidade de resultados -->
-										<ul class="breadcrumb">
-											<li>
-												Exibindo página <h:outputText value="#{mainMB.pageList.currentPage}" /> de <h:outputText value="#{mainMB.pageList.totalPages}" /> 
-											</li>
-										</ul>
-									</h:panelGroup>
-								
-									<section>
-										<ul class="media-list">
-											<ui:repeat var="project" value="#{mainMB.dataModel}">
-												<li class="media well">
+							
+								<section>
+									<ul class="media-list">
+										<ui:repeat var="project" value="#{mainMB.dataModel}">
+											<li class="media well">
 
-													<h:link outcome="projectDetail" >
-														<f:param name="projectId" value="#{project.id}" />
-														<h4><h:outputText value="#{project.name}"  /></h4>														
-													</h:link>
+												<h:link outcome="projectDetail" >
+													<f:param name="projectId" value="#{project.id}" />
+													<h4><h:outputText value="#{project.name}"  /></h4>														
+												</h:link>
+												
+												<h:outputLink styleClass="pull-left">
+													<img class="media-object" data-src="holder.js/64x64" src="#{project.mediumLogoURL}" />
+												</h:outputLink>
+												
+												<div class="media-body">
+													<p class="text-expander">
+														<h:outputText value="#{project.description}" />
+													</p>
 													
-													<h:outputLink styleClass="pull-left">
-														<img class="media-object" data-src="holder.js/64x64" src="#{project.mediumLogoURL}" />
-													</h:outputLink>
+													<h:panelGroup id="tagsPanel" rendered="#{not empty project.ohLohTags}">
+														<span class="glyphicon glyphicon-tags" style="margin-right: 5px"></span>
+														<ui:repeat var="tag" value="#{project.ohLohTags}">
+      														<span class="label label-info"><h:outputText value="#{tag.name}" /></span>      														
+														</ui:repeat>      														
+													</h:panelGroup>
 													
-													<div class="media-body">
-														<p class="text-expander">
-															<h:outputText value="#{project.description}" />
-														</p>
-														
-														<h:panelGroup id="tagsPanel" rendered="#{not empty project.ohLohTags}">
-															<span class="glyphicon glyphicon-tags" style="margin-right: 5px"></span>
-															<ui:repeat var="tag" value="#{project.ohLohTags}">
-	      														<span class="label label-info"><h:outputText value="#{tag.name}" /></span>      														
-															</ui:repeat>      														
-														</h:panelGroup>
-														
-    
-													</div>
-										
-												</li>
-											</ui:repeat>
-										</ul>
-									</section>
-								</h:panelGroup>
-								
-								<!-- Paginação -->
-								<h:panelGroup
-									rendered="#{mainMB.pageList.totalPages > 1}"
-									id="pagination" layout="block" styleClass="text-center" >
-									<ul class="pagination">
-										<li class="#{mainMB.pageList.currentPage eq mainMB.pageList.firstPage ? 'disabled' : ''}">
-											<h:commandLink actionListener="#{mainMB.searchProjects}" disabled="#{mainMB.pageList.currentPage eq mainMB.pageList.firstPage}" >
-												<f:param  name="page" value="#{mainMB.pageList.firstPage}" />
-												«
-											</h:commandLink>
-										</li>
-										
-										<li class="#{mainMB.pageList.currentPage eq mainMB.pageList.previousPage ? 'disabled' : ''}">
-											<h:commandLink actionListener="#{mainMB.searchProjects}" disabled="#{mainMB.pageList.currentPage eq mainMB.pageList.previousPage}" >
-												<f:param  name="page" value="#{mainMB.pageList.previousPage}" />
-												anterior
-											</h:commandLink>
-										</li>
-										
-										<ui:repeat var="page" value="#{mainMB.pageList.pageList}">
-											<li class="#{mainMB.pageList.currentPage eq page ? 'active' : ''}">
-												<h:commandLink actionListener="#{mainMB.searchProjects}" disabled="#{mainMB.pageList.currentPage eq page}" >
-													<f:param  name="page" value="#{page}" />
-													<h:outputText value="#{page}" />
-												</h:commandLink>
+   
+												</div>
+									
 											</li>
 										</ui:repeat>
-										
-										<li class="#{mainMB.pageList.currentPage eq mainMB.pageList.nextPage ? 'disabled' : ''}">
-											<h:commandLink actionListener="#{mainMB.searchProjects}" disabled="#{mainMB.pageList.currentPage eq mainMB.pageList.nextPage}" >
-												<f:param  name="page" value="#{mainMB.pageList.nextPage}" />
-												próximo
-											</h:commandLink>
-										</li>
-										
-										
-										<li class="#{mainMB.pageList.currentPage eq mainMB.pageList.lastPage ? 'disabled' : ''}">
-											<h:commandLink actionListener="#{mainMB.searchProjects}" disabled="#{mainMB.pageList.currentPage eq mainMB.pageList.lastPage}" >
-												<f:param  name="page" value="#{mainMB.pageList.lastPage}" />
-												»
-											</h:commandLink>
-										</li>
 									</ul>
-								</h:panelGroup>
-														
-							</div>
+								</section>
+							</h:panelGroup>
+							
+							<!-- Paginação -->
+							<h:panelGroup
+								rendered="#{mainMB.pageList.totalPages > 1}"
+								id="pagination" layout="block" styleClass="text-center" >
+								<ul class="pagination">
+									<li class="#{mainMB.pageList.currentPage eq mainMB.pageList.firstPage ? 'disabled' : ''}">
+										<h:commandLink actionListener="#{mainMB.searchProjects}" disabled="#{mainMB.pageList.currentPage eq mainMB.pageList.firstPage}" >
+											<f:param  name="page" value="#{mainMB.pageList.firstPage}" />
+											«
+										</h:commandLink>
+									</li>
+									
+									<li class="#{mainMB.pageList.currentPage eq mainMB.pageList.previousPage ? 'disabled' : ''}">
+										<h:commandLink actionListener="#{mainMB.searchProjects}" disabled="#{mainMB.pageList.currentPage eq mainMB.pageList.previousPage}" >
+											<f:param  name="page" value="#{mainMB.pageList.previousPage}" />
+											anterior
+										</h:commandLink>
+									</li>
+									
+									<ui:repeat var="page" value="#{mainMB.pageList.pageList}">
+										<li class="#{mainMB.pageList.currentPage eq page ? 'active' : ''}">
+											<h:commandLink actionListener="#{mainMB.searchProjects}" disabled="#{mainMB.pageList.currentPage eq page}" >
+												<f:param  name="page" value="#{page}" />
+												<h:outputText value="#{page}" />
+											</h:commandLink>
+										</li>
+									</ui:repeat>
+									
+									<li class="#{mainMB.pageList.currentPage eq mainMB.pageList.nextPage ? 'disabled' : ''}">
+										<h:commandLink actionListener="#{mainMB.searchProjects}" disabled="#{mainMB.pageList.currentPage eq mainMB.pageList.nextPage}" >
+											<f:param  name="page" value="#{mainMB.pageList.nextPage}" />
+											próximo
+										</h:commandLink>
+									</li>
+									
+									
+									<li class="#{mainMB.pageList.currentPage eq mainMB.pageList.lastPage ? 'disabled' : ''}">
+										<h:commandLink actionListener="#{mainMB.searchProjects}" disabled="#{mainMB.pageList.currentPage eq mainMB.pageList.lastPage}" >
+											<f:param  name="page" value="#{mainMB.pageList.lastPage}" />
+											»
+										</h:commandLink>
+									</li>
+								</ul>
+							</h:panelGroup>
+													
+						</div>
 					</h:form>
 				</section>
 				
