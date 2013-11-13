@@ -4,18 +4,17 @@
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:ui="http://java.sun.com/jsf/facelets"
 	xmlns:f="http://java.sun.com/jsf/core"
-	xmlns:pretty="http://ocpsoft.com/prettyfaces"
 	xmlns:p="http://xmlns.jcp.org/jsf/passthrough">
 	
 	<f:metadata>
 		<f:viewParam id="projectId" name="projectId" value="#{projectReviewMB.project.id}" required="true" requiredMessage="#{messages['project.review.error.projectId']}"  />
-		<f:event listener="#{mainMB.init}" type="preRenderView"  />
+		<f:event listener="#{projectReviewMB.init}" type="preRenderView"  />
 	</f:metadata>
 
 	<h:body>
 		<ui:composition template="layout/mainLayout.xhtml">
 		
-			<ui:define name="titlePage">Entrar</ui:define>
+			<ui:define name="titlePage">Nova Avaliação</ui:define>
 			
 			<ui:define name="header">
 				<ui:include src="layout/indexHeader.xhtml"  />
@@ -23,10 +22,70 @@
 			
 			<ui:define name="content">
 				<section class="container">
-					<h:panelGroup id="projectReviewError" layout="block" styleClass="alert alert-danger col-md-12" rendered="#{empty projectReviewMB.project.id}">
+					<h:panelGroup id="projectReviewError" layout="block" styleClass="alert alert-danger col-md-12" rendered="#{projectReviewMB.project.id eq null}">
 						<strong>Vish! </strong>
 						<h:message for="projectId"  />
-					</h:panelGroup>					
+					</h:panelGroup>	
+					
+					<h:panelGroup id="projectTitle" layout="block" styleClass="row">
+						<div class="col-md-1">
+							<a class="pull-left" href="#">
+								<img class="media-object" data-src="holder.js/64x64" src="#{projectReviewMB.project.mediumLogoURL}"  />
+							</a>
+						</div>
+						<div class="col-md-9">
+							<h2> <h:outputText value="#{projectReviewMB.project.name}" /> </h2>
+						</div>
+					</h:panelGroup>	
+					
+					<h:panelGroup id="projectReview" layout="block" styleClass="row">
+						<hr />
+						<h3>
+							<h:outputLink value="projectReviews.jsf">
+								<f:param  name="projectId" value="#{projectReviewMB.project.id}"  />
+								Avaliações:
+							</h:outputLink>
+							Nova
+						</h3>
+						
+						<div class="col-md-9" style="margin-left:137px;">
+							<div class="well">
+								<h:form id="projectReviewForm">
+									<fieldset>
+										<legend>Critérios de Avaliação:</legend>
+										<ui:repeat  var="preferenceEntry" value="#{projectReviewMB.preference.preferenceEntryList}" varStatus="status">
+											<div class="col-md-6 #{status.even ? 'pull-right' : 'pull-left'}">
+												<div class="row">
+													<div class="form-group">
+														<label><h:outputText  value="#{preferenceEntry.criterium.name}"  /> </label>
+														<br />
+														<h:inputText type="range" styleClass="criterio#{preferenceEntry.criterium.id}" value="#{preferenceEntry.value}" min="0" max="10" />
+														<div class="rateit" data-rateit-backingfld=".criterio#{preferenceEntry.criterium.id}" data-rateit-min="0" data-rateit-max="10"></div>
+													</div>
+												</div>
+											</div>
+										</ui:repeat>
+									</fieldset>
+									
+									<fieldset>
+										<legend>Dê sua opinião</legend>
+										<div class="form-group">
+											<h:outputLabel  for="reviewTitle">Título</h:outputLabel>
+											<h:inputText id="reviewTitle" styleClass="form-control" />
+										</div>
+										
+										<div class="form-group">
+											<h:outputLabel  for="reviewDescription">Descrição</h:outputLabel>
+											<h:inputTextarea id="reviewDescription" styleClass="form-control" rows="5" />
+										</div>
+									</fieldset>
+									
+									<h:commandButton styleClass="btn btn-primary" value="Enviar">
+									</h:commandButton>
+								</h:form>
+							</div>
+						</div>
+					</h:panelGroup>			
 				</section>
 			</ui:define>
 			
