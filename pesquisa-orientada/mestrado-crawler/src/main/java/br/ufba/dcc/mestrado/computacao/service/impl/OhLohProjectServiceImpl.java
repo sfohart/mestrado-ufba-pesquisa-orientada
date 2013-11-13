@@ -1,14 +1,17 @@
 package br.ufba.dcc.mestrado.computacao.service.impl;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import br.ufba.dcc.mestrado.computacao.entities.ohloh.analysis.OhLohAnalysisEntity;
 import br.ufba.dcc.mestrado.computacao.entities.ohloh.project.OhLohLicenseEntity;
+import br.ufba.dcc.mestrado.computacao.entities.ohloh.project.OhLohLinkEntity;
 import br.ufba.dcc.mestrado.computacao.entities.ohloh.project.OhLohProjectEntity;
 import br.ufba.dcc.mestrado.computacao.entities.ohloh.project.OhLohTagEntity;
 import br.ufba.dcc.mestrado.computacao.ohloh.data.analysis.OhLohAnalysisDTO;
@@ -50,6 +53,28 @@ public class OhLohProjectServiceImpl extends BaseOhLohServiceImpl<OhLohProjectDT
 	
 	@Autowired
 	private OhLohRestfulClient restfulClient;
+	
+	
+	public Map<String, List<OhLohLinkEntity>> buildLinkMapByCategory(OhLohProjectEntity project) {
+		Map<String, List<OhLohLinkEntity>> linkMap = null;
+		
+		if (project != null && project.getOhLohLinks() != null) {
+			linkMap = new HashMap<>();
+			
+			for (OhLohLinkEntity link : project.getOhLohLinks()) {
+				List<OhLohLinkEntity> linkList = linkMap.get(link.getCategory());
+				
+				if (linkList == null) {
+					linkList = new ArrayList<>();
+				}
+				
+				linkList.add(link);
+				linkMap.put(link.getCategory(), linkList);
+			}
+		}
+		
+		return linkMap;
+	}
 	
 	@Override
 	public void validateEntity(OhLohProjectEntity entity) throws Exception {

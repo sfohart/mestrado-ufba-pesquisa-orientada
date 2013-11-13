@@ -11,12 +11,16 @@
 		<ui:composition template="layout/mainLayout.xhtml">
 		
 			<ui:define name="titlePage">Entrar</ui:define>
+			
+			<ui:define name="header">
+				<ui:include src="layout/indexHeader.xhtml"  />
+			</ui:define>
 				
 			<ui:define name="content">				
 				<section class="container">
 				
 					<div class="row">
-						<div class="span7">
+						<div class="col-md-6">
 							<h4>Seja bem vindo!</h4>
 							<p class="text-justify">
 								Você pode utilizar o sistema sem efetuar login ou ter uma conta. Mas como o intuito desta comunidade é ser
@@ -43,28 +47,34 @@
 							</p>
 						</div>
 						
-						<div class="span5">
+						<div class="col-md-6">
 							<div class="well">
 								<h:form>
 									<fieldset>
 										<legend>Entrar</legend>
-										<div class="control-group">
+										<div class="form-group">
 											<div class="input-prepend">
-												<span class="add-on">
-													<i class="icon-user"></i>
-												</span>
-												<h:inputText styleClass="input-xlarge ghost" id="login"  p:placeholder="Nome de Usuário" />												
+												<div class="input-group">
+													<span class="input-group-addon">
+														<span class="glyphicon glyphicon-user"></span>
+													</span>
+													<h:inputText styleClass="form-control" id="j_username"  tabindex="1" required="true"  p:placeholder="Nome de Usuário" />												
+												</div>
 											</div>
 										</div>
 										
-										<div class="control-group">
+										<div class="form-group">
 											<div class="input-prepend">
-												<span class="add-on">
-													<i class=" icon-eye-close"></i>
-												</span>
-												<h:inputText styleClass="input-xlarge ghost" id="senha"  p:placeholder="Senha" />												
+												<div class="input-group">
+													<span class="input-group-addon">
+														<span class="glyphicon glyphicon-eye-close"></span>
+													</span>
+													<h:inputSecret  styleClass="form-control" id="j_password" tabindex="2" required="true"  p:placeholder="Senha" />												
+												</div>
 											</div>
 										</div>
+										<h:commandButton  styleClass="btn btn-primary" value="Login">
+										</h:commandButton>
 									</fieldset>
 								</h:form>
 							</div>
