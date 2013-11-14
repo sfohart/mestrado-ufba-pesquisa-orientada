@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 import br.ufba.dcc.mestrado.computacao.entities.ohloh.analysis.OhLohAnalysisEntity;
@@ -37,7 +38,7 @@ public class OhLohAnalysisServiceImpl extends BaseOhLohServiceImpl<OhLohAnalysis
 	private static Logger logger = Logger.getLogger(OhLohAnalysisServiceImpl.class.getName());
 	
 	@Autowired
-	public OhLohAnalysisServiceImpl(OhLohAnalysisRepository repository) {
+	public OhLohAnalysisServiceImpl(@Qualifier("ohLohAnalysisRepository") OhLohAnalysisRepository repository) {
 		super(repository, OhLohAnalysisDTO.class, OhLohAnalysisEntity.class);
 	}
 

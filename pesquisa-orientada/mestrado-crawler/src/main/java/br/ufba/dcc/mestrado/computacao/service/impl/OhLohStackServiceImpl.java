@@ -8,6 +8,7 @@ import java.util.Map;
 
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 import br.ufba.dcc.mestrado.computacao.entities.ohloh.project.OhLohLicenseEntity;
@@ -43,7 +44,7 @@ public class OhLohStackServiceImpl extends BaseOhLohServiceImpl<OhLohStackDTO, L
 	private OhLohRestfulClient restfulClient;
 	
 	@Autowired
-	public OhLohStackServiceImpl(OhLohStackRepository repository) {
+	public OhLohStackServiceImpl(@Qualifier("ohLohStackRepository") OhLohStackRepository repository) {
 		super(repository, OhLohStackDTO.class, OhLohStackEntity.class);
 	}
 	

@@ -5,7 +5,9 @@ import java.util.List;
 
 import org.apache.mahout.cf.taste.model.Preference;
 
-public interface CriteriumPreferenceRepository extends Serializable {
+import br.ufba.dcc.mestrado.computacao.entities.recommender.preference.PreferenceEntity;
+
+public interface CriteriumPreferenceRepository extends BaseRepository<Long, PreferenceEntity>, Serializable {
 	
 	/**
 	 * 

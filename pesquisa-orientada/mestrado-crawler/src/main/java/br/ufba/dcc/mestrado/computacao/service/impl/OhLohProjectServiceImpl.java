@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 import br.ufba.dcc.mestrado.computacao.entities.ohloh.analysis.OhLohAnalysisEntity;
@@ -37,7 +38,7 @@ public class OhLohProjectServiceImpl extends BaseOhLohServiceImpl<OhLohProjectDT
 	public static final String BEAN_NAME =  "ohLohProjectService";
 
 	@Autowired
-	public OhLohProjectServiceImpl(OhLohProjectRepository repository) {
+	public OhLohProjectServiceImpl(@Qualifier("ohLohProjectRepository") OhLohProjectRepository repository) {
 		super(repository, OhLohProjectDTO.class, OhLohProjectEntity.class);
 	}
 

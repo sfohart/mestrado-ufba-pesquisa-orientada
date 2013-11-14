@@ -1,6 +1,7 @@
 package br.ufba.dcc.mestrado.computacao.service.impl;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 import br.ufba.dcc.mestrado.computacao.entities.ohloh.account.OhLohAccountEntity;
@@ -20,7 +21,7 @@ public class OhLohAccountServiceImpl extends BaseOhLohServiceImpl<OhLohAccountDT
 	public static final String BEAN_NAME =  "ohLohAccountService";
 
 	@Autowired
-	public OhLohAccountServiceImpl(OhLohAccountRepository repository) {
+	public OhLohAccountServiceImpl(@Qualifier("ohLohAccountRepository") OhLohAccountRepository repository) {
 		super(repository, OhLohAccountDTO.class, OhLohAccountEntity.class);
 	}
 	

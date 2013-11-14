@@ -28,18 +28,22 @@ import br.ufba.dcc.mestrado.computacao.repository.base.CriteriumPreferenceReposi
  * @author leandro.ferreira
  *
  */
-@Repository
-public class CriteriumPreferenceRepositoryImpl implements CriteriumPreferenceRepository {
+@Repository(CriteriumPreferenceRepositoryImpl.BEAN_NAME)
+public class CriteriumPreferenceRepositoryImpl extends BaseRepositoryImpl<Long, PreferenceEntity> implements CriteriumPreferenceRepository {
 
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = -7259236332352137978L;
 	
+	public static final String BEAN_NAME = "criteriumPreferenceRepository";
+	
 	@PersistenceContext
 	private EntityManager entityManager;
-
 	
+	public CriteriumPreferenceRepositoryImpl() {
+		super(PreferenceEntity.class);
+	}
 
 	@Override
 	@Transactional(readOnly = true)

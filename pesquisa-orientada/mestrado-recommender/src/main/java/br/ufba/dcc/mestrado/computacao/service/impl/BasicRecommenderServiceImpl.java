@@ -10,6 +10,11 @@ import br.ufba.dcc.mestrado.computacao.service.base.BasicRecommenderService;
 
 public abstract class BasicRecommenderServiceImpl<ID extends Number, E extends BaseEntity<ID>> implements BasicRecommenderService<ID, E> {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -3941225883926270394L;
+	
 	private Class<E> entityClass;
 	private BaseRepository<ID, E> repository;
 	

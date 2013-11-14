@@ -15,33 +15,6 @@ import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
 import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
-import br.ufba.dcc.mestrado.computacao.repository.base.OhLohAccountRepository;
-import br.ufba.dcc.mestrado.computacao.repository.base.OhLohAnalysisLanguageRepository;
-import br.ufba.dcc.mestrado.computacao.repository.base.OhLohAnalysisLanguagesRepository;
-import br.ufba.dcc.mestrado.computacao.repository.base.OhLohAnalysisRepository;
-import br.ufba.dcc.mestrado.computacao.repository.base.OhLohCrawlerLanguageRepository;
-import br.ufba.dcc.mestrado.computacao.repository.base.OhLohCrawlerProjectRepository;
-import br.ufba.dcc.mestrado.computacao.repository.base.OhLohCrawlerStackRepository;
-import br.ufba.dcc.mestrado.computacao.repository.base.OhLohLanguageRepository;
-import br.ufba.dcc.mestrado.computacao.repository.base.OhLohLicenseRepository;
-import br.ufba.dcc.mestrado.computacao.repository.base.OhLohLinkRepository;
-import br.ufba.dcc.mestrado.computacao.repository.base.OhLohProjectRepository;
-import br.ufba.dcc.mestrado.computacao.repository.base.OhLohStackRepository;
-import br.ufba.dcc.mestrado.computacao.repository.base.OhLohTagRepository;
-import br.ufba.dcc.mestrado.computacao.repository.impl.OhLohAccountRepositoryImpl;
-import br.ufba.dcc.mestrado.computacao.repository.impl.OhLohAnalysisLanguageRepositoryImpl;
-import br.ufba.dcc.mestrado.computacao.repository.impl.OhLohAnalysisLanguagesRepositoryImpl;
-import br.ufba.dcc.mestrado.computacao.repository.impl.OhLohAnalysisRepositoryImpl;
-import br.ufba.dcc.mestrado.computacao.repository.impl.OhLohCrawlerLanguageRepositoryImpl;
-import br.ufba.dcc.mestrado.computacao.repository.impl.OhLohCrawlerProjectRepositoryImpl;
-import br.ufba.dcc.mestrado.computacao.repository.impl.OhLohCrawlerStackRepositoryImpl;
-import br.ufba.dcc.mestrado.computacao.repository.impl.OhLohLanguageRepositoryImpl;
-import br.ufba.dcc.mestrado.computacao.repository.impl.OhLohLicenseRepositoryImpl;
-import br.ufba.dcc.mestrado.computacao.repository.impl.OhLohLinkRepositoryImpl;
-import br.ufba.dcc.mestrado.computacao.repository.impl.OhLohProjectRepositoryImpl;
-import br.ufba.dcc.mestrado.computacao.repository.impl.OhLohStackRepositoryImpl;
-import br.ufba.dcc.mestrado.computacao.repository.impl.OhLohTagRepositoryImpl;
-
 @Configuration
 @EnableTransactionManagement
 @PropertySource(value = {	
@@ -118,68 +91,5 @@ public class CrawlerRepositoryConfig {
 		return transactionManager;
 	}
 	
-	@Bean
-	public OhLohAccountRepository ohLohAccountRepository() {
-		return new OhLohAccountRepositoryImpl();
-	}
 	
-	@Bean
-	public OhLohAnalysisLanguageRepository ohLohAnalysisLanguageRepository() {
-		return new OhLohAnalysisLanguageRepositoryImpl();
-	}
-	
-	@Bean
-	public OhLohAnalysisLanguagesRepository ohLohAnalysisLanguagesRepository() {
-		return new OhLohAnalysisLanguagesRepositoryImpl();
-	}
-	
-	@Bean
-	public OhLohAnalysisRepository ohLohAnalysisRepository() {
-		return new OhLohAnalysisRepositoryImpl();
-	}
-	
-	@Bean
-	public OhLohCrawlerLanguageRepository ohLohCrawlerLanguageRepository() {
-		return new OhLohCrawlerLanguageRepositoryImpl();
-	}
-	
-	@Bean
-	public OhLohCrawlerProjectRepository ohLohCrawlerProjectRepository() {
-		return new OhLohCrawlerProjectRepositoryImpl();
-	}
-	
-	@Bean
-	public OhLohCrawlerStackRepository ohLohCrawlerStackRepository() {
-		return new OhLohCrawlerStackRepositoryImpl();
-	}
-	
-	@Bean
-	public OhLohLanguageRepository ohLohLanguageRepository() {
-		return new OhLohLanguageRepositoryImpl();
-	}
-	
-	@Bean
-	public OhLohLicenseRepository ohLohLicenseRepository() {
-		return new OhLohLicenseRepositoryImpl();
-	}
-	
-	@Bean
-	public OhLohProjectRepository ohLohProjectRepository() {
-		return new OhLohProjectRepositoryImpl();
-	}
-	
-	@Bean
-	public OhLohStackRepository ohLohStackRepository() {
-		return new OhLohStackRepositoryImpl();
-	}
-	
-	@Bean
-	public OhLohTagRepository ohLohTagRepository() {
-		return new OhLohTagRepositoryImpl();
-	}
-	
-	@Bean 
-	public OhLohLinkRepository ohLohLinkRepository() {
-		return new OhLohLinkRepositoryImpl();
-	}
 }

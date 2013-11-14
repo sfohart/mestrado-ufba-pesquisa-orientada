@@ -11,11 +11,15 @@ import org.hibernate.search.batchindexing.MassIndexerProgressMonitor;
 import org.hibernate.search.impl.SimpleIndexingProgressMonitor;
 import org.hibernate.search.jpa.FullTextEntityManager;
 import org.hibernate.search.jpa.Search;
+import org.springframework.stereotype.Component;
 
 import br.ufba.dcc.mestrado.computacao.entities.ohloh.project.OhLohProjectEntity;
 import br.ufba.dcc.mestrado.computacao.service.base.Indexer;
 
+@Component(HibernateSearchIndexer.BEAN_NAME)
 public class HibernateSearchIndexer implements Indexer {
+	
+	public static final String BEAN_NAME = "hibernateSearchIndexer";
 	
 	@PersistenceContext
 	private EntityManager entityManager;

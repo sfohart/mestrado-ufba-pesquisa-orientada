@@ -1,6 +1,7 @@
 package br.ufba.dcc.mestrado.computacao.service.impl;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 import br.ufba.dcc.mestrado.computacao.entities.recommender.criterium.RecommenderCriteriumEntity;
@@ -20,7 +21,7 @@ public class RecommenderCriteriumServiceImpl
 	public static final String BEAN_NAME =  "recommenderCriteriumService";
 	
 	@Autowired
-	public RecommenderCriteriumServiceImpl(RecommenderCriteriumRepository repository) {
+	public RecommenderCriteriumServiceImpl(@Qualifier("recommenderCriteriumRepository") RecommenderCriteriumRepository repository) {
 		super(repository, RecommenderCriteriumEntity.class);
 	}
 

@@ -51,6 +51,7 @@
 							
 							<div class="row"></div>
 							
+							<h4>Tags</h4>
 							<h:panelGroup id="tagsPanel" rendered="#{not empty projectDetailMB.project.ohLohTags}">
 								<span class="glyphicon glyphicon-tags" style="margin-right: 5px"></span>
 								<ui:repeat var="tag" value="#{projectDetailMB.project.ohLohTags}">
@@ -66,10 +67,21 @@
 								<dl class="dl-horizontal">
 									<dt><a href="#">Links do Projeto:</a></dt>
 									<dd style="margin-bottom: .5em;">
+										<h:outputLink title="Homepage" value="#{projectDetailMB.project.homepageURL}">
+											<span class="glyphicon glyphicon-new-window"></span>
+											Homepage
+										</h:outputLink>
+										<br />
+										<h:outputLink title="Download" value="#{projectDetailMB.project.downloadURL}">
+											<span class="glyphicon glyphicon-new-window"></span>
+											Download
+										</h:outputLink>
+										<br />
 										<ui:repeat var="link" value="#{projectDetailMB.project.ohLohLinks}">
 											<h:link value="#{link.url}">
 												<h:outputText value="#{link.title}" />
 											</h:link>
+											<br />
 										</ui:repeat>
 										<h:outputText  value=" " />
 									</dd>
@@ -80,12 +92,20 @@
 											<h:link value="#{license.name}">
 												<h:outputText value="#{license.name}" />
 											</h:link>
+											<br />
 										</ui:repeat>
 									</dd>						
 								</dl>
 							</h:panelGroup>
 						</div>
 					
+					</h:panelGroup>
+					
+					<h:panelGroup id="activityPanel" layout="block" styleClass="row">
+					
+						<h2>Atividade</h2>
+						<hr />
+						
 					</h:panelGroup>
 					
 					<h:panelGroup id="communityPanel" layout="block" styleClass="row">

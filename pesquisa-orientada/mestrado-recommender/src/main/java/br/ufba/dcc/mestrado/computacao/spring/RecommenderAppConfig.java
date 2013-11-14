@@ -14,7 +14,7 @@ import br.ufba.dcc.mestrado.computacao.service.RecommenderServiceConfig;
 import br.ufba.dcc.mestrado.computacao.service.base.RecommenderService;
 
 @Configuration
-@ComponentScan
+@ComponentScan("br.ufba.dcc.mestrado.computacao")
 @Import(RecommenderServiceConfig.class)
 public class RecommenderAppConfig {
 	

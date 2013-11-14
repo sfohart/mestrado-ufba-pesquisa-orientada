@@ -16,7 +16,7 @@ import br.ufba.dcc.mestrado.computacao.search.IndexerRunner;
 import br.ufba.dcc.mestrado.computacao.service.CrawlerServiceConfig;
 
 @Configuration
-@ComponentScan
+@ComponentScan("br.ufba.dcc.mestrado.computacao")
 @Import(CrawlerServiceConfig.class)
 @PropertySource(name = "appProperties", value = {
 		"classpath:ohloh-account.properties", "classpath:ohloh.properties" })

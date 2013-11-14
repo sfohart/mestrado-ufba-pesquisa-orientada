@@ -12,15 +12,15 @@ import br.ufba.dcc.mestrado.computacao.service.base.SearchService;
 import br.ufba.dcc.mestrado.computacao.spring.CrawlerAppConfig;
 
 public class IndexerRunner {
-	
+
 	private static Logger logger = Logger.getLogger(IndexerRunner.class);
-	
-	@Autowired
-	private Indexer indexer;
-	
+
+	/*@Autowired
+	private Indexer indexer;*/
+
 	@Autowired
 	private SearchService searchService;
-	
+
 	public void run() {
 		/*try {
 			indexer.buildIndex();
@@ -29,22 +29,24 @@ public class IndexerRunner {
 		} catch (ExecutionException e) {
 			e.printStackTrace();
 		}*/
-			
-			SearchRequest searchRequest = new SearchRequest();
-			searchRequest.setQuery("pdf");
-			
-			SearchResponse searchResult = searchService.findAllProjects(searchRequest);
-			
-			logger.info(String.format("%d Hits, %d facets", searchResult.getTotalResults(), searchResult.getTagFacetsList().size() ));
-			
+
+		SearchRequest searchRequest = new SearchRequest();
+		searchRequest.setQuery("pdf");
+
+		SearchResponse searchResult = searchService
+				.findAllProjects(searchRequest);
+
+		logger.info(String.format("%d Hits, %d facets", searchResult
+				.getTotalResults(), searchResult.getTagFacetsList().size()));
+
 	}
-	
+
 	public static void main(String[] args) {
-		ApplicationContext context = 
-		          new AnnotationConfigApplicationContext(CrawlerAppConfig.class);
-		
+		ApplicationContext context = new AnnotationConfigApplicationContext(
+				CrawlerAppConfig.class);
+
 		IndexerRunner main = context.getBean(IndexerRunner.class);
-		
+
 		if (main != null) {
 			main.run();
 		}
