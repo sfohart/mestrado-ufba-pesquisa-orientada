@@ -1,7 +1,9 @@
 package br.ufba.dcc.mestrado.computacao.entities.ohloh.enlistment;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -34,7 +36,7 @@ public class OhLohEnlistmentEntity implements BaseEntity<Long> {
 	@Column(name = "repository_id", insertable = false, updatable = false)
 	private Long repositoryId;
 
-	@ManyToOne
+	@ManyToOne(cascade=CascadeType.ALL, fetch=FetchType.EAGER)
 	@JoinColumn(name = "repository_id", referencedColumnName = "id")
 	private OhLohRepositoryEntity ohLohRepository;
 

@@ -10,7 +10,7 @@ import br.ufba.dcc.mestrado.computacao.repository.base.OhLohLinkRepository;
 import br.ufba.dcc.mestrado.computacao.service.base.OhLohLinkService;
 
 @Service(OhLohLinkServiceImpl.BEAN_NAME)
-public class OhLohLinkServiceImpl extends BaseOhLohServiceImpl<OhLohLinkDTO, Long, OhLohLinkEntity> implements OhLohLinkService {
+public class OhLohLinkServiceImpl extends DefaultOhLohServiceImpl<OhLohLinkDTO, Long, OhLohLinkEntity> implements OhLohLinkService {
 	
 	/**
 	 * 

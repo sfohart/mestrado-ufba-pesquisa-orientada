@@ -10,6 +10,7 @@ import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import br.ufba.dcc.mestrado.computacao.entities.ohloh.project.OhLohLicenseEntity;
 import br.ufba.dcc.mestrado.computacao.entities.ohloh.project.OhLohProjectEntity;
@@ -25,7 +26,7 @@ import br.ufba.dcc.mestrado.computacao.service.base.OhLohProjectService;
 import br.ufba.dcc.mestrado.computacao.service.base.OhLohStackService;
 
 @Service(OhLohStackServiceImpl.BEAN_NAME)
-public class OhLohStackServiceImpl extends BaseOhLohServiceImpl<OhLohStackDTO, Long, OhLohStackEntity>
+public class OhLohStackServiceImpl extends DefaultOhLohServiceImpl<OhLohStackDTO, Long, OhLohStackEntity>
 		implements OhLohStackService {
 	
 	/**
@@ -117,6 +118,7 @@ public class OhLohStackServiceImpl extends BaseOhLohServiceImpl<OhLohStackDTO, L
 	}
 	
 	@Override
+	@Transactional
 	public OhLohStackEntity process(OhLohStackDTO dto) throws Exception{
 		OhLohStackEntity entity = super.process(dto);
 		
@@ -130,7 +132,7 @@ public class OhLohStackServiceImpl extends BaseOhLohServiceImpl<OhLohStackDTO, L
 					projectService.reloadLicensesFromDatabase(stackEntry.getProject());
 					projectService.reloadAnalysisFromDatabase(stackEntry.getProject());
 					
-					OhLohProjectEntity project = projectService.saveEntity(stackEntry.getProject());
+					OhLohProjectEntity project = projectService.save(stackEntry.getProject());
 					
 					if (project != null) {
 						stackEntry.setProject(project);

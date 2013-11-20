@@ -7,6 +7,7 @@ import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import br.ufba.dcc.mestrado.computacao.entities.ohloh.analysis.OhLohAnalysisEntity;
 import br.ufba.dcc.mestrado.computacao.entities.ohloh.analysis.OhLohAnalysisLanguageEntity;
@@ -25,7 +26,7 @@ import br.ufba.dcc.mestrado.computacao.service.base.OhLohAnalysisService;
 import br.ufba.dcc.mestrado.computacao.service.base.OhLohLanguageService;
 
 @Service(OhLohAnalysisServiceImpl.BEAN_NAME)
-public class OhLohAnalysisServiceImpl extends BaseOhLohServiceImpl<OhLohAnalysisDTO, Long, OhLohAnalysisEntity>
+public class OhLohAnalysisServiceImpl extends DefaultOhLohServiceImpl<OhLohAnalysisDTO, Long, OhLohAnalysisEntity>
 		implements OhLohAnalysisService {
 
 	/**
@@ -64,6 +65,7 @@ public class OhLohAnalysisServiceImpl extends BaseOhLohServiceImpl<OhLohAnalysis
 	private OhLohLanguageService languageService;
 	
 	@Override
+	@Transactional
 	public void validateEntity(OhLohAnalysisEntity entity) throws Exception {
 		super.validateEntity(entity);
 		
@@ -108,16 +110,6 @@ public class OhLohAnalysisServiceImpl extends BaseOhLohServiceImpl<OhLohAnalysis
 		}
 	}
 	
-	@Override
-	public OhLohAnalysisEntity process(OhLohAnalysisDTO dto) throws Exception{
-		OhLohAnalysisEntity entity = super.process(dto);
-		
-		if (entity != null) {
-			logger.info(String.format("Salvando entidade %s com id %d", entity.getClass().getName(), entity.getId()));
-			analysisRepository.save(entity);
-		}
-		
-		return entity;
-	}
+
 
 }

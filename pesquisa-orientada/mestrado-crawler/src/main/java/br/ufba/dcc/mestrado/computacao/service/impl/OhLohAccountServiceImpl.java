@@ -10,7 +10,7 @@ import br.ufba.dcc.mestrado.computacao.repository.base.OhLohAccountRepository;
 import br.ufba.dcc.mestrado.computacao.service.base.OhLohAccountService;
 
 @Service(OhLohAccountServiceImpl.BEAN_NAME)
-public class OhLohAccountServiceImpl extends BaseOhLohServiceImpl<OhLohAccountDTO, Long, OhLohAccountEntity>
+public class OhLohAccountServiceImpl extends DefaultOhLohServiceImpl<OhLohAccountDTO, Long, OhLohAccountEntity>
 		implements OhLohAccountService {
 
 	/**
@@ -23,13 +23,6 @@ public class OhLohAccountServiceImpl extends BaseOhLohServiceImpl<OhLohAccountDT
 	@Autowired
 	public OhLohAccountServiceImpl(@Qualifier("ohLohAccountRepository") OhLohAccountRepository repository) {
 		super(repository, OhLohAccountDTO.class, OhLohAccountEntity.class);
-	}
-	
-	@Override
-	public OhLohAccountEntity process(OhLohAccountDTO dto) throws Exception{
-		OhLohAccountEntity entity = super.process(dto);
-		getRepository().save(entity);
-		return entity;
 	}
 
 }

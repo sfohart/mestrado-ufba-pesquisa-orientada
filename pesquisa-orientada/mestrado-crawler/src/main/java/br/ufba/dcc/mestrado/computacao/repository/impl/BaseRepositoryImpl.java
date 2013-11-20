@@ -146,7 +146,10 @@ public class BaseRepositoryImpl<ID extends Number, E extends BaseEntity<ID>>
 	public Long countAll() {
 		CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
 		CriteriaQuery<Long> criteriaQuery = criteriaBuilder.createQuery(Long.class);
-		criteriaQuery.select(criteriaBuilder.count(criteriaQuery.from(entityClass)));
+		
+		Root<E> root = criteriaQuery.from(entityClass);
+		
+		criteriaQuery.select(criteriaBuilder.count(root));
 		return entityManager.createQuery(criteriaQuery).getSingleResult();
 	}
 

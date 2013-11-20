@@ -2,7 +2,9 @@ package br.ufba.dcc.mestrado.computacao.ohloh.data.enlistment;
 
 import java.sql.Timestamp;
 
+import br.ufba.dcc.mestrado.computacao.entities.ohloh.enlistment.OhLohRepositoryTypeEnum;
 import br.ufba.dcc.mestrado.computacao.ohloh.data.OhLohResultDTO;
+import br.ufba.dcc.mestrado.computacao.xstream.converters.NullableISO8601SqlTimestampXStreamConverter;
 import br.ufba.dcc.mestrado.computacao.xstream.converters.NullableLongXStreamConverter;
 
 import com.thoughtworks.xstream.annotations.XStreamAlias;
@@ -18,9 +20,6 @@ public class OhLohRepositoryDTO implements OhLohResultDTO {
 	 */
 	private static final long serialVersionUID = 3900364356015056852L;
 
-	public enum OhLohRepositoryTypeEnum {
-		SvnRepository, CvsRepository, GitRepository, HgRepository, BzrRepository, SvnSyncRepository
-	}
 
 	public final static String NODE_NAME = "repository";
 	
@@ -39,7 +38,7 @@ public class OhLohRepositoryDTO implements OhLohResultDTO {
 
 	private String password;
 
-	@XStreamConverter(value = ISO8601SqlTimestampConverter.class)
+	@XStreamConverter(value = NullableISO8601SqlTimestampXStreamConverter.class)
 	@XStreamAlias("logged_at")
 	private Timestamp loggedAt;
 
@@ -49,6 +48,14 @@ public class OhLohRepositoryDTO implements OhLohResultDTO {
 	@XStreamAlias("ohloh_job_status")
 	private String ohlohJobStatus;
 
+	public Long getId() {
+		return id;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
+	}
+	
 	public OhLohRepositoryTypeEnum getType() {
 		return type;
 	}

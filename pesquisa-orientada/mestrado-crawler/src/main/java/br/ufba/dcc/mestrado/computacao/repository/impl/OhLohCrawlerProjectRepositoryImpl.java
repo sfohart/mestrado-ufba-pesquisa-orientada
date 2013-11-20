@@ -1,5 +1,6 @@
 package br.ufba.dcc.mestrado.computacao.repository.impl;
 
+import javax.persistence.NoResultException;
 import javax.persistence.TypedQuery;
 
 import org.springframework.stereotype.Repository;
@@ -24,8 +25,16 @@ public class OhLohCrawlerProjectRepositoryImpl extends BaseRepositoryImpl<Long, 
 
 	@Override
 	public OhLohCrawlerProjectEntity findCrawlerConfig() {		
-		TypedQuery<OhLohCrawlerProjectEntity> crawlerConfig = super.createSelectAllQuery();		
-		return crawlerConfig.getSingleResult();
+		TypedQuery<OhLohCrawlerProjectEntity> crawlerConfig = super.createSelectAllQuery();	
+		
+		OhLohCrawlerProjectEntity result =  null;
+		
+		try {
+			result = crawlerConfig.getSingleResult();
+		} catch (NoResultException ex) {
+		}
+		
+		return result;
 	}
 
 }

@@ -1,17 +1,22 @@
 package br.ufba.dcc.mestrado.computacao.service.base;
 
 import java.io.Serializable;
+import java.util.List;
 
 import br.ufba.dcc.mestrado.computacao.entities.BaseEntity;
-import br.ufba.dcc.mestrado.computacao.ohloh.data.OhLohResultDTO;
 
-public interface BaseOhLohService<DTO extends OhLohResultDTO, ID extends Number, E extends BaseEntity<ID>> extends Serializable{
+public interface BaseOhLohService <ID extends Number, E extends BaseEntity<ID>> extends Serializable{
 
-	public E process(DTO dto) throws Exception;
+	public Long countAll();
+	public List<E> findAll();	
+	public List<E> findAll(String orderBy);
+	public List<E> findAll(Integer startAt, Integer offset);
+	public List<E> findAll(Integer startAt, Integer offset, String orderBy);
 	
-	public E buildEntity(DTO dto) throws Exception;
+	public E findById(ID id);
+	public E save(E entity) throws Exception;
+	public E add(E entity) throws Exception;
+	public E update(E entity) throws Exception;
+	public E delete(E entity)  throws Exception;
 	
-	public void validateEntity(E entity) throws Exception;
-
-	public abstract E saveEntity(E entity) throws Exception;
 }

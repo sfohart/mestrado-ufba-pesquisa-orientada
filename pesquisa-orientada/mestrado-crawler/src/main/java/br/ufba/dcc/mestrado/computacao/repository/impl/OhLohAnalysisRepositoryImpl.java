@@ -19,7 +19,6 @@ public class OhLohAnalysisRepositoryImpl extends BaseRepositoryImpl<Long, OhLohA
 	public OhLohAnalysisRepositoryImpl() {
 		super(OhLohAnalysisEntity.class);
 	}
-
 	
 	@Override
 	public OhLohAnalysisEntity findById(Long id) {

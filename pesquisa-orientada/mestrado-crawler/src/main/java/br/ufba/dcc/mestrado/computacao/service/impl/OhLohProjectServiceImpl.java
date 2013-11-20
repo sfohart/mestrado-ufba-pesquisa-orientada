@@ -9,6 +9,7 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import br.ufba.dcc.mestrado.computacao.entities.ohloh.analysis.OhLohAnalysisEntity;
 import br.ufba.dcc.mestrado.computacao.entities.ohloh.project.OhLohLicenseEntity;
@@ -26,7 +27,7 @@ import br.ufba.dcc.mestrado.computacao.service.base.OhLohAnalysisService;
 import br.ufba.dcc.mestrado.computacao.service.base.OhLohProjectService;
 
 @Service(OhLohProjectServiceImpl.BEAN_NAME)
-public class OhLohProjectServiceImpl extends BaseOhLohServiceImpl<OhLohProjectDTO, Long, OhLohProjectEntity>
+public class OhLohProjectServiceImpl extends DefaultOhLohServiceImpl<OhLohProjectDTO, Long, OhLohProjectEntity>
 		implements OhLohProjectService {
 
 	/**
@@ -78,6 +79,7 @@ public class OhLohProjectServiceImpl extends BaseOhLohServiceImpl<OhLohProjectDT
 	}
 	
 	@Override
+	@Transactional
 	public void validateEntity(OhLohProjectEntity entity) throws Exception {
 		super.validateEntity(entity);
 		
@@ -86,7 +88,7 @@ public class OhLohProjectServiceImpl extends BaseOhLohServiceImpl<OhLohProjectDT
 		
 		reloadLicensesFromDatabase(entity);
 		
-		if (entity.getAnalysisId() != null) {
+		if (entity.getAnalysisId() != null && entity.getAnalysisId() > 0) {
 			OhLohAnalysisEntity analysis = analysisService.findById(entity.getAnalysisId());
 			
 			OhLohBaseRequest request = new OhLohBaseRequest();
@@ -96,6 +98,7 @@ public class OhLohProjectServiceImpl extends BaseOhLohServiceImpl<OhLohProjectDT
 				analysis = analysisService.buildEntity(analysisDTO);
 				analysisService.validateEntity(analysis);
 				
+				analysis.setOhlohProject(entity);
 				entity.setOhLohAnalysis(analysis);
 			}
 		}
@@ -103,6 +106,7 @@ public class OhLohProjectServiceImpl extends BaseOhLohServiceImpl<OhLohProjectDT
 	}
 
 	@Override
+	@Transactional
 	public void reloadAnalysisFromDatabase(OhLohProjectEntity entity) throws Exception{
 		if (entity != null && entity.getOhLohAnalysis() != null) {
 			OhLohAnalysisEntity analysis = analysisService.findById(entity.getOhLohAnalysis().getId());
@@ -113,6 +117,7 @@ public class OhLohProjectServiceImpl extends BaseOhLohServiceImpl<OhLohProjectDT
 	}
 	
 	@Override
+	@Transactional
 	public void reloadLicensesFromDatabase(OhLohProjectEntity entity) throws Exception{
 		if (entity != null && entity.getOhLohLicenses() != null) {
 			List<OhLohLicenseEntity> licenseList = new ArrayList<OhLohLicenseEntity>();
@@ -137,6 +142,7 @@ public class OhLohProjectServiceImpl extends BaseOhLohServiceImpl<OhLohProjectDT
 	}
 
 	@Override
+	@Transactional
 	public void reloadTagsFromDatabase(OhLohProjectEntity entity) throws Exception{
 		if (entity != null && entity.getOhLohTags() != null) {
 			List<OhLohTagEntity> tagList = new ArrayList<OhLohTagEntity>();
@@ -159,12 +165,4 @@ public class OhLohProjectServiceImpl extends BaseOhLohServiceImpl<OhLohProjectDT
 		}
 	}
 	
-	@Override
-	public OhLohProjectEntity process(OhLohProjectDTO dto) throws Exception{
-		OhLohProjectEntity entity = super.process(dto);
-		
-		getRepository().save(entity);
-		return entity;
-	}
-
 }

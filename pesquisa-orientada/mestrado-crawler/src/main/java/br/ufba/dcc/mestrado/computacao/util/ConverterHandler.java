@@ -18,12 +18,16 @@ import br.ufba.dcc.mestrado.computacao.entities.BaseEntity;
 import br.ufba.dcc.mestrado.computacao.entities.ohloh.account.OhLohAccountEntity;
 import br.ufba.dcc.mestrado.computacao.entities.ohloh.analysis.OhLohAnalysisEntity;
 import br.ufba.dcc.mestrado.computacao.entities.ohloh.analysis.OhLohAnalysisLanguagesEntity;
+import br.ufba.dcc.mestrado.computacao.entities.ohloh.enlistment.OhLohEnlistmentEntity;
+import br.ufba.dcc.mestrado.computacao.entities.ohloh.enlistment.OhLohRepositoryEntity;
 import br.ufba.dcc.mestrado.computacao.entities.ohloh.kudoskore.OhLohKudoScoreEntity;
 import br.ufba.dcc.mestrado.computacao.entities.ohloh.stack.OhLohStackEntity;
 import br.ufba.dcc.mestrado.computacao.ohloh.data.OhLohResultDTO;
 import br.ufba.dcc.mestrado.computacao.ohloh.data.account.OhLohAccountDTO;
 import br.ufba.dcc.mestrado.computacao.ohloh.data.analysis.OhLohAnalysisDTO;
 import br.ufba.dcc.mestrado.computacao.ohloh.data.analysis.OhLohAnalysisLanguagesDTO;
+import br.ufba.dcc.mestrado.computacao.ohloh.data.enlistment.OhLohEnlistmentDTO;
+import br.ufba.dcc.mestrado.computacao.ohloh.data.enlistment.OhLohRepositoryDTO;
 import br.ufba.dcc.mestrado.computacao.ohloh.data.kudoskore.OhLohKudoScoreDTO;
 import br.ufba.dcc.mestrado.computacao.ohloh.data.stack.OhLohStackDTO;
 
@@ -44,6 +48,8 @@ public class ConverterHandler<DTO extends OhLohResultDTO, ID extends Number, E e
 		ConvertUtils.register(new OhLohDTO2EntityConverter<>(OhLohKudoScoreDTO.class, OhLohKudoScoreEntity.class), OhLohKudoScoreEntity.class);
 		ConvertUtils.register(new OhLohDTO2EntityConverter<>(OhLohStackDTO.class, OhLohStackEntity.class), OhLohStackEntity.class);
 		ConvertUtils.register(new OhLohDTO2EntityConverter<>(OhLohAccountDTO.class, OhLohAccountEntity.class), OhLohAccountEntity.class);
+		ConvertUtils.register(new OhLohDTO2EntityConverter<>(OhLohEnlistmentDTO.class, OhLohEnlistmentEntity.class), OhLohEnlistmentEntity.class);
+		ConvertUtils.register(new OhLohDTO2EntityConverter<>(OhLohRepositoryDTO.class, OhLohRepositoryEntity.class), OhLohRepositoryEntity.class);
 		ConvertUtils.register(new SqlTimestampConverter(null), Timestamp.class);
 	}
 	

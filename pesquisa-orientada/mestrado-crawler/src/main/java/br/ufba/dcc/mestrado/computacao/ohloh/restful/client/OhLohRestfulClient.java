@@ -626,7 +626,7 @@ public class OhLohRestfulClient implements Serializable {
 				OhLohEnlistmentDTO.class));
 		
 		
-		resource = this.<OhLohEnlistmentResponse>processResponse(url, request, restfulie);
+		resource = this.<OhLohEnlistmentResponse>processResponse(url, request, restfulie, projectId);
 		
 		return resource;
 	}

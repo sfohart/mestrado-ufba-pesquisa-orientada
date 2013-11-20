@@ -18,9 +18,6 @@ public class OhLohRepositoryEntity implements BaseEntity<Long> {
 	 */
 	private static final long serialVersionUID = 3900364356015056852L;
 
-	public enum OhLohRepositoryTypeEnum {
-		SvnRepository, CvsRepository, GitRepository, HgRepository, BzrRepository, SvnSyncRepository
-	}
 
 	public final static String NODE_NAME = "repository";
 

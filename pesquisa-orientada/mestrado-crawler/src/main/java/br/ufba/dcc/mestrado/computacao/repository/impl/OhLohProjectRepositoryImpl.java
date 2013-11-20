@@ -53,6 +53,18 @@ public class OhLohProjectRepositoryImpl
 			if (result.getOhLohLinks() != null) {
 				result.getOhLohLinks().size();
 			}
+			
+			if (result.getOhLohAnalysis() != null) {
+				if (result.getOhLohAnalysis().getOhLohFactoids() != null) {
+					result.getOhLohAnalysis().getOhLohFactoids().size();
+				}
+				
+				if (result.getOhLohAnalysis().getOhLohAnalysisLanguages() != null) {
+					result.getOhLohAnalysis().getOhLohAnalysisLanguages().getContent();
+				}
+				
+			}
+			
 		}
 		
 		return result;

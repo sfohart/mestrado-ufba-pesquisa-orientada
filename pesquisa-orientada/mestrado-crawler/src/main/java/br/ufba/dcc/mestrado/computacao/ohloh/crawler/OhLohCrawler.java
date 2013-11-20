@@ -24,10 +24,10 @@ import br.ufba.dcc.mestrado.computacao.ohloh.restful.request.OhLohBaseRequest;
 import br.ufba.dcc.mestrado.computacao.ohloh.restful.responses.OhLohLanguageResponse;
 import br.ufba.dcc.mestrado.computacao.ohloh.restful.responses.OhLohProjectResponse;
 import br.ufba.dcc.mestrado.computacao.ohloh.restful.responses.OhLohStackResponse;
-import br.ufba.dcc.mestrado.computacao.repository.base.OhLohCrawlerLanguageRepository;
-import br.ufba.dcc.mestrado.computacao.repository.base.OhLohCrawlerProjectRepository;
-import br.ufba.dcc.mestrado.computacao.repository.base.OhLohCrawlerStackRepository;
 import br.ufba.dcc.mestrado.computacao.service.base.OhLohAnalysisService;
+import br.ufba.dcc.mestrado.computacao.service.base.OhLohCrawlerLanguageService;
+import br.ufba.dcc.mestrado.computacao.service.base.OhLohCrawlerProjectService;
+import br.ufba.dcc.mestrado.computacao.service.base.OhLohCrawlerStackService;
 import br.ufba.dcc.mestrado.computacao.service.base.OhLohLanguageService;
 import br.ufba.dcc.mestrado.computacao.service.base.OhLohProjectService;
 import br.ufba.dcc.mestrado.computacao.service.base.OhLohStackService;
@@ -57,13 +57,13 @@ public class OhLohCrawler {
 	private OhLohLanguageService languageService;
 	
 	@Autowired
-	private OhLohCrawlerProjectRepository projectCrawlerConfigRepository;
+	private OhLohCrawlerProjectService projectCrawlerConfigService;
 	
 	@Autowired
-	private OhLohCrawlerLanguageRepository languageCrawlerConfigRepository;
+	private OhLohCrawlerLanguageService languageCrawlerConfigService;
 	
 	@Autowired
-	private OhLohCrawlerStackRepository stackCrawlerConfigRepository;
+	private OhLohCrawlerStackService stackCrawlerConfigService;
 	
 	public OhLohRestfulClient getRestfulClient() {
 		return restfulClient;
@@ -96,16 +96,6 @@ public class OhLohCrawler {
 	public void setAnalysisService(OhLohAnalysisService analysisService) {
 		this.analysisService = analysisService;
 	}
-
-	public OhLohCrawlerProjectRepository getCrawlerConfigRepository() {
-		return projectCrawlerConfigRepository;
-	}
-
-	public void setCrawlerConfigRepository(
-			OhLohCrawlerProjectRepository crawlerConfigRepository) {
-		this.projectCrawlerConfigRepository = crawlerConfigRepository;
-	}
-	
 	
 	public OhLohLanguageService getLanguageService() {
 		return languageService;
@@ -115,31 +105,31 @@ public class OhLohCrawler {
 		this.languageService = languageService;
 	}
 
-	public OhLohCrawlerProjectRepository getProjectCrawlerConfigRepository() {
-		return projectCrawlerConfigRepository;
+	public OhLohCrawlerProjectService getProjectCrawlerConfigService() {
+		return projectCrawlerConfigService;
 	}
 
-	public void setProjectCrawlerConfigRepository(
-			OhLohCrawlerProjectRepository projectCrawlerConfigRepository) {
-		this.projectCrawlerConfigRepository = projectCrawlerConfigRepository;
+	public void setProjectCrawlerConfigService(
+			OhLohCrawlerProjectService projectCrawlerConfigService) {
+		this.projectCrawlerConfigService = projectCrawlerConfigService;
 	}
 
-	public OhLohCrawlerLanguageRepository getLanguageCrawlerConfigRepository() {
-		return languageCrawlerConfigRepository;
+	public OhLohCrawlerLanguageService getLanguageCrawlerConfigService() {
+		return languageCrawlerConfigService;
 	}
 
-	public void setLanguageCrawlerConfigRepository(
-			OhLohCrawlerLanguageRepository languageCrawlerConfigRepository) {
-		this.languageCrawlerConfigRepository = languageCrawlerConfigRepository;
+	public void setLanguageCrawlerConfigService(
+			OhLohCrawlerLanguageService languageCrawlerConfigService) {
+		this.languageCrawlerConfigService = languageCrawlerConfigService;
 	}
 
-	public OhLohCrawlerStackRepository getStackCrawlerConfigRepository() {
-		return stackCrawlerConfigRepository;
+	public OhLohCrawlerStackService getStackCrawlerConfigService() {
+		return stackCrawlerConfigService;
 	}
 
-	public void setStackCrawlerConfigRepository(
-			OhLohCrawlerStackRepository stackCrawlerConfigRepository) {
-		this.stackCrawlerConfigRepository = stackCrawlerConfigRepository;
+	public void setStackCrawlerConfigService(
+			OhLohCrawlerStackService stackCrawlerConfigService) {
+		this.stackCrawlerConfigService = stackCrawlerConfigService;
 	}
 
 	protected void downloadLanguages() throws Exception {
@@ -150,9 +140,10 @@ public class OhLohCrawler {
 		Integer totalPages = 0;
 		Integer page = 1;
 		
-		OhLohCrawlerLanguageEntity config = languageCrawlerConfigRepository.findCrawlerConfig();
+		OhLohCrawlerLanguageEntity config = getLanguageCrawlerConfigService().findCrawlerConfig();
 		if (config == null) {
 			config = new OhLohCrawlerLanguageEntity();
+			config.setCurrentPage(page);
 		} else {
 			if (config.getCurrentPage() != null) {
 				page = config.getCurrentPage();
@@ -203,7 +194,7 @@ public class OhLohCrawler {
 		} catch (Exception ex) {
 			ex.printStackTrace();
 		} finally {
-			languageCrawlerConfigRepository.save(config);
+			getLanguageCrawlerConfigService().save(config);
 		}
 		
 	}
@@ -226,7 +217,7 @@ public class OhLohCrawler {
 		Integer totalPages = 0;
 		Integer page = 1;
 		
-		OhLohCrawlerStackEntity config = stackCrawlerConfigRepository.findCrawlerConfig();
+		OhLohCrawlerStackEntity config = getStackCrawlerConfigService().findCrawlerConfig();
 		if (config == null) {
 			config = new OhLohCrawlerStackEntity();
 		} else {
@@ -286,15 +277,14 @@ public class OhLohCrawler {
 					config.setItemsAvailable(response.getItemsAvailable());
 					config.setItemsPerPage(response.getItemsReturned());
 					
-					stackCrawlerConfigRepository.save(config);
+					getStackCrawlerConfigService().save(config);
 					
 				} while (page < totalPages);
 			} catch (Exception ex) {
 				ex.printStackTrace();
 			} finally {
-				stackCrawlerConfigRepository.save(config);
+				getStackCrawlerConfigService().save(config);
 			}
-			
 		}
 	}
 	
@@ -309,7 +299,7 @@ public class OhLohCrawler {
 		
 		request.setSort(OHLOH_PROJECT_SORT_BY_ID);
 		
-		OhLohCrawlerProjectEntity config = projectCrawlerConfigRepository.findCrawlerConfig();
+		OhLohCrawlerProjectEntity config = getProjectCrawlerConfigService().findCrawlerConfig();
 		
 		if (config != null) {
 			if (config.getCurrentPage() != null) {
@@ -386,7 +376,7 @@ public class OhLohCrawler {
 							//baixando as an�lises do projeto
 							//downloadAnalysis(projectEntity);
 							
-							projectCrawlerConfigRepository.save(config);
+							getProjectCrawlerConfigService().save(config);
 						}
 						
 					}
@@ -398,7 +388,7 @@ public class OhLohCrawler {
 				currentPage++;
 			
 				config.setCurrentPage(currentPage);
-				projectCrawlerConfigRepository.save(config);
+				getProjectCrawlerConfigService().save(config);
 				
 			} while (currentPage < totalPages);
 			
