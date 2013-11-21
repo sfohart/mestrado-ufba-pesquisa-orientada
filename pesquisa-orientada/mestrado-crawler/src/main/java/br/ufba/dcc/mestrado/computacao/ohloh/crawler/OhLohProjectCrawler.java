@@ -11,24 +11,26 @@ import org.springframework.stereotype.Component;
 
 import br.ufba.dcc.mestrado.computacao.entities.ohloh.OhLohCrawlerEnlistmentEntity;
 import br.ufba.dcc.mestrado.computacao.entities.ohloh.OhLohCrawlerLanguageEntity;
+import br.ufba.dcc.mestrado.computacao.entities.ohloh.OhLohCrawlerLicenseEntity;
 import br.ufba.dcc.mestrado.computacao.entities.ohloh.OhLohCrawlerProjectEntity;
-import br.ufba.dcc.mestrado.computacao.entities.ohloh.OhLohCrawlerStackEntity;
 import br.ufba.dcc.mestrado.computacao.entities.ohloh.project.OhLohProjectEntity;
 import br.ufba.dcc.mestrado.computacao.ohloh.data.enlistment.OhLohEnlistmentDTO;
 import br.ufba.dcc.mestrado.computacao.ohloh.data.language.OhLohLanguageDTO;
 import br.ufba.dcc.mestrado.computacao.ohloh.data.language.OhLohLanguageResult;
+import br.ufba.dcc.mestrado.computacao.ohloh.data.project.OhLohLicenseDTO;
 import br.ufba.dcc.mestrado.computacao.ohloh.data.project.OhLohProjectDTO;
 import br.ufba.dcc.mestrado.computacao.ohloh.restful.client.OhLohRestfulClient;
 import br.ufba.dcc.mestrado.computacao.ohloh.restful.request.OhLohBaseRequest;
 import br.ufba.dcc.mestrado.computacao.ohloh.restful.responses.OhLohEnlistmentResponse;
 import br.ufba.dcc.mestrado.computacao.ohloh.restful.responses.OhLohLanguageResponse;
 import br.ufba.dcc.mestrado.computacao.ohloh.restful.responses.OhLohProjectResponse;
-import br.ufba.dcc.mestrado.computacao.ohloh.restful.responses.OhLohStackResponse;
 import br.ufba.dcc.mestrado.computacao.service.base.OhLohCrawlerEnlistmentService;
 import br.ufba.dcc.mestrado.computacao.service.base.OhLohCrawlerLanguageService;
+import br.ufba.dcc.mestrado.computacao.service.base.OhLohCrawlerLicenseService;
 import br.ufba.dcc.mestrado.computacao.service.base.OhLohCrawlerProjectService;
 import br.ufba.dcc.mestrado.computacao.service.base.OhLohEnlistmentService;
 import br.ufba.dcc.mestrado.computacao.service.base.OhLohLanguageService;
+import br.ufba.dcc.mestrado.computacao.service.base.OhLohLicenseService;
 import br.ufba.dcc.mestrado.computacao.service.base.OhLohProjectService;
 import br.ufba.dcc.mestrado.computacao.spring.CrawlerAppConfig;
 
@@ -59,6 +61,12 @@ public class OhLohProjectCrawler {
 	
 	@Autowired
 	private OhLohCrawlerProjectService projectCrawlerConfigService;
+	
+	@Autowired
+	private OhLohCrawlerLicenseService licenseCrawlerConfigService;
+	
+	@Autowired
+	private OhLohLicenseService ohLohLicenseService;
 	
 	public OhLohRestfulClient getOhLohRestfulClient() {
 		return ohLohRestfulClient;
@@ -120,6 +128,23 @@ public class OhLohProjectCrawler {
 		this.projectCrawlerConfigService = projectCrawlerConfigService;
 	}
 
+	public OhLohCrawlerLicenseService getLicenseCrawlerConfigService() {
+		return licenseCrawlerConfigService;
+	}
+
+	public void setLicenseCrawlerConfigService(
+			OhLohCrawlerLicenseService licenseCrawlerConfigService) {
+		this.licenseCrawlerConfigService = licenseCrawlerConfigService;
+	}
+
+	public OhLohLicenseService getOhLohLicenseService() {
+		return ohLohLicenseService;
+	}
+
+	public void setOhLohLicenseService(OhLohLicenseService ohLohLicenseService) {
+		this.ohLohLicenseService = ohLohLicenseService;
+	}
+
 	public OhLohProjectCrawler() {
 	}
 	
@@ -148,10 +173,10 @@ public class OhLohProjectCrawler {
 		try {
 			do {
 				
-				//configurando requisiï¿½ï¿½o
-				request.setPage(page);
+				//configurando requisição
+				request.setPage(config.getCurrentPage());
 				
-				//efetuando requisiï¿½ï¿½o
+				//efetuando requisição
 				OhLohLanguageResponse response = getOhLohRestfulClient().getAllLanguages(request);
 				logger.info(String.format("Current Language Page %d | Total Language Pages: %d | Total Language Stored: %d", page, totalPages, getOhLanguageService().countAll()));
 				
@@ -189,13 +214,12 @@ public class OhLohProjectCrawler {
 				
 				config.setCurrentPage(page);
 				
-			} while (page <= totalPages);
+			} while (page < totalPages);
 		} catch (Exception ex) {
 			ex.printStackTrace();
 		} finally {
 			getLanguageCrawlerConfigService().save(config);
 		}
-		
 	}
 	
 	private void downloadEnlistments(OhLohProjectEntity project) throws Exception {
@@ -223,13 +247,16 @@ public class OhLohProjectCrawler {
 			config.setTotalPage(null);
 			config.setItemsAvailable(null);
 			config.setItemsPerPage(null);
-			config.setCurrentPage(null);
+			config.setCurrentPage(1);
+			
+			page = 1;
+			totalPages = 0;
 		}
 		
 		if (project != null && project.getId() != null) {
 			try {
 				do {
-					request.setPage(page);
+					request.setPage(config.getCurrentPage());
 					
 					logger.info(String.format("Baixando enlistments para o projeto %d - página %d", project.getId(), request.getPage()));
 					
@@ -302,7 +329,7 @@ public class OhLohProjectCrawler {
 			config = new OhLohCrawlerProjectEntity();
 			config.setCurrentPage(page);
 		}
-		
+
 		
 		try {
 			do {
@@ -335,6 +362,9 @@ public class OhLohProjectCrawler {
 								OhLohProjectEntity ohLohProject = ohLohProjectService.process(project);								
 								
 								config.setOhLohProject(ohLohProject);
+								config.setCurrentPage(page);
+								config.setItemsAvailable(response.getItemsAvailable());
+								config.setItemsPerPage(response.getItemsReturned());
 								getProjectCrawlerConfigService().save(config);
 								
 								downloadEnlistments(ohLohProject);
@@ -357,9 +387,12 @@ public class OhLohProjectCrawler {
 
 			
 				config.setCurrentPage(page);
+				config.setOhLohProject(null);
+				config.setItemsAvailable(response.getItemsAvailable());
+				config.setItemsPerPage(response.getItemsReturned());
 				getProjectCrawlerConfigService().save(config);
 				
-			} while (page <= totalPages);
+			} while (page < totalPages);
 		} catch (Exception ex) {
 			ex.printStackTrace();
 		} finally {

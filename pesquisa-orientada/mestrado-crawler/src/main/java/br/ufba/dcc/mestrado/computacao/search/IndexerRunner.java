@@ -15,20 +15,20 @@ public class IndexerRunner {
 
 	private static Logger logger = Logger.getLogger(IndexerRunner.class);
 
-	/*@Autowired
-	private Indexer indexer;*/
+	@Autowired
+	private Indexer indexer;
 
 	@Autowired
 	private SearchService searchService;
 
 	public void run() {
-		/*try {
+		try {
 			indexer.buildIndex();
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		} catch (ExecutionException e) {
 			e.printStackTrace();
-		}*/
+		}
 
 		SearchRequest searchRequest = new SearchRequest();
 		searchRequest.setQuery("pdf");

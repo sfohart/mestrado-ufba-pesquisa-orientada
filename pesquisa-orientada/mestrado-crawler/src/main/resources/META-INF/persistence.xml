@@ -8,6 +8,7 @@
 		<provider>org.hibernate.ejb.HibernatePersistence</provider>
 		<class>br.ufba.dcc.mestrado.computacao.entities.ohloh.OhLohCrawlerEnlistmentEntity</class>
 		<class>br.ufba.dcc.mestrado.computacao.entities.ohloh.OhLohCrawlerLanguageEntity</class>
+		<class>br.ufba.dcc.mestrado.computacao.entities.ohloh.OhLohCrawlerLicenseEntity</class>
 		<class>br.ufba.dcc.mestrado.computacao.entities.ohloh.OhLohCrawlerProjectEntity</class>
 		<class>br.ufba.dcc.mestrado.computacao.entities.ohloh.OhLohCrawlerStackEntity</class>
 		<class>br.ufba.dcc.mestrado.computacao.entities.ohloh.account.OhLohAccountEntity</class>

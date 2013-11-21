@@ -26,16 +26,22 @@ public class OhLohCrawlerProjectEntity  implements BaseEntity<Long> {
 	@GeneratedValue
 	private Long id;
 	
-	@Column(name="current_page")
-	private Integer currentPage;
+	@Column(name="items_available")
+	private Integer itemsAvailable;
 	
 	@Column(name="total_page")
 	private Integer totalPage;
 	
+	@Column(name="current_page")
+	private Integer currentPage;
+	
+	@Column(name="items_per_page")
+	private Integer itemsPerPage;
+	
 	@ManyToOne
 	@JoinColumn(name = "project_id")
 	private OhLohProjectEntity ohLohProject;
-	
+
 	public Long getId() {
 		return id;
 	}
@@ -44,20 +50,36 @@ public class OhLohCrawlerProjectEntity  implements BaseEntity<Long> {
 		this.id = id;
 	}
 
-	public Integer getCurrentPage() {
-		return currentPage;
+	public Integer getItemsAvailable() {
+		return itemsAvailable;
 	}
-	
-	public void setCurrentPage(Integer projectCurrentPage) {
-		this.currentPage = projectCurrentPage;
+
+	public void setItemsAvailable(Integer itemsAvailable) {
+		this.itemsAvailable = itemsAvailable;
 	}
-	
+
 	public Integer getTotalPage() {
 		return totalPage;
 	}
-	
-	public void setTotalPage(Integer projectTotalPage) {
-		this.totalPage = projectTotalPage;
+
+	public void setTotalPage(Integer totalPage) {
+		this.totalPage = totalPage;
+	}
+
+	public Integer getCurrentPage() {
+		return currentPage;
+	}
+
+	public void setCurrentPage(Integer currentPage) {
+		this.currentPage = currentPage;
+	}
+
+	public Integer getItemsPerPage() {
+		return itemsPerPage;
+	}
+
+	public void setItemsPerPage(Integer itemsPerPage) {
+		this.itemsPerPage = itemsPerPage;
 	}
 
 	public OhLohProjectEntity getOhLohProject() {
@@ -67,6 +89,8 @@ public class OhLohCrawlerProjectEntity  implements BaseEntity<Long> {
 	public void setOhLohProject(OhLohProjectEntity ohLohProject) {
 		this.ohLohProject = ohLohProject;
 	}
+	
+	
 	
 	
 

@@ -19,10 +19,6 @@ public class OhLohFactoidDTO implements OhLohResultDTO {
 
 	public final static String NODE_NAME = "factoid";
 	
-	@XStreamAsAttribute	
-	@XStreamConverter(value=NullableLongXStreamConverter.class)
-	private Long id;
-
 	@XStreamAsAttribute
 	private String type;
 
@@ -34,6 +30,8 @@ public class OhLohFactoidDTO implements OhLohResultDTO {
 	private Long severity;
 
 	private String description;
+	
+
 
 	public String getType() {
 		return type;

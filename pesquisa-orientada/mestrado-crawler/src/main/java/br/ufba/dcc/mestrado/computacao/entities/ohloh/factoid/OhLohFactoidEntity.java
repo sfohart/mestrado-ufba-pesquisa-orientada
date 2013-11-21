@@ -2,6 +2,7 @@ package br.ufba.dcc.mestrado.computacao.entities.ohloh.factoid;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -22,16 +23,17 @@ public class OhLohFactoidEntity implements BaseEntity<Long> {
 	public final static String NODE_NAME = "factoid";
 
 	@Id
+	@GeneratedValue
 	private Long id;
 	
 	@Column(name = "type")
 	private String type;
 
-	@Column(name = "analysis_id")
+	@Column(name = "analysis_id", updatable = false, insertable = false)
 	private Long analysisId;
 
 	@ManyToOne
-	@JoinColumn(name = "analysis_id", referencedColumnName = "id", updatable = false, insertable = false)
+	@JoinColumn(name = "analysis_id", referencedColumnName = "id")
 	private OhLohAnalysisEntity ohLohAnalysis;
 
 	@Column(name = "severity")

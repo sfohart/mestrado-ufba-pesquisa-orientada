@@ -77,7 +77,7 @@ public class OhLohAnalysisEntity implements BaseEntity<Long> {
 	@Column(name = "total_code_lines")
 	private Long totalCodeLines;
 
-	@OneToMany(mappedBy = "ohLohAnalysis")
+	@OneToMany(mappedBy = "ohLohAnalysis", cascade=CascadeType.ALL)
 	private List<OhLohFactoidEntity> ohLohFactoids;
 
 	@OneToOne(cascade = CascadeType.ALL, fetch=FetchType.EAGER)

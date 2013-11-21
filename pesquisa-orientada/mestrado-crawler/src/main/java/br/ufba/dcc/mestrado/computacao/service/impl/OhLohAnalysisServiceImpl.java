@@ -12,6 +12,7 @@ import org.springframework.transaction.annotation.Transactional;
 import br.ufba.dcc.mestrado.computacao.entities.ohloh.analysis.OhLohAnalysisEntity;
 import br.ufba.dcc.mestrado.computacao.entities.ohloh.analysis.OhLohAnalysisLanguageEntity;
 import br.ufba.dcc.mestrado.computacao.entities.ohloh.analysis.OhLohAnalysisLanguagesEntity;
+import br.ufba.dcc.mestrado.computacao.entities.ohloh.factoid.OhLohFactoidEntity;
 import br.ufba.dcc.mestrado.computacao.entities.ohloh.language.OhLohLanguageEntity;
 import br.ufba.dcc.mestrado.computacao.ohloh.data.analysis.OhLohAnalysisDTO;
 import br.ufba.dcc.mestrado.computacao.ohloh.data.language.OhLohLanguageDTO;
@@ -80,6 +81,13 @@ public class OhLohAnalysisServiceImpl extends DefaultOhLohServiceImpl<OhLohAnaly
 				OhLohAnalysisLanguagesEntity analysisLanguagesEntity = analysisLanguagesRepository.findById(entity.getOhLohAnalysisLanguages().getId());
 				if (analysisLanguagesEntity != null) {
 					entity.setOhLohAnalysisLanguages(analysisLanguagesEntity);
+				}
+				
+				if (entity.getOhLohFactoids() != null && ! entity.getOhLohFactoids().isEmpty()) {
+					for (OhLohFactoidEntity factoid : entity.getOhLohFactoids()) {
+						factoid.setOhLohAnalysis(entity);
+						factoid.setAnalysisId(entity.getId());
+					}
 				}
 				
 				List<OhLohAnalysisLanguageEntity> analysisLanguageList = new ArrayList<>();

@@ -98,8 +98,10 @@ public class OhLohProjectServiceImpl extends DefaultOhLohServiceImpl<OhLohProjec
 				analysis = analysisService.buildEntity(analysisDTO);
 				analysisService.validateEntity(analysis);
 				
-				analysis.setOhlohProject(entity);
-				entity.setOhLohAnalysis(analysis);
+				if (analysis != null) {
+					analysis.setOhlohProject(entity);
+					entity.setOhLohAnalysis(analysis);
+				}
 			}
 		}
 		
