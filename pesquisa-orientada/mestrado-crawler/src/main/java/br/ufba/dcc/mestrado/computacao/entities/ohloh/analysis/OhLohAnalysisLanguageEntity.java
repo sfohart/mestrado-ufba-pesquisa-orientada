@@ -3,6 +3,7 @@ package br.ufba.dcc.mestrado.computacao.entities.ohloh.analysis;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -26,6 +27,7 @@ public class OhLohAnalysisLanguageEntity implements BaseEntity<Long> {
 	public final static String NODE_NAME = "analysis_language";
 
 	@Id
+	@GeneratedValue
 	private Long id;
 
 	@Column(name = "language_id", insertable = false, updatable = false)

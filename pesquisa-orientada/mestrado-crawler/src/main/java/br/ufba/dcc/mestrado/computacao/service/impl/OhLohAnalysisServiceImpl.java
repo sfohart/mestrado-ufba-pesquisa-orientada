@@ -81,6 +81,8 @@ public class OhLohAnalysisServiceImpl extends DefaultOhLohServiceImpl<OhLohAnaly
 				OhLohAnalysisLanguagesEntity analysisLanguagesEntity = analysisLanguagesRepository.findById(entity.getOhLohAnalysisLanguages().getId());
 				if (analysisLanguagesEntity != null) {
 					entity.setOhLohAnalysisLanguages(analysisLanguagesEntity);
+				} else {
+					analysisLanguagesEntity = entity.getOhLohAnalysisLanguages();
 				}
 				
 				if (entity.getOhLohFactoids() != null && ! entity.getOhLohFactoids().isEmpty()) {
@@ -97,15 +99,16 @@ public class OhLohAnalysisServiceImpl extends DefaultOhLohServiceImpl<OhLohAnaly
 				for (OhLohAnalysisLanguageEntity analysisLanguage : entity.getOhLohAnalysisLanguages().getContent()) {
 					
 					if (analysisLanguage.getLanguageId() != null && analysisLanguage.getLanguageId() > 0) {
+						analysisLanguage.setOhLohAnalysisLanguages(analysisLanguagesEntity);
 						OhLohLanguageEntity language = languageService.findById(analysisLanguage.getLanguageId());
 						
 						if (language == null) {
 							OhLohLanguageDTO languageDTO = restfulClient.getLanguageById(analysisLanguage.getLanguageId().toString(), request);
 							language = languageService.buildEntity(languageDTO);
 							languageService.validateEntity(language);
-							
-							analysisLanguage.setOhLohLanguage(language);
 						}
+						
+						analysisLanguage.setOhLohLanguage(language);
 						analysisLanguageList.add(analysisLanguage);
 					}
 				}

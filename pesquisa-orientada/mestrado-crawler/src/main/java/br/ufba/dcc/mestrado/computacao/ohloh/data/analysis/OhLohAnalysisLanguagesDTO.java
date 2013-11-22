@@ -28,6 +28,9 @@ public class OhLohAnalysisLanguagesDTO implements OhLohResultDTO {
 
 	@XStreamImplicit(itemFieldName = "language")
 	private List<OhLohAnalysisLanguageDTO> content;
+	
+	@XStreamAsAttribute
+	private String color;
 
 	public String getGraphURL() {
 		return graphURL;
@@ -35,6 +38,14 @@ public class OhLohAnalysisLanguagesDTO implements OhLohResultDTO {
 
 	public void setGraphURL(String graphURL) {
 		this.graphURL = graphURL;
+	}
+	
+	public String getColor() {
+		return color;
+	}
+
+	public void setColor(String color) {
+		this.color = color;
 	}
 
 	public List<OhLohAnalysisLanguageDTO> getContent() {
