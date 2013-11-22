@@ -106,10 +106,8 @@ public class OhLohAnalysisServiceImpl extends DefaultOhLohServiceImpl<OhLohAnaly
 							
 							analysisLanguage.setOhLohLanguage(language);
 						}
-						
+						analysisLanguageList.add(analysisLanguage);
 					}
-					
-					analysisLanguageList.add(analysisLanguage);
 				}
 				
 				entity.getOhLohAnalysisLanguages().getContent().clear();
