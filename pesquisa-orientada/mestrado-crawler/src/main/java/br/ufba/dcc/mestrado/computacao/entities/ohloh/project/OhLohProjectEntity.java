@@ -56,7 +56,7 @@ public class OhLohProjectEntity implements BaseEntity<Long> {
 	private Timestamp updatedAt;
 
 	@Field(index = Index.YES, analyze = Analyze.YES, store = Store.NO)
-	@Column(name = "description", length = 10000)
+	@Column(name = "description", length = 30000)
 	private String description;
 
 	@Column(name = "homepage_url")

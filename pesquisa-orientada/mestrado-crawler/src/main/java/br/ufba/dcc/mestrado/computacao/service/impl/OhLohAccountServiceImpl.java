@@ -24,5 +24,9 @@ public class OhLohAccountServiceImpl extends DefaultOhLohServiceImpl<OhLohAccoun
 	public OhLohAccountServiceImpl(@Qualifier("ohLohAccountRepository") OhLohAccountRepository repository) {
 		super(repository, OhLohAccountDTO.class, OhLohAccountEntity.class);
 	}
-
+	
+	public OhLohAccountEntity findByLogin(String login) {
+		return ((OhLohAccountRepository) getRepository()).findByLogin(login);
+	}
+	
 }

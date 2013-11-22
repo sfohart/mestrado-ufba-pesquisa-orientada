@@ -126,8 +126,10 @@ public class OhLohRestfulClient implements Serializable {
 				
 				if (resource != null && ! resource.isStatusSuccess()) {
 					if (OhLohBaseResponse.ERROR_API_KEY_EXCEDED.equals(resource.getError())) {
-						setCurrentApiKey(getCurrentApiKey() + 1);
-						retry = true;
+						if (getCurrentApiKey() + 1 < getApiKeyList().size()) {
+							setCurrentApiKey(getCurrentApiKey() + 1);
+							retry = true;
+						}
 					}						
 				}				
 			}

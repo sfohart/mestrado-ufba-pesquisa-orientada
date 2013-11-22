@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!DOCTYPE html>
+<ui:composition xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core">
+	
+	<div id="carousel-promotional" class="carousel slide" style="margin: 20px 0">
+		<ol class="carousel-indicators">
+			<li data-target="#myCarousel" data-slide-to="0" class="active"></li>
+			<li data-target="#myCarousel" data-slide-to="1" class=""></li>
+			<li data-target="#myCarousel" data-slide-to="2" class=""></li>
+		</ol>
+		
+		<!-- Carousel items -->
+		<div class="carousel-inner">
+			<div class="item active">
+				<div style="height: 200px; width: 100%; background-color: #EEE"></div>
+				<div class="carousel-caption" >
+					<h3>Olha só quantos projetos!</h3>
+					<p>Atualmente, indexamos <h:outputText value="#{indexMB.projectCount}" /> projetos de código aberto </p>
+				</div>
+			</div>
+			<div class="item">
+				<div style="height: 200px; width: 100%"></div>
+				<div class="carousel-caption" >
+				</div>
+			</div>
+			<div class="item">
+				<div style="height: 200px; width: 100%"></div>
+				<div class="carousel-caption" >
+				</div>
+			</div>
+		</div>
+		
+		<!-- Carousel nav -->						
+		<a class="carousel-control left" href="#carousel-promotional" data-slide="prev">
+			<span class="glyphicon glyphicon-chevron-left"></span>
+		</a>
+		<a class="carousel-control right" href="#carousel-promotional" data-slide="next">
+			<span class="glyphicon glyphicon-chevron-right"></span>
+		</a>
+	</div>
+	
+</ui:composition>

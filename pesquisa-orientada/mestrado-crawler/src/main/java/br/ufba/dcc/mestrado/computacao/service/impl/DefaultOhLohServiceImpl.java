@@ -19,7 +19,6 @@ public abstract class DefaultOhLohServiceImpl<DTO extends OhLohResultDTO, ID ext
 	
 	private Class<DTO> dtoClass;
 	private ConverterHandler<DTO, ID, E> converterUtil;
-
 	
 	
 	public DefaultOhLohServiceImpl(

@@ -7,10 +7,12 @@ import br.ufba.dcc.mestrado.computacao.ohloh.data.account.OhLohAccountDTO;
 
 public interface OhLohAccountService extends DefaultOhLohService<OhLohAccountDTO, Long, OhLohAccountEntity>{
 
-	public Long countAll();
+	Long countAll();
 	
-	public OhLohAccountEntity findById(Long id);
+	OhLohAccountEntity findById(Long id);
 	
-	public List<OhLohAccountEntity> findAll(Integer startAt, Integer offset);
+	List<OhLohAccountEntity> findAll(Integer startAt, Integer offset);
+	
+	OhLohAccountEntity findByLogin(String login);
 	
 }

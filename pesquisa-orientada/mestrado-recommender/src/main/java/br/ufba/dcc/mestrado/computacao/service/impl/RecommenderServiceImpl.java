@@ -81,7 +81,7 @@ public class RecommenderServiceImpl implements RecommenderService {
 	}
 	
 	/**
-	 * 
+	 * Cria um recomendador colaborativo baseado em item
 	 * @author leandro.ferreira
 	 *
 	 */
@@ -99,7 +99,7 @@ public class RecommenderServiceImpl implements RecommenderService {
 	}
 	
 	/**
-	 * 
+	 * Cria um recomendador colaborativo baseado em usuário
 	 * @author leandro.ferreira
 	 *
 	 */

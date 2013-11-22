@@ -33,7 +33,6 @@ public class OhLohAnalysisLanguagesEntity implements BaseEntity<Long> {
 	private Long id;
 	
 	@OneToOne(mappedBy="ohLohAnalysisLanguages")
-	@PrimaryKeyJoinColumn
 	@ContainedIn
 	private OhLohAnalysisEntity ohLohAnalysis;
 	

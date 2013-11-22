@@ -80,8 +80,7 @@ public class OhLohAnalysisEntity implements BaseEntity<Long> {
 	@OneToMany(mappedBy = "ohLohAnalysis", cascade=CascadeType.ALL)
 	private List<OhLohFactoidEntity> ohLohFactoids;
 
-	@OneToOne(cascade = CascadeType.ALL, fetch=FetchType.EAGER)
-	@PrimaryKeyJoinColumn
+	@OneToOne(cascade = CascadeType.ALL, fetch=FetchType.EAGER)	
 	@IndexedEmbedded
 	private OhLohAnalysisLanguagesEntity ohLohAnalysisLanguages;
 

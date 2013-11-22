@@ -1,5 +1,6 @@
 package br.ufba.dcc.mestrado.computacao.entities.ohloh.project;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
@@ -34,6 +35,7 @@ public class OhLohLinkEntity implements BaseEntity<Long> {
 	private String title;
 	
 	@Field(index=Index.YES, analyze=Analyze.YES, store=Store.NO)
+	@Column(length=512)
 	private String url;
 
 	public Long getId() {

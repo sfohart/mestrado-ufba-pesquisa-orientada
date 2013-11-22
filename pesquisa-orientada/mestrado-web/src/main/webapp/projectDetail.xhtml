@@ -128,10 +128,9 @@
 					<h:panelGroup id="nutshelPanel" layout="block" styleClass="row" style="margin-top: 20px">
 						<div class="col-md-6">
 							
-							<ui:param name="ohLohAnalysis" value="projectDetailMB.project.ohLohAnalysis"  />
-							<ui:param name="ohLohFactoids" value="projectDetailMB.project.ohLohAnalysis.ohLohFactoids"  />
 							
-							<h:panelGroup id="projectNutshelFull" layout="block" styleClass="well" rendered="#{not empty ohLohFactoids}"  >
+							
+							<h:panelGroup id="projectNutshelFull" layout="block" styleClass="well" rendered="#{not empty projectDetailMB.project.ohLohAnalysis.ohLohFactoids}"  >
 								<h5>Em resumo, <h:outputText value="#{projectDetailMB.project.name}" />...</h5>
 								
 								
@@ -139,9 +138,9 @@
 									<li>
 										...
 										<div class="indent" style="margin-left: 1em; margin-top: -1.4em;">
-											<h:outputText  value="tem um total de #{ohLohAnalysis.totalCommitCount} commits
-											feitos por #{ohLohAnalysis.totalContributorCount} desenvolvedores, representando
-											#{ohLohAnalysis.totalCodeLines} linhas de código
+											<h:outputText  value="tem um total de #{projectDetailMB.project.ohLohAnalysis.totalCommitCount} commits
+											feitos por #{projectDetailMB.project.ohLohAnalysis.totalContributorCount} desenvolvedores, representando
+											#{projectDetailMB.project.ohLohAnalysis.totalCodeLines} linhas de código
 											" />
 										</div>
 									</li>
@@ -149,11 +148,11 @@
 									<li>
 										...
 										<div class="indent" style="margin-left: 1em; margin-top: -1.4em;">
-											<h:outputText value="é escrito principalmente em #{ohLohAnalysis.mainLanguageName}"  />
+											<h:outputText value="é escrito principalmente em #{projectDetailMB.project.ohLohAnalysis.mainLanguageName}"  />
 										</div>
 									</li>
 								
-									<ui:repeat var="factoid" value="#{ohLohFactoids}">
+									<ui:repeat var="factoid" value="#{projectDetailMB.project.ohLohAnalysis.ohLohFactoids}">
 										<li >
 											...
 											<div class="indent" style="margin-left: 1em; margin-top: -1.4em;">
@@ -171,12 +170,12 @@
 						</div>
 						
 						<div class="col-md-6">
-							<h:panelGroup id="projectLanguages" layout="block" rendered="#{ohLohAnalysis != null}" >
+							<h:panelGroup id="projectLanguages" layout="block" rendered="#{projectDetailMB.project.ohLohAnalysis != null}" >
 								<h:link>
 									<h4>Linguagens</h4>
 								</h:link>
 								<div class="float_left" style="padding-right: 10px">
-									<img src="#{ohLohAnalysis.ohLohAnalysisLanguages.graphURL}?height=75&amp;width=75"  />
+									<img src="#{projectDetailMB.project.ohLohAnalysis.ohLohAnalysisLanguages.graphURL}?height=75&amp;width=75"  />
 								</div>
 								<table class="table table-striped unstyled float_left" style="width: 300px;">
 									<ui:repeat var="languageAnalysis" value="">
@@ -194,10 +193,23 @@
 						
 					</h:panelGroup>
 					
-					<h:panelGroup id="communityPanel" layout="block" styleClass="row">
+					<h:panelGroup id="communityPanel" layout="block" styleClass="row" style="margin-bottom: 20px">
 					
 						<h2>Comunidade</h2>
 						<hr />
+						
+						
+						<div class="col-md-4">
+							<h:link>
+								<h5>Avaliações</h5>
+							</h:link>
+						</div>
+						
+						<div class="col-md-4">
+						</div>
+						
+						<div class="col-md-4">
+						</div>
 						
 					</h:panelGroup>
 				
