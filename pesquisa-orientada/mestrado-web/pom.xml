@@ -11,6 +11,10 @@
 
 	<properties>
 		<jsf.version>2.2.4</jsf.version>
+		<spring-social.version>1.0.3.RELEASE</spring-social.version>
+		<spring-social-facebook.version>1.0.3.RELEASE</spring-social-facebook.version>
+		<spring-social-twitter.version>1.0.5.RELEASE</spring-social-twitter.version>
+		<spring-security.version>3.1.4.RELEASE</spring-security.version>
 	</properties>
 
 	<repositories>
@@ -83,6 +87,46 @@
 			<artifactId>spring-webmvc</artifactId>
 			<version>${spring.version}</version>
 		</dependency>
+		
+		<!-- SPRING SECURITY -->
+		<dependency>
+		    <groupId>org.springframework.security</groupId>
+		    <artifactId>spring-security-core</artifactId>
+		    <version>${spring-security.version}</version>
+		</dependency>
+		<dependency>
+		    <groupId>org.springframework.security</groupId>
+		    <artifactId>spring-security-config</artifactId>
+		    <version>${spring-security.version}</version>
+		</dependency>
+		<dependency>
+		    <groupId>org.springframework.security</groupId>
+		    <artifactId>spring-security-web</artifactId>
+		    <version>${spring-security.version}</version>
+		</dependency>
+		
+		<!-- SPRING SOCIAL -->		
+		<dependency>
+		    <groupId>org.springframework.social</groupId>
+		    <artifactId>spring-social-core</artifactId>
+		    <version>${spring-social.version}</version>
+		</dependency>
+		<dependency>
+		    <groupId>org.springframework.social</groupId>
+		    <artifactId>spring-social-web</artifactId>
+		    <version>${spring-social.version}</version>
+		</dependency>		
+		<dependency>
+		    <groupId>org.springframework.social</groupId>
+		    <artifactId>spring-social-facebook</artifactId>
+		    <version>${spring-social-facebook.version}</version>
+		</dependency>
+		<dependency>
+		    <groupId>org.springframework.social</groupId>
+		    <artifactId>spring-social-facebook-web</artifactId>
+		    <version>${spring-social-facebook.version}</version>
+		</dependency>
+		
 
 	</dependencies>
 </project>

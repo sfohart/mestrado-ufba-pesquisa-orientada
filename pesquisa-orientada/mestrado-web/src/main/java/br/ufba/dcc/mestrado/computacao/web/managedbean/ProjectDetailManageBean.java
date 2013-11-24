@@ -2,19 +2,20 @@ package br.ufba.dcc.mestrado.computacao.web.managedbean;
 
 import java.io.Serializable;
 import java.util.List;
-import java.util.Map;
 
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
 import javax.faces.event.ComponentSystemEvent;
 
+import br.ufba.dcc.mestrado.computacao.entities.ohloh.analysis.OhLohAnalysisLanguagesEntity;
 import br.ufba.dcc.mestrado.computacao.entities.ohloh.enlistment.OhLohEnlistmentEntity;
-import br.ufba.dcc.mestrado.computacao.entities.ohloh.project.OhLohLinkEntity;
+import br.ufba.dcc.mestrado.computacao.entities.ohloh.factoid.OhLohFactoidEntity;
 import br.ufba.dcc.mestrado.computacao.entities.ohloh.project.OhLohProjectEntity;
 import br.ufba.dcc.mestrado.computacao.service.base.OhLohAnalysisService;
 import br.ufba.dcc.mestrado.computacao.service.base.OhLohEnlistmentService;
 import br.ufba.dcc.mestrado.computacao.service.base.OhLohProjectService;
+import br.ufba.dcc.mestrado.computacao.service.base.OverallPreferenceService;
 
 @ManagedBean(name="projectDetailMB", eager=true)
 @ViewScoped
@@ -34,12 +35,18 @@ public class ProjectDetailManageBean implements Serializable {
 	@ManagedProperty("#{ohLohAnalysisService}")
 	private OhLohAnalysisService analysisService;
 	
-	private OhLohProjectEntity project;
+	@ManagedProperty("#{overallPreferenceService}")
+	private OverallPreferenceService overallPreferenceService;
 	
-	private Map<String, List<OhLohLinkEntity>> linkByCategory;
+	private OhLohProjectEntity project;
+	private List<OhLohFactoidEntity> factoidList;
+	private OhLohAnalysisLanguagesEntity analysisLanguages;
 		
 	private List<OhLohEnlistmentEntity> enlistmentList;
 	private Long enlistmentCount;
+	
+	private Long overallPreferenceCount;
+	private Double averageOverallPreferenceValue;
 	
 	private String[] projectDescritionParagraphs;
 	
@@ -51,17 +58,22 @@ public class ProjectDetailManageBean implements Serializable {
 		if (getProject() != null && getProject().getId() != null) {
 			this.project = getProjectService().findById(getProject().getId());
 			
-			if (this.project.getDescription() != null) {
-				this.projectDescritionParagraphs = project.getDescription().split("\n");
+			if (getProject().getDescription() != null) {
+				this.projectDescritionParagraphs = getProject().getDescription().split("\n");
 			}
 			
-			this.linkByCategory = getProjectService().buildLinkMapByCategory(getProject());
+			if (getProject().getOhLohAnalysis() != null) {
+				this.factoidList = getProject().getOhLohAnalysis().getOhLohFactoids();
+				this.analysisLanguages = getProject().getOhLohAnalysis().getOhLohAnalysisLanguages();
+			}
 			
 			this.enlistmentCount = getEnlistmentService().countAllByProject(getProject());
 			if (enlistmentCount != null && enlistmentCount > 0) {
 				this.enlistmentList = getEnlistmentService().findByProject(getProject());
 			}
 			
+			this.overallPreferenceCount = getOverallPreferenceService().countAllByProject(getProject());
+			this.averageOverallPreferenceValue = getOverallPreferenceService().averagePreferenceByProject(getProject());
 		}
 	}
 	
@@ -93,6 +105,15 @@ public class ProjectDetailManageBean implements Serializable {
 		this.analysisService = analysisService;
 	}
 
+	public OverallPreferenceService getOverallPreferenceService() {
+		return overallPreferenceService;
+	}
+
+	public void setOverallPreferenceService(
+			OverallPreferenceService overallPreferenceService) {
+		this.overallPreferenceService = overallPreferenceService;
+	}
+
 	public OhLohProjectEntity getProject() {
 		return project;
 	}
@@ -101,12 +122,6 @@ public class ProjectDetailManageBean implements Serializable {
 		this.project = project;
 	}
 
-	public Map<String, List<OhLohLinkEntity>> getLinkByCategory() {
-		return linkByCategory;
-	}
-	
-	
-
 	public List<OhLohEnlistmentEntity> getEnlistmentList() {
 		return enlistmentList;
 	}
@@ -114,11 +129,20 @@ public class ProjectDetailManageBean implements Serializable {
 	public Long getEnlistmentCount() {
 		return enlistmentCount;
 	}
+	
+	public Long getOverallPreferenceCount() {
+		return overallPreferenceCount;
+	}
 
 	public String[] getProjectDescritionParagraphs() {
 		return projectDescritionParagraphs;
 	}
 	
+	public List<OhLohFactoidEntity> getFactoidList() {
+		return factoidList;
+	}
 	
-	
+	public OhLohAnalysisLanguagesEntity getAnalysisLanguages() {
+		return analysisLanguages;
+	}
 }

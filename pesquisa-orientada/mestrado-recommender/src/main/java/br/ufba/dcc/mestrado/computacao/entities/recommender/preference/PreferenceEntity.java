@@ -45,6 +45,9 @@ public class PreferenceEntity implements BaseEntity<Long> {
 	@JoinColumn(name = "project_id", referencedColumnName = "id")
 	private OhLohProjectEntity project;
 	
+	@Column(name = "value_preference")
+	private Float value;
+	
 	@OneToMany(mappedBy = "preference")
 	private List<PreferenceEntryEntity> preferenceEntryList;
 	

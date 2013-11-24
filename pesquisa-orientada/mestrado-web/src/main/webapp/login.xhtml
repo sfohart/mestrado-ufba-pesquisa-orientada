@@ -14,6 +14,11 @@
 			
 			<ui:define name="content">				
 				<section class="container">
+					<h:panelGroup id="loginAlert" layout="block" styleClass="alert alert-danger col-md-12" 
+						rendered="#{not empty facesContext.messageList}">
+						<strong>Vish! </strong>
+						<h:messages />
+					</h:panelGroup>
 				
 					<div class="row">
 						<div class="col-md-6">
@@ -48,7 +53,7 @@
 						
 						<div class="col-md-6">
 							<div class="well">
-								<h:form>
+								<h:form prependId="false">
 									<fieldset>
 										<legend>Entrar</legend>
 										<div class="form-group">
@@ -57,7 +62,10 @@
 													<span class="input-group-addon">
 														<span class="glyphicon glyphicon-user"></span>
 													</span>
-													<h:inputText styleClass="form-control" id="j_username"  tabindex="1" required="true"  p:placeholder="Nome de Usuário" />												
+													<h:inputText styleClass="form-control" id="j_username"
+														requiredMessage="#{messages['login.username.required.message']}"  
+														tabindex="1" required="true"  
+														p:placeholder="Nome de Usuário" />												
 												</div>
 											</div>
 										</div>
@@ -68,12 +76,14 @@
 													<span class="input-group-addon">
 														<span class="glyphicon glyphicon-eye-close"></span>
 													</span>
-													<h:inputSecret  styleClass="form-control" id="j_password" tabindex="2" required="true"  p:placeholder="Senha" />												
+													<h:inputSecret  styleClass="form-control" id="j_password"
+														requiredMessage="#{messages['login.password.required.message']}" 
+														tabindex="2" required="true"  
+														p:placeholder="Senha" />												
 												</div>
 											</div>
 										</div>
-										<h:commandButton  styleClass="btn btn-primary" tabindex="3" value="Login">
-										</h:commandButton>
+										<h:commandButton  styleClass="btn btn-primary" tabindex="3" value="Login" action="#{loginMB.signIn}" />
 									</fieldset>
 								</h:form>
 							</div>

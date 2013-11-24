@@ -11,5 +11,8 @@
 		    <var>messages</var>
 		</resource-bundle>
 	</application>
+	<lifecycle>
+		<phase-listener>br.ufba.dcc.mestrado.computacao.web.managedbean.LoginManagedBean</phase-listener>
+	</lifecycle>
 	
 </faces-config>

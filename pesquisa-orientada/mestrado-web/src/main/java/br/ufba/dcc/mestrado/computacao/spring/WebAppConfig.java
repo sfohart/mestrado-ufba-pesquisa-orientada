@@ -8,7 +8,11 @@ import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 @Configuration
 @EnableWebMvc
 @ComponentScan("br.ufba.dcc.mestrado.computacao")
-@Import({RecommenderAppConfig.class})
+@Import({
+	RecommenderAppConfig.class,
+	SocialAppConfig.class,
+	SecurityAppConfig.class
+})
 public class WebAppConfig {
 	
 }

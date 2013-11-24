@@ -130,7 +130,7 @@
 							
 							
 							
-							<h:panelGroup id="projectNutshelFull" layout="block" styleClass="well" rendered="#{not empty projectDetailMB.project.ohLohAnalysis.ohLohFactoids}"  >
+							<h:panelGroup id="projectNutshelFull" layout="block" styleClass="well" rendered="#{not empty projectDetailMB.factoidList}"  >
 								<h5>Em resumo, <h:outputText value="#{projectDetailMB.project.name}" />...</h5>
 								
 								
@@ -164,7 +164,7 @@
 								</ul>
 							</h:panelGroup>
 							
-							<h:panelGroup id="projectNutshelEmpty" layout="block" styleClass="well" rendered="#{empty ohLohFactoids}"  >
+							<h:panelGroup id="projectNutshelEmpty" layout="block" styleClass="well" rendered="#{empty projectDetailMB.factoidList}"  >
 								<h5>Não há análises para o projeto <h:outputText value="#{projectDetailMB.project.name}" />...</h5>
 							</h:panelGroup>
 						</div>
@@ -174,13 +174,22 @@
 								<h:link>
 									<h4>Linguagens</h4>
 								</h:link>
-								<div class="float_left" style="padding-right: 10px">
-									<img src="#{projectDetailMB.project.ohLohAnalysis.ohLohAnalysisLanguages.graphURL}?height=75&amp;width=75"  />
+								<div class="float_left col-md-3" style="padding-right: 10px">
+									<img src="#{projectDetailMB.analysisLanguages.graphURL}?height=75&amp;width=75"  />
 								</div>
-								<table class="table table-striped unstyled float_left" style="width: 300px;">
-									<ui:repeat var="languageAnalysis" value="">
-									</ui:repeat>
-								</table>
+								<div class="float right col-md-9">
+									<table class="table table-striped unstyled float_left" style="width: 300px;">
+										<tbody >
+											<ui:repeat var="languageAnalysis" value="#{projectDetailMB.analysisLanguages.content}" >
+												<tr>
+													<td>
+														<h:outputText  value="#{languageAnalysis.ohLohLanguage.niceName}"  />
+													</td>
+												</tr>
+											</ui:repeat>
+										</tbody>
+									</table>
+								</div>
 							</h:panelGroup>
 						</div>
 					
@@ -203,6 +212,20 @@
 							<h:link>
 								<h5>Avaliações</h5>
 							</h:link>
+							<p>
+								<h:outputText 
+									rendered="#{projectDetailMB.overallPreferenceCount > 0}"
+									value="#{projectDetailMB.overallPreferenceCount} pessoas avaliaram este projeto" />
+								<h:outputText 
+									rendered="#{projectDetailMB.overallPreferenceCount eq 0}"
+									value="Nenhum usuário avaliou ainda este projeto" /> 
+							</p>
+							<p>
+								<div class="rateit" data-rateit-readonly="true"
+									data-rateit-min="0" data-rateit-max="10"
+									data-rateit-value="#{projectDetailMB.averageOverallPreferenceValue}" data-rateit-ispreset="true"  />
+							</p>
+							
 						</div>
 						
 						<div class="col-md-4">

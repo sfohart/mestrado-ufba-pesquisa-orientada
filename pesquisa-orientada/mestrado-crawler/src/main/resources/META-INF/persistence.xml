@@ -12,6 +12,7 @@
 		<class>br.ufba.dcc.mestrado.computacao.entities.ohloh.OhLohCrawlerProjectEntity</class>
 		<class>br.ufba.dcc.mestrado.computacao.entities.ohloh.OhLohCrawlerStackEntity</class>
 		<class>br.ufba.dcc.mestrado.computacao.entities.ohloh.account.OhLohAccountEntity</class>
+		<class>br.ufba.dcc.mestrado.computacao.entities.ohloh.account.RoleEntity</class>
 		<class>br.ufba.dcc.mestrado.computacao.entities.ohloh.activityfact.OhLohActivityFactEntity</class>
 		<class>br.ufba.dcc.mestrado.computacao.entities.ohloh.analysis.OhLohAnalysisEntity</class>
 		<class>br.ufba.dcc.mestrado.computacao.entities.ohloh.analysis.OhLohAnalysisLanguageEntity</class>
