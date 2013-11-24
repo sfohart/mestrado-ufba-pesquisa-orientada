@@ -47,37 +47,49 @@
 						<div class="col-md-9" style="margin-left:137px;">
 							<div class="well">
 								<h:form id="projectReviewForm">
-									<fieldset>
-										<legend>Critérios de Avaliação:</legend>
-										<ui:repeat  var="preferenceEntry" value="#{projectReviewMB.preference.preferenceEntryList}" varStatus="status">
-											<div class="col-md-6 #{status.even ? 'pull-right' : 'pull-left'}">
-												<div class="row">
-													<div class="form-group">
-														<label><h:outputText  value="#{preferenceEntry.criterium.name}"  /> </label>
-														<br />
-														<h:inputText type="range" styleClass="criterio#{preferenceEntry.criterium.id}" value="#{preferenceEntry.value}" min="0" max="10" />
-														<div class="rateit" data-rateit-backingfld=".criterio#{preferenceEntry.criterium.id}" data-rateit-min="0" data-rateit-max="10"></div>
+								
+									<div class="panel panel-primary">
+										<div class="panel-heading">
+											<h2 class="panel-title">Critérios de Avaliação:</h2>
+										</div>
+										<div class="panel-body">
+											<!-- TODO: 
+												Lembrar de colocar um popover do bootstrap em cada título de critério de avaliação 
+											-->
+											<ui:repeat  var="preferenceEntry" value="#{projectReviewMB.preference.preferenceEntryList}" varStatus="status">
+												<div class="col-md-6 #{status.even ? 'pull-right' : 'pull-left'}">
+													<div class="row">
+														<div class="form-group">
+															<label><h:outputText  value="#{preferenceEntry.criterium.name}"  /> </label>
+															<br />
+															<h:inputText type="range" styleClass="criterio#{preferenceEntry.criterium.id}" value="#{preferenceEntry.value}" min="0" max="10" />
+															<div class="rateit" data-rateit-backingfld=".criterio#{preferenceEntry.criterium.id}" data-rateit-min="0" data-rateit-max="10"></div>
+														</div>
 													</div>
 												</div>
-											</div>
-										</ui:repeat>
-									</fieldset>
+											</ui:repeat>
+										</div>
+									</div>
 									
-									<fieldset>
-										<legend>Dê sua opinião</legend>
-										<div class="form-group">
-											<h:outputLabel  for="reviewTitle">Título</h:outputLabel>
-											<h:inputText id="reviewTitle" styleClass="form-control"
-												value="#{projectReviewMB.preference.preferenceReview.title}"  />
+									<div class="panel panel-primary">
+										<div class="panel-heading">
+											<h2 class="panel-title">Dê a sua opinião</h2>
 										</div>
-										
-										<div class="form-group">
-											<h:outputLabel  for="reviewDescription">Descrição</h:outputLabel>
-											<h:inputTextarea id="reviewDescription" styleClass="form-control" rows="5"
-												value="#{projectReviewMB.preference.preferenceReview.description}" 
-												/>
+										<div class="panel-body">
+											<div class="form-group">
+												<h:outputLabel  for="reviewTitle">Título</h:outputLabel>
+												<h:inputText id="reviewTitle" styleClass="form-control"
+													value="#{projectReviewMB.preference.preferenceReview.title}"  />
+											</div>
+											
+											<div class="form-group">
+												<h:outputLabel  for="reviewDescription">Descrição</h:outputLabel>
+												<h:inputTextarea id="reviewDescription" styleClass="form-control" rows="5"
+													value="#{projectReviewMB.preference.preferenceReview.description}" 
+													/>
+											</div>
 										</div>
-									</fieldset>
+									</div>
 									
 									<h:commandButton styleClass="btn btn-primary" value="Enviar"
 										action="#{projectReviewMB.saveReview}">
