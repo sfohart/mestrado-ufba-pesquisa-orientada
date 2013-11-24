@@ -32,13 +32,27 @@
   					</h:commandButton>
   				</h:form>
   				
-  				<h:form styleClass="navbar-form navbar-right" >
+  				<h:form styleClass="navbar-form navbar-right" prependId="false">
+  					<h:panelGroup layout="block" rendered="#{loginMB.loggedUser eq null}">
   						<h:outputLink  value="login.jsf" style="margin-right: 10px" >
-  							<span class="glyphicon glyphicon-user"></span> Entrar
+  							<span class="glyphicon glyphicon-log-in"></span> Entrar
   						</h:outputLink>
-  						<button  class="btn btn-success btn-mini" formaction="newAccount.jsf" >
+  						<button class="btn btn-success btn-mini" formaction="newAccount.jsf" >
   							<span class="glyphicon glyphicon-plus-sign white"></span> Cadastre-se 
   						</button>
+  					</h:panelGroup>
+  					
+  					<h:panelGroup layout="block" rendered="#{loginMB.loggedUser != null}">
+  						<h:outputLink  value="login.jsf" style="margin-right: 10px" >
+  							<span class="glyphicon glyphicon-user"></span> 
+  							<h:outputText
+  								style="margin-left: 10px" 
+  								value="#{loginMB.loggedUser.name}" />
+  						</h:outputLink>
+  						<h:commandLink class="btn btn-success btn-mini" action="#{loginMB.signOut}" >
+  							<span class="glyphicon glyphicon-log-out white"></span> Sair
+  						</h:commandLink>
+  					</h:panelGroup>
   				</h:form>
   			</div>
   			

@@ -133,6 +133,10 @@ public class ProjectDetailManageBean implements Serializable {
 	public Long getOverallPreferenceCount() {
 		return overallPreferenceCount;
 	}
+	
+	public Double getAverageOverallPreferenceValue() {
+		return averageOverallPreferenceValue;
+	}
 
 	public String[] getProjectDescritionParagraphs() {
 		return projectDescritionParagraphs;

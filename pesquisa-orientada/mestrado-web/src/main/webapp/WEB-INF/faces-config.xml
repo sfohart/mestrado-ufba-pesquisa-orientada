@@ -12,7 +12,7 @@
 		</resource-bundle>
 	</application>
 	<lifecycle>
-		<phase-listener>br.ufba.dcc.mestrado.computacao.web.managedbean.LoginManagedBean</phase-listener>
+		<phase-listener>br.ufba.dcc.mestrado.computacao.web.LoginPhaseListener</phase-listener>
 	</lifecycle>
 	
 </faces-config>

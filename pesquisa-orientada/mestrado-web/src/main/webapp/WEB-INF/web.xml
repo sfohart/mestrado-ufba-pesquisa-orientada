@@ -17,7 +17,22 @@
 	<listener>
 		<listener-class>org.springframework.web.util.Log4jConfigListener</listener-class>
 	</listener>
-
+	
+	<!--
+		Não queria usar este filtro, mas fui obrigado. Usar o spring-security fazia a sessão JPA ser fechada. Ainda não consegui
+		entender o motivo. ao invés de usar o OpenSessionInView do Hibernate, utilizei este, segundo fóruns na internet.
+		
+		Importante: Este filtro deve vir antes de todos os outros. 
+	 -->
+	<filter>
+		<filter-name>openEntityManagerInViewFilter</filter-name>
+		<filter-class>org.springframework.orm.jpa.support.OpenEntityManagerInViewFilter</filter-class>
+	</filter>
+	<filter-mapping>
+		<filter-name>openEntityManagerInViewFilter</filter-name>
+		<url-pattern>/*</url-pattern>
+	</filter-mapping>
+	
 	<!-- Filtro para os beans do spring -->
 	<filter>
 		<filter-name>requestContextFilter</filter-name>
@@ -48,6 +63,11 @@
 		<filter-name>hiddenHttpMethodFilter</filter-name>
 		<url-pattern>/*</url-pattern>
 	</filter-mapping>
+
+
+	
+	
+	
 
 	<!-- Configure ContextLoaderListener to use AnnotationConfigWebApplicationContext 
 		instead of the default XmlWebApplicationContext -->

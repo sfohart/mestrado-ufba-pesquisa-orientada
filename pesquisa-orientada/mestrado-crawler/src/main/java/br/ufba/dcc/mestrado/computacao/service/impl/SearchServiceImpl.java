@@ -11,6 +11,7 @@ import org.hibernate.search.query.facet.FacetSelection;
 import org.hibernate.search.query.facet.FacetingRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import br.ufba.dcc.mestrado.computacao.entities.ohloh.project.OhLohProjectEntity;
@@ -33,7 +34,7 @@ public class SearchServiceImpl implements SearchService {
 	private OhLohProjectRepository projectRepository;
 	
 	
-	@Transactional(readOnly = true)
+	@Transactional(propagation=Propagation.REQUIRED)
 	public SearchResponse findAllProjects(SearchRequest searchRequest) {
 		SearchResponse searchResult =  null;
 		
