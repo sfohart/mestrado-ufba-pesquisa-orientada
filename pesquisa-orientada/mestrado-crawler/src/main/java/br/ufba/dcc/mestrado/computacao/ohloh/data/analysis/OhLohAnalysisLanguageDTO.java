@@ -6,10 +6,8 @@ import br.ufba.dcc.mestrado.computacao.xstream.converters.NullableLongXStreamCon
 import com.thoughtworks.xstream.annotations.XStreamAlias;
 import com.thoughtworks.xstream.annotations.XStreamAsAttribute;
 import com.thoughtworks.xstream.annotations.XStreamConverter;
-import com.thoughtworks.xstream.converters.extended.ToAttributedValueConverter;
 
 @XStreamAlias(OhLohAnalysisLanguageDTO.NODE_NAME)
-@XStreamConverter(value = ToAttributedValueConverter.class, strings = { "content" })
 public class OhLohAnalysisLanguageDTO implements OhLohResultDTO {
 
 	/**
