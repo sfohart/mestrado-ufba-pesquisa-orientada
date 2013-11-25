@@ -1,4 +1,4 @@
-package br.ufba.dcc.mestrado.computacao.web;
+package br.ufba.dcc.mestrado.computacao.web.listener;
 
 import java.util.logging.Level;
 import java.util.logging.Logger;

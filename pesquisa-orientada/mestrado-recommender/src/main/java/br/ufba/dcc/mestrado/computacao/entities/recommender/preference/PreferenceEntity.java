@@ -16,6 +16,7 @@ import javax.persistence.Table;
 import br.ufba.dcc.mestrado.computacao.entities.BaseEntity;
 import br.ufba.dcc.mestrado.computacao.entities.ohloh.account.OhLohAccountEntity;
 import br.ufba.dcc.mestrado.computacao.entities.ohloh.project.OhLohProjectEntity;
+import br.ufba.dcc.mestrado.computacao.entities.recommender.user.UserEntity;
 
 @Entity
 @Table(name = PreferenceEntity.NODE_NAME)
@@ -32,12 +33,12 @@ public class PreferenceEntity implements BaseEntity<Long> {
 	@GeneratedValue
 	private Long id;
 
-	@Column(name = "account_id", insertable = false, updatable = false)
-	private Long accountId;
+	@Column(name = "user_id", insertable = false, updatable = false)
+	private Long userId;
 
 	@ManyToOne(cascade = CascadeType.ALL)
-	@JoinColumn(name = "account_id", referencedColumnName = "id")
-	private OhLohAccountEntity account;
+	@JoinColumn(name = "user_id", referencedColumnName = "id")
+	private UserEntity user;
 
 	@Column(name = "project_id", updatable = false, insertable = false)
 	private Long projectId;
@@ -66,20 +67,20 @@ public class PreferenceEntity implements BaseEntity<Long> {
 		this.id = id;
 	}
 
-	public Long getAccountId() {
-		return accountId;
+	public Long getUserId() {
+		return userId;
 	}
 
-	public void setAccountId(Long accountId) {
-		this.accountId = accountId;
+	public void setUserId(Long userId) {
+		this.userId = userId;
 	}
 
-	public OhLohAccountEntity getAccount() {
-		return account;
+	public UserEntity getUser() {
+		return user;
 	}
 
-	public void setAccount(OhLohAccountEntity account) {
-		this.account = account;
+	public void setUser(UserEntity user) {
+		this.user = user;
 	}
 
 	public Long getProjectId() {
@@ -96,6 +97,14 @@ public class PreferenceEntity implements BaseEntity<Long> {
 
 	public void setProject(OhLohProjectEntity project) {
 		this.project = project;
+	}
+
+	public Float getValue() {
+		return value;
+	}
+
+	public void setValue(Float value) {
+		this.value = value;
 	}
 
 	public List<PreferenceEntryEntity> getPreferenceEntryList() {

@@ -13,7 +13,7 @@ import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 
-import br.ufba.dcc.mestrado.computacao.entities.ohloh.account.OhLohAccountEntity;
+import br.ufba.dcc.mestrado.computacao.entities.recommender.user.UserEntity;
 import br.ufba.dcc.mestrado.computacao.service.basic.RepositoryBasedUserDetailsService;
 
 @ManagedBean(name="loginMB")
@@ -28,9 +28,9 @@ public class LoginManagedBean implements Serializable {
 	@ManagedProperty("#{repositoryBasedUserDetailsService}")
 	private RepositoryBasedUserDetailsService userDetailsService;
 	
-	private OhLohAccountEntity loggedUser;
+	private UserEntity loggedUser;
 	
-	public OhLohAccountEntity getLoggedUser() {
+	public UserEntity getLoggedUser() {
 		if (this.loggedUser == null) {
 			this.loggedUser = getUserDetailsService().loadFullLoggedUser();
 		}

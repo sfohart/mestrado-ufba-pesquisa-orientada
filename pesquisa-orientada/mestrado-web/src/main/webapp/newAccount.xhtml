@@ -13,6 +13,13 @@
 			
 			<ui:define name="content">				
 				<section class="container">
+				
+					<h:panelGroup id="newAccountAlert" layout="block" styleClass="alert alert-danger col-md-12" 
+						rendered="#{not empty facesContext.messageList}">
+						<strong>Vish! </strong>
+						<h:messages />
+					</h:panelGroup>
+				
 					<div class="row">
 						<div class="col-md-6">
 							<h4>Seja bem vindo!</h4>
@@ -61,8 +68,10 @@
 										<div class="form-group">
 											<label><b>Email</b></label>
 											<h:inputText styleClass="form-control" tabindex="2"
-												value="#{accountMB.account.emailSHA1}" 
-												/>
+												value="#{accountMB.account.email}">
+												<f:validator validatorId="emailConfirmationFieldValidator"  />
+												<f:attribute name="match" value="#{confirmEmail}" />
+											</h:inputText>
 											<span class="help-block">
 												Você precisa fornecer um email válido para que a sua nova conta
 												seja ativada.
@@ -70,8 +79,7 @@
 										</div>
 										<div class="form-group">
 											<label><b>Confirmar Email</b></label>
-											<h:inputText styleClass="form-control" tabindex="3" >
-											</h:inputText>
+											<h:inputText styleClass="form-control" tabindex="3"  binding="#{confirmEmail}" />
 											<span class="help-block">
 												Confirme o seu endereço de email.
 											</span>
@@ -79,9 +87,11 @@
 										<div class="form-group">
 											<label><b>Senha</b></label>
 											<h:inputSecret styleClass="form-control" tabindex="4" id="password"
-												value="#{accountMB.account.password}"
-												>
+												validatorMessage="#{messages['password.length.error.message']}"
+												value="#{accountMB.account.password}">
 												<f:validateLength  minimum="6" for="password" />
+												<f:validator validatorId="passwordConfirmationFieldValidator"  />
+												<f:attribute name="match" value="#{confirmPassword}" />
 											</h:inputSecret>
 											<span class="help-block">
 												Digite uma senha para a sua conta.
@@ -89,7 +99,7 @@
 										</div>
 										<div class="form-group">
 											<label><b>Confirmar Senha</b></label>
-											<h:inputSecret styleClass="form-control" tabindex="5" />
+											<h:inputSecret styleClass="form-control" tabindex="5" binding="#{confirmPassword}" />
 											<span class="help-block">
 												Confirme a sua senha
 											</span>

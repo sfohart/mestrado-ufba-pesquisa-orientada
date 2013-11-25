@@ -1,42 +1,90 @@
 package br.ufba.dcc.mestrado.computacao.web.managedbean;
 
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
+import javax.faces.context.FacesContext;
 
-import br.ufba.dcc.mestrado.computacao.entities.ohloh.account.OhLohAccountEntity;
-import br.ufba.dcc.mestrado.computacao.service.base.OhLohAccountService;
+import org.springframework.security.crypto.password.PasswordEncoder;
+
+import br.ufba.dcc.mestrado.computacao.entities.recommender.user.RoleEnum;
+import br.ufba.dcc.mestrado.computacao.entities.recommender.user.UserEntity;
+import br.ufba.dcc.mestrado.computacao.service.base.UserService;
 
 @ManagedBean(name="accountMB")
 @ViewScoped
-public class AccountManagedBean {
+public class AccountManagedBean implements Serializable {
 
-	@ManagedProperty("#{ohLohAccountService}")
-	private OhLohAccountService ohLohAccountService;
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -4801276509767530348L;
+
+	@ManagedProperty("#{userService}")
+	private UserService userService;
 	
-	private OhLohAccountEntity account;
+	@ManagedProperty("#{bCryptPasswordEncoder}")
+	private PasswordEncoder passwordEncoder;
+	
+	private UserEntity account;
 	
 	public AccountManagedBean() {
-		this.account = new OhLohAccountEntity();
+		this.account = new UserEntity();
 	}
 	
-	public OhLohAccountService getOhLohAccountService() {
-		return ohLohAccountService;
+	public UserService getUserService() {
+		return userService;
 	}
 	
-	public void setOhLohAccountService(OhLohAccountService ohLohAccountService) {
-		this.ohLohAccountService = ohLohAccountService;
+	public void setUserService(UserService userService) {
+		this.userService = userService;
+	}
+
+	public PasswordEncoder getPasswordEncoder() {
+		return passwordEncoder;
 	}
 	
-	public OhLohAccountEntity getAccount() {
+	public void setPasswordEncoder(PasswordEncoder passwordEncoder) {
+		this.passwordEncoder = passwordEncoder;
+	}
+	
+	public UserEntity getAccount() {
 		return account;
 	}
 	
-	public void setAccount(OhLohAccountEntity account) {
+	public void setAccount(UserEntity account) {
 		this.account = account;
 	}
 	
 	public String createAccount() {
+		
+		String encodedPassword = getPasswordEncoder().encode(getAccount().getPassword());
+		getAccount().setPassword(encodedPassword);
+		
+		List<RoleEnum> roleList = new ArrayList<>();
+		roleList.add(RoleEnum.ROLE_USER);
+		
+		getAccount().setRoleList(roleList);
+		
+		
+		
+		try {
+			getUserService().save(getAccount());
+			
+			setAccount(new UserEntity());
+			
+		} catch (Exception e) {
+			FacesMessage message = new FacesMessage("Ocorreu um erro durante esta operação", e.getLocalizedMessage());
+			FacesContext.getCurrentInstance().addMessage(null, message);
+			e.printStackTrace();
+		}
+		
+		
 		return null;
 	}
 	

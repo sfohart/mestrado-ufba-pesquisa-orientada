@@ -9,12 +9,12 @@ import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
 import javax.faces.event.ComponentSystemEvent;
 
-import br.ufba.dcc.mestrado.computacao.entities.ohloh.account.OhLohAccountEntity;
 import br.ufba.dcc.mestrado.computacao.entities.ohloh.project.OhLohProjectEntity;
 import br.ufba.dcc.mestrado.computacao.entities.recommender.criterium.RecommenderCriteriumEntity;
 import br.ufba.dcc.mestrado.computacao.entities.recommender.preference.PreferenceEntity;
 import br.ufba.dcc.mestrado.computacao.entities.recommender.preference.PreferenceEntryEntity;
 import br.ufba.dcc.mestrado.computacao.entities.recommender.preference.PreferenceReviewEntity;
+import br.ufba.dcc.mestrado.computacao.entities.recommender.user.UserEntity;
 import br.ufba.dcc.mestrado.computacao.service.base.OhLohProjectService;
 import br.ufba.dcc.mestrado.computacao.service.base.OverallPreferenceService;
 import br.ufba.dcc.mestrado.computacao.service.base.RecommenderCriteriumService;
@@ -32,7 +32,7 @@ public class ProjectReviewManagedBean implements Serializable {
 	private static final long serialVersionUID = -3583610472886856317L;
 	
 	private OhLohProjectEntity project;
-	private OhLohAccountEntity account;
+	private UserEntity account;
 	
 	private PreferenceEntity preference;
 	
@@ -63,11 +63,11 @@ public class ProjectReviewManagedBean implements Serializable {
 		this.project = project;
 	}
 	
-	public OhLohAccountEntity getAccount() {
+	public UserEntity getAccount() {
 		return account;
 	}
 	
-	public void setAccount(OhLohAccountEntity account) {
+	public void setAccount(UserEntity account) {
 		this.account = account;
 	}
 
@@ -121,8 +121,8 @@ public class ProjectReviewManagedBean implements Serializable {
 			if (criteriumList != null) {
 				this.preference = new PreferenceEntity();
 				
-				this.preference.setAccount(getAccount());
-				this.preference.setAccountId(getAccount().getId());
+				this.preference.setUser(getAccount());
+				this.preference.setUserId(getAccount().getId());
 				
 				this.preference.setProject(getProject());
 				this.preference.setProjectId(getProject().getId());

@@ -15,9 +15,9 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import br.ufba.dcc.mestrado.computacao.entities.ohloh.account.OhLohAccountEntity;
-import br.ufba.dcc.mestrado.computacao.entities.ohloh.account.RoleEntity;
-import br.ufba.dcc.mestrado.computacao.service.base.OhLohAccountService;
+import br.ufba.dcc.mestrado.computacao.entities.recommender.user.RoleEnum;
+import br.ufba.dcc.mestrado.computacao.entities.recommender.user.UserEntity;
+import br.ufba.dcc.mestrado.computacao.repository.base.UserRepository;
 import br.ufba.dcc.mestrado.computacao.service.basic.RepositoryBasedUserDetailsService;
 
 @Service(RepositoryBasedUserDetailsServiceImpl.BEAN_NAME)
@@ -25,26 +25,26 @@ import br.ufba.dcc.mestrado.computacao.service.basic.RepositoryBasedUserDetailsS
 public class RepositoryBasedUserDetailsServiceImpl implements RepositoryBasedUserDetailsService {
 	
 	@Autowired
-	private OhLohAccountService ohLohAccountService;
+	private UserRepository userRepository;
 	
 	public static final String BEAN_NAME =  "repositoryBasedUserDetailsService";
 	
-	public OhLohAccountService getOhLohAccountService() {
-		return ohLohAccountService;
+	public UserRepository getUserRepository() {
+		return userRepository;
 	}
 	
-	public void setOhLohAccountService(OhLohAccountService ohLohAccountService) {
-		this.ohLohAccountService = ohLohAccountService;
+	public void setUserRepository(UserRepository userRepository) {
+		this.userRepository = userRepository;
 	}
 	
 	@Override
-	public OhLohAccountEntity loadFullLoggedUser() {
-		OhLohAccountEntity account = null;
+	public UserEntity loadFullLoggedUser() {
+		UserEntity account = null;
 
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 		
 		if (authentication != null) {
-			account = getOhLohAccountService().findByLogin(authentication.getName()); 
+			account = getUserRepository().findByLogin(authentication.getName()); 
 		}
 		
 		return account;
@@ -55,7 +55,7 @@ public class RepositoryBasedUserDetailsServiceImpl implements RepositoryBasedUse
 	 */
 	@Override	
 	public UserDetails loadUserByUsername(String login) throws UsernameNotFoundException {
-		OhLohAccountEntity account = getOhLohAccountService().findByLogin(login);
+		UserEntity account = getUserRepository().findByLogin(login);
 		
 		if (account != null) {
 			boolean enabled = true;
@@ -84,12 +84,12 @@ public class RepositoryBasedUserDetailsServiceImpl implements RepositoryBasedUse
 	 * @param account
 	 * @return
 	 */
-	public Collection<? extends GrantedAuthority> getAuthorities(OhLohAccountEntity account) {
+	public Collection<? extends GrantedAuthority> getAuthorities(UserEntity account) {
 		List<GrantedAuthority> grantedAuthorities = new ArrayList<>();
 		
 		if (account != null && account.getRoleList() != null) {
-			for (RoleEntity role : account.getRoleList()) {
-				GrantedAuthority grantedAuthority = new SimpleGrantedAuthority(role.getName());
+			for (RoleEnum role : account.getRoleList()) {
+				GrantedAuthority grantedAuthority = new SimpleGrantedAuthority(role.toString());
 				grantedAuthorities.add(grantedAuthority);
 			}
 		}

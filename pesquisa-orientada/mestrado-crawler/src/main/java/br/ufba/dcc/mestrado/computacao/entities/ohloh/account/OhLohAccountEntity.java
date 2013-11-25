@@ -1,15 +1,12 @@
 package br.ufba.dcc.mestrado.computacao.entities.ohloh.account;
 
 import java.sql.Timestamp;
-import java.util.List;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
@@ -80,24 +77,11 @@ public class OhLohAccountEntity implements BaseEntity<Long> {
 	@Column(name = "html_url")
 	private String htmlURL;
 
-	@Column(name = "login", nullable = false)
+	@Column(name = "login")
 	private String login;
-	
-	@Column(name = "password", nullable = false)
-	private String password;
-	
-	@Column(name = "facebook_account")
-	private String facebookAccount;
 
 	@Column(name = "twitter_account")
 	private String twitterAccount;
-	
-	@ManyToMany(cascade=CascadeType.ALL)
-	@JoinTable(
-		joinColumns=@JoinColumn(name="account_id", referencedColumnName="id"),
-		inverseJoinColumns=@JoinColumn(name="role_id", referencedColumnName="id")
-	)
-	private List<RoleEntity> roleList;
 	
 	public Long getId() {
 		return id;
@@ -235,22 +219,6 @@ public class OhLohAccountEntity implements BaseEntity<Long> {
 		this.login = login;
 	}
 
-	public String getPassword() {
-		return password;
-	}
-
-	public void setPassword(String password) {
-		this.password = password;
-	}
-
-	public String getFacebookAccount() {
-		return facebookAccount;
-	}
-
-	public void setFacebookAccount(String facebookAccount) {
-		this.facebookAccount = facebookAccount;
-	}
-
 	public String getTwitterAccount() {
 		return twitterAccount;
 	}
@@ -259,12 +227,4 @@ public class OhLohAccountEntity implements BaseEntity<Long> {
 		this.twitterAccount = twitterAccount;
 	}
 
-	public List<RoleEntity> getRoleList() {
-		return roleList;
-	}
-	
-	public void setRoleList(List<RoleEntity> roleList) {
-		this.roleList = roleList;
-	}
-	
 }
