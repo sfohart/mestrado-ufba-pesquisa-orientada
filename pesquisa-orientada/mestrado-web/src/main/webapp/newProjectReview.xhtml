@@ -8,7 +8,7 @@
 	
 	<f:metadata>
 		<f:viewParam id="projectId" name="projectId" value="#{projectReviewMB.project.id}" required="true" requiredMessage="#{messages['project.review.error.projectId']}"  />
-		<f:event listener="#{projectReviewMB.init}" type="preRenderView"  />
+		<f:event listener="#{projectReviewMB.initNew}" type="preRenderView"  />
 	</f:metadata>
 
 	<h:body>

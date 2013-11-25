@@ -1,5 +1,6 @@
 package br.ufba.dcc.mestrado.computacao.entities.recommender.preference;
 
+import java.sql.Timestamp;
 import java.util.List;
 
 import javax.persistence.CascadeType;
@@ -48,11 +49,14 @@ public class PreferenceEntity implements BaseEntity<Long> {
 	@Column(name = "value_preference")
 	private Float value;
 	
-	@OneToMany(mappedBy = "preference")
+	@OneToMany(mappedBy = "preference", cascade=CascadeType.ALL)
 	private List<PreferenceEntryEntity> preferenceEntryList;
 	
-	@ManyToOne
+	@ManyToOne(cascade=CascadeType.ALL)
 	private PreferenceReviewEntity preferenceReview;
+	
+	@Column(name = "registered_at")
+	private Timestamp registeredAt;
 	
 	public Long getId() {
 		return id;
@@ -110,5 +114,11 @@ public class PreferenceEntity implements BaseEntity<Long> {
 		this.preferenceReview = preferenceReview;
 	}
 
+	public Timestamp getRegisteredAt() {
+		return registeredAt;
+	}
 	
+	public void setRegisteredAt(Timestamp registeredAt) {
+		this.registeredAt = registeredAt;
+	}
 }

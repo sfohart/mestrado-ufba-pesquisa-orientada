@@ -16,8 +16,11 @@ import br.ufba.dcc.mestrado.computacao.entities.recommender.preference.Preferenc
 import br.ufba.dcc.mestrado.computacao.entities.recommender.preference.PreferenceEntryEntity;
 import br.ufba.dcc.mestrado.computacao.entities.recommender.preference.PreferenceReviewEntity;
 import br.ufba.dcc.mestrado.computacao.service.base.OhLohProjectService;
+import br.ufba.dcc.mestrado.computacao.service.base.OverallPreferenceService;
 import br.ufba.dcc.mestrado.computacao.service.base.RecommenderCriteriumService;
 import br.ufba.dcc.mestrado.computacao.service.basic.RepositoryBasedUserDetailsService;
+import br.ufba.dcc.mestrado.computacao.web.pagination.LazyLoadingDataModel;
+import br.ufba.dcc.mestrado.computacao.web.pagination.PageList;
 
 @ManagedBean(name="projectReviewMB", eager=true)
 @ViewScoped
@@ -36,11 +39,17 @@ public class ProjectReviewManagedBean implements Serializable {
 	@ManagedProperty("#{ohLohProjectService}")
 	private OhLohProjectService projectService;
 	
+	@ManagedProperty("#{overallPreferenceService}")
+	private OverallPreferenceService preferenceService;
+	
 	@ManagedProperty("#{recommenderCriteriumService}")
 	private RecommenderCriteriumService criteriumService;
 	
 	@ManagedProperty("#{repositoryBasedUserDetailsService}")
 	private RepositoryBasedUserDetailsService userDetailsService;
+	
+	private LazyLoadingDataModel<Long, PreferenceEntity> dataModel;
+	private PageList pageList;
 	
 	public ProjectReviewManagedBean() {
 		this.project = new OhLohProjectEntity();
@@ -78,6 +87,14 @@ public class ProjectReviewManagedBean implements Serializable {
 		this.criteriumService = criteriumService;
 	}
 	
+	public OverallPreferenceService getPreferenceService() {
+		return preferenceService;
+	}
+	
+	public void setPreferenceService(OverallPreferenceService preferenceService) {
+		this.preferenceService = preferenceService;
+	}
+	
 	public RepositoryBasedUserDetailsService getUserDetailsService() {
 		return userDetailsService;
 	}
@@ -95,7 +112,7 @@ public class ProjectReviewManagedBean implements Serializable {
 		this.preference = preference;
 	}
 
-	public void init(ComponentSystemEvent event) {
+	public void initNew(ComponentSystemEvent event) {
 		if (getProject() != null && getProject().getId() != null) {
 			this.project = getProjectService().findById(getProject().getId());
 			this.account = getUserDetailsService().loadFullLoggedUser();
@@ -128,6 +145,35 @@ public class ProjectReviewManagedBean implements Serializable {
 				this.preference.setPreferenceEntryList(preferenceEntryEntityList);
 			}
 		}
+	}
+	
+	public void initList(ComponentSystemEvent event) {
+		if (getProject() != null && getProject().getId() != null) {
+			this.dataModel = new LazyLoadingDataModel<Long, PreferenceEntity>() {
+
+				/**
+				 * 
+				 */
+				private static final long serialVersionUID = 1L;
+
+				@Override
+				public void load(int first, int pageSize) {
+					List<PreferenceEntity> data = getPreferenceService().findAllByProject(getProject());
+					
+					setWrappedData(data);
+				}
+			};
+			
+			getDataModel().load(0, 10);
+		}
+	}
+	
+	public LazyLoadingDataModel<Long, PreferenceEntity> getDataModel() {
+		return dataModel;
+	}
+	
+	public PageList getPageList() {
+		return pageList;
 	}
 	
 	public String saveReview() {

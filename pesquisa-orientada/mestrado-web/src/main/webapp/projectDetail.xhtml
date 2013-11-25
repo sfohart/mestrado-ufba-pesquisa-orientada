@@ -225,6 +225,10 @@
 									data-rateit-min="0" data-rateit-max="10"
 									data-rateit-value="#{projectDetailMB.averageOverallPreferenceValue}" data-rateit-ispreset="true"  />
 							</p>
+							<h:link outcome="newProjectReview">
+								<f:param name="projectId" value="#{projectDetailMB.project.id}" />
+								Avalie você também este projeto
+							</h:link>
 							
 						</div>
 						

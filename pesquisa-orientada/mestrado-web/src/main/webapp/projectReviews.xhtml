@@ -7,14 +7,41 @@
 	xmlns:p="http://xmlns.jcp.org/jsf/passthrough">
 	
 	<f:metadata>
-		<f:viewParam id="projectId" name="projectId" value="#{projectDetailMB.project.id}" required="true"  requiredMessage="#{messages['project.detail.error.projectId']}"  />
-		<f:event listener="#{projectDetailMB.init}" type="preRenderView"/>
+		<f:viewParam id="projectId" name="projectId" value="#{projectReviewMB.project.id}" required="true"  requiredMessage="#{messages['project.detail.error.projectId']}"  />
+		<f:event listener="#{projectReviewMB.initList}" type="preRenderView"/>
 	</f:metadata>
 	
 	
 	<h:body>
 		<ui:composition template="layout/mainLayout.xhtml">
 			<ui:define name="titlePage">Detalhes do Projeto</ui:define>
+			
+			<ui:define name="content">
+				<section class="container">
+				
+					<h:form id="projectReviews">						
+						<div class="row">
+						
+							<h:panelGroup id="reviewsPanel" layout="block">
+
+								<section>
+									<ul class="media-list">
+										<ui:repeat var="preference" value="#{projectReviewMB.dataModel}">
+											<li class="media well">
+
+												
+											</li>
+										</ui:repeat>
+									</ul>
+								</section>
+										
+							
+							</h:panelGroup>
+						</div>
+					</h:form>
+				
+				</section>
+			</ui:define>
 			
 		</ui:composition>
 	</h:body>

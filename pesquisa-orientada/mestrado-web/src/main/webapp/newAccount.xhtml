@@ -51,14 +51,18 @@
 										<legend>Nova Conta</legend>
 										<div class="form-group">
 											<label><b>Login</b></label>
-											<h:inputText styleClass="form-control" tabindex="1" />
+											<h:inputText styleClass="form-control" tabindex="1"
+												value="#{accountMB.account.login}" 
+												/>
 											<span class="help-block">
 												Seu login é o seu nome púbico a ser utilizado.
 											</span>
 										</div>
 										<div class="form-group">
 											<label><b>Email</b></label>
-											<h:inputText styleClass="form-control" tabindex="2" />
+											<h:inputText styleClass="form-control" tabindex="2"
+												value="#{accountMB.account.emailSHA1}" 
+												/>
 											<span class="help-block">
 												Você precisa fornecer um email válido para que a sua nova conta
 												seja ativada.
@@ -66,14 +70,19 @@
 										</div>
 										<div class="form-group">
 											<label><b>Confirmar Email</b></label>
-											<h:inputText styleClass="form-control" tabindex="3"  />
+											<h:inputText styleClass="form-control" tabindex="3" >
+											</h:inputText>
 											<span class="help-block">
 												Confirme o seu endereço de email.
 											</span>
 										</div>
 										<div class="form-group">
 											<label><b>Senha</b></label>
-											<h:inputSecret styleClass="form-control" tabindex="4" />
+											<h:inputSecret styleClass="form-control" tabindex="4" id="password"
+												value="#{accountMB.account.password}"
+												>
+												<f:validateLength  minimum="6" for="password" />
+											</h:inputSecret>
 											<span class="help-block">
 												Digite uma senha para a sua conta.
 											</span>
@@ -85,8 +94,10 @@
 												Confirme a sua senha
 											</span>
 										</div>
-										<h:commandButton styleClass="btn btn-primary" tabindex="6" value="Cadastrar">
-										</h:commandButton>
+										<h:commandButton 
+											styleClass="btn btn-primary" tabindex="6" value="Cadastrar"
+											action="#{accountMB.createAccount}"  
+											/>
 									</fieldset>
 								</h:form>
 							</div>
