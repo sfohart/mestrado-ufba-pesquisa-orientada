@@ -79,7 +79,9 @@
 										</div>
 										<div class="form-group">
 											<label><b>Confirmar Email</b></label>
-											<h:inputText styleClass="form-control" tabindex="3"  binding="#{confirmEmail}" />
+											<h:inputText styleClass="form-control" tabindex="3"
+												value="#{accountMB.account.email}"  
+												binding="#{confirmEmail}" />
 											<span class="help-block">
 												Confirme o seu endereço de email.
 											</span>
@@ -99,7 +101,9 @@
 										</div>
 										<div class="form-group">
 											<label><b>Confirmar Senha</b></label>
-											<h:inputSecret styleClass="form-control" tabindex="5" binding="#{confirmPassword}" />
+											<h:inputSecret styleClass="form-control" tabindex="5"
+												value="#{accountMB.account.password}" 
+												binding="#{confirmPassword}" />
 											<span class="help-block">
 												Confirme a sua senha
 											</span>

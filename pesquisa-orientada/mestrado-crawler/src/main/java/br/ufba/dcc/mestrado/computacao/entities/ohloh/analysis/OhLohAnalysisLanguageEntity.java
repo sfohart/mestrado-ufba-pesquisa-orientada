@@ -49,8 +49,8 @@ public class OhLohAnalysisLanguageEntity implements BaseEntity<Long> {
 	@ContainedIn
 	private OhLohAnalysisLanguagesEntity ohLohAnalysisLanguages;
 
-	@Column(name = "content")
-	private String content;
+	@Column(name = "entry_content")
+	private String entryContent;
 
 	public Long getId() {
 		return id;
@@ -76,12 +76,12 @@ public class OhLohAnalysisLanguageEntity implements BaseEntity<Long> {
 		this.color = color;
 	}
 
-	public String getContent() {
-		return content;
+	public String getEntryContent() {
+		return entryContent;
 	}
 
-	public void setContent(String content) {
-		this.content = content;
+	public void setEntryContent(String entryContent) {
+		this.entryContent = entryContent;
 	}
 
 	public OhLohAnalysisLanguagesEntity getOhLohAnalysisLanguages() {

@@ -178,12 +178,18 @@
 									<img src="#{projectDetailMB.analysisLanguages.graphURL}?height=75&amp;width=75"  />
 								</div>
 								<div class="float right col-md-9">
-									<table class="table table-striped unstyled float_left" style="width: 300px;">
+									<table class="table table-striped unstyled float_left" >
 										<tbody >
 											<ui:repeat var="languageAnalysis" value="#{projectDetailMB.analysisLanguages.content}" >
-												<tr>
-													<td>
-														<h:outputText  value="#{languageAnalysis.ohLohLanguage.niceName}"  />
+												<tr class="float_left" style="width: 50%;">
+													<td style="width: 40%">
+														<div class="float_left" style="width:5px; height: 12px; margin-top: 5px; margin-right: 10px; background-color:##{languageAnalysis.color}">
+														</div>
+														<h:outputText  value="#{languageAnalysis.ohLohLanguage.niceName}"  rendered="#{languageAnalysis.languageId != null}" />
+														<h:outputText  value="Outras"  rendered="#{languageAnalysis.languageId eq null}" />
+													</td>
+													<td style="width: 10%">
+														<h:outputText value="#{languageAnalysis.percentage}%" />
 													</td>
 												</tr>
 											</ui:repeat>
