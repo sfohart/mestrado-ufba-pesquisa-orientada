@@ -3,10 +3,9 @@ package br.ufba.dcc.mestrado.computacao.service.base;
 import java.io.Serializable;
 import java.util.List;
 
-import br.ufba.dcc.mestrado.computacao.entities.BaseEntity;
-import br.ufba.dcc.mestrado.computacao.entities.ohloh.account.OhLohAccountEntity;
 import br.ufba.dcc.mestrado.computacao.entities.ohloh.project.OhLohProjectEntity;
 import br.ufba.dcc.mestrado.computacao.entities.recommender.preference.PreferenceEntity;
+import br.ufba.dcc.mestrado.computacao.entities.recommender.user.UserEntity;
 
 public interface OverallPreferenceService extends BaseOhLohService<Long, PreferenceEntity> , Serializable {
 
@@ -28,7 +27,7 @@ public interface OverallPreferenceService extends BaseOhLohService<Long, Prefere
 	/**
 	 * Conta quantas avaliações existem para um determinado usuário e projeto.
 	 */
-	Long countAllByProjectAndAccount(OhLohProjectEntity project, OhLohAccountEntity account);
+	Long countAllByProjectAndUser(OhLohProjectEntity project, UserEntity user);
 	
 	/**
 	 * Retorna todas as avaliações para um dado projeto
@@ -38,6 +37,6 @@ public interface OverallPreferenceService extends BaseOhLohService<Long, Prefere
 	/**
 	 * Retorna todas as avaliações para um dado projeto e usuário
 	 */
-	List<PreferenceEntity> findAllByProjectAndAccount(OhLohProjectEntity project, OhLohAccountEntity account);
+	List<PreferenceEntity> findAllByProjectAndUser(OhLohProjectEntity project, UserEntity user);
 	
 }

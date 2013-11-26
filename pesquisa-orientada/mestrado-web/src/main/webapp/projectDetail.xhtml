@@ -215,13 +215,19 @@
 						
 						
 						<div class="col-md-4">
-							<h:link>
+							<h:outputLink value="projectReviews.jsf" >
+								<f:param name="projectId" value="#{projectDetailMB.project.id}" />
 								<h5>Avaliações</h5>
-							</h:link>
+							</h:outputLink>
 							<p>
 								<h:outputText 
-									rendered="#{projectDetailMB.overallPreferenceCount > 0}"
+									rendered="#{projectDetailMB.overallPreferenceCount eq 1}"
+									value="#{projectDetailMB.overallPreferenceCount} pessoa avaliou este projeto" />
+									
+								<h:outputText 
+									rendered="#{projectDetailMB.overallPreferenceCount > 1}"
 									value="#{projectDetailMB.overallPreferenceCount} pessoas avaliaram este projeto" />
+									
 								<h:outputText 
 									rendered="#{projectDetailMB.overallPreferenceCount eq 0}"
 									value="Nenhum usuário avaliou ainda este projeto" /> 

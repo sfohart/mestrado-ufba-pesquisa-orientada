@@ -26,6 +26,9 @@ public class RecommenderCriteriumEntity implements BaseEntity<Long> {
 	@Column(name = "name")
 	private String name;
 	
+	@Column(name = "description")
+	private String description;
+	
 	public Long getId() {
 		return id;
 	}
@@ -41,5 +44,14 @@ public class RecommenderCriteriumEntity implements BaseEntity<Long> {
 	public void setName(String name) {
 		this.name = name;
 	}
+
+	public String getDescription() {
+		return description;
+	}
+
+	public void setDescription(String description) {
+		this.description = description;
+	}
+	
 	
 }

@@ -16,9 +16,9 @@ import javax.persistence.criteria.Subquery;
 
 import org.springframework.stereotype.Repository;
 
-import br.ufba.dcc.mestrado.computacao.entities.ohloh.account.OhLohAccountEntity;
 import br.ufba.dcc.mestrado.computacao.entities.ohloh.project.OhLohProjectEntity;
 import br.ufba.dcc.mestrado.computacao.entities.recommender.preference.PreferenceEntity;
+import br.ufba.dcc.mestrado.computacao.entities.recommender.user.UserEntity;
 import br.ufba.dcc.mestrado.computacao.repository.base.OverallPreferenceRepository;
 
 @Repository(OverallPreferenceRepositoryImpl.BEAN_NAME)
@@ -52,9 +52,9 @@ public class OverallPreferenceRepositoryImpl  extends BaseRepositoryImpl<Long, P
 	}
 	
 	@Override
-	public Long countAllByProjectAndAccount(
+	public Long countAllByProjectAndUser(
 			OhLohProjectEntity project,
-			OhLohAccountEntity account) {
+			UserEntity user) {
 		CriteriaBuilder criteriaBuilder = getEntityManager().getCriteriaBuilder();
 		CriteriaQuery<Long> criteriaQuery = criteriaBuilder.createQuery(Long.class);
 		
@@ -62,9 +62,9 @@ public class OverallPreferenceRepositoryImpl  extends BaseRepositoryImpl<Long, P
 		
 		List<Predicate> predicateList = new ArrayList<>();
 		
-		if (account != null && account.getId() != null) {
-			Predicate accountPredicate = criteriaBuilder.equal(root.get("accountId"), account.getId());
-			predicateList.add(accountPredicate);
+		if (user != null && user.getId() != null) {
+			Predicate userPredicate = criteriaBuilder.equal(root.get("userId"), user.getId());
+			predicateList.add(userPredicate);
 		}
 		
 		if (project != null && project.getId() != null) {
@@ -105,7 +105,7 @@ public class OverallPreferenceRepositoryImpl  extends BaseRepositoryImpl<Long, P
 		
 		p1.fetch("preferenceReview", JoinType.LEFT);
 		p1.fetch("preferenceEntryList", JoinType.LEFT);
-		p1.fetch("account", JoinType.LEFT);
+		p1.fetch("user", JoinType.LEFT);
 
 		List<Predicate> predicateList = new ArrayList<>();
 		
@@ -121,7 +121,7 @@ public class OverallPreferenceRepositoryImpl  extends BaseRepositoryImpl<Long, P
 		Expression<Timestamp> greatestRegisteredAt = p2.get("registeredAt");
 		
 		subquery.select(criteriaBuilder.greatest((greatestRegisteredAt)));
-		subquery.where(criteriaBuilder.equal(p1.get("accountId"), p2.get("accountId")));
+		subquery.where(criteriaBuilder.equal(p1.get("userId"), p2.get("userId")));
 		
 		Predicate registeredAtPredicate = criteriaBuilder.equal(p1.get("registeredAt"), subquery);
 		predicateList.add(registeredAtPredicate);
@@ -136,9 +136,9 @@ public class OverallPreferenceRepositoryImpl  extends BaseRepositoryImpl<Long, P
 		return preferenceList;
 	}
 	
-	public List<PreferenceEntity> findAllByProjectAndAccount(
+	public List<PreferenceEntity> findAllByProjectAndUser(
 			OhLohProjectEntity project,
-			OhLohAccountEntity account) {
+			UserEntity user) {
 		
 		CriteriaBuilder criteriaBuilder = getEntityManager()
 				.getCriteriaBuilder();
@@ -153,9 +153,9 @@ public class OverallPreferenceRepositoryImpl  extends BaseRepositoryImpl<Long, P
 
 		List<Predicate> predicateList = new ArrayList<>();
 		
-		if (account != null && account.getId() != null) {
-			Predicate accountPredicate = criteriaBuilder.equal(root.get("accountId"), account.getId());
-			predicateList.add(accountPredicate);
+		if (user != null && user.getId() != null) {
+			Predicate userPredicate = criteriaBuilder.equal(root.get("userId"), user.getId());
+			predicateList.add(userPredicate);
 		}
 		
 		if (project != null && project.getId() != null) {

@@ -177,6 +177,13 @@ public class ProjectReviewManagedBean implements Serializable {
 	}
 	
 	public String saveReview() {
+		
+		try {
+			getPreferenceService().save(getPreference());
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
 		return "projectReviews.jsf?faces-redirect=true&includeViewParams=true&projectId=" + project.getId();
 	}
 

@@ -2,6 +2,7 @@ package br.ufba.dcc.mestrado.computacao.entities.recommender.preference;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -21,6 +22,7 @@ public class PreferenceReviewEntity implements BaseEntity<Long> {
 	public final static String NODE_NAME = "recommender_preference_review";
 	
 	@Id
+	@GeneratedValue
 	private Long id;
 	
 	@Column
