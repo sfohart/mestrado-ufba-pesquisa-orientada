@@ -22,7 +22,7 @@
 						<div class="row">
 							
 							<!-- barra lateral de tags -->
-							<h:panelGroup id="tagSideBar" layout="block" styleClass="col-md-3 tag-tooltip" >
+							<h:panelGroup id="tagSideBar" layout="block" styleClass="col-md-3 tag-tooltip pull-left" rendered="#{mainMB.pageList.totalPages != 0}" >
 								<h4>Tags Selecionadas</h4>
 								<ul class="nav nav-pills nav-stacked">
 									<ui:repeat var="selectedFacet" value="#{mainMB.searchRequest.selectedFacets}">
@@ -64,7 +64,7 @@
 								</ul>
 							</h:panelGroup>
 							
-							<h:panelGroup id="searchResult" layout="block" styleClass="col-md-9">
+							<h:panelGroup id="searchResult" layout="block" styleClass="col-md-9 pull-right">
 								
 								<h:panelGroup layout="block" id="breadcrump" rendered="#{mainMB.dataModel.rowAvailable}">
 									<!-- Exibindo quantidade de resultados -->
@@ -75,40 +75,60 @@
 									</ul>
 								</h:panelGroup>
 							
-								<section>
-									<ul class="media-list">
-										<ui:repeat var="project" value="#{mainMB.dataModel}">
-											<li class="media well">
-
-												<h:link outcome="projectDetail" >
-													<f:param name="projectId" value="#{project.id}" />
-													<h4><h:outputText value="#{project.name}"  /></h4>														
-												</h:link>
-												
-												<h:outputLink styleClass="pull-left" rendered="#{project.mediumLogoURL != 'no_logo.png'}">													
-													<img class="media-object" src="#{project.mediumLogoURL}" height="64px" width="64px" />
-												</h:outputLink>
-												
-												<h:outputLink styleClass="pull-left" rendered="#{project.mediumLogoURL eq 'no_logo.png'}">
-													<h:graphicImage styleClass="media-object" height="64px" width="64px" library="default" name="img/#{project.mediumLogoURL}" />													
-												</h:outputLink>
-												
-												<div class="media-body">
-													<p class="text-expander">
-														<h:outputText value="#{project.description}" />
-													</p>
+								<h:panelGroup rendered="#{mainMB.pageList.totalPages != 0}">
+									<section>
+										<ul class="media-list">
+											<ui:repeat var="project" value="#{mainMB.dataModel}">
+												<li class="media well">
+	
+													<h:link outcome="projectDetail" >
+														<f:param name="projectId" value="#{project.id}" />
+														<h4><h:outputText value="#{project.name}"  /></h4>														
+													</h:link>
 													
-													<h:panelGroup id="tagsPanel" rendered="#{not empty project.ohLohTags}">
-														<span class="glyphicon glyphicon-tags" style="margin-right: 5px"></span>
-														<ui:repeat var="tag" value="#{project.ohLohTags}">
-      														<span class="label label-info"><h:outputText value="#{tag.name}" /></span>      														
-														</ui:repeat>      														
-													</h:panelGroup>
-												</div>
+													<h:outputLink styleClass="pull-left" rendered="#{project.mediumLogoURL != 'no_logo.png'}">													
+														<img class="media-object" src="#{project.mediumLogoURL}" height="64px" width="64px" />
+													</h:outputLink>
+													
+													<h:outputLink styleClass="pull-left" rendered="#{project.mediumLogoURL eq 'no_logo.png'}">
+														<h:graphicImage styleClass="media-object" height="64px" width="64px" library="default" name="img/#{project.mediumLogoURL}" />													
+													</h:outputLink>
+													
+													<div class="media-body">
+														<p class="text-expander">
+															<h:outputText value="#{project.description}" />
+														</p>
+														
+														<h:panelGroup id="tagsPanel" rendered="#{not empty project.ohLohTags}">
+															<span class="glyphicon glyphicon-tags" style="margin-right: 5px"></span>
+															<ui:repeat var="tag" value="#{project.ohLohTags}">
+	      														<span class="label label-info"><h:outputText value="#{tag.name}" /></span>      														
+															</ui:repeat>      														
+														</h:panelGroup>
+													</div>
+												</li>
+											</ui:repeat>
+										</ul>
+									</section>
+								</h:panelGroup>
+								
+								<h:panelGroup rendered="#{mainMB.pageList.totalPages eq 0}">
+									<section>
+										<ul class="media-list">
+											<li class="media">
+												<h4>Sua busca por <strong><h:outputText value="#{mainMB.searchRequest.query}" /></strong> não trouxe resultados.</h4>
+												<p>Sugestões:</p>
+												<ul>
+													<li>Tenha certeza de que as palavras que você digitou estão escritas corretamente</li>
+													<li>Tente palavras chave diferentes</li>
+													<li>Tente palavras chave mais gerais</li>
+													<li>Tente uma quantidade menor de palavras</li>
+												</ul>
 											</li>
-										</ui:repeat>
-									</ul>
-								</section>
+										</ul>
+									</section>
+								</h:panelGroup>
+								
 							</h:panelGroup>
 							
 							<!-- Paginação -->
