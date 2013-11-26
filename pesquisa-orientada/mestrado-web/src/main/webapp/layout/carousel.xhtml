@@ -30,6 +30,7 @@
 					<p>
 						<h:outputText value="Temos #{indexMB.userCount} usuários cadastrados." rendered="#{indexMB.userCount > 1}" />
 						<h:outputText value="Temos #{indexMB.userCount} usuário cadastrado." rendered="#{indexMB.userCount eq 1}" />
+						<h:outputText value="Nao há usuários cadastrados. Que tal você ser o primeiro?" rendered="#{indexMB.preferencesCount eq 0}" />
 					</p>
 				</div>
 			</div>
@@ -40,6 +41,7 @@
 					<p>
 						<h:outputText value="#{indexMB.preferencesCount} opiniões " rendered="#{indexMB.preferencesCount > 1}" />
 						<h:outputText value="#{indexMB.preferencesCount} opinião " rendered="#{indexMB.preferencesCount eq 1}" />
+						<h:outputText value="Escolha um software que você já utilizou e seja o primeiro a opinar sobre ele!" rendered="#{indexMB.preferencesCount eq 0}" />
 						
 						<h:outputText value="levando em consideração #{indexMB.recommenderCriteriumCount} critérios diferentes." rendered="#{indexMB.recommenderCriteriumCount > 1}" />
 						<h:outputText value="levando em consideração #{indexMB.recommenderCriteriumCount} critério." rendered="#{indexMB.recommenderCriteriumCount eq 1}" />

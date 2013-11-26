@@ -1,5 +1,7 @@
 package br.ufba.dcc.mestrado.computacao.service.impl;
 
+import java.sql.Timestamp;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
@@ -30,5 +32,17 @@ public class UserServiceImpl extends BaseOhLohServiceImpl<Long, UserEntity>
 	@Override
 	public UserEntity findByLogin(String login) {
 		return ((UserRepository)  getRepository()).findByLogin(login);
+	}
+
+	
+	@Override
+	@Transactional
+	public UserEntity save(UserEntity entity) throws Exception {
+		validateEntity(entity);
+		return super.save(entity);
+	}
+
+	private void validateEntity(UserEntity entity) {
+		entity.setCreatedAt(new Timestamp(System.currentTimeMillis()));
 	}
 }

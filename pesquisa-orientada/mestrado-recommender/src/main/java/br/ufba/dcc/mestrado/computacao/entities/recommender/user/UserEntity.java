@@ -1,5 +1,6 @@
 package br.ufba.dcc.mestrado.computacao.entities.recommender.user;
 
+import java.sql.Timestamp;
 import java.util.List;
 
 import javax.persistence.CollectionTable;
@@ -61,6 +62,9 @@ public class UserEntity implements BaseEntity<Long>{
 		)
 	@Column(name="role_id")
 	private List<RoleEnum> roleList;
+	
+	@Column(name = "created_at")
+	private Timestamp createdAt;
 	
 	public Long getId() {
 		return id;
@@ -133,5 +137,15 @@ public class UserEntity implements BaseEntity<Long>{
 	public void setRoleList(List<RoleEnum> roleList) {
 		this.roleList = roleList;
 	}
+
+	public Timestamp getCreatedAt() {
+		return createdAt;
+	}
+
+	public void setCreatedAt(Timestamp createdAt) {
+		this.createdAt = createdAt;
+	}
+	
+	
 	
 }
