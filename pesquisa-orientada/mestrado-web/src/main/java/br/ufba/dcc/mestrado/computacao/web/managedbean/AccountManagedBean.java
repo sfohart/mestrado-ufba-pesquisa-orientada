@@ -28,7 +28,7 @@ public class AccountManagedBean implements Serializable {
 	@ManagedProperty("#{userService}")
 	private UserService userService;
 	
-	@ManagedProperty("#{bCryptPasswordEncoder}")
+	@ManagedProperty("#{standardPasswordEncoder}")
 	private PasswordEncoder passwordEncoder;
 	
 	private UserEntity account;
