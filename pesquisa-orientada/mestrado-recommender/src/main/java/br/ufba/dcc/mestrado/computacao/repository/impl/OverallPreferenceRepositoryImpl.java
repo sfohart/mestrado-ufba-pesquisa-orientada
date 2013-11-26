@@ -38,6 +38,32 @@ public class OverallPreferenceRepositoryImpl  extends BaseRepositoryImpl<Long, P
 	}
 	
 	@Override
+	public Long countAllLast() {
+		CriteriaBuilder criteriaBuilder = getEntityManager().getCriteriaBuilder();
+		CriteriaQuery<Long> criteriaQuery = criteriaBuilder.createQuery(Long.class);
+		
+		Root<PreferenceEntity> p1 = criteriaQuery.from(getEntityClass());
+		CriteriaQuery<Long> select = criteriaQuery.select(criteriaBuilder.count(p1));
+		
+		/*
+		 * Criando subquery para trazer os últimos registros de cada usuario/projeto
+		 */
+		Subquery<Timestamp> subquery = criteriaQuery.subquery(Timestamp.class);
+		
+		Root<PreferenceEntity> p2 = subquery.from(getEntityClass());
+		Expression<Timestamp> greatestRegisteredAt = p2.get("registeredAt");
+		
+		subquery.select(criteriaBuilder.greatest((greatestRegisteredAt)));
+		subquery.where(criteriaBuilder.equal(p1.get("userId"), p2.get("userId")));
+		
+		Predicate registeredAtPredicate = criteriaBuilder.equal(p1.get("registeredAt"), subquery);
+		
+		select.where(registeredAtPredicate);
+		
+		return getEntityManager().createQuery(criteriaQuery).getSingleResult();
+	}
+	
+	@Override
 	public Long countAllLastByProject(OhLohProjectEntity project) {
 		CriteriaBuilder criteriaBuilder = getEntityManager().getCriteriaBuilder();
 		CriteriaQuery<Long> criteriaQuery = criteriaBuilder.createQuery(Long.class);

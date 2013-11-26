@@ -103,3 +103,29 @@ body {
   padding-left: 15px;
   padding-right: 15px;
 }
+
+/* Customizações do carousel
+------------------------------------------------------- */
+
+#carousel-promotiona {
+	background-color: rgb(238, 238, 238);
+}
+
+/* Botõezinhos redondos (indicadores) */
+#carousel-promotional .carousel-indicators li {
+	border-color: #000;
+}
+
+#carousel-promotional .carousel-indicators .active {
+	background-color: #000;
+}
+
+#carousel-promotional .carousel-inner .carousel-caption {
+	color: #333333;
+}
+
+/* Controles */
+#carousel-promotional a.carousel-control.left,
+#carousel-promotional a.carousel-control.right {
+	color: #000; background-image: none;
+}

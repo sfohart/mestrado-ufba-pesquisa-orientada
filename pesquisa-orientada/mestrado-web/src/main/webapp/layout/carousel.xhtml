@@ -14,31 +14,51 @@
 		<!-- Carousel items -->
 		<div class="carousel-inner">
 			<div class="item active">
-				<div style="height: 200px; width: 100%; background-color: #EEE"></div>
-				<div class="carousel-caption" >
+				<div style="height: 150px; width: 100%; background-color: #fff"></div>
+				<div class="carousel-caption"  >
 					<h3>Olha só quantos projetos!</h3>
-					<p>Atualmente, indexamos <h:outputText value="#{indexMB.projectCount}" /> projetos de código aberto </p>
+					<p>
+						<h:outputText value="Atualmente, indexamos #{indexMB.projectCount} projetos de código aberto." rendered="#{indexMB.projectCount > 1}" />
+						<h:outputText value="Atualmente, indexamos #{indexMB.projectCount} projeto de código aberto." rendered="#{indexMB.projectCount eq 1}" />
+					</p>
 				</div>
 			</div>
 			<div class="item">
-				<div style="height: 200px; width: 100%"></div>
-				<div class="carousel-caption" >
+				<div style="height: 150px; width: 100%; background-color: #fff"></div>
+				<div class="carousel-caption"  >
+					<h3>Veja só o tamanho da nossa comunidade!</h3>
+					<p>
+						<h:outputText value="Temos #{indexMB.userCount} usuários cadastrados." rendered="#{indexMB.userCount > 1}" />
+						<h:outputText value="Temos #{indexMB.userCount} usuário cadastrado." rendered="#{indexMB.userCount eq 1}" />
+					</p>
 				</div>
 			</div>
 			<div class="item">
-				<div style="height: 200px; width: 100%"></div>
+				<div style="height: 150px; width: 100%; background-color: #fff"></div>
 				<div class="carousel-caption" >
+					<h3>Quanto mais gente opinar, melhor!</h3>
+					<p>
+						<h:outputText value="#{indexMB.preferencesCount} opiniões " rendered="#{indexMB.preferencesCount > 1}" />
+						<h:outputText value="#{indexMB.preferencesCount} opinião " rendered="#{indexMB.preferencesCount eq 1}" />
+						
+						<h:outputText value="levando em consideração #{indexMB.recommenderCriteriumCount} critérios diferentes." rendered="#{indexMB.recommenderCriteriumCount > 1}" />
+						<h:outputText value="levando em consideração #{indexMB.recommenderCriteriumCount} critério." rendered="#{indexMB.recommenderCriteriumCount eq 1}" />
+					</p>
 				</div>
 			</div>
 		</div>
 		
 		<!-- Carousel nav -->						
-		<a class="carousel-control left" href="#carousel-promotional" data-slide="prev">
+		<a class="carousel-control left" href="#carousel-promotional" data-slide="prev" >
 			<span class="glyphicon glyphicon-chevron-left"></span>
 		</a>
-		<a class="carousel-control right" href="#carousel-promotional" data-slide="next">
+		<a class="carousel-control right" href="#carousel-promotional" data-slide="next" >
 			<span class="glyphicon glyphicon-chevron-right"></span>
 		</a>
 	</div>
+	
+	<script>
+		$('.carousel').carousel();
+	</script>
 	
 </ui:composition>

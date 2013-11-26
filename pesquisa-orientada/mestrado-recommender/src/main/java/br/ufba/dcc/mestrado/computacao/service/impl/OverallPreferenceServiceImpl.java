@@ -44,6 +44,12 @@ public class OverallPreferenceServiceImpl extends BaseOhLohServiceImpl<Long, Pre
 	public void setUserService(UserService userService) {
 		this.userService = userService;
 	}
+	
+	@Override
+	@Transactional(readOnly = true)
+	public Long countAllLast() {
+		return ((OverallPreferenceRepository) getRepository()).countAllLast();
+	}
 
 	@Override
 	@Transactional(readOnly = true)

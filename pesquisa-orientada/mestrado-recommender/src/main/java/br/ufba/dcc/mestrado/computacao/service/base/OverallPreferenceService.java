@@ -10,6 +10,14 @@ import br.ufba.dcc.mestrado.computacao.entities.recommender.user.UserEntity;
 public interface OverallPreferenceService extends BaseOhLohService<Long, PreferenceEntity> , Serializable {
 
 	/**
+	 * Conta quantas avalições existem ao todo.
+	 * Caso um usuário tenha avaliado o mesmo
+	 * projeto mais de uma vez, conta apenas a avaliação mais recente
+	 * @return
+	 */
+	Long countAllLast();
+	
+	/**
 	 * Conta quantas avaliações existem para um dado projeto. Caso um usuário tenha avaliado o mesmo
 	 * projeto mais de uma vez, conta apenas a avaliação mais recente
 	 * @param project
