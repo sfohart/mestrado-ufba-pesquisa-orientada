@@ -3,9 +3,16 @@
 	color: white;
 }
 
+.soft {
+	color: #777;
+}
+
+.italic {
+	font-style: italic;
+}
+
 .logo-header  {  
   margin: 0px !important;
-  
 }
 
 .jumbotron , .searchstart{

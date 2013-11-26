@@ -1,5 +1,6 @@
 package br.ufba.dcc.mestrado.computacao.service.impl;
 
+import java.sql.Timestamp;
 import java.util.List;
 
 import org.apache.commons.lang3.StringUtils;
@@ -11,6 +12,7 @@ import org.springframework.transaction.annotation.Transactional;
 import br.ufba.dcc.mestrado.computacao.entities.ohloh.project.OhLohProjectEntity;
 import br.ufba.dcc.mestrado.computacao.entities.recommender.preference.PreferenceEntity;
 import br.ufba.dcc.mestrado.computacao.entities.recommender.user.UserEntity;
+import br.ufba.dcc.mestrado.computacao.repository.base.BaseRepository;
 import br.ufba.dcc.mestrado.computacao.repository.base.OverallPreferenceRepository;
 import br.ufba.dcc.mestrado.computacao.service.base.OverallPreferenceService;
 import br.ufba.dcc.mestrado.computacao.service.base.UserService;
@@ -45,8 +47,8 @@ public class OverallPreferenceServiceImpl extends BaseOhLohServiceImpl<Long, Pre
 
 	@Override
 	@Transactional(readOnly = true)
-	public Long countAllByProject(OhLohProjectEntity project) {
-		return ((OverallPreferenceRepository) getRepository()).countAllByProject(project);
+	public Long countAllLastByProject(OhLohProjectEntity project) {
+		return ((OverallPreferenceRepository) getRepository()).countAllLastByProject(project);
 	}
 
 	@Override
@@ -63,8 +65,14 @@ public class OverallPreferenceServiceImpl extends BaseOhLohServiceImpl<Long, Pre
 	
 	@Override
 	@Transactional(readOnly = true)
-	public List<PreferenceEntity> findAllByProject(OhLohProjectEntity project) {
-		return ((OverallPreferenceRepository) getRepository()).findAllByProject(project);
+	public List<PreferenceEntity> findAllLastByProject(OhLohProjectEntity project) {
+		return ((OverallPreferenceRepository) getRepository()).findAllLastByProject(project);
+	}
+	
+	@Override
+	@Transactional(readOnly = true)
+	public List<PreferenceEntity> findAllLastByProject(OhLohProjectEntity project, Integer startAt, Integer offset) {
+		return ((OverallPreferenceRepository) getRepository()).findAllLastByProject(project, startAt, offset);
 	}
 	
 	@Override
@@ -73,6 +81,9 @@ public class OverallPreferenceServiceImpl extends BaseOhLohServiceImpl<Long, Pre
 		return ((OverallPreferenceRepository) getRepository()).findAllByProjectAndUser(project, user);
 	}
 	
+	/**
+	 * @see BaseRepository
+	 */
 	@Override
 	@Transactional
 	public PreferenceEntity save(PreferenceEntity entity) throws Exception {
@@ -85,6 +96,9 @@ public class OverallPreferenceServiceImpl extends BaseOhLohServiceImpl<Long, Pre
 	 * @param entity
 	 */
 	private void validateEntity(PreferenceEntity entity) {
+		
+		entity.setRegisteredAt(new Timestamp(System.currentTimeMillis()));
+		
 		if (entity.getPreferenceReview() != null && entity.getPreferenceReview().getId() == null) {
 			if (StringUtils.isEmpty(entity.getPreferenceReview().getDescription()) 
 					&& StringUtils.isEmpty(entity.getPreferenceReview().getTitle())) {

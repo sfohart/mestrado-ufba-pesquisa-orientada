@@ -3,10 +3,13 @@ package br.ufba.dcc.mestrado.computacao.web.managedbean;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
+import javax.faces.context.FacesContext;
+import javax.faces.event.ActionEvent;
 import javax.faces.event.ComponentSystemEvent;
 
 import br.ufba.dcc.mestrado.computacao.entities.ohloh.project.OhLohProjectEntity;
@@ -53,6 +56,27 @@ public class ProjectReviewManagedBean implements Serializable {
 	
 	public ProjectReviewManagedBean() {
 		this.project = new OhLohProjectEntity();
+		
+		this.dataModel = new LazyLoadingDataModel<Long, PreferenceEntity>() {
+
+			/**
+			 * 
+			 */
+			private static final long serialVersionUID = 1L;
+
+			@Override
+			public void load(int first, int pageSize) {
+				
+				List<PreferenceEntity> data = getPreferenceService().findAllLastByProject(getProject(), first, pageSize);
+				this.setWrappedData(data);
+				
+				Integer totalRecords = getPreferenceService().countAllLastByProject(getProject()).intValue();				
+				Integer currentPage = (first / pageSize) + 1;
+								
+				PageList pageList = new PageList(currentPage, totalRecords, pageSize);
+				setPageList(pageList);
+			}
+		};
 	}
 	
 	public OhLohProjectEntity getProject() {
@@ -149,22 +173,11 @@ public class ProjectReviewManagedBean implements Serializable {
 	
 	public void initList(ComponentSystemEvent event) {
 		if (getProject() != null && getProject().getId() != null) {
-			this.dataModel = new LazyLoadingDataModel<Long, PreferenceEntity>() {
-
-				/**
-				 * 
-				 */
-				private static final long serialVersionUID = 1L;
-
-				@Override
-				public void load(int first, int pageSize) {
-					List<PreferenceEntity> data = getPreferenceService().findAllByProject(getProject());
-					
-					setWrappedData(data);
-				}
-			};
 			
-			getDataModel().load(0, 10);
+			Integer first = 0;
+			Integer pageSize = 10;
+			
+			getDataModel().load(first, pageSize);
 		}
 	}
 	
@@ -174,6 +187,34 @@ public class ProjectReviewManagedBean implements Serializable {
 	
 	public PageList getPageList() {
 		return pageList;
+	}
+	
+	public void setPageList(PageList pageList) {
+		this.pageList = pageList;
+	}
+	
+	public void searchReviews(ActionEvent event) {
+		Map<String, String> params = 
+				FacesContext
+					.getCurrentInstance()
+					.getExternalContext()
+					.getRequestParameterMap();
+		
+		String pageParam = params.get("page");
+		
+		Integer startPosition = null;
+		Integer pageSize = getDataModel().getPageSize();
+		
+		if (pageParam != null){
+			Integer page = Integer.parseInt(pageParam);
+			if (page != null && page > 0) {
+				startPosition = getDataModel().getPageSize() * (page - 1);
+			}
+		} else {
+			startPosition = 0;
+		}
+		
+		getDataModel().load(startPosition, pageSize);
 	}
 	
 	public String saveReview() {

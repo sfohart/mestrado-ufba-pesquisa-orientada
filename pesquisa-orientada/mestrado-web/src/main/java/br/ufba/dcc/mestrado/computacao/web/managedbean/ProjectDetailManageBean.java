@@ -72,7 +72,7 @@ public class ProjectDetailManageBean implements Serializable {
 				this.enlistmentList = getEnlistmentService().findByProject(getProject());
 			}
 			
-			this.overallPreferenceCount = getOverallPreferenceService().countAllByProject(getProject());
+			this.overallPreferenceCount = getOverallPreferenceService().countAllLastByProject(getProject());
 			this.averageOverallPreferenceValue = getOverallPreferenceService().averagePreferenceByProject(getProject());
 		}
 	}

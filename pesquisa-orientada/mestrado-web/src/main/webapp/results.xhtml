@@ -68,7 +68,7 @@
 								
 								<h:panelGroup layout="block" id="breadcrump" rendered="#{mainMB.dataModel.rowAvailable}">
 									<!-- Exibindo quantidade de resultados -->
-									<ul class="breadcrumb">
+									<ul class="breadcrumb" style="border-bottom: 1px solid #ddd;">
 										<li>
 											Exibindo página <h:outputText value="#{mainMB.pageList.currentPage}" /> de <h:outputText value="#{mainMB.pageList.totalPages}" /> 
 										</li>
@@ -85,8 +85,12 @@
 													<h4><h:outputText value="#{project.name}"  /></h4>														
 												</h:link>
 												
-												<h:outputLink styleClass="pull-left">
-													<img class="media-object" data-src="holder.js/64x64" src="#{project.mediumLogoURL}" />
+												<h:outputLink styleClass="pull-left" rendered="#{project.mediumLogoURL != 'no_logo.png'}">													
+													<img class="media-object" src="#{project.mediumLogoURL}" height="64px" width="64px" />
+												</h:outputLink>
+												
+												<h:outputLink styleClass="pull-left" rendered="#{project.mediumLogoURL eq 'no_logo.png'}">
+													<h:graphicImage styleClass="media-object" height="64px" width="64px" library="default" name="img/#{project.mediumLogoURL}" />													
 												</h:outputLink>
 												
 												<div class="media-body">

@@ -23,18 +23,98 @@
 						<div class="row">
 						
 							<h:panelGroup id="reviewsPanel" layout="block">
+								
+								<h:panelGroup layout="block" id="breadcrump" rendered="#{projectReviewMB.dataModel.rowAvailable}">
+									<!-- Exibindo quantidade de resultados -->
+									<ul class="breadcrumb" style="border-bottom: 1px solid #ddd;">
+										<li>
+											Exibindo página <h:outputText value="#{projectReviewMB.pageList.currentPage}" /> de <h:outputText value="#{projectReviewMB.pageList.totalPages}" /> 
+										</li>
+									</ul>
+								</h:panelGroup>							
 
 								<section>
 									<ul class="media-list">
 										<ui:repeat var="preference" value="#{projectReviewMB.dataModel}">
 											<li class="media well">
-
+												<h:outputLink styleClass="pull-left" >
+													<div>
+														... <h:outputText value="#{preference.user.login}" /> disse:
+													</div>
+													<h:graphicImage styleClass="media-object pull-right img-thumbnail" height="64" width="64" library="default" name="img/no_logo.png" />													
+												</h:outputLink>
 												
+												<div class="media-body pul-right" style="padding-left: 10px">
+      												<h4 class="media-heading strong"><h:outputText value="#{preference.preferenceReview.title}" /></h4>
+      												<div  style="clear: both; color: #777; font-style: italic; font-family: Georgia,'Times New Roman',Times,serif;">
+      													<abbr class="small soft" title="#{preference.registeredAt}">
+	      													<h:outputText value="#{preference.registeredAt}">
+	      														<f:convertDateTime pattern="'escrito no dia' dd/MM/yyyy 'às' HH:mm:ss" />
+	      													</h:outputText>
+	      												</abbr>
+      												</div>
+      												<div style="clear: both; padding-top: 10px">
+	      												<h:outputText value="#{preference.preferenceReview.description}" />
+      												</div>
+      												<p class="soft small">
+      												</p>
+      												<div class="col-md-9 pull-left">
+      												</div>	      												
+      												<div class="col-md-3 pull-right">
+      													<span class="soft small italic">
+	      													Você achou esta avaliação útil?
+      													</span>
+      												</div>
+      											</div>				
 											</li>
 										</ui:repeat>
 									</ul>
 								</section>
+								
+								<!-- Paginação -->
+								<h:panelGroup
+									rendered="#{projectReviewMB.pageList.totalPages > 1}"
+									id="pagination" layout="block" styleClass="text-center" >
+									<ul class="pagination">
+										<li class="#{projectReviewMB.pageList.currentPage eq projectReviewMB.pageList.firstPage ? 'disabled' : ''}">
+											<h:commandLink actionListener="#{projectReviewMB.searchReviews}" disabled="#{projectReviewMB.pageList.currentPage eq projectReviewMB.pageList.firstPage}" >
+												<f:param  name="page" value="#{projectReviewMB.pageList.firstPage}" />
+												«
+											</h:commandLink>
+										</li>
 										
+										<li class="#{projectReviewMB.pageList.currentPage eq projectReviewMB.pageList.previousPage ? 'disabled' : ''}">
+											<h:commandLink actionListener="#{projectReviewMB.searchReviews}" disabled="#{projectReviewMB.pageList.currentPage eq projectReviewMB.pageList.previousPage}" >
+												<f:param  name="page" value="#{projectReviewMB.pageList.previousPage}" />
+												anterior
+											</h:commandLink>
+										</li>
+										
+										<ui:repeat var="page" value="#{projectReviewMB.pageList.pageList}">
+											<li class="#{projectReviewMB.pageList.currentPage eq page ? 'active' : ''}">
+												<h:commandLink actionListener="#{projectReviewMB.searchReviews}" disabled="#{projectReviewMB.pageList.currentPage eq page}" >
+													<f:param  name="page" value="#{page}" />
+													<h:outputText value="#{page}" />
+												</h:commandLink>
+											</li>
+										</ui:repeat>
+										
+										<li class="#{projectReviewMB.pageList.currentPage eq projectReviewMB.pageList.nextPage ? 'disabled' : ''}">
+											<h:commandLink actionListener="#{projectReviewMB.searchReviews}" disabled="#{projectReviewMB.pageList.currentPage eq projectReviewMB.pageList.nextPage}" >
+												<f:param  name="page" value="#{projectReviewMB.pageList.nextPage}" />
+												próximo
+											</h:commandLink>
+										</li>
+										
+										
+										<li class="#{projectReviewMB.pageList.currentPage eq projectReviewMB.pageList.lastPage ? 'disabled' : ''}">
+											<h:commandLink actionListener="#{projectReviewMB.searchReviews}" disabled="#{projectReviewMB.pageList.currentPage eq projectReviewMB.pageList.lastPage}" >
+												<f:param  name="page" value="#{projectReviewMB.pageList.lastPage}" />
+												»
+											</h:commandLink>
+										</li>
+									</ul>
+								</h:panelGroup>
 							
 							</h:panelGroup>
 						</div>

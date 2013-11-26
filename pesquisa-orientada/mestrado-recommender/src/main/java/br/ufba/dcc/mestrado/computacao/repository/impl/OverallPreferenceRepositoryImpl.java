@@ -38,15 +38,30 @@ public class OverallPreferenceRepositoryImpl  extends BaseRepositoryImpl<Long, P
 	}
 	
 	@Override
-	public Long countAllByProject(OhLohProjectEntity project) {
+	public Long countAllLastByProject(OhLohProjectEntity project) {
 		CriteriaBuilder criteriaBuilder = getEntityManager().getCriteriaBuilder();
 		CriteriaQuery<Long> criteriaQuery = criteriaBuilder.createQuery(Long.class);
 		
-		Root<PreferenceEntity> root = criteriaQuery.from(getEntityClass());
-		CriteriaQuery<Long> select = criteriaQuery.select(criteriaBuilder.count(root));
+		Root<PreferenceEntity> p1 = criteriaQuery.from(getEntityClass());
+		CriteriaQuery<Long> select = criteriaQuery.select(criteriaBuilder.count(p1));
 				
-		Predicate namePredicate = criteriaBuilder.equal(root.get("projectId"), project.getId());
-		select.where(namePredicate);
+		//filtrando por projeto
+		Predicate namePredicate = criteriaBuilder.equal(p1.get("projectId"), project.getId());
+		
+		/*
+		 * Criando subquery para trazer os últimos registros de cada usuario/projeto
+		 */
+		Subquery<Timestamp> subquery = criteriaQuery.subquery(Timestamp.class);
+		
+		Root<PreferenceEntity> p2 = subquery.from(getEntityClass());
+		Expression<Timestamp> greatestRegisteredAt = p2.get("registeredAt");
+		
+		subquery.select(criteriaBuilder.greatest((greatestRegisteredAt)));
+		subquery.where(criteriaBuilder.equal(p1.get("userId"), p2.get("userId")));
+		
+		Predicate registeredAtPredicate = criteriaBuilder.equal(p1.get("registeredAt"), subquery);
+		
+		select.where(namePredicate, registeredAtPredicate);
 		
 		return getEntityManager().createQuery(criteriaQuery).getSingleResult();
 	}
@@ -60,6 +75,8 @@ public class OverallPreferenceRepositoryImpl  extends BaseRepositoryImpl<Long, P
 		
 		Root<PreferenceEntity> root = criteriaQuery.from(getEntityClass());
 		
+		CriteriaQuery<Long> select = criteriaQuery.select(criteriaBuilder.count(root));
+		
 		List<Predicate> predicateList = new ArrayList<>();
 		
 		if (user != null && user.getId() != null) {
@@ -71,8 +88,6 @@ public class OverallPreferenceRepositoryImpl  extends BaseRepositoryImpl<Long, P
 			Predicate projectPredicate = criteriaBuilder.equal(root.get("projectId"), project.getId());
 			predicateList.add(projectPredicate);
 		}
-		
-		CriteriaQuery<Long> select = criteriaQuery.select(criteriaBuilder.count(root));
 				
 		select.where(predicateList.toArray(new Predicate[0]));
 		
@@ -83,18 +98,40 @@ public class OverallPreferenceRepositoryImpl  extends BaseRepositoryImpl<Long, P
 		CriteriaBuilder criteriaBuilder = getEntityManager().getCriteriaBuilder();
 		CriteriaQuery<Double> criteriaQuery = criteriaBuilder.createQuery(Double.class);
 		
-		Root<PreferenceEntity> root = criteriaQuery.from(getEntityClass());
-		Path<Double> valuePath = root.get("value");
+		Root<PreferenceEntity> p1 = criteriaQuery.from(getEntityClass());
+		Path<Double> valuePath = p1.get("value");
 		
 		CriteriaQuery<Double> select = criteriaQuery.select(criteriaBuilder.avg( valuePath ));
 		
-		Predicate namePredicate = criteriaBuilder.equal(root.get("projectId"), project.getId());
-		select.where(namePredicate);
+		Predicate namePredicate = criteriaBuilder.equal(p1.get("projectId"), project.getId());
+		
+		/*
+		 * Criando subquery para trazer os últimos registros de cada usuario/projeto
+		 */
+		Subquery<Timestamp> subquery = criteriaQuery.subquery(Timestamp.class);
+		
+		Root<PreferenceEntity> p2 = subquery.from(getEntityClass());
+		Expression<Timestamp> greatestRegisteredAt = p2.get("registeredAt");
+		
+		subquery.select(criteriaBuilder.greatest((greatestRegisteredAt)));
+		subquery.where(criteriaBuilder.equal(p1.get("userId"), p2.get("userId")));
+		
+		Predicate registeredAtPredicate = criteriaBuilder.equal(p1.get("registeredAt"), subquery);
+		
+		select.where(namePredicate, registeredAtPredicate);
 		
 		return getEntityManager().createQuery(criteriaQuery).getSingleResult();
 	}
 	
-	public List<PreferenceEntity> findAllByProject(OhLohProjectEntity project) {
+	
+	public List<PreferenceEntity> findAllLastByProject(OhLohProjectEntity project) {
+		return findAllLastByProject(project, null, null);
+	}
+	
+	
+	
+	public List<PreferenceEntity> findAllLastByProject(OhLohProjectEntity project, Integer startAt, Integer offset) {
+		
 		CriteriaBuilder criteriaBuilder = getEntityManager()
 				.getCriteriaBuilder();
 		CriteriaQuery<PreferenceEntity> criteriaQuery = criteriaBuilder
@@ -128,10 +165,19 @@ public class OverallPreferenceRepositoryImpl  extends BaseRepositoryImpl<Long, P
 		
 		//aplicando os filtros
 		select.where(predicateList.toArray(new Predicate[0]));
+		
+		TypedQuery<PreferenceEntity> typedQuery = getEntityManager().createQuery(criteriaQuery);
+		
+		
+		if (startAt != null) {
+			typedQuery.setFirstResult(startAt);
+		}
+		
+		if (offset != null) {
+			typedQuery.setMaxResults(offset);
+		}
 
-		TypedQuery<PreferenceEntity> query = getEntityManager().createQuery(criteriaQuery);
-
-		List<PreferenceEntity> preferenceList = query.getResultList();
+		List<PreferenceEntity> preferenceList = typedQuery.getResultList();
 		
 		return preferenceList;
 	}

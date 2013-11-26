@@ -10,32 +10,55 @@ import br.ufba.dcc.mestrado.computacao.entities.recommender.user.UserEntity;
 public interface OverallPreferenceService extends BaseOhLohService<Long, PreferenceEntity> , Serializable {
 
 	/**
-	 * Conta quantos usuários opinaram sobre um determinado projeto
-	 * @param project Projeto sobre os quais os usuários opinaram
+	 * Conta quantas avaliações existem para um dado projeto. Caso um usuário tenha avaliado o mesmo
+	 * projeto mais de uma vez, conta apenas a avaliação mais recente
+	 * @param project
 	 * @return
 	 */
-	Long countAllByProject(OhLohProjectEntity project);
+	Long countAllLastByProject(OhLohProjectEntity project);
 	
 	/**
-	 * Retorna a média dos valores gerais das avaliações dos usuários sobre um
-	 * determinado projeto
+	 * Calcula o valor médio das avaliações gerais para cada projeto.
+	 * Conta apenas a avaliação mais recente de cada usuário 
 	 * @param project
 	 * @return
 	 */
 	Double averagePreferenceByProject(OhLohProjectEntity project);
 	
 	/**
-	 * Conta quantas avaliações existem para um determinado usuário e projeto.
+	 * 
+	 * @param project
+	 * @param user
+	 * @return
 	 */
 	Long countAllByProjectAndUser(OhLohProjectEntity project, UserEntity user);
 	
 	/**
-	 * Retorna todas as avaliações para um dado projeto
+	 * Retorna todos os últimos registros de {@link PreferenceEntity}, com base no campo <code>registeredAt</code>,
+	 * para cada projeto
+	 * 
+	 * @param project Projeto usado como filtro
+	 * @return
 	 */
-	List<PreferenceEntity> findAllByProject(OhLohProjectEntity project);
+	List<PreferenceEntity> findAllLastByProject(OhLohProjectEntity project);
 	
 	/**
-	 * Retorna todas as avaliações para um dado projeto e usuário
+	 * Retorna todos os últimos registros de {@link PreferenceEntity}, com base no campo <code>registeredAt</code>,
+	 * para cada projeto. Utiliza parâmetros para paginação.
+	 *  
+	 * @param project
+	 * @param startAt
+	 * @param offset
+	 * @return
+	 */
+	List<PreferenceEntity> findAllLastByProject(OhLohProjectEntity project, Integer startAt, Integer offset);
+	
+	/**
+	 * Retorna todas as avaliações feitas por um usuário para um determinado projeto
+	 * 
+	 * @param project
+	 * @param user
+	 * @return
 	 */
 	List<PreferenceEntity> findAllByProjectAndUser(OhLohProjectEntity project, UserEntity user);
 	
