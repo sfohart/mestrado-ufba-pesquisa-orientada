@@ -44,5 +44,7 @@ public class UserServiceImpl extends BaseOhLohServiceImpl<Long, UserEntity>
 
 	private void validateEntity(UserEntity entity) {
 		entity.setCreatedAt(new Timestamp(System.currentTimeMillis()));
+		entity.setEnabled(Boolean.TRUE);
+		entity.setLocked(Boolean.FALSE);
 	}
 }

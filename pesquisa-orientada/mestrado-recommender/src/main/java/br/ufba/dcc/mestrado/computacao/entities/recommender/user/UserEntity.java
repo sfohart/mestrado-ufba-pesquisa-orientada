@@ -66,6 +66,12 @@ public class UserEntity implements BaseEntity<Long>{
 	@Column(name = "created_at")
 	private Timestamp createdAt;
 	
+	@Column(name = "enabled")
+	private Boolean enabled;
+	
+	@Column(name = "locked")
+	private Boolean locked;
+	
 	public Long getId() {
 		return id;
 	}
@@ -144,6 +150,22 @@ public class UserEntity implements BaseEntity<Long>{
 
 	public void setCreatedAt(Timestamp createdAt) {
 		this.createdAt = createdAt;
+	}
+
+	public Boolean getEnabled() {
+		return enabled;
+	}
+
+	public void setEnabled(Boolean enabled) {
+		this.enabled = enabled;
+	}
+
+	public Boolean getLocked() {
+		return locked;
+	}
+
+	public void setLocked(Boolean locked) {
+		this.locked = locked;
 	}
 	
 	

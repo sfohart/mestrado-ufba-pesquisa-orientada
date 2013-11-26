@@ -58,10 +58,12 @@ public class RepositoryBasedUserDetailsServiceImpl implements RepositoryBasedUse
 		UserEntity account = getUserRepository().findByLogin(login);
 		
 		if (account != null) {
-			boolean enabled = true;
+			boolean enabled = (account.getEnabled() != null ? account.getEnabled().booleanValue() : true);
+			
 			boolean accountNonExpired = true;
 			boolean credentialsNonExpired = true;
-			boolean accountNonLocked = true;
+			
+			boolean accountNonLocked = (account.getLocked() != null ? ! account.getLocked() : true);
 			
 			UserDetails user = new User(
 				account.getLogin(),
