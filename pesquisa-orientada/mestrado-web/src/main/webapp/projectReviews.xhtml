@@ -74,7 +74,7 @@
 								<!-- Paginação -->
 								<h:panelGroup
 									rendered="#{projectReviewMB.pageList.totalPages > 1}"
-									id="pagination" layout="block" styleClass="text-center" >
+									id="pagination" layout="block" styleClass="pagination-center" >
 									<ul class="pagination">
 										<li class="#{projectReviewMB.pageList.currentPage eq projectReviewMB.pageList.firstPage ? 'disabled' : ''}">
 											<h:commandLink actionListener="#{projectReviewMB.searchReviews}" disabled="#{projectReviewMB.pageList.currentPage eq projectReviewMB.pageList.firstPage}" >

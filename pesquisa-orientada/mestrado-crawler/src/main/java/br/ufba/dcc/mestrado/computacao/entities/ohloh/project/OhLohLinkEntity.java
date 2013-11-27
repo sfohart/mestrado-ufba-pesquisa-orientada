@@ -35,7 +35,7 @@ public class OhLohLinkEntity implements BaseEntity<Long> {
 	private String title;
 	
 	@Field(index=Index.YES, analyze=Analyze.YES, store=Store.NO)
-	@Column(length=512)
+	@Column(length=2048)
 	private String url;
 
 	public Long getId() {

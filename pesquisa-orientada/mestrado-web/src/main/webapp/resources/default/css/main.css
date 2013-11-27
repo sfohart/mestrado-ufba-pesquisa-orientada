@@ -61,6 +61,13 @@ div.bigstars div.rateit-reset:hover
     background: url(../img/star-white32.png);
 }
 
+
+/* Centralizando componente pagination
+-------------------------------------------------- */
+.pagination-center {
+	text-align: center;
+}
+
 /* Sticky footer styles
 -------------------------------------------------- */
 

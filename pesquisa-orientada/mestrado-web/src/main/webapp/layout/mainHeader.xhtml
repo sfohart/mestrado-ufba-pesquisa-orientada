@@ -24,11 +24,11 @@
   			<div class="collapse navbar-collapse navbar-right" >
   				<h:form styleClass="navbar-form navbar-left" p:role="search" >
   					<div class="form-group" style="margin-right: 5px">
-  						<h:inputText styleClass="form-control" p:placeholder="Digite aqui"  value="#{mainMB.searchRequest.query}" />
+  						<h:inputText styleClass="form-control" id="query" p:placeholder="Digite aqui"  value="#{mainMB.searchRequest.query}" />
   					</div>
   					<h:commandButton styleClass="btn btn-default" value="Buscar"
-  						action="results.jsf?faces-redirect=true&amp;includeViewParams=true" 
-  						actionListener="#{mainMB.searchProjects}" >
+  						action="results.jsf?faces-redirect=true&amp;includeViewParams=true">
+  						<f:param name="query" value="#{mainMB.searchRequest.query}"  />
   					</h:commandButton>
   				</h:form>
   				

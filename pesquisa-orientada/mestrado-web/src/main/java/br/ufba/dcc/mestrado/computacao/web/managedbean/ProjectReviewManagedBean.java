@@ -1,14 +1,11 @@
 package br.ufba.dcc.mestrado.computacao.web.managedbean;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
-import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
 import javax.faces.event.ComponentSystemEvent;
 
@@ -27,7 +24,7 @@ import br.ufba.dcc.mestrado.computacao.web.pagination.PageList;
 
 @ManagedBean(name="projectReviewMB", eager=true)
 @ViewScoped
-public class ProjectReviewManagedBean implements Serializable {
+public class ProjectReviewManagedBean extends AbstractListingManagedBean<Long, PreferenceEntity> {
 	
 	/**
 	 * 
@@ -51,32 +48,8 @@ public class ProjectReviewManagedBean implements Serializable {
 	@ManagedProperty("#{repositoryBasedUserDetailsService}")
 	private RepositoryBasedUserDetailsService userDetailsService;
 	
-	private LazyLoadingDataModel<Long, PreferenceEntity> dataModel;
-	private PageList pageList;
-	
 	public ProjectReviewManagedBean() {
 		this.project = new OhLohProjectEntity();
-		
-		this.dataModel = new LazyLoadingDataModel<Long, PreferenceEntity>() {
-
-			/**
-			 * 
-			 */
-			private static final long serialVersionUID = 1L;
-
-			@Override
-			public void load(int first, int pageSize) {
-				
-				List<PreferenceEntity> data = getPreferenceService().findAllLastByProject(getProject(), first, pageSize);
-				this.setWrappedData(data);
-				
-				Integer totalRecords = getPreferenceService().countAllLastByProject(getProject()).intValue();				
-				Integer currentPage = (first / pageSize) + 1;
-								
-				PageList pageList = new PageList(currentPage, totalRecords, pageSize);
-				setPageList(pageList);
-			}
-		};
 	}
 	
 	public OhLohProjectEntity getProject() {
@@ -174,6 +147,27 @@ public class ProjectReviewManagedBean implements Serializable {
 	public void initList(ComponentSystemEvent event) {
 		if (getProject() != null && getProject().getId() != null) {
 			
+			this.dataModel = new LazyLoadingDataModel<Long, PreferenceEntity>() {
+
+				/**
+				 * 
+				 */
+				private static final long serialVersionUID = 1L;
+
+				@Override
+				public void load(int first, int pageSize) {
+					
+					List<PreferenceEntity> data = getPreferenceService().findAllLastReviewsByProject(getProject(), first, pageSize);
+					this.setWrappedData(data);
+					
+					Integer totalRecords = getPreferenceService().countAllLastReviewsByProject(getProject()).intValue();				
+					Integer currentPage = (first / pageSize) + 1;
+									
+					PageList pageList = new PageList(currentPage, totalRecords, pageSize);
+					setPageList(pageList);
+				}
+			};
+			
 			Integer first = 0;
 			Integer pageSize = 10;
 			
@@ -185,34 +179,9 @@ public class ProjectReviewManagedBean implements Serializable {
 		return dataModel;
 	}
 	
-	public PageList getPageList() {
-		return pageList;
-	}
-	
-	public void setPageList(PageList pageList) {
-		this.pageList = pageList;
-	}
-	
 	public void searchReviews(ActionEvent event) {
-		Map<String, String> params = 
-				FacesContext
-					.getCurrentInstance()
-					.getExternalContext()
-					.getRequestParameterMap();
-		
-		String pageParam = params.get("page");
-		
-		Integer startPosition = null;
+		Integer startPosition = loadStartPositionFromParams();
 		Integer pageSize = getDataModel().getPageSize();
-		
-		if (pageParam != null){
-			Integer page = Integer.parseInt(pageParam);
-			if (page != null && page > 0) {
-				startPosition = getDataModel().getPageSize() * (page - 1);
-			}
-		} else {
-			startPosition = 0;
-		}
 		
 		getDataModel().load(startPosition, pageSize);
 	}

@@ -1,6 +1,5 @@
 package br.ufba.dcc.mestrado.computacao.web.managedbean;
 
-import java.io.Serializable;
 import java.util.List;
 import java.util.Map;
 
@@ -22,65 +21,24 @@ import br.ufba.dcc.mestrado.computacao.web.pagination.PageList;
 
 @ManagedBean(name="mainMB")
 @ViewScoped
-public class MainManageBean implements Serializable{
-	
+public class MainManageBean extends AbstractListingManagedBean<Long, OhLohProjectEntity> {
+
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = -2856136549457564028L;
+	private static final long serialVersionUID = 6637959023617248522L;
 
 	@ManagedProperty("#{searchService}")
 	private SearchService searchService;
 
 	private SearchRequest searchRequest;
 	
-	private LazyLoadingDataModel<Long, OhLohProjectEntity> dataModel;
-	private PageList pageList;
-	
 	public MainManageBean() {
-		this.searchRequest = new SearchRequest();
-		
-		this.dataModel = new LazyLoadingDataModel<Long, OhLohProjectEntity>() {
-
-			/**
-			 * 
-			 */
-			private static final long serialVersionUID = 6859894771619835765L;
-
-			@Override
-			public void load(int startPosition, int maxResult) {
-				
-				getSearchRequest().setStartPosition(startPosition);
-				getSearchRequest().setMaxResult(maxResult);
-				
-				SearchResponse searchResponse = getSearchService().findAllProjects(getSearchRequest());
-				
-				List<OhLohProjectEntity> data = searchResponse.getProjectList();
-				this.setWrappedData(data);
-				
-				getSearchRequest().getDeselectedFacets().clear();
-				getSearchRequest().getDeselectedFacets().addAll(searchResponse.getTagFacetsList());
-				getSearchRequest().getDeselectedFacets().removeAll(getSearchRequest().getSelectedFacets());
-				
-				this.setRowCount(data.size());
-				
-				Integer currentPage = (startPosition / maxResult) + 1;
-				
-				PageList pageList = new PageList(currentPage, searchResponse.getTotalResults(), maxResult);
-				setPageList(pageList);
-			}
-		};
-		
-		this.dataModel.setPageSize(10);
+		this.searchRequest = new SearchRequest();		
 	}
-	
 	
 	public String loadResults() {
 		return "results.jsf?faces-redirect=true&query=" + getSearchRequest().getQuery();
-	}
-	
-	public LazyLoadingDataModel<Long, OhLohProjectEntity> getDataModel() {
-		return dataModel;
 	}
 	
 	public SearchService getSearchService() {
@@ -99,49 +57,59 @@ public class MainManageBean implements Serializable{
 		this.searchRequest = searchRequest;
 	}
 	
-	public PageList getPageList() {
-		return pageList;
-	}
-	
-	public void setPageList(PageList pageList) {
-		this.pageList = pageList;
-	}
-	
 	public void init(ComponentSystemEvent event) {
 		if (getSearchRequest() != null 
 				&& getSearchRequest().getQuery() != null
 				&& ! "".equals(getSearchRequest().getQuery())) {
 			
-			Integer first = 0;
-			Integer pageSize = 10;
+			this.dataModel = new LazyLoadingDataModel<Long, OhLohProjectEntity>() {
+
+				/**
+				 * 
+				 */
+				private static final long serialVersionUID = 6859894771619835765L;
+
+				@Override
+				public void load(int startPosition, int maxResult) {
+					
+					getSearchRequest().setStartPosition(startPosition);
+					getSearchRequest().setMaxResult(maxResult);
+					
+					SearchResponse searchResponse = getSearchService().findAllProjects(getSearchRequest());
+					
+					List<OhLohProjectEntity> data = searchResponse.getProjectList();
+					this.setWrappedData(data);
+					
+					getSearchRequest().getDeselectedFacets().clear();
+					getSearchRequest().getDeselectedFacets().addAll(searchResponse.getTagFacetsList());
+					getSearchRequest().getDeselectedFacets().removeAll(getSearchRequest().getSelectedFacets());
+					
+					this.setRowCount(data.size());
+					
+					Integer currentPage = (startPosition / maxResult) + 1;
+					
+					PageList pageList = new PageList(currentPage, searchResponse.getTotalResults(), maxResult);
+					setPageList(pageList);
+				}
+			};
 			
-			getDataModel().load(first, pageSize);
+			this.dataModel.setPageSize(10);
+			
+			setDataModel(dataModel);
+			
+			
+			Integer startPosition = loadStartPositionFromParams();
+			Integer pageSize = getDataModel().getPageSize();
+			
+			getDataModel().load(startPosition, pageSize);
 		}
 	}
 	
 	public void searchProjects(ActionEvent event) {
-		Map<String, String> params = 
-				FacesContext
-					.getCurrentInstance()
-					.getExternalContext()
-					.getRequestParameterMap();
-		
-		String pageParam = params.get("page");
-		
-		Integer startPosition = null;
+		Integer startPosition = loadStartPositionFromParams();
 		Integer pageSize = getDataModel().getPageSize();
 		
-		if (pageParam != null){
-			Integer page = Integer.parseInt(pageParam);
-			if (page != null && page > 0) {
-				startPosition = getDataModel().getPageSize() * (page - 1);
-			}
-		} else {
-			startPosition = 0;
-		}
-		
 		getSearchRequest().setStartPosition(startPosition);
-		
 		getDataModel().load(startPosition, pageSize);
 	}
 	

@@ -1,6 +1,7 @@
 package br.ufba.dcc.mestrado.computacao.service.impl;
 
 import java.util.concurrent.ExecutionException;
+import java.util.concurrent.Future;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -42,23 +43,22 @@ public class HibernateSearchIndexer implements Indexer {
 		
 		MassIndexerProgressMonitor monitor = new SimpleIndexingProgressMonitor();
 		
-		massIndexer.batchSizeToLoadObjects( 25 )
+		massIndexer
+			//.batchSizeToLoadObjects( 25 )
 			.cacheMode( CacheMode.NORMAL )
-			.threadsToLoadObjects( 5 )
-			.idFetchSize( 150 )
-			.threadsForSubsequentFetching( 50 )
+			//.threadsToLoadObjects( 5 )
+			//.idFetchSize( 150 )
+			//.threadsForSubsequentFetching( 50 )
 			.progressMonitor( monitor ); //a MassIndexerProgressMonitor implementation
 		 
 		massIndexer.optimizeOnFinish(true);
 
-		/*Future<?> future = massIndexer.start();
+		Future<?> future = massIndexer.start();
 		while (! future.isDone()) {
 			Thread.sleep(10000);
 		}
 		
-		System.out.println("Canceling indexer thread: " + future.cancel(true));*/
-		
-		massIndexer.startAndWait();
+		//massIndexer.startAndWait();
 		
 		getEntityManager().close();
 	}

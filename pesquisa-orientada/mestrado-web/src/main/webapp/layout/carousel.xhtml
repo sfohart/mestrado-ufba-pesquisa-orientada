@@ -28,9 +28,9 @@
 				<div class="carousel-caption"  >
 					<h3>Veja só o tamanho da nossa comunidade!</h3>
 					<p>
-						<h:outputText value="Temos #{indexMB.userCount} usuários cadastrados." rendered="#{indexMB.userCount > 1}" />
-						<h:outputText value="Temos #{indexMB.userCount} usuário cadastrado." rendered="#{indexMB.userCount eq 1}" />
-						<h:outputText value="Nao há usuários cadastrados. Que tal você ser o primeiro?" rendered="#{indexMB.preferencesCount eq 0}" />
+						<h:outputText value="Temos #{indexMB.userCount} usuários cadastrados. Que tal se juntar a eles?" rendered="#{indexMB.userCount > 1}" />
+						<h:outputText value="Temos #{indexMB.userCount} usuário cadastrado. Tão solitário, coitado... Junte-se a ele, vai!" rendered="#{indexMB.userCount eq 1}" />
+						<h:outputText value="Nao há usuários cadastrados. Que tal você ser o primeiro?" rendered="#{indexMB.userCount eq 0}" />
 					</p>
 				</div>
 			</div>

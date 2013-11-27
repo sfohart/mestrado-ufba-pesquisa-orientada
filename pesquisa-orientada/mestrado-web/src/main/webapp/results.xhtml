@@ -129,52 +129,59 @@
 									</section>
 								</h:panelGroup>
 								
-							</h:panelGroup>
-							
-							<!-- Paginação -->
-							<h:panelGroup
-								rendered="#{mainMB.pageList.totalPages > 1}"
-								id="pagination" layout="block" styleClass="text-center" >
-								<ul class="pagination">
-									<li class="#{mainMB.pageList.currentPage eq mainMB.pageList.firstPage ? 'disabled' : ''}">
-										<h:commandLink actionListener="#{mainMB.searchProjects}" disabled="#{mainMB.pageList.currentPage eq mainMB.pageList.firstPage}" >
-											<f:param  name="page" value="#{mainMB.pageList.firstPage}" />
-											«
-										</h:commandLink>
-									</li>
-									
-									<li class="#{mainMB.pageList.currentPage eq mainMB.pageList.previousPage ? 'disabled' : ''}">
-										<h:commandLink actionListener="#{mainMB.searchProjects}" disabled="#{mainMB.pageList.currentPage eq mainMB.pageList.previousPage}" >
-											<f:param  name="page" value="#{mainMB.pageList.previousPage}" />
-											anterior
-										</h:commandLink>
-									</li>
-									
-									<ui:repeat var="page" value="#{mainMB.pageList.pageList}">
-										<li class="#{mainMB.pageList.currentPage eq page ? 'active' : ''}">
-											<h:commandLink actionListener="#{mainMB.searchProjects}" disabled="#{mainMB.pageList.currentPage eq page}" >
-												<f:param  name="page" value="#{page}" />
-												<h:outputText value="#{page}" />
+								<!-- Paginação -->
+								<h:panelGroup
+									rendered="#{mainMB.pageList.totalPages > 1}"
+									id="pagination" layout="block" styleClass="pagination-center" >
+									<ul class="pagination">
+										<li class="#{mainMB.pageList.currentPage eq mainMB.pageList.firstPage ? 'disabled' : ''}">
+											<h:commandLink actionListener="#{mainMB.searchProjects}" disabled="#{mainMB.pageList.currentPage eq mainMB.pageList.firstPage}" >
+												<f:param  name="page" value="#{mainMB.pageList.firstPage}" />
+												<f:ajax render="@form" />
+												«
 											</h:commandLink>
 										</li>
-									</ui:repeat>
-									
-									<li class="#{mainMB.pageList.currentPage eq mainMB.pageList.nextPage ? 'disabled' : ''}">
-										<h:commandLink actionListener="#{mainMB.searchProjects}" disabled="#{mainMB.pageList.currentPage eq mainMB.pageList.nextPage}" >
-											<f:param  name="page" value="#{mainMB.pageList.nextPage}" />
-											próximo
-										</h:commandLink>
-									</li>
-									
-									
-									<li class="#{mainMB.pageList.currentPage eq mainMB.pageList.lastPage ? 'disabled' : ''}">
-										<h:commandLink actionListener="#{mainMB.searchProjects}" disabled="#{mainMB.pageList.currentPage eq mainMB.pageList.lastPage}" >
-											<f:param  name="page" value="#{mainMB.pageList.lastPage}" />
-											»
-										</h:commandLink>
-									</li>
-								</ul>
+										
+										<li class="#{mainMB.pageList.currentPage eq mainMB.pageList.previousPage ? 'disabled' : ''}">
+											<h:commandLink actionListener="#{mainMB.searchProjects}" disabled="#{mainMB.pageList.currentPage eq mainMB.pageList.previousPage}" >
+												<f:param  name="page" value="#{mainMB.pageList.previousPage}" />
+												<f:ajax render="@form" />
+												anterior
+											</h:commandLink>
+										</li>
+										
+										<ui:repeat var="page" value="#{mainMB.pageList.pageList}">
+											<li class="#{mainMB.pageList.currentPage eq page ? 'active' : ''}">
+												<h:commandLink actionListener="#{mainMB.searchProjects}" disabled="#{mainMB.pageList.currentPage eq page}" >
+													<f:param  name="page" value="#{page}" />
+													<f:ajax render="@form" />
+													<h:outputText value="#{page}" />
+												</h:commandLink>
+											</li>
+										</ui:repeat>
+										
+										<li class="#{mainMB.pageList.currentPage eq mainMB.pageList.nextPage ? 'disabled' : ''}">
+											<h:commandLink actionListener="#{mainMB.searchProjects}" disabled="#{mainMB.pageList.currentPage eq mainMB.pageList.nextPage}" >
+												<f:param  name="page" value="#{mainMB.pageList.nextPage}" />
+												<f:ajax render="@form" />
+												próximo
+											</h:commandLink>
+										</li>
+										
+										
+										<li class="#{mainMB.pageList.currentPage eq mainMB.pageList.lastPage ? 'disabled' : ''}">
+											<h:commandLink actionListener="#{mainMB.searchProjects}" disabled="#{mainMB.pageList.currentPage eq mainMB.pageList.lastPage}"  >
+												<f:param  name="page" value="#{mainMB.pageList.lastPage}" />
+												<f:ajax render="@form" />
+												»
+											</h:commandLink>
+										</li>
+									</ul>
+								</h:panelGroup>
+								
 							</h:panelGroup>
+							
+							
 													
 						</div>
 					</h:form>

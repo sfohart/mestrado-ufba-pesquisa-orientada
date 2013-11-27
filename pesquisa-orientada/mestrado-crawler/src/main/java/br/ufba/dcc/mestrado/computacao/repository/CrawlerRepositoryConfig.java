@@ -70,6 +70,8 @@ public class CrawlerRepositoryConfig {
 		if  (env.containsProperty("hibernate.search.analyzer"))
 			connectionProperties.put("hibernate.search.analyzer", env.getProperty("hibernate.search.analyzer"));
 		
+		if (env.containsProperty("hibernate.search.default.exclusive_index_use"))
+			connectionProperties.put("hibernate.search.default.exclusive_index_use", env.getProperty("hibernate.search.default.exclusive_index_use"));
 		
 		LocalContainerEntityManagerFactoryBean  entityManagerFactoryBean = new LocalContainerEntityManagerFactoryBean();
 
