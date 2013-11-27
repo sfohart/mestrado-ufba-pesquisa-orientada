@@ -2,6 +2,7 @@ package br.ufba.dcc.mestrado.computacao.entities.recommender.preference;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
@@ -29,7 +30,7 @@ public class PreferenceEntryEntity implements BaseEntity<Long> {
 	@Column(name = "criterium_id", insertable = false, updatable = false)
 	private Long criteriumId;
 	
-	@ManyToOne
+	@ManyToOne(fetch=FetchType.EAGER)
 	@JoinColumn(name = "criterium_id", referencedColumnName = "id")
 	private RecommenderCriteriumEntity criterium;
 	

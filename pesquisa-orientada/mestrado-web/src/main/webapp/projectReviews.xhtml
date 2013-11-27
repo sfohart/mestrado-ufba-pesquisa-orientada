@@ -45,7 +45,19 @@
 												</h:outputLink>
 												
 												<div class="media-body pul-right" style="padding-left: 10px">
-      												<h4 class="media-heading strong"><h:outputText value="#{preference.preferenceReview.title}" /></h4>
+													<div>
+														<div class="pull-left">
+		      												<h4 class="media-heading strong">
+		      													<h:outputText value="#{preference.preferenceReview.title}" />      													
+		      												</h4>
+														</div>
+														<div class="pull-left" style="margin-left: 20px">
+		      												<div class="rateit" data-rateit-readonly="true"
+																	data-rateit-min="0" data-rateit-max="10"
+																	data-rateit-value="#{preference.value}" data-rateit-ispreset="true"  />
+														</div>
+													</div>
+      												
       												<div  style="clear: both; color: #777; font-style: italic; font-family: Georgia,'Times New Roman',Times,serif;">
       													<abbr class="small soft" title="#{preference.registeredAt}">
 	      													<h:outputText value="#{preference.registeredAt}">
@@ -53,6 +65,30 @@
 	      													</h:outputText>
 	      												</abbr>
       												</div>
+      												
+      												<h:panelGroup layout="block" style="clear: both; margin-top: 20px"
+      														rendered="#{not empty preference.preferenceEntryList}">
+														<table class="table table-condensed unstyled pull-left" style="width: 75%" >
+															<tbody >
+		      													<ui:repeat var="preferenceEntry" value="#{preference.preferenceEntryList}">
+		      														<tr class="pull-left" style="width: 50%;">
+		      															<td style="border: none">
+																			<div class="pull-left" style="width:5px; height: 12px; margin-top: 5px; margin-right: 10px; background-color:##{languageAnalysis.color}">
+																			</div>
+																			<h:outputText  value="#{preferenceEntry.criterium.name}"  />
+																		</td>
+																		<td style="border: none">
+																			<div class="rateit" data-rateit-readonly="true"
+																				data-rateit-min="0" data-rateit-max="10"
+																				data-rateit-value="#{preferenceEntry.value}" data-rateit-ispreset="true"  />
+																		</td>
+		      														</tr>
+		      													</ui:repeat>
+															</tbody>
+														</table>
+      												</h:panelGroup>
+      												
+      												
       												<div style="clear: both; padding-top: 10px">
 	      												<h:outputText value="#{preference.preferenceReview.description}" />
       												</div>
