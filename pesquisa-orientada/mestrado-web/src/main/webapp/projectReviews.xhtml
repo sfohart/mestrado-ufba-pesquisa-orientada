@@ -73,9 +73,13 @@
 		      													<ui:repeat var="preferenceEntry" value="#{preference.preferenceEntryList}">
 		      														<tr class="pull-left" style="width: 50%;">
 		      															<td style="border: none">
-																			<div class="pull-left" style="width:5px; height: 12px; margin-top: 5px; margin-right: 10px; background-color:##{languageAnalysis.color}">
-																			</div>
-																			<h:outputText  value="#{preferenceEntry.criterium.name}"  />
+																			<span
+																				class="glyphicon glyphicon-question-sign meuPopover"
+																				data-toggle="popover" title="" data-placement="top"
+																				data-content="#{preferenceEntry.criterium.description}"
+																				data-original-title="#{preferenceEntry.criterium.name}">
+																			</span> 
+																			<h:outputText  value=" #{preferenceEntry.criterium.name}"  />
 																		</td>
 																		<td style="border: none">
 																			<div class="rateit" data-rateit-readonly="true"
@@ -86,6 +90,11 @@
 		      													</ui:repeat>
 															</tbody>
 														</table>
+														<SCRIPT type="text/javascript">
+															$('.meuPopover').popover({
+			
+															});
+														</SCRIPT>
       												</h:panelGroup>
       												
       												

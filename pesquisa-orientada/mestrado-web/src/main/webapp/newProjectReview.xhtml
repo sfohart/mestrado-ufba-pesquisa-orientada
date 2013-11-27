@@ -73,13 +73,16 @@
 													class="col-md-6 #{status.even ? 'pull-right' : 'pull-left'}">
 													<div class="row">
 														<div class="form-group">
-															<label> <span
-																class="glyphicon glyphicon-question-sign meuPopover"
-																data-toggle="popover" title="" data-placement="top"
-																data-content="#{preferenceEntry.criterium.description}"
-																data-original-title="#{preferenceEntry.criterium.name}">
-															</span> <h:outputText value=" #{preferenceEntry.criterium.name}" />
-															</label> <br />
+															<label> 
+																<span
+																	class="glyphicon glyphicon-question-sign meuPopover"
+																	data-toggle="popover" title="" data-placement="top"
+																	data-content="#{preferenceEntry.criterium.description}"
+																	data-original-title="#{preferenceEntry.criterium.name}">
+																</span> 
+																<h:outputText value=" #{preferenceEntry.criterium.name}" />
+															</label> 
+															<br />
 															<h:inputText type="range"
 																styleClass="criterio#{preferenceEntry.criterium.id}"
 																value="#{preferenceEntry.value}" min="0" max="10" />

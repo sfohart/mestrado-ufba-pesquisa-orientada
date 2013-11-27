@@ -1,14 +1,20 @@
 package br.ufba.dcc.mestrado.computacao.entities.recommender.preference;
 
+import java.util.List;
+
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 import br.ufba.dcc.mestrado.computacao.entities.BaseEntity;
+import br.ufba.dcc.mestrado.computacao.entities.recommender.user.UserEntity;
 
 @Entity
 @Table(name = PreferenceReviewEntity.NODE_NAME)
@@ -34,6 +40,22 @@ public class PreferenceReviewEntity implements BaseEntity<Long> {
 	@ManyToOne
 	@JoinColumn(name = "preference_id", referencedColumnName = "id")
 	private PreferenceEntity preference;
+	
+	@ManyToMany(cascade=CascadeType.ALL)
+	@JoinTable(
+		name="review_useful_users",
+		joinColumns=@JoinColumn(name="review_id", referencedColumnName="id"),
+		inverseJoinColumns=@JoinColumn(name="user_id", referencedColumnName="id")
+	)
+	private List<UserEntity> usefulList;
+	
+	@ManyToMany(cascade=CascadeType.ALL)
+	@JoinTable(
+		name="review_useless_users",
+		joinColumns=@JoinColumn(name="review_id", referencedColumnName="id"),
+		inverseJoinColumns=@JoinColumn(name="user_id", referencedColumnName="id")
+	)
+	private List<UserEntity> uselessList;
 
 	public Long getId() {
 		return id;
@@ -65,6 +87,22 @@ public class PreferenceReviewEntity implements BaseEntity<Long> {
 
 	public void setPreference(PreferenceEntity preference) {
 		this.preference = preference;
+	}
+
+	public List<UserEntity> getUsefulList() {
+		return usefulList;
+	}
+
+	public void setUsefulList(List<UserEntity> usefulList) {
+		this.usefulList = usefulList;
+	}
+
+	public List<UserEntity> getUselessList() {
+		return uselessList;
+	}
+
+	public void setUselessList(List<UserEntity> uselessList) {
+		this.uselessList = uselessList;
 	}
 
 	
