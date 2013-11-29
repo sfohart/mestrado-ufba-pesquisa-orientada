@@ -118,7 +118,9 @@ public class OverallPreferenceServiceImpl extends BaseOhLohServiceImpl<Long, Pre
 	 */
 	private void validateEntity(PreferenceEntity entity) {
 		
-		entity.setRegisteredAt(new Timestamp(System.currentTimeMillis()));
+		if (entity.getRegisteredAt() == null) {
+			entity.setRegisteredAt(new Timestamp(System.currentTimeMillis()));
+		}
 		
 		if (entity.getPreferenceReview() != null && entity.getPreferenceReview().getId() == null) {
 			if (StringUtils.isEmpty(entity.getPreferenceReview().getDescription()) 

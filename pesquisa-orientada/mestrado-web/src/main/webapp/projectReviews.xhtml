@@ -9,8 +9,8 @@
 	xmlns:p="http://xmlns.jcp.org/jsf/passthrough">
 	
 	<f:metadata>
-		<f:viewParam id="projectId" name="projectId" value="#{projectReviewMB.project.id}" required="#{not facesContext.postback}"  requiredMessage="#{messages['project.detail.error.projectId']}"  />
-		<f:event listener="#{projectReviewMB.initList}" type="preRenderView"/>
+		<f:viewParam id="projectId" name="projectId" value="#{reviewListMB.project.id}" required="#{not facesContext.postback}"  requiredMessage="#{messages['project.detail.error.projectId']}"  />
+		<f:event listener="#{reviewListMB.initList}" type="preRenderView"/>
 	</f:metadata>
 	
 	
@@ -19,11 +19,13 @@
 			<ui:define name="titlePage">Detalhes do Projeto</ui:define>
 			
 			<ui:define name="content">
+				<f:loadBundle var="reviewsMsg" basename="br.ufba.dcc.mestrado.computacao.reviews"   />
+				
 				<section class="container">
 				
 					<h:form prependId="false" >	
 					
-						<h:panelGroup id="alert" layout="block" styleClass="alert alert-danger col-md-12" rendered="#{projectReviewMB.project.id eq null}">
+						<h:panelGroup id="alert" layout="block" styleClass="alert alert-danger col-md-12" rendered="#{reviewListMB.project.id eq null}">
 							<strong>Vish! </strong>
 							<h:messages  />
 						</h:panelGroup>
@@ -33,11 +35,11 @@
 						
 							<h:panelGroup id="reviewsPanel" layout="block">
 								
-								<h:panelGroup layout="block" id="breadcrump" rendered="#{projectReviewMB.dataModel.rowAvailable}">
+								<h:panelGroup layout="block" id="breadcrump" rendered="#{reviewListMB.dataModel.rowAvailable}">
 									<!-- Exibindo quantidade de resultados -->
 									<ul class="breadcrumb" style="border-bottom: 1px solid #ddd;">
 										<li>
-											Exibindo página <h:outputText value="#{projectReviewMB.pageList.currentPage}" /> de <h:outputText value="#{projectReviewMB.pageList.totalPages}" /> 
+											Exibindo página <h:outputText value="#{reviewListMB.pageList.currentPage}" /> de <h:outputText value="#{reviewListMB.pageList.totalPages}" /> 
 										</li>
 									</ul>
 								</h:panelGroup>							
@@ -45,7 +47,7 @@
 								<h:panelGroup layout="block" id="reviews">
 									<section>
 										<ul class="media-list">
-											<ui:repeat var="preference" value="#{projectReviewMB.dataModel}" varStatus="status"  >
+											<ui:repeat var="preference" value="#{reviewListMB.dataModel}" varStatus="status"  >
 												<li class="media well">
 													<h:outputLink styleClass="pull-left" >
 														<div>
@@ -128,12 +130,12 @@
 			      													
 			      													<h:commandLink style="text-decoration: none; margin-left: 10px" >
 			      														<f:attribute name="preference" value="#{preference}"  />
-			      														<f:ajax execute="@all" render="@form" listener="#{projectReviewMB.addUsefulVoteToReview}" />
+			      														<f:ajax execute="@all" render="@form" listener="#{reviewListMB.addUsefulVoteToReview}" />
 				      													<span class="glyphicon glyphicon-thumbs-up" /> Sim
 			      													</h:commandLink>
 			      													<h:commandLink style="text-decoration: none; margin-left: 10px" >
 			      														<f:attribute name="preference" value="#{preference}" />
-			      														<f:ajax execute="@all" render="@form" listener="#{projectReviewMB.addUselessVoteToReview}"  />
+			      														<f:ajax execute="@all" render="@form" listener="#{reviewListMB.addUselessVoteToReview}"  />
 				      													<span class="glyphicon glyphicon-thumbs-down" /> Não
 			      													</h:commandLink>
 		      													</span>
@@ -152,43 +154,43 @@
 								
 								<!-- Paginação -->
 								<h:panelGroup
-									rendered="#{projectReviewMB.pageList.totalPages > 1}"
+									rendered="#{reviewListMB.pageList.totalPages > 1}"
 									id="pagination" layout="block" styleClass="pagination-center" >
 									<ul class="pagination">
-										<li class="#{projectReviewMB.pageList.currentPage eq projectReviewMB.pageList.firstPage ? 'disabled' : ''}">
-											<h:commandLink actionListener="#{projectReviewMB.searchReviews}" disabled="#{projectReviewMB.pageList.currentPage eq projectReviewMB.pageList.firstPage}" >
-												<f:param  name="page" value="#{projectReviewMB.pageList.firstPage}" />
+										<li class="#{reviewListMB.pageList.currentPage eq reviewListMB.pageList.firstPage ? 'disabled' : ''}">
+											<h:commandLink actionListener="#{reviewListMB.searchReviews}" disabled="#{reviewListMB.pageList.currentPage eq reviewListMB.pageList.firstPage}" >
+												<f:param  name="page" value="#{reviewListMB.pageList.firstPage}" />
 												«
 											</h:commandLink>
 										</li>
 										
-										<li class="#{projectReviewMB.pageList.currentPage eq projectReviewMB.pageList.previousPage ? 'disabled' : ''}">
-											<h:commandLink actionListener="#{projectReviewMB.searchReviews}" disabled="#{projectReviewMB.pageList.currentPage eq projectReviewMB.pageList.previousPage}" >
-												<f:param  name="page" value="#{projectReviewMB.pageList.previousPage}" />
+										<li class="#{reviewListMB.pageList.currentPage eq reviewListMB.pageList.previousPage ? 'disabled' : ''}">
+											<h:commandLink actionListener="#{reviewListMB.searchReviews}" disabled="#{reviewListMB.pageList.currentPage eq reviewListMB.pageList.previousPage}" >
+												<f:param  name="page" value="#{reviewListMB.pageList.previousPage}" />
 												anterior
 											</h:commandLink>
 										</li>
 										
-										<ui:repeat var="page" value="#{projectReviewMB.pageList.pageList}">
-											<li class="#{projectReviewMB.pageList.currentPage eq page ? 'active' : ''}">
-												<h:commandLink actionListener="#{projectReviewMB.searchReviews}" disabled="#{projectReviewMB.pageList.currentPage eq page}" >
+										<ui:repeat var="page" value="#{reviewListMB.pageList.pageList}">
+											<li class="#{reviewListMB.pageList.currentPage eq page ? 'active' : ''}">
+												<h:commandLink actionListener="#{reviewListMB.searchReviews}" disabled="#{reviewListMB.pageList.currentPage eq page}" >
 													<f:param  name="page" value="#{page}" />
 													<h:outputText value="#{page}" />
 												</h:commandLink>
 											</li>
 										</ui:repeat>
 										
-										<li class="#{projectReviewMB.pageList.currentPage eq projectReviewMB.pageList.nextPage ? 'disabled' : ''}">
-											<h:commandLink actionListener="#{projectReviewMB.searchReviews}" disabled="#{projectReviewMB.pageList.currentPage eq projectReviewMB.pageList.nextPage}" >
-												<f:param  name="page" value="#{projectReviewMB.pageList.nextPage}" />
+										<li class="#{reviewListMB.pageList.currentPage eq reviewListMB.pageList.nextPage ? 'disabled' : ''}">
+											<h:commandLink actionListener="#{reviewListMB.searchReviews}" disabled="#{reviewListMB.pageList.currentPage eq reviewListMB.pageList.nextPage}" >
+												<f:param  name="page" value="#{reviewListMB.pageList.nextPage}" />
 												próximo
 											</h:commandLink>
 										</li>
 										
 										
-										<li class="#{projectReviewMB.pageList.currentPage eq projectReviewMB.pageList.lastPage ? 'disabled' : ''}">
-											<h:commandLink actionListener="#{projectReviewMB.searchReviews}" disabled="#{projectReviewMB.pageList.currentPage eq projectReviewMB.pageList.lastPage}" >
-												<f:param  name="page" value="#{projectReviewMB.pageList.lastPage}" />
+										<li class="#{reviewListMB.pageList.currentPage eq reviewListMB.pageList.lastPage ? 'disabled' : ''}">
+											<h:commandLink actionListener="#{reviewListMB.searchReviews}" disabled="#{reviewListMB.pageList.currentPage eq reviewListMB.pageList.lastPage}" >
+												<f:param  name="page" value="#{reviewListMB.pageList.lastPage}" />
 												»
 											</h:commandLink>
 										</li>

@@ -8,7 +8,6 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
 import javax.faces.event.ActionEvent;
-import javax.faces.event.AjaxBehaviorEvent;
 import javax.faces.event.ComponentSystemEvent;
 
 import br.ufba.dcc.mestrado.computacao.entities.ohloh.project.OhLohProjectEntity;
@@ -111,6 +110,10 @@ public class ProjectReviewManagedBean extends AbstractListingManagedBean<Long, P
 		this.preference = preference;
 	}
 
+	/**
+	 * 
+	 * @param event
+	 */
 	public void initNew(ComponentSystemEvent event) {
 		if (getProject() != null && getProject().getId() != null) {
 			this.project = getProjectService().findById(getProject().getId());
@@ -146,90 +149,11 @@ public class ProjectReviewManagedBean extends AbstractListingManagedBean<Long, P
 		}
 	}
 	
-	public void initList(ComponentSystemEvent event) {
-		if (getProject() != null && getProject().getId() != null) {
-			
-			this.dataModel = new LazyLoadingDataModel<Long, PreferenceEntity>() {
-
-				/**
-				 * 
-				 */
-				private static final long serialVersionUID = 1L;
-
-				@Override
-				public void load(int first, int pageSize) {
-					
-					List<PreferenceEntity> data = getPreferenceService().findAllLastReviewsByProject(getProject(), first, pageSize);
-					this.setWrappedData(data);
-					
-					Integer totalRecords = getPreferenceService().countAllLastReviewsByProject(getProject()).intValue();				
-					Integer currentPage = (first / pageSize) + 1;
-									
-					PageList pageList = new PageList(currentPage, totalRecords, pageSize);
-					setPageList(pageList);
-				}
-			};
-			
-			Integer first = 0;
-			Integer pageSize = 10;
-			
-			getDataModel().load(first, pageSize);
-		}
-	}
 	
-	public LazyLoadingDataModel<Long, PreferenceEntity> getDataModel() {
-		return dataModel;
-	}
-	
-	public void searchReviews(ActionEvent event) {
-		Integer startPosition = loadStartPositionFromParams();
-		Integer pageSize = getDataModel().getPageSize();
-		
-		getDataModel().load(startPosition, pageSize);
-	}
-	
-	public void addUsefulVoteToReview(AjaxBehaviorEvent event) {
-		PreferenceEntity preference = (PreferenceEntity)
-				event.getComponent().getAttributes().get("preference");
-		
-		if (preference != null && preference.getPreferenceReview() != null) {
-			UserEntity user = getUserDetailsService().loadFullLoggedUser();
-			
-			if (preference.getPreferenceReview().getUsefulList() == null) {
-				preference.getPreferenceReview().setUsefulList(new HashSet<UserEntity>());
-			}
-			
-			preference.getPreferenceReview().getUsefulList().add(user);
-			
-			try {
-				getPreferenceService().save(preference);
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
-		}
-	}
-	
-	public void addUselessVoteToReview(AjaxBehaviorEvent event) {
-		PreferenceEntity preference = (PreferenceEntity)
-				event.getComponent().getAttributes().get("preference");
-		
-		if (preference != null && preference.getPreferenceReview() != null) {
-			UserEntity user = getUserDetailsService().loadFullLoggedUser();
-			
-			if (preference.getPreferenceReview().getUselessList() == null) {
-				preference.getPreferenceReview().setUselessList(new HashSet<UserEntity>());
-			}
-			
-			preference.getPreferenceReview().getUselessList().add(user);
-			
-			try {
-				getPreferenceService().save(preference);
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
-		}
-	}
-	
+	/**
+	 * 
+	 * @return
+	 */
 	public String saveReview() {
 		
 		try {
