@@ -9,7 +9,7 @@
 	xmlns:p="http://xmlns.jcp.org/jsf/passthrough">
 	
 	<f:metadata>
-		<f:viewParam id="projectId" name="projectId" value="#{projectReviewMB.project.id}" required="true"  requiredMessage="#{messages['project.detail.error.projectId']}"  />
+		<f:viewParam id="projectId" name="projectId" value="#{projectReviewMB.project.id}" required="#{not facesContext.postback}"  requiredMessage="#{messages['project.detail.error.projectId']}"  />
 		<f:event listener="#{projectReviewMB.initList}" type="preRenderView"/>
 	</f:metadata>
 	
@@ -21,7 +21,14 @@
 			<ui:define name="content">
 				<section class="container">
 				
-					<h:form prependId="false" >						
+					<h:form prependId="false" >	
+					
+						<h:panelGroup id="alert" layout="block" styleClass="alert alert-danger col-md-12" rendered="#{projectReviewMB.project.id eq null}">
+							<strong>Vish! </strong>
+							<h:messages  />
+						</h:panelGroup>
+					
+										
 						<div class="row">
 						
 							<h:panelGroup id="reviewsPanel" layout="block">
@@ -108,7 +115,7 @@
 	      												</p>
 	      												<div class="col-md-8 pull-left">
 	      													<h:panelGroup layout="block" styleClass="small soft" 
-	      															rendered="#{ (not empty preference.preferenceReview.usefulList) or (not empty preference.preferenceReview.usefulList)}">
+	      															rendered="#{ (not empty preference.preferenceReview.usefulList) or (not empty preference.preferenceReview.uselessList)}">
 		      													<c:set var="totalVotes" value="#{fn:length(preference.preferenceReview.usefulList) + fn:length(preference.preferenceReview.uselessList)}" />
 		      													<h:outputText  value="#{fn:length(preference.preferenceReview.usefulList)}" /> 
 		      													de <h:outputText value="#{totalVotes}" /> avaliaram esta opinião como útil.
@@ -119,12 +126,14 @@
 		      													<span class="soft small italic">
 			      													Você achou esta avaliação útil?
 			      													
-			      													<h:commandLink style="text-decoration: none; margin-left: 10px" actionListener="#{projectReviewMB.addUsefulVoteToReview}">
-			      														<f:attribute name="preference" value="#{preference}" />
+			      													<h:commandLink style="text-decoration: none; margin-left: 10px" >
+			      														<f:attribute name="preference" value="#{preference}"  />
+			      														<f:ajax execute="@all" render="@form" listener="#{projectReviewMB.addUsefulVoteToReview}" />
 				      													<span class="glyphicon glyphicon-thumbs-up" /> Sim
 			      													</h:commandLink>
-			      													<h:commandLink style="text-decoration: none; margin-left: 10px" actionListener="#{projectReviewMB.addUselessVoteToReview}">
+			      													<h:commandLink style="text-decoration: none; margin-left: 10px" >
 			      														<f:attribute name="preference" value="#{preference}" />
+			      														<f:ajax execute="@all" render="@form" listener="#{projectReviewMB.addUselessVoteToReview}"  />
 				      													<span class="glyphicon glyphicon-thumbs-down" /> Não
 			      													</h:commandLink>
 		      													</span>
@@ -135,6 +144,10 @@
 											</ui:repeat>
 										</ul>
 									</section>
+									
+									<script type="text/javascript">
+    									$(function () { $('.rateit').rateit({ max: 10,  min: 0}); });
+									</script>
 								</h:panelGroup>
 								
 								<!-- Paginação -->

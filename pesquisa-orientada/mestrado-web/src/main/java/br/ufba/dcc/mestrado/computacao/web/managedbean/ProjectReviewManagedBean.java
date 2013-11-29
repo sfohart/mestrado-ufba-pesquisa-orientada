@@ -8,6 +8,7 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
 import javax.faces.event.ActionEvent;
+import javax.faces.event.AjaxBehaviorEvent;
 import javax.faces.event.ComponentSystemEvent;
 
 import br.ufba.dcc.mestrado.computacao.entities.ohloh.project.OhLohProjectEntity;
@@ -187,7 +188,7 @@ public class ProjectReviewManagedBean extends AbstractListingManagedBean<Long, P
 		getDataModel().load(startPosition, pageSize);
 	}
 	
-	public void addUsefulVoteToReview(ActionEvent event) {
+	public void addUsefulVoteToReview(AjaxBehaviorEvent event) {
 		PreferenceEntity preference = (PreferenceEntity)
 				event.getComponent().getAttributes().get("preference");
 		
@@ -208,7 +209,7 @@ public class ProjectReviewManagedBean extends AbstractListingManagedBean<Long, P
 		}
 	}
 	
-	public void addUselessVoteToReview(ActionEvent event) {
+	public void addUselessVoteToReview(AjaxBehaviorEvent event) {
 		PreferenceEntity preference = (PreferenceEntity)
 				event.getComponent().getAttributes().get("preference");
 		
