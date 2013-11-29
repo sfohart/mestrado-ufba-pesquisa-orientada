@@ -8,6 +8,7 @@ import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Expression;
+import javax.persistence.criteria.Join;
 import javax.persistence.criteria.JoinType;
 import javax.persistence.criteria.Path;
 import javax.persistence.criteria.Predicate;
@@ -18,6 +19,7 @@ import org.springframework.stereotype.Repository;
 
 import br.ufba.dcc.mestrado.computacao.entities.ohloh.project.OhLohProjectEntity;
 import br.ufba.dcc.mestrado.computacao.entities.recommender.preference.PreferenceEntity;
+import br.ufba.dcc.mestrado.computacao.entities.recommender.preference.PreferenceReviewEntity;
 import br.ufba.dcc.mestrado.computacao.entities.recommender.user.UserEntity;
 import br.ufba.dcc.mestrado.computacao.repository.base.OverallPreferenceRepository;
 
@@ -197,9 +199,17 @@ public class OverallPreferenceRepositoryImpl  extends BaseRepositoryImpl<Long, P
 		CriteriaQuery<PreferenceEntity> select = criteriaQuery.select(p1);
 		
 		if (onlyWithReviews) {
-			p1.fetch("preferenceReview", JoinType.INNER);
+			Join<PreferenceEntity, PreferenceReviewEntity> preferenceReviewFetch =
+					p1.join("preferenceReview", JoinType.INNER);
+			
+			preferenceReviewFetch.join("uselessList", JoinType.LEFT);
+			preferenceReviewFetch.join("usefulList", JoinType.LEFT);
 		} else {
-			p1.fetch("preferenceReview", JoinType.LEFT);
+			Join<PreferenceEntity, PreferenceReviewEntity> preferenceReviewFetch =
+					p1.join("preferenceReview", JoinType.LEFT);
+			
+			preferenceReviewFetch.join("uselessList", JoinType.LEFT);
+			preferenceReviewFetch.join("usefulList", JoinType.LEFT);
 		}
 		
 		p1.fetch("preferenceEntryList", JoinType.LEFT);

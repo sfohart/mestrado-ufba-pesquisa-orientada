@@ -1,6 +1,7 @@
 package br.ufba.dcc.mestrado.computacao.web.managedbean;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 
 import javax.faces.bean.ManagedBean;
@@ -184,6 +185,48 @@ public class ProjectReviewManagedBean extends AbstractListingManagedBean<Long, P
 		Integer pageSize = getDataModel().getPageSize();
 		
 		getDataModel().load(startPosition, pageSize);
+	}
+	
+	public void addUsefulVoteToReview(ActionEvent event) {
+		PreferenceEntity preference = (PreferenceEntity)
+				event.getComponent().getAttributes().get("preference");
+		
+		if (preference != null && preference.getPreferenceReview() != null) {
+			UserEntity user = getUserDetailsService().loadFullLoggedUser();
+			
+			if (preference.getPreferenceReview().getUsefulList() == null) {
+				preference.getPreferenceReview().setUsefulList(new HashSet<UserEntity>());
+			}
+			
+			preference.getPreferenceReview().getUsefulList().add(user);
+			
+			try {
+				getPreferenceService().save(preference);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+	}
+	
+	public void addUselessVoteToReview(ActionEvent event) {
+		PreferenceEntity preference = (PreferenceEntity)
+				event.getComponent().getAttributes().get("preference");
+		
+		if (preference != null && preference.getPreferenceReview() != null) {
+			UserEntity user = getUserDetailsService().loadFullLoggedUser();
+			
+			if (preference.getPreferenceReview().getUselessList() == null) {
+				preference.getPreferenceReview().setUselessList(new HashSet<UserEntity>());
+			}
+			
+			preference.getPreferenceReview().getUselessList().add(user);
+			
+			try {
+				getPreferenceService().save(preference);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
 	}
 	
 	public String saveReview() {

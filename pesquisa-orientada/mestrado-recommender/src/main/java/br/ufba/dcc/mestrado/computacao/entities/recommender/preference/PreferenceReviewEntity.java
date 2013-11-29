@@ -1,6 +1,6 @@
 package br.ufba.dcc.mestrado.computacao.entities.recommender.preference;
 
-import java.util.List;
+import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -12,6 +12,7 @@ import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.persistence.UniqueConstraint;
 
 import br.ufba.dcc.mestrado.computacao.entities.BaseEntity;
 import br.ufba.dcc.mestrado.computacao.entities.recommender.user.UserEntity;
@@ -45,17 +46,19 @@ public class PreferenceReviewEntity implements BaseEntity<Long> {
 	@JoinTable(
 		name="review_useful_users",
 		joinColumns=@JoinColumn(name="review_id", referencedColumnName="id"),
-		inverseJoinColumns=@JoinColumn(name="user_id", referencedColumnName="id")
+		inverseJoinColumns=@JoinColumn(name="user_id", referencedColumnName="id"),
+		uniqueConstraints=@UniqueConstraint(columnNames={"review_id","user_id"})
 	)
-	private List<UserEntity> usefulList;
+	private Set<UserEntity> usefulList;
 	
 	@ManyToMany(cascade=CascadeType.ALL)
 	@JoinTable(
 		name="review_useless_users",
 		joinColumns=@JoinColumn(name="review_id", referencedColumnName="id"),
-		inverseJoinColumns=@JoinColumn(name="user_id", referencedColumnName="id")
+		inverseJoinColumns=@JoinColumn(name="user_id", referencedColumnName="id"),
+		uniqueConstraints=@UniqueConstraint(columnNames={"review_id","user_id"})
 	)
-	private List<UserEntity> uselessList;
+	private Set<UserEntity> uselessList;
 
 	public Long getId() {
 		return id;
@@ -89,19 +92,19 @@ public class PreferenceReviewEntity implements BaseEntity<Long> {
 		this.preference = preference;
 	}
 
-	public List<UserEntity> getUsefulList() {
+	public Set<UserEntity> getUsefulList() {
 		return usefulList;
 	}
 
-	public void setUsefulList(List<UserEntity> usefulList) {
+	public void setUsefulList(Set<UserEntity> usefulList) {
 		this.usefulList = usefulList;
 	}
 
-	public List<UserEntity> getUselessList() {
+	public Set<UserEntity> getUselessList() {
 		return uselessList;
 	}
 
-	public void setUselessList(List<UserEntity> uselessList) {
+	public void setUselessList(Set<UserEntity> uselessList) {
 		this.uselessList = uselessList;
 	}
 
