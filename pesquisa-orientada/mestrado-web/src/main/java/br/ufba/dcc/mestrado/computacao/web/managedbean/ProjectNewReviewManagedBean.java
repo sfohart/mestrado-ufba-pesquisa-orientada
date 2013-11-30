@@ -23,9 +23,9 @@ import br.ufba.dcc.mestrado.computacao.service.basic.RepositoryBasedUserDetailsS
 import br.ufba.dcc.mestrado.computacao.web.pagination.LazyLoadingDataModel;
 import br.ufba.dcc.mestrado.computacao.web.pagination.PageList;
 
-@ManagedBean(name="projectReviewMB", eager=true)
+@ManagedBean(name="newReviewMB", eager=true)
 @ViewScoped
-public class ProjectReviewManagedBean extends AbstractListingManagedBean<Long, PreferenceEntity> {
+public class ProjectNewReviewManagedBean extends AbstractListingManagedBean<Long, PreferenceEntity> {
 	
 	/**
 	 * 
@@ -49,7 +49,7 @@ public class ProjectReviewManagedBean extends AbstractListingManagedBean<Long, P
 	@ManagedProperty("#{repositoryBasedUserDetailsService}")
 	private RepositoryBasedUserDetailsService userDetailsService;
 	
-	public ProjectReviewManagedBean() {
+	public ProjectNewReviewManagedBean() {
 		this.project = new OhLohProjectEntity();
 	}
 	
@@ -162,7 +162,7 @@ public class ProjectReviewManagedBean extends AbstractListingManagedBean<Long, P
 			e.printStackTrace();
 		}
 		
-		return "projectReviews.jsf?faces-redirect=true&includeViewParams=true&projectId=" + project.getId();
+		return "summaryReviews.jsf?faces-redirect=true&includeViewParams=true&projectId=" + project.getId();
 	}
 
 }

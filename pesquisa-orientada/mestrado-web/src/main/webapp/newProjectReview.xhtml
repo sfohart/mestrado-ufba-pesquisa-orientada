@@ -8,9 +8,8 @@
 
 <f:metadata>
 	<f:viewParam id="projectId" name="projectId"
-		value="#{projectReviewMB.project.id}" required="true"
-		requiredMessage="#{messages['project.review.error.projectId']}" />
-	<f:event listener="#{projectReviewMB.initNew}" type="preRenderView" />
+		value="#{newReviewMB.project.id}" required="true" requiredMessage="#{messages['project.review.error.projectId']}" />
+	<f:event listener="#{newReviewMB.initNew}" type="preRenderView" />
 </f:metadata>
 
 <h:body>
@@ -22,7 +21,7 @@
 			<section class="container">
 				<h:panelGroup id="projectReviewError" layout="block"
 					styleClass="alert alert-danger col-md-12"
-					rendered="#{projectReviewMB.project.id eq null}">
+					rendered="#{newReviewMB.project.id eq null}">
 					<strong>Vish! </strong>
 					<h:message for="projectId" />
 				</h:panelGroup>
@@ -31,12 +30,12 @@
 					<div class="col-md-1">
 						<a class="pull-left" href="#"> <img class="media-object"
 							data-src="holder.js/64x64"
-							src="#{projectReviewMB.project.mediumLogoURL}" />
+							src="#{newReviewMB.project.mediumLogoURL}" />
 						</a>
 					</div>
 					<div class="col-md-9">
 						<h2>
-							<h:outputText value="#{projectReviewMB.project.name}" />
+							<h:outputText value="#{newReviewMB.project.name}" />
 						</h2>
 					</div>
 				</h:panelGroup>
@@ -45,7 +44,7 @@
 					<hr />
 					<h3>
 						<h:outputLink value="projectReviews.jsf">
-							<f:param name="projectId" value="#{projectReviewMB.project.id}" />
+							<f:param name="projectId" value="#{newReviewMB.project.id}" />
 								Avaliações:
 							</h:outputLink>
 						Nova
@@ -67,7 +66,7 @@
 										<fieldset>
 											<legend>Critérios Individuais</legend>
 											<ui:repeat var="preferenceEntry"
-												value="#{projectReviewMB.preference.preferenceEntryList}"
+												value="#{newReviewMB.preference.preferenceEntryList}"
 												varStatus="status">
 												<div
 													class="col-md-6 #{status.even ? 'pull-right' : 'pull-left'}">
@@ -106,7 +105,7 @@
 												<div class="row">
 													<div class="form-group">
 														<h:inputText type="range" styleClass="criterioGeral"
-															value="#{projectReviewMB.preference.value}" min="0"
+															value="#{newReviewMB.preference.value}" min="0"
 															max="10" />
 														<div class="rateit"
 															data-rateit-backingfld=".criterioGeral"
@@ -131,20 +130,20 @@
 										<div class="form-group">
 											<h:outputLabel for="reviewTitle">Título</h:outputLabel>
 											<h:inputText id="reviewTitle" styleClass="form-control"
-												value="#{projectReviewMB.preference.preferenceReview.title}" />
+												value="#{newReviewMB.preference.preferenceReview.title}" />
 										</div>
 
 										<div class="form-group">
 											<h:outputLabel for="reviewDescription">Descrição</h:outputLabel>
 											<h:inputTextarea id="reviewDescription"
 												styleClass="form-control" rows="5"
-												value="#{projectReviewMB.preference.preferenceReview.description}" />
+												value="#{newReviewMB.preference.preferenceReview.description}" />
 										</div>
 									</div>
 								</div>
 
 								<h:commandButton styleClass="btn btn-primary" value="Enviar"
-									action="#{projectReviewMB.saveReview}">
+									action="#{newReviewMB.saveReview}">
 								</h:commandButton>
 							</h:form>
 						</div>

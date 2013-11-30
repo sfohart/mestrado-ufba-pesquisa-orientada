@@ -29,7 +29,7 @@
 					<h:panelGroup id="projectTitle" layout="block" styleClass="row">
 						<div class="col-md-1">
 							<a class="pull-left" href="#">
-								<img class="media-object" data-src="holder.js/64x64" src="#{projectDetailMB.project.mediumLogoURL}"  />
+								<img class="media-object" height="64" width="64" src="#{projectDetailMB.project.mediumLogoURL}"  />
 							</a>
 						</div>
 						<div class="col-md-9">
@@ -215,7 +215,7 @@
 						
 						
 						<div class="col-md-4">
-							<h:outputLink value="projectReviews.jsf" >
+							<h:outputLink value="summaryReviews.jsf" >
 								<f:param name="projectId" value="#{projectDetailMB.project.id}" />
 								<h5>Avaliações</h5>
 							</h:outputLink>
