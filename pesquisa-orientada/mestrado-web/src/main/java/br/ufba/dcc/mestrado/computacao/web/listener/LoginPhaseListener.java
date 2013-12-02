@@ -11,7 +11,9 @@ import javax.faces.event.PhaseListener;
 
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.web.WebAttributes;
+import org.springframework.stereotype.Component;
 
+@Component
 public class LoginPhaseListener implements PhaseListener{
 
 	/**
@@ -21,14 +23,22 @@ public class LoginPhaseListener implements PhaseListener{
 	
 	protected final static Logger logger = Logger.getLogger(LoginPhaseListener.class.getName());
 	
-	public void afterPhase(PhaseEvent event) {
-		
-	}
 	
 	/**
-	 * Exibe mensagem no caso de login falhar
+	 * Verifica o login via Facebook, Twitter, etc
 	 */
+	public void afterPhase(PhaseEvent event) {
+	}
+
 	public void beforePhase(PhaseEvent event) {
+		verifyLocalSignIn();
+	}
+	
+	
+	/**
+	 * Exibe mensagem no caso de login interno falhar
+	 */
+	protected void verifyLocalSignIn() {
 		Exception authenticationException = (Exception) FacesContext
 				.getCurrentInstance()
 				.getExternalContext()
