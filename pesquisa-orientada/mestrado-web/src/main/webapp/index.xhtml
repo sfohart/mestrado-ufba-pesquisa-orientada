@@ -7,6 +7,10 @@
 	xmlns:p="http://xmlns.jcp.org/jsf/passthrough"
 	>
 
+	<f:metadata>
+		<f:event listener="#{facebookMB.processFacebookLogin}" type="preRenderView"  />
+	</f:metadata>
+
 	<h:body>
 		<ui:composition template="layout/mainLayout.xhtml">
 			<ui:define name="titlePage">Sfohart</ui:define>

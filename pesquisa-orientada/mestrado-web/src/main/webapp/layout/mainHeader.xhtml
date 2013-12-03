@@ -46,8 +46,9 @@
   						<h:outputLink  class="btn" value="login.jsf" style="margin-right: 10px" >
   							<span class="glyphicon glyphicon-user"></span> 
   							<h:outputText
+  								rendered="#{loginMB.loggedUser.firstName != null}"
   								style="margin-left: 10px; vertical-align: middle" 
-  								value="#{loginMB.loggedUser.login}" />
+  								value="#{loginMB.loggedUser.firstName}" />
   						</h:outputLink>
   						<h:commandLink class="btn" action="#{loginMB.signOut}" >
   							<span class="glyphicon glyphicon-log-out"></span> Sair

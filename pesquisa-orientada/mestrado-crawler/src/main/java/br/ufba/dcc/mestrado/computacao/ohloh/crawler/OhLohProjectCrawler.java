@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.context.support.AbstractApplicationContext;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
 import br.ufba.dcc.mestrado.computacao.entities.ohloh.OhLohCrawlerEnlistmentEntity;
@@ -301,6 +302,7 @@ public class OhLohProjectCrawler {
 		}
 	}
 	
+	@Scheduled(cron="0 0 0 * * *")
 	public void run() throws Exception {
 		
 		downloadLanguages();

@@ -33,7 +33,12 @@ public class UserServiceImpl extends BaseOhLohServiceImpl<Long, UserEntity>
 	public UserEntity findByLogin(String login) {
 		return ((UserRepository)  getRepository()).findByLogin(login);
 	}
-
+	
+	@Transactional
+	@Override
+	public UserEntity findBySocialLogin(String socialUsername) {
+		return ((UserRepository)  getRepository()).findBySocialLogin(socialUsername);
+	}
 	
 	@Override
 	@Transactional

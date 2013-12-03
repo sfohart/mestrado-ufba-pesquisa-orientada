@@ -8,7 +8,7 @@ import org.springframework.web.context.request.NativeWebRequest;
 
 import br.ufba.dcc.mestrado.computacao.service.basic.SpringSecuritySignInAdapter;
 
-@Service
+@Service("springSecuritySignInAdapter")
 public class SpringSecuritySignInAdapterImpl implements SpringSecuritySignInAdapter {
 
 	@Override

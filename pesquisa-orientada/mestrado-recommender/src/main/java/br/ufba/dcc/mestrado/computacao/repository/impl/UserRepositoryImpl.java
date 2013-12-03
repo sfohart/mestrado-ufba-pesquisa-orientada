@@ -30,6 +30,36 @@ public class UserRepositoryImpl extends BaseRepositoryImpl<Long, UserEntity>
 		super(UserEntity.class);
 	}
 
+	
+	public UserEntity findBySocialLogin(String socialUsername) {
+		CriteriaBuilder criteriaBuilder = getEntityManager()
+				.getCriteriaBuilder();
+		CriteriaQuery<UserEntity> criteriaQuery = criteriaBuilder
+				.createQuery(getEntityClass());
+		
+		Root<UserEntity> root = criteriaQuery.from(getEntityClass());
+		CriteriaQuery<UserEntity> select = criteriaQuery.select(root);
+		
+		Predicate facebookPredicate = criteriaBuilder.equal(root.get("facebookAccount"), socialUsername);
+		Predicate twitterPredicate = criteriaBuilder.equal(root.get("twitterAccount"), socialUsername);
+		
+		Predicate socialPredicate = criteriaBuilder.or(facebookPredicate, twitterPredicate);
+		select.where(socialPredicate);
+		
+		TypedQuery<UserEntity> query = getEntityManager().createQuery(
+				criteriaQuery);
+
+		UserEntity result = null;
+
+		try {
+			result = query.getSingleResult();
+		} catch (NoResultException ex) {
+		} catch (NonUniqueResultException ex) {
+		}
+
+		return result;
+	}
+	
 	@Override
 	public UserEntity findByLogin(String login) {
 		CriteriaBuilder criteriaBuilder = getEntityManager()

@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
@@ -17,7 +18,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import br.ufba.dcc.mestrado.computacao.entities.recommender.user.RoleEnum;
 import br.ufba.dcc.mestrado.computacao.entities.recommender.user.UserEntity;
-import br.ufba.dcc.mestrado.computacao.repository.base.UserRepository;
+import br.ufba.dcc.mestrado.computacao.service.base.UserService;
 import br.ufba.dcc.mestrado.computacao.service.basic.RepositoryBasedUserDetailsService;
 
 @Service(RepositoryBasedUserDetailsServiceImpl.BEAN_NAME)
@@ -25,16 +26,16 @@ import br.ufba.dcc.mestrado.computacao.service.basic.RepositoryBasedUserDetailsS
 public class RepositoryBasedUserDetailsServiceImpl implements RepositoryBasedUserDetailsService {
 	
 	@Autowired
-	private UserRepository userRepository;
+	private UserService userService;
 	
 	public static final String BEAN_NAME =  "repositoryBasedUserDetailsService";
 	
-	public UserRepository getUserRepository() {
-		return userRepository;
+	public UserService getUserService() {
+		return userService;
 	}
 	
-	public void setUserRepository(UserRepository userRepository) {
-		this.userRepository = userRepository;
+	public void setUserService(UserService userService) {
+		this.userService = userService;
 	}
 	
 	@Override
@@ -44,7 +45,11 @@ public class RepositoryBasedUserDetailsServiceImpl implements RepositoryBasedUse
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 		
 		if (authentication != null) {
-			account = getUserRepository().findByLogin(authentication.getName()); 
+			account = getUserService().findByLogin(authentication.getName()); 
+			
+			if (account == null) {
+				account = getUserService().findBySocialLogin(authentication.getName());
+			}
 		}
 		
 		return account;
@@ -55,19 +60,24 @@ public class RepositoryBasedUserDetailsServiceImpl implements RepositoryBasedUse
 	 */
 	@Override	
 	public UserDetails loadUserByUsername(String login) throws UsernameNotFoundException {
-		UserEntity account = getUserRepository().findByLogin(login);
+		UserEntity account = getUserService().findByLogin(login);
+		
+		if (account == null) {
+			account = getUserService().findBySocialLogin(login);
+		}
 		
 		if (account != null) {
-			boolean enabled = (account.getEnabled() != null ? account.getEnabled().booleanValue() : true);
-			
+			boolean enabled = (account.getEnabled() != null ? account.getEnabled().booleanValue() : true);			
 			boolean accountNonExpired = true;
 			boolean credentialsNonExpired = true;
 			
 			boolean accountNonLocked = (account.getLocked() != null ? ! account.getLocked() : true);
 			
-			UserDetails user = new User(
-				account.getLogin(),
-				account.getPassword().toLowerCase(),
+			String password = StringUtils.isEmpty(account.getPassword()) ? null : account.getPassword().toLowerCase();
+			
+			UserDetails userDetails = new User(
+				login,
+				password,
 				enabled,
 				accountNonExpired,
 				credentialsNonExpired,
@@ -75,7 +85,7 @@ public class RepositoryBasedUserDetailsServiceImpl implements RepositoryBasedUse
 				getAuthorities(account)
 			);
 			
-			return user;
+			return userDetails;
 		} else {
 			throw new UsernameNotFoundException("Este usuário não existe no sistema");
 		}
@@ -86,7 +96,7 @@ public class RepositoryBasedUserDetailsServiceImpl implements RepositoryBasedUse
 	 * @param account
 	 * @return
 	 */
-	public Collection<? extends GrantedAuthority> getAuthorities(UserEntity account) {
+	public Collection<GrantedAuthority> getAuthorities(UserEntity account) {
 		List<GrantedAuthority> grantedAuthorities = new ArrayList<>();
 		
 		if (account != null && account.getRoleList() != null) {

@@ -34,7 +34,7 @@ public class IndexerRunner {
 	 * 
 	 *  
 	 */
-	@Scheduled(cron="0 */10 * * * *")
+	@Scheduled(cron="0 0 0 * * *")
 	public void run() {
 		Timestamp duration = null;
 		logger.info("Iniciando recriação dos índices do hibernate/lucene");

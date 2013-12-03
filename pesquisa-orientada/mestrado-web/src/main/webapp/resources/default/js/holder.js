@@ -46,7 +46,7 @@ var settings = {
 			foreground: "#aaa",
 			size: 12
 		},
-		"social": {
+		"br.ufba.dcc.mestrado.computacao.social": {
 			background: "#3a5a97",
 			foreground: "#fff",
 			size: 12

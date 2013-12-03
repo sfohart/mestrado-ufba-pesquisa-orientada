@@ -14,12 +14,16 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.persistence.UniqueConstraint;
 
 import br.ufba.dcc.mestrado.computacao.entities.BaseEntity;
 import br.ufba.dcc.mestrado.computacao.entities.ohloh.account.OhLohAccountEntity;
 
 @Entity
-@Table(name=UserEntity.NODE_NAME)
+@Table(
+		name=UserEntity.NODE_NAME,
+		uniqueConstraints=@UniqueConstraint(columnNames={"login","facebook_account","twitter_account"})
+)
 public class UserEntity implements BaseEntity<Long>{
 
 	/**
@@ -37,16 +41,22 @@ public class UserEntity implements BaseEntity<Long>{
 	@JoinColumn(name="ohloh_account_id", referencedColumnName="id")
 	private OhLohAccountEntity ohLohAccount;
 		
-	@Column(nullable = false, unique = true)
 	private String login;
 	
-	@Column(nullable = false)
 	private String password;
 	
-	@Column(nullable = false)
 	private String email;
 		
 	private String name;
+	
+	@Column(name = "first_name")
+	private String firstName;
+	
+	@Column(name = "last_name")
+	private String lastName;
+	
+	@Column(name = "middle_name")
+	private String middleName;
 	
 	@Column(name = "facebook_account")
 	private String facebookAccount;
@@ -191,6 +201,30 @@ public class UserEntity implements BaseEntity<Long>{
 		} else if (!login.equals(other.login))
 			return false;
 		return true;
+	}
+
+	public String getFirstName() {
+		return firstName;
+	}
+
+	public void setFirstName(String firstName) {
+		this.firstName = firstName;
+	}
+
+	public String getLastName() {
+		return lastName;
+	}
+
+	public void setLastName(String lastName) {
+		this.lastName = lastName;
+	}
+
+	public String getMiddleName() {
+		return middleName;
+	}
+
+	public void setMiddleName(String middleName) {
+		this.middleName = middleName;
 	}
 	
 	

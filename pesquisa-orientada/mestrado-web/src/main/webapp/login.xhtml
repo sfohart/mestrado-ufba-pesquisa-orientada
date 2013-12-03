@@ -3,9 +3,12 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:ui="http://java.sun.com/jsf/facelets"
-	xmlns:f="http://java.sun.com/jsf/core"
-	xmlns:pretty="http://ocpsoft.com/prettyfaces"
+	xmlns:f="http://java.sun.com/jsf/core"	
 	xmlns:p="http://xmlns.jcp.org/jsf/passthrough">
+
+	<f:metadata>
+		<f:event listener="#{loginMB.verifyLocalSignIn}" type="preRenderView"  />
+	</f:metadata>
 
 	<h:body>
 		<ui:composition template="layout/mainLayout.xhtml">
@@ -51,7 +54,7 @@
 							</p>
 							<p>
 								<h:form>
-									<h:commandLink styleClass="btn btn-facebook" action="#{loginMB.signInWithFacebook}">
+									<h:commandLink styleClass="btn btn-facebook" action="#{facebookMB.signInWithFacebook}">
 										<span class="fa fa-facebook"></span> | Conectar com o Facebook
 									</h:commandLink>
 								</h:form>
