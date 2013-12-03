@@ -1,7 +1,6 @@
 package br.ufba.dcc.mestrado.computacao.web.managedbean;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.ResourceBundle;
@@ -28,11 +27,11 @@ import org.springframework.social.oauth2.GrantType;
 import org.springframework.social.oauth2.OAuth2Operations;
 import org.springframework.social.oauth2.OAuth2Parameters;
 
-import br.ufba.dcc.mestrado.computacao.entities.recommender.user.RoleEnum;
 import br.ufba.dcc.mestrado.computacao.entities.recommender.user.UserEntity;
 import br.ufba.dcc.mestrado.computacao.service.base.UserService;
 import br.ufba.dcc.mestrado.computacao.service.basic.RepositoryBasedUserDetailsService;
-import br.ufba.dcc.mestrado.computacao.social.ExtendedReadFacebookPermissions;
+import br.ufba.dcc.mestrado.computacao.social.permissions.EmailFacebookPermissions;
+import br.ufba.dcc.mestrado.computacao.social.permissions.ExtendedReadFacebookPermissions;
 
 @ManagedBean(name = "facebookMB")
 @SessionScoped
@@ -123,6 +122,8 @@ public class FacebookManagedBean {
 		buffer.append(ExtendedReadFacebookPermissions.read_friendlists);
 		buffer.append(",");
 		buffer.append(ExtendedReadFacebookPermissions.user_online_presence);
+		buffer.append(",");
+		buffer.append(EmailFacebookPermissions.email);
 		
 		oAuth2Parameters.setScope(buffer.toString());
 	}
@@ -144,6 +145,7 @@ public class FacebookManagedBean {
         		String userId = null;
         		
         		List<String> userIds = getUserConnectionRepository().findUserIdsWithConnection(connection);
+        		
         		if (userIds.isEmpty()) {
         			userId = facebookProfile.getUsername();
         			getUserConnectionRepository().createConnectionRepository(userId).addConnection(connection);
@@ -155,7 +157,7 @@ public class FacebookManagedBean {
         		}
         		
         		if (! StringUtils.isEmpty(userId)) {
-        			UserEntity userEntity = saveSocialUser(facebookProfile, userId);
+        			UserEntity userEntity = getUserService().findBySocialLogin(userId);
         			
         			List<GrantedAuthority> authorityList = (List<GrantedAuthority>) getRepositoryBasedUserDetailsService().getAuthorities(userEntity);
         			        			
@@ -166,50 +168,6 @@ public class FacebookManagedBean {
         		}
         	}
         }
-	}
-
-	protected UserEntity saveSocialUser(FacebookProfile facebookProfile, String userId) {
-		UserEntity userEntity = getUserService().findBySocialLogin(userId);
-		if (userEntity == null) {
-			userEntity = new UserEntity();
-			
-			List<RoleEnum> roleList = new ArrayList<>();
-			roleList.add(RoleEnum.ROLE_USER);
-			
-			userEntity.setRoleList(roleList);
-		}
-		
-		if (StringUtils.isEmpty(userEntity.getFacebookAccount())) {
-			userEntity.setFacebookAccount(facebookProfile.getUsername());
-		}
-		
-		if (StringUtils.isEmpty(userEntity.getName())) {
-			userEntity.setName(facebookProfile.getName());
-		}
-		
-		if (StringUtils.isEmpty(userEntity.getFirstName())) {
-			userEntity.setFirstName(facebookProfile.getFirstName());
-		}
-		
-		if (StringUtils.isEmpty(userEntity.getLastName())) {
-			userEntity.setLastName(facebookProfile.getLastName());
-		}
-		
-		if (StringUtils.isEmpty(userEntity.getMiddleName())) {
-			userEntity.setMiddleName(facebookProfile.getMiddleName());
-		}
-		
-		if (StringUtils.isEmpty(userEntity.getEmail())) {
-			userEntity.setEmail(facebookProfile.getEmail());
-		}
-		
-		try {
-			getUserService().save(userEntity);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		
-		return userEntity;
 	}
 
 }

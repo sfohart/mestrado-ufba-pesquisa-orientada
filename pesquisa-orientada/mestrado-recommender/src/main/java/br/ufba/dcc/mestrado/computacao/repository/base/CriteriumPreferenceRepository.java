@@ -16,6 +16,15 @@ public interface CriteriumPreferenceRepository extends BaseRepository<Long, Pref
 	 */
 	Long countAllByCriterium(Long criteriumID);
 	
+	
+	/**
+	 * 
+	 * @param projectId
+	 * @param criteriumId
+	 * @return
+	 */
+	Double averagePreferenceByProjectAndCriterium(Long projectId, Long criteriumId);
+	
 	/**
 	 * 
 	 * @param criteriumID

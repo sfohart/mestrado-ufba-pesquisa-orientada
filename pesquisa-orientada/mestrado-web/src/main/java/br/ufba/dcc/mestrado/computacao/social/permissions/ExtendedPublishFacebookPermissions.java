@@ -1,4 +1,4 @@
-package br.ufba.dcc.mestrado.computacao.social;
+package br.ufba.dcc.mestrado.computacao.social.permissions;
 
 public enum ExtendedPublishFacebookPermissions {
 	ads_management,

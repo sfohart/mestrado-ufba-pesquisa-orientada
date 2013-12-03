@@ -1,5 +1,6 @@
 package br.ufba.dcc.mestrado.computacao.repository.impl;
 
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -9,17 +10,20 @@ import javax.persistence.Tuple;
 import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Expression;
 import javax.persistence.criteria.Join;
 import javax.persistence.criteria.JoinType;
 import javax.persistence.criteria.Path;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
+import javax.persistence.criteria.Subquery;
 
 import org.apache.mahout.cf.taste.impl.model.GenericPreference;
 import org.apache.mahout.cf.taste.model.Preference;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
+import br.ufba.dcc.mestrado.computacao.entities.ohloh.project.OhLohProjectEntity;
 import br.ufba.dcc.mestrado.computacao.entities.recommender.preference.PreferenceEntity;
 import br.ufba.dcc.mestrado.computacao.entities.recommender.preference.PreferenceEntryEntity;
 import br.ufba.dcc.mestrado.computacao.repository.base.CriteriumPreferenceRepository;
@@ -47,7 +51,7 @@ public class CriteriumPreferenceRepositoryImpl extends BaseRepositoryImpl<Long, 
 
 	@Override
 	@Transactional(readOnly = true)
-	public Long countAllByCriterium(Long criteriumID) {
+	public Long countAllByCriterium(Long criteriumId) {
 		CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
 		
 		CriteriaQuery<Long> countQuery = criteriaBuilder.createQuery(Long.class);
@@ -57,12 +61,50 @@ public class CriteriumPreferenceRepositoryImpl extends BaseRepositoryImpl<Long, 
 		
 		countQuery.select(criteriaBuilder.countDistinct(root));
 		
-		Predicate predicate = criteriaBuilder.equal(join.get("criteriumId"), criteriumID);
+		Predicate predicate = criteriaBuilder.equal(join.get("criteriumId"), criteriumId);
 		countQuery.where(predicate);
 		
 		Long countResult = entityManager.createQuery(countQuery).getSingleResult();
 		
 		return countResult;
+	}
+	
+	public Double averagePreferenceByProjectAndCriterium(Long projectId, Long criteriumId) {
+		CriteriaBuilder criteriaBuilder = getEntityManager().getCriteriaBuilder();
+		CriteriaQuery<Double> criteriaQuery = criteriaBuilder.createQuery(Double.class);
+		
+		Root<PreferenceEntity> p1 = criteriaQuery.from(getEntityClass());
+		Join<PreferenceEntity, PreferenceEntryEntity> join = p1.join("preferenceEntryList", JoinType.LEFT);
+				
+		Path<Double> valuePath = join.get("value");
+		
+		CriteriaQuery<Double> select = criteriaQuery.select(criteriaBuilder.avg( valuePath ));
+		
+		//filtrando por projeto
+		Predicate projectPredicate = criteriaBuilder.equal(p1.get("projectId"), projectId);
+		
+		//filtrando por critério de recomendação
+		Predicate criteriumPredicate = criteriaBuilder.equal(join.get("criteriumId"), criteriumId);
+		
+		/*
+		 * Criando subquery para trazer os últimos registros de cada usuario/projeto
+		 */
+		Subquery<Timestamp> subquery = criteriaQuery.subquery(Timestamp.class);
+		
+		Root<PreferenceEntity> p2 = subquery.from(getEntityClass());
+		Expression<Timestamp> greatestRegisteredAt = p2.get("registeredAt");
+		
+		subquery.select(criteriaBuilder.greatest((greatestRegisteredAt)));
+		subquery.where(criteriaBuilder.equal(p1.get("userId"), p2.get("userId")));
+		
+		Predicate registeredAtPredicate = criteriaBuilder.equal(p1.get("registeredAt"), subquery);
+		
+		select.where(
+				projectPredicate, 
+				registeredAtPredicate, 
+				criteriumPredicate);
+		
+		return getEntityManager().createQuery(criteriaQuery).getSingleResult();
 	}
 	
 	@Override

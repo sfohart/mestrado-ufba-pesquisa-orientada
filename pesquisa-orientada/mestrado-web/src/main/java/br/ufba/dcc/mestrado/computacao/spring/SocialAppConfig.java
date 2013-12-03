@@ -18,6 +18,7 @@ import org.springframework.social.facebook.connect.FacebookConnectionFactory;
 import org.springframework.web.filter.HiddenHttpMethodFilter;
 
 import br.ufba.dcc.mestrado.computacao.service.impl.SpringSecuritySignInAdapterImpl;
+import br.ufba.dcc.mestrado.computacao.social.connect.UserConnectionSignUp;
 
 @Configuration
 @PropertySource(
@@ -32,6 +33,9 @@ public class SocialAppConfig {
 	
 	@Autowired
 	private DataSource dataSource;
+	
+	@Autowired
+	private UserConnectionSignUp connectionSignUp;
 
 	@Bean
 	public ConnectionFactoryLocator connectionFactoryLocator() {
@@ -60,6 +64,7 @@ public class SocialAppConfig {
 		
 		
 		usersConnectionRepository.setTablePrefix("social_");
+		usersConnectionRepository.setConnectionSignUp(connectionSignUp);
 		
 		return usersConnectionRepository;
 	}
