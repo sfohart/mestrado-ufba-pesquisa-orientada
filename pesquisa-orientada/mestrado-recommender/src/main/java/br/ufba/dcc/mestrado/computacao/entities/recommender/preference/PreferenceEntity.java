@@ -47,7 +47,7 @@ public class PreferenceEntity implements BaseEntity<Long> {
 	private OhLohProjectEntity project;
 	
 	@Column(name = "value_preference")
-	private Float value;
+	private Double value;
 	
 	@OneToMany(mappedBy = "preference", cascade=CascadeType.ALL)
 	private List<PreferenceEntryEntity> preferenceEntryList;
@@ -98,11 +98,11 @@ public class PreferenceEntity implements BaseEntity<Long> {
 		this.project = project;
 	}
 
-	public Float getValue() {
+	public Double getValue() {
 		return value;
 	}
 
-	public void setValue(Float value) {
+	public void setValue(Double value) {
 		this.value = value;
 	}
 

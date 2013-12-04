@@ -39,7 +39,7 @@ public class PreferenceEntryEntity implements BaseEntity<Long> {
 	private PreferenceEntity preference;
 	
 	@Column(name = "value_preference")
-	private Float value;
+	private Double value;
 	
 	public Long getId() {
 		return id;
@@ -73,11 +73,11 @@ public class PreferenceEntryEntity implements BaseEntity<Long> {
 		this.preference = preference;
 	}
 
-	public Float getValue() {
+	public Double getValue() {
 		return value;
 	}
 
-	public void setValue(Float value) {
+	public void setValue(Double value) {
 		this.value = value;
 	}
 	

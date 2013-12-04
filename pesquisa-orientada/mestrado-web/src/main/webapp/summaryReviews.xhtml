@@ -40,7 +40,7 @@
 					
 					<hr />
 					
-					<h:panelGroup id="summaryReviews" layout="block" styleClass="row">
+					<h:panelGroup layout="block" styleClass="row">
 					
 						<div class="col-md-3">
 							<h3>Avaliações e Opiniões</h3>
@@ -49,10 +49,10 @@
 								<b>Avaliação média</b>
 								<div class="rateit" data-rateit-readonly="true"
 									data-rateit-min="0" data-rateit-max="10"
-									data-rateit-value="#{summaryReviewsMB.averageOverallPreferenceValue}" data-rateit-ispreset="true"  />
+									data-rateit-value="#{summaryReviewsMB.averagePreference.value}" data-rateit-ispreset="true"  />
 								<br />
 								Avaliação média: 
-								<h:outputText value="#{summaryReviewsMB.averageOverallPreferenceValue}" >
+								<h:outputText value="#{summaryReviewsMB.averagePreference.value}" >
 									<f:convertNumber maxFractionDigits="2" maxIntegerDigits="2" pattern="#0.00" />
 								</h:outputText> / 10
 								<br />
@@ -73,6 +73,67 @@
 						</div>
 					
 					</h:panelGroup>
+					
+					<hr />
+					
+					<h:panelGroup layout="block" styleClass="row">
+						<div class="col-md-9 col-md-offset-3">
+							<h3>Avaliação média por Critério</h3>
+							<table class="table table-condensed unstyled pull-left" style="width: 75%" >
+								<tbody>
+									<ui:repeat var="entry" value="#{summaryReviewsMB.averagePreference.preferenceEntryList}">
+										<tr class="pull-left" style="width: 50%;">
+											<td style="border: none">
+												<span
+													class="glyphicon glyphicon-question-sign meuPopover"
+													data-toggle="popover" title="" data-placement="top"
+													data-content="#{entry.criterium.description}"
+													data-original-title="#{entry.criterium.name}">
+												</span> 
+												<h:outputText value=" #{entry.criterium.name}" />
+											</td>
+											<td style="border: none">
+												<div class="rateit" data-rateit-readonly="true"
+													data-rateit-min="0" data-rateit-max="10"
+													data-rateit-value="#{entry.value}" data-rateit-ispreset="true"  />
+											</td>
+										</tr>
+									</ui:repeat>
+								</tbody>
+							</table>
+							<SCRIPT type="text/javascript">
+								$('.meuPopover').popover({
+	
+								});
+							</SCRIPT>
+						</div>
+					</h:panelGroup>
+					
+					<h:form>
+						<h:panelGroup layout="block" styleClass="row" style="margin-bottom: 20px">
+							<div class="col-md-6">
+								<h3>
+									<h:outputLink value="reviewsList.jsf">
+										<f:param name="projectId" value="#{summaryReviewsMB.project.id}" />
+										Opiniões mais úteis
+									</h:outputLink>
+								</h3>
+								
+								<h:outputLink value="reviewsList.jsf" styleClass="btn btn-default">
+									<f:param name="projectId" value="#{summaryReviewsMB.project.id}" />
+									Ver todas as opiniões
+								</h:outputLink>
+							</div>
+							<div class="col-md-6">
+								<h3>
+									<h:outputLink value="reviewsList.jsf">
+										<f:param name="projectId" value="#{summaryReviewsMB.project.id}" />
+										Opiniões mais recentes
+									</h:outputLink>
+								</h3>
+							</div>
+						</h:panelGroup>
+					</h:form>
 				
 				</section>
 			
