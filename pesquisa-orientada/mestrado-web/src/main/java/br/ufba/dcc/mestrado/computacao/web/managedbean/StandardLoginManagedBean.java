@@ -2,12 +2,14 @@ package br.ufba.dcc.mestrado.computacao.web.managedbean;
 
 import java.io.IOException;
 import java.io.Serializable;
+import java.security.Principal;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
+import javax.faces.bean.SessionScoped;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
@@ -18,13 +20,17 @@ import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 
 import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.web.WebAttributes;
 
 import br.ufba.dcc.mestrado.computacao.entities.recommender.user.UserEntity;
+import br.ufba.dcc.mestrado.computacao.service.base.UserService;
 import br.ufba.dcc.mestrado.computacao.service.basic.RepositoryBasedUserDetailsService;
 
 @ManagedBean(name="loginMB")
-@ViewScoped
+@SessionScoped
 public class StandardLoginManagedBean implements Serializable {
 	
 	/**
@@ -37,7 +43,8 @@ public class StandardLoginManagedBean implements Serializable {
 	@ManagedProperty("#{repositoryBasedUserDetailsService}")
 	private RepositoryBasedUserDetailsService userDetailsService;
 	
-	
+	@ManagedProperty("#{userService}")
+	private UserService userService;
 	
 	private UserEntity loggedUser;
 	
@@ -59,7 +66,13 @@ public class StandardLoginManagedBean implements Serializable {
 		this.userDetailsService = userDetailsService;
 	}
 	
+	public UserService getUserService() {
+		return userService;
+	}
 	
+	public void setUserService(UserService userService) {
+		this.userService = userService;
+	}
 	
 	public String signIn() throws ServletException, IOException {
 		ExternalContext context = FacesContext.getCurrentInstance().getExternalContext();

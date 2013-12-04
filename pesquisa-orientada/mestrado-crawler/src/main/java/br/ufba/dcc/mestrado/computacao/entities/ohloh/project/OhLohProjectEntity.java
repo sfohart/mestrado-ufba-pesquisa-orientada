@@ -9,10 +9,12 @@ import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.persistence.UniqueConstraint;
 
 import org.hibernate.search.annotations.Analyze;
 import org.hibernate.search.annotations.Field;
@@ -95,14 +97,32 @@ public class OhLohProjectEntity implements BaseEntity<Long> {
 	private OhLohAnalysisEntity ohLohAnalysis;
 
 	@ManyToMany(cascade=CascadeType.ALL)
+	@JoinTable(
+			name="project_license",
+			joinColumns=@JoinColumn(name = "project_id", referencedColumnName="id"),
+			inverseJoinColumns=@JoinColumn(name = "license_id", referencedColumnName="id"),
+			uniqueConstraints=@UniqueConstraint(columnNames={"project_id","license_id"})
+			)
 	@IndexedEmbedded
 	private List<OhLohLicenseEntity> ohLohLicenses;
 
 	@ManyToMany(cascade=CascadeType.ALL, fetch=FetchType.EAGER)
+	@JoinTable(
+			name="project_tag",
+			joinColumns=@JoinColumn(name = "project_id", referencedColumnName="id"),
+			inverseJoinColumns=@JoinColumn(name = "tag_id", referencedColumnName="id"),
+			uniqueConstraints=@UniqueConstraint(columnNames={"project_id","tag_id"})
+			)
 	@IndexedEmbedded
 	private List<OhLohTagEntity> ohLohTags;
 	
 	@OneToMany(cascade=CascadeType.ALL)
+	@JoinTable(
+			name="project_link",
+			joinColumns=@JoinColumn(name = "project_id", referencedColumnName="id"),
+			inverseJoinColumns=@JoinColumn(name = "link_id", referencedColumnName="id"),
+			uniqueConstraints=@UniqueConstraint(columnNames={"project_id","link_id"})
+			)
 	@IndexedEmbedded
 	private List<OhLohLinkEntity> ohLohLinks;
 

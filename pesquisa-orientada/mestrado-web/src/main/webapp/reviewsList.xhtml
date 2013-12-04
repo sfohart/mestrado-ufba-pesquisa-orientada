@@ -51,7 +51,15 @@
 												<li class="media well">
 													<h:outputLink styleClass="pull-left" >
 														<div>
-															... <h:outputText value="#{preference.user.firstName}" /> disse:
+															<h:outputText
+								  								rendered="#{preference.user.firstName != null and preference.user.login == null}"
+								  								style="margin-left: 10px; vertical-align: middle" 
+								  								value="...#{preference.user.firstName}" />
+								  							<h:outputText
+								  								rendered="#{preference.user.firstName == null and preference.user.login != null}"
+								  								style="margin-left: 10px; vertical-align: middle" 
+								  								value="...#{preference.user.login}" />
+															disse:
 														</div>
 														<h:graphicImage styleClass="media-object pull-right img-thumbnail" height="64" width="64" library="default" name="img/no_logo.png" />													
 													</h:outputLink>

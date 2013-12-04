@@ -61,6 +61,8 @@ public class AccountManagedBean implements Serializable {
 		this.account = account;
 	}
 	
+	
+	
 	public String createAccount() {
 		
 		String encodedPassword = getPasswordEncoder().encode(getAccount().getPassword());
