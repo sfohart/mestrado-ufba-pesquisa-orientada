@@ -58,7 +58,7 @@ public class ProjectDetailManageBean implements Serializable {
 	
 	private Long overallPreferenceCount;
 		
-	private final PreferenceEntity averagePreference;
+	private PreferenceEntity averagePreference;
 	
 	private String[] projectDescritionParagraphs;
 	
@@ -85,34 +85,10 @@ public class ProjectDetailManageBean implements Serializable {
 				this.enlistmentList = getEnlistmentService().findByProject(getProject());
 			}
 			
-			this.overallPreferenceCount = getOverallPreferenceService().countAllLastByProject(getProject());
+			this.overallPreferenceCount = getOverallPreferenceService().countAllLastByProject(getProject().getId());
 			
 			//calculando valores médios de preferência
-			this.averagePreference.setValue(getOverallPreferenceService().averagePreferenceByProject(getProject()));
-			
-			Map<RecommenderCriteriumEntity, Double> averageByCriterium = 
-					getCriteriumPreferenceService().averagePreferenceByProject(getProject().getId());
-			
-			List<PreferenceEntryEntity> preferenceEntryList = new ArrayList<>();
-			for (Map.Entry<RecommenderCriteriumEntity, Double> entry : averageByCriterium.entrySet()) {
-				PreferenceEntryEntity preferenceEntry = new PreferenceEntryEntity();
-				preferenceEntry.setPreference(averagePreference);
-				preferenceEntry.setCriterium(entry.getKey());
-				preferenceEntry.setValue(entry.getValue());
-				
-				preferenceEntryList.add(preferenceEntry);
-			}
-			
-			Comparator<PreferenceEntryEntity> entryComparator = new Comparator<PreferenceEntryEntity>() {
-				@Override
-				public int compare(PreferenceEntryEntity o1, PreferenceEntryEntity o2) {
-					return o1.getCriterium().getName().compareTo(o2.getCriterium().getName());
-				}
-			};
-			
-			Collections.sort(preferenceEntryList, entryComparator);
-			
-			averagePreference.setPreferenceEntryList(preferenceEntryList);
+			this.averagePreference = getOverallPreferenceService().averagePreferenceByProject(getProject().getId());
 			
 		}
 	}

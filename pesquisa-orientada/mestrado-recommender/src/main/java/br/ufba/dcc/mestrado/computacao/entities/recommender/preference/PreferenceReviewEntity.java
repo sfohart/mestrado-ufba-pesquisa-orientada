@@ -2,7 +2,6 @@ package br.ufba.dcc.mestrado.computacao.entities.recommender.preference;
 
 import java.util.Set;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -51,6 +50,9 @@ public class PreferenceReviewEntity implements BaseEntity<Long> {
 	)
 	private Set<UserEntity> usefulList;
 	
+	@Column(name = "useful_count")
+	private Long usefulCount = 0L;
+	
 	@ManyToMany
 	@JoinTable(
 		name="review_useless_users",
@@ -59,6 +61,12 @@ public class PreferenceReviewEntity implements BaseEntity<Long> {
 		uniqueConstraints=@UniqueConstraint(columnNames={"review_id","user_id"})
 	)
 	private Set<UserEntity> uselessList;
+	
+	@Column(name = "useless_count")
+	private Long uselessCount = 0L;
+	
+	@Column(name = "review_ranking")
+	private Double reviewRanking = 0D;
 
 	public Long getId() {
 		return id;
@@ -108,5 +116,28 @@ public class PreferenceReviewEntity implements BaseEntity<Long> {
 		this.uselessList = uselessList;
 	}
 
-	
+	public Long getUsefulCount() {
+		return usefulCount;
+	}
+
+	public void setUsefulCount(Long usefulCount) {
+		this.usefulCount = usefulCount;
+	}
+
+	public Long getUselessCount() {
+		return uselessCount;
+	}
+
+	public void setUselessCount(Long uselessCount) {
+		this.uselessCount = uselessCount;
+	}
+
+	public Double getReviewRanking() {
+		return reviewRanking;
+	}
+
+	public void setReviewRanking(Double reviewRanking) {
+		this.reviewRanking = reviewRanking;
+	}
+
 }

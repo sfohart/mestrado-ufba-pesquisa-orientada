@@ -1,11 +1,6 @@
 package br.ufba.dcc.mestrado.computacao.web.managedbean;
 
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.List;
-import java.util.Map;
 
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
@@ -13,9 +8,7 @@ import javax.faces.bean.ViewScoped;
 import javax.faces.event.ComponentSystemEvent;
 
 import br.ufba.dcc.mestrado.computacao.entities.ohloh.project.OhLohProjectEntity;
-import br.ufba.dcc.mestrado.computacao.entities.recommender.criterium.RecommenderCriteriumEntity;
 import br.ufba.dcc.mestrado.computacao.entities.recommender.preference.PreferenceEntity;
-import br.ufba.dcc.mestrado.computacao.entities.recommender.preference.PreferenceEntryEntity;
 import br.ufba.dcc.mestrado.computacao.entities.recommender.preference.PreferenceReviewEntity;
 import br.ufba.dcc.mestrado.computacao.service.base.CriteriumPreferenceService;
 import br.ufba.dcc.mestrado.computacao.service.base.OhLohProjectService;
@@ -44,7 +37,7 @@ public class ProjectSummaryReviewsManagedBean implements Serializable {
 	private Long overallPreferenceCount;
 	private Long reviewsCount;
 	
-	private final PreferenceEntity averagePreference;
+	private PreferenceEntity averagePreference;
 	
 	private PreferenceReviewEntity mostHelpfulFavorableReview;
 	private PreferenceReviewEntity mostHelpfulCriticalReview;
@@ -121,36 +114,11 @@ public class ProjectSummaryReviewsManagedBean implements Serializable {
 		if (getProject() != null && getProject().getId() != null) {
 			this.project = getProjectService().findById(getProject().getId());
 			
-			this.overallPreferenceCount = getOverallPreferenceService().countAllLastByProject(getProject());
-			this.reviewsCount = getOverallPreferenceService().countAllLastReviewsByProject(getProject());
+			this.overallPreferenceCount = getOverallPreferenceService().countAllLastByProject(getProject().getId());
+			this.reviewsCount = getOverallPreferenceService().countAllLastReviewsByProject(getProject().getId());
 			
 			//calculando avaliação média do projeto
-			
-			this.averagePreference.setValue(getOverallPreferenceService().averagePreferenceByProject(getProject()));
-			
-			Map<RecommenderCriteriumEntity, Double> averageByCriterium = 
-					getCriteriumPreferenceService().averagePreferenceByProject(getProject().getId());
-			
-			List<PreferenceEntryEntity> preferenceEntryList = new ArrayList<>();
-			for (Map.Entry<RecommenderCriteriumEntity, Double> entry : averageByCriterium.entrySet()) {
-				PreferenceEntryEntity preferenceEntry = new PreferenceEntryEntity();
-				preferenceEntry.setPreference(averagePreference);
-				preferenceEntry.setCriterium(entry.getKey());
-				preferenceEntry.setValue(entry.getValue());
-				
-				preferenceEntryList.add(preferenceEntry);
-			}
-			
-			Comparator<PreferenceEntryEntity> entryComparator = new Comparator<PreferenceEntryEntity>() {
-				@Override
-				public int compare(PreferenceEntryEntity o1, PreferenceEntryEntity o2) {
-					return o1.getCriterium().getName().compareTo(o2.getCriterium().getName());
-				}
-			};
-			
-			Collections.sort(preferenceEntryList, entryComparator);
-			
-			averagePreference.setPreferenceEntryList(preferenceEntryList);
+			this.averagePreference = getOverallPreferenceService().averagePreferenceByProject(getProject().getId());
 		}
 	}
 	

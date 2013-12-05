@@ -1,7 +1,11 @@
 package br.ufba.dcc.mestrado.computacao.service.impl;
 
 import java.sql.Timestamp;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,11 +13,12 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import br.ufba.dcc.mestrado.computacao.entities.ohloh.project.OhLohProjectEntity;
+import br.ufba.dcc.mestrado.computacao.entities.recommender.criterium.RecommenderCriteriumEntity;
 import br.ufba.dcc.mestrado.computacao.entities.recommender.preference.PreferenceEntity;
-import br.ufba.dcc.mestrado.computacao.entities.recommender.user.UserEntity;
+import br.ufba.dcc.mestrado.computacao.entities.recommender.preference.PreferenceEntryEntity;
 import br.ufba.dcc.mestrado.computacao.repository.base.BaseRepository;
 import br.ufba.dcc.mestrado.computacao.repository.base.OverallPreferenceRepository;
+import br.ufba.dcc.mestrado.computacao.service.base.CriteriumPreferenceService;
 import br.ufba.dcc.mestrado.computacao.service.base.OverallPreferenceService;
 import br.ufba.dcc.mestrado.computacao.service.base.UserService;
 
@@ -33,6 +38,9 @@ public class OverallPreferenceServiceImpl extends BaseOhLohServiceImpl<Long, Pre
 	private UserService userService;
 	
 	@Autowired
+	private CriteriumPreferenceService criteriumPreferenceService;
+	
+	@Autowired
 	public OverallPreferenceServiceImpl(@Qualifier("overallPreferenceRepository") OverallPreferenceRepository repository) {
 		super(repository, PreferenceEntity.class);
 	}
@@ -45,6 +53,15 @@ public class OverallPreferenceServiceImpl extends BaseOhLohServiceImpl<Long, Pre
 		this.userService = userService;
 	}
 	
+	public CriteriumPreferenceService getCriteriumPreferenceService() {
+		return criteriumPreferenceService;
+	}
+	
+	public void setCriteriumPreferenceService(
+			CriteriumPreferenceService criteriumPreferenceService) {
+		this.criteriumPreferenceService = criteriumPreferenceService;
+	}
+	
 	@Override
 	@Transactional(readOnly = true)
 	public Long countAllLast() {
@@ -53,53 +70,83 @@ public class OverallPreferenceServiceImpl extends BaseOhLohServiceImpl<Long, Pre
 
 	@Override
 	@Transactional(readOnly = true)
-	public Long countAllLastByProject(OhLohProjectEntity project) {
-		return ((OverallPreferenceRepository) getRepository()).countAllLastByProject(project);
+	public Long countAllLastByProject(Long projectId) {
+		return ((OverallPreferenceRepository) getRepository()).countAllLastByProject(projectId);
 	}
 	
 	@Override
-	public Long countAllLastReviewsByProject(OhLohProjectEntity project) {
-		return ((OverallPreferenceRepository) getRepository()).countAllLastReviewsByProject(project);
+	public Long countAllLastReviewsByProject(Long projectId) {
+		return ((OverallPreferenceRepository) getRepository()).countAllLastReviewsByProject(projectId);
 	}
 	
 	@Override
 	@Transactional(readOnly = true)
-	public Long countAllByProjectAndUser(OhLohProjectEntity project, UserEntity user) {
-		return ((OverallPreferenceRepository) getRepository()).countAllByProjectAndUser(project, user);
+	public Long countAllByProjectAndUser(Long projectId, Long userId) {
+		return ((OverallPreferenceRepository) getRepository()).countAllByProjectAndUser(projectId, userId);
 	}
 
 	@Override
 	@Transactional(readOnly = true)
-	public Double averagePreferenceByProject(OhLohProjectEntity project) {
-		return ((OverallPreferenceRepository) getRepository()).averagePreferenceByProject(project);
+	public PreferenceEntity averagePreferenceByProject(Long projectId) {		
+		PreferenceEntity averagePreference = new PreferenceEntity();
+		
+		//calculando valores médios de preferência
+		Double averageValue = ((OverallPreferenceRepository) getRepository()).averagePreferenceByProject(projectId);
+		averagePreference.setValue(averageValue == null ? 0 : averageValue);
+		
+		Map<RecommenderCriteriumEntity, Double> averageByCriterium = 
+				getCriteriumPreferenceService().averagePreferenceByProject(projectId);
+		
+		List<PreferenceEntryEntity> preferenceEntryList = new ArrayList<>();
+		for (Map.Entry<RecommenderCriteriumEntity, Double> entry : averageByCriterium.entrySet()) {
+			PreferenceEntryEntity preferenceEntry = new PreferenceEntryEntity();
+			preferenceEntry.setPreference(averagePreference);
+			preferenceEntry.setCriterium(entry.getKey());
+			preferenceEntry.setValue(entry.getValue() == null ? 0 : entry.getValue());
+			
+			preferenceEntryList.add(preferenceEntry);
+		}
+		
+		Comparator<PreferenceEntryEntity> entryComparator = new Comparator<PreferenceEntryEntity>() {
+			@Override
+			public int compare(PreferenceEntryEntity o1, PreferenceEntryEntity o2) {
+				return o1.getCriterium().getName().compareTo(o2.getCriterium().getName());
+			}
+		};
+		
+		Collections.sort(preferenceEntryList, entryComparator);
+		
+		averagePreference.setPreferenceEntryList(preferenceEntryList);
+		
+		return averagePreference;		
 	}
 	
 	@Override
 	@Transactional(readOnly = true)
-	public List<PreferenceEntity> findAllLastByProject(OhLohProjectEntity project) {
-		return ((OverallPreferenceRepository) getRepository()).findAllLastByProject(project);
+	public List<PreferenceEntity> findAllLastByProject(Long projectId) {
+		return ((OverallPreferenceRepository) getRepository()).findAllLastByProject(projectId);
 	}
 	
 	@Override
 	@Transactional(readOnly = true)
-	public List<PreferenceEntity> findAllLastByProject(OhLohProjectEntity project, Integer startAt, Integer offset) {
-		return ((OverallPreferenceRepository) getRepository()).findAllLastByProject(project, startAt, offset);
+	public List<PreferenceEntity> findAllLastByProject(Long projectId, Integer startAt, Integer offset) {
+		return ((OverallPreferenceRepository) getRepository()).findAllLastByProject(projectId, startAt, offset);
 	}
 	
 	@Override
-	public List<PreferenceEntity> findAllLastReviewsByProject(OhLohProjectEntity project) {
-		return ((OverallPreferenceRepository) getRepository()).findAllLastReviewsByProject(project);
+	public List<PreferenceEntity> findAllLastReviewsByProject(Long projectId) {
+		return ((OverallPreferenceRepository) getRepository()).findAllLastReviewsByProject(projectId);
 	}
 	
 	@Override
-	public List<PreferenceEntity> findAllLastReviewsByProject(OhLohProjectEntity project, Integer startAt, Integer offset) {
-		return ((OverallPreferenceRepository) getRepository()).findAllLastReviewsByProject(project, startAt, offset);
+	public List<PreferenceEntity> findAllLastReviewsByProject(Long projectId, Integer startAt, Integer offset) {
+		return ((OverallPreferenceRepository) getRepository()).findAllLastReviewsByProject(projectId, startAt, offset);
 	}
 	
 	@Override
 	@Transactional(readOnly = true)
-	public List<PreferenceEntity> findAllByProjectAndUser(OhLohProjectEntity project, UserEntity user) {
-		return ((OverallPreferenceRepository) getRepository()).findAllByProjectAndUser(project, user);
+	public List<PreferenceEntity> findAllByProjectAndUser(Long projectId, Long userId) {
+		return ((OverallPreferenceRepository) getRepository()).findAllByProjectAndUser(projectId, userId);
 	}
 	
 	/**
@@ -122,11 +169,34 @@ public class OverallPreferenceServiceImpl extends BaseOhLohServiceImpl<Long, Pre
 			entity.setRegisteredAt(new Timestamp(System.currentTimeMillis()));
 		}
 		
-		if (entity.getPreferenceReview() != null && entity.getPreferenceReview().getId() == null) {
-			if (StringUtils.isEmpty(entity.getPreferenceReview().getDescription()) 
-					&& StringUtils.isEmpty(entity.getPreferenceReview().getTitle())) {
-				entity.setPreferenceReview(null);
-			}			
+		if (entity.getPreferenceReview() != null) {
+			
+			if  (entity.getPreferenceReview().getId() == null) {
+				//se a review não tem titulo nem descrição, pra que mantê-la?
+				if (StringUtils.isEmpty(entity.getPreferenceReview().getDescription()) 
+						&& StringUtils.isEmpty(entity.getPreferenceReview().getTitle())) {
+					entity.setPreferenceReview(null);
+				}	
+			} else {
+				//atualizar contadores de utilidade e inutilidade
+				Long usefulCount = 0L;
+				Long uselessCount = 0L;
+				
+				if (entity.getPreferenceReview().getUsefulList() != null) {
+					usefulCount = Long.valueOf(entity.getPreferenceReview().getUsefulList().size());
+					entity.getPreferenceReview().setUsefulCount(usefulCount);
+				}
+				
+				if (entity.getPreferenceReview().getUselessList() != null) {
+					uselessCount = Long.valueOf(entity.getPreferenceReview().getUselessList().size());
+					entity.getPreferenceReview().setUselessCount(uselessCount);
+				}
+				
+				if (usefulCount > 0 || uselessCount > 0) {
+					Long total = usefulCount + uselessCount;
+					entity.getPreferenceReview().setReviewRanking(Double.valueOf(usefulCount / total));
+				}
+			}
 		}
 	}
 }

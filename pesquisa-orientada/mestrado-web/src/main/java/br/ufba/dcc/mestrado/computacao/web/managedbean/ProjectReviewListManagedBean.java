@@ -160,10 +160,10 @@ public class ProjectReviewListManagedBean extends AbstractListingManagedBean<Lon
 				@Override
 				public void load(int first, int pageSize) {
 					
-					List<PreferenceEntity> data = getPreferenceService().findAllLastReviewsByProject(getProject(), first, pageSize);
+					List<PreferenceEntity> data = getPreferenceService().findAllLastReviewsByProject(getProject().getId(), first, pageSize);
 					this.setWrappedData(data);
 					
-					Integer totalRecords = getPreferenceService().countAllLastReviewsByProject(getProject()).intValue();				
+					Integer totalRecords = getPreferenceService().countAllLastReviewsByProject(getProject().getId()).intValue();				
 					Integer currentPage = (first / pageSize) + 1;
 									
 					PageList pageList = new PageList(currentPage, totalRecords, pageSize);

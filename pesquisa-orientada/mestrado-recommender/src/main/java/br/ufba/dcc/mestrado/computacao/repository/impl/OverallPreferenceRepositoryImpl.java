@@ -17,10 +17,8 @@ import javax.persistence.criteria.Subquery;
 
 import org.springframework.stereotype.Repository;
 
-import br.ufba.dcc.mestrado.computacao.entities.ohloh.project.OhLohProjectEntity;
 import br.ufba.dcc.mestrado.computacao.entities.recommender.preference.PreferenceEntity;
 import br.ufba.dcc.mestrado.computacao.entities.recommender.preference.PreferenceReviewEntity;
-import br.ufba.dcc.mestrado.computacao.entities.recommender.user.UserEntity;
 import br.ufba.dcc.mestrado.computacao.repository.base.OverallPreferenceRepository;
 
 @Repository(OverallPreferenceRepositoryImpl.BEAN_NAME)
@@ -45,17 +43,17 @@ public class OverallPreferenceRepositoryImpl  extends BaseRepositoryImpl<Long, P
 	}
 	
 	@Override
-	public Long countAllLastByProject(OhLohProjectEntity project) {
-		return countAllLastByProject(project, false);
+	public Long countAllLastByProject(Long projectId) {
+		return countAllLastByProject(projectId, false);
 	}
 	
 	@Override
-	public Long countAllLastReviewsByProject(OhLohProjectEntity project) {
-		return countAllLastByProject(project, true);
+	public Long countAllLastReviewsByProject(Long projectId) {
+		return countAllLastByProject(projectId, true);
 	}
 	
 	private Long countAllLastByProject(
-			OhLohProjectEntity project,
+			Long projectId,
 			boolean onlyWithReviews) {
 		
 		CriteriaBuilder criteriaBuilder = getEntityManager().getCriteriaBuilder();
@@ -66,9 +64,9 @@ public class OverallPreferenceRepositoryImpl  extends BaseRepositoryImpl<Long, P
 				
 		List<Predicate> predicateList = new ArrayList<>();
 		
-		if (project != null && project.getId() != null) {
+		if (projectId != null) {
 			//filtrando por projeto
-			Predicate namePredicate = criteriaBuilder.equal(p1.get("projectId"), project.getId());
+			Predicate namePredicate = criteriaBuilder.equal(p1.get("projectId"), projectId);
 			predicateList.add(namePredicate);
 		}
 		
@@ -100,8 +98,8 @@ public class OverallPreferenceRepositoryImpl  extends BaseRepositoryImpl<Long, P
 	
 	@Override
 	public Long countAllByProjectAndUser(
-			OhLohProjectEntity project,
-			UserEntity user) {
+			Long projectId,
+			Long userId) {
 		CriteriaBuilder criteriaBuilder = getEntityManager().getCriteriaBuilder();
 		CriteriaQuery<Long> criteriaQuery = criteriaBuilder.createQuery(Long.class);
 		
@@ -111,13 +109,13 @@ public class OverallPreferenceRepositoryImpl  extends BaseRepositoryImpl<Long, P
 		
 		List<Predicate> predicateList = new ArrayList<>();
 		
-		if (user != null && user.getId() != null) {
-			Predicate userPredicate = criteriaBuilder.equal(root.get("userId"), user.getId());
+		if (userId != null) {
+			Predicate userPredicate = criteriaBuilder.equal(root.get("userId"), userId);
 			predicateList.add(userPredicate);
 		}
 		
-		if (project != null && project.getId() != null) {
-			Predicate projectPredicate = criteriaBuilder.equal(root.get("projectId"), project.getId());
+		if (projectId != null) {
+			Predicate projectPredicate = criteriaBuilder.equal(root.get("projectId"), projectId);
 			predicateList.add(projectPredicate);
 		}
 				
@@ -126,7 +124,7 @@ public class OverallPreferenceRepositoryImpl  extends BaseRepositoryImpl<Long, P
 		return getEntityManager().createQuery(criteriaQuery).getSingleResult();
 	}
 	
-	public Double averagePreferenceByProject(OhLohProjectEntity project) {
+	public Double averagePreferenceByProject(Long projectId) {
 		CriteriaBuilder criteriaBuilder = getEntityManager().getCriteriaBuilder();
 		CriteriaQuery<Double> criteriaQuery = criteriaBuilder.createQuery(Double.class);
 		
@@ -135,7 +133,7 @@ public class OverallPreferenceRepositoryImpl  extends BaseRepositoryImpl<Long, P
 		
 		CriteriaQuery<Double> select = criteriaQuery.select(criteriaBuilder.avg( valuePath ));
 		
-		Predicate namePredicate = criteriaBuilder.equal(p1.get("projectId"), project.getId());
+		Predicate namePredicate = criteriaBuilder.equal(p1.get("projectId"), projectId);
 		
 		/*
 		 * Criando subquery para trazer os últimos registros de cada usuario/projeto
@@ -157,35 +155,35 @@ public class OverallPreferenceRepositoryImpl  extends BaseRepositoryImpl<Long, P
 	
 	
 	@Override
-	public List<PreferenceEntity> findAllLastByProject(OhLohProjectEntity project) {
-		return findAllLastByProject(project, null, null);
+	public List<PreferenceEntity> findAllLastByProject(Long projectId) {
+		return findAllLastByProject(projectId, null, null);
 	}
 	
 	@Override
 	public List<PreferenceEntity> findAllLastByProject(
-			OhLohProjectEntity project, 
+			Long projectId, 
 			Integer startAt, 
 			Integer offset) {
-		return findAllLastByProject(project, startAt, offset, false);
+		return findAllLastByProject(projectId, startAt, offset, false);
 	}
 	
 	@Override
-	public List<PreferenceEntity> findAllLastReviewsByProject(OhLohProjectEntity project) {
+	public List<PreferenceEntity> findAllLastReviewsByProject(Long projectId) {
 		
-		return findAllLastByProject(project, null, null, true);
+		return findAllLastByProject(projectId, null, null, true);
 	}
 	
 	@Override
 	public List<PreferenceEntity> findAllLastReviewsByProject(
-			OhLohProjectEntity project, 
+			Long projectId, 
 			Integer startAt, 
 			Integer offset) {
 		
-		return findAllLastByProject(project, startAt, offset, true);
+		return findAllLastByProject(projectId, startAt, offset, true);
 	}
 	
 	private List<PreferenceEntity> findAllLastByProject(
-			OhLohProjectEntity project, 
+			Long projectId, 
 			Integer startAt, 
 			Integer offset,
 			boolean onlyWithReviews) {
@@ -217,7 +215,7 @@ public class OverallPreferenceRepositoryImpl  extends BaseRepositoryImpl<Long, P
 
 		List<Predicate> predicateList = new ArrayList<>();
 		
-		Predicate projectPredicate = criteriaBuilder.equal(p1.get("projectId"), project.getId());
+		Predicate projectPredicate = criteriaBuilder.equal(p1.get("projectId"), projectId);
 		predicateList.add(projectPredicate);
 		
 		/*
@@ -254,8 +252,8 @@ public class OverallPreferenceRepositoryImpl  extends BaseRepositoryImpl<Long, P
 	}
 	
 	public List<PreferenceEntity> findAllByProjectAndUser(
-			OhLohProjectEntity project,
-			UserEntity user) {
+			Long projectId,
+			Long userId) {
 		
 		CriteriaBuilder criteriaBuilder = getEntityManager()
 				.getCriteriaBuilder();
@@ -270,13 +268,13 @@ public class OverallPreferenceRepositoryImpl  extends BaseRepositoryImpl<Long, P
 
 		List<Predicate> predicateList = new ArrayList<>();
 		
-		if (user != null && user.getId() != null) {
-			Predicate userPredicate = criteriaBuilder.equal(root.get("userId"), user.getId());
+		if (userId != null) {
+			Predicate userPredicate = criteriaBuilder.equal(root.get("userId"), userId);
 			predicateList.add(userPredicate);
 		}
 		
-		if (project != null && project.getId() != null) {
-			Predicate projectPredicate = criteriaBuilder.equal(root.get("projectId"), project.getId());
+		if (projectId != null) {
+			Predicate projectPredicate = criteriaBuilder.equal(root.get("projectId"), projectId);
 			predicateList.add(projectPredicate);
 		}
 		
