@@ -37,12 +37,11 @@
 						</div>
 					</h:panelGroup>
 					
+					<div class="row" style="border-top: 1px solid #aaa;">
+						<h2>Sumário</h2>
+					</div>
 					
 					<h:panelGroup id="projectSummary" layout="block" styleClass="row">
-					
-						<h2>Sumário</h2>
-						<hr />
-						
 						<div class="col-md-6">
 							<h:panelGroup id="projectDescription" p:itemprop="description" >
 								<ui:repeat var="paragraph" value="#{projectDetailMB.projectDescritionParagraphs}">
@@ -65,7 +64,7 @@
 						
 						<div class="col-md-6">
 							<h:panelGroup id="projectReferences" layout="block" styleClass="well">
-								<h5>Referências</h5>
+								<h4>Referências</h4>
 								
 								<dl class="dl-horizontal">
 									<dt><a href="#">Links do Projeto:</a></dt>
@@ -127,8 +126,6 @@
 					
 					<h:panelGroup id="nutshelPanel" layout="block" styleClass="row" style="margin-top: 20px">
 						<div class="col-md-6">
-							
-							
 							
 							<h:panelGroup id="projectNutshelFull" layout="block" styleClass="well" rendered="#{not empty projectDetailMB.factoidList}"  >
 								<h5>Em resumo, <h:outputText value="#{projectDetailMB.project.name}" />...</h5>
@@ -201,47 +198,127 @@
 					
 					</h:panelGroup>
 					
-					<h:panelGroup id="activityPanel" layout="block" styleClass="row">
-					
+					<div class="row" style="border-top: 1px solid #aaa;">
 						<h2>Atividade</h2>
-						<hr />
-						
+					</div>
+					
+					<h:panelGroup id="activityPanel" layout="block" styleClass="row">
+						<div class="col-md-6">
+							<div class="well" style="min-height: 200px;">
+								<table class="unstyled" id="activity_table" style="width: 100%" >
+									<tbody>
+										<tr>
+											<td valign="top" width="50%">
+												<h4 style="border-bottom: 2px solid #ccc; width: 95%">
+													30 dias
+												</h4>
+												
+												<ul class="unstyled">
+													<li></li>
+													<li></li>
+												</ul>
+											</td>
+											<td valign="top" width="50%">
+												<h4 style="border-bottom: 2px solid #ccc; width: 95%">
+													12 meses
+												</h4>
+												
+												<ul class="unstyled">
+													<li>
+														<span style="font-size: 18px;"><h:outputText  value="#{projectDetailMB.project.ohLohAnalysis.twelveMonthCommitCount}" /></span> Commits
+													</li>
+													<li>
+														<span style="font-size: 18px;"><h:outputText  value="#{projectDetailMB.project.ohLohAnalysis.twelveMonthContributorCount}" /></span> Colaboradores
+													</li>
+												</ul>
+											</td>
+										</tr>
+									</tbody>
+								</table>
+							</div>
+						</div>
+						<div class="col-md-6">
+						</div>
 					</h:panelGroup>
 					
-					<h:panelGroup id="communityPanel" layout="block" styleClass="row" style="margin-bottom: 20px">
-					
+					<div class="row" style="border-top: 1px solid #aaa;">
 						<h2>Comunidade</h2>
-						<hr />
+					</div>
+					
+					<h:panelGroup id="communityPanel" layout="block" styleClass="row" style="margin-bottom: 20px">
 						
 						
 						<div class="col-md-4">
-							<h:outputLink value="summaryReviews.jsf" >
-								<f:param name="projectId" value="#{projectDetailMB.project.id}" />
-								<h5>Avaliações</h5>
-							</h:outputLink>
-							<p>
-								<h:outputText 
-									rendered="#{projectDetailMB.overallPreferenceCount eq 1}"
-									value="#{projectDetailMB.overallPreferenceCount} pessoa avaliou este projeto" />
+							<div class="row">
+								<h:outputLink value="summaryReviews.jsf" >
+									<f:param name="projectId" value="#{projectDetailMB.project.id}" />
+									<h4>Avaliações</h4>
+								</h:outputLink>
+							</div>
+							<div class="row">
+									<div style="padding: 19px">
+										<h:outputText 
+											rendered="#{projectDetailMB.overallPreferenceCount eq 1}"
+											value="#{projectDetailMB.overallPreferenceCount} pessoa avaliou este projeto" />
+										<h:outputText 
+											rendered="#{projectDetailMB.overallPreferenceCount > 1}"
+											value="#{projectDetailMB.overallPreferenceCount} pessoas avaliaram este projeto" />
+										<h:outputText 
+											rendered="#{projectDetailMB.overallPreferenceCount eq 0}"
+											value="Nenhum usuário avaliou ainda este projeto" /> 
+										<br />
+										<div class="rateit" data-rateit-readonly="true"
+											data-rateit-min="0" data-rateit-max="10"
+											data-rateit-value="#{projectDetailMB.averagePreference.value}" data-rateit-ispreset="true"  />
+										
+										<span style="margin-left: 10px" class="soft small">
+											<h:outputText value="#{projectDetailMB.averagePreference.value}" >
+												<f:convertNumber maxFractionDigits="2" maxIntegerDigits="2" pattern="#0.00" />
+											</h:outputText> / 10
+										</span>
+									</div>
 									
-								<h:outputText 
-									rendered="#{projectDetailMB.overallPreferenceCount > 1}"
-									value="#{projectDetailMB.overallPreferenceCount} pessoas avaliaram este projeto" />
-									
-								<h:outputText 
-									rendered="#{projectDetailMB.overallPreferenceCount eq 0}"
-									value="Nenhum usuário avaliou ainda este projeto" /> 
-							</p>
-							<p>
-								<div class="rateit" data-rateit-readonly="true"
-									data-rateit-min="0" data-rateit-max="10"
-									data-rateit-value="#{projectDetailMB.averageOverallPreferenceValue}" data-rateit-ispreset="true"  />
-							</p>
-							<h:link outcome="newProjectReview">
-								<f:param name="projectId" value="#{projectDetailMB.project.id}" />
-								Avalie você também este projeto
-							</h:link>
-							
+									<div class="well" style="min-height: 250px;">
+										<h4>Avaliação média por Critério</h4>
+										<table class="table table-condensed unstyled pull-left"  >
+											<tbody>
+												<ui:repeat var="entry" value="#{projectDetailMB.averagePreference.preferenceEntryList}">
+													<tr class="pull-left" style="width: 50%;">
+														<td style="border: none">
+															<span
+																class="glyphicon glyphicon-question-sign meuPopover"
+																data-toggle="popover" title="" data-placement="top"
+																data-content="#{entry.criterium.description}"
+																data-original-title="#{entry.criterium.name}">
+															</span> 
+															<h:outputText value=" #{entry.criterium.name}" />
+															<span style="margin-left: 10px" class="soft small"> 
+																(<h:outputText value="#{entry.value}" >
+																	<f:convertNumber maxFractionDigits="2" maxIntegerDigits="2" pattern="#0.00" />
+																</h:outputText> / 10)
+															</span>
+															<br />
+															<div class="rateit" data-rateit-readonly="true"
+																data-rateit-min="0" data-rateit-max="10"
+																data-rateit-value="#{entry.value}" data-rateit-ispreset="true"  />
+														</td>
+													</tr>
+												</ui:repeat>
+											</tbody>
+										</table>
+										<SCRIPT type="text/javascript">
+											$('.meuPopover').popover({
+				
+											});
+										</SCRIPT>
+									</div>
+							</div>
+							<div class="row">
+								<h:link outcome="newProjectReview">
+									<f:param name="projectId" value="#{projectDetailMB.project.id}" />
+									Avalie você também este projeto
+								</h:link>
+							</div>
 						</div>
 						
 						<div class="col-md-4">

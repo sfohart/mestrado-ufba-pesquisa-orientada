@@ -36,7 +36,7 @@ public class PreferenceEntity implements BaseEntity<Long> {
 	@Column(name = "user_id", insertable = false, updatable = false)
 	private Long userId;
 
-	@ManyToOne(cascade = CascadeType.ALL)
+	@ManyToOne
 	@JoinColumn(name = "user_id", referencedColumnName = "id")
 	private UserEntity user;
 

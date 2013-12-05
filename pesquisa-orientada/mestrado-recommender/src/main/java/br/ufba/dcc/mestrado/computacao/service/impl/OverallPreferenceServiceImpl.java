@@ -126,14 +126,7 @@ public class OverallPreferenceServiceImpl extends BaseOhLohServiceImpl<Long, Pre
 			if (StringUtils.isEmpty(entity.getPreferenceReview().getDescription()) 
 					&& StringUtils.isEmpty(entity.getPreferenceReview().getTitle())) {
 				entity.setPreferenceReview(null);
-			}
-		}
-		
-		if (entity.getUser() != null && entity.getUser().getId() != null) {
-			UserEntity user = getUserService().findById(entity.getUser().getId());
-			
-			entity.setUser(user);
-			entity.setUserId(user.getId());
+			}			
 		}
 	}
 }

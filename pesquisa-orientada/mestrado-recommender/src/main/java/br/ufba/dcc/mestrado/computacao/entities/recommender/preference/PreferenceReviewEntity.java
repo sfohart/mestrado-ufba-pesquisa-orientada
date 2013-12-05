@@ -42,7 +42,7 @@ public class PreferenceReviewEntity implements BaseEntity<Long> {
 	@JoinColumn(name = "preference_id", referencedColumnName = "id")
 	private PreferenceEntity preference;
 	
-	@ManyToMany(cascade=CascadeType.ALL)
+	@ManyToMany
 	@JoinTable(
 		name="review_useful_users",
 		joinColumns=@JoinColumn(name="review_id", referencedColumnName="id"),
@@ -51,7 +51,7 @@ public class PreferenceReviewEntity implements BaseEntity<Long> {
 	)
 	private Set<UserEntity> usefulList;
 	
-	@ManyToMany(cascade=CascadeType.ALL)
+	@ManyToMany
 	@JoinTable(
 		name="review_useless_users",
 		joinColumns=@JoinColumn(name="review_id", referencedColumnName="id"),

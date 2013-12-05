@@ -1,7 +1,11 @@
 package br.ufba.dcc.mestrado.computacao.web.managedbean;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
+import java.util.Map;
 
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
@@ -12,6 +16,10 @@ import br.ufba.dcc.mestrado.computacao.entities.ohloh.analysis.OhLohAnalysisLang
 import br.ufba.dcc.mestrado.computacao.entities.ohloh.enlistment.OhLohEnlistmentEntity;
 import br.ufba.dcc.mestrado.computacao.entities.ohloh.factoid.OhLohFactoidEntity;
 import br.ufba.dcc.mestrado.computacao.entities.ohloh.project.OhLohProjectEntity;
+import br.ufba.dcc.mestrado.computacao.entities.recommender.criterium.RecommenderCriteriumEntity;
+import br.ufba.dcc.mestrado.computacao.entities.recommender.preference.PreferenceEntity;
+import br.ufba.dcc.mestrado.computacao.entities.recommender.preference.PreferenceEntryEntity;
+import br.ufba.dcc.mestrado.computacao.service.base.CriteriumPreferenceService;
 import br.ufba.dcc.mestrado.computacao.service.base.OhLohAnalysisService;
 import br.ufba.dcc.mestrado.computacao.service.base.OhLohEnlistmentService;
 import br.ufba.dcc.mestrado.computacao.service.base.OhLohProjectService;
@@ -38,6 +46,9 @@ public class ProjectDetailManageBean implements Serializable {
 	@ManagedProperty("#{overallPreferenceService}")
 	private OverallPreferenceService overallPreferenceService;
 	
+	@ManagedProperty("#{criteriumPreferenceService}")
+	private CriteriumPreferenceService criteriumPreferenceService;
+	
 	private OhLohProjectEntity project;
 	private List<OhLohFactoidEntity> factoidList;
 	private OhLohAnalysisLanguagesEntity analysisLanguages;
@@ -46,12 +57,14 @@ public class ProjectDetailManageBean implements Serializable {
 	private Long enlistmentCount;
 	
 	private Long overallPreferenceCount;
-	private Double averageOverallPreferenceValue;
+		
+	private final PreferenceEntity averagePreference;
 	
 	private String[] projectDescritionParagraphs;
 	
 	public ProjectDetailManageBean() {
 		this.project = new OhLohProjectEntity();
+		this.averagePreference = new PreferenceEntity();
 	}
 	
 	public void init(ComponentSystemEvent event) {
@@ -73,7 +86,34 @@ public class ProjectDetailManageBean implements Serializable {
 			}
 			
 			this.overallPreferenceCount = getOverallPreferenceService().countAllLastByProject(getProject());
-			this.averageOverallPreferenceValue = getOverallPreferenceService().averagePreferenceByProject(getProject());
+			
+			//calculando valores médios de preferência
+			this.averagePreference.setValue(getOverallPreferenceService().averagePreferenceByProject(getProject()));
+			
+			Map<RecommenderCriteriumEntity, Double> averageByCriterium = 
+					getCriteriumPreferenceService().averagePreferenceByProject(getProject().getId());
+			
+			List<PreferenceEntryEntity> preferenceEntryList = new ArrayList<>();
+			for (Map.Entry<RecommenderCriteriumEntity, Double> entry : averageByCriterium.entrySet()) {
+				PreferenceEntryEntity preferenceEntry = new PreferenceEntryEntity();
+				preferenceEntry.setPreference(averagePreference);
+				preferenceEntry.setCriterium(entry.getKey());
+				preferenceEntry.setValue(entry.getValue());
+				
+				preferenceEntryList.add(preferenceEntry);
+			}
+			
+			Comparator<PreferenceEntryEntity> entryComparator = new Comparator<PreferenceEntryEntity>() {
+				@Override
+				public int compare(PreferenceEntryEntity o1, PreferenceEntryEntity o2) {
+					return o1.getCriterium().getName().compareTo(o2.getCriterium().getName());
+				}
+			};
+			
+			Collections.sort(preferenceEntryList, entryComparator);
+			
+			averagePreference.setPreferenceEntryList(preferenceEntryList);
+			
 		}
 	}
 	
@@ -113,6 +153,15 @@ public class ProjectDetailManageBean implements Serializable {
 			OverallPreferenceService overallPreferenceService) {
 		this.overallPreferenceService = overallPreferenceService;
 	}
+	
+	public CriteriumPreferenceService getCriteriumPreferenceService() {
+		return criteriumPreferenceService;
+	}
+	
+	public void setCriteriumPreferenceService(
+			CriteriumPreferenceService criteriumPreferenceService) {
+		this.criteriumPreferenceService = criteriumPreferenceService;
+	}
 
 	public OhLohProjectEntity getProject() {
 		return project;
@@ -133,10 +182,6 @@ public class ProjectDetailManageBean implements Serializable {
 	public Long getOverallPreferenceCount() {
 		return overallPreferenceCount;
 	}
-	
-	public Double getAverageOverallPreferenceValue() {
-		return averageOverallPreferenceValue;
-	}
 
 	public String[] getProjectDescritionParagraphs() {
 		return projectDescritionParagraphs;
@@ -148,5 +193,9 @@ public class ProjectDetailManageBean implements Serializable {
 	
 	public OhLohAnalysisLanguagesEntity getAnalysisLanguages() {
 		return analysisLanguages;
+	}
+	
+	public PreferenceEntity getAveragePreference() {
+		return averagePreference;
 	}
 }

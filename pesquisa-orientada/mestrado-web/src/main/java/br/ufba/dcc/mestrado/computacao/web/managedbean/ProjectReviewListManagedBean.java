@@ -85,7 +85,7 @@ public class ProjectReviewListManagedBean extends AbstractListingManagedBean<Lon
 				preference.getPreferenceReview().setUsefulList(new HashSet<UserEntity>());
 			}
 			
-			if (validateDulicatedVoteMessage(event, preference)) {
+			if (! isDulicatedVoteMessage(event, preference)) {
 				preference.getPreferenceReview().getUsefulList().add(user);
 				
 				try {
@@ -93,6 +93,8 @@ public class ProjectReviewListManagedBean extends AbstractListingManagedBean<Lon
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
+			} else {
+				
 			}
 		}
 	}
@@ -108,7 +110,7 @@ public class ProjectReviewListManagedBean extends AbstractListingManagedBean<Lon
 				preference.getPreferenceReview().setUselessList(new HashSet<UserEntity>());
 			}
 			
-			if (validateDulicatedVoteMessage(event, preference)) {
+			if (! isDulicatedVoteMessage(event, preference)) {
 				preference.getPreferenceReview().getUselessList().add(user);
 				
 				try {
@@ -116,11 +118,13 @@ public class ProjectReviewListManagedBean extends AbstractListingManagedBean<Lon
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
+			} else {
+				
 			}
 		}
 	}
 
-	protected boolean validateDulicatedVoteMessage(AjaxBehaviorEvent event, PreferenceEntity preference) {
+	protected boolean isDulicatedVoteMessage(AjaxBehaviorEvent event, PreferenceEntity preference) {
 		boolean duplicated = false;
 		
 		UserEntity user = getUserDetailsService().loadFullLoggedUser();

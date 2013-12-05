@@ -30,7 +30,7 @@
 					<h:panelGroup id="projectTitle" layout="block" styleClass="row">
 						<div class="col-md-1">
 							<a class="pull-left" href="#">
-								<img class="media-object" data-src="holder.js/64x64" src="#{summaryReviewsMB.project.mediumLogoURL}"  />
+								<img class="media-object" height="64" width="64" src="#{summaryReviewsMB.project.mediumLogoURL}"  />
 							</a>
 						</div>
 						<div class="col-md-9">
@@ -38,15 +38,15 @@
 						</div>
 					</h:panelGroup>
 					
-					<hr />
+					<div class="row" style="border-top: 1px solid #aaa;">
+						<h3>Avaliações e Opiniões</h3>
+					</div>
 					
-					<h:panelGroup layout="block" styleClass="row">
+					<h:panelGroup layout="block" styleClass="row" >
 					
 						<div class="col-md-3">
-							<h3>Avaliações e Opiniões</h3>
-							
-							<p class="soft">
-								<b>Avaliação média</b>
+							<b>Avaliação da Comunidade</b>
+							<span class="soft small">
 								<div class="rateit" data-rateit-readonly="true"
 									data-rateit-min="0" data-rateit-max="10"
 									data-rateit-value="#{summaryReviewsMB.averagePreference.value}" data-rateit-ispreset="true"  />
@@ -63,7 +63,7 @@
 								Número de opiniões:
 								<h:outputText 
 									value="#{summaryReviewsMB.reviewsCount}" />
-							</p>
+							</span>
 						</div>
 						
 						<div class="col-md-9">
@@ -74,9 +74,8 @@
 					
 					</h:panelGroup>
 					
-					<hr />
 					
-					<h:panelGroup layout="block" styleClass="row">
+					<h:panelGroup layout="block" styleClass="row" style="border-top: 1px solid #aaa;">
 						<div class="col-md-9 col-md-offset-3">
 							<h3>Avaliação média por Critério</h3>
 							<table class="table table-condensed unstyled pull-left" style="width: 75%" >
@@ -91,8 +90,13 @@
 													data-original-title="#{entry.criterium.name}">
 												</span> 
 												<h:outputText value=" #{entry.criterium.name}" />
-											</td>
-											<td style="border: none">
+												<span style="margin-left: 10px" class="soft small"> 
+													(<h:outputText value="#{entry.value}" >
+														<f:convertNumber maxFractionDigits="2" maxIntegerDigits="2" pattern="#0.00" />
+													</h:outputText> / 10)
+												</span>
+												<br />
+												
 												<div class="rateit" data-rateit-readonly="true"
 													data-rateit-min="0" data-rateit-max="10"
 													data-rateit-value="#{entry.value}" data-rateit-ispreset="true"  />
@@ -107,6 +111,28 @@
 								});
 							</SCRIPT>
 						</div>
+					</h:panelGroup>
+					
+					<h:panelGroup layout="block" styleClass="row">
+						<h:panelGroup styleClass="col-md-6" rendered="#{summaryReviewsMB.mostHelpfulFavorableReview != null}">
+							<div class="panel panel-info">
+								<div class="panel-heading">
+									<h2 class="panel-title">Avaliação positiva mais útil</h2>
+								</div>
+								<div class="panel-body">
+								</div>
+							</div>
+						</h:panelGroup>
+						<h:panelGroup styleClass="col-md-6" rendered="#{summaryReviewsMB.mostHelpfulCriticalReview != null}">
+							<div class="panel panel-info">
+								<div class="panel-heading">
+									<h2 class="panel-title">Avaliação negativa mais útil</h2>									
+								</div>
+								<div class="panel-body">
+									
+								</div>
+							</div>
+						</h:panelGroup>
 					</h:panelGroup>
 					
 					<h:form>

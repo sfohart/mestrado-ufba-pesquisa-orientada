@@ -16,6 +16,7 @@ import br.ufba.dcc.mestrado.computacao.entities.ohloh.project.OhLohProjectEntity
 import br.ufba.dcc.mestrado.computacao.entities.recommender.criterium.RecommenderCriteriumEntity;
 import br.ufba.dcc.mestrado.computacao.entities.recommender.preference.PreferenceEntity;
 import br.ufba.dcc.mestrado.computacao.entities.recommender.preference.PreferenceEntryEntity;
+import br.ufba.dcc.mestrado.computacao.entities.recommender.preference.PreferenceReviewEntity;
 import br.ufba.dcc.mestrado.computacao.service.base.CriteriumPreferenceService;
 import br.ufba.dcc.mestrado.computacao.service.base.OhLohProjectService;
 import br.ufba.dcc.mestrado.computacao.service.base.OverallPreferenceService;
@@ -44,6 +45,9 @@ public class ProjectSummaryReviewsManagedBean implements Serializable {
 	private Long reviewsCount;
 	
 	private final PreferenceEntity averagePreference;
+	
+	private PreferenceReviewEntity mostHelpfulFavorableReview;
+	private PreferenceReviewEntity mostHelpfulCriticalReview;
 	
 	
 	public ProjectSummaryReviewsManagedBean() {
@@ -105,12 +109,22 @@ public class ProjectSummaryReviewsManagedBean implements Serializable {
 		return averagePreference;
 	}
 	
+	public PreferenceReviewEntity getMostHelpfulFavorableReview() {
+		return mostHelpfulFavorableReview;
+	}
+
+	public PreferenceReviewEntity getMostHelpfulCriticalReview() {
+		return mostHelpfulCriticalReview;
+	}
+
 	public void init(ComponentSystemEvent event) {
 		if (getProject() != null && getProject().getId() != null) {
 			this.project = getProjectService().findById(getProject().getId());
 			
 			this.overallPreferenceCount = getOverallPreferenceService().countAllLastByProject(getProject());
 			this.reviewsCount = getOverallPreferenceService().countAllLastReviewsByProject(getProject());
+			
+			//calculando avaliação média do projeto
 			
 			this.averagePreference.setValue(getOverallPreferenceService().averagePreferenceByProject(getProject()));
 			
