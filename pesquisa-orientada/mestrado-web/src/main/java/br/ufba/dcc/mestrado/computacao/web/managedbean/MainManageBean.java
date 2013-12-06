@@ -34,7 +34,7 @@ public class MainManageBean extends AbstractListingManagedBean<Long, OhLohProjec
 	private SearchRequest searchRequest;
 	
 	public MainManageBean() {
-		this.searchRequest = new SearchRequest();		
+		this.searchRequest = new SearchRequest();	
 	}
 	
 	public String loadResults() {

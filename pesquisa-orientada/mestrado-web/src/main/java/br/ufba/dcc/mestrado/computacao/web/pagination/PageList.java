@@ -33,6 +33,9 @@ public class PageList implements Serializable {
 	
 	private List<Integer> pageList;
 	
+	public PageList() {
+	}
+	
 	public PageList(Integer currentPage, Integer rowCount, Integer pageSize) {
 		super();
 		this.currentPage = currentPage;
@@ -113,5 +116,42 @@ public class PageList implements Serializable {
 	public List<Integer> getPageList() {
 		return this.pageList;
 	}
+
+	public void setCurrentPage(Integer currentPage) {
+		this.currentPage = currentPage;
+	}
+
+	public void setRowCount(Integer rowCount) {
+		this.rowCount = rowCount;
+	}
+
+	public void setPageSize(Integer pageSize) {
+		this.pageSize = pageSize;
+	}
+
+	public void setTotalPages(Integer totalPages) {
+		this.totalPages = totalPages;
+	}
+
+	public void setFirstPage(Integer firstPage) {
+		this.firstPage = firstPage;
+	}
+
+	public void setLastPage(Integer lastPage) {
+		this.lastPage = lastPage;
+	}
+
+	public void setPreviousPage(Integer previousPage) {
+		this.previousPage = previousPage;
+	}
+
+	public void setNextPage(Integer nextPage) {
+		this.nextPage = nextPage;
+	}
+
+	public void setPageList(List<Integer> pageList) {
+		this.pageList = pageList;
+	}
+	
 	
 }

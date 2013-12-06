@@ -86,11 +86,17 @@
 													</h:link>
 													<div class="pull-right">
 														<div style="background-color: #dbe4ee; padding: 6px 4px 6px 10px; margin: 0; border-radius: 0 4px 0 0; -webkit-border-radius: 0 4px 0 0;">
-															<span style="margin-left: 1px">
+															<span style="margin-right: 10px">
 																Compare
 															</span>
-															<h:selectBooleanCheckbox style="margin-top: 2px">
+															<h:selectBooleanCheckbox style="margin-top: 2px"
+																	valueChangeListener="#{mainMB.onChangeSelectedItem}"
+																	value="#{mainMB.selectedItems[project.id]}">
+																<f:ajax event="click" execute="@form" render="@form"  />
+																<f:attribute name="currentPage" value="#{mainMB.pageList.currentPage}" />
 															</h:selectBooleanCheckbox>
+															
+															<div style="clear: both;"></div>
 														</div>
 													</div>
 												</div>
@@ -101,13 +107,14 @@
 													<h:outputLink styleClass="pull-left" rendered="#{project.mediumLogoURL eq 'no_logo.png'}">
 														<h:graphicImage styleClass="media-object" height="64" width="64" library="default" name="img/#{project.mediumLogoURL}" />													
 													</h:outputLink>
-													<div class="media-body">
-														<p class="text-expander" style="min-height: 64px">
-															<h:outputText value="#{project.description}" />
-														</p>
-														
+													<div class="media-body" style="min-height: 64px">
+														<div class="expandable">
+															<p>
+																<h:outputText value="#{project.description}" />
+															</p>
+														</div>
 													</div>
-													<h:panelGroup id="tagsPanel" rendered="#{not empty project.ohLohTags}">
+													<h:panelGroup layout="block" id="tagsPanel" rendered="#{not empty project.ohLohTags}" style="margin-top: 10px">
 														<span class="glyphicon glyphicon-tags" style="margin-right: 5px"></span>
 														<ui:repeat var="tag" value="#{project.ohLohTags}">
 															<span class="label label-tag"><h:outputText value="#{tag.name}" /></span>      														
@@ -187,10 +194,17 @@
 								</h:panelGroup>
 								
 							</h:panelGroup>
-							
-							
 													
 						</div>
+						<!-- leia mais para a descricao do projeto -->
+						<script>
+							$('div.expandable p').expander({
+								slicePoint: 300,
+								expandText: '[Leia mais]',
+								userCollapseText: '[Esconder]'
+							});
+						</script>
+						
 					</h:form>
 				</section>
 				
