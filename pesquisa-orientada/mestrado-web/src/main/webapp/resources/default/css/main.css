@@ -32,6 +32,11 @@
 	text-align: justify;
 }
 
+.label-tag {
+	background-color: #dbe4ee;
+	color: #3a587d !important;
+}
+
 ul.unstyled {
 	margin-left: 0;
 	list-style: none;

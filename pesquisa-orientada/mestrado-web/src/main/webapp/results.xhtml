@@ -77,38 +77,45 @@
 							
 								<h:panelGroup rendered="#{mainMB.pageList.totalPages != 0}">
 									<section>
-										<ul class="media-list">
-											<ui:repeat var="project" value="#{mainMB.dataModel}">
-												<li class="media well">
-	
-													<h:link outcome="projectDetail" >
+										<ui:repeat var="project" value="#{mainMB.dataModel}">
+											<div class="well" >
+												<div class="row" style="margin: -20px -20px 0 0 ">
+													<h:link outcome="projectDetail" class="pull-left">
 														<f:param name="projectId" value="#{project.id}" />
 														<h4><h:outputText value="#{project.name}"  /></h4>														
 													</h:link>
-													
+													<div class="pull-right">
+														<div style="background-color: #dbe4ee; padding: 6px 4px 6px 10px; margin: 0; border-radius: 0 4px 0 0; -webkit-border-radius: 0 4px 0 0;">
+															<span style="margin-left: 1px">
+																Compare
+															</span>
+															<h:selectBooleanCheckbox style="margin-top: 2px">
+															</h:selectBooleanCheckbox>
+														</div>
+													</div>
+												</div>
+												<div class="media">
 													<h:outputLink styleClass="pull-left" rendered="#{project.mediumLogoURL != 'no_logo.png'}">													
 														<img class="media-object" src="#{project.mediumLogoURL}" height="64px" width="64px" />
 													</h:outputLink>
-													
 													<h:outputLink styleClass="pull-left" rendered="#{project.mediumLogoURL eq 'no_logo.png'}">
 														<h:graphicImage styleClass="media-object" height="64" width="64" library="default" name="img/#{project.mediumLogoURL}" />													
 													</h:outputLink>
-													
 													<div class="media-body">
-														<p class="text-expander">
+														<p class="text-expander" style="min-height: 64px">
 															<h:outputText value="#{project.description}" />
 														</p>
 														
-														<h:panelGroup id="tagsPanel" rendered="#{not empty project.ohLohTags}">
-															<span class="glyphicon glyphicon-tags" style="margin-right: 5px"></span>
-															<ui:repeat var="tag" value="#{project.ohLohTags}">
-	      														<span class="label label-info"><h:outputText value="#{tag.name}" /></span>      														
-															</ui:repeat>      														
-														</h:panelGroup>
 													</div>
-												</li>
-											</ui:repeat>
-										</ul>
+													<h:panelGroup id="tagsPanel" rendered="#{not empty project.ohLohTags}">
+														<span class="glyphicon glyphicon-tags" style="margin-right: 5px"></span>
+														<ui:repeat var="tag" value="#{project.ohLohTags}">
+															<span class="label label-tag"><h:outputText value="#{tag.name}" /></span>      														
+														</ui:repeat>      														
+													</h:panelGroup>
+												</div>
+											</div>
+										</ui:repeat>
 									</section>
 								</h:panelGroup>
 								
