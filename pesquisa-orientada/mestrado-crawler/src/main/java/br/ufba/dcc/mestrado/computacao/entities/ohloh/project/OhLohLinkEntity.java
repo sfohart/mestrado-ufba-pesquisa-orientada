@@ -37,6 +37,7 @@ public class OhLohLinkEntity implements BaseEntity<Long> {
 	private String category;
 	
 	@ManyToOne(optional = false)	
+	@JoinColumn(name = "project_id", referencedColumnName = "id")
 	private OhLohProjectEntity ohlohProject;
 	
 	@Column(name = "project_id", updatable = false, insertable = false)

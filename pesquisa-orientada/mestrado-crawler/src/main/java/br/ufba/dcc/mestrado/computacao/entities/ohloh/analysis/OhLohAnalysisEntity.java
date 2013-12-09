@@ -11,7 +11,6 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 import org.hibernate.search.annotations.Analyze;
@@ -79,7 +78,8 @@ public class OhLohAnalysisEntity implements BaseEntity<Long> {
 	@OneToMany(mappedBy = "ohLohAnalysis", cascade=CascadeType.ALL)
 	private List<OhLohFactoidEntity> ohLohFactoids;
 
-	@OneToOne(cascade = CascadeType.ALL, fetch=FetchType.EAGER)	
+	@ManyToOne(cascade = CascadeType.ALL, fetch=FetchType.EAGER)	
+	@JoinColumn(name = "analysis_languages_id", referencedColumnName = "id")
 	@IndexedEmbedded
 	private OhLohAnalysisLanguagesEntity ohLohAnalysisLanguages;
 

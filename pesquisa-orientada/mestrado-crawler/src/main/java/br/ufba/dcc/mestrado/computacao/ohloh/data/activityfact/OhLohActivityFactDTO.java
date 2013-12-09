@@ -21,10 +21,6 @@ public class OhLohActivityFactDTO implements OhLohResultDTO {
 
 	public final static String NODE_NAME = "activity_fact";
 
-	@XStreamAsAttribute
-	@XStreamConverter(value = NullableLongXStreamConverter.class)
-	private Long id;
-
 	@XStreamConverter(value = ISO8601SqlTimestampConverter.class)
 	private Timestamp month;
 
@@ -131,14 +127,6 @@ public class OhLohActivityFactDTO implements OhLohResultDTO {
 
 	public void setContributors(Long contributors) {
 		this.contributors = contributors;
-	}
-
-	public Long getId() {
-		return id;
-	}
-
-	public void setId(Long id) {
-		this.id = id;
 	}
 
 	public Long getProjectId() {

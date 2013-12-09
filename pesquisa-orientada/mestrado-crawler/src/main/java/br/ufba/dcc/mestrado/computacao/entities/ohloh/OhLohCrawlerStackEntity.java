@@ -5,6 +5,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
@@ -39,6 +40,7 @@ public class OhLohCrawlerStackEntity  implements BaseEntity<Long> {
 	private Integer itemsPerPage;
 	
 	@ManyToOne
+	@JoinColumn(name = "project_id", referencedColumnName = "id")
 	private OhLohProjectEntity ohLohProject;
 
 	public Long getId() {

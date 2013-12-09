@@ -8,6 +8,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.PrimaryKeyJoinColumn;
@@ -33,7 +35,8 @@ public class OhLohAnalysisLanguagesEntity implements BaseEntity<Long> {
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private Long id;
 	
-	@OneToOne(mappedBy="ohLohAnalysisLanguages")
+	@ManyToOne
+	@JoinColumn(name = "analysis_id", referencedColumnName = "id")
 	@ContainedIn
 	private OhLohAnalysisEntity ohLohAnalysis;
 	
