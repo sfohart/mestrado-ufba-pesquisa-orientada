@@ -3,6 +3,7 @@ package br.ufba.dcc.mestrado.computacao.entities.recommender.criterium;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
@@ -20,7 +21,7 @@ public class RecommenderCriteriumEntity implements BaseEntity<Long> {
 	public final static String NODE_NAME = "recommender_criterium";
 	
 	@Id
-	@GeneratedValue
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private Long id;
 	
 	@Column(name = "name")
