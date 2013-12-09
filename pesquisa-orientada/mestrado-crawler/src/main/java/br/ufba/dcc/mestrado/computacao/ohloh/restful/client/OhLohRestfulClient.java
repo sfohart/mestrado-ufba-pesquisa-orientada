@@ -595,7 +595,7 @@ public class OhLohRestfulClient implements Serializable {
 				OhLohActivityFactDTO.class));
 		
 		
-		resource = this.<OhLohActivityFactResponse>processResponse(url, null, restfulie);
+		resource = this.<OhLohActivityFactResponse>processResponse(url, null, restfulie, projectId, analysisId);
 		
 		return resource;
 	}

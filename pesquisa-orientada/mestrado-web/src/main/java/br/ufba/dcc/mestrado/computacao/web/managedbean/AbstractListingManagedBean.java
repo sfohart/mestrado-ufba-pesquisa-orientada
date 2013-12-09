@@ -7,16 +7,20 @@ import java.util.List;
 import java.util.Map;
 
 import javax.faces.context.FacesContext;
+import javax.faces.event.ActionEvent;
 import javax.faces.event.ValueChangeEvent;
 
-import org.springframework.beans.factory.annotation.Autowired;
-
 import br.ufba.dcc.mestrado.computacao.entities.BaseEntity;
-import br.ufba.dcc.mestrado.computacao.service.base.BaseOhLohService;
 import br.ufba.dcc.mestrado.computacao.web.pagination.LazyLoadingDataModel;
 import br.ufba.dcc.mestrado.computacao.web.pagination.PageList;
 
-
+/**
+ * 
+ * @author leandro.ferreira
+ *
+ * @param <ID>
+ * @param <E>
+ */
 public abstract class AbstractListingManagedBean<ID extends Number, E extends BaseEntity<ID>> implements Serializable {
 
 	/**
@@ -29,17 +33,6 @@ public abstract class AbstractListingManagedBean<ID extends Number, E extends Ba
 	private PageList pageList = new PageList();
 	
 	private Map<ID, Boolean> selectedItems = new HashMap<ID, Boolean>();
-	
-	@Autowired
-	private BaseOhLohService<ID, E> service;
-	
-	public BaseOhLohService<ID, E> getService() {
-		return service;
-	}
-	
-	public void setService(BaseOhLohService<ID, E> service) {
-		this.service = service;
-	}
 	
 	public PageList getPageList() {
 		return pageList;
@@ -97,6 +90,18 @@ public abstract class AbstractListingManagedBean<ID extends Number, E extends Ba
 		getPageList().setCurrentPage(currentPage);
 	}
 	
+	protected void postRemoveSelectedItem(ActionEvent event) {
+		
+	}
+	
+	@SuppressWarnings("unchecked")
+	public void removeSelectedItem(ActionEvent event) {
+		ID selectedId = (ID) event.getComponent().getAttributes().get("selectedId");
+		getSelectedItems().put(selectedId, Boolean.FALSE);
+		
+		postRemoveSelectedItem(event);
+	}
+	
 	public Map<ID, Boolean> getSelectedItems() {
 		return selectedItems;
 	}
@@ -105,13 +110,19 @@ public abstract class AbstractListingManagedBean<ID extends Number, E extends Ba
 		this.selectedItems = selectedItems;
 	}
 	
+	protected E findSelectedEntityById(ID id) {
+		return null;
+	}
+	
 	public List<E> getSelectedEntities() {
 		List<E> list = new ArrayList<>();
 		
 		for (Map.Entry<ID, Boolean> entry : selectedItems.entrySet()) {
 			if (entry.getValue()) {
-				E entity = getService().findById(entry.getKey());
-				list.add(entity);
+				E entity = findSelectedEntityById(entry.getKey());
+				if (entity != null) {
+					list.add(entity);
+				}
 			}
 		}
 		

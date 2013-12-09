@@ -16,6 +16,11 @@
 			
 			<ui:define name="titlePage">Resultado da Busca</ui:define>
 			
+			<ui:define name="header">
+				<ui:include src="layout/mainHeader.xhtml" />
+				<ui:include src="layout/selectedProjectsToCompare.xhtml" />
+			</ui:define>
+			
 			<ui:define name="content">
 				<section class="container">					
 					<h:form id="searchResults">						
@@ -85,19 +90,24 @@
 														<h4><h:outputText value="#{project.name}"  /></h4>														
 													</h:link>
 													<div class="pull-right">
-														<div style="background-color: #dbe4ee; padding: 6px 4px 6px 10px; margin: 0; border-radius: 0 4px 0 0; -webkit-border-radius: 0 4px 0 0;">
+														<!-- comparableCheckboxStyle com erro de sintaxe no eclipse, mas funciona perfeitamente.  -->
+														<ui:param name="comparableCheckboxStyle" value="#{mainMB.selectedItems[project.id] ? 'project-selected' : 'project-unselected' }" />
+														<h:panelGroup layout="block" 
+															styleClass="project-selectable #{comparableCheckboxStyle}" >
 															<span style="margin-right: 10px">
 																Compare
 															</span>
 															<h:selectBooleanCheckbox style="margin-top: 2px"
+																	id="comparableCheckbox"
 																	valueChangeListener="#{mainMB.onChangeSelectedItem}"
 																	value="#{mainMB.selectedItems[project.id]}">
-																<f:ajax event="click" execute="@form" render="@form"  />
+																<f:ajax event="click" execute="@form" render="@form :selectedEntities"  />
+																<f:attribute name="projectId" value="#{project.id}" />
 																<f:attribute name="currentPage" value="#{mainMB.pageList.currentPage}" />
 															</h:selectBooleanCheckbox>
 															
 															<div style="clear: both;"></div>
-														</div>
+														</h:panelGroup>
 													</div>
 												</div>
 												<div class="media">
@@ -151,7 +161,7 @@
 										<li class="#{mainMB.pageList.currentPage eq mainMB.pageList.firstPage ? 'disabled' : ''}">
 											<h:commandLink actionListener="#{mainMB.searchProjects}" disabled="#{mainMB.pageList.currentPage eq mainMB.pageList.firstPage}" >
 												<f:param  name="page" value="#{mainMB.pageList.firstPage}" />
-												<f:ajax render="@form" />
+												<f:ajax render="@form :selectedEntities" />
 												«
 											</h:commandLink>
 										</li>
@@ -159,7 +169,7 @@
 										<li class="#{mainMB.pageList.currentPage eq mainMB.pageList.previousPage ? 'disabled' : ''}">
 											<h:commandLink actionListener="#{mainMB.searchProjects}" disabled="#{mainMB.pageList.currentPage eq mainMB.pageList.previousPage}" >
 												<f:param  name="page" value="#{mainMB.pageList.previousPage}" />
-												<f:ajax render="@form" />
+												<f:ajax render="@form :selectedEntities" />
 												anterior
 											</h:commandLink>
 										</li>
@@ -168,7 +178,7 @@
 											<li class="#{mainMB.pageList.currentPage eq page ? 'active' : ''}">
 												<h:commandLink actionListener="#{mainMB.searchProjects}" disabled="#{mainMB.pageList.currentPage eq page}" >
 													<f:param  name="page" value="#{page}" />
-													<f:ajax render="@form" />
+													<f:ajax render="@form :selectedEntities" />
 													<h:outputText value="#{page}" />
 												</h:commandLink>
 											</li>
@@ -177,7 +187,7 @@
 										<li class="#{mainMB.pageList.currentPage eq mainMB.pageList.nextPage ? 'disabled' : ''}">
 											<h:commandLink actionListener="#{mainMB.searchProjects}" disabled="#{mainMB.pageList.currentPage eq mainMB.pageList.nextPage}" >
 												<f:param  name="page" value="#{mainMB.pageList.nextPage}" />
-												<f:ajax render="@form" />
+												<f:ajax render="@form :selectedEntities" />
 												próximo
 											</h:commandLink>
 										</li>
@@ -186,7 +196,7 @@
 										<li class="#{mainMB.pageList.currentPage eq mainMB.pageList.lastPage ? 'disabled' : ''}">
 											<h:commandLink actionListener="#{mainMB.searchProjects}" disabled="#{mainMB.pageList.currentPage eq mainMB.pageList.lastPage}"  >
 												<f:param  name="page" value="#{mainMB.pageList.lastPage}" />
-												<f:ajax render="@form" />
+												<f:ajax render="@form :selectedEntities" />
 												»
 											</h:commandLink>
 										</li>

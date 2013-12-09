@@ -1,5 +1,6 @@
 package br.ufba.dcc.mestrado.computacao.web.managedbean;
 
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -15,10 +16,16 @@ import org.hibernate.search.query.facet.Facet;
 import br.ufba.dcc.mestrado.computacao.entities.ohloh.project.OhLohProjectEntity;
 import br.ufba.dcc.mestrado.computacao.search.SearchRequest;
 import br.ufba.dcc.mestrado.computacao.search.SearchResponse;
+import br.ufba.dcc.mestrado.computacao.service.base.OhLohProjectService;
 import br.ufba.dcc.mestrado.computacao.service.base.SearchService;
 import br.ufba.dcc.mestrado.computacao.web.pagination.LazyLoadingDataModel;
 import br.ufba.dcc.mestrado.computacao.web.pagination.PageList;
 
+/**
+ * 
+ * @author leandro.ferreira
+ *
+ */
 @ManagedBean(name="mainMB")
 @ViewScoped
 public class MainManageBean extends AbstractListingManagedBean<Long, OhLohProjectEntity> {
@@ -30,6 +37,9 @@ public class MainManageBean extends AbstractListingManagedBean<Long, OhLohProjec
 
 	@ManagedProperty("#{searchService}")
 	private SearchService searchService;
+	
+	@ManagedProperty("#{ohLohProjectService}")
+	private OhLohProjectService projectService;
 
 	private SearchRequest searchRequest;
 	
@@ -49,12 +59,25 @@ public class MainManageBean extends AbstractListingManagedBean<Long, OhLohProjec
 		this.searchService = searchService;
 	}
 	
+	public OhLohProjectService getProjectService() {
+		return projectService;
+	}
+	
+	public void setProjectService(OhLohProjectService projectService) {
+		this.projectService = projectService;
+	}
+	
 	public SearchRequest getSearchRequest() {
 		return searchRequest;
 	}
 	
 	public void setSearchRequest(SearchRequest searchRequest) {
 		this.searchRequest = searchRequest;
+	}
+	
+	@Override
+	protected OhLohProjectEntity findSelectedEntityById(Long id) {
+		return getProjectService().findById(id);
 	}
 	
 	public void init(ComponentSystemEvent event) {
@@ -172,6 +195,20 @@ public class MainManageBean extends AbstractListingManagedBean<Long, OhLohProjec
 		}
 		
 		searchProjects(event);
+	}
+	
+	public String compareProjects() {
+		StringBuffer buffer = new StringBuffer();
+		
+		buffer.append("compareProjects.jsf?faces-redirect=true");
+		
+		for (Map.Entry<Long, Boolean> entry : getSelectedItems().entrySet()) {
+			if (entry.getValue()) {
+				buffer.append("&projectId=" + entry.getKey());
+			}
+		}
+		
+		return buffer.toString();
 	}
 	
 }

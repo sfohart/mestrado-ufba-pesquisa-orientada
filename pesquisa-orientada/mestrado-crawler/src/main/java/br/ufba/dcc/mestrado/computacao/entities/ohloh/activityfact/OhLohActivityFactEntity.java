@@ -4,10 +4,16 @@ import java.sql.Timestamp;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import org.hibernate.search.annotations.ContainedIn;
+
 import br.ufba.dcc.mestrado.computacao.entities.BaseEntity;
+import br.ufba.dcc.mestrado.computacao.entities.ohloh.project.OhLohProjectEntity;
 
 @Entity
 @Table(name=OhLohActivityFactEntity.NODE_NAME)
@@ -21,6 +27,7 @@ public class OhLohActivityFactEntity implements BaseEntity<Long> {
 	public final static String NODE_NAME = "activity_fact";
 	
 	@Id
+	@GeneratedValue
 	private Long id;
 
 	@Column(name="month")
@@ -49,6 +56,11 @@ public class OhLohActivityFactEntity implements BaseEntity<Long> {
 	
 	@Column(name="contributors")
 	private Long contributors;
+	
+	@ManyToOne(optional = false)
+	@JoinColumn(name = "project_id", referencedColumnName = "id")
+	@ContainedIn
+	private OhLohProjectEntity ohlohProject;
 
 	public Long getId() {
 		return id;

@@ -73,6 +73,47 @@ div.bigstars div.rateit-reset:hover
     background: url(#{resource['default:img/star-white32.png']});
 }
 
+/* Fixando colunas de tabelas no bootstrap
+------------------------------------------------- */
+.table-responsive>.fixed-column {
+    position: fixed;
+    display: inline-block;
+    width: auto;
+    border-right: 1px solid #ddd;
+}
+@media(min-width:768px) {
+    .table-responsive>.fixed-column {
+        display: none;
+    }
+}
+
+/* CSS da barra de projetos selecionados
+-------------------------------------------------- */
+.comparable-selected-items {
+	background-color: #08c;
+	color: #fff;
+	padding: 10px 20px;
+	box-shadow: 0 5px 0 #666;
+	-webkit-box-shadow: 0 5px 0 #666;
+	min-height: 3.5em;
+}
+
+.project-selectable {
+	padding: 6px 4px 6px 10px; 
+	margin: 0; 
+	border-radius: 0 4px 0 0; 
+	-webkit-border-radius: 0 4px 0 0;
+}
+
+.project-selectable.project-selected {
+	background-color: #08c;
+	color: #fff;	
+}
+
+.project-selectable.project-unselected {
+	background-color: #dbe4ee; 	
+}
+
 /* Configuração do "versus" nas reviews
 -------------------------------------------------- */
 td.versus {
@@ -118,7 +159,7 @@ body {
 /* Not required for template or sticky footer method. */
 
 #wrap > .container {
-  padding: 60px 15px 0;
+  padding: 0 15px 0;
 }
 .container .credit {
   margin: 20px 0;
