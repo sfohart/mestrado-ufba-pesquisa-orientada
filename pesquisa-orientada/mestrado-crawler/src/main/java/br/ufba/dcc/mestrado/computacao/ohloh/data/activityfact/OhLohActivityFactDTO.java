@@ -3,6 +3,7 @@ package br.ufba.dcc.mestrado.computacao.ohloh.data.activityfact;
 import java.sql.Timestamp;
 
 import br.ufba.dcc.mestrado.computacao.ohloh.data.OhLohResultDTO;
+import br.ufba.dcc.mestrado.computacao.ohloh.data.project.OhLohProjectDTO;
 import br.ufba.dcc.mestrado.computacao.xstream.converters.NullableLongXStreamConverter;
 
 import com.thoughtworks.xstream.annotations.XStreamAlias;
@@ -55,6 +56,10 @@ public class OhLohActivityFactDTO implements OhLohResultDTO {
 
 	@XStreamConverter(value=NullableLongXStreamConverter.class)
 	private Long contributors;
+	
+	private Long projectId;
+	
+	private OhLohProjectDTO ohlohProject;
 
 	public Timestamp getMonth() {
 		return month;
@@ -128,4 +133,30 @@ public class OhLohActivityFactDTO implements OhLohResultDTO {
 		this.contributors = contributors;
 	}
 
+	public Long getId() {
+		return id;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
+	}
+
+	public Long getProjectId() {
+		return projectId;
+	}
+
+	public void setProjectId(Long projectId) {
+		this.projectId = projectId;
+	}
+
+	public OhLohProjectDTO getOhlohProject() {
+		return ohlohProject;
+	}
+
+	public void setOhlohProject(OhLohProjectDTO ohlohProject) {
+		this.ohlohProject = ohlohProject;
+	}
+
+	
+	
 }

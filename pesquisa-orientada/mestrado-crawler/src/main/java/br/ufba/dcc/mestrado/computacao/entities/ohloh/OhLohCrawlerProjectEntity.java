@@ -3,6 +3,7 @@ package br.ufba.dcc.mestrado.computacao.entities.ohloh;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -23,7 +24,7 @@ public class OhLohCrawlerProjectEntity  implements BaseEntity<Long> {
 	public final static String NODE_NAME = "crawler_project";
 	
 	@Id
-	@GeneratedValue
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private Long id;
 	
 	@Column(name="items_available")

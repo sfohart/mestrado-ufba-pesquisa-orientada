@@ -5,6 +5,7 @@ import java.sql.Timestamp;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -27,7 +28,7 @@ public class OhLohActivityFactEntity implements BaseEntity<Long> {
 	public final static String NODE_NAME = "activity_fact";
 	
 	@Id
-	@GeneratedValue
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private Long id;
 
 	@Column(name="month")
@@ -56,6 +57,9 @@ public class OhLohActivityFactEntity implements BaseEntity<Long> {
 	
 	@Column(name="contributors")
 	private Long contributors;
+	
+	@Column(name = "project_id", updatable = false, insertable = false)
+	private Long projectId;
 	
 	@ManyToOne(optional = false)
 	@JoinColumn(name = "project_id", referencedColumnName = "id")
@@ -142,5 +146,22 @@ public class OhLohActivityFactEntity implements BaseEntity<Long> {
 		this.contributors = contributors;
 	}
 
+	public Long getProjectId() {
+		return projectId;
+	}
+
+	public void setProjectId(Long projectId) {
+		this.projectId = projectId;
+	}
+
+	public OhLohProjectEntity getOhlohProject() {
+		return ohlohProject;
+	}
+
+	public void setOhlohProject(OhLohProjectEntity ohlohProject) {
+		this.ohlohProject = ohlohProject;
+	}
+
+	
 		
 }

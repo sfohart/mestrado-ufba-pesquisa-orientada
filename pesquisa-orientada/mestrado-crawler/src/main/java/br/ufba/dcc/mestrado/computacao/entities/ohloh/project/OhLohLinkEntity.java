@@ -3,6 +3,7 @@ package br.ufba.dcc.mestrado.computacao.entities.ohloh.project;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
@@ -29,20 +30,17 @@ public class OhLohLinkEntity implements BaseEntity<Long> {
 	public final static String NODE_NAME = "link";
 	
 	@Id
-	@GeneratedValue
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private Long id;
 	
 	@Field(index=Index.YES, analyze=Analyze.YES, store=Store.NO)
 	private String category;
 	
-	@ManyToOne(optional = false)
-	@JoinTable(
-			name="project_link",
-			joinColumns=@JoinColumn(name = "link_id", referencedColumnName="id"),
-			inverseJoinColumns=@JoinColumn(name = "project_id", referencedColumnName="id"),
-			uniqueConstraints=@UniqueConstraint(columnNames={"project_id","link_id"})
-			)
+	@ManyToOne(optional = false)	
 	private OhLohProjectEntity ohlohProject;
+	
+	@Column(name = "project_id", updatable = false, insertable = false)
+	private Long projectId;
 	
 	@Field(index=Index.YES, analyze=Analyze.YES, store=Store.NO)
 	private String title;
@@ -83,6 +81,14 @@ public class OhLohLinkEntity implements BaseEntity<Long> {
 		this.url = url;
 	}
 	
+	public Long getProjectId() {
+		return projectId;
+	}
+	
+	public void setProjectId(Long projectId) {
+		this.projectId = projectId;
+	}
+	
 	public OhLohProjectEntity getOhlohProject() {
 		return ohlohProject;
 	}
@@ -90,5 +96,36 @@ public class OhLohLinkEntity implements BaseEntity<Long> {
 	public void setOhlohProject(OhLohProjectEntity ohlohProject) {
 		this.ohlohProject = ohlohProject;
 	}
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((url == null) ? 0 : url.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		OhLohLinkEntity other = (OhLohLinkEntity) obj;
+		if (url == null) {
+			if (other.url != null)
+				return false;
+		} else if (!url.equals(other.url))
+			return false;
+		return true;
+	}
+	
+	@Override
+	public String toString() {
+		return getTitle() + " " + getUrl();
+	}
+	
 
 }

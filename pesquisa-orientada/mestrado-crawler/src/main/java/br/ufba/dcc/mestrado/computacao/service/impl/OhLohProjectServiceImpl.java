@@ -2,9 +2,11 @@ package br.ufba.dcc.mestrado.computacao.service.impl;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -87,6 +89,12 @@ public class OhLohProjectServiceImpl extends DefaultOhLohServiceImpl<OhLohProjec
 		reloadTagsFromDatabase(entity);
 		
 		reloadLicensesFromDatabase(entity);
+
+		if (entity.getOhLohLinks() != null) {
+			for (OhLohLinkEntity link : entity.getOhLohLinks()) {
+				link.setOhlohProject(entity);
+			}
+		}
 		
 		if (entity.getAnalysisId() != null && entity.getAnalysisId() > 0) {
 			OhLohAnalysisEntity analysis = analysisService.findById(entity.getAnalysisId());
@@ -122,7 +130,7 @@ public class OhLohProjectServiceImpl extends DefaultOhLohServiceImpl<OhLohProjec
 	@Transactional
 	public void reloadLicensesFromDatabase(OhLohProjectEntity entity) throws Exception{
 		if (entity != null && entity.getOhLohLicenses() != null) {
-			List<OhLohLicenseEntity> licenseList = new ArrayList<OhLohLicenseEntity>();
+			Set<OhLohLicenseEntity> licenseList = new HashSet<OhLohLicenseEntity>();
 			Iterator<OhLohLicenseEntity> licenseIterator = entity.getOhLohLicenses().iterator();
 			
 			while (licenseIterator.hasNext()) {
@@ -139,6 +147,7 @@ public class OhLohProjectServiceImpl extends DefaultOhLohServiceImpl<OhLohProjec
 				licenseList.add(already);
 			}
 			
+			entity.getOhLohLicenses().clear();
 			entity.getOhLohLicenses().addAll(licenseList);
 		}
 	}
@@ -147,7 +156,7 @@ public class OhLohProjectServiceImpl extends DefaultOhLohServiceImpl<OhLohProjec
 	@Transactional
 	public void reloadTagsFromDatabase(OhLohProjectEntity entity) throws Exception{
 		if (entity != null && entity.getOhLohTags() != null) {
-			List<OhLohTagEntity> tagList = new ArrayList<OhLohTagEntity>();
+			Set<OhLohTagEntity> tagList = new HashSet<OhLohTagEntity>();
 			Iterator<OhLohTagEntity> tagIterator = entity.getOhLohTags().iterator();
 			while (tagIterator.hasNext()) {
 				OhLohTagEntity tag = tagIterator.next();				
@@ -163,6 +172,7 @@ public class OhLohProjectServiceImpl extends DefaultOhLohServiceImpl<OhLohProjec
 				tagList.add(already);
 			}
 			
+			entity.getOhLohTags().clear();
 			entity.getOhLohTags().addAll(tagList);
 		}
 	}

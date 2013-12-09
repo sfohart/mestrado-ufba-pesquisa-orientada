@@ -116,13 +116,7 @@ public class OhLohProjectEntity implements BaseEntity<Long> {
 	@IndexedEmbedded
 	private List<OhLohTagEntity> ohLohTags;
 	
-	@OneToMany(cascade=CascadeType.ALL)
-	@JoinTable(
-			name="project_link",
-			joinColumns=@JoinColumn(name = "project_id", referencedColumnName="id"),
-			inverseJoinColumns=@JoinColumn(name = "link_id", referencedColumnName="id"),
-			uniqueConstraints=@UniqueConstraint(columnNames={"project_id","link_id"})
-			)
+	@OneToMany(cascade=CascadeType.ALL, mappedBy="ohlohProject")	
 	@IndexedEmbedded
 	private List<OhLohLinkEntity> ohLohLinks;
 

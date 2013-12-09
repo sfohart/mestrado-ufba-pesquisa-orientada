@@ -14,15 +14,19 @@ import br.ufba.dcc.mestrado.computacao.entities.ohloh.OhLohCrawlerEnlistmentEnti
 import br.ufba.dcc.mestrado.computacao.entities.ohloh.OhLohCrawlerLanguageEntity;
 import br.ufba.dcc.mestrado.computacao.entities.ohloh.OhLohCrawlerProjectEntity;
 import br.ufba.dcc.mestrado.computacao.entities.ohloh.project.OhLohProjectEntity;
+import br.ufba.dcc.mestrado.computacao.ohloh.data.activityfact.OhLohActivityFactDTO;
+import br.ufba.dcc.mestrado.computacao.ohloh.data.activityfact.OhLohActivityFactResult;
 import br.ufba.dcc.mestrado.computacao.ohloh.data.enlistment.OhLohEnlistmentDTO;
 import br.ufba.dcc.mestrado.computacao.ohloh.data.language.OhLohLanguageDTO;
 import br.ufba.dcc.mestrado.computacao.ohloh.data.language.OhLohLanguageResult;
 import br.ufba.dcc.mestrado.computacao.ohloh.data.project.OhLohProjectDTO;
 import br.ufba.dcc.mestrado.computacao.ohloh.restful.client.OhLohRestfulClient;
 import br.ufba.dcc.mestrado.computacao.ohloh.restful.request.OhLohBaseRequest;
+import br.ufba.dcc.mestrado.computacao.ohloh.restful.responses.OhLohActivityFactResponse;
 import br.ufba.dcc.mestrado.computacao.ohloh.restful.responses.OhLohEnlistmentResponse;
 import br.ufba.dcc.mestrado.computacao.ohloh.restful.responses.OhLohLanguageResponse;
 import br.ufba.dcc.mestrado.computacao.ohloh.restful.responses.OhLohProjectResponse;
+import br.ufba.dcc.mestrado.computacao.service.base.OhLohActivityFactService;
 import br.ufba.dcc.mestrado.computacao.service.base.OhLohCrawlerEnlistmentService;
 import br.ufba.dcc.mestrado.computacao.service.base.OhLohCrawlerLanguageService;
 import br.ufba.dcc.mestrado.computacao.service.base.OhLohCrawlerLicenseService;
@@ -66,6 +70,9 @@ public class OhLohProjectCrawler {
 	
 	@Autowired
 	private OhLohLicenseService ohLohLicenseService;
+	
+	@Autowired
+	private OhLohActivityFactService ohLohActivityFactService;
 	
 	public OhLohRestfulClient getOhLohRestfulClient() {
 		return ohLohRestfulClient;
@@ -144,6 +151,15 @@ public class OhLohProjectCrawler {
 		this.ohLohLicenseService = ohLohLicenseService;
 	}
 
+	public OhLohActivityFactService getOhLohActivityFactService() {
+		return ohLohActivityFactService;
+	}
+	
+	public void setOhLohActivityFactService(
+			OhLohActivityFactService ohLohActivityFactService) {
+		this.ohLohActivityFactService = ohLohActivityFactService;
+	}
+	
 	public OhLohProjectCrawler() {
 	}
 	
@@ -302,6 +318,26 @@ public class OhLohProjectCrawler {
 		}
 	}
 	
+	protected void downloadActivityFacts(OhLohProjectEntity project) throws Exception {
+		if (project != null && project.getId() != null) {
+			OhLohActivityFactResponse response = getOhLohRestfulClient().getLatestProjectActivityFacts(project.getId().toString());
+			if (OhLohActivityFactResponse.SUCCESS.equals(response.getStatus())) {
+				OhLohActivityFactResult result = response.getResult();
+				if (result != null && result.getOhLohActivityFacts() != null) {
+					for (OhLohActivityFactDTO activityFactDTO : result.getOhLohActivityFacts()) {
+						OhLohProjectDTO projectDTO = new OhLohProjectDTO();
+						projectDTO.setId(project.getId());
+						
+						activityFactDTO.setProjectId(project.getId());
+						activityFactDTO.setOhlohProject(projectDTO);
+						
+						getOhLohActivityFactService().process(activityFactDTO);
+					}
+				}
+			}
+		}
+	}
+	
 	@Scheduled(cron="0 0 0 * * *")
 	public void run() throws Exception {
 		
@@ -368,6 +404,8 @@ public class OhLohProjectCrawler {
 								getProjectCrawlerConfigService().save(config);
 								
 								downloadEnlistments(ohLohProject);
+								
+								downloadActivityFacts(ohLohProject);
 								
 							} else {
 								logger.info(String.format("Projeto \"%s\" com id %d já se encontra na base", project.getName(), project.getId()));

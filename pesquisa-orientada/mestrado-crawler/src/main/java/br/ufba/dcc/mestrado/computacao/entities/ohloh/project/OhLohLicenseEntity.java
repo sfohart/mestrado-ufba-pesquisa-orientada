@@ -3,6 +3,7 @@ package br.ufba.dcc.mestrado.computacao.entities.ohloh.project;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
@@ -25,7 +26,7 @@ public class OhLohLicenseEntity implements BaseEntity<Long> {
 	public final static String NODE_NAME = "license";
 	
 	@Id
-	@GeneratedValue
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private Long id;
 
 	@Field(index=Index.YES, analyze=Analyze.YES, store=Store.NO)
