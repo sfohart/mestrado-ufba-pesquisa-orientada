@@ -5,9 +5,14 @@ import java.sql.Timestamp;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import org.hibernate.search.annotations.ContainedIn;
+
 import br.ufba.dcc.mestrado.computacao.entities.BaseEntity;
+import br.ufba.dcc.mestrado.computacao.entities.ohloh.project.OhLohProjectEntity;
 
 @Entity
 @Table(name = OhLohSizeFactEntity.NODE_NAME)
@@ -43,6 +48,14 @@ public class OhLohSizeFactEntity implements BaseEntity<Long> {
 
 	@Column(name = "man_months")
 	private Long manMonths;
+	
+	@Column(name = "project_id", updatable = false, insertable = false)
+	private Long projectId;
+	
+	@ManyToOne(optional = false)
+	@JoinColumn(name = "project_id", referencedColumnName = "id")
+	@ContainedIn
+	private OhLohProjectEntity ohlohProject;
 
 	public Long getId() {
 		return id;
@@ -106,6 +119,22 @@ public class OhLohSizeFactEntity implements BaseEntity<Long> {
 
 	public void setManMonths(Long manMonths) {
 		this.manMonths = manMonths;
+	}
+
+	public Long getProjectId() {
+		return projectId;
+	}
+
+	public void setProjectId(Long projectId) {
+		this.projectId = projectId;
+	}
+
+	public OhLohProjectEntity getOhlohProject() {
+		return ohlohProject;
+	}
+
+	public void setOhlohProject(OhLohProjectEntity ohlohProject) {
+		this.ohlohProject = ohlohProject;
 	}
 
 }

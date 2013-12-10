@@ -103,19 +103,19 @@
 									<dt><a href="#">Links para Código:</a></dt>
 									<dd style="margin-bottom: .5em;">
 									
-										<h:panelGroup  layout="block" rendered="#{projectDetailMB.enlistmentCount eq 1}">
-											<ui:repeat var="enlistment" value="#{projectDetailMB.enlistmentList}" >
+										<h:panelGroup  layout="block" rendered="#{projectDetailMB.linkCount eq 1}">
+											<ui:repeat var="enlistment" value="#{projectDetailMB.linkList}" >
 												<h:link value="#{enlistment.ohLohRepository.url}" >
 													<h:outputText value="#{enlistment.ohLohRepository.url}" />
 												</h:link>
 											</ui:repeat>
 										</h:panelGroup>			
 																	
-										<h:panelGroup  layout="block" rendered="#{projectDetailMB.enlistmentCount > 1}">
-											<h:outputText value="#{projectDetailMB.enlistmentCount} links" />
+										<h:panelGroup  layout="block" rendered="#{projectDetailMB.linkCount > 1}">
+											<h:outputText value="#{projectDetailMB.linkCount} links" />
 										</h:panelGroup>		
 																		
-										<h:panelGroup  layout="block" rendered="#{empty projectDetailMB.enlistmentList}">											
+										<h:panelGroup  layout="block" rendered="#{empty projectDetailMB.linkList}">											
 											<h:outputText  value="Sem links" />
 										</h:panelGroup>			
 																
@@ -144,7 +144,8 @@
 					<h:panelGroup id="nutshelPanel" layout="block" styleClass="row" style="margin-top: 20px">
 						<div class="col-md-6">
 							
-							<h:panelGroup id="projectNutshelFull" layout="block" styleClass="well" rendered="#{not empty projectDetailMB.factoidList}"  >
+							<h:panelGroup id="projectNutshelFull" layout="block" styleClass="well" rendered="#{not empty projectDetailMB.factoidList}"
+								style="min-height: 350px;">
 								<h5>Em resumo, <h:outputText value="#{projectDetailMB.project.name}" />...</h5>
 								
 								
@@ -212,13 +213,18 @@
 								</div>
 							</h:panelGroup>
 							
-							<h:panelGroup id="lineCodeGraph" layout="block" style="min-height: 300px">
+							<div style="clear: both;"></div>
+							
+							<h:panelGroup id="lineCodeGraph" layout="block" style="height: 200px">
 							</h:panelGroup>
 							<script type="text/javascript">
 								$(document).ready(function() {
 									var lineCodeOptions = {
 										title: { text: 'Linhas de Código' },
 										plotOptions: {
+											area: {
+												stacking: 'normal'
+											},
 											series: {
 												marker: {
 													enabled: false
@@ -392,87 +398,158 @@
 					</div>
 					
 					<h:panelGroup id="communityPanel" layout="block" styleClass="row" style="margin-bottom: 20px">
+						<h4>
+							<h:outputLink value="summaryReviews.jsf" >
+								<f:param name="projectId" value="#{projectDetailMB.project.id}" />
+								Avaliações
+							</h:outputLink>
+						</h4>
 						
 						
-						<div class="col-md-4">
-							<div class="row">
-								<h:outputLink value="summaryReviews.jsf" >
-									<f:param name="projectId" value="#{projectDetailMB.project.id}" />
-									<h4>Avaliações</h4>
-								</h:outputLink>
-							</div>
-							<div class="row">
-									<div style="padding: 19px">
-										<h:outputText 
-											rendered="#{projectDetailMB.overallPreferenceCount eq 1}"
-											value="#{projectDetailMB.overallPreferenceCount} pessoa avaliou este projeto" />
-										<h:outputText 
-											rendered="#{projectDetailMB.overallPreferenceCount > 1}"
-											value="#{projectDetailMB.overallPreferenceCount} pessoas avaliaram este projeto" />
-										<h:outputText 
-											rendered="#{projectDetailMB.overallPreferenceCount eq 0}"
-											value="Nenhum usuário avaliou ainda este projeto" /> 
-										<br />
-										<div class="rateit" data-rateit-readonly="true"
-											data-rateit-min="0" data-rateit-max="10"
-											data-rateit-value="#{projectDetailMB.averagePreference.value}" data-rateit-ispreset="true"  />
-										
-										<span style="margin-left: 10px" class="soft small">
-											<h:outputText value="#{projectDetailMB.averagePreference.value}" >
-												<f:convertNumber maxFractionDigits="2" maxIntegerDigits="2" pattern="#0.00" />
-											</h:outputText> / 10
-										</span>
-									</div>
+						<div class="row">
+							<div class="col-md-6">
+								<div style="padding: 19px">
+									<h:outputText 
+										rendered="#{projectDetailMB.overallPreferenceCount eq 1}"
+										value="#{projectDetailMB.overallPreferenceCount} pessoa avaliou este projeto" />
+									<h:outputText 
+										rendered="#{projectDetailMB.overallPreferenceCount > 1}"
+										value="#{projectDetailMB.overallPreferenceCount} pessoas avaliaram este projeto" />
+									<h:outputText 
+										rendered="#{projectDetailMB.overallPreferenceCount eq 0}"
+										value="Nenhum usuário avaliou ainda este projeto" /> 
+									<br />
+									<div class="rateit" data-rateit-readonly="true"
+										data-rateit-min="0" data-rateit-max="10"
+										data-rateit-value="#{projectDetailMB.averagePreference.value}" data-rateit-ispreset="true"  />
 									
-									<div class="well" style="min-height: 250px;">
-										<h4>Avaliação média por Critério</h4>
-										<table class="table table-condensed unstyled pull-left"  >
-											<tbody>
-												<ui:repeat var="entry" value="#{projectDetailMB.averagePreference.preferenceEntryList}">
-													<tr class="pull-left" style="width: 50%;">
-														<td style="border: none">
-															<span
-																class="glyphicon glyphicon-question-sign meuPopover"
-																data-toggle="popover" title="" data-placement="top"
-																data-content="#{entry.criterium.description}"
-																data-original-title="#{entry.criterium.name}">
-															</span> 
-															<h:outputText value=" #{entry.criterium.name}" />
-															<span style="margin-left: 10px" class="soft small"> 
-																(<h:outputText value="#{entry.value}" >
-																	<f:convertNumber maxFractionDigits="2" maxIntegerDigits="2" pattern="#0.00" />
-																</h:outputText> / 10)
-															</span>
-															<br />
-															<div class="rateit" data-rateit-readonly="true"
-																data-rateit-min="0" data-rateit-max="10"
-																data-rateit-value="#{entry.value}" data-rateit-ispreset="true"  />
-														</td>
-													</tr>
-												</ui:repeat>
-											</tbody>
-										</table>
-										<!-- script que aciona a popover -->
-										<SCRIPT type="text/javascript">
-											$('.meuPopover').popover({
-				
-											});
-										</SCRIPT>
-									</div>
+									<span style="margin-left: 10px" class="soft small">
+										<h:outputText value="#{projectDetailMB.averagePreference.value}" >
+											<f:convertNumber maxFractionDigits="2" maxIntegerDigits="2" pattern="#0.00" />
+										</h:outputText> / 10
+									</span>
+								</div>								
+								
 							</div>
-							<div class="row">
-								<h:link outcome="newProjectReview">
-									<f:param name="projectId" value="#{projectDetailMB.project.id}" />
-									Avalie você também este projeto
-								</h:link>
+							<div class="col-md-6">
+								
 							</div>
 						</div>
 						
-						<div class="col-md-4">
+						<div class="row">
+							<div class="col-md-6">
+								<div class="well" style="min-height: 250px;">
+									<h4>Avaliação média por Critério</h4>
+									<table class="table table-condensed unstyled pull-left"  >
+										<tbody>
+											<ui:repeat var="entry" value="#{projectDetailMB.averagePreference.preferenceEntryList}">
+												<tr class="pull-left" style="width: 50%;">
+													<td style="border: none">
+														<span
+															class="glyphicon glyphicon-question-sign meuPopover"
+															data-toggle="popover" title="" data-placement="top"
+															data-content="#{entry.criterium.description}"
+															data-original-title="#{entry.criterium.name}">
+														</span> 
+														<h:outputText value=" #{entry.criterium.name}" />
+														<span style="margin-left: 10px" class="soft small"> 
+															(<h:outputText value="#{entry.value}" >
+																<f:convertNumber maxFractionDigits="2" maxIntegerDigits="2" pattern="#0.00" />
+															</h:outputText> / 10)
+														</span>
+														<br />
+														<div class="rateit" data-rateit-readonly="true"
+															data-rateit-min="0" data-rateit-max="10"
+															data-rateit-value="#{entry.value}" data-rateit-ispreset="true"  />
+													</td>
+												</tr>
+											</ui:repeat>
+										</tbody>
+									</table>
+									<!-- script que aciona a popover -->
+									<SCRIPT type="text/javascript">
+										$('.meuPopover').popover({
+			
+										});
+									</SCRIPT>
+								</div>
+							</div>
+							<div class="col-md-6">
+								<h:panelGroup id="contributorsGraph" layout="block" style="min-height: 250px;">
+								</h:panelGroup>
+								
+								<script type="text/javascript">
+									$(document).ready(function() {
+										var contributorsOptions = {
+											title: { text: 'Colaboradores por mês' },
+											plotOptions: {
+												series: {
+													marker: {
+														enabled: false
+													}
+												}
+											},
+											
+											chart: {
+												renderTo: 'contributorsGraph',
+												type: 'line'
+											},
+											
+										 	xAxis: {
+								                type: 'datetime',
+								                maxZoom: 30 * 24 * 3600000, // fourteen days
+								                title: {
+								                    text: null
+								                }
+								            },
+								            
+								            yAxis: {
+								                title: {
+								                    text: null
+								                }
+								            },
+								            
+								            legend: {
+								                enabled: false
+								            },
+								            
+								            tooltip: {
+								                shared: true
+								            },
+								            
+											series: [{
+												name: 'Colaboradores',
+												pointInterval: 30 * 24 * 3600 * 1000
+											}]
+										};
+																			
+										var url = "restful/activityFact/#{projectDetailMB.project.id}/contributors/chartData";
+										$.getJSON(url,  function(returnedData) {
+											contributorsOptions.series[0].data = returnedData.data;
+											contributorsOptions.series[0].pointStart = returnedData.pointStart;
+											var chart = new Highcharts.Chart(contributorsOptions);
+										});
+									});
+								</script>
+							</div>
 						</div>
 						
-						<div class="col-md-4">
+						
+						<div class="row">
+							<div class="col-md-6">
+								<div class="row">
+									<h:link outcome="newProjectReview">
+										<f:param name="projectId" value="#{projectDetailMB.project.id}" />
+										Avalie você também este projeto
+									</h:link>
+								</div>
+							</div>
+							<div class="col-md-6">
+							</div>	
 						</div>
+						
+						
+						
 						
 					</h:panelGroup>
 				

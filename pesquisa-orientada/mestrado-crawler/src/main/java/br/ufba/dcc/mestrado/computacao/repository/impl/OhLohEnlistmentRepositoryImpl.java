@@ -36,9 +36,9 @@ public class OhLohEnlistmentRepositoryImpl extends BaseRepositoryImpl<Long, OhLo
 		CriteriaBuilder criteriaBuilder = getEntityManager().getCriteriaBuilder();
 		CriteriaQuery<Long> criteriaQuery = criteriaBuilder.createQuery(Long.class);
 		
-		CriteriaQuery<Long> select = criteriaQuery.select(criteriaBuilder.count(criteriaQuery.from(getEntityClass())));
-		
 		Root<OhLohEnlistmentEntity> root = criteriaQuery.from(getEntityClass());
+		CriteriaQuery<Long> select = criteriaQuery.select(criteriaBuilder.count(root));
+		
 		
 		Predicate namePredicate = criteriaBuilder.equal(root.get("projectId"), project.getId());
 		select.where(namePredicate);

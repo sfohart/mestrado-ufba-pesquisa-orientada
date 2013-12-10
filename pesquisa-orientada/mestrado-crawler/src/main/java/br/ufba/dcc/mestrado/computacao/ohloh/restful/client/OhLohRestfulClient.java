@@ -447,20 +447,8 @@ public class OhLohRestfulClient implements Serializable {
 		return resource;
 	}
 	
-	public OhLohSizeFactResponse getLatestSizeFackByProject(String projectId, OhLohBaseRequest request) {
-		OhLohSizeFactResponse resource = null;
-		
-		String url = environment.getProperty("meta.ohloh.api.size_facts.latest");
-		
-		RestClient restfulie = Restfulie.custom();
-		restfulie.getMediaTypes().register(new XmlMediaType().withTypes(
-				OhLohSizeFactResponse.class,
-				OhLohSizeFactResult.class,
-				OhLohSizeFactDTO.class));
-		
-		resource = this.<OhLohSizeFactResponse>processResponse(url, request, restfulie);
-		
-		return resource;
+	public OhLohSizeFactResponse getLatestSizeFackByProject(String projectId) {
+		return getAnalysisSizeFactByProject(projectId, "latest");
 	}
 	
 	/**
@@ -470,7 +458,7 @@ public class OhLohRestfulClient implements Serializable {
 	 * @param request
 	 * @return
 	 */
-	public OhLohSizeFactResponse getAnalysizSizeFactByProject(String projectId, String analysisId, OhLohBaseRequest request) {
+	public OhLohSizeFactResponse getAnalysisSizeFactByProject(String projectId, String analysisId) {
 		OhLohSizeFactResponse resource = null;
 		
 		String url = environment.getProperty("meta.ohloh.api.size_facts");
@@ -481,7 +469,7 @@ public class OhLohRestfulClient implements Serializable {
 				OhLohSizeFactResult.class,
 				OhLohSizeFactDTO.class));
 		
-		resource = this.<OhLohSizeFactResponse>processResponse(url, request, restfulie);
+		resource = this.<OhLohSizeFactResponse>processResponse(url, null, restfulie, projectId, analysisId);
 		
 		return resource;
 	}

@@ -145,6 +145,28 @@ public class ActivityFactChartResource implements Serializable {
 		return jsonObject.toString();
 	}
 	
+	@GET @Path(value="/{projectId: [0-9]*}/contributors/chartData")
+	@JSONP
+	@Produces("application/json")
+	public String produceContributorsChartData(
+			@PathParam("projectId") String projectIdParam) throws JSONException {
+		List<OhLohActivityFactEntity> activityFactList = findAllActivityFactsByProject(projectIdParam);
+		OhLohActivityFactEntity first = null;
+		
+		List<Long> contributorsList = new ArrayList<>();
+		if (activityFactList != null && ! activityFactList.isEmpty()) {
+			first = activityFactList.get(0);
+			for (OhLohActivityFactEntity activityFact : activityFactList) {
+				contributorsList.add(activityFact.getContributors());
+			}
+		}
+		
+		JSONObject jsonObject = new JSONObject();
+		jsonObject.put("pointStart", first.getMonth().getTime());
+		jsonObject.put("data", new JSONArray(contributorsList));
+		
+		return jsonObject.toString();
+	}
 	
 
 }

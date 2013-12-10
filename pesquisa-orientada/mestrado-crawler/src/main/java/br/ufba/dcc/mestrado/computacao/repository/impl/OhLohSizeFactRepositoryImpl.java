@@ -12,57 +12,58 @@ import javax.persistence.criteria.Root;
 
 import org.springframework.stereotype.Repository;
 
-import br.ufba.dcc.mestrado.computacao.entities.ohloh.project.OhLohLinkEntity;
 import br.ufba.dcc.mestrado.computacao.entities.ohloh.project.OhLohProjectEntity;
-import br.ufba.dcc.mestrado.computacao.repository.base.OhLohLinkRepository;
+import br.ufba.dcc.mestrado.computacao.entities.ohloh.sizefact.OhLohSizeFactEntity;
+import br.ufba.dcc.mestrado.computacao.repository.base.OhLohSizeFactRepository;
 
-@Repository(OhLohLinkRepositoryImpl.BEAN_NAME)
-public class OhLohLinkRepositoryImpl extends BaseRepositoryImpl<Long, OhLohLinkEntity>
-		implements OhLohLinkRepository {
+@Repository(OhLohSizeFactRepositoryImpl.BEAN_NAME)
+public class OhLohSizeFactRepositoryImpl extends BaseRepositoryImpl<Long, OhLohSizeFactEntity>
+		implements OhLohSizeFactRepository {
 	
-	public static final String BEAN_NAME =  "ohLohLinkRepository";
+	public static final String BEAN_NAME =  "ohLohSizeFactRepository";
 
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 7801826722021443632L;
 
-	public OhLohLinkRepositoryImpl() {
-		super(OhLohLinkEntity.class);
+	public OhLohSizeFactRepositoryImpl() {
+		super(OhLohSizeFactEntity.class);
 	}
 	
+
 	@Override
 	public Long countAllByProject(OhLohProjectEntity project) {
 		CriteriaBuilder criteriaBuilder = getEntityManager().getCriteriaBuilder();
 		CriteriaQuery<Long> criteriaQuery = criteriaBuilder.createQuery(Long.class);
 		
-		Root<OhLohLinkEntity> root = criteriaQuery.from(getEntityClass());
-		criteriaQuery = criteriaQuery.select(criteriaBuilder.count(root));
+		CriteriaQuery<Long> select = criteriaQuery.select(criteriaBuilder.count(criteriaQuery.from(getEntityClass())));
 		
+		Root<OhLohSizeFactEntity> root = criteriaQuery.from(getEntityClass());
 		
 		Predicate namePredicate = criteriaBuilder.equal(root.get("projectId"), project.getId());
-		criteriaQuery = criteriaQuery.where(namePredicate);
+		select.where(namePredicate);
 		
 		return getEntityManager().createQuery(criteriaQuery).getSingleResult();
 	}
 	
 	@Override
-	public List<OhLohLinkEntity> findByProject(OhLohProjectEntity project) {
+	public List<OhLohSizeFactEntity> findByProject(OhLohProjectEntity project) {
 		CriteriaBuilder criteriaBuilder = getEntityManager()
 				.getCriteriaBuilder();
-		CriteriaQuery<OhLohLinkEntity> criteriaQuery = criteriaBuilder
+		CriteriaQuery<OhLohSizeFactEntity> criteriaQuery = criteriaBuilder
 				.createQuery(getEntityClass());
 
-		Root<OhLohLinkEntity> root = criteriaQuery.from(getEntityClass());
-		criteriaQuery = criteriaQuery.select(root);
+		Root<OhLohSizeFactEntity> root = criteriaQuery.from(getEntityClass());
+		CriteriaQuery<OhLohSizeFactEntity> select = criteriaQuery.select(root);
 
 		Predicate namePredicate = criteriaBuilder.equal(root.get("projectId"), project.getId());
-		criteriaQuery = criteriaQuery.where(namePredicate);
+		select.where(namePredicate);
 
-		TypedQuery<OhLohLinkEntity> query = getEntityManager().createQuery(
+		TypedQuery<OhLohSizeFactEntity> query = getEntityManager().createQuery(
 				criteriaQuery);
 
-		List<OhLohLinkEntity> result = null;
+		List<OhLohSizeFactEntity> result = null;
 
 		try {
 			result = query.getResultList();

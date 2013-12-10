@@ -9,7 +9,6 @@ import org.springframework.context.annotation.PropertySource;
 import org.springframework.context.support.PropertySourcesPlaceholderConfigurer;
 import org.springframework.core.env.Environment;
 
-import br.ufba.dcc.mestrado.computacao.ohloh.crawler.OhLohCrawler;
 import br.ufba.dcc.mestrado.computacao.ohloh.crawler.OhLohProjectCrawler;
 import br.ufba.dcc.mestrado.computacao.ohloh.restful.client.OhLohRestfulClient;
 import br.ufba.dcc.mestrado.computacao.search.IndexerRunner;
@@ -36,11 +35,6 @@ public class CrawlerAppConfig {
 		return new IndexerRunner();
 	}
 	
-	@Bean
-	public OhLohCrawler ohLohCrawler() {
-		return new OhLohCrawler();
-	}
-
 	@Bean
 	public OhLohProjectCrawler ohLohProjectCrawler() {
 		return new OhLohProjectCrawler();

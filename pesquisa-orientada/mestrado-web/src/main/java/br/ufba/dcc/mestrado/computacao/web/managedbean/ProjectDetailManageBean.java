@@ -11,11 +11,13 @@ import javax.faces.event.ComponentSystemEvent;
 import br.ufba.dcc.mestrado.computacao.entities.ohloh.analysis.OhLohAnalysisLanguagesEntity;
 import br.ufba.dcc.mestrado.computacao.entities.ohloh.enlistment.OhLohEnlistmentEntity;
 import br.ufba.dcc.mestrado.computacao.entities.ohloh.factoid.OhLohFactoidEntity;
+import br.ufba.dcc.mestrado.computacao.entities.ohloh.project.OhLohLinkEntity;
 import br.ufba.dcc.mestrado.computacao.entities.ohloh.project.OhLohProjectEntity;
 import br.ufba.dcc.mestrado.computacao.entities.recommender.preference.PreferenceEntity;
 import br.ufba.dcc.mestrado.computacao.service.base.CriteriumPreferenceService;
 import br.ufba.dcc.mestrado.computacao.service.base.OhLohAnalysisService;
 import br.ufba.dcc.mestrado.computacao.service.base.OhLohEnlistmentService;
+import br.ufba.dcc.mestrado.computacao.service.base.OhLohLinkService;
 import br.ufba.dcc.mestrado.computacao.service.base.OhLohProjectService;
 import br.ufba.dcc.mestrado.computacao.service.base.OverallPreferenceService;
 
@@ -43,12 +45,18 @@ public class ProjectDetailManageBean implements Serializable {
 	@ManagedProperty("#{criteriumPreferenceService}")
 	private CriteriumPreferenceService criteriumPreferenceService;
 	
+	@ManagedProperty("#{ohLohLinkService}")
+	private OhLohLinkService linkService;
+	
 	private OhLohProjectEntity project;
 	private List<OhLohFactoidEntity> factoidList;
 	private OhLohAnalysisLanguagesEntity analysisLanguages;
 		
 	private List<OhLohEnlistmentEntity> enlistmentList;
 	private Long enlistmentCount;
+	
+	private List<OhLohLinkEntity> linkList;
+	private Long linkCount;
 	
 	private Long overallPreferenceCount;
 		
@@ -77,6 +85,11 @@ public class ProjectDetailManageBean implements Serializable {
 			this.enlistmentCount = getEnlistmentService().countAllByProject(getProject());
 			if (enlistmentCount != null && enlistmentCount > 0) {
 				this.enlistmentList = getEnlistmentService().findByProject(getProject());
+			}
+			
+			this.linkCount = getLinkService().countAllByProject(getProject());
+			if (linkCount != null && linkCount > 0) {
+				this.linkList = getLinkService().findByProject(getProject());
 			}
 			
 			this.overallPreferenceCount = getOverallPreferenceService().countAllLastByProject(getProject().getId());
@@ -132,6 +145,18 @@ public class ProjectDetailManageBean implements Serializable {
 			CriteriumPreferenceService criteriumPreferenceService) {
 		this.criteriumPreferenceService = criteriumPreferenceService;
 	}
+	
+	public Long getLinkCount() {
+		return linkCount;
+	}
+	
+	public OhLohLinkService getLinkService() {
+		return linkService;
+	}
+	
+	public void setLinkService(OhLohLinkService linkService) {
+		this.linkService = linkService;
+	}
 
 	public OhLohProjectEntity getProject() {
 		return project;
@@ -143,6 +168,10 @@ public class ProjectDetailManageBean implements Serializable {
 
 	public List<OhLohEnlistmentEntity> getEnlistmentList() {
 		return enlistmentList;
+	}
+	
+	public List<OhLohLinkEntity> getLinkList() {
+		return linkList;
 	}
 	
 	public Long getEnlistmentCount() {

@@ -20,12 +20,15 @@ import br.ufba.dcc.mestrado.computacao.ohloh.data.enlistment.OhLohEnlistmentDTO;
 import br.ufba.dcc.mestrado.computacao.ohloh.data.language.OhLohLanguageDTO;
 import br.ufba.dcc.mestrado.computacao.ohloh.data.language.OhLohLanguageResult;
 import br.ufba.dcc.mestrado.computacao.ohloh.data.project.OhLohProjectDTO;
+import br.ufba.dcc.mestrado.computacao.ohloh.data.sizefact.OhLohSizeFactDTO;
+import br.ufba.dcc.mestrado.computacao.ohloh.data.sizefact.OhLohSizeFactResult;
 import br.ufba.dcc.mestrado.computacao.ohloh.restful.client.OhLohRestfulClient;
 import br.ufba.dcc.mestrado.computacao.ohloh.restful.request.OhLohBaseRequest;
 import br.ufba.dcc.mestrado.computacao.ohloh.restful.responses.OhLohActivityFactResponse;
 import br.ufba.dcc.mestrado.computacao.ohloh.restful.responses.OhLohEnlistmentResponse;
 import br.ufba.dcc.mestrado.computacao.ohloh.restful.responses.OhLohLanguageResponse;
 import br.ufba.dcc.mestrado.computacao.ohloh.restful.responses.OhLohProjectResponse;
+import br.ufba.dcc.mestrado.computacao.ohloh.restful.responses.OhLohSizeFactResponse;
 import br.ufba.dcc.mestrado.computacao.service.base.OhLohActivityFactService;
 import br.ufba.dcc.mestrado.computacao.service.base.OhLohCrawlerEnlistmentService;
 import br.ufba.dcc.mestrado.computacao.service.base.OhLohCrawlerLanguageService;
@@ -35,6 +38,7 @@ import br.ufba.dcc.mestrado.computacao.service.base.OhLohEnlistmentService;
 import br.ufba.dcc.mestrado.computacao.service.base.OhLohLanguageService;
 import br.ufba.dcc.mestrado.computacao.service.base.OhLohLicenseService;
 import br.ufba.dcc.mestrado.computacao.service.base.OhLohProjectService;
+import br.ufba.dcc.mestrado.computacao.service.base.OhLohSizeFactService;
 import br.ufba.dcc.mestrado.computacao.spring.CrawlerAppConfig;
 
 @Component
@@ -73,6 +77,9 @@ public class OhLohProjectCrawler {
 	
 	@Autowired
 	private OhLohActivityFactService ohLohActivityFactService;
+	
+	@Autowired
+	private OhLohSizeFactService ohLohSizeFactService;
 	
 	public OhLohRestfulClient getOhLohRestfulClient() {
 		return ohLohRestfulClient;
@@ -158,6 +165,15 @@ public class OhLohProjectCrawler {
 	public void setOhLohActivityFactService(
 			OhLohActivityFactService ohLohActivityFactService) {
 		this.ohLohActivityFactService = ohLohActivityFactService;
+	}
+	
+	public OhLohSizeFactService getOhLohSizeFactService() {
+		return ohLohSizeFactService;
+	}
+	
+	public void setOhLohSizeFactService(
+			OhLohSizeFactService ohLohSizeFactService) {
+		this.ohLohSizeFactService = ohLohSizeFactService;
 	}
 	
 	public OhLohProjectCrawler() {
@@ -318,6 +334,12 @@ public class OhLohProjectCrawler {
 		}
 	}
 	
+	/**
+	 * Deixa o processo de baixar dados mais lento, por persistir um volume
+	 * muito grande de informações por projeto
+	 * @param project
+	 * @throws Exception
+	 */
 	protected void downloadActivityFacts(OhLohProjectEntity project) throws Exception {
 		if (project != null && project.getId() != null) {
 			OhLohActivityFactResponse response = getOhLohRestfulClient().getLatestProjectActivityFacts(project.getId().toString());
@@ -332,6 +354,32 @@ public class OhLohProjectCrawler {
 						activityFactDTO.setOhlohProject(projectDTO);
 						
 						getOhLohActivityFactService().process(activityFactDTO);
+					}
+				}
+			}
+		}
+	}
+	
+	/**
+	 * Deixa o processo de baixar dados mais lento, por persistir um volume
+	 * muito grande de informações por projeto
+	 * @param project
+	 * @throws Exception
+	 */
+	protected void downloadSizeFacts(OhLohProjectEntity project) throws Exception {
+		if (project != null && project.getId() != null) {
+			OhLohSizeFactResponse response = getOhLohRestfulClient().getLatestSizeFackByProject(project.getId().toString());
+			if (OhLohSizeFactResponse.SUCCESS.equals(response.getStatus())) {
+				OhLohSizeFactResult result = response.getResult();
+				if (result != null && result.getOhLohSizeFacts() != null) {
+					for (OhLohSizeFactDTO sizeFactDTO : result.getOhLohSizeFacts()) {
+						OhLohProjectDTO projectDTO = new OhLohProjectDTO();
+						projectDTO.setId(project.getId());
+						
+						sizeFactDTO.setProjectId(project.getId());
+						sizeFactDTO.setOhlohProject(projectDTO);
+						
+						getOhLohSizeFactService().process(sizeFactDTO);
 					}
 				}
 			}
@@ -405,7 +453,9 @@ public class OhLohProjectCrawler {
 								
 								downloadEnlistments(ohLohProject);
 								
-								downloadActivityFacts(ohLohProject);
+								//downloadActivityFacts(ohLohProject);
+								
+								//downloadSizeFacts(ohLohProject);
 								
 							} else {
 								logger.info(String.format("Projeto \"%s\" com id %d já se encontra na base", project.getName(), project.getId()));
