@@ -48,6 +48,8 @@
 			<version>${hibernate-jpa-2.0-api.version}</version>
 		</dependency>
 		
+	
+		
 		<!-- Hibernate Search -->
 		<dependency>
 			<groupId>org.hibernate</groupId>

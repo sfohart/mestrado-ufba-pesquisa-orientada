@@ -12,6 +12,12 @@
 			<name>JBoss Public Maven Repository Group</name>
 			<url>https://repository.jboss.org/nexus/content/groups/public-jboss/</url>
 		</repository>
+		<repository>
+			<id>java.net-Public</id>
+			<name>Maven Java Net Snapshots and Releases</name>
+			<url>https://maven.java.net/content/groups/public/</url>
+			<updatePolicy>never</updatePolicy>
+		</repository>
 	</repositories>
 
 	<modules>
@@ -25,10 +31,8 @@
 		<java.version>1.7</java.version>
 		<joda-time.version>2.2</joda-time.version>
 		<junit.version>4.11</junit.version>
-		<!--
-			Hibenate Search apenas dá suporte a essa versão do Apache Lucene,
-			embora o Apache Mahout suporte a versão 4.3.0 
-		 -->
+		<!-- Hibenate Search apenas dá suporte a essa versão do Apache Lucene, 
+			embora o Apache Mahout suporte a versão 4.3.0 -->
 		<lucene.version>3.6.2</lucene.version>
 	</properties>
 
@@ -87,13 +91,13 @@
 			<artifactId>spring-expression</artifactId>
 			<version>${spring.version}</version>
 		</dependency>
-		
-		
+
+
 		<!-- Commons Lang -->
 		<dependency>
-		    <groupId>org.apache.commons</groupId>
-		    <artifactId>commons-lang3</artifactId>
-		    <version>3.1</version>
+			<groupId>org.apache.commons</groupId>
+			<artifactId>commons-lang3</artifactId>
+			<version>3.1</version>
 		</dependency>
 	</dependencies>
 

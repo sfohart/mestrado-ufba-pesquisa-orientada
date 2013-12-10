@@ -10,6 +10,7 @@
 		http://www.springframework.org/schema/util/spring-util-3.1.xsd">
 
 	<http pattern="/resources" security="none" />
+	<http pattern="/restful/**" security="none" />
 	<http pattern="/javax.faces.resource/**" security="none" />
 	
 	<http auto-config="true" use-expressions="true" >
