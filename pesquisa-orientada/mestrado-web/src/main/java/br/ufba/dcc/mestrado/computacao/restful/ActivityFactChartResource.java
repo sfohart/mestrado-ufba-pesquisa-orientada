@@ -11,6 +11,8 @@ import javax.ws.rs.Produces;
 
 import org.apache.commons.lang3.StringUtils;
 import org.codehaus.jettison.json.JSONArray;
+import org.codehaus.jettison.json.JSONException;
+import org.codehaus.jettison.json.JSONObject;
 import org.glassfish.jersey.server.JSONP;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -19,6 +21,11 @@ import br.ufba.dcc.mestrado.computacao.entities.ohloh.activityfact.OhLohActivity
 import br.ufba.dcc.mestrado.computacao.entities.ohloh.project.OhLohProjectEntity;
 import br.ufba.dcc.mestrado.computacao.service.base.OhLohActivityFactService;
 
+/**
+ * 
+ * @author leandro.ferreira
+ *
+ */
 @Component
 @Path("/activityFact")
 public class ActivityFactChartResource implements Serializable {
@@ -40,7 +47,11 @@ public class ActivityFactChartResource implements Serializable {
 		this.activityFactService = activityFactService;
 	}
 	
-	
+	/**
+	 * 
+	 * @param projectIdParam
+	 * @return
+	 */
 	protected List<OhLohActivityFactEntity> findAllActivityFactsByProject(String projectIdParam) {
 		List<OhLohActivityFactEntity> activityFactList = null;
 		if (! StringUtils.isEmpty(projectIdParam)) {
@@ -57,41 +68,83 @@ public class ActivityFactChartResource implements Serializable {
 		return activityFactList;
 	}
 	
+	/**
+	 * 
+	 * @param projectIdParam
+	 * @return
+	 * @throws JSONException 
+	 */
+	@GET @Path(value="/{projectId: [0-9]*}/code/chartData")
+	@JSONP
+	@Produces("application/json")
+	public String produceCodeChartData(
+			@PathParam("projectId") String projectIdParam) throws JSONException {
+		List<OhLohActivityFactEntity> activityFactList = findAllActivityFactsByProject(projectIdParam);
+		OhLohActivityFactEntity first = null;
+		
+		List<Long> codeList = new ArrayList<>();
+		Long totalCode = 0L;
+		
+		List<Long> commentsList = new ArrayList<>();
+		Long totalComments = 0L;
+		
+		List<Long> blanksList = new ArrayList<>();
+		Long totalBlanks = 0L;
+		if (activityFactList != null && ! activityFactList.isEmpty()) {
+			first = activityFactList.get(0);
+			
+			for (OhLohActivityFactEntity activityFact : activityFactList) {				
+				totalCode += activityFact.getCodeAdded() - activityFact.getCodeRemoved();
+				codeList.add(totalCode);
+				
+				totalComments += activityFact.getCommentsAdded() - activityFact.getCommentsRemoved();
+				commentsList.add(totalComments);
+				
+				totalBlanks += activityFact.getBlanksAdded() - activityFact.getBlanksRemoved();
+				blanksList.add(totalBlanks);
+			}			
+		}
+		
+		JSONObject jsonObject = new JSONObject();
+		jsonObject.put("pointStart", first.getMonth().getTime());
+		
+		jsonObject.put("codeData", new JSONArray(codeList));
+		jsonObject.put("commentsData", new JSONArray(commentsList));
+		jsonObject.put("blanksData", new JSONArray(blanksList));
+				
+		return jsonObject.toString();		
+	}
+	
+	/**
+	 * 
+	 * @param projectIdParam
+	 * @return
+	 * @throws JSONException 
+	 */
 	@GET @Path(value="/{projectId: [0-9]*}/commits/chartData")
 	@JSONP
 	@Produces("application/json")
 	public String produceCommitsChartData(
-			@PathParam("projectId") String projectIdParam) {
+			@PathParam("projectId") String projectIdParam) throws JSONException {
 		
 		List<OhLohActivityFactEntity> activityFactList = findAllActivityFactsByProject(projectIdParam);
+		OhLohActivityFactEntity first = null;
 		
 		List<Long> commitsList = new ArrayList<>();
-		if (activityFactList != null) {
+		if (activityFactList != null && ! activityFactList.isEmpty()) {
+			first = activityFactList.get(0);
 			for (OhLohActivityFactEntity activityFact : activityFactList) {
 				commitsList.add(activityFact.getCommits());
 			}
 		}
 		
-		JSONArray jsonArray = new JSONArray(commitsList);
-		return jsonArray.toString();
+		JSONObject jsonObject = new JSONObject();
+		jsonObject.put("pointStart", first.getMonth().getTime());
+		jsonObject.put("data", new JSONArray(commitsList));
+		
+		return jsonObject.toString();
 	}
 	
-	@GET @Path(value="/{projectId: [0-9]*}/codeAdded/chartData")
-	@JSONP
-	@Produces("application/json")
-	public String produceCodeAddedChartData(
-			@PathParam("projectId") String projectIdParam) {
-		List<OhLohActivityFactEntity> activityFactList = findAllActivityFactsByProject(projectIdParam);
-		
-		List<Long> codeAddedList = new ArrayList<>();
-		if (activityFactList != null) {
-			for (OhLohActivityFactEntity activityFact : activityFactList) {
-				codeAddedList.add(activityFact.getCodeAdded());
-			}
-		}
-		
-		JSONArray jsonArray = new JSONArray(codeAddedList);
-		return jsonArray.toString();
-	}
+	
 
 }

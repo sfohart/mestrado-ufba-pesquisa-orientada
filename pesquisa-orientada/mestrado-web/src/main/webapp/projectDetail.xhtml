@@ -14,10 +14,27 @@
 	</f:metadata>
 	
 	<h:body>
+		
 		<ui:composition template="layout/mainLayout.xhtml">
+		
+			<ui:define name="javascriptAddOns">
+				<h:outputScript library="default" name="js/highcharts/highcharts.src.js"  />
+				<h:outputScript library="default" name="js/highcharts/modules/data.src.js"  />
+				<script type="text/javascript">
+					var highchartsOptions = Highcharts.setOptions({
+						lang: {
+							months: ['Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho', 'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro'],
+							shortMonths: ['Jan', 'Feb', 'Mar', 'Abr', 'Maio', 'Jun', 'Jul', 'Ago', 'Set', 'Out', 'Nov', 'Dez']
+						}
+					});
+				</script>
+			</ui:define>
+		
 			<ui:define name="titlePage">Detalhes do Projeto</ui:define>
 			
 			<ui:define name="content">
+			
+			
 				<f:loadBundle var="factoidMsg" basename="br.ufba.dcc.mestrado.computacao.factoid"   />
 			
 				<section class="container">
@@ -194,6 +211,79 @@
 									</table>
 								</div>
 							</h:panelGroup>
+							
+							<h:panelGroup id="lineCodeGraph" layout="block" style="min-height: 300px">
+							</h:panelGroup>
+							<script type="text/javascript">
+								$(document).ready(function() {
+									var lineCodeOptions = {
+										title: { text: 'Linhas de Código' },
+										plotOptions: {
+											series: {
+												marker: {
+													enabled: false
+												}
+											}
+										},
+										
+										chart: {
+											renderTo: 'lineCodeGraph',
+											type: 'area'
+										},
+										
+									 	xAxis: {
+							                type: 'datetime',
+							                maxZoom: 30 * 24 * 3600000, // fourteen days
+							                title: {
+							                    text: null
+							                }
+							            },
+							            
+							            yAxis: {
+							                title: {
+							                    text: null
+							                }
+							            },
+							            
+							            legend: {
+							                enabled: true
+							            },
+							            
+										tooltip: {
+							                shared: true
+							            },
+							            
+										series: [
+											{
+												name: 'Código',
+												pointInterval: 30 * 24 * 3600 * 1000
+											},
+											{
+												name: 'Comentários',
+												pointInterval: 30 * 24 * 3600 * 1000
+											},
+											{
+												name: 'Linhas em Branco',
+												pointInterval: 30 * 24 * 3600 * 1000
+											},
+										]
+									};
+																		
+									var url = "restful/activityFact/#{projectDetailMB.project.id}/code/chartData";
+									$.getJSON(url,  function(returnedData) {
+										lineCodeOptions.series[0].data = returnedData.codeData;
+										lineCodeOptions.series[0].pointStart = returnedData.pointStart;
+										
+										lineCodeOptions.series[1].data = returnedData.commentsData;
+										lineCodeOptions.series[1].pointStart = returnedData.pointStart;
+										
+										lineCodeOptions.series[2].data = returnedData.blanksData;
+										lineCodeOptions.series[2].pointStart = returnedData.pointStart;
+										
+										var chart = new Highcharts.Chart(lineCodeOptions);
+									});
+								});
+							</script>
 						</div>
 					
 					</h:panelGroup>
@@ -238,6 +328,62 @@
 							</div>
 						</div>
 						<div class="col-md-6">
+							<h:panelGroup id="commitGraph" layout="block" style="min-height: 200px">
+							</h:panelGroup>
+							
+							<script type="text/javascript">
+								$(document).ready(function() {
+									var commitsOptions = {
+										title: { text: 'Commits por mês' },
+										plotOptions: {
+											series: {
+												marker: {
+													enabled: false
+												}
+											}
+										},
+										
+										chart: {
+											renderTo: 'commitGraph',
+											type: 'line'
+										},
+										
+									 	xAxis: {
+							                type: 'datetime',
+							                maxZoom: 30 * 24 * 3600000, // fourteen days
+							                title: {
+							                    text: null
+							                }
+							            },
+							            
+							            yAxis: {
+							                title: {
+							                    text: null
+							                }
+							            },
+							            
+							            legend: {
+							                enabled: false
+							            },
+							            
+							            tooltip: {
+							                shared: true
+							            },
+							            
+										series: [{
+											name: 'Commits',
+											pointInterval: 30 * 24 * 3600 * 1000
+										}]
+									};
+																		
+									var url = "restful/activityFact/#{projectDetailMB.project.id}/commits/chartData";
+									$.getJSON(url,  function(returnedData) {
+										commitsOptions.series[0].data = returnedData.data;
+										commitsOptions.series[0].pointStart = returnedData.pointStart;
+										var chart = new Highcharts.Chart(commitsOptions);
+									});
+								});
+							</script>
 						</div>
 					</h:panelGroup>
 					
@@ -306,6 +452,7 @@
 												</ui:repeat>
 											</tbody>
 										</table>
+										<!-- script que aciona a popover -->
 										<SCRIPT type="text/javascript">
 											$('.meuPopover').popover({
 				
