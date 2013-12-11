@@ -1,6 +1,7 @@
 package br.ufba.dcc.mestrado.computacao.web.managedbean;
 
 import java.io.Serializable;
+import java.util.List;
 
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
@@ -13,6 +14,7 @@ import br.ufba.dcc.mestrado.computacao.entities.recommender.preference.Preferenc
 import br.ufba.dcc.mestrado.computacao.service.base.CriteriumPreferenceService;
 import br.ufba.dcc.mestrado.computacao.service.base.OhLohProjectService;
 import br.ufba.dcc.mestrado.computacao.service.base.OverallPreferenceService;
+import br.ufba.dcc.mestrado.computacao.service.base.PreferenceReviewService;
 
 @ManagedBean(name = "summaryReviewsMB")
 @ViewScoped
@@ -31,6 +33,9 @@ public class ProjectSummaryReviewsManagedBean implements Serializable {
 	@ManagedProperty("#{overallPreferenceService}")
 	private OverallPreferenceService overallPreferenceService;
 	
+	@ManagedProperty("#{preferenceReviewService}")
+	private PreferenceReviewService preferenceReviewService;
+	
 	@ManagedProperty("#{criteriumPreferenceService}")
 	private CriteriumPreferenceService criteriumPreferenceService;
 	
@@ -41,6 +46,9 @@ public class ProjectSummaryReviewsManagedBean implements Serializable {
 	
 	private PreferenceReviewEntity mostHelpfulFavorableReview;
 	private PreferenceReviewEntity mostHelpfulCriticalReview;
+	
+	private List<PreferenceEntity> mostRecentReviewList;
+	private List<PreferenceEntity> mostHelpfulReviewList;
 	
 	
 	public ProjectSummaryReviewsManagedBean() {
@@ -82,6 +90,15 @@ public class ProjectSummaryReviewsManagedBean implements Serializable {
 		this.criteriumPreferenceService = criteriumPreferenceService;
 	}
 	
+	public PreferenceReviewService getPreferenceReviewService() {
+		return preferenceReviewService;
+	}
+	
+	public void setPreferenceReviewService(
+			PreferenceReviewService preferenceReviewService) {
+		this.preferenceReviewService = preferenceReviewService;
+	}
+	
 	public Long getOverallPreferenceCount() {
 		return overallPreferenceCount;
 	}
@@ -109,6 +126,14 @@ public class ProjectSummaryReviewsManagedBean implements Serializable {
 	public PreferenceReviewEntity getMostHelpfulCriticalReview() {
 		return mostHelpfulCriticalReview;
 	}
+	
+	public List<PreferenceEntity> getMostHelpfulReviewList() {
+		return mostHelpfulReviewList;
+	}
+	
+	public List<PreferenceEntity> getMostRecentReviewList() {
+		return mostRecentReviewList;
+	}
 
 	public void init(ComponentSystemEvent event) {
 		if (getProject() != null && getProject().getId() != null) {
@@ -117,8 +142,11 @@ public class ProjectSummaryReviewsManagedBean implements Serializable {
 			this.overallPreferenceCount = getOverallPreferenceService().countAllLastByProject(getProject().getId());
 			this.reviewsCount = getOverallPreferenceService().countAllLastReviewsByProject(getProject().getId());
 			
+			this.mostHelpfulReviewList 	= getOverallPreferenceService().findAllLastReviewsByProject(getProject().getId(), 0, 5);
+			this.mostRecentReviewList 	= getOverallPreferenceService().findAllLastReviewsByProject(getProject().getId(), 0, 5);
+			
 			//calculando avaliação média do projeto
-			this.averagePreference = getOverallPreferenceService().averagePreferenceByProject(getProject().getId());
+			this.averagePreference = getOverallPreferenceService().averagePreferenceByProject(getProject().getId());			
 		}
 	}
 	

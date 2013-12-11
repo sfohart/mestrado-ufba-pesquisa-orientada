@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.List;
 
 import br.ufba.dcc.mestrado.computacao.entities.ohloh.project.OhLohProjectEntity;
+import br.ufba.dcc.mestrado.computacao.entities.recommender.preference.PreferenceEntity;
 import br.ufba.dcc.mestrado.computacao.entities.recommender.preference.PreferenceReviewEntity;
 
 /**
@@ -25,7 +26,7 @@ public interface PreferenceReviewService extends BaseOhLohService<Long, Preferen
 	 * @param project
 	 * @return
 	 */
-	List<PreferenceReviewEntity> findAllLastReviewsByProject(OhLohProjectEntity project);
+	List<PreferenceEntity> findAllLastReviewsByProject(OhLohProjectEntity project);
 	
 	/**
 	 * 
@@ -34,7 +35,7 @@ public interface PreferenceReviewService extends BaseOhLohService<Long, Preferen
 	 * @param offset
 	 * @return
 	 */
-	List<PreferenceReviewEntity> findAllLastReviewsByProject(OhLohProjectEntity project, Integer startAt, Integer offset);
+	List<PreferenceEntity> findAllLastReviewsByProject(OhLohProjectEntity project, Integer startAt, Integer offset);
 	
 	/**
 	 * 

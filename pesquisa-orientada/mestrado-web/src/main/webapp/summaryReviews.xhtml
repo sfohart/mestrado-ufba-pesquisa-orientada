@@ -145,6 +145,121 @@
 									</h:outputLink>
 								</h3>
 								
+								<section>
+									<ul class="media-list">
+										<ui:repeat var="preference" value="#{summaryReviewsMB.mostHelpfulReviewList}" varStatus="status"  >
+											<li class="media well">
+												<h:outputLink styleClass="pull-left" >
+													<div>
+														<h:outputText
+							  								rendered="#{preference.user.firstName != null and preference.user.login == null}"
+							  								style="margin-left: 10px; vertical-align: middle" 
+							  								value="...#{preference.user.firstName}" />
+							  							<h:outputText
+							  								rendered="#{preference.user.firstName == null and preference.user.login != null}"
+							  								style="margin-left: 10px; vertical-align: middle" 
+							  								value="...#{preference.user.login}" />
+														disse:
+													</div>
+													<h:graphicImage styleClass="media-object pull-right img-thumbnail" height="64" width="64" library="default" name="img/no_logo.png" />													
+												</h:outputLink>
+												
+												<div class="media-body pul-right" style="padding-left: 10px">
+													<div>
+														<div class="pull-left">
+		      												<h4 class="media-heading strong">
+		      													<h:outputText value="#{preference.preferenceReview.title}" />      													
+		      												</h4>
+														</div>
+														<div class="pull-left" style="margin-left: 20px">
+		      												<div class="rateit" data-rateit-readonly="true"
+																	data-rateit-min="0" data-rateit-max="10"
+																	data-rateit-value="#{preference.value}" data-rateit-ispreset="true"  />
+														</div>
+													</div>
+      												
+      												<div  style="clear: both; color: #777; font-style: italic; font-family: Georgia,'Times New Roman',Times,serif;">
+      													<abbr class="small soft" title="#{preference.registeredAt}">
+	      													<h:outputText value="#{preference.registeredAt}">
+	      														<f:convertDateTime pattern="'escrito no dia' dd/MM/yyyy 'às' HH:mm:ss" />
+	      													</h:outputText>
+	      												</abbr>
+      												</div>
+      												
+      												<h:panelGroup layout="block" style="clear: both; margin-top: 20px"
+      														rendered="#{not empty preference.preferenceEntryList}">
+														<table class="table table-condensed unstyled pull-left" style="width: 75%" >
+															<tbody >
+		      													<ui:repeat var="preferenceEntry" value="#{preference.preferenceEntryList}">
+		      														<tr class="pull-left">
+		      															<td style="border: none">
+																			<span
+																				class="glyphicon glyphicon-question-sign meuPopover"
+																				data-toggle="popover" title="" data-placement="top"
+																				data-content="#{preferenceEntry.criterium.description}"
+																				data-original-title="#{preferenceEntry.criterium.name}">
+																			</span> 
+																			<h:outputText  value=" #{preferenceEntry.criterium.name}"  />
+																			<span style="margin-left: 10px" class="soft small"> 
+																				(<h:outputText value="#{preferenceEntry.value}" >
+																					<f:convertNumber maxFractionDigits="2" maxIntegerDigits="2" pattern="#0.00" />
+																				</h:outputText> / 10)
+																			</span>
+																			<br />
+																		
+																			<div class="rateit" data-rateit-readonly="true"
+																				data-rateit-min="0" data-rateit-max="10"
+																				data-rateit-value="#{preferenceEntry.value}" data-rateit-ispreset="true"  />
+																		</td>
+		      														</tr>
+		      													</ui:repeat>
+															</tbody>
+														</table>
+														<SCRIPT type="text/javascript">
+															$('.meuPopover').popover({
+			
+															});
+														</SCRIPT>
+      												</h:panelGroup>
+      												
+      												
+      												<div style="clear: both; padding-top: 10px">
+	      												<h:outputText value="#{preference.preferenceReview.description}" />
+      												</div>
+      												<p class="soft small">
+      												</p>
+      												<div class="col-md-8 pull-left">
+      													<h:panelGroup layout="block" styleClass="small soft" 
+      															rendered="#{ (not empty preference.preferenceReview.usefulList) or (not empty preference.preferenceReview.uselessList)}">
+	      													<c:set var="totalVotes" value="#{fn:length(preference.preferenceReview.usefulList) + fn:length(preference.preferenceReview.uselessList)}" />
+	      													<h:outputText  value="#{fn:length(preference.preferenceReview.usefulList)}" /> 
+	      													de <h:outputText value="#{totalVotes}" /> avaliaram esta opinião como útil.
+      													</h:panelGroup>
+      												</div>	      												
+      												<div class="col-md-4 pull-right">
+      													<h:panelGroup rendered="#{loginMB.loggedUser != null}">
+	      													<span class="soft small italic">
+		      													Você achou esta avaliação útil?
+		      													
+		      													<h:commandLink style="text-decoration: none; margin-left: 10px" >
+		      														<f:attribute name="preference" value="#{preference}"  />
+		      														<f:ajax execute="@all" render="@form" listener="#{reviewListMB.addUsefulVoteToReview}" />
+			      													<span class="glyphicon glyphicon-thumbs-up" /> Sim
+		      													</h:commandLink>
+		      													<h:commandLink style="text-decoration: none; margin-left: 10px" >
+		      														<f:attribute name="preference" value="#{preference}" />
+		      														<f:ajax execute="@all" render="@form" listener="#{reviewListMB.addUselessVoteToReview}"  />
+			      													<span class="glyphicon glyphicon-thumbs-down" /> Não
+		      													</h:commandLink>
+	      													</span>
+      													</h:panelGroup>
+      												</div>
+      											</div>				
+											</li>
+										</ui:repeat>
+									</ul>
+								</section>
+								
 								<h:outputLink value="reviewsList.jsf" styleClass="btn btn-default">
 									<f:param name="projectId" value="#{summaryReviewsMB.project.id}" />
 									Ver todas as opiniões
@@ -157,6 +272,121 @@
 										Opiniões mais recentes
 									</h:outputLink>
 								</h3>
+								
+								<section>
+									<ul class="media-list">
+										<ui:repeat var="preference" value="#{summaryReviewsMB.mostRecentReviewList}" varStatus="status"  >
+											<li class="media well">
+												<h:outputLink styleClass="pull-left" >
+													<div>
+														<h:outputText
+							  								rendered="#{preference.user.firstName != null and preference.user.login == null}"
+							  								style="margin-left: 10px; vertical-align: middle" 
+							  								value="...#{preference.user.firstName}" />
+							  							<h:outputText
+							  								rendered="#{preference.user.firstName == null and preference.user.login != null}"
+							  								style="margin-left: 10px; vertical-align: middle" 
+							  								value="...#{preference.user.login}" />
+														disse:
+													</div>
+													<h:graphicImage styleClass="media-object pull-right img-thumbnail" height="64" width="64" library="default" name="img/no_logo.png" />													
+												</h:outputLink>
+												
+												<div class="media-body pul-right" style="padding-left: 10px">
+													<div>
+														<div class="pull-left">
+		      												<h4 class="media-heading strong">
+		      													<h:outputText value="#{preference.preferenceReview.title}" />      													
+		      												</h4>
+														</div>
+														<div class="pull-left" style="margin-left: 20px">
+		      												<div class="rateit" data-rateit-readonly="true"
+																	data-rateit-min="0" data-rateit-max="10"
+																	data-rateit-value="#{preference.value}" data-rateit-ispreset="true"  />
+														</div>
+													</div>
+      												
+      												<div  style="clear: both; color: #777; font-style: italic; font-family: Georgia,'Times New Roman',Times,serif;">
+      													<abbr class="small soft" title="#{preference.registeredAt}">
+	      													<h:outputText value="#{preference.registeredAt}">
+	      														<f:convertDateTime pattern="'escrito no dia' dd/MM/yyyy 'às' HH:mm:ss" />
+	      													</h:outputText>
+	      												</abbr>
+      												</div>
+      												
+      												<h:panelGroup layout="block" style="clear: both; margin-top: 20px"
+      														rendered="#{not empty preference.preferenceEntryList}">
+														<table class="table table-condensed unstyled pull-left" style="width: 75%" >
+															<tbody >
+		      													<ui:repeat var="preferenceEntry" value="#{preference.preferenceEntryList}">
+		      														<tr class="pull-left">
+		      															<td style="border: none">
+																			<span
+																				class="glyphicon glyphicon-question-sign meuPopover"
+																				data-toggle="popover" title="" data-placement="top"
+																				data-content="#{preferenceEntry.criterium.description}"
+																				data-original-title="#{preferenceEntry.criterium.name}">
+																			</span> 
+																			<h:outputText  value=" #{preferenceEntry.criterium.name}"  />
+																			<span style="margin-left: 10px" class="soft small"> 
+																				(<h:outputText value="#{preferenceEntry.value}" >
+																					<f:convertNumber maxFractionDigits="2" maxIntegerDigits="2" pattern="#0.00" />
+																				</h:outputText> / 10)
+																			</span>
+																			<br />
+																			
+																			<div class="rateit" data-rateit-readonly="true"
+																				data-rateit-min="0" data-rateit-max="10"
+																				data-rateit-value="#{preferenceEntry.value}" data-rateit-ispreset="true"  />
+																		</td>
+		      														</tr>
+		      													</ui:repeat>
+															</tbody>
+														</table>
+														<SCRIPT type="text/javascript">
+															$('.meuPopover').popover({
+			
+															});
+														</SCRIPT>
+      												</h:panelGroup>
+      												
+      												
+      												<div style="clear: both; padding-top: 10px">
+	      												<h:outputText value="#{preference.preferenceReview.description}" />
+      												</div>
+      												<p class="soft small">
+      												</p>
+      												<div class="col-md-8 pull-left">
+      													<h:panelGroup layout="block" styleClass="small soft" 
+      															rendered="#{ (not empty preference.preferenceReview.usefulList) or (not empty preference.preferenceReview.uselessList)}">
+	      													<c:set var="totalVotes" value="#{fn:length(preference.preferenceReview.usefulList) + fn:length(preference.preferenceReview.uselessList)}" />
+	      													<h:outputText  value="#{fn:length(preference.preferenceReview.usefulList)}" /> 
+	      													de <h:outputText value="#{totalVotes}" /> avaliaram esta opinião como útil.
+      													</h:panelGroup>
+      												</div>	      												
+      												<div class="col-md-4 pull-right">
+      													<h:panelGroup rendered="#{loginMB.loggedUser != null}">
+	      													<span class="soft small italic">
+		      													Você achou esta avaliação útil?
+		      													
+		      													<h:commandLink style="text-decoration: none; margin-left: 10px" >
+		      														<f:attribute name="preference" value="#{preference}"  />
+		      														<f:ajax execute="@all" render="@form" listener="#{reviewListMB.addUsefulVoteToReview}" />
+			      													<span class="glyphicon glyphicon-thumbs-up" /> Sim
+		      													</h:commandLink>
+		      													<h:commandLink style="text-decoration: none; margin-left: 10px" >
+		      														<f:attribute name="preference" value="#{preference}" />
+		      														<f:ajax execute="@all" render="@form" listener="#{reviewListMB.addUselessVoteToReview}"  />
+			      													<span class="glyphicon glyphicon-thumbs-down" /> Não
+		      													</h:commandLink>
+	      													</span>
+      													</h:panelGroup>
+      												</div>
+      											</div>				
+											</li>
+										</ui:repeat>
+									</ul>
+								</section>
 							</div>
 						</h:panelGroup>
 					</h:form>

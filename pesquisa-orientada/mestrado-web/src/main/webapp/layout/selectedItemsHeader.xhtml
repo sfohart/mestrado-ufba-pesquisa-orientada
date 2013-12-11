@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html>
+<ui:composition 
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:p="http://xmlns.jcp.org/jsf/passthrough"
+	>
+	
+	<!--  Items selecionados para comparacao -->
+	<h:panelGroup layout="block" id="selectedItemBar" styleClass="container navbar ">
+		<h:panelGroup layout="block" rendered="#{mainMB.selectedEntitiesCount > 0}" style="height: 3.5em;" styleClass="comparable-selected-items">
+			<h:form id="selectedEntities">
+				<p class="pull-left" style="margin-right: 3em">
+					<strong>Projetos Comparaveis</strong>	
+				</p>
+				
+				<ul class="nav nav-pills pull-left">
+					<ui:repeat var="entity" value="#{mainMB.selectedEntities}">
+						<li style="margin-right: 3em;">
+							<div class="form-inline">
+								<span><h:outputText value="#{entity.name}" /></span>
+								<h:commandLink actionListener="#{mainMB.removeSelectedItem}" >
+									<f:param name="currentPage" value="#{mainMB.pageList.currentPage}" />
+									<span class="glyphicon glyphicon-remove-circle white"></span>
+								</h:commandLink>
+							</div>
+						</li>
+					</ui:repeat>
+					
+				</ul>
+				<h:commandButton styleClass="btn btn-default btn-sm pull-right"
+					action="#{mainMB.compareProjects}"  
+					value="Comparar" >
+				</h:commandButton>
+				<div style="clear: both"></div>
+			</h:form>
+		</h:panelGroup>
+	</h:panelGroup>	
+
+</ui:composition>

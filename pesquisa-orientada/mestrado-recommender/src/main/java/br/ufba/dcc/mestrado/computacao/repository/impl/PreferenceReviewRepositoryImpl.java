@@ -1,14 +1,18 @@
 package br.ufba.dcc.mestrado.computacao.repository.impl;
 
+import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.List;
 
-import javax.persistence.NoResultException;
-import javax.persistence.NonUniqueResultException;
 import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Expression;
 import javax.persistence.criteria.Join;
+import javax.persistence.criteria.JoinType;
+import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
+import javax.persistence.criteria.Subquery;
 
 import org.springframework.stereotype.Repository;
 
@@ -35,48 +39,112 @@ public class PreferenceReviewRepositoryImpl extends BaseRepositoryImpl<Long, Pre
 
 	@Override
 	public Long countAllLastReviewsByProject(OhLohProjectEntity project) {
-		// TODO Auto-generated method stub
-		return null;
+		Long result = 0L;
+		
+		if (project != null && project.getId() != null) {
+			
+			CriteriaBuilder criteriaBuilder = getEntityManager().getCriteriaBuilder();
+			
+			CriteriaQuery<Long> criteriaQuery = criteriaBuilder.createQuery(Long.class);
+			Root<PreferenceReviewEntity> root = criteriaQuery.from(getEntityClass());
+			
+			Join<PreferenceReviewEntity, PreferenceEntity> preferenceJoin = root.join("preference");
+			
+			criteriaQuery = criteriaQuery.select(criteriaBuilder.count(root));
+			
+			preferenceJoin.fetch("preferenceEntryList", JoinType.LEFT);
+			preferenceJoin.fetch("user", JoinType.LEFT);
+			
+			List<Predicate> predicateList = new ArrayList<>();
+			
+			Predicate projectPredicate = criteriaBuilder.equal(preferenceJoin.get("projectId"), project.getId());
+			predicateList.add(projectPredicate);
+			
+			/*
+			 * Criando subquery para trazer os últimos registros de cada usuario/projeto
+			 */
+			Subquery<Timestamp> subquery = criteriaQuery.subquery(Timestamp.class);
+			
+			Root<PreferenceEntity> preferenceRoot = subquery.from(PreferenceEntity.class);
+			Expression<Timestamp> greatestRegisteredAt = preferenceRoot.get("registeredAt");
+			
+			subquery.select(criteriaBuilder.greatest((greatestRegisteredAt)));
+			subquery.where(criteriaBuilder.equal(preferenceJoin.get("userId"), preferenceRoot.get("userId")));
+			
+			Predicate registeredAtPredicate = criteriaBuilder.equal(preferenceJoin.get("registeredAt"), subquery);
+			predicateList.add(registeredAtPredicate);
+			
+			//aplicando os filtros
+			criteriaQuery = criteriaQuery.where(predicateList.toArray(new Predicate[0]));
+		}
+		
+		return result;
 	}
 
 	@Override
-	public List<PreferenceReviewEntity> findAllLastReviewsByProject(
-			OhLohProjectEntity project) {
-		// TODO Auto-generated method stub
-		return null;
+	public List<PreferenceEntity> findAllLastReviewsByProject(OhLohProjectEntity project) {
+		return findAllLastReviewsByProject(project, null, null);
 	}
 
 	@Override
-	public List<PreferenceReviewEntity> findAllLastReviewsByProject(
-			OhLohProjectEntity project, Integer startAt, Integer offset) {
-		// TODO Auto-generated method stub
-		return null;
+	public List<PreferenceEntity> findAllLastReviewsByProject(OhLohProjectEntity project, Integer startAt, Integer offset) {
+		List<PreferenceEntity> preferenceList = null;
+		
+		if (project != null && project.getId() != null) {
+			CriteriaBuilder criteriaBuilder = getEntityManager().getCriteriaBuilder();
+			
+			CriteriaQuery<PreferenceEntity> criteriaQuery = criteriaBuilder.createQuery(PreferenceEntity.class);
+			Root<PreferenceReviewEntity> root = criteriaQuery.from(getEntityClass());
+			
+			Join<PreferenceReviewEntity, PreferenceEntity> preferenceJoin = root.join("preference");
+			
+			criteriaQuery.select(preferenceJoin);
+			
+			preferenceJoin.fetch("preferenceEntryList", JoinType.LEFT);
+			preferenceJoin.fetch("user", JoinType.LEFT);
+			
+			List<Predicate> predicateList = new ArrayList<>();
+			
+			Predicate projectPredicate = criteriaBuilder.equal(preferenceJoin.get("projectId"), project.getId());
+			predicateList.add(projectPredicate);
+			
+			/*
+			 * Criando subquery para trazer os últimos registros de cada usuario/projeto
+			 */
+			Subquery<Timestamp> subquery = criteriaQuery.subquery(Timestamp.class);
+			
+			Root<PreferenceEntity> preferenceRoot = subquery.from(PreferenceEntity.class);
+			Expression<Timestamp> greatestRegisteredAt = preferenceRoot.get("registeredAt");
+			
+			subquery.select(criteriaBuilder.greatest((greatestRegisteredAt)));
+			subquery.where(criteriaBuilder.equal(preferenceJoin.get("userId"), preferenceRoot.get("userId")));
+			
+			Predicate registeredAtPredicate = criteriaBuilder.equal(preferenceJoin.get("registeredAt"), subquery);
+			predicateList.add(registeredAtPredicate);
+			
+			//aplicando os filtros
+			criteriaQuery = criteriaQuery.where(predicateList.toArray(new Predicate[0]));
+			
+			TypedQuery<PreferenceEntity> typedQuery = getEntityManager().createQuery(criteriaQuery);
+			
+			if (startAt != null) {
+				typedQuery.setFirstResult(startAt);
+			}
+			
+			if (offset != null) {
+				typedQuery.setMaxResults(offset);
+			}
+			
+			preferenceList = typedQuery.getResultList();
+		}
+		
+		return preferenceList;
 	}
 
 	@Override
 	public PreferenceReviewEntity findMostHelpfulFavorableReview(OhLohProjectEntity project) {
-		
-		CriteriaBuilder criteriaBuilder = getEntityManager().getCriteriaBuilder();
-		CriteriaQuery<PreferenceReviewEntity> criteriaQuery = criteriaBuilder.createQuery(getEntityClass());
-		
-		Root<PreferenceReviewEntity> p1 = criteriaQuery.from(getEntityClass());
-		
-
-		Join<PreferenceReviewEntity, PreferenceEntity> j1 = p1.join("preference");
-		Join<PreferenceReviewEntity, PreferenceEntity> j2 = p1.join("preference");
-		
-		
-		TypedQuery<PreferenceReviewEntity> typedQuery = getEntityManager().createQuery(criteriaQuery);
-		
-		PreferenceReviewEntity result = null;
-		
-		try {
-			result = typedQuery.getSingleResult();
-		} catch (NoResultException ex) {
-		} catch (NonUniqueResultException ex) {
-		}
-		
-		return result;
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 	@Override

@@ -4,13 +4,16 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.stereotype.Service;
 
 import br.ufba.dcc.mestrado.computacao.entities.ohloh.project.OhLohProjectEntity;
+import br.ufba.dcc.mestrado.computacao.entities.recommender.preference.PreferenceEntity;
 import br.ufba.dcc.mestrado.computacao.entities.recommender.preference.PreferenceReviewEntity;
 import br.ufba.dcc.mestrado.computacao.repository.base.PreferenceReviewRepository;
 import br.ufba.dcc.mestrado.computacao.repository.impl.PreferenceReviewRepositoryImpl;
 import br.ufba.dcc.mestrado.computacao.service.base.PreferenceReviewService;
 
+@Service(PreferenceReviewServiceImpl.BEAN_NAME)
 public class PreferenceReviewServiceImpl extends BaseOhLohServiceImpl<Long, PreferenceReviewEntity>
 	implements PreferenceReviewService {
 
@@ -18,6 +21,8 @@ public class PreferenceReviewServiceImpl extends BaseOhLohServiceImpl<Long, Pref
 	 * 
 	 */
 	private static final long serialVersionUID = -5344008813432153172L;
+	
+	public static final String BEAN_NAME =  "preferenceReviewService";
 
 	@Autowired
 	public PreferenceReviewServiceImpl(
@@ -32,13 +37,13 @@ public class PreferenceReviewServiceImpl extends BaseOhLohServiceImpl<Long, Pref
 	}
 
 	@Override
-	public List<PreferenceReviewEntity> findAllLastReviewsByProject(
+	public List<PreferenceEntity> findAllLastReviewsByProject(
 			OhLohProjectEntity project) {		
 		return ((PreferenceReviewRepository) getRepository()).findAllLastReviewsByProject(project);
 	}
 
 	@Override
-	public List<PreferenceReviewEntity> findAllLastReviewsByProject(
+	public List<PreferenceEntity> findAllLastReviewsByProject(
 			OhLohProjectEntity project, Integer startAt, Integer offset) {
 		
 		return ((PreferenceReviewRepository) getRepository()).findAllLastReviewsByProject(project, startAt, offset);
