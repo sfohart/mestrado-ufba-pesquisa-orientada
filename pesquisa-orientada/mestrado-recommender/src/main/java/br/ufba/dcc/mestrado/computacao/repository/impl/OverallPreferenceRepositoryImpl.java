@@ -4,6 +4,8 @@ import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.persistence.NoResultException;
+import javax.persistence.NonUniqueResultException;
 import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
@@ -338,7 +340,6 @@ public class OverallPreferenceRepositoryImpl  extends BaseRepositoryImpl<Long, P
 	}
 	
 	
-	
 	public List<PreferenceEntity> findAllByProjectAndUser(
 			Long projectId,
 			Long userId) {
@@ -374,5 +375,62 @@ public class OverallPreferenceRepositoryImpl  extends BaseRepositoryImpl<Long, P
 		
 		return preferenceList;		
 	}
+	
+	@Override
+	public PreferenceEntity findLastByProjectAndUser(Long projectId, Long userId) {
+		
+		CriteriaBuilder criteriaBuilder = getEntityManager()
+				.getCriteriaBuilder();
+		CriteriaQuery<PreferenceEntity> criteriaQuery = criteriaBuilder
+				.createQuery(getEntityClass());
+
+		Root<PreferenceEntity> root = criteriaQuery.from(getEntityClass());
+		CriteriaQuery<PreferenceEntity> select = criteriaQuery.select(root);
+		
+		root.fetch("preferenceReview", JoinType.LEFT);
+		root.fetch("preferenceEntryList", JoinType.LEFT);
+
+		List<Predicate> predicateList = new ArrayList<>();
+		
+		if (userId != null) {
+			Predicate userPredicate = criteriaBuilder.equal(root.get("userId"), userId);
+			predicateList.add(userPredicate);
+		}
+		
+		if (projectId != null) {
+			Predicate projectPredicate = criteriaBuilder.equal(root.get("projectId"), projectId);
+			predicateList.add(projectPredicate);
+		}
+		
+		
+		/*
+		 * Criando subquery para trazer os últimos registros de cada usuario/projeto
+		 */
+		Subquery<Timestamp> subquery = criteriaQuery.subquery(Timestamp.class);
+		
+		Root<PreferenceEntity> preferenceRoot = subquery.from(PreferenceEntity.class);
+		Expression<Timestamp> greatestRegisteredAt = preferenceRoot.get("registeredAt");
+		
+		subquery.select(criteriaBuilder.greatest((greatestRegisteredAt)));
+		subquery.where(criteriaBuilder.equal(root.get("userId"), preferenceRoot.get("userId")));
+		
+		Predicate registeredAtPredicate = criteriaBuilder.equal(root.get("registeredAt"), subquery);
+		predicateList.add(registeredAtPredicate);
+		
+		select.where(predicateList.toArray(new Predicate[0]));
+
+		TypedQuery<PreferenceEntity> query = getEntityManager().createQuery(criteriaQuery);
+
+		PreferenceEntity preference = null;
+		
+		try {
+			preference = query.getSingleResult();
+		} catch (NoResultException ex) {
+		} catch (NonUniqueResultException ex) {
+		}
+		
+		return preference;		
+	}
+
 	
 }

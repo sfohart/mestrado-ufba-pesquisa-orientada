@@ -46,10 +46,10 @@
 					
 						<div class="col-md-3">
 							<b>Avaliação da Comunidade</b>
+							<div class="rateit" data-rateit-readonly="true"
+								data-rateit-min="0" data-rateit-max="10"
+								data-rateit-value="#{summaryReviewsMB.averagePreference.value}" data-rateit-ispreset="true"  />
 							<span class="soft small">
-								<div class="rateit" data-rateit-readonly="true"
-									data-rateit-min="0" data-rateit-max="10"
-									data-rateit-value="#{summaryReviewsMB.averagePreference.value}" data-rateit-ispreset="true"  />
 								<br />
 								Avaliação média: 
 								<h:outputText value="#{summaryReviewsMB.averagePreference.value}" >
@@ -69,6 +69,89 @@
 						<div class="col-md-9">
 							<div class="well">
 								<h3>Minha avaliação deste projeto:</h3>
+								<div class="media">
+									<h:outputLink styleClass="pull-left" >										
+										<h:graphicImage styleClass="media-object pull-right img-thumbnail" height="64" width="64" library="default" name="img/no_logo.png" />													
+									</h:outputLink>
+									
+									<div class="media-body pul-right" style="padding-left: 10px">
+										<div>
+											<div class="pull-left">
+   												<h4 class="media-heading strong">
+   													<h:outputText value="#{summaryReviewsMB.currentUserPreference.preferenceReview.title}" />      													
+   												</h4>
+											</div>
+											<div class="pull-left" style="margin-left: 20px">
+   												<div class="rateit" data-rateit-readonly="true"
+												data-rateit-min="0" data-rateit-max="10"
+												data-rateit-value="#{summaryReviewsMB.currentUserPreference.value}" data-rateit-ispreset="true"  />
+											</div>
+										</div>
+   												
+										<div  style="clear: both; color: #777; font-style: italic; font-family: Georgia,'Times New Roman',Times,serif;">
+											<span class="small soft" title="#{summaryReviewsMB.currentUserPreference.registeredAt}">
+												<h:outputText value="#{summaryReviewsMB.currentUserPreference.registeredAt}">
+													<f:convertDateTime pattern="'escrito no dia' dd/MM/yyyy 'às' HH:mm:ss" />
+												</h:outputText>
+											</span>
+										</div>
+   												
+										<h:panelGroup layout="block" style="clear: both; margin-top: 20px"
+   														rendered="#{not empty summaryReviewsMB.currentUserPreference.preferenceEntryList}">
+											<table class="table table-condensed unstyled pull-left" style="width: 75%" >
+												<tbody >
+   													<ui:repeat var="preferenceEntry" value="#{summaryReviewsMB.currentUserPreference.preferenceEntryList}">
+   														<tr class="pull-left" style="width: 50%">
+   															<td style="border: none">
+																<span
+																	class="glyphicon glyphicon-question-sign meuPopover"
+																	data-toggle="popover" title="" data-placement="top"
+																	data-content="#{preferenceEntry.criterium.description}"
+																	data-original-title="#{preferenceEntry.criterium.name}">
+																</span> 
+																<h:outputText  value=" #{preferenceEntry.criterium.name}"  />
+		
+																<br />															
+		
+																<div class="rateit" data-rateit-readonly="true"
+																	data-rateit-min="0" data-rateit-max="10"
+																	data-rateit-value="#{preferenceEntry.value}" data-rateit-ispreset="true"  />
+																<span style="margin-left: 10px" class="soft small"> 
+																	(<h:outputText value="#{preferenceEntry.value}" >
+																		<f:convertNumber maxFractionDigits="2" maxIntegerDigits="2" pattern="#0.00" />
+																	</h:outputText> / 10)
+																</span>
+															</td>
+   														</tr>
+   													</ui:repeat>
+												</tbody>
+											</table>
+											<SCRIPT type="text/javascript">
+												$('.meuPopover').popover({
+
+												});
+											</SCRIPT>
+										</h:panelGroup>
+											
+										<div style="clear: both; padding-top: 10px">
+											<h:outputText value="#{summaryReviewsMB.currentUserPreference.preferenceReview.description}" />
+										</div>
+										<p class="soft small">
+										</p>
+  									</div>	 
+  									<div class="row">
+										<div class="col-md-8 pull-left">
+											<ui:param name="totalVotes" value="#{summaryReviewsMB.currentUserPreference.preferenceReview.usefulCount + summaryReviewsMB.currentUserPreference.preferenceReview.uselessCount}" />
+											<h:panelGroup layout="block" styleClass="small soft" 
+													rendered="#{totalVotes > 0}">
+												<h:outputText  value="#{summaryReviewsMB.currentUserPreference.preferenceReview.usefulCount}" /> 
+												de <h:outputText value="#{totalVotes}" /> avaliaram esta opinião como útil.
+											</h:panelGroup>
+										</div>	      												
+										<div class="col-md-4 pull-right">
+										</div>
+  									</div>     										
+								</div>
 							</div>
 						</div>
 					
@@ -90,12 +173,12 @@
 													data-original-title="#{entry.criterium.name}">
 												</span> 
 												<h:outputText value=" #{entry.criterium.name}" />
+												<br />
 												<span style="margin-left: 10px" class="soft small"> 
 													(<h:outputText value="#{entry.value}" >
 														<f:convertNumber maxFractionDigits="2" maxIntegerDigits="2" pattern="#0.00" />
 													</h:outputText> / 10)
 												</span>
-												<br />
 												
 												<div class="rateit" data-rateit-readonly="true"
 													data-rateit-min="0" data-rateit-max="10"
@@ -200,16 +283,16 @@
 																				data-original-title="#{preferenceEntry.criterium.name}">
 																			</span> 
 																			<h:outputText  value=" #{preferenceEntry.criterium.name}"  />
-																			<span style="margin-left: 10px" class="soft small"> 
-																				(<h:outputText value="#{preferenceEntry.value}" >
-																					<f:convertNumber maxFractionDigits="2" maxIntegerDigits="2" pattern="#0.00" />
-																				</h:outputText> / 10)
-																			</span>
 																			<br />
 																		
 																			<div class="rateit" data-rateit-readonly="true"
 																				data-rateit-min="0" data-rateit-max="10"
 																				data-rateit-value="#{preferenceEntry.value}" data-rateit-ispreset="true"  />
+																			<span style="margin-left: 10px" class="soft small"> 
+																				(<h:outputText value="#{preferenceEntry.value}" >
+																					<f:convertNumber maxFractionDigits="2" maxIntegerDigits="2" pattern="#0.00" />
+																				</h:outputText> / 10)
+																			</span>
 																		</td>
 		      														</tr>
 		      													</ui:repeat>
@@ -228,15 +311,17 @@
       												</div>
       												<p class="soft small">
       												</p>
-      												<div class="col-md-8 pull-left">
+      											</div>		
+      											<div class="row">
+      												<div class="col-md-6 pull-left">
+      													<ui:param name="totalVotes" value="#{fn:length(preference.preferenceReview.usefulList) + fn:length(preference.preferenceReview.uselessList)}" />
       													<h:panelGroup layout="block" styleClass="small soft" 
-      															rendered="#{ (not empty preference.preferenceReview.usefulList) or (not empty preference.preferenceReview.uselessList)}">
-	      													<c:set var="totalVotes" value="#{fn:length(preference.preferenceReview.usefulList) + fn:length(preference.preferenceReview.uselessList)}" />
-	      													<h:outputText  value="#{fn:length(preference.preferenceReview.usefulList)}" /> 
+      															rendered="#{totalVotes > 0}">
+	      													<h:outputText  value="#{preference.preferenceReview.usefulCount}" /> 
 	      													de <h:outputText value="#{totalVotes}" /> avaliaram esta opinião como útil.
       													</h:panelGroup>
       												</div>	      												
-      												<div class="col-md-4 pull-right">
+      												<div class="col-md-6 pull-right">
       													<h:panelGroup rendered="#{loginMB.loggedUser != null}">
 	      													<span class="soft small italic">
 		      													Você achou esta avaliação útil?
@@ -253,14 +338,15 @@
 		      													</h:commandLink>
 	      													</span>
       													</h:panelGroup>
-      												</div>
-      											</div>				
+      												</div>      												
+      											</div>		
 											</li>
 										</ui:repeat>
 									</ul>
 								</section>
 								
-								<h:outputLink value="reviewsList.jsf" styleClass="btn btn-default">
+								<h:outputLink value="reviewsList.jsf" styleClass="btn btn-default" 
+									rendered="#{summaryReviewsMB.reviewsCount > 2}">
 									<f:param name="projectId" value="#{summaryReviewsMB.project.id}" />
 									Ver todas as opiniões
 								</h:outputLink>
@@ -328,16 +414,16 @@
 																				data-original-title="#{preferenceEntry.criterium.name}">
 																			</span> 
 																			<h:outputText  value=" #{preferenceEntry.criterium.name}"  />
-																			<span style="margin-left: 10px" class="soft small"> 
-																				(<h:outputText value="#{preferenceEntry.value}" >
-																					<f:convertNumber maxFractionDigits="2" maxIntegerDigits="2" pattern="#0.00" />
-																				</h:outputText> / 10)
-																			</span>
 																			<br />
 																			
 																			<div class="rateit" data-rateit-readonly="true"
 																				data-rateit-min="0" data-rateit-max="10"
 																				data-rateit-value="#{preferenceEntry.value}" data-rateit-ispreset="true"  />
+																			<span style="margin-left: 10px" class="soft small"> 
+																				(<h:outputText value="#{preferenceEntry.value}" >
+																					<f:convertNumber maxFractionDigits="2" maxIntegerDigits="2" pattern="#0.00" />
+																				</h:outputText> / 10)
+																			</span>
 																		</td>
 		      														</tr>
 		      													</ui:repeat>
@@ -356,15 +442,17 @@
       												</div>
       												<p class="soft small">
       												</p>
-      												<div class="col-md-8 pull-left">
+      											</div>				
+      											<div class="row">
+      												<div class="col-md-6 pull-left">
+      													<ui:param name="totalVotes" value="#{fn:length(preference.preferenceReview.usefulList) + fn:length(preference.preferenceReview.uselessList)}" />
       													<h:panelGroup layout="block" styleClass="small soft" 
-      															rendered="#{ (not empty preference.preferenceReview.usefulList) or (not empty preference.preferenceReview.uselessList)}">
-	      													<c:set var="totalVotes" value="#{fn:length(preference.preferenceReview.usefulList) + fn:length(preference.preferenceReview.uselessList)}" />
-	      													<h:outputText  value="#{fn:length(preference.preferenceReview.usefulList)}" /> 
+      															rendered="#{totalVotes > 0}">
+	      													<h:outputText  value="#{preference.preferenceReview.usefulCount}" /> 
 	      													de <h:outputText value="#{totalVotes}" /> avaliaram esta opinião como útil.
       													</h:panelGroup>
       												</div>	      												
-      												<div class="col-md-4 pull-right">
+      												<div class="col-md-6 pull-right">
       													<h:panelGroup rendered="#{loginMB.loggedUser != null}">
 	      													<span class="soft small italic">
 		      													Você achou esta avaliação útil?
@@ -382,7 +470,7 @@
 	      													</span>
       													</h:panelGroup>
       												</div>
-      											</div>				
+      											</div>
 											</li>
 										</ui:repeat>
 									</ul>

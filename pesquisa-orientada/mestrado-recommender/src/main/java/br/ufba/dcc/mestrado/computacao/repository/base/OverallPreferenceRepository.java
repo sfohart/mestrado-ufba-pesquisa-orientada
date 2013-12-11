@@ -101,4 +101,13 @@ public interface OverallPreferenceRepository extends BaseRepository<Long, Prefer
 	 */
 	List<PreferenceEntity> findAllByProjectAndUser(Long projectId, Long userId);
 	
+	
+	/**
+	 * 
+	 * @param projectId
+	 * @param userId
+	 * @return
+	 */
+	PreferenceEntity findLastByProjectAndUser(Long projectId, Long userId);
+	
 }

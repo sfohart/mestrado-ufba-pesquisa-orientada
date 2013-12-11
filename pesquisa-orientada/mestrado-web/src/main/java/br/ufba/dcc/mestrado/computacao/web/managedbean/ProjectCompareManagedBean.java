@@ -39,6 +39,8 @@ public class ProjectCompareManagedBean implements Serializable {
 	
 	private Map<Long, PreferenceEntity> averagePreferenceMap;
 	
+	private Map<Long, Long> preferenceCountMap;
+	
 	public OhLohProjectService getProjectService() {
 		return projectService;
 	}
@@ -62,6 +64,10 @@ public class ProjectCompareManagedBean implements Serializable {
 	
 	public Map<Long, PreferenceEntity> getAveragePreferenceMap() {
 		return averagePreferenceMap;
+	}
+	
+	public Map<Long, Long> getPreferenceCountMap() {
+		return preferenceCountMap;
 	}
 	
 	public void init(ComponentSystemEvent event) {
@@ -89,6 +95,7 @@ public class ProjectCompareManagedBean implements Serializable {
 				this.projectList = new ArrayList<>();
 				
 				this.averagePreferenceMap = new HashMap<Long, PreferenceEntity>();
+				this.preferenceCountMap = new HashMap<Long,Long>();
 				
 				for (String projectIdParam : projectIdsParam) {
 					Long projectId = Long.valueOf(projectIdParam);
@@ -99,6 +106,9 @@ public class ProjectCompareManagedBean implements Serializable {
 						
 						PreferenceEntity averagePreference = getOverallPreferenceService().averagePreferenceByProject(projectId);
 						this.averagePreferenceMap.put(projectId, averagePreference);
+						
+						Long preferenceCount = getOverallPreferenceService().countAllLastByProject(projectId);
+						this.preferenceCountMap.put(projectId, preferenceCount);
 					}
 				}
 			

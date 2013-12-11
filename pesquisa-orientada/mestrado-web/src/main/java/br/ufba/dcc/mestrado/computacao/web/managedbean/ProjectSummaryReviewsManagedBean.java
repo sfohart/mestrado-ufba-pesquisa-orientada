@@ -8,13 +8,18 @@ import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
 import javax.faces.event.ComponentSystemEvent;
 
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+
 import br.ufba.dcc.mestrado.computacao.entities.ohloh.project.OhLohProjectEntity;
 import br.ufba.dcc.mestrado.computacao.entities.recommender.preference.PreferenceEntity;
 import br.ufba.dcc.mestrado.computacao.entities.recommender.preference.PreferenceReviewEntity;
+import br.ufba.dcc.mestrado.computacao.entities.recommender.user.UserEntity;
 import br.ufba.dcc.mestrado.computacao.service.base.CriteriumPreferenceService;
 import br.ufba.dcc.mestrado.computacao.service.base.OhLohProjectService;
 import br.ufba.dcc.mestrado.computacao.service.base.OverallPreferenceService;
 import br.ufba.dcc.mestrado.computacao.service.base.PreferenceReviewService;
+import br.ufba.dcc.mestrado.computacao.service.base.UserService;
 
 @ManagedBean(name = "summaryReviewsMB")
 @ViewScoped
@@ -39,10 +44,15 @@ public class ProjectSummaryReviewsManagedBean implements Serializable {
 	@ManagedProperty("#{criteriumPreferenceService}")
 	private CriteriumPreferenceService criteriumPreferenceService;
 	
+	@ManagedProperty("#{userService}")
+	private UserService userService;
+	
 	private Long overallPreferenceCount;
 	private Long reviewsCount;
 	
 	private PreferenceEntity averagePreference;
+	
+	private PreferenceEntity currentUserPreference;
 	
 	private PreferenceReviewEntity mostHelpfulFavorableReview;
 	private PreferenceReviewEntity mostHelpfulCriticalReview;
@@ -99,6 +109,14 @@ public class ProjectSummaryReviewsManagedBean implements Serializable {
 		this.preferenceReviewService = preferenceReviewService;
 	}
 	
+	public UserService getUserService() {
+		return userService;
+	}
+	
+	public void setUserService(UserService userService) {
+		this.userService = userService;
+	}
+	
 	public Long getOverallPreferenceCount() {
 		return overallPreferenceCount;
 	}
@@ -117,6 +135,10 @@ public class ProjectSummaryReviewsManagedBean implements Serializable {
 	
 	public PreferenceEntity getAveragePreference() {
 		return averagePreference;
+	}
+	
+	public PreferenceEntity getCurrentUserPreference() {
+		return currentUserPreference;
 	}
 	
 	public PreferenceReviewEntity getMostHelpfulFavorableReview() {
@@ -146,7 +168,22 @@ public class ProjectSummaryReviewsManagedBean implements Serializable {
 			this.mostRecentReviewList 	= getOverallPreferenceService().findAllLastReviewsByProject(getProject().getId(), 0, 5);
 			
 			//calculando avaliação média do projeto
-			this.averagePreference = getOverallPreferenceService().averagePreferenceByProject(getProject().getId());			
+			this.averagePreference = getOverallPreferenceService().averagePreferenceByProject(getProject().getId());
+			
+			Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+			
+			if (authentication != null) {
+				if (! "anonymousUser".equals(authentication.getName())) {
+					UserEntity userEntity = getUserService().findByLogin(authentication.getName());
+					if (userEntity == null) { 
+						userEntity = getUserService().findBySocialLogin(authentication.getName());
+					}
+					
+					if (userEntity != null) {
+						this.currentUserPreference = getOverallPreferenceService().findLastByProjectAndUser(getProject().getId(), userEntity.getId());
+					}
+				}
+			}
 		}
 	}
 	

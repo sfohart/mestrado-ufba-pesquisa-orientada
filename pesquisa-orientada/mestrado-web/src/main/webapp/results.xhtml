@@ -102,7 +102,7 @@
 																	valueChangeListener="#{mainMB.onChangeSelectedItem}"
 																	value="#{mainMB.selectedItems[project.id]}">
 																<f:ajax event="click" execute="@form" render="@form :selectedEntities"  />
-																<f:attribute name="projectId" value="#{project.id}" />
+																<f:attribute name="entityId" value="#{project.id}" />
 																<f:attribute name="currentPage" value="#{mainMB.pageList.currentPage}" />
 															</h:selectBooleanCheckbox>
 															

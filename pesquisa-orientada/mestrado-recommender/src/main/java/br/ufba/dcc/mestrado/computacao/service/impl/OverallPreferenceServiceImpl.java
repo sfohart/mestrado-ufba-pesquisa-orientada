@@ -20,6 +20,7 @@ import br.ufba.dcc.mestrado.computacao.repository.base.BaseRepository;
 import br.ufba.dcc.mestrado.computacao.repository.base.OverallPreferenceRepository;
 import br.ufba.dcc.mestrado.computacao.service.base.CriteriumPreferenceService;
 import br.ufba.dcc.mestrado.computacao.service.base.OverallPreferenceService;
+import br.ufba.dcc.mestrado.computacao.service.base.RecommenderCriteriumService;
 import br.ufba.dcc.mestrado.computacao.service.base.UserService;
 
 @Service(OverallPreferenceServiceImpl.BEAN_NAME)
@@ -41,6 +42,9 @@ public class OverallPreferenceServiceImpl extends BaseOhLohServiceImpl<Long, Pre
 	private CriteriumPreferenceService criteriumPreferenceService;
 	
 	@Autowired
+	private RecommenderCriteriumService recommenderCriteriumService;
+	
+	@Autowired
 	public OverallPreferenceServiceImpl(@Qualifier("overallPreferenceRepository") OverallPreferenceRepository repository) {
 		super(repository, PreferenceEntity.class);
 	}
@@ -60,6 +64,15 @@ public class OverallPreferenceServiceImpl extends BaseOhLohServiceImpl<Long, Pre
 	public void setCriteriumPreferenceService(
 			CriteriumPreferenceService criteriumPreferenceService) {
 		this.criteriumPreferenceService = criteriumPreferenceService;
+	}
+	
+	public RecommenderCriteriumService getRecommenderCriteriumService() {
+		return recommenderCriteriumService;
+	}
+	
+	public void setRecommenderCriteriumService(
+			RecommenderCriteriumService recommenderCriteriumService) {
+		this.recommenderCriteriumService = recommenderCriteriumService;
 	}
 	
 	@Override
@@ -98,14 +111,30 @@ public class OverallPreferenceServiceImpl extends BaseOhLohServiceImpl<Long, Pre
 				getCriteriumPreferenceService().averagePreferenceByProject(projectId);
 		
 		List<PreferenceEntryEntity> preferenceEntryList = new ArrayList<>();
-		for (Map.Entry<RecommenderCriteriumEntity, Double> entry : averageByCriterium.entrySet()) {
-			PreferenceEntryEntity preferenceEntry = new PreferenceEntryEntity();
-			preferenceEntry.setPreference(averagePreference);
-			preferenceEntry.setCriterium(entry.getKey());
-			preferenceEntry.setValue(entry.getValue() == null ? 0 : entry.getValue());
-			
-			preferenceEntryList.add(preferenceEntry);
+		
+		if (! averageByCriterium.isEmpty()) {
+			for (Map.Entry<RecommenderCriteriumEntity, Double> entry : averageByCriterium.entrySet()) {
+				PreferenceEntryEntity preferenceEntry = new PreferenceEntryEntity();
+				preferenceEntry.setPreference(averagePreference);
+				preferenceEntry.setCriterium(entry.getKey());
+				preferenceEntry.setValue(entry.getValue() == null ? 0 : entry.getValue());
+				
+				preferenceEntryList.add(preferenceEntry);
+			}
+		} else {
+			List<RecommenderCriteriumEntity> criteriumList = getRecommenderCriteriumService().findAll();
+			if (criteriumList != null && ! criteriumList.isEmpty()) {
+				for (RecommenderCriteriumEntity criterium : criteriumList) {
+					PreferenceEntryEntity preferenceEntry = new PreferenceEntryEntity();
+					preferenceEntry.setPreference(averagePreference);
+					preferenceEntry.setCriterium(criterium);
+					preferenceEntry.setValue(Double.valueOf(0));
+					
+					preferenceEntryList.add(preferenceEntry);
+				}
+			}
 		}
+		
 		
 		Comparator<PreferenceEntryEntity> entryComparator = new Comparator<PreferenceEntryEntity>() {
 			@Override
@@ -147,6 +176,13 @@ public class OverallPreferenceServiceImpl extends BaseOhLohServiceImpl<Long, Pre
 	@Transactional(readOnly = true)
 	public List<PreferenceEntity> findAllByProjectAndUser(Long projectId, Long userId) {
 		return ((OverallPreferenceRepository) getRepository()).findAllByProjectAndUser(projectId, userId);
+	}
+	
+	
+	@Override
+	@Transactional(readOnly = true)
+	public PreferenceEntity findLastByProjectAndUser(Long projectId, Long userId) {
+		return ((OverallPreferenceRepository) getRepository()).findLastByProjectAndUser(projectId, userId);
 	}
 	
 	/**

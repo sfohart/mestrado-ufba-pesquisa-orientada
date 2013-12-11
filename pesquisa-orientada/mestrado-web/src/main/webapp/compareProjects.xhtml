@@ -87,10 +87,14 @@
 													data-rateit-value="#{compareMB.averagePreferenceMap[project.id].value}" data-rateit-ispreset="true"  />
 											<br />
 											<span style="margin-left: 10px" class="soft small"> 
-													(<h:outputText value="#{compareMB.averagePreferenceMap[project.id].value}" >
-														<f:convertNumber maxFractionDigits="2" maxIntegerDigits="2" pattern="#0.00" />
-													</h:outputText> / 10)
-												</span>
+												(<h:outputText value="#{compareMB.averagePreferenceMap[project.id].value}" >
+													<f:convertNumber maxFractionDigits="2" maxIntegerDigits="2" pattern="#0.00" />
+												</h:outputText> / 10)
+											</span>
+											<br />
+											<span style="margin-left: 10px" class="soft small">
+												<h:outputText value="Baseado na preferência de #{compareMB.preferenceCountMap[project.id]} usuário(s)" />
+											</span>
 										</td>
 									</ui:repeat>
 								</tr>

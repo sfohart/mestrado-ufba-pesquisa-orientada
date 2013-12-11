@@ -85,9 +85,14 @@ public abstract class AbstractListingManagedBean<ID extends Number, E extends Ba
 		return startPosition;
 	}
 	
+	@SuppressWarnings("unchecked")
 	public void onChangeSelectedItem(ValueChangeEvent event) {
 		Integer currentPage = (Integer) event.getComponent().getAttributes().get("currentPage");
 		getPageList().setCurrentPage(currentPage);
+		
+		
+		ID entityId = (ID) event.getComponent().getAttributes().get("entityId");
+		getSelectedItems().put(entityId, (Boolean) event.getNewValue());
 	}
 	
 	protected void postRemoveSelectedItem(ActionEvent event) {

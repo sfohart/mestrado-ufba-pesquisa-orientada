@@ -97,4 +97,12 @@ public interface OverallPreferenceService extends BaseOhLohService<Long, Prefere
 	 */
 	List<PreferenceEntity> findAllByProjectAndUser(Long projectId, Long userId);
 	
+	/**
+	 * 
+	 * @param projectId
+	 * @param userId
+	 * @return
+	 */
+	PreferenceEntity findLastByProjectAndUser(Long projectId, Long userId);
+	
 }

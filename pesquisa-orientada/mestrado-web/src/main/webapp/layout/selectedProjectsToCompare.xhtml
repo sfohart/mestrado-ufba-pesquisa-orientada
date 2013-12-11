@@ -10,7 +10,8 @@
 	
 	<!--  Items selecionados para comparacao -->
 	<h:form id="selectedEntities">
-		<h:panelGroup layout="block" id="selectedItemBar" styleClass="container navbar" style="margin-top: 60px">
+		<h:panelGroup layout="block" id="selectedItemBar" styleClass="container navbar" style="margin-top: 60px"
+				rendered="#{mainMB.selectedEntitiesCount > 0}">
 			<h:panelGroup layout="block" styleClass="comparable-selected-items">
 				<p class="pull-left" style="margin-right: 3em">
 					<strong>Projetos Comparaveis</strong>	
