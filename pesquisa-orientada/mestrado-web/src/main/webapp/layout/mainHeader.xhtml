@@ -27,23 +27,23 @@
   						<h:inputText styleClass="form-control" id="query" p:placeholder="Digite aqui"  value="#{mainMB.searchRequest.query}" />
   					</div>
   					<h:commandButton styleClass="btn btn-default" value="Buscar"
-  						action="results.jsf?faces-redirect=true&amp;includeViewParams=true">
+  						action="/search/results.jsf?faces-redirect=true&amp;includeViewParams=true">
   						<f:param name="query" value="#{mainMB.searchRequest.query}"  />
   					</h:commandButton>
   				</h:form>
   				
   				<h:form styleClass="navbar-form navbar-right" prependId="false">
   					<h:panelGroup layout="block" rendered="#{loginMB.loggedUser eq null}">
-  						<h:outputLink class="btn"  value="login.jsf" style="margin-right: 10px" >
+  						<h:outputLink class="btn"  value="#{facesContext.externalContext.applicationContextPath}/login/login.jsf" style="margin-right: 10px" >
   							<span class="glyphicon glyphicon-log-in"></span> Entrar
   						</h:outputLink>
-  						<button class="btn btn-success btn-mini" formaction="newAccount.jsf" >
+  						<button class="btn btn-success btn-mini" formaction="#{facesContext.externalContext.applicationContextPath}/account/newAccount.jsf" >
   							<span class="glyphicon glyphicon-plus-sign white"></span> Cadastre-se 
   						</button>
   					</h:panelGroup>
   					
   					<h:panelGroup layout="block" rendered="#{loginMB.loggedUser != null}">
-  						<h:outputLink  class="btn" value="login.jsf" style="margin-right: 10px" >
+  						<h:outputLink  class="btn" value="/login/login.jsf" style="margin-right: 10px" >
   							<span class="glyphicon glyphicon-user"></span> 
   							<h:outputText
   								rendered="#{loginMB.loggedUser.firstName != null and loginMB.loggedUser.login == null}"

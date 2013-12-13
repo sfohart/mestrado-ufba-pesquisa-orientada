@@ -88,6 +88,21 @@ public interface OverallPreferenceService extends BaseOhLohService<Long, Prefere
 	 */
 	List<PreferenceEntity> findAllLastReviewsByProject(Long projectId, Integer startAt, Integer offset);
 	
+	/**
+	 * 
+	 * @param projectId
+	 * @param startAt
+	 * @param offset
+	 * @param orderByRegisteredAt
+	 * @param orderByUsefullCount
+	 * @return
+	 */
+	List<PreferenceEntity> findAllLastReviewsByProject(
+			Long projectId, 
+			Integer startAt, 
+			Integer offset,
+			boolean orderByRegisteredAt,
+			boolean orderByReviewRanking);
 	
 	/**
 	 * 

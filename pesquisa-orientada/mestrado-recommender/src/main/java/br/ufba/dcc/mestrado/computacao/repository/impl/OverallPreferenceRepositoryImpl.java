@@ -10,13 +10,16 @@ import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Expression;
+import javax.persistence.criteria.Fetch;
 import javax.persistence.criteria.Join;
 import javax.persistence.criteria.JoinType;
+import javax.persistence.criteria.Order;
 import javax.persistence.criteria.Path;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 import javax.persistence.criteria.Subquery;
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Repository;
 
 import br.ufba.dcc.mestrado.computacao.entities.recommender.preference.PreferenceEntity;
@@ -220,19 +223,15 @@ public class OverallPreferenceRepositoryImpl  extends BaseRepositoryImpl<Long, P
 		Root<PreferenceEntity> p1 = criteriaQuery.from(getEntityClass());
 		CriteriaQuery<PreferenceEntity> select = criteriaQuery.select(p1);
 		
+		Fetch<PreferenceEntity, PreferenceReviewEntity> preferenceReviewFetch;
 		if (onlyWithReviews) {
-			Join<PreferenceEntity, PreferenceReviewEntity> preferenceReviewFetch =
-					p1.join("preferenceReview", JoinType.INNER);
-			
-			preferenceReviewFetch.join("uselessList", JoinType.LEFT);
-			preferenceReviewFetch.join("usefulList", JoinType.LEFT);
+			preferenceReviewFetch = p1.fetch("preferenceReview", JoinType.INNER);
 		} else {
-			Join<PreferenceEntity, PreferenceReviewEntity> preferenceReviewFetch =
-					p1.join("preferenceReview", JoinType.LEFT);
-			
-			preferenceReviewFetch.join("uselessList", JoinType.LEFT);
-			preferenceReviewFetch.join("usefulList", JoinType.LEFT);
+			preferenceReviewFetch = p1.fetch("preferenceReview", JoinType.LEFT);
 		}
+		
+		preferenceReviewFetch.fetch("uselessList", JoinType.LEFT);
+		preferenceReviewFetch.fetch("usefulList", JoinType.LEFT);
 		
 		p1.fetch("preferenceEntryList", JoinType.LEFT);
 		p1.fetch("user", JoinType.LEFT);
@@ -280,50 +279,110 @@ public class OverallPreferenceRepositoryImpl  extends BaseRepositoryImpl<Long, P
 		return findAllLastReviewsByProject(projectId, null, null);
 	}
 	
-	@Override
 	public List<PreferenceEntity> findAllLastReviewsByProject(
 			Long projectId, 
 			Integer startAt, 
 			Integer offset) {
+		return findAllLastReviewsByProject(projectId, null, null, true, true);
+	}
+	
+	@Override
+	public List<PreferenceEntity> findAllLastReviewsByProject(
+			Long projectId, 
+			Integer startAt, 
+			Integer offset,
+			boolean orderByRegisteredAt,
+			boolean orderByReviewRanking) {
 		
 		List<PreferenceEntity> preferenceList = null;
 		
 		if (projectId != null) {
-			CriteriaBuilder criteriaBuilder = getEntityManager().getCriteriaBuilder();
+			/*CriteriaBuilder criteriaBuilder = getEntityManager()
+					.getCriteriaBuilder();
+			CriteriaQuery<PreferenceEntity> criteriaQuery = criteriaBuilder
+					.createQuery(getEntityClass());
+
+			Root<PreferenceEntity> p1 = criteriaQuery.from(getEntityClass());
+			CriteriaQuery<PreferenceEntity> select = criteriaQuery.select(p1);
 			
-			CriteriaQuery<PreferenceEntity> criteriaQuery = criteriaBuilder.createQuery(PreferenceEntity.class);
-			Root<PreferenceReviewEntity> root = criteriaQuery.from(PreferenceReviewEntity.class);
+			Join<PreferenceEntity, PreferenceReviewEntity> reviewJoin = p1.join("preferenceReview", JoinType.INNER);
 			
-			Join<PreferenceReviewEntity, PreferenceEntity> preferenceJoin = root.join("preference");
+			reviewJoin.fetch("uselessList", JoinType.LEFT);
+			reviewJoin.fetch("usefulList", JoinType.LEFT);
 			
-			criteriaQuery.select(preferenceJoin);
-			
-			preferenceJoin.fetch("preferenceEntryList", JoinType.LEFT);
-			preferenceJoin.fetch("user", JoinType.LEFT);
-			
+			p1.fetch("preferenceEntryList", JoinType.LEFT);
+			p1.fetch("user", JoinType.LEFT);
+
 			List<Predicate> predicateList = new ArrayList<>();
 			
-			Predicate projectPredicate = criteriaBuilder.equal(preferenceJoin.get("projectId"), projectId);
+			Predicate projectPredicate = criteriaBuilder.equal(p1.get("projectId"), projectId);
 			predicateList.add(projectPredicate);
 			
-			/*
+			
 			 * Criando subquery para trazer os últimos registros de cada usuario/projeto
-			 */
+			 
 			Subquery<Timestamp> subquery = criteriaQuery.subquery(Timestamp.class);
 			
-			Root<PreferenceEntity> preferenceRoot = subquery.from(PreferenceEntity.class);
-			Expression<Timestamp> greatestRegisteredAt = preferenceRoot.get("registeredAt");
+			Root<PreferenceEntity> p2 = subquery.from(getEntityClass());
+			Expression<Timestamp> greatestRegisteredAt = p2.get("registeredAt");
 			
 			subquery.select(criteriaBuilder.greatest((greatestRegisteredAt)));
-			subquery.where(criteriaBuilder.equal(preferenceJoin.get("userId"), preferenceRoot.get("userId")));
+			subquery.where(criteriaBuilder.equal(p1.get("userId"), p2.get("userId")));
 			
-			Predicate registeredAtPredicate = criteriaBuilder.equal(preferenceJoin.get("registeredAt"), subquery);
+			Predicate registeredAtPredicate = criteriaBuilder.equal(p1.get("registeredAt"), subquery);
 			predicateList.add(registeredAtPredicate);
 			
 			//aplicando os filtros
-			criteriaQuery = criteriaQuery.where(predicateList.toArray(new Predicate[0]));
+			select.where(predicateList.toArray(new Predicate[0]));
 			
-			TypedQuery<PreferenceEntity> typedQuery = getEntityManager().createQuery(criteriaQuery);
+			//Ordenando
+			List<Order> orderList = new ArrayList<>();
+			
+			if (orderByRegisteredAt) {
+				Order registeredAtOrder = criteriaBuilder.asc(p1.get("registeredAt"));
+				orderList.add(registeredAtOrder);
+			}
+			
+			if (orderByReviewRanking) {
+				Order reviewRankingOrder = criteriaBuilder.asc(reviewJoin.get("reviewRanking"));
+				orderList.add(reviewRankingOrder);
+			}
+			
+			criteriaQuery.orderBy(orderList);*/
+			
+			String query = 
+						"SELECT DISTINCT p1 FROM PreferenceEntity p1 "
+					+ 	"	INNER JOIN FETCH p1.preferenceReview review "
+					+ 	"	LEFT JOIN review.uselessList "
+					+	"	LEFT JOIN review.usefulList "
+					+	"	LEFT JOIN FETCH p1.preferenceEntryList entry "
+					+	"	LEFT JOIN FETCH p1.user user "
+					+	"WHERE "
+					+	"	p1.projectId = :projectId AND "
+					+	"	p1.registeredAt = ( "
+					+	"		SELECT MAX(p2.registeredAt) FROM PreferenceEntity p2 "
+					+	"		WHERE p2.userId = p1.userId"
+					+	"	) "
+					;
+			
+			String orderBy = "";
+			if (orderByRegisteredAt && orderByReviewRanking) {
+				orderBy += 
+						"ORDER BY p1.registeredAt ASC, review.reviewRanking DESC";
+			} else if (orderByRegisteredAt) {
+				orderBy += 
+						"ORDER BY p1.registeredAt ASC";
+			} else if (orderByReviewRanking) {
+				orderBy += 
+						"ORDER BY review.reviewRanking DESC";
+			}
+			
+			if (! StringUtils.isEmpty(orderBy)) {
+				query += " " + orderBy;
+			}
+			
+			TypedQuery<PreferenceEntity> typedQuery = getEntityManager().createQuery(query, PreferenceEntity.class);
+			typedQuery.setParameter("projectId", projectId);
 			
 			if (startAt != null) {
 				typedQuery.setFirstResult(startAt);
@@ -333,7 +392,9 @@ public class OverallPreferenceRepositoryImpl  extends BaseRepositoryImpl<Long, P
 				typedQuery.setMaxResults(offset);
 			}
 			
+
 			preferenceList = typedQuery.getResultList();
+			
 		}
 		
 		return preferenceList;

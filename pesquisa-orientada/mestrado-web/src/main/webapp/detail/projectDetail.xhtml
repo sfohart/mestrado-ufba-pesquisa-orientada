@@ -15,7 +15,7 @@
 	
 	<h:body>
 		
-		<ui:composition template="layout/mainLayout.xhtml">
+		<ui:composition template="/layout/mainLayout.xhtml">
 		
 			<ui:define name="javascriptAddOns">
 				<h:outputScript library="default" name="js/highcharts/highcharts.src.js"  />
@@ -147,7 +147,7 @@
 					
 					<h:panelGroup id="communityPanel" layout="block" styleClass="row" style="margin-bottom: 20px">
 						<h4>
-							<h:outputLink value="summaryReviews.jsf" >
+							<h:outputLink value="#{facesContext.externalContext.applicationContextPath}/summary/summaryReviews.jsf" >
 								<f:param name="projectId" value="#{projectDetailMB.project.id}" />
 								Avaliações
 							</h:outputLink>
@@ -284,10 +284,10 @@
 						<div class="row">
 							<div class="col-md-6">
 								<div class="row">
-									<h:link outcome="newProjectReview">
+									<h:outputLink value="#{facesContext.externalContext.applicationContextPath}/reviews/newProjectReview.jsf">
 										<f:param name="projectId" value="#{projectDetailMB.project.id}" />
 										Avalie você também este projeto
-									</h:link>
+									</h:outputLink>
 								</div>
 							</div>
 							<div class="col-md-6">
@@ -540,7 +540,7 @@
 										}]
 									};
 																		
-									var url = "restful/activityFact/#{projectDetailMB.project.id}/commits/chartData";
+									var url = "#{facesContext.externalContext.applicationContextPath}/restful/activityFact/#{projectDetailMB.project.id}/commits/chartData";
 									$.getJSON(url,  function(returnedData) {
 										commitsOptions.series[0].data = returnedData.data;
 										commitsOptions.series[0].pointStart = returnedData.pointStart;

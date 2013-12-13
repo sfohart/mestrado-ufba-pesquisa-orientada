@@ -163,13 +163,26 @@ public class OverallPreferenceServiceImpl extends BaseOhLohServiceImpl<Long, Pre
 	}
 	
 	@Override
+	@Transactional(readOnly = true)
 	public List<PreferenceEntity> findAllLastReviewsByProject(Long projectId) {
 		return ((OverallPreferenceRepository) getRepository()).findAllLastReviewsByProject(projectId);
 	}
 	
 	@Override
+	@Transactional(readOnly = true)
 	public List<PreferenceEntity> findAllLastReviewsByProject(Long projectId, Integer startAt, Integer offset) {
 		return ((OverallPreferenceRepository) getRepository()).findAllLastReviewsByProject(projectId, startAt, offset);
+	}
+	
+	@Override
+	@Transactional(readOnly = true)
+	public List<PreferenceEntity> findAllLastReviewsByProject(
+			Long projectId, 
+			Integer startAt, 
+			Integer offset,
+			boolean orderByRegisteredAt,
+			boolean orderByReviewRanking) {
+		return ((OverallPreferenceRepository) getRepository()).findAllLastReviewsByProject(projectId, startAt, offset, orderByRegisteredAt, orderByReviewRanking);
 	}
 	
 	@Override

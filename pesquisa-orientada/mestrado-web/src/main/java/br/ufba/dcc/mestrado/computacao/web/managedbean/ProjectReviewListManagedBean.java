@@ -38,8 +38,13 @@ public class ProjectReviewListManagedBean extends AbstractListingManagedBean<Lon
 	@ManagedProperty("#{overallPreferenceService}")
 	private OverallPreferenceService preferenceService;
 	
+	private boolean orderByRegisteredAt;
+	private boolean orderByReviewRanking;
+	
 	public ProjectReviewListManagedBean() {
 		this.project = new OhLohProjectEntity();
+		this.orderByRegisteredAt = true;
+		this.orderByReviewRanking = true;
 	}
 	
 	public OhLohProjectEntity getProject() {
@@ -67,6 +72,22 @@ public class ProjectReviewListManagedBean extends AbstractListingManagedBean<Lon
 		this.preferenceService = preferenceService;
 	}
 	
+	public boolean isOrderByRegisteredAt() {
+		return orderByRegisteredAt;
+	}
+
+	public void setOrderByRegisteredAt(boolean orderByRegisteredAt) {
+		this.orderByRegisteredAt = orderByRegisteredAt;
+	}
+
+	public boolean isOrderByReviewRanking() {
+		return orderByReviewRanking;
+	}
+
+	public void setOrderByReviewRanking(boolean orderByReviewRanking) {
+		this.orderByReviewRanking = orderByReviewRanking;
+	}
+
 	public void searchReviews(ActionEvent event) {
 		Integer startPosition = loadStartPositionFromParams();
 		Integer pageSize = getDataModel().getPageSize();
@@ -160,7 +181,12 @@ public class ProjectReviewListManagedBean extends AbstractListingManagedBean<Lon
 				@Override
 				public void load(int first, int pageSize) {
 					
-					List<PreferenceEntity> data = getPreferenceService().findAllLastReviewsByProject(getProject().getId(), first, pageSize);
+					List<PreferenceEntity> data = getPreferenceService().findAllLastReviewsByProject(
+							getProject().getId(), 
+							first, 
+							pageSize,
+							isOrderByRegisteredAt(),
+							isOrderByReviewRanking());
 					this.setWrappedData(data);
 					
 					Integer totalRecords = getPreferenceService().countAllLastReviewsByProject(getProject().getId()).intValue();				

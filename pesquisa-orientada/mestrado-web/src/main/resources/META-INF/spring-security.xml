@@ -18,17 +18,17 @@
 		<intercept-url pattern="/" access="permitAll" />
 		
 		<!-- Precisa estar logado para opinar sobre determinado projeto -->		
-		<intercept-url pattern="/newProjectReview.jsf" access="hasRole('ROLE_USER')"/>
+		<intercept-url pattern="/reviews/newProjectReview.jsf" access="hasRole('ROLE_USER')"/>
 
 		<!--
 			Não usar "default-target-url". Deixando de usar, caso o usuário chegue numa página de acesso
 			restrito, ele será redirecionado para a tela de login, e logo após, voltará para a página
 			em que ele foi bloqueado
 		 -->
-		<form-login login-page="/login.jsf" 
-		    		authentication-failure-url="/login.jsf"/>
+		<form-login login-page="/login/login.jsf" 
+		    		authentication-failure-url="/login/login.jsf"/>
 
-		<access-denied-handler error-page="/deniedAcess.jsf" />
+		<access-denied-handler error-page="/login/deniedAcess.jsf" />
 
 		<!-- Ao fazer logout, volte para a página inicial -->
 		<logout invalidate-session="true" 

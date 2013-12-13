@@ -11,7 +11,7 @@
 	</f:metadata>
 
 	<h:body>
-		<ui:composition template="layout/mainLayout.xhtml">
+		<ui:composition template="/layout/mainLayout.xhtml">
 		
 			<ui:define name="titlePage">Entrar</ui:define>
 			
@@ -46,7 +46,7 @@
 								</ul>
 							</div>
 							<p>
-								<a href="newAccount.jsf" class="btn btn-success">
+								<a href="#{facesContext.externalContext.applicationContextPath}/account/newAccount.jsf" class="btn btn-success">
 									<span class="glyphicon glyphicon-plus-sign white"></span>
 									Cadastre-se 
 								</a>

@@ -162,7 +162,7 @@ public class ProjectNewReviewManagedBean extends AbstractListingManagedBean<Long
 			e.printStackTrace();
 		}
 		
-		return "summaryReviews.jsf?faces-redirect=true&includeViewParams=true&projectId=" + project.getId();
+		return "/summary/summaryReviews.jsf?faces-redirect=true&includeViewParams=true&projectId=" + project.getId();
 	}
 
 }

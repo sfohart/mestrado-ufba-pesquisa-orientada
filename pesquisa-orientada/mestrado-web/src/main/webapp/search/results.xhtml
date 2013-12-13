@@ -12,13 +12,13 @@
 	</f:metadata>
 
 	<h:body>
-		<ui:composition template="layout/mainLayout.xhtml">
+		<ui:composition template="/layout/mainLayout.xhtml">
 			
 			<ui:define name="titlePage">Resultado da Busca</ui:define>
 			
 			<ui:define name="header">
-				<ui:include src="layout/mainHeader.xhtml" />
-				<ui:include src="layout/selectedProjectsToCompare.xhtml" />
+				<ui:include src="/layout/mainHeader.xhtml" />
+				<ui:include src="/layout/selectedProjectsToCompare.xhtml" />
 			</ui:define>
 			
 			<ui:define name="content">
@@ -85,10 +85,10 @@
 										<ui:repeat var="project" value="#{mainMB.dataModel}">
 											<div class="well" >
 												<div class="row" style="margin: -20px -20px 0 0 ">
-													<h:link outcome="projectDetail" class="pull-left">
+													<h:outputLink value="#{facesContext.externalContext.applicationContextPath}/detail/projectDetail.jsf" class="pull-left">
 														<f:param name="projectId" value="#{project.id}" />
 														<h4><h:outputText value="#{project.name}"  /></h4>														
-													</h:link>
+													</h:outputLink>
 													<div class="pull-right">
 														<!-- comparableCheckboxStyle com erro de sintaxe no eclipse, mas funciona perfeitamente.  -->
 														<ui:param name="comparableCheckboxStyle" value="#{mainMB.selectedItems[project.id] ? 'project-selected' : 'project-unselected' }" />

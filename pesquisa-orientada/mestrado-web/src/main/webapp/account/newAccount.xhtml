@@ -7,7 +7,7 @@
 	xmlns:p="http://xmlns.jcp.org/jsf/passthrough">
 
 	<h:body>
-		<ui:composition template="layout/mainLayout.xhtml">
+		<ui:composition template="/layout/mainLayout.xhtml">
 		
 			<ui:define name="titlePage">Novo Usuário</ui:define>
 			
@@ -43,7 +43,7 @@
 								</ul>
 							</div>
 							<p>
-								<a href="login.jsf" class="btn btn-success">
+								<a href="#{facesContext.externalContext.applicationContextPath}/login/login.jsf" class="btn btn-success">
 									<span class="glyphicon glyphicon-user"></span> 
 									Entre 
 								</a>

@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:fn="http://java.sun.com/jsp/jstl/functions"
+	xmlns:p="http://xmlns.jcp.org/jsf/passthrough">
+	
+	<f:metadata>
+		<f:viewParam id="projectId" name="projectId" value="#{reviewListMB.project.id}" required="#{not facesContext.postback}"  requiredMessage="#{messages['project.detail.error.projectId']}"  />
+		<f:viewParam id="orderByRegisteredAt" name="orderByRegisteredAt" value="#{reviewListMB.orderByRegisteredAt}" />
+		<f:viewParam id="orderByReviewRanking" name="orderByReviewRanking" value="#{reviewListMB.orderByReviewRanking}" />
+		
+		<f:event listener="#{reviewListMB.initList}" type="preRenderView"/>
+	</f:metadata>
+	
+	
+	<h:body>
+		<ui:composition template="/layout/mainLayout.xhtml">
+			<ui:define name="titlePage">Detalhes do Projeto</ui:define>
+			
+			<ui:define name="content">
+				<f:loadBundle var="reviewsMsg" basename="br.ufba.dcc.mestrado.computacao.reviews"   />
+				
+				<section class="container">
+				
+					<h:form prependId="false" >	
+					
+						<h:panelGroup id="alert" layout="block" styleClass="alert alert-danger col-md-12" rendered="#{reviewListMB.project.id eq null}">
+							<strong>Vish! </strong>
+							<h:messages  />
+						</h:panelGroup>
+					
+										
+						<div class="row">
+						
+							<h:panelGroup id="reviewsPanel" layout="block">
+								
+								<h:panelGroup layout="block" id="breadcrump" rendered="#{reviewListMB.dataModel.rowAvailable}">
+									<!-- Exibindo quantidade de resultados -->
+									<ul class="breadcrumb" style="border-bottom: 1px solid #ddd;">
+										<li>
+											Exibindo página <h:outputText value="#{reviewListMB.pageList.currentPage}" /> de <h:outputText value="#{reviewListMB.pageList.totalPages}" /> 
+										</li>
+									</ul>
+								</h:panelGroup>							
+
+								<h:panelGroup layout="block" id="reviews">
+									<section>
+										<ui:repeat var="preference" value="#{reviewListMB.dataModel}" varStatus="status"  >
+											<div class="well">
+												<ui:include src="/reviews/review.xhtml">
+													<ui:param name="preference" value="#{preference}" />
+													<ui:param name="enableVoting" value="true"/>
+													<ui:param name="bean" value="#{reviewListMB}"/>
+												</ui:include>
+											</div>
+										</ui:repeat>
+									</section>
+									
+									<script type="text/javascript">
+    									$(function () { $('.rateit').rateit({ max: 10,  min: 0}); });
+									</script>
+								</h:panelGroup>
+								
+								<!-- Paginação -->
+								<h:panelGroup
+									rendered="#{reviewListMB.pageList.totalPages > 1}"
+									id="pagination" layout="block" styleClass="pagination-center" >
+									<ul class="pagination">
+										<li class="#{reviewListMB.pageList.currentPage eq reviewListMB.pageList.firstPage ? 'disabled' : ''}">
+											<h:commandLink actionListener="#{reviewListMB.searchReviews}" disabled="#{reviewListMB.pageList.currentPage eq reviewListMB.pageList.firstPage}" >
+												<f:param  name="page" value="#{reviewListMB.pageList.firstPage}" />
+												«
+											</h:commandLink>
+										</li>
+										
+										<li class="#{reviewListMB.pageList.currentPage eq reviewListMB.pageList.previousPage ? 'disabled' : ''}">
+											<h:commandLink actionListener="#{reviewListMB.searchReviews}" disabled="#{reviewListMB.pageList.currentPage eq reviewListMB.pageList.previousPage}" >
+												<f:param  name="page" value="#{reviewListMB.pageList.previousPage}" />
+												anterior
+											</h:commandLink>
+										</li>
+										
+										<ui:repeat var="page" value="#{reviewListMB.pageList.pageList}">
+											<li class="#{reviewListMB.pageList.currentPage eq page ? 'active' : ''}">
+												<h:commandLink actionListener="#{reviewListMB.searchReviews}" disabled="#{reviewListMB.pageList.currentPage eq page}" >
+													<f:param  name="page" value="#{page}" />
+													<h:outputText value="#{page}" />
+												</h:commandLink>
+											</li>
+										</ui:repeat>
+										
+										<li class="#{reviewListMB.pageList.currentPage eq reviewListMB.pageList.nextPage ? 'disabled' : ''}">
+											<h:commandLink actionListener="#{reviewListMB.searchReviews}" disabled="#{reviewListMB.pageList.currentPage eq reviewListMB.pageList.nextPage}" >
+												<f:param  name="page" value="#{reviewListMB.pageList.nextPage}" />
+												próximo
+											</h:commandLink>
+										</li>
+										
+										
+										<li class="#{reviewListMB.pageList.currentPage eq reviewListMB.pageList.lastPage ? 'disabled' : ''}">
+											<h:commandLink actionListener="#{reviewListMB.searchReviews}" disabled="#{reviewListMB.pageList.currentPage eq reviewListMB.pageList.lastPage}" >
+												<f:param  name="page" value="#{reviewListMB.pageList.lastPage}" />
+												»
+											</h:commandLink>
+										</li>
+									</ul>
+								</h:panelGroup>
+							
+							</h:panelGroup>
+						</div>
+					</h:form>
+				
+				</section>
+			</ui:define>
+			
+		</ui:composition>
+	</h:body>
+</html>

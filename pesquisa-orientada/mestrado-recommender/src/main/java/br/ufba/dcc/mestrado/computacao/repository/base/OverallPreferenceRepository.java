@@ -96,6 +96,22 @@ public interface OverallPreferenceRepository extends BaseRepository<Long, Prefer
 	/**
 	 * 
 	 * @param projectId
+	 * @param startAt
+	 * @param offset
+	 * @param orderByRegisteredAt
+	 * @param orderByUsefullCount
+	 * @return
+	 */
+	List<PreferenceEntity> findAllLastReviewsByProject(
+			Long projectId, 
+			Integer startAt, 
+			Integer offset,
+			boolean orderByRegisteredAt,
+			boolean orderByReviewRanking);
+	
+	/**
+	 * 
+	 * @param projectId
 	 * @param userId
 	 * @return
 	 */
