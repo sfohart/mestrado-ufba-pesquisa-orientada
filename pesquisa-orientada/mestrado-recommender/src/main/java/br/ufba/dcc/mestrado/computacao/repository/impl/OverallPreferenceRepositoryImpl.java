@@ -368,10 +368,10 @@ public class OverallPreferenceRepositoryImpl  extends BaseRepositoryImpl<Long, P
 			String orderBy = "";
 			if (orderByRegisteredAt && orderByReviewRanking) {
 				orderBy += 
-						"ORDER BY p1.registeredAt ASC, review.reviewRanking DESC";
+						"ORDER BY p1.registeredAt DESC, review.reviewRanking DESC";
 			} else if (orderByRegisteredAt) {
 				orderBy += 
-						"ORDER BY p1.registeredAt ASC";
+						"ORDER BY p1.registeredAt DESC";
 			} else if (orderByReviewRanking) {
 				orderBy += 
 						"ORDER BY review.reviewRanking DESC";

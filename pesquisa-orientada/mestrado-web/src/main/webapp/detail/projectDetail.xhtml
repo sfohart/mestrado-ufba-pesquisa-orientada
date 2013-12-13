@@ -270,7 +270,7 @@
 											}]
 										};
 																			
-										var url = "restful/activityFact/#{projectDetailMB.project.id}/contributors/chartData";
+										var url = "#{facesContext.externalContext.applicationContextPath}/restful/activityFact/#{projectDetailMB.project.id}/contributors/chartData";
 										$.getJSON(url,  function(returnedData) {
 											contributorsOptions.series[0].data = returnedData.data;
 											contributorsOptions.series[0].pointStart = returnedData.pointStart;
@@ -433,7 +433,7 @@
 										]
 									};
 																		
-									var url = "restful/activityFact/#{projectDetailMB.project.id}/code/chartData";
+									var url = "#{facesContext.externalContext.applicationContextPath}/restful/activityFact/#{projectDetailMB.project.id}/code/chartData";
 									$.getJSON(url,  function(returnedData) {
 										lineCodeOptions.series[0].data = returnedData.codeData;
 										lineCodeOptions.series[0].pointStart = returnedData.pointStart;
