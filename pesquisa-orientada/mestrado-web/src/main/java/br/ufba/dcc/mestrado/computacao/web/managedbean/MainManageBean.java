@@ -48,7 +48,12 @@ public class MainManageBean extends AbstractListingManagedBean<Long, OhLohProjec
 	}
 	
 	public String loadResults() {
-		return "results.jsf?faces-redirect=true&query=" + getSearchRequest().getQuery();
+		StringBuffer buffer = new StringBuffer();
+		
+		buffer.append(FacesContext.getCurrentInstance().getExternalContext().getApplicationContextPath());
+		buffer.append("/results.jsf?faces-redirect=true&query=" + getSearchRequest().getQuery());
+		
+		return buffer.toString();
 	}
 	
 	public SearchService getSearchService() {
@@ -200,7 +205,8 @@ public class MainManageBean extends AbstractListingManagedBean<Long, OhLohProjec
 	public String compareProjects() {
 		StringBuffer buffer = new StringBuffer();
 		
-		buffer.append("compareProjects.jsf?faces-redirect=true");
+		buffer.append(FacesContext.getCurrentInstance().getExternalContext().getApplicationContextPath());
+		buffer.append("/compareProjects.jsf?faces-redirect=true");
 		
 		for (Map.Entry<Long, Boolean> entry : getSelectedItems().entrySet()) {
 			if (entry.getValue()) {

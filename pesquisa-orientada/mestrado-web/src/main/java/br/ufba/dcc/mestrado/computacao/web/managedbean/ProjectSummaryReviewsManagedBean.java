@@ -164,8 +164,8 @@ public class ProjectSummaryReviewsManagedBean implements Serializable {
 			this.overallPreferenceCount = getOverallPreferenceService().countAllLastByProject(getProject().getId());
 			this.reviewsCount = getOverallPreferenceService().countAllLastReviewsByProject(getProject().getId());
 			
-			this.mostHelpfulReviewList 	= getOverallPreferenceService().findAllLastReviewsByProject(getProject().getId(), 0, 5);
-			this.mostRecentReviewList 	= getOverallPreferenceService().findAllLastReviewsByProject(getProject().getId(), 0, 5);
+			this.mostHelpfulReviewList 	= getOverallPreferenceService().findAllLastReviewsByProject(getProject().getId(), 0, 5, false, true);
+			this.mostRecentReviewList 	= getOverallPreferenceService().findAllLastReviewsByProject(getProject().getId(), 0, 5, true, false);
 			
 			//calculando avaliação média do projeto
 			this.averagePreference = getOverallPreferenceService().averagePreferenceByProject(getProject().getId());
