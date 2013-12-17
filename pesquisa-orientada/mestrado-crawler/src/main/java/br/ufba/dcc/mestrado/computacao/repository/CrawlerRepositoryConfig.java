@@ -4,6 +4,7 @@ import java.util.Properties;
 
 import javax.sql.DataSource;
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -29,9 +30,29 @@ public class CrawlerRepositoryConfig {
 	public DataSource dataSource() {
 		DriverManagerDataSource dataSource = new DriverManagerDataSource();
 		
-		dataSource.setUrl(env.getProperty("javax.persistence.jdbc.url"));
-		dataSource.setUsername(env.getProperty("javax.persistence.jdbc.user"));
-		dataSource.setPassword(env.getProperty("javax.persistence.jdbc.password"));
+		String username = System.getenv("OPENSHIFT_POSTGRESQL_DB_USERNAME");
+		if (StringUtils.isEmpty(username)) {
+			username = env.getProperty("javax.persistence.jdbc.username");
+		}
+		
+        String password = System.getenv("OPENSHIFT_POSTGRESQL_DB_PASSWORD");
+        if (StringUtils.isEmpty(password)) {
+        	password = env.getProperty("javax.persistence.jdbc.password");
+		}
+        
+        String host = System.getenv("OPENSHIFT_POSTGRESQL_DB_HOST");
+        String port = System.getenv("OPENSHIFT_POSTGRESQL_DB_PORT");
+        String databaseName = System.getenv("OPENSHIFT_APP_NAME");
+        String url = "jdbc:postgresql://" + host + ":" + port + "/"+databaseName;
+        
+        if (StringUtils.isEmpty(host) && StringUtils.isEmpty(port) &&  StringUtils.isEmpty(databaseName)) {
+        	url = env.getProperty("javax.persistence.jdbc.url");
+        }
+		
+		
+		dataSource.setUrl(url);
+		dataSource.setUsername(username);
+		dataSource.setPassword(password);
 		dataSource.setDriverClassName(env.getProperty("javax.persistence.jdbc.driver"));
 		
 		return dataSource; 

@@ -18,6 +18,15 @@
 		<listener-class>org.springframework.web.util.Log4jConfigListener</listener-class>
 	</listener>
 	
+	
+	<!-- 
+		tentando prevenir memory  leak
+		http://plumbr.eu/permgen
+	 -->
+	<listener>
+		<listener-class>br.ufba.dcc.mestrado.computacao.web.listener.JdbcDriverLeakPreventerListener</listener-class>
+	</listener>
+	
 	<!--
 		Não queria usar este filtro, mas fui obrigado. Usar o spring-security fazia a sessão JPA ser fechada. Ainda não consegui
 		entender o motivo. ao invés de usar o OpenSessionInView do Hibernate, utilizei este, segundo fóruns na internet.
