@@ -3,7 +3,6 @@
 	xmlns="http://java.sun.com/xml/ns/javaee"
 	xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd"
 	version="3.0">
-	<display-name>mestrado-web</display-name>
 
 	<!-- Bootstrap the root application context as usual using ContextLoaderListener -->
 	<listener>
@@ -14,9 +13,12 @@
 		<listener-class>org.springframework.web.context.request.RequestContextListener</listener-class>
 	</listener>
 
+	<!-- Apenas funciona com o WAR descompactado. No OpenShift esse não é o caso, então, remover daqui -->
+	<!-- 
 	<listener>
 		<listener-class>org.springframework.web.util.Log4jConfigListener</listener-class>
 	</listener>
+	 -->
 	
 	
 	<!-- 

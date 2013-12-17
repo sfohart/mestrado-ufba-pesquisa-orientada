@@ -32,7 +32,7 @@ public class CrawlerRepositoryConfig {
 		
 		String username = System.getenv("OPENSHIFT_POSTGRESQL_DB_USERNAME");
 		if (StringUtils.isEmpty(username)) {
-			username = env.getProperty("javax.persistence.jdbc.username");
+			username = env.getProperty("javax.persistence.jdbc.user");
 		}
 		
         String password = System.getenv("OPENSHIFT_POSTGRESQL_DB_PASSWORD");
