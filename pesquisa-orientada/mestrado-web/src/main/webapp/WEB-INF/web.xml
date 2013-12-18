@@ -1,3 +1,4 @@
+
 <?xml version="1.0" encoding="UTF-8"?>
 <web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xmlns="http://java.sun.com/xml/ns/javaee"
@@ -27,6 +28,13 @@
 	 -->
 	<listener>
 		<listener-class>br.ufba.dcc.mestrado.computacao.web.listener.JdbcDriverLeakPreventerListener</listener-class>
+	</listener>
+	
+	<!--
+		Pondo o sistema pra recriar o índice todas as vezes em que for reinicializado 
+	 -->
+	 <listener>
+		<listener-class>br.ufba.dcc.mestrado.computacao.web.listener.IndexBuildListener</listener-class>
 	</listener>
 	
 	<!--
@@ -74,11 +82,6 @@
 		<filter-name>hiddenHttpMethodFilter</filter-name>
 		<url-pattern>/*</url-pattern>
 	</filter-mapping>
-
-
-	
-	
-	
 
 	<!-- Configure ContextLoaderListener to use AnnotationConfigWebApplicationContext 
 		instead of the default XmlWebApplicationContext -->
