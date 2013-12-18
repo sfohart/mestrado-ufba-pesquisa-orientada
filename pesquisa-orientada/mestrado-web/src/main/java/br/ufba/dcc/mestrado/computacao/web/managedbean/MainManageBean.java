@@ -205,8 +205,7 @@ public class MainManageBean extends AbstractListingManagedBean<Long, OhLohProjec
 	public String compareProjects() {
 		StringBuffer buffer = new StringBuffer();
 		
-		buffer.append(FacesContext.getCurrentInstance().getExternalContext().getApplicationContextPath());
-		buffer.append("/compareProjects.jsf?faces-redirect=true");
+		buffer.append("/compare/compareProjects.jsf?faces-redirect=true");
 		
 		for (Map.Entry<Long, Boolean> entry : getSelectedItems().entrySet()) {
 			if (entry.getValue()) {
