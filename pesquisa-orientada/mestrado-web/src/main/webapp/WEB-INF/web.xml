@@ -3,7 +3,6 @@
 	xmlns="http://java.sun.com/xml/ns/javaee"
 	xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd"
 	version="3.0">
-	<display-name>mestrado-web</display-name>
 
 	<!-- Bootstrap the root application context as usual using ContextLoaderListener -->
 	<listener>
@@ -14,8 +13,20 @@
 		<listener-class>org.springframework.web.context.request.RequestContextListener</listener-class>
 	</listener>
 
+	<!-- Apenas funciona com o WAR descompactado. No OpenShift esse não é o caso, então, remover daqui -->
+	<!-- 
 	<listener>
 		<listener-class>org.springframework.web.util.Log4jConfigListener</listener-class>
+	</listener>
+	 -->
+	
+	
+	<!-- 
+		tentando prevenir memory  leak
+		http://plumbr.eu/permgen
+	 -->
+	<listener>
+		<listener-class>br.ufba.dcc.mestrado.computacao.web.listener.JdbcDriverLeakPreventerListener</listener-class>
 	</listener>
 	
 	<!--
@@ -63,11 +74,6 @@
 		<filter-name>hiddenHttpMethodFilter</filter-name>
 		<url-pattern>/*</url-pattern>
 	</filter-mapping>
-
-
-	
-	
-	
 
 	<!-- Configure ContextLoaderListener to use AnnotationConfigWebApplicationContext 
 		instead of the default XmlWebApplicationContext -->
