@@ -1,6 +1,5 @@
 package br.ufba.dcc.mestrado.computacao.web.managedbean;
 
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -50,8 +49,7 @@ public class MainManageBean extends AbstractListingManagedBean<Long, OhLohProjec
 	public String loadResults() {
 		StringBuffer buffer = new StringBuffer();
 		
-		buffer.append(FacesContext.getCurrentInstance().getExternalContext().getApplicationContextPath());
-		buffer.append("/results.jsf?faces-redirect=true&query=" + getSearchRequest().getQuery());
+		buffer.append("/search/results.jsf?faces-redirect=true&query=" + getSearchRequest().getQuery());
 		
 		return buffer.toString();
 	}
