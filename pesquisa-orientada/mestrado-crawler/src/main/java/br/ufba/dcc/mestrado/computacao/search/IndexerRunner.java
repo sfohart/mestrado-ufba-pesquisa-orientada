@@ -27,17 +27,16 @@ public class IndexerRunner {
 	private SearchService searchService;
 
 	/**
-	 * Inicia a (re)construção dos índices do Apache Lucene, para posterior pesquisa com o
-	 * Hibernate Search. A anotação {@link Scheduled} indica, através de uma expressão cron-like
-	 * ( @see http://en.wikipedia.org/wiki/Cron ) o período de agendamento da execução.
+	 * Inicia a (re)construï¿½ï¿½o dos ï¿½ndices do Apache Lucene, para posterior pesquisa com o
+	 * Hibernate Search. A anotaï¿½ï¿½o {@link Scheduled} indica, atravï¿½s de uma expressï¿½o cron-like
+	 * ( @see http://en.wikipedia.org/wiki/Cron ) o perï¿½odo de agendamento da execuï¿½ï¿½o.
 	 * 
-	 * 
+	 * NÃ£o usar Jobs aqui, openshift pode dar OutOfMemoryException
 	 *  
-	 */
-	@Scheduled(cron="0 0 0 * * *")
+	 */	
 	public void run() {
 		Timestamp duration = null;
-		logger.info("Iniciando recriação dos índices do hibernate/lucene");
+		logger.info("Iniciando recriaï¿½ï¿½o dos ï¿½ndices do hibernate/lucene");
 		
 		try {
 			long startAt = System.currentTimeMillis();
@@ -48,7 +47,7 @@ public class IndexerRunner {
 			
 			SimpleDateFormat format = new SimpleDateFormat("mm:ss.S");
 			
-			logger.info("Tempo de duração: " + format.format(duration));
+			logger.info("Tempo de duraï¿½ï¿½o: " + format.format(duration));
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		} catch (ExecutionException e) {

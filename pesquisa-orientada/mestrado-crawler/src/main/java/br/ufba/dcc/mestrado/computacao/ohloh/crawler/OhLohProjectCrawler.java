@@ -180,7 +180,7 @@ public class OhLohProjectCrawler {
 	}
 	
 	protected void downloadLanguages() throws Exception {
-		logger.info(String.format("Baixando todas as linguagens de programação"));
+		logger.info(String.format("Baixando todas as linguagens de programaï¿½ï¿½o"));
 		
 		OhLohBaseRequest request = new OhLohBaseRequest();
 		
@@ -204,10 +204,10 @@ public class OhLohProjectCrawler {
 		try {
 			do {
 				
-				//configurando requisição
+				//configurando requisiï¿½ï¿½o
 				request.setPage(config.getCurrentPage());
 				
-				//efetuando requisição
+				//efetuando requisiï¿½ï¿½o
 				OhLohLanguageResponse response = getOhLohRestfulClient().getAllLanguages(request);
 				logger.info(String.format("Current Language Page %d | Total Language Pages: %d | Total Language Stored: %d", page, totalPages, getOhLanguageService().countAll()));
 				
@@ -289,7 +289,7 @@ public class OhLohProjectCrawler {
 				do {
 					request.setPage(config.getCurrentPage());
 					
-					logger.info(String.format("Baixando enlistments para o projeto %d - página %d", project.getId(), request.getPage()));
+					logger.info(String.format("Baixando enlistments para o projeto %d - pï¿½gina %d", project.getId(), request.getPage()));
 					
 					OhLohEnlistmentResponse response = getOhLohRestfulClient().getAllProjectEnlistments(project.getId().toString(), request);
 					if (totalPages <= 0 
@@ -336,7 +336,7 @@ public class OhLohProjectCrawler {
 	
 	/**
 	 * Deixa o processo de baixar dados mais lento, por persistir um volume
-	 * muito grande de informações por projeto
+	 * muito grande de informaï¿½ï¿½es por projeto
 	 * @param project
 	 * @throws Exception
 	 */
@@ -362,7 +362,7 @@ public class OhLohProjectCrawler {
 	
 	/**
 	 * Deixa o processo de baixar dados mais lento, por persistir um volume
-	 * muito grande de informações por projeto
+	 * muito grande de informaï¿½ï¿½es por projeto
 	 * @param project
 	 * @throws Exception
 	 */
@@ -386,7 +386,9 @@ public class OhLohProjectCrawler {
 		}
 	}
 	
-	@Scheduled(cron="0 30 0 * * *")
+	/**
+	 * NÃ£o usar JOB aqui, openshift pode dar OutOfMemoryException 
+	 */
 	public void run() throws Exception {
 		
 		downloadLanguages();
@@ -458,7 +460,7 @@ public class OhLohProjectCrawler {
 								//downloadSizeFacts(ohLohProject);
 								
 							} else {
-								logger.info(String.format("Projeto \"%s\" com id %d já se encontra na base", project.getName(), project.getId()));
+								logger.info(String.format("Projeto \"%s\" com id %d jï¿½ se encontra na base", project.getName(), project.getId()));
 							}
 							
 						}
