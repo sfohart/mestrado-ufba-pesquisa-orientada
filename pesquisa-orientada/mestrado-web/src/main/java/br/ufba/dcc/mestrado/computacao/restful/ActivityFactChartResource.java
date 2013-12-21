@@ -106,7 +106,9 @@ public class ActivityFactChartResource implements Serializable {
 		}
 		
 		JSONObject jsonObject = new JSONObject();
-		jsonObject.put("pointStart", first.getMonth().getTime());
+		if (first != null) {
+			jsonObject.put("pointStart", first.getMonth().getTime());
+		}
 		
 		jsonObject.put("codeData", new JSONArray(codeList));
 		jsonObject.put("commentsData", new JSONArray(commentsList));
@@ -139,7 +141,10 @@ public class ActivityFactChartResource implements Serializable {
 		}
 		
 		JSONObject jsonObject = new JSONObject();
-		jsonObject.put("pointStart", first.getMonth().getTime());
+		if (first != null) {
+			jsonObject.put("pointStart", first.getMonth().getTime());
+		}
+		
 		jsonObject.put("data", new JSONArray(commitsList));
 		
 		return jsonObject.toString();
@@ -162,7 +167,10 @@ public class ActivityFactChartResource implements Serializable {
 		}
 		
 		JSONObject jsonObject = new JSONObject();
-		jsonObject.put("pointStart", first.getMonth().getTime());
+		if (first != null) {
+			jsonObject.put("pointStart", first.getMonth().getTime());
+		}
+		
 		jsonObject.put("data", new JSONArray(contributorsList));
 		
 		return jsonObject.toString();
