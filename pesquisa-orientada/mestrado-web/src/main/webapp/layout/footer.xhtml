@@ -6,9 +6,28 @@
 
 	<div id="footer">
 		<div class="container">
-			<p class="text-muted credit">
-				Copyright &#169; 2013. 
-			</p>
+		
+			<div class="col-md-4" >
+				<ul class="nav nav-pills">
+					<li>
+						<h:link outcome="/about/about.jsf" style="color: #e86d1f;">
+							Sobre
+						</h:link>
+					</li>
+					<li>
+						<h:link outcome="/about/contact.jsf" style="color: #e86d1f;">
+							Contato
+						</h:link>
+					</li>
+				</ul>
+			</div>
+			
+			<div class="col-md-8">
+				<p class="text-muted credit">
+					Copyright &#169; 2013. 
+				</p>
+			</div>
+		
 		</div>
 	</div>
 </ui:composition>
