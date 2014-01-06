@@ -36,6 +36,14 @@ public interface OverallPreferenceService extends BaseOhLohService<Long, Prefere
 	
 	/**
 	 * 
+	 * @param userId
+	 * @return
+	 */
+	Long countAllLastReviewsByUser(Long userId);
+	
+	
+	/**
+	 * 
 	 * Calcula o valor médio das avaliações gerais para cada projeto.
 	 * Também calcula o valor médio separadamente por critério.
 	 * Conta apenas a avaliação mais recente de cada usuário  
@@ -71,23 +79,6 @@ public interface OverallPreferenceService extends BaseOhLohService<Long, Prefere
 	 */
 	List<PreferenceEntity> findAllLastByProject(Long projectId, Integer startAt, Integer offset);
 	
-	
-	/**
-	 * 
-	 * @param projectId
-	 * @return
-	 */
-	List<PreferenceEntity> findAllLastReviewsByProject(Long projectId);
-	
-	/**
-	 * 
-	 * @param projectId
-	 * @param startAt
-	 * @param offset
-	 * @return
-	 */
-	List<PreferenceEntity> findAllLastReviewsByProject(Long projectId, Integer startAt, Integer offset);
-	
 	/**
 	 * 
 	 * @param projectId
@@ -99,6 +90,22 @@ public interface OverallPreferenceService extends BaseOhLohService<Long, Prefere
 	 */
 	List<PreferenceEntity> findAllLastReviewsByProject(
 			Long projectId, 
+			Integer startAt, 
+			Integer offset,
+			boolean orderByRegisteredAt,
+			boolean orderByReviewRanking);
+	
+	/**
+	 * 
+	 * @param userId
+	 * @param startAt
+	 * @param offset
+	 * @param orderByRegisteredAt
+	 * @param orderByReviewRanking
+	 * @return
+	 */
+	List<PreferenceEntity> findAllLastReviewsByUser(
+			Long userId, 
 			Integer startAt, 
 			Integer offset,
 			boolean orderByRegisteredAt,

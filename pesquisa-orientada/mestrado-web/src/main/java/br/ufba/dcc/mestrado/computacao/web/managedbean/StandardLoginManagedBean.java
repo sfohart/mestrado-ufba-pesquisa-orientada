@@ -2,7 +2,6 @@ package br.ufba.dcc.mestrado.computacao.web.managedbean;
 
 import java.io.IOException;
 import java.io.Serializable;
-import java.security.Principal;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -10,7 +9,6 @@ import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.SessionScoped;
-import javax.faces.bean.ViewScoped;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.faces.event.ComponentSystemEvent;
@@ -20,9 +18,6 @@ import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 
 import org.springframework.security.authentication.BadCredentialsException;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.web.WebAttributes;
 
 import br.ufba.dcc.mestrado.computacao.entities.recommender.user.UserEntity;
@@ -100,10 +95,10 @@ public class StandardLoginManagedBean implements Serializable {
 			
 			if (authenticationException instanceof BadCredentialsException) {
 				FacesContext.getCurrentInstance()
-				.getExternalContext()
-				.getSessionMap()
-				.put(WebAttributes.AUTHENTICATION_EXCEPTION, null);
-				
+					.getExternalContext()
+					.getSessionMap()
+					.put(WebAttributes.AUTHENTICATION_EXCEPTION, null);
+					
 				FacesContext.getCurrentInstance().addMessage(
 						null, 
 						new FacesMessage(

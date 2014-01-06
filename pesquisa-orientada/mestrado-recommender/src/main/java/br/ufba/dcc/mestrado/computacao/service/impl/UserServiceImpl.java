@@ -2,6 +2,7 @@ package br.ufba.dcc.mestrado.computacao.service.impl;
 
 import java.sql.Timestamp;
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
@@ -48,8 +49,16 @@ public class UserServiceImpl extends BaseOhLohServiceImpl<Long, UserEntity>
 	}
 
 	private void validateEntity(UserEntity entity) {
-		entity.setCreatedAt(new Timestamp(System.currentTimeMillis()));
-		entity.setEnabled(Boolean.TRUE);
-		entity.setLocked(Boolean.FALSE);
+		if (entity != null) {
+			entity.setCreatedAt(new Timestamp(System.currentTimeMillis()));
+			entity.setEnabled(Boolean.TRUE);
+			entity.setLocked(Boolean.FALSE);
+			
+			if (StringUtils.isEmpty(entity.getFirstName()) || StringUtils.isEmpty(entity.getMiddleName()) || StringUtils.isEmpty(entity.getLastName()) ){
+				String name = entity.getFirstName() + " " + entity.getMiddleName() + " " + entity.getLastName();
+				name = name.replaceAll("  ", " ").replaceAll("null", "");
+				entity.setName(name);
+			}
+		}
 	}
 }

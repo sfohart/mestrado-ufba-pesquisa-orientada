@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="ISO-8859-1"?>
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:h="http://java.sun.com/jsf/html"
@@ -9,7 +9,9 @@
 	xmlns:p="http://xmlns.jcp.org/jsf/passthrough">
 	
 	<f:metadata>
-		<f:viewParam id="projectId" name="projectId" value="#{reviewListMB.project.id}" required="#{not facesContext.postback}"  requiredMessage="#{messages['project.detail.error.projectId']}"  />
+		<f:viewParam id="projectId" name="projectId" value="#{reviewListMB.project.id}" />
+		<f:viewParam id="userId" name="userId" value="#{reviewListMB.user.id}"  />
+		
 		<f:viewParam id="orderByRegisteredAt" name="orderByRegisteredAt" value="#{reviewListMB.orderByRegisteredAt}" />
 		<f:viewParam id="orderByReviewRanking" name="orderByReviewRanking" value="#{reviewListMB.orderByReviewRanking}" />
 		
@@ -28,11 +30,10 @@
 				
 					<h:form prependId="false" >	
 					
-						<h:panelGroup id="alert" layout="block" styleClass="alert alert-danger col-md-12" rendered="#{reviewListMB.project.id eq null}">
+						<h:panelGroup id="alert" layout="block" styleClass="alert alert-danger col-md-12" rendered="#{not empty facesContext.messageList}">
 							<strong>Vish! </strong>
 							<h:messages  />
 						</h:panelGroup>
-					
 										
 						<div class="row">
 						
@@ -42,7 +43,7 @@
 									<!-- Exibindo quantidade de resultados -->
 									<ul class="breadcrumb" style="border-bottom: 1px solid #ddd;">
 										<li>
-											Exibindo página <h:outputText value="#{reviewListMB.pageList.currentPage}" /> de <h:outputText value="#{reviewListMB.pageList.totalPages}" /> 
+											Exibindo p�gina <h:outputText value="#{reviewListMB.pageList.currentPage}" /> de <h:outputText value="#{reviewListMB.pageList.totalPages}" /> 
 										</li>
 									</ul>
 								</h:panelGroup>							
@@ -65,50 +66,11 @@
 									</script>
 								</h:panelGroup>
 								
-								<!-- Paginação -->
-								<h:panelGroup
-									rendered="#{reviewListMB.pageList.totalPages > 1}"
-									id="pagination" layout="block" styleClass="pagination-center" >
-									<ul class="pagination">
-										<li class="#{reviewListMB.pageList.currentPage eq reviewListMB.pageList.firstPage ? 'disabled' : ''}">
-											<h:commandLink actionListener="#{reviewListMB.searchReviews}" disabled="#{reviewListMB.pageList.currentPage eq reviewListMB.pageList.firstPage}" >
-												<f:param  name="page" value="#{reviewListMB.pageList.firstPage}" />
-												«
-											</h:commandLink>
-										</li>
-										
-										<li class="#{reviewListMB.pageList.currentPage eq reviewListMB.pageList.previousPage ? 'disabled' : ''}">
-											<h:commandLink actionListener="#{reviewListMB.searchReviews}" disabled="#{reviewListMB.pageList.currentPage eq reviewListMB.pageList.previousPage}" >
-												<f:param  name="page" value="#{reviewListMB.pageList.previousPage}" />
-												anterior
-											</h:commandLink>
-										</li>
-										
-										<ui:repeat var="page" value="#{reviewListMB.pageList.pageList}">
-											<li class="#{reviewListMB.pageList.currentPage eq page ? 'active' : ''}">
-												<h:commandLink actionListener="#{reviewListMB.searchReviews}" disabled="#{reviewListMB.pageList.currentPage eq page}" >
-													<f:param  name="page" value="#{page}" />
-													<h:outputText value="#{page}" />
-												</h:commandLink>
-											</li>
-										</ui:repeat>
-										
-										<li class="#{reviewListMB.pageList.currentPage eq reviewListMB.pageList.nextPage ? 'disabled' : ''}">
-											<h:commandLink actionListener="#{reviewListMB.searchReviews}" disabled="#{reviewListMB.pageList.currentPage eq reviewListMB.pageList.nextPage}" >
-												<f:param  name="page" value="#{reviewListMB.pageList.nextPage}" />
-												próximo
-											</h:commandLink>
-										</li>
-										
-										
-										<li class="#{reviewListMB.pageList.currentPage eq reviewListMB.pageList.lastPage ? 'disabled' : ''}">
-											<h:commandLink actionListener="#{reviewListMB.searchReviews}" disabled="#{reviewListMB.pageList.currentPage eq reviewListMB.pageList.lastPage}" >
-												<f:param  name="page" value="#{reviewListMB.pageList.lastPage}" />
-												»
-											</h:commandLink>
-										</li>
-									</ul>
-								</h:panelGroup>
+								<!-- Pagina��o -->
+								<ui:include src="/layout/pagination.xhtml">
+									<ui:param name="searchMethod" value="searchReviews" />
+									<ui:param name="bean" value="#{reviewListMB}"/>
+								</ui:include>
 							
 							</h:panelGroup>
 						</div>

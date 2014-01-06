@@ -1,0 +1,16 @@
+<pretty-config xmlns="http://ocpsoft.com/prettyfaces/3.3.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://ocpsoft.com/prettyfaces/3.3.0
+						http://ocpsoft.com/xml/ns/prettyfaces/ocpsoft-pretty-faces-3.3.0.xsd">
+
+
+	<rewrite 
+		match="/account/account.jsf?accountId=(\d+)"
+		substitute="/account/$1" />
+
+	<rewrite 
+		match="/account/account.jsf?accountLogin=(\w+)"
+		substitute="/account/$1" />
+
+
+</pretty-config>

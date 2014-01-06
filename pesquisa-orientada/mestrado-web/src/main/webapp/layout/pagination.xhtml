@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!DOCTYPE html>
+<ui:composition xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core">
+	
+	
+	<h:panelGroup
+		rendered="#{bean.pageList.totalPages > 1}"
+		id="pagination" layout="block" styleClass="pagination-center" >
+		<ul class="pagination">
+			<li class="#{bean.pageList.currentPage eq bean.pageList.firstPage ? 'disabled' : ''}">
+				<h:commandLink actionListener="#{bean[searchMethod]}" disabled="#{bean.pageList.currentPage eq bean.pageList.firstPage}" >
+					<f:param  name="page" value="#{bean.pageList.firstPage}" />
+					«
+				</h:commandLink>
+			</li>
+			
+			<li class="#{bean.pageList.currentPage eq bean.pageList.previousPage ? 'disabled' : ''}">
+				<h:commandLink actionListener="#{bean[searchMethod]}" disabled="#{bean.pageList.currentPage eq bean.pageList.previousPage}" >
+					<f:param  name="page" value="#{bean.pageList.previousPage}" />
+					anterior
+				</h:commandLink>
+			</li>
+			
+			<ui:repeat var="page" value="#{bean.pageList.pageList}">
+				<li class="#{bean.pageList.currentPage eq page ? 'active' : ''}">
+					<h:commandLink actionListener="#{bean[searchMethod]}" disabled="#{bean.pageList.currentPage eq page}" >
+						<f:param  name="page" value="#{page}" />
+						<h:outputText value="#{page}" />
+					</h:commandLink>
+				</li>
+			</ui:repeat>
+			
+			<li class="#{bean.pageList.currentPage eq bean.pageList.nextPage ? 'disabled' : ''}">
+				<h:commandLink actionListener="#{bean[searchMethod]}" disabled="#{bean.pageList.currentPage eq bean.pageList.nextPage}" >
+					<f:param  name="page" value="#{bean.pageList.nextPage}" />
+					próximo
+				</h:commandLink>
+			</li>
+			
+			
+			<li class="#{bean.pageList.currentPage eq bean.pageList.lastPage ? 'disabled' : ''}">
+				<h:commandLink actionListener="#{bean[searchMethod]}" disabled="#{bean.pageList.currentPage eq bean.pageList.lastPage}" >
+					<f:param  name="page" value="#{bean.pageList.lastPage}" />
+					»
+				</h:commandLink>
+			</li>
+		</ul>
+	</h:panelGroup>
+	
+	
+	
+</ui:composition>

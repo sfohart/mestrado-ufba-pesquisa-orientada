@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core">
+	
+	<f:metadata>
+		<f:viewParam id="accountId" name="accountId" value="#{accountMB.account.id}" required="true" />
+		<f:event listener="#{accountMB.initViewSettings}" type="preRenderView"  />
+	</f:metadata>
+	
+	<h:body>
+		<ui:composition template="/layout/mainLayout.xhtml">
+			<ui:define name="titlePage">Configurações da Conta</ui:define>
+			
+			
+			<ui:define name="content">
+				<section class="container">
+				
+					<ui:include src="accountHeader.xhtml" >
+						<ui:param name="socialButtonsRendered" value="true" />
+					</ui:include>
+				
+					<div class="row" style="border-top: 1px solid #aaa;">
+						<h3>Configurações da Conta</h3>
+					</div>
+															
+					<h:panelGroup id="accountSettingOptions" layout="block" styleClass="row" style="margin-bottom: 20px"
+							rendered="#{empty facesContext.messageList}">
+						<div class="col-md-6 pull-left">
+							<h4>
+								<h:outputLink value="#{facesContext.externalContext.applicationContextPath}/account/accountBasicDataEdit.jsf">
+									<f:param  name="accountId" value="#{accountMB.account.id}" />
+									Dados Pessoais
+								</h:outputLink>
+							</h4>
+							<span class="pull-left btn btn-lg">
+								<span class="glyphicon glyphicon-wrench" />
+							</span>
+							<span>
+								Login, Nome, Conta do Facebook e/ou Twitter, Email, etc.
+							</span>
+						</div>
+						
+						<div class="col-md-6 pull-right">
+						</div>
+					</h:panelGroup>
+				
+				
+				</section>
+			</ui:define>
+		</ui:composition>
+	</h:body>
+	
+	
+</html>

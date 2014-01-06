@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!DOCTYPE html>
+<ui:composition 
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://xmlns.jcp.org/jsf/passthrough"
+	>
+	
+	<h:panelGroup layout="block" styleClass="alert alert-danger col-md-12" rendered="#{not empty facesContext.messageList}">
+		<strong>Vish! </strong>
+		<h:messages showDetail="true" showSummary="true" />
+	</h:panelGroup>
+	
+	<h:panelGroup id="accountTitle" layout="block" styleClass="row" style="margin-bottom: 20px"
+			rendered="#{empty facesContext.messageList}">
+		<div class="col-md-2 pull-left">
+			<a class="pull-left" href="#">
+				<img class="media-object" src="http://www.gravatar.com/avatar/#{accountMB.encodedEmail}.png?s=128&amp;d=mm" />
+			</a>
+		</div>
+		<div class="col-md-10 pull-left">
+			<h2> <h:outputText value="#{accountMB.account.login}" /> </h2>
+			<h:outputLink class="btn" rendered="#{loginMB.loggedUser eq accountMB.account}" 
+					value="#{facesContext.externalContext.applicationContextPath}/account/accountSettings.jsf">
+				<span class="glyphicon glyphicon-cog"></span>
+				<f:param  name="accountId" value="#{accountMB.account.id}" />
+				Configurações
+			</h:outputLink>
+			
+			<h:panelGroup layout="block" rendered="#{socialButtonsRendered}">
+				<ul class="nav nav-pills">
+					<li>
+						<h:outputLink value="http://www.facebook.com/#{accountMB.account.facebookAccount}" rendered="#{not empty accountMB.account.facebookAccount}">
+							<h:panelGroup styleClass="fa fa-facebook" style="color: #3b5998; font-size: 1.5em;"/>
+						</h:outputLink>
+						
+						<h:panelGroup styleClass="fa fa-facebook" style="color: #ccc; font-size: 1.5em; padding: 10px 15px" 
+							rendered="#{empty accountMB.account.facebookAccount}"/>
+					</li>
+					<li>								
+						<h:outputLink value="http://www.twitter.com/#{accountMB.account.twitterAccount}" rendered="#{not empty accountMB.account.twitterAccount}">
+							<h:panelGroup styleClass="fa fa-twitter" style="color: #00a0d1; font-size: 1.5em;"  />
+						</h:outputLink>
+							
+						<h:panelGroup styleClass="fa fa-twitter" style="color: #ccc; font-size: 1.5em; padding: 10px 15px" 
+							rendered="#{empty accountMB.account.twitterAccount}"/>
+					</li>
+				</ul>
+			</h:panelGroup>
+		</div>
+	</h:panelGroup>
+	
+</ui:composition>

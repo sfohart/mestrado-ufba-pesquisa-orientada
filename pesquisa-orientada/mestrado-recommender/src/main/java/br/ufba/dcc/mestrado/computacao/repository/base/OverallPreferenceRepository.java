@@ -41,6 +41,14 @@ public interface OverallPreferenceRepository extends BaseRepository<Long, Prefer
 	
 	/**
 	 * 
+	 * @param userId
+	 * @return
+	 */
+	Long countAllLastReviewsByUser(Long userId);
+	
+	
+	/**
+	 * 
 	 * Calcula o valor médio das avaliações gerais para cada projeto.
 	 * Conta apenas a avaliação mais recente de cada usuário  
 	 * 
@@ -104,6 +112,23 @@ public interface OverallPreferenceRepository extends BaseRepository<Long, Prefer
 	 */
 	List<PreferenceEntity> findAllLastReviewsByProject(
 			Long projectId, 
+			Integer startAt, 
+			Integer offset,
+			boolean orderByRegisteredAt,
+			boolean orderByReviewRanking);
+	
+	
+	/**
+	 * 
+	 * @param userId
+	 * @param startAt
+	 * @param offset
+	 * @param orderByRegisteredAt
+	 * @param orderByReviewRanking
+	 * @return
+	 */
+	List<PreferenceEntity> findAllLastReviewsByUser(
+			Long userId, 
 			Integer startAt, 
 			Integer offset,
 			boolean orderByRegisteredAt,

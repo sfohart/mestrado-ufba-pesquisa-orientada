@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="ISO-8859-1"?>
 <!DOCTYPE html>
 <ui:composition 
 	xmlns:h="http://java.sun.com/jsf/html"
@@ -43,14 +43,15 @@
   					</h:panelGroup>
   					
   					<h:panelGroup layout="block" rendered="#{loginMB.loggedUser != null}">
-  						<h:outputLink  class="btn" value="/login/login.jsf" style="margin-right: 10px" >
+  						<h:outputLink  class="btn" value="#{facesContext.externalContext.applicationContextPath}/account/account.jsf" style="margin-right: 10px" >
+  							<f:param name="accountId" value="#{loginMB.loggedUser.id}" />
   							<span class="glyphicon glyphicon-user"></span> 
   							<h:outputText
-  								rendered="#{loginMB.loggedUser.firstName != null and loginMB.loggedUser.login == null}"
+  								rendered="#{loginMB.loggedUser.name != null and loginMB.loggedUser.login == null}"
   								style="margin-left: 10px; vertical-align: middle" 
   								value="#{loginMB.loggedUser.firstName}" />
   							<h:outputText
-  								rendered="#{loginMB.loggedUser.firstName == null and loginMB.loggedUser.login != null}"
+  								rendered="#{loginMB.loggedUser.name == null and loginMB.loggedUser.login != null}"
   								style="margin-left: 10px; vertical-align: middle" 
   								value="#{loginMB.loggedUser.login}" />
   						</h:outputLink>

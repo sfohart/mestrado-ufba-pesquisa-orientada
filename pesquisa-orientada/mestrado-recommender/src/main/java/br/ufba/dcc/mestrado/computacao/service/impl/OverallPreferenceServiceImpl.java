@@ -93,6 +93,11 @@ public class OverallPreferenceServiceImpl extends BaseOhLohServiceImpl<Long, Pre
 	}
 	
 	@Override
+	public Long countAllLastReviewsByUser(Long userId) {
+		return ((OverallPreferenceRepository) getRepository()).countAllLastReviewsByUser(userId);
+	}
+	
+	@Override
 	@Transactional(readOnly = true)
 	public Long countAllByProjectAndUser(Long projectId, Long userId) {
 		return ((OverallPreferenceRepository) getRepository()).countAllByProjectAndUser(projectId, userId);
@@ -164,18 +169,6 @@ public class OverallPreferenceServiceImpl extends BaseOhLohServiceImpl<Long, Pre
 	
 	@Override
 	@Transactional(readOnly = true)
-	public List<PreferenceEntity> findAllLastReviewsByProject(Long projectId) {
-		return ((OverallPreferenceRepository) getRepository()).findAllLastReviewsByProject(projectId);
-	}
-	
-	@Override
-	@Transactional(readOnly = true)
-	public List<PreferenceEntity> findAllLastReviewsByProject(Long projectId, Integer startAt, Integer offset) {
-		return ((OverallPreferenceRepository) getRepository()).findAllLastReviewsByProject(projectId, startAt, offset);
-	}
-	
-	@Override
-	@Transactional(readOnly = true)
 	public List<PreferenceEntity> findAllLastReviewsByProject(
 			Long projectId, 
 			Integer startAt, 
@@ -183,6 +176,18 @@ public class OverallPreferenceServiceImpl extends BaseOhLohServiceImpl<Long, Pre
 			boolean orderByRegisteredAt,
 			boolean orderByReviewRanking) {
 		return ((OverallPreferenceRepository) getRepository()).findAllLastReviewsByProject(projectId, startAt, offset, orderByRegisteredAt, orderByReviewRanking);
+	}
+	
+	
+	@Override
+	@Transactional(readOnly = true)
+	public List<PreferenceEntity> findAllLastReviewsByUser(
+			Long userId, 
+			Integer startAt, 
+			Integer offset,
+			boolean orderByRegisteredAt,
+			boolean orderByReviewRanking) {
+		return ((OverallPreferenceRepository) getRepository()).findAllLastReviewsByUser(userId, startAt, offset, orderByRegisteredAt, orderByReviewRanking);
 	}
 	
 	@Override

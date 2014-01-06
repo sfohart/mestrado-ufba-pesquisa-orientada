@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="ISO-8859-1"?>
 <!DOCTYPE html>
 <ui:composition  
 	xmlns="http://www.w3.org/1999/xhtml"
@@ -12,19 +12,22 @@
 	<h:panelGroup layout="block" styleClass="media" rendered="#{preference != null}"> 
 		
 		<h:outputLink styleClass="pull-left" >
-			<!-- Nome do usuÃ¡rio -->
+			<!-- Nome do usuário -->
 			<div>
-				<h:outputText
-							rendered="#{preference.user.firstName != null and preference.user.login == null}"
-							style="margin-left: 10px; vertical-align: middle" 
-							value="...#{preference.user.firstName}" />
-						<h:outputText
-							rendered="#{preference.user.firstName == null and preference.user.login != null}"
-							style="margin-left: 10px; vertical-align: middle" 
-							value="...#{preference.user.login}" />
+				<h:outputLink value="#{facesContext.externalContext.applicationContextPath}/account/account.jsf?accountId=#{preference.user.id}">
+					<h:outputText
+						rendered="#{preference.user.firstName != null and preference.user.login == null}"
+						style="margin-left: 10px; vertical-align: middle" 
+						value="...#{preference.user.firstName}" />
+						
+					<h:outputText
+						rendered="#{preference.user.firstName == null and preference.user.login != null}"
+						style="margin-left: 10px; vertical-align: middle" 
+						value="...#{preference.user.login}" />
+				</h:outputLink>
 				disse:
 			</div>
-			<!-- Foto do usuÃ¡rio -->
+			<!-- Foto do usuário -->
 			<h:graphicImage styleClass="media-object pull-right img-thumbnail" height="64" width="64" library="default" name="img/no_logo.png" />													
 		</h:outputLink>
 		
@@ -45,7 +48,7 @@
 			<div  style="clear: both; color: #777; font-style: italic; font-family: Georgia,'Times New Roman',Times,serif;">
 				<abbr class="small soft" title="#{preference.registeredAt}">
 					<h:outputText value="#{preference.registeredAt}">
-						<f:convertDateTime pattern="'escrito no dia' dd/MM/yyyy 'Ã s' HH:mm:ss" />
+						<f:convertDateTime pattern="'escrito no dia' dd/MM/yyyy 'às' HH:mm:ss" />
 					</h:outputText>
 				</abbr>
 			</div>
@@ -104,13 +107,13 @@
 				<ui:param name="totalVotes" value="#{preference.preferenceReview.usefulCount + preference.preferenceReview.uselessCount}" />
 				<h:panelGroup layout="block" styleClass="small soft" rendered="#{totalVotes > 0}">
 					<h:outputText  value="#{fn:length(preference.preferenceReview.usefulList)}" /> 
-					de <h:outputText value="#{totalVotes}" /> avaliaram esta opiniÃ£o como Ãºtil.
+					de <h:outputText value="#{totalVotes}" /> avaliaram esta opinião como útil.
 				</h:panelGroup>
 			</div>	      				
 			<h:panelGroup layout="block" styleClass="col-md-6 pull-right" rendered="#{enableVoting}">
 				<h:panelGroup rendered="#{loginMB.loggedUser != null}">
 					<span class="soft small italic">
-						VocÃª achou esta avaliaÃ§Ã£o Ãºtil?
+						Você achou esta avaliação útil?
 						<br />
 						<h:commandLink style="text-decoration: none; margin-right: 10px" >
 							<f:attribute name="preference" value="#{preference}"  />
@@ -120,7 +123,7 @@
 						<h:commandLink style="text-decoration: none; margin-right: 10px" >
 							<f:attribute name="preference" value="#{preference}" />
 							<f:ajax execute="@all" render="@form" listener="#{bean.addUselessVoteToReview}"  />
-							<span class="glyphicon glyphicon-thumbs-down" /> NÃ£o
+							<span class="glyphicon glyphicon-thumbs-down" /> Não
 						</h:commandLink>
 					</span>
 				</h:panelGroup>

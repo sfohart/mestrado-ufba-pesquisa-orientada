@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="ISO-8859-1"?>
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:h="http://java.sun.com/jsf/html"
@@ -16,7 +16,7 @@
 	<h:body>
 		<ui:composition template="/layout/mainLayout.xhtml">
 		
-			<ui:define name="titlePage">AvaliaÃ§Ãµes e OpiniÃµes</ui:define>
+			<ui:define name="titlePage">Avaliações e Opiniões</ui:define>
 			
 			<ui:define name="content">
 			
@@ -39,28 +39,28 @@
 					</h:panelGroup>
 					
 					<div class="row" style="border-top: 1px solid #aaa;">
-						<h3>AvaliaÃ§Ãµes e OpiniÃµes</h3>
+						<h3>Avaliações e Opiniões</h3>
 					</div>
 					
 					<h:panelGroup layout="block" styleClass="row" >
 					
 						<div class="col-md-3">
-							<b>AvaliaÃ§Ã£o da Comunidade</b>
+							<b>Avaliação da Comunidade</b>
 							<div class="rateit" data-rateit-readonly="true"
 								data-rateit-min="0" data-rateit-max="10"
 								data-rateit-value="#{summaryReviewsMB.averagePreference.value}" data-rateit-ispreset="true"  />
 							<span class="soft small">
 								<br />
-								AvaliaÃ§Ã£o mÃ©dia: 
+								Avaliação média: 
 								<h:outputText value="#{summaryReviewsMB.averagePreference.value}" >
 									<f:convertNumber maxFractionDigits="2" maxIntegerDigits="2" pattern="#0.00" />
 								</h:outputText> / 10
 								<br />
-								NÃºmero de avaliaÃ§Ãµes:
+								Número de avaliações:
 								<h:outputText 
 									value="#{summaryReviewsMB.overallPreferenceCount}" />
 								<br />
-								NÃºmero de opiniÃµes:
+								Número de opiniões:
 								<h:outputText 
 									value="#{summaryReviewsMB.reviewsCount}" />
 							</span>
@@ -68,7 +68,7 @@
 						
 						<div class="col-md-9">
 							<div class="well">
-								<h3>Minha avaliaÃ§Ã£o deste projeto:</h3>
+								<h3>Minha avaliação deste projeto:</h3>
 								<h:panelGroup layout="block" styleClass="media" rendered="#{summaryReviewsMB.currentUserPreference != null}">
 									<ui:include src="/reviews/review.xhtml">
 										<ui:param name="preference" value="#{summaryReviewsMB.currentUserPreference}" />
@@ -85,7 +85,7 @@
 					
 					<h:panelGroup layout="block" styleClass="row" style="border-top: 1px solid #aaa;">
 						<div class="col-md-9 col-md-offset-3">
-							<h3>AvaliaÃ§Ã£o mÃ©dia por CritÃ©rio</h3>
+							<h3>Avaliação média por Critério</h3>
 							<table class="table table-condensed unstyled pull-left" style="width: 75%" >
 								<tbody>
 									<ui:repeat var="entry" value="#{summaryReviewsMB.averagePreference.preferenceEntryList}">
@@ -125,7 +125,7 @@
 						<h:panelGroup styleClass="col-md-6" rendered="#{summaryReviewsMB.mostHelpfulFavorableReview != null}">
 							<div class="panel panel-info">
 								<div class="panel-heading">
-									<h2 class="panel-title">AvaliaÃ§Ã£o positiva mais Ãºtil</h2>
+									<h2 class="panel-title">Avaliação positiva mais útil</h2>
 								</div>
 								<div class="panel-body">
 								</div>
@@ -134,7 +134,7 @@
 						<h:panelGroup styleClass="col-md-6" rendered="#{summaryReviewsMB.mostHelpfulCriticalReview != null}">
 							<div class="panel panel-info">
 								<div class="panel-heading">
-									<h2 class="panel-title">AvaliaÃ§Ã£o negativa mais Ãºtil</h2>									
+									<h2 class="panel-title">Avaliação negativa mais útil</h2>									
 								</div>
 								<div class="panel-body">
 									
@@ -150,7 +150,7 @@
 									<h:outputLink value="#{facesContext.externalContext.applicationContextPath}/reviews/reviewsList.jsf">
 										<f:param name="projectId" value="#{summaryReviewsMB.project.id}" />
 										<f:param name="orderByRegisteredAt" value="false" />
-										OpiniÃµes mais Ãºteis
+										Opiniões mais úteis
 									</h:outputLink>
 								</h3>
 								
@@ -168,7 +168,7 @@
 								<h:outputLink value="reviewsList.jsf" styleClass="btn btn-default" 
 									rendered="#{summaryReviewsMB.reviewsCount > 2}">
 									<f:param name="projectId" value="#{summaryReviewsMB.project.id}" />
-									Ver todas as opiniÃµes
+									Ver todas as opiniões
 								</h:outputLink>
 							</div>
 							<div class="col-md-6">
@@ -176,7 +176,7 @@
 									<h:outputLink value="#{facesContext.externalContext.applicationContextPath}/reviews/reviewsList.jsf">
 										<f:param name="projectId" value="#{summaryReviewsMB.project.id}" />
 										<f:param name="orderByReviewRanking" value="false" />
-										OpiniÃµes mais recentes
+										Opiniões mais recentes
 									</h:outputLink>
 								</h3>
 								

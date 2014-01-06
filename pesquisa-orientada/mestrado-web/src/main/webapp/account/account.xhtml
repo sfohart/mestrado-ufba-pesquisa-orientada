@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core">
+	
+	<f:metadata>
+		<f:viewParam id="accountId" name="accountId" value="#{accountMB.account.id}" required="true" />
+		<f:event listener="#{accountMB.init}" type="preRenderView"  />
+	</f:metadata>
+	
+	<h:body>
+		<ui:composition template="/layout/mainLayout.xhtml">
+			<ui:define name="titlePage">Conta de Usuário</ui:define>
+			
+			<ui:define name="content">
+				<section class="container">
+				
+					<ui:include src="accountHeader.xhtml" >
+						<ui:param name="socialButtonsRendered" value="true" />
+					</ui:include>
+					
+					<div class="row" style="border-top: 1px solid #aaa;">
+						<h3>Sumário da Conta</h3>
+					</div>
+					
+					<h:panelGroup id="accountSummary" layout="block" styleClass="row" style="margin-bottom: 20px">
+						<div class="col-md-8">
+						</div>
+						<div class="col-md-4">
+							<span class="pull-left" style="margin-top: 10px; margin-bottom: 10px; ">
+								Entrou em 
+							</span>
+							<h4 class="pull-right">
+								<h:outputText id="createdAt" value="#{accountMB.account.createdAt}" style="font-weight: bold" >
+									<f:convertDateTime for="createdAt" dateStyle="long" />
+								</h:outputText>
+							</h4>
+						</div>
+					</h:panelGroup>
+					
+					<div class="row" style="border-top: 1px solid #aaa;">
+					</div>
+					
+					<div class="row" style="margin-bottom: 20px">
+						<div class="col-md-3">
+						</div>
+						
+						<div class="col-md-3">
+						</div>
+						
+						<div class="col-md-3">
+						</div>
+						
+						<div class="col-md-3 acoes">
+							<h4>
+								<span class="glyphicon glyphicon-thumbs-up"></span>
+								Uso
+							</h4>
+							
+							<ul class="nav nav-pills nav-stacked">
+								<li>
+									<h:outputLink value="#{facesContext.externalContext.applicationContextPath}/reviews/reviewsList.jsf?userId=#{accountMB.account.id}">
+										Opiniões
+									</h:outputLink>
+								</li>
+							</ul>
+						</div>
+					</div>
+				
+				</section>
+			</ui:define>			
+			
+		</ui:composition>
+	</h:body>
+	
+</html>

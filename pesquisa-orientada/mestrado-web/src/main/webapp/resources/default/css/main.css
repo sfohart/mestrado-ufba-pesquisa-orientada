@@ -114,6 +114,16 @@ div.bigstars div.rateit-reset:hover
 	background-color: #dbe4ee; 	
 }
 
+/*  Ações da tela de contas
+-------------------------------------------------- */
+.acoes .nav a:hover {
+	background: #eee;
+	border-left: 3px solid #aaa;
+	border-radius: 3px;
+	color: #000;
+	margin-left: -3px;
+}
+
 /* Configuração do "versus" nas reviews
 -------------------------------------------------- */
 td.versus {

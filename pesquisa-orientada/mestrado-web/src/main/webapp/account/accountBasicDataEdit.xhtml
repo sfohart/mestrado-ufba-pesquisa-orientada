@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core">
+	
+	<f:metadata>
+		<f:viewParam id="accountId" name="accountId" value="#{accountMB.account.id}" required="true" />
+		<f:event listener="#{accountMB.initEditSettings}" type="preRenderView"  />
+	</f:metadata>
+	
+	<h:body>
+		<ui:composition template="/layout/mainLayout.xhtml">
+			<ui:define name="titlePage">Configurações da Conta</ui:define>
+			
+			
+			<ui:define name="content">
+				<section class="container">
+				
+					<ui:include src="accountHeader.xhtml" >
+					</ui:include>
+
+					<div class="row" style="border-top: 1px solid #aaa;">
+						<h3>
+							<h:outputLink value="#{facesContext.externalContext.applicationContextPath}/account/accountSettings.jsf">
+								<f:param  name="accountId" value="#{accountMB.account.id}" />
+								Sumário da Conta:
+							</h:outputLink>
+							Dados Básicos
+						</h3>
+					</div>
+					
+					<h:panelGroup id="alert" layout="block" styleClass="alert alert-danger col-md-12" rendered="#{not empty facesContext.messageList}">
+						<strong>Vish! </strong>
+						<h:messages showDetail="true" showSummary="true" />
+					</h:panelGroup>
+					
+					<h:panelGroup layout="block" styleClass="col-md-9" style="margin-left: 137px;"
+						rendered="#{empty facesContext.messageList}">
+						<div class="well">
+							<h:form>
+								<fieldset>
+									<legend>Informações Pessoais</legend>
+									<div class="form-group">
+										<h:outputLabel for="firstName" value="Primeiro Nome"/>
+										<h:inputText id="firstName" styleClass="form-control" 
+											value="#{accountMB.account.firstName}"/>
+									</div>
+									<div class="form-group">
+										<h:outputLabel for="middleName" value="Nome do Meio"/>
+										<h:inputText id="middleName" styleClass="form-control" 
+											value="#{accountMB.account.middleName}"/>
+									</div>
+									<div class="form-group">
+										<h:outputLabel for="lastName" value="Último Nome"/>
+										<h:inputText id="lastName" styleClass="form-control" 
+											value="#{accountMB.account.lastName}"/>
+									</div>
+									<div class="form-group">
+										<h:outputLabel for="email" value="Email"/>
+										<h:inputText id="email" styleClass="form-control" 
+											value="#{accountMB.account.email}"/>
+										<span class="help-block">
+											Use seu e-mail para exibir o seu <h:outputLink value="http://www.gravatar.com">Gravatar</h:outputLink>
+										</span>
+									</div>
+									<div class="form-group">
+										<h:outputLabel for="facebookAccount" value="ID do Facebook"/>
+										<h:inputText id="facebookAccount" styleClass="form-control" 
+											value="#{accountMB.account.facebookAccount}"/>
+									</div>
+									<div class="form-group">
+										<h:outputLabel for="twitterAccount" value="ID do Twitter"/>
+										<h:inputText id="twitterAccount" styleClass="form-control" 
+											value="#{accountMB.account.twitterAccount}"/>
+									</div>
+									
+									
+									<h:commandButton 
+										styleClass="btn btn-primary" tabindex="6" value="Salvar"
+										action="#{accountMB.saveAccount}"  
+										/>
+								</fieldset>
+							</h:form>
+						</div>
+					</h:panelGroup>
+					
+				</section>
+			</ui:define>
+			
+		</ui:composition>
+	</h:body>
+	
+	
+</html>

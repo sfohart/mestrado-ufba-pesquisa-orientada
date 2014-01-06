@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="ISO-8859-1"?>
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:h="http://java.sun.com/jsf/html"
@@ -15,7 +15,7 @@
 <h:body>
 	<ui:composition template="/layout/mainLayout.xhtml">
 
-		<ui:define name="titlePage">Nova AvaliaÃ§Ã£o</ui:define>
+		<ui:define name="titlePage">Nova Avaliação</ui:define>
 
 		<ui:define name="content">
 			<section class="container">
@@ -45,7 +45,7 @@
 					<h3>
 						<h:outputLink value="projectReviews.jsf">
 							<f:param name="projectId" value="#{newReviewMB.project.id}" />
-								AvaliaÃ§Ãµes:
+								Avaliações:
 							</h:outputLink>
 						Nova
 					</h3>
@@ -56,15 +56,15 @@
 
 								<div class="panel panel-primary">
 									<div class="panel-heading">
-										<h2 class="panel-title">CritÃ©rios de AvaliaÃ§Ã£o:</h2>
+										<h2 class="panel-title">Critérios de Avaliação:</h2>
 									</div>
 									<div class="panel-body">
 										<!-- TODO: 
-												Lembrar de colocar um popover do bootstrap em cada tÃ­tulo de critÃ©rio de avaliaÃ§Ã£o 
+												Lembrar de colocar um popover do bootstrap em cada título de critério de avaliação 
 											-->
 
 										<fieldset>
-											<legend>CritÃ©rios Individuais</legend>
+											<legend>Critérios Individuais</legend>
 											<ui:repeat var="preferenceEntry"
 												value="#{newReviewMB.preference.preferenceEntryList}"
 												varStatus="status">
@@ -100,7 +100,7 @@
 										</fieldset>
 
 										<fieldset>
-											<legend>AvaliaÃ§Ã£o Geral</legend>
+											<legend>Avaliação Geral</legend>
 											<div class="col-md-12">
 												<div class="row">
 													<div class="form-group">
@@ -124,17 +124,17 @@
 
 								<div class="panel panel-primary">
 									<div class="panel-heading">
-										<h2 class="panel-title">DÃª a sua opiniÃ£o</h2>
+										<h2 class="panel-title">Dê a sua opinião</h2>
 									</div>
 									<div class="panel-body">
 										<div class="form-group">
-											<h:outputLabel for="reviewTitle">TÃ­tulo</h:outputLabel>
+											<h:outputLabel for="reviewTitle">Título</h:outputLabel>
 											<h:inputText id="reviewTitle" styleClass="form-control"
 												value="#{newReviewMB.preference.preferenceReview.title}" />
 										</div>
 
 										<div class="form-group">
-											<h:outputLabel for="reviewDescription">DescriÃ§Ã£o</h:outputLabel>
+											<h:outputLabel for="reviewDescription">Descrição</h:outputLabel>
 											<h:inputTextarea id="reviewDescription"
 												styleClass="form-control" rows="5"
 												value="#{newReviewMB.preference.preferenceReview.description}" />
