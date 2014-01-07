@@ -88,6 +88,10 @@ public class OverallPreferenceRepositoryImpl  extends BaseRepositoryImpl<Long, P
 			
 			//aplicando os filtros
 			criteriaQuery = criteriaQuery.where(predicateList.toArray(new Predicate[0]));
+			
+			TypedQuery<Long> typedQuery = getEntityManager().createQuery(criteriaQuery);
+			
+			result = typedQuery.getSingleResult();
 		}
 		
 		return result;

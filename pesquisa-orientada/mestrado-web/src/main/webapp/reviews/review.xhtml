@@ -9,51 +9,85 @@
 	xmlns:p="http://xmlns.jcp.org/jsf/passthrough"
 	>
 	
-	<h:panelGroup layout="block" styleClass="media" rendered="#{preference != null}"> 
+	
+	<h:panelGroup layout="block" styleClass="row" rendered="#{preference != null}">
+		<!-- Dados do usuario ou projeto -->
 		
-		<h:outputLink styleClass="pull-left" >
-			<!-- Nome do usuário -->
-			<div>
-				<h:outputLink value="#{facesContext.externalContext.applicationContextPath}/account/account.jsf?accountId=#{preference.user.id}">
-					<h:outputText
-						rendered="#{preference.user.firstName != null and preference.user.login == null}"
-						style="margin-left: 10px; vertical-align: middle" 
-						value="...#{preference.user.firstName}" />
-						
-					<h:outputText
-						rendered="#{preference.user.firstName == null and preference.user.login != null}"
-						style="margin-left: 10px; vertical-align: middle" 
-						value="...#{preference.user.login}" />
+		<h:panelGroup layout="block" styleClass="pull-left" rendered="#{hidingProject}" style="width: 10%">
+			<h:outputLink value="#{facesContext.externalContext.applicationContextPath}/account/account.jsf?accountId=#{preference.user.id}">
+				<h:outputText
+					rendered="#{preference.user.firstName != null and preference.user.login == null}"
+					style="margin-left: 10px; vertical-align: middle" 
+					value="...#{preference.user.firstName}" />
+					
+				<h:outputText
+					rendered="#{preference.user.firstName == null and preference.user.login != null}"
+					style="margin-left: 10px; vertical-align: middle" 
+					value="...#{preference.user.login}" />
+			</h:outputLink>
+			disse:
+			
+			<br />
+			<!-- Foto do usuario -->
+			<h:graphicImage layout="block" styleClass="media-object pull-right img-thumbnail" height="64" width="64" library="default" name="img/no_logo.png" />	
+		</h:panelGroup>
+		
+		<h:panelGroup styleClass="pull-left" rendered="#{hidingUser}" style="width: 10%">
+			<div style="margin-left: 15px">
+				<h:outputLink styleClass="pull-left" rendered="#{preference.project.mediumLogoURL != 'no_logo.png'}">													
+					<img class="media-object" src="#{preference.project.mediumLogoURL}" height="64px" width="64px" />
 				</h:outputLink>
-				disse:
+				<h:outputLink styleClass="pull-left" rendered="#{preference.project.mediumLogoURL eq 'no_logo.png'}">
+					<h:graphicImage styleClass="media-object" height="64" width="64" library="default" name="img/#{preference.project.mediumLogoURL}" />													
+				</h:outputLink>
 			</div>
-			<!-- Foto do usuário -->
-			<h:graphicImage styleClass="media-object pull-right img-thumbnail" height="64" width="64" library="default" name="img/no_logo.png" />													
-		</h:outputLink>
+			
+			<div style="margin-left: 15px">
+				<h:outputText value="#{preference.project.name}" />
+			</div>
+			
+		</h:panelGroup>
 		
-		<div class="media-body pul-right" style="padding-left: 10px">
-			<div>
+		<div class="pull-right" style="width: 85%">
+			<div class="row">
+				<!-- Titulo da Review -->
 				<div class="pull-left">
 					<h4 class="media-heading strong">
 						<h:outputText value="#{preference.preferenceReview.title}" />      													
 					</h4>
 				</div>
+				<!-- Nota da review -->
 				<div class="pull-left" style="margin-left: 20px">
-										<div class="rateit" data-rateit-readonly="true"
+				
+					<!-- Estrelas -->
+					<div class="rateit" data-rateit-readonly="true"
 							data-rateit-min="0" data-rateit-max="10"
 							data-rateit-value="#{preference.value}" data-rateit-ispreset="true"  />
+							
+					<!-- legenda das estrelas -->
+					<h:panelGroup style="margin-left: 10px" styleClass="soft small" rendered="#{preference.value != null and preference.value > 0}">
+						(<h:outputText value="#{preference.value}" >
+							<f:convertNumber maxFractionDigits="2" maxIntegerDigits="2" pattern="#0.00" />
+						</h:outputText> / 10)
+					</h:panelGroup>
+					<h:panelGroup style="margin-left: 10px" styleClass="soft small" rendered="#{preference.value == null or preference.value == 0}">
+						(0 / 10)
+					</h:panelGroup>
+						
 				</div>
 			</div>
-								
-			<div  style="clear: both; color: #777; font-style: italic; font-family: Georgia,'Times New Roman',Times,serif;">
-				<abbr class="small soft" title="#{preference.registeredAt}">
+			
+			<!-- data em que foi escrita -->
+			<div class="row">
+				<span class="small soft italic" title="#{preference.registeredAt}">
 					<h:outputText value="#{preference.registeredAt}">
 						<f:convertDateTime pattern="'escrito no dia' dd/MM/yyyy 'às' HH:mm:ss" />
 					</h:outputText>
-				</abbr>
+				</span>
 			</div>
-								
-			<h:panelGroup layout="block" style="clear: both; margin-top: 20px"
+			
+			<!-- notas por critério -->
+			<h:panelGroup layout="block" class="row" style="clear: both; margin-top: 20px"
 					rendered="#{not empty preference.preferenceEntryList}">
 				<table class="table table-condensed unstyled pull-left" >
 					<tbody >
@@ -93,42 +127,45 @@
 					});
 				</SCRIPT>
 			</h:panelGroup>
-								
-			<div style="clear: both; padding-top: 10px">
+			
+			<!-- descrição da review -->
+			<div class="row" style="clear: both; padding-top: 10px">
 				<h:outputText value="#{preference.preferenceReview.description}" />
 			</div>
 			
 			<p class="soft small">
 			</p>
 			
-		</div>
-		<div class="row">
-			<div class="col-md-6 pull-left">
-				<ui:param name="totalVotes" value="#{preference.preferenceReview.usefulCount + preference.preferenceReview.uselessCount}" />
-				<h:panelGroup layout="block" styleClass="small soft" rendered="#{totalVotes > 0}">
-					<h:outputText  value="#{fn:length(preference.preferenceReview.usefulList)}" /> 
-					de <h:outputText value="#{totalVotes}" /> avaliaram esta opinião como útil.
-				</h:panelGroup>
-			</div>	      				
-			<h:panelGroup layout="block" styleClass="col-md-6 pull-right" rendered="#{enableVoting}">
-				<h:panelGroup rendered="#{loginMB.loggedUser != null}">
-					<span class="soft small italic">
-						Você achou esta avaliação útil?
-						<br />
-						<h:commandLink style="text-decoration: none; margin-right: 10px" >
-							<f:attribute name="preference" value="#{preference}"  />
-							<f:ajax execute="@all" render="@form" listener="#{bean.addUsefulVoteToReview}" />
-							<span class="glyphicon glyphicon-thumbs-up" /> Sim
-						</h:commandLink>
-						<h:commandLink style="text-decoration: none; margin-right: 10px" >
-							<f:attribute name="preference" value="#{preference}" />
-							<f:ajax execute="@all" render="@form" listener="#{bean.addUselessVoteToReview}"  />
-							<span class="glyphicon glyphicon-thumbs-down" /> Não
-						</h:commandLink>
-					</span>
-				</h:panelGroup>
-			</h:panelGroup>								
+			<div class="row">
+				<div class="col-md-6 pull-left">
+					<ui:param name="totalVotes" value="#{preference.preferenceReview.usefulCount + preference.preferenceReview.uselessCount}" />
+					<h:panelGroup layout="block" styleClass="small soft" rendered="#{totalVotes > 0}">
+						<h:outputText  value="#{fn:length(preference.preferenceReview.usefulList)}" /> 
+						de <h:outputText value="#{totalVotes}" /> avaliaram esta opinião como útil.
+					</h:panelGroup>
+				</div>	      				
+				<h:panelGroup layout="block" styleClass="col-md-6 pull-right" rendered="#{enableVoting}">
+					<h:panelGroup rendered="#{loginMB.loggedUser != null}">
+						<span class="soft small italic">
+							Você achou esta avaliação útil?
+							<br />
+							<h:commandLink style="text-decoration: none; margin-right: 10px" >
+								<f:attribute name="preference" value="#{preference}"  />
+								<f:ajax execute="@all" render="@form" listener="#{bean.addUsefulVoteToReview}" />
+								<span class="glyphicon glyphicon-thumbs-up" /> Sim
+							</h:commandLink>
+							<h:commandLink style="text-decoration: none; margin-right: 10px" >
+								<f:attribute name="preference" value="#{preference}" />
+								<f:ajax execute="@all" render="@form" listener="#{bean.addUselessVoteToReview}"  />
+								<span class="glyphicon glyphicon-thumbs-down" /> Não
+							</h:commandLink>
+						</span>
+					</h:panelGroup>
+				</h:panelGroup>								
+			</div>
+		
 		</div>
 	</h:panelGroup>
+	
 	
 </ui:composition>

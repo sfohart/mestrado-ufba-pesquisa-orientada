@@ -55,6 +55,8 @@
 												<ui:include src="/reviews/review.xhtml">
 													<ui:param name="preference" value="#{preference}" />
 													<ui:param name="enableVoting" value="true"/>
+													<ui:param name="hidingUser" value="#{reviewListMB.project.id eq null and reviewListMB.user.id != null}"/>
+													<ui:param name="hidingProject" value="#{reviewListMB.project.id != null and reviewListMB.user.id eq null}"/>
 													<ui:param name="bean" value="#{reviewListMB}"/>
 												</ui:include>
 											</div>
