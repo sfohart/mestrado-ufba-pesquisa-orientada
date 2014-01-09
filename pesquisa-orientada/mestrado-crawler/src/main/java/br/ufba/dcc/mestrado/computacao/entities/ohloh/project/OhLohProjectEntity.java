@@ -10,6 +10,7 @@ import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
+import javax.persistence.Lob;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
@@ -58,7 +59,7 @@ public class OhLohProjectEntity implements BaseEntity<Long> {
 	private Timestamp updatedAt;
 
 	@Field(index = Index.YES, analyze = Analyze.YES, store = Store.NO)
-	@Column(name = "description", length = 30000)
+	@Column(name = "description")
 	private String description;
 
 	@Column(name = "homepage_url")
