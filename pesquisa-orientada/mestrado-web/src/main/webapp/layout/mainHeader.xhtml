@@ -47,11 +47,11 @@
   							<f:param name="accountId" value="#{loginMB.loggedUser.id}" />
   							<span class="glyphicon glyphicon-user"></span> 
   							<h:outputText
-  								rendered="#{loginMB.loggedUser.name != null and loginMB.loggedUser.login == null}"
+  								rendered="#{loginMB.loggedUser.firstName != null and loginMB.loggedUser.login == null}"
   								style="margin-left: 10px; vertical-align: middle" 
   								value="#{loginMB.loggedUser.firstName}" />
   							<h:outputText
-  								rendered="#{loginMB.loggedUser.name == null and loginMB.loggedUser.login != null}"
+  								rendered="#{loginMB.loggedUser.firstName == null and loginMB.loggedUser.login != null}"
   								style="margin-left: 10px; vertical-align: middle" 
   								value="#{loginMB.loggedUser.login}" />
   						</h:outputLink>
