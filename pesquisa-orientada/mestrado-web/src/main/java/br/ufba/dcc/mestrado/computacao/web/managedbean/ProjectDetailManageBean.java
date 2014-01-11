@@ -14,12 +14,14 @@ import br.ufba.dcc.mestrado.computacao.entities.ohloh.factoid.OhLohFactoidEntity
 import br.ufba.dcc.mestrado.computacao.entities.ohloh.project.OhLohLinkEntity;
 import br.ufba.dcc.mestrado.computacao.entities.ohloh.project.OhLohProjectEntity;
 import br.ufba.dcc.mestrado.computacao.entities.recommender.preference.PreferenceEntity;
+import br.ufba.dcc.mestrado.computacao.entities.recommender.user.UserEntity;
 import br.ufba.dcc.mestrado.computacao.service.base.CriteriumPreferenceService;
 import br.ufba.dcc.mestrado.computacao.service.base.OhLohAnalysisService;
 import br.ufba.dcc.mestrado.computacao.service.base.OhLohEnlistmentService;
 import br.ufba.dcc.mestrado.computacao.service.base.OhLohLinkService;
 import br.ufba.dcc.mestrado.computacao.service.base.OhLohProjectService;
 import br.ufba.dcc.mestrado.computacao.service.base.OverallPreferenceService;
+import br.ufba.dcc.mestrado.computacao.service.basic.RepositoryBasedUserDetailsService;
 
 @ManagedBean(name="projectDetailMB", eager=true)
 @ViewScoped
@@ -48,6 +50,9 @@ public class ProjectDetailManageBean implements Serializable {
 	@ManagedProperty("#{ohLohLinkService}")
 	private OhLohLinkService linkService;
 	
+	@ManagedProperty("#{repositoryBasedUserDetailsService}")
+	private RepositoryBasedUserDetailsService userDetailsService;
+	
 	private OhLohProjectEntity project;
 	private List<OhLohFactoidEntity> factoidList;
 	private OhLohAnalysisLanguagesEntity analysisLanguages;
@@ -61,6 +66,7 @@ public class ProjectDetailManageBean implements Serializable {
 	private Long overallPreferenceCount;
 		
 	private PreferenceEntity averagePreference;
+	private PreferenceEntity userPreference;
 	
 	private String[] projectDescritionParagraphs;
 	
@@ -95,7 +101,12 @@ public class ProjectDetailManageBean implements Serializable {
 			this.overallPreferenceCount = getOverallPreferenceService().countAllLastByProject(getProject().getId());
 			
 			//calculando valores médios de preferência
+			UserEntity currentUser = getUserDetailsService().loadFullLoggedUser();
+			
 			this.averagePreference = getOverallPreferenceService().averagePreferenceByProject(getProject().getId());
+			if (currentUser != null) {
+				this.userPreference = getOverallPreferenceService().findLastByProjectAndUser(getProject().getId(), currentUser.getId());
+			}
 			
 		}
 	}
@@ -158,6 +169,15 @@ public class ProjectDetailManageBean implements Serializable {
 		this.linkService = linkService;
 	}
 
+	public RepositoryBasedUserDetailsService getUserDetailsService() {
+		return userDetailsService;
+	}
+	
+	public void setUserDetailsService(
+			RepositoryBasedUserDetailsService userDetailsService) {
+		this.userDetailsService = userDetailsService;
+	}
+	
 	public OhLohProjectEntity getProject() {
 		return project;
 	}
@@ -196,5 +216,9 @@ public class ProjectDetailManageBean implements Serializable {
 	
 	public PreferenceEntity getAveragePreference() {
 		return averagePreference;
+	}
+	
+	public PreferenceEntity getUserPreference() {
+		return userPreference;
 	}
 }

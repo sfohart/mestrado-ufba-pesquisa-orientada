@@ -13,7 +13,7 @@
 	<h:panelGroup layout="block" styleClass="row" rendered="#{preference != null}">
 		<!-- Dados do usuario ou projeto -->
 		
-		<h:panelGroup layout="block" styleClass="pull-left" rendered="#{hidingProject}" style="width: 10%">
+		<h:panelGroup layout="block" styleClass="pull-left" rendered="#{hidingProject}" style="width: 15%">
 			<h:outputLink value="#{facesContext.externalContext.applicationContextPath}/account/account.jsf?accountId=#{preference.user.id}">
 				<h:outputText
 					rendered="#{preference.user.firstName != null and preference.user.login == null}"
@@ -32,7 +32,7 @@
 			<h:graphicImage layout="block" styleClass="media-object pull-right img-thumbnail" height="64" width="64" library="default" name="img/no_logo.png" />	
 		</h:panelGroup>
 		
-		<h:panelGroup styleClass="pull-left" rendered="#{hidingUser}" style="width: 10%">
+		<h:panelGroup styleClass="pull-left" rendered="#{hidingUser}" style="width: 15%">
 			<div style="margin-left: 15px">
 				<h:outputLink styleClass="pull-left" rendered="#{preference.project.mediumLogoURL != 'no_logo.png'}">													
 					<img class="media-object" src="#{preference.project.mediumLogoURL}" height="64px" width="64px" />
@@ -48,7 +48,7 @@
 			
 		</h:panelGroup>
 		
-		<div class="pull-right" style="width: 85%">
+		<div class="pull-right" style="width: 80%">
 			<div class="row">
 				<!-- Titulo da Review -->
 				<div class="pull-left">
@@ -89,43 +89,12 @@
 			<!-- notas por critério -->
 			<h:panelGroup layout="block" class="row" style="clear: both; margin-top: 20px"
 					rendered="#{not empty preference.preferenceEntryList}">
-				<table class="table table-condensed unstyled pull-left" >
-					<tbody >
-						<ui:repeat var="preferenceEntry" value="#{preference.preferenceEntryList}">
-							<tr class="pull-left">
-								<td style="border: none">
-									<span
-										class="glyphicon glyphicon-question-sign meuPopover"
-										data-toggle="popover" title="" data-placement="top"
-										data-content="#{preferenceEntry.criterium.description}"
-										data-original-title="#{preferenceEntry.criterium.name}">
-									</span> 
-									<h:outputText  value=" #{preferenceEntry.criterium.name}"  />
-								
-									<h:panelGroup style="margin-left: 10px" styleClass="soft small" rendered="#{entry.value != null and entry.value > 0}">
-										(<h:outputText value="#{entry.value}" >
-											<f:convertNumber maxFractionDigits="2" maxIntegerDigits="2" pattern="#0.00" />
-										</h:outputText> / 10)
-									</h:panelGroup>
-									<h:panelGroup style="margin-left: 10px" styleClass="soft small" rendered="#{entry.value == null or entry.value == 0}">
-										(0 / 10)
-									</h:panelGroup>
-									
-									<br />								
-
-									<div class="rateit" data-rateit-readonly="true"
-										data-rateit-min="0" data-rateit-max="10"
-										data-rateit-value="#{preferenceEntry.value}" data-rateit-ispreset="true"  />
-								</td>
-							</tr>
-						</ui:repeat>
-					</tbody>
-				</table>
-				<SCRIPT type="text/javascript">
-					$('.meuPopover').popover({
-
-					});
-				</SCRIPT>
+					
+				<ui:include src="/reviews/reviewByCriterium.xhtml">
+					<ui:param name="preference" value="#{preference}" />
+					<ui:param name="criteriumInPopup" value="#{criteriumInPopup}" />
+					<ui:param name="reviewId" value="#{preference.id}"  />
+				</ui:include>
 			</h:panelGroup>
 			
 			<!-- descrição da review -->

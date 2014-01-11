@@ -1,0 +1,164 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!DOCTYPE html>
+<ui:composition  
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:p="http://xmlns.jcp.org/jsf/passthrough"
+	>
+	
+	<h:panelGroup layout="block" rendered="#{criteriumInPopup}"   >
+	
+		<ui:param name="modalId" value="#{'reviewModalCriterium'.concat(reviewId)}"  />
+		<ui:param name="dataTarget" value="#{'#reviewModalCriterium'.concat(reviewId)}" />
+		
+		<button class="btn btn-primary" data-toggle="modal" data-target="#{dataTarget}">
+			Visualizar Avaliações por Critério
+		</button>
+		
+		<div class="modal fade" id="#{modalId}" tabindex="-1" p:role="dialog" p:aria-labelledby="#{modalId}Label" p:aria-hidden="true">
+			<div class="modal-dialog">
+				<div class="modal-content">
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal" p:aria-hidden="true">&#215;</button>
+	        			<h4 class="modal-title" id="#{modalId}Label">
+	        				Avaliações por Critério do projeto 
+	        			</h4>
+					</div>
+					
+					<div class="modal-body">
+						<h4>Projeto: <h:outputText value="#{preference.project.name}" styleClass="text-muted"/></h4>
+						<h4>
+							Usuário:
+							<h:outputText
+								styleClass="text-muted"
+								rendered="#{preference.user.firstName != null and preference.user.login == null}"
+								value="#{preference.user.firstName}" />
+								
+							<h:outputText
+								styleClass="text-muted"
+								rendered="#{preference.user.firstName == null and preference.user.login != null}"
+								value="#{preference.user.login}" />
+						</h4>
+						<hr />		
+						
+						<h4>Critérios: </h4>				
+						<div class="row">
+							<div class="col-md-10 col-md-offset-1">
+								<table class="table table-condensed unstyled pull-left" style="width: auto">
+									<tbody >
+										<ui:repeat var="preferenceEntry" value="#{preference.preferenceEntryList}">
+											<tr class="pull-left" style="width: 50%; min-height: 90px">
+												<td style="border: none;">
+												
+													<h:panelGroup layout="block" rendered="#{not enableEditing}">
+														<span
+															class="glyphicon glyphicon-question-sign meuPopover"
+															data-toggle="popover" title="" data-placement="top"
+															data-content="#{preferenceEntry.criterium.description}"
+															data-original-title="#{preferenceEntry.criterium.name}">
+														</span> 
+														
+														<h:outputText  value=" #{preferenceEntry.criterium.name}"  />
+													
+														<br />		
+													
+														<h:panelGroup style="margin-left: 10px" styleClass="soft small" rendered="#{entry.value != null and entry.value > 0}">
+															(<h:outputText value="#{entry.value}" >
+																<f:convertNumber maxFractionDigits="2" maxIntegerDigits="2" pattern="#0.00" />
+															</h:outputText> / 10)
+														</h:panelGroup>
+														<h:panelGroup style="margin-left: 10px" styleClass="soft small" rendered="#{entry.value == null or entry.value == 0}">
+															(0 / 10)
+														</h:panelGroup>
+														
+														<br />								
+								
+														<div class="rateit" data-rateit-readonly="true"
+															data-rateit-min="0" data-rateit-max="10"
+															data-rateit-value="#{preferenceEntry.value}" data-rateit-ispreset="true"  />
+													</h:panelGroup>
+													
+													<h:panelGroup layout="block" rendered="#{enableEditing}">
+													</h:panelGroup>
+												
+												</td>
+											</tr>
+										</ui:repeat>
+									</tbody>
+								</table>
+								<SCRIPT type="text/javascript">
+									$('.meuPopover').popover({
+							
+									});
+								</SCRIPT>
+							</div>
+						</div>
+					</div>
+					
+					<div class="modal-footer">
+						<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+					</div>
+				</div>
+			</div>
+		</div>
+		
+		
+	</h:panelGroup>
+	
+	<h:panelGroup layout="block" rendered="#{not criteriumInPopup}">
+		<table class="table table-condensed unstyled pull-left" style="width: 100%">
+			<tbody >
+				<ui:repeat var="preferenceEntry" value="#{preference.preferenceEntryList}">
+					<tr class="pull-left" style="width: 40%; min-height: 90px">
+						<td style="border: none;">
+						
+							<h:panelGroup layout="block" rendered="#{not enableEditing}">
+								<span
+									class="glyphicon glyphicon-question-sign meuPopover"
+									data-toggle="popover" title="" data-placement="top"
+									data-content="#{preferenceEntry.criterium.description}"
+									data-original-title="#{preferenceEntry.criterium.name}">
+								</span> 
+								
+								<h:outputText  value=" #{preferenceEntry.criterium.name}"  />
+							
+								<br />		
+							
+								<h:panelGroup style="margin-left: 10px" styleClass="soft small" rendered="#{entry.value != null and entry.value > 0}">
+									(<h:outputText value="#{entry.value}" >
+										<f:convertNumber maxFractionDigits="2" maxIntegerDigits="2" pattern="#0.00" />
+									</h:outputText> / 10)
+								</h:panelGroup>
+								<h:panelGroup style="margin-left: 10px" styleClass="soft small" rendered="#{entry.value == null or entry.value == 0}">
+									(0 / 10)
+								</h:panelGroup>
+								
+								<br />								
+		
+								<div class="rateit" data-rateit-readonly="true"
+									data-rateit-min="0" data-rateit-max="10"
+									data-rateit-value="#{preferenceEntry.value}" data-rateit-ispreset="true"  />
+							</h:panelGroup>
+							
+							<h:panelGroup layout="block" rendered="#{enableEditing}">
+							</h:panelGroup>
+						
+						</td>
+					</tr>
+				</ui:repeat>
+			</tbody>
+		</table>
+		<SCRIPT type="text/javascript">
+			$('.meuPopover').popover({
+	
+			});
+		</SCRIPT>
+	</h:panelGroup>
+	
+	
+	
+	
+</ui:composition>

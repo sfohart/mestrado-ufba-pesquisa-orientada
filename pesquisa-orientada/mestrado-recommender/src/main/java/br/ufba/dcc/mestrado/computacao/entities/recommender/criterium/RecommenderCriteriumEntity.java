@@ -24,7 +24,7 @@ public class RecommenderCriteriumEntity implements BaseEntity<Long> {
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private Long id;
 	
-	@Column(name = "name")
+	@Column(name = "criterium_name")
 	private String name;
 	
 	@Column(name = "description")
