@@ -58,6 +58,7 @@
 													<ui:param name="hidingUser" value="#{reviewListMB.project.id eq null and reviewListMB.user.id != null}"/>
 													<ui:param name="hidingProject" value="#{reviewListMB.project.id != null and reviewListMB.user.id eq null}"/>
 													<ui:param name="bean" value="#{reviewListMB}"/>
+													<ui:param name="criteriumInPopup" value="true" />
 												</ui:include>
 											</div>
 										</ui:repeat>

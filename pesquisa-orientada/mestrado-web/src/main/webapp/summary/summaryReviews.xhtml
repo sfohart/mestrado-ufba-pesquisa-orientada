@@ -73,7 +73,8 @@
 									<ui:include src="/reviews/review.xhtml">
 										<ui:param name="preference" value="#{summaryReviewsMB.currentUserPreference}" />
 										<ui:param name="hidingProject" value="true" />	
-										<ui:param name="criteriumInPopup" value="true" />									
+										<ui:param name="criteriumInPopup" value="true" />
+										<ui:param name="bean" value="#{summaryReviewsMB}" />									
 									</ui:include> 										
 								</h:panelGroup>
 								
@@ -147,6 +148,7 @@
 												<ui:param name="preference" value="#{preference}" />
 												<ui:param name="enableVoting" value="true"/>
 												<ui:param name="criteriumInPopup" value="true" />
+												<ui:param name="bean" value="#{summaryReviewsMB}" />
 											</ui:include>
 										</div>
 									</ui:repeat>
@@ -176,6 +178,7 @@
 												<ui:param name="preference" value="#{preference}" />
 												<ui:param name="enableVoting" value="true"/>
 												<ui:param name="criteriumInPopup" value="true" />
+												<ui:param name="bean" value="#{summaryReviewsMB}" />
 											</ui:include>
 										</div>
 									</ui:repeat>

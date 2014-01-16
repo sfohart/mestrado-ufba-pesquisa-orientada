@@ -91,7 +91,7 @@
 													</h:outputLink>
 													<div class="pull-right">
 														<!-- comparableCheckboxStyle com erro de sintaxe no eclipse, mas funciona perfeitamente.  -->
-														<ui:param name="comparableCheckboxStyle" value="#{mainMB.selectedItems[project.id] ? 'project-selected' : 'project-unselected' }" />
+														<ui:param name="comparableCheckboxStyle" value="#{mainMB.selectedItems[project.id] == true? 'project-selected' : 'project-unselected' }" />
 														<h:panelGroup layout="block" 
 															styleClass="project-selectable #{comparableCheckboxStyle}" >
 															<span style="margin-right: 10px">

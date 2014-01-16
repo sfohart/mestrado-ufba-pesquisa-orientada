@@ -1,6 +1,5 @@
 package br.ufba.dcc.mestrado.computacao.web.managedbean;
 
-import java.io.Serializable;
 import java.util.List;
 
 import javax.faces.bean.ManagedBean;
@@ -23,7 +22,7 @@ import br.ufba.dcc.mestrado.computacao.service.base.UserService;
 
 @ManagedBean(name = "summaryReviewsMB")
 @ViewScoped
-public class ProjectSummaryReviewsManagedBean implements Serializable {
+public class ProjectSummaryReviewsManagedBean extends AbstractReviewVotingManagedBean {
 
 	/**
 	 * 

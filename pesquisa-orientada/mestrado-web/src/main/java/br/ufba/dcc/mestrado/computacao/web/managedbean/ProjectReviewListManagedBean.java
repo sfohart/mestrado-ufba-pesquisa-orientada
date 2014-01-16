@@ -107,78 +107,7 @@ public class ProjectReviewListManagedBean extends AbstractListingManagedBean<Lon
 		getDataModel().load(startPosition, pageSize);
 	}
 	
-	public void addUsefulVoteToReview(AjaxBehaviorEvent event) {
-		PreferenceEntity preference = (PreferenceEntity)
-				event.getComponent().getAttributes().get("preference");
-		
-		if (preference != null && preference.getPreferenceReview() != null) {
-			UserEntity user = getUserDetailsService().loadFullLoggedUser();
-			
-			if (preference.getPreferenceReview().getUsefulList() == null) {
-				preference.getPreferenceReview().setUsefulList(new HashSet<UserEntity>());
-			}
-			
-			if (! isDulicatedVoteMessage(event, preference)) {
-				preference.getPreferenceReview().getUsefulList().add(user);
-				
-				try {
-					getPreferenceService().save(preference);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			} else {
-				
-			}
-		}
-	}
 	
-	public void addUselessVoteToReview(AjaxBehaviorEvent event) {
-		PreferenceEntity preference = (PreferenceEntity)
-				event.getComponent().getAttributes().get("preference");
-		
-		if (preference != null && preference.getPreferenceReview() != null) {
-			UserEntity user = getUserDetailsService().loadFullLoggedUser();
-			
-			if (preference.getPreferenceReview().getUselessList() == null) {
-				preference.getPreferenceReview().setUselessList(new HashSet<UserEntity>());
-			}
-			
-			if (! isDulicatedVoteMessage(event, preference)) {
-				preference.getPreferenceReview().getUselessList().add(user);
-				
-				try {
-					getPreferenceService().save(preference);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			} else {
-				
-			}
-		}
-	}
-
-	protected boolean isDulicatedVoteMessage(AjaxBehaviorEvent event, PreferenceEntity preference) {
-		boolean duplicated = false;
-		
-		UserEntity user = getUserDetailsService().loadFullLoggedUser();
-		
-		if (preference.getPreferenceReview().getUselessList().contains(user)) {
-			duplicated = true;
-		} else if (preference.getPreferenceReview().getUsefulList().contains(user)) {
-			duplicated = true;
-		}
-		
-		if (duplicated) {
-			ResourceBundle bundle = ResourceBundle.getBundle("br.ufba.dcc.mestrado.computacao.reviews");
-			
-			String message = bundle.getString("reviews.vote.duplicated.message");
-			FacesMessage facesMessage = new FacesMessage(message);
-			
-			FacesContext.getCurrentInstance().addMessage(event.getComponent().getId(), facesMessage);
-		}
-		
-		return duplicated;
-	}
 	
 	public void initList(ComponentSystemEvent event) {
 		final boolean validProject = (getProject() != null && getProject().getId() != null);
