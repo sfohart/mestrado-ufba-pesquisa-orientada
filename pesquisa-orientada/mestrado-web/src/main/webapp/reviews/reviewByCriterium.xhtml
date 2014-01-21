@@ -37,6 +37,12 @@
 								rendered="#{preference.user.firstName != null and preference.user.login == null}"
 								value="#{preference.user.firstName}" />
 								
+								
+							<h:outputText 
+								styleClass="text-muted"
+								rendered="#{preference.user.firstName != null and preference.user.login != null}"
+								value="#{preference.user.firstName}" />
+								
 							<h:outputText
 								styleClass="text-muted"
 								rendered="#{preference.user.firstName == null and preference.user.login != null}"
@@ -44,7 +50,11 @@
 						</h4>
 						<hr />		
 						
-						<h4>Critérios: </h4>				
+						<h4>Critérios: </h4>
+						
+						
+						<ui:include src="/reviews/reviewCriteriumHelp.xhtml"/>
+										
 						<div class="row">
 							<div class="col-md-10 col-md-offset-1">
 								<table class="table table-condensed unstyled pull-left" style="width: auto">
@@ -65,12 +75,12 @@
 													
 														<br />		
 													
-														<h:panelGroup style="margin-left: 10px" styleClass="soft small" rendered="#{entry.value != null and entry.value > 0}">
-															(<h:outputText value="#{entry.value}" >
+														<h:panelGroup style="margin-left: 10px" styleClass="soft small" rendered="#{preferenceEntry.value != null and preferenceEntry.value > 0}">
+															(<h:outputText value="#{preferenceEntry.value}" >
 																<f:convertNumber maxFractionDigits="2" maxIntegerDigits="2" pattern="#0.00" />
 															</h:outputText> / 10)
 														</h:panelGroup>
-														<h:panelGroup style="margin-left: 10px" styleClass="soft small" rendered="#{entry.value == null or entry.value == 0}">
+														<h:panelGroup style="margin-left: 10px" styleClass="soft small" rendered="#{preferenceEntry.value == null or preferenceEntry.value == 0}">
 															(0 / 10)
 														</h:panelGroup>
 														
@@ -109,6 +119,9 @@
 	</h:panelGroup>
 	
 	<h:panelGroup layout="block" rendered="#{not criteriumInPopup}">
+	
+		<ui:include src="/reviews/reviewCriteriumHelp.xhtml"/>
+	
 		<table class="table table-condensed unstyled pull-left" style="width: 100%">
 			<tbody >
 				<ui:repeat var="preferenceEntry" value="#{preference.preferenceEntryList}">

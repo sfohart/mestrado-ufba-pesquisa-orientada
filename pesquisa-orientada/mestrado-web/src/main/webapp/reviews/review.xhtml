@@ -19,6 +19,11 @@
 					rendered="#{preference.user.firstName != null and preference.user.login == null}"
 					style="margin-left: 10px; vertical-align: middle" 
 					value="...#{preference.user.firstName}" />
+				
+				<h:outputText
+					rendered="#{preference.user.firstName != null and preference.user.login != null}"
+					style="margin-left: 10px; vertical-align: middle" 
+					value="...#{preference.user.firstName}" />
 					
 				<h:outputText
 					rendered="#{preference.user.firstName == null and preference.user.login != null}"

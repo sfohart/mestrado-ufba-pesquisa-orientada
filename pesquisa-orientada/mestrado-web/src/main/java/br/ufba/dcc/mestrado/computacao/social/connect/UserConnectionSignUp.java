@@ -15,7 +15,6 @@ import org.springframework.stereotype.Component;
 
 import br.ufba.dcc.mestrado.computacao.entities.recommender.user.RoleEnum;
 import br.ufba.dcc.mestrado.computacao.entities.recommender.user.UserEntity;
-import br.ufba.dcc.mestrado.computacao.repository.base.UserRepository;
 import br.ufba.dcc.mestrado.computacao.service.base.UserService;
 
 @Component

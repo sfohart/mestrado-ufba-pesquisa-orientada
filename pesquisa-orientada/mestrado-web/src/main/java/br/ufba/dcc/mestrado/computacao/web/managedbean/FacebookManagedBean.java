@@ -1,9 +1,11 @@
 package br.ufba.dcc.mestrado.computacao.web.managedbean;
 
 import java.io.IOException;
+import java.io.Serializable;
 import java.util.List;
 import java.util.Map;
 import java.util.ResourceBundle;
+import java.util.logging.Logger;
 
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
@@ -31,12 +33,20 @@ import br.ufba.dcc.mestrado.computacao.entities.recommender.user.UserEntity;
 import br.ufba.dcc.mestrado.computacao.service.base.UserService;
 import br.ufba.dcc.mestrado.computacao.service.basic.RepositoryBasedUserDetailsService;
 import br.ufba.dcc.mestrado.computacao.social.permissions.EmailFacebookPermissions;
+import br.ufba.dcc.mestrado.computacao.social.permissions.ExtendedPublishFacebookPermissions;
 import br.ufba.dcc.mestrado.computacao.social.permissions.ExtendedReadFacebookPermissions;
 
 @ManagedBean(name = "facebookMB")
 @SessionScoped
-public class FacebookManagedBean {
+public class FacebookManagedBean implements Serializable {
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -6964331391812274964L;
+	
+	private static final Logger logger = Logger.getLogger(FacebookManagedBean.class.getName());
+
 	private String applicationURL;
 	
 	@ManagedProperty("#{connectionFactoryLocator}")
@@ -116,9 +126,11 @@ public class FacebookManagedBean {
 		return null;
 	}
 	
-	private void configureFacebookScope(OAuth2Parameters oAuth2Parameters) {
+	protected void configureFacebookScope(OAuth2Parameters oAuth2Parameters) {
 		StringBuffer buffer = new StringBuffer();
 		
+		buffer.append(ExtendedPublishFacebookPermissions.publish_stream);
+		buffer.append(",");
 		buffer.append(ExtendedReadFacebookPermissions.read_friendlists);
 		buffer.append(",");
 		buffer.append(ExtendedReadFacebookPermissions.user_online_presence);
@@ -133,13 +145,25 @@ public class FacebookManagedBean {
         String authorizationCode = paramMap.get("code");
         
         if (! StringUtils.isEmpty(authorizationCode)) {
+        	
+        	logger.info("Código de autorização do Facebook recebido");
+        	
         	FacebookConnectionFactory connectionFactory = (FacebookConnectionFactory) getConnectionFactoryLocator().getConnectionFactory(Facebook.class);
+        	
+        	
+        	logger.info("Pedindo concessão de acesso ao Facebook");
+        	
         	AccessGrant accessGrant = connectionFactory.getOAuthOperations().exchangeForAccess(authorizationCode, getApplicationURL(), null);
+        	
+        	logger.info("Criando conexão com o Facebook");
         	
         	Connection<Facebook> connection = connectionFactory.createConnection(accessGrant);        	
         	Facebook facebook = connection.getApi();
         	
         	if (facebook.isAuthorized()) {
+        		
+        		logger.info("Facebook autorizou o login");
+        		
         		FacebookProfile facebookProfile = facebook.userOperations().getUserProfile();
         		
         		String userId = null;
@@ -149,14 +173,19 @@ public class FacebookManagedBean {
         		if (userIds.isEmpty()) {
         			userId = facebookProfile.getUsername();
         			getUserConnectionRepository().createConnectionRepository(userId).addConnection(connection);
+        			logger.info("Armazenando conexão com o Facebook");
         		} else if (userIds.size() == 1) {
         			userId = userIds.get(0);
         			getUserConnectionRepository().createConnectionRepository(userId).updateConnection(connection);
+        			logger.info("Atualizando conexão com o Facebook");
         		} else {
         			
         		}
         		
         		if (! StringUtils.isEmpty(userId)) {
+        			
+        			logger.info("Logando na aplicação com usuário do Facebook");
+        			
         			UserEntity userEntity = getUserService().findBySocialLogin(userId);
         			
         			List<GrantedAuthority> authorityList = (List<GrantedAuthority>) getRepositoryBasedUserDetailsService().getAuthorities(userEntity);

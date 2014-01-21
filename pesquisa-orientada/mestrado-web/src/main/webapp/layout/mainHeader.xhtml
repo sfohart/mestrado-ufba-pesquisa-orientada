@@ -51,6 +51,10 @@
   								style="margin-left: 10px; vertical-align: middle" 
   								value="#{loginMB.loggedUser.firstName}" />
   							<h:outputText
+  								rendered="#{loginMB.loggedUser.firstName != null and loginMB.loggedUser.login != null}"
+  								style="margin-left: 10px; vertical-align: middle" 
+  								value="#{loginMB.loggedUser.firstName}" />
+  							<h:outputText
   								rendered="#{loginMB.loggedUser.firstName == null and loginMB.loggedUser.login != null}"
   								style="margin-left: 10px; vertical-align: middle" 
   								value="#{loginMB.loggedUser.login}" />

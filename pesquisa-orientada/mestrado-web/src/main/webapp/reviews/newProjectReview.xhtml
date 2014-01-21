@@ -25,12 +25,18 @@
 					<strong>Vish! </strong>
 					<h:message for="projectId" />
 				</h:panelGroup>
+				
+				
 
 				<h:panelGroup id="projectTitle" layout="block" styleClass="row">
 					<div class="col-md-1">
-						<a class="pull-left" href="#"> <img class="media-object"
-							data-src="holder.js/64x64"
-							src="#{newReviewMB.project.mediumLogoURL}" />
+						<a class="pull-left" href="#"> 
+							<h:outputLink styleClass="pull-left" rendered="#{newReviewMB.project.mediumLogoURL != 'no_logo.png'}">													
+								<img class="media-object" src="#{newReviewMB.project.mediumLogoURL}" height="64px" width="64px" />
+							</h:outputLink>
+							<h:outputLink styleClass="pull-left" rendered="#{newReviewMB.project.mediumLogoURL eq 'no_logo.png'}">
+								<h:graphicImage styleClass="media-object" height="64" width="64" library="default" name="img/no_logo.png" />													
+							</h:outputLink>							
 						</a>
 					</div>
 					<div class="col-md-9">
@@ -53,6 +59,8 @@
 					<div class="col-md-9" style="margin-left: 137px;">
 						<div class="well">
 							<h:form id="projectReviewForm">
+							
+								<ui:include src="/reviews/reviewCriteriumHelp.xhtml"/>
 
 								<div class="panel panel-primary">
 									<div class="panel-heading">
