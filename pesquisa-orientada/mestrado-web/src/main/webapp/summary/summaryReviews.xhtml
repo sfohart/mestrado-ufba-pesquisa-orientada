@@ -141,18 +141,28 @@
 									</h:outputLink>
 								</h3>
 								
-								<section>
-									<ui:repeat var="preference" value="#{summaryReviewsMB.mostHelpfulReviewList}" varStatus="status"  >
+								<h:panelGroup layout="block" rendered="#{not empty summaryReviewsMB.mostHelpfulReviewList}">
+									<section>
+										<ui:repeat var="preference" value="#{summaryReviewsMB.mostHelpfulReviewList}" varStatus="status"  >
+											<div class="well">
+												<ui:include src="/reviews/review.xhtml">
+													<ui:param name="preference" value="#{preference}" />
+													<ui:param name="enableVoting" value="true"/>
+													<ui:param name="criteriumInPopup" value="true" />
+													<ui:param name="bean" value="#{summaryReviewsMB}" />
+												</ui:include>
+											</div>
+										</ui:repeat>
+									</section>
+								</h:panelGroup>
+								<h:panelGroup layout="block" rendered="#{empty summaryReviewsMB.mostHelpfulReviewList}">
+									<section>
 										<div class="well">
-											<ui:include src="/reviews/review.xhtml">
-												<ui:param name="preference" value="#{preference}" />
-												<ui:param name="enableVoting" value="true"/>
-												<ui:param name="criteriumInPopup" value="true" />
-												<ui:param name="bean" value="#{summaryReviewsMB}" />
-											</ui:include>
+											Ainda não existem avaliações para este projeto.
 										</div>
-									</ui:repeat>
-								</section>
+									</section>
+								</h:panelGroup>
+								
 								
 								<h:outputLink value="reviewsList.jsf" styleClass="btn btn-default" 
 									rendered="#{summaryReviewsMB.reviewsCount > 2}">
@@ -171,18 +181,29 @@
 									</h:outputLink>
 								</h3>
 								
-								<section>
-									<ui:repeat var="preference" value="#{summaryReviewsMB.mostRecentReviewList}" varStatus="status"  >
+								<h:panelGroup layout="block" rendered="#{not empty summaryReviewsMB.mostRecentReviewList}">
+									<section>
+										<ui:repeat var="preference" value="#{summaryReviewsMB.mostRecentReviewList}" varStatus="status"  >
+											<div class="well">
+												<ui:include src="/reviews/review.xhtml">
+													<ui:param name="preference" value="#{preference}" />
+													<ui:param name="enableVoting" value="true"/>
+													<ui:param name="criteriumInPopup" value="true" />
+													<ui:param name="bean" value="#{summaryReviewsMB}" />
+												</ui:include>
+											</div>
+										</ui:repeat>
+									</section>
+								</h:panelGroup>
+								
+								<h:panelGroup layout="block" rendered="#{empty summaryReviewsMB.mostRecentReviewList}">
+									<section>
 										<div class="well">
-											<ui:include src="/reviews/review.xhtml">
-												<ui:param name="preference" value="#{preference}" />
-												<ui:param name="enableVoting" value="true"/>
-												<ui:param name="criteriumInPopup" value="true" />
-												<ui:param name="bean" value="#{summaryReviewsMB}" />
-											</ui:include>
+											Ainda não existem avaliações para este projeto.
 										</div>
-									</ui:repeat>
-								</section>
+									</section>
+								</h:panelGroup>
+								
 							</h:form>
 						</div>
 					</h:panelGroup>

@@ -17,7 +17,6 @@ import br.ufba.dcc.mestrado.computacao.entities.recommender.user.UserEntity;
 import br.ufba.dcc.mestrado.computacao.service.base.CriteriumPreferenceService;
 import br.ufba.dcc.mestrado.computacao.service.base.OhLohProjectService;
 import br.ufba.dcc.mestrado.computacao.service.base.OverallPreferenceService;
-import br.ufba.dcc.mestrado.computacao.service.base.PreferenceReviewService;
 import br.ufba.dcc.mestrado.computacao.service.base.UserService;
 
 @ManagedBean(name = "summaryReviewsMB")
@@ -36,9 +35,6 @@ public class ProjectSummaryReviewsManagedBean extends AbstractReviewVotingManage
 	
 	@ManagedProperty("#{overallPreferenceService}")
 	private OverallPreferenceService overallPreferenceService;
-	
-	@ManagedProperty("#{preferenceReviewService}")
-	private PreferenceReviewService preferenceReviewService;
 	
 	@ManagedProperty("#{criteriumPreferenceService}")
 	private CriteriumPreferenceService criteriumPreferenceService;
@@ -99,14 +95,6 @@ public class ProjectSummaryReviewsManagedBean extends AbstractReviewVotingManage
 		this.criteriumPreferenceService = criteriumPreferenceService;
 	}
 	
-	public PreferenceReviewService getPreferenceReviewService() {
-		return preferenceReviewService;
-	}
-	
-	public void setPreferenceReviewService(
-			PreferenceReviewService preferenceReviewService) {
-		this.preferenceReviewService = preferenceReviewService;
-	}
 	
 	public UserService getUserService() {
 		return userService;

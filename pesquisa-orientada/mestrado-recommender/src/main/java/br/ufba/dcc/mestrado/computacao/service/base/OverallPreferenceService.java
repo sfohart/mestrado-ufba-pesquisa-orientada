@@ -3,7 +3,9 @@ package br.ufba.dcc.mestrado.computacao.service.base;
 import java.io.Serializable;
 import java.util.List;
 
+import br.ufba.dcc.mestrado.computacao.entities.ohloh.project.OhLohProjectEntity;
 import br.ufba.dcc.mestrado.computacao.entities.recommender.preference.PreferenceEntity;
+import br.ufba.dcc.mestrado.computacao.entities.recommender.preference.ProjectPreferenceInfo;
 
 public interface OverallPreferenceService extends BaseOhLohService<Long, PreferenceEntity> , Serializable {
 
@@ -126,5 +128,32 @@ public interface OverallPreferenceService extends BaseOhLohService<Long, Prefere
 	 * @return
 	 */
 	PreferenceEntity findLastByProjectAndUser(Long projectId, Long userId);
+
+	/**
+	 * 
+	 * Conta quantos projetos podem ter suas avaliações/reviews sumarizadas para exibição em tela
+	 * 
+	 * @param project
+	 * @return
+	 */
+	Long countAllProjectPreferenceInfo();
+	
+	/**
+	 * retorna todos os projetos possuem avaliações/reviews passíveis de sumarização
+	 * 
+	 * @param project
+	 * @return
+	 */
+	List<ProjectPreferenceInfo> findAllProjectPreferenceInfo();
+	
+	
+	/**
+	 * 
+	 * @param project
+	 * @param startAt
+	 * @param offset
+	 * @return
+	 */
+	List<ProjectPreferenceInfo> findAllProjectPreferenceInfo(Integer startAt, Integer offset);
 	
 }

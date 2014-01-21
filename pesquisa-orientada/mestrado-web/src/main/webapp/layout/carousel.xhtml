@@ -36,17 +36,27 @@
 			</div>
 			<div class="item">
 				<div style="height: 150px; width: 100%; background-color: #fff"></div>
-				<div class="carousel-caption" >
+				
+				<h:panelGroup layout="block" rendered="#{indexMB.preferencesCount >= 0}" styleClass="carousel-caption">
 					<h3>Quanto mais gente opinar, melhor!</h3>
 					<p>
-						<h:outputText value="#{indexMB.preferencesCount} opiniões " rendered="#{indexMB.preferencesCount > 1}" />
-						<h:outputText value="#{indexMB.preferencesCount} opinião " rendered="#{indexMB.preferencesCount eq 1}" />
+						<h:panelGroup rendered="#{indexMB.preferencesCount > 1}">
+							<h:outputText value="#{indexMB.preferencesCount} opiniões " rendered="#{indexMB.preferencesCount > 1}" />
+							<h:outputText value="levando em consideração #{indexMB.recommenderCriteriumCount} critérios diferentes." rendered="#{indexMB.recommenderCriteriumCount > 1}" />
+						</h:panelGroup>
+						<h:panelGroup rendered="#{indexMB.preferencesCount eq 1}">
+							<h:outputText value="#{indexMB.preferencesCount} opinião " rendered="#{indexMB.preferencesCount eq 1}" />
+							<h:outputText value="levando em consideração #{indexMB.recommenderCriteriumCount} critério." rendered="#{indexMB.recommenderCriteriumCount eq 1}" />
+						</h:panelGroup>
+					</p>					
+				</h:panelGroup>
+				
+				<h:panelGroup layout="block" rendered="#{indexMB.preferencesCount eq 0}" styleClass="carousel-caption">
+					<h3>Quanto mais gente opinar, melhor!</h3>
+					<p>
 						<h:outputText value="Escolha um software que você já utilizou e seja o primeiro a opinar sobre ele!" rendered="#{indexMB.preferencesCount eq 0}" />
-						
-						<h:outputText value="levando em consideração #{indexMB.recommenderCriteriumCount} critérios diferentes." rendered="#{indexMB.recommenderCriteriumCount > 1}" />
-						<h:outputText value="levando em consideração #{indexMB.recommenderCriteriumCount} critério." rendered="#{indexMB.recommenderCriteriumCount eq 1}" />
 					</p>
-				</div>
+				</h:panelGroup>
 			</div>
 		</div>
 		

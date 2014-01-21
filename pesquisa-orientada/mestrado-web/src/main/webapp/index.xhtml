@@ -9,6 +9,7 @@
 
 	<f:metadata>
 		<f:event listener="#{facebookMB.processFacebookLogin}" type="preRenderView"  />
+		<f:event listener="#{indexMB.init}" type="preRenderView" />
 	</f:metadata>
 
 	<h:body>
@@ -23,6 +24,51 @@
 					<hr/>
 					
 					<ui:include src="/layout/carousel.xhtml"  />
+					
+					<hr/>
+					
+					<div class="row">
+						<div class="col-md-4">
+							<h:panelGroup layout="block" rendered="#{not empty indexMB.topTenReviewedProjectList}">
+								<ui:repeat var="projectPreferenceInfo" value="#{indexMB.topTenReviewedProjectList}">
+									<ui:param name="widthValue" value="#{ (projectPreferenceInfo.reviewsCount * 100) / indexMB.mostReviewedProjectPreferenceInfo.reviewsCount}" />
+									<div>
+										<div class="pull-left">
+											<h:outputLink
+												value="#{facesContext.externalContext.applicationContextPath}/detail/projectDetail.jsf" 
+												rendered="#{projectPreferenceInfo.project.mediumLogoURL != 'no_logo.png'}">
+												<f:param name="projectId" value="#{projectPreferenceInfo.project.id}" />													
+												<img class="media-object" src="#{projectPreferenceInfo.project.mediumLogoURL}" height="32" width="32" />
+											</h:outputLink>
+											<h:outputLink  
+												value="#{facesContext.externalContext.applicationContextPath}/detail/projectDetail.jsf"
+												rendered="#{projectPreferenceInfo.project.mediumLogoURL eq 'no_logo.png'}">
+												<f:param name="projectId" value="#{projectPreferenceInfo.project.id}" />
+												<h:graphicImage styleClass="media-object" height="32" width="32" library="default" name="img/no_logo.png" />													
+											</h:outputLink>
+										</div>
+										<div>
+											<div class="progress">
+												<div class="progress-bar progress-bar-success"  p:role="progressbar" 
+													p:aria-valuenow="#{widthValue}" p:aria-valuemin="0" p:aria-valuemax="100"
+													style="width: #{widthValue}%" 
+													>
+												</div>
+											</div>
+										</div>
+									</div>
+								</ui:repeat>
+							</h:panelGroup>
+							
+							<h:panelGroup layout="block" rendered="#{empty indexMB.topTenReviewedProjectList}">
+							</h:panelGroup>
+							
+						</div>
+						<div class="col-md-4">
+						</div>
+						<div class="col-md-4">
+						</div>
+					</div>
 					
 					<hr/>
 					

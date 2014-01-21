@@ -86,4 +86,5 @@
 		</dependency>
 	</dependencies>
 	
+	<name>Mestrado Recommender</name>
 </project>

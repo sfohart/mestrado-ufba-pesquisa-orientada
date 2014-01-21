@@ -13,9 +13,11 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import br.ufba.dcc.mestrado.computacao.entities.ohloh.project.OhLohProjectEntity;
 import br.ufba.dcc.mestrado.computacao.entities.recommender.criterium.RecommenderCriteriumEntity;
 import br.ufba.dcc.mestrado.computacao.entities.recommender.preference.PreferenceEntity;
 import br.ufba.dcc.mestrado.computacao.entities.recommender.preference.PreferenceEntryEntity;
+import br.ufba.dcc.mestrado.computacao.entities.recommender.preference.ProjectPreferenceInfo;
 import br.ufba.dcc.mestrado.computacao.repository.base.BaseRepository;
 import br.ufba.dcc.mestrado.computacao.repository.base.OverallPreferenceRepository;
 import br.ufba.dcc.mestrado.computacao.service.base.CriteriumPreferenceService;
@@ -203,6 +205,28 @@ public class OverallPreferenceServiceImpl extends BaseOhLohServiceImpl<Long, Pre
 		return ((OverallPreferenceRepository) getRepository()).findLastByProjectAndUser(projectId, userId);
 	}
 	
+	@Override
+	@Transactional(readOnly = true)
+	public Long countAllProjectPreferenceInfo() {
+		return ((OverallPreferenceRepository) getRepository()).countAllProjectPreferenceInfo();
+	}
+	
+	@Override
+	@Transactional(readOnly = true)
+	public List<ProjectPreferenceInfo> findAllProjectPreferenceInfo() {
+		return ((OverallPreferenceRepository) getRepository()).findAllProjectPreferenceInfo();
+	}
+	
+	@Override
+	@Transactional(readOnly = true)
+	public List<ProjectPreferenceInfo> findAllProjectPreferenceInfo(
+			Integer startAt, 
+			Integer offset) {
+		return ((OverallPreferenceRepository) getRepository()).findAllProjectPreferenceInfo(startAt, offset);
+	}
+	
+	
+	
 	/**
 	 * @see BaseRepository
 	 */
@@ -253,4 +277,6 @@ public class OverallPreferenceServiceImpl extends BaseOhLohServiceImpl<Long, Pre
 			}
 		}
 	}
+	
+	
 }

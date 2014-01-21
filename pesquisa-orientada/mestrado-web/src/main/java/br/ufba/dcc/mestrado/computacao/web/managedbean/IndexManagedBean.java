@@ -1,11 +1,14 @@
 package br.ufba.dcc.mestrado.computacao.web.managedbean;
 
 import java.io.Serializable;
+import java.util.List;
 
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
+import javax.faces.event.ComponentSystemEvent;
 
+import br.ufba.dcc.mestrado.computacao.entities.recommender.preference.ProjectPreferenceInfo;
 import br.ufba.dcc.mestrado.computacao.service.base.OhLohProjectService;
 import br.ufba.dcc.mestrado.computacao.service.base.OverallPreferenceService;
 import br.ufba.dcc.mestrado.computacao.service.base.RecommenderCriteriumService;
@@ -31,11 +34,22 @@ public class IndexManagedBean implements Serializable {
 	
 	@ManagedProperty("#{recommenderCriteriumService}")
 	private RecommenderCriteriumService recommenderCriteriumService;
+	
+	
+	private List<ProjectPreferenceInfo> topTenReviewedProjectList;
+	
+	private ProjectPreferenceInfo mostReviewedProjectPreferenceInfo;
 		
 	public IndexManagedBean() {
-		
 	}
 
+	public void init(ComponentSystemEvent event) {
+		this.topTenReviewedProjectList = getOverallPreferenceService().findAllProjectPreferenceInfo(0, 10);
+		if (this.topTenReviewedProjectList != null && ! this.topTenReviewedProjectList.isEmpty()) {
+			this.mostReviewedProjectPreferenceInfo = this.topTenReviewedProjectList.get(0);
+		}
+	}
+	
 	public OhLohProjectService getOhLohProjectService() {
 		return ohLohProjectService;
 	}
@@ -84,6 +98,14 @@ public class IndexManagedBean implements Serializable {
 	
 	public Long getRecommenderCriteriumCount() {
 		return  getRecommenderCriteriumService().countAll();
+	}
+	
+	public List<ProjectPreferenceInfo> getTopTenReviewedProjectList() {
+		return topTenReviewedProjectList;
+	}
+	
+	public ProjectPreferenceInfo getMostReviewedProjectPreferenceInfo() {
+		return mostReviewedProjectPreferenceInfo;
 	}
 	
 }

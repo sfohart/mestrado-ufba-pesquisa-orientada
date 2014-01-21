@@ -1,6 +1,5 @@
 package br.ufba.dcc.mestrado.computacao.web.managedbean;
 
-import java.util.HashSet;
 import java.util.List;
 import java.util.ResourceBundle;
 
@@ -10,7 +9,6 @@ import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
-import javax.faces.event.AjaxBehaviorEvent;
 import javax.faces.event.ComponentSystemEvent;
 
 import br.ufba.dcc.mestrado.computacao.entities.ohloh.project.OhLohProjectEntity;

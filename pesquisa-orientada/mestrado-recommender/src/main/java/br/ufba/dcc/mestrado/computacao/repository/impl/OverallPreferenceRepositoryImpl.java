@@ -6,6 +6,7 @@ import java.util.List;
 
 import javax.persistence.NoResultException;
 import javax.persistence.NonUniqueResultException;
+import javax.persistence.Tuple;
 import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
@@ -19,10 +20,14 @@ import javax.persistence.criteria.Root;
 import javax.persistence.criteria.Subquery;
 
 import org.apache.commons.lang3.StringUtils;
+import org.apache.hadoop.mapred.join.TupleWritable;
+import org.hibernate.ejb.criteria.OrderImpl;
 import org.springframework.stereotype.Repository;
 
+import br.ufba.dcc.mestrado.computacao.entities.ohloh.project.OhLohProjectEntity;
 import br.ufba.dcc.mestrado.computacao.entities.recommender.preference.PreferenceEntity;
 import br.ufba.dcc.mestrado.computacao.entities.recommender.preference.PreferenceReviewEntity;
+import br.ufba.dcc.mestrado.computacao.entities.recommender.preference.ProjectPreferenceInfo;
 import br.ufba.dcc.mestrado.computacao.repository.base.OverallPreferenceRepository;
 
 @Repository(OverallPreferenceRepositoryImpl.BEAN_NAME)
@@ -549,6 +554,80 @@ public class OverallPreferenceRepositoryImpl  extends BaseRepositoryImpl<Long, P
 		}
 		
 		return preference;		
+	}
+
+	@Override
+	public Long countAllProjectPreferenceInfo() {
+		return null;
+	}
+
+	@Override
+	public List<ProjectPreferenceInfo> findAllProjectPreferenceInfo() {
+		return findAllProjectPreferenceInfo(null, null);
+	}
+
+	@Override
+	public List<ProjectPreferenceInfo> findAllProjectPreferenceInfo(
+			Integer startAt, 
+			Integer offset) {
+		
+		
+		CriteriaBuilder criteriaBuilder = getEntityManager().getCriteriaBuilder();
+		CriteriaQuery<Tuple> tupleQuery = criteriaBuilder.createTupleQuery();
+		
+		Root<PreferenceEntity> root = tupleQuery.from(PreferenceEntity.class);
+		Join<PreferenceEntity, OhLohProjectEntity> projectJoin = root.join("project", JoinType.INNER);
+		Join<PreferenceEntity, PreferenceReviewEntity> reviewJoin = root.join("preferenceReview", JoinType.INNER);
+		
+		Expression<Long> reviewCount = criteriaBuilder.count(reviewJoin);
+		
+		tupleQuery
+			.multiselect(projectJoin, reviewCount)
+			.groupBy(
+					projectJoin.get("id")
+				)
+			.having(criteriaBuilder.gt(reviewCount, 0))
+			.orderBy(new OrderImpl(reviewCount, false));
+		
+		
+		TypedQuery<Tuple> tupleTypedQuery = getEntityManager().createQuery(tupleQuery);
+		
+		if (offset != null) {
+			tupleTypedQuery.setMaxResults(offset);
+		}
+		
+		if (startAt != null) {
+			tupleTypedQuery.setFirstResult(startAt);
+		}
+		
+		
+		
+		
+		List<Tuple> tupleList = tupleTypedQuery.getResultList();
+				
+		List<ProjectPreferenceInfo> resultList = null;
+		
+		if (tupleList != null && ! tupleList.isEmpty()) {
+			resultList = new ArrayList<>();
+			
+			for (Tuple tuple : tupleList) {
+				assert tuple.get(0) == tuple.get(projectJoin);
+				assert tuple.get(1) == tuple.get(reviewCount);
+				
+				ProjectPreferenceInfo info = new ProjectPreferenceInfo();
+				
+				OhLohProjectEntity projectInfo = tuple.get(projectJoin);
+				Long reviewCountInfo = tuple.get(reviewCount);
+				
+				info.setProject(projectInfo);
+				info.setReviewsCount(reviewCountInfo);
+				
+				
+				resultList.add(info);
+			}
+		}
+		
+		return resultList;
 	}
 
 	
