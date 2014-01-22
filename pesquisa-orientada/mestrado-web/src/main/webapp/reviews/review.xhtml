@@ -13,31 +13,31 @@
 	<h:panelGroup layout="block" styleClass="row" rendered="#{preference != null}">
 		<!-- Dados do usuario ou projeto -->
 		
-		<h:panelGroup layout="block" styleClass="pull-left" rendered="#{hidingProject}" style="width: 15%">
-			<h:outputLink value="#{facesContext.externalContext.applicationContextPath}/account/account.jsf?accountId=#{preference.user.id}">
-				<h:outputText
-					rendered="#{preference.user.firstName != null and preference.user.login == null}"
-					style="margin-left: 10px; vertical-align: middle" 
-					value="...#{preference.user.firstName}" />
-				
-				<h:outputText
-					rendered="#{preference.user.firstName != null and preference.user.login != null}"
-					style="margin-left: 10px; vertical-align: middle" 
-					value="...#{preference.user.firstName}" />
-					
-				<h:outputText
-					rendered="#{preference.user.firstName == null and preference.user.login != null}"
-					style="margin-left: 10px; vertical-align: middle" 
-					value="...#{preference.user.login}" />
-			</h:outputLink>
-			disse:
+		<h:panelGroup layout="block" styleClass="pull-left" rendered="#{hidingProject}" style="width: 13%">
+			<div class="pull-right" style="text-align: right;">
+				<h:outputLink value="#{facesContext.externalContext.applicationContextPath}/account/account.jsf?accountId=#{preference.user.id}">
+					<h:outputText
+						rendered="#{preference.user.firstName != null and preference.user.login == null}"
+						style="margin-left: 10px; vertical-align: middle" 
+						value="...#{preference.user.firstName}" />
+					<h:outputText
+						rendered="#{preference.user.firstName != null and preference.user.login != null}"
+						style="margin-left: 10px; vertical-align: middle" 
+						value="...#{preference.user.firstName}" />
+					<h:outputText
+						rendered="#{preference.user.firstName == null and preference.user.login != null}"
+						style="margin-left: 10px; vertical-align: middle" 
+						value="...#{preference.user.login}" />
+				</h:outputLink>
+				disse:
+			</div>
 			
 			<br />
 			<!-- Foto do usuario -->
 			<h:graphicImage layout="block" styleClass="media-object pull-right img-thumbnail" height="64" width="64" library="default" name="img/no_logo.png" />	
 		</h:panelGroup>
 		
-		<h:panelGroup styleClass="pull-left" rendered="#{hidingUser}" style="width: 15%">
+		<h:panelGroup styleClass="pull-left" rendered="#{hidingUser}" style="width: 13%">
 			<div style="margin-left: 15px">
 				<h:outputLink styleClass="pull-left" rendered="#{preference.project.mediumLogoURL != 'no_logo.png'}">													
 					<img class="media-object" src="#{preference.project.mediumLogoURL}" height="64px" width="64px" />
@@ -53,7 +53,9 @@
 			
 		</h:panelGroup>
 		
-		<div class="pull-right" style="width: 80%">
+		<div style="width: 5%"></div>
+		
+		<div class="pull-right" style="width: 82%">
 			<div class="row">
 				<!-- Titulo da Review -->
 				<div class="pull-left">
@@ -62,8 +64,7 @@
 					</h4>
 				</div>
 				<!-- Nota da review -->
-				<div class="pull-left" style="margin-left: 20px">
-				
+				<div class="pull-left" style="margin-left: 10px">				
 					<!-- Estrelas -->
 					<div class="rateit" data-rateit-readonly="true"
 							data-rateit-min="0" data-rateit-max="10"
