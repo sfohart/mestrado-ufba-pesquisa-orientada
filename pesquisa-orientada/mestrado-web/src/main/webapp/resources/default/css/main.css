@@ -73,6 +73,16 @@ div.bigstars div.rateit-reset:hover
     background: url(#{resource['default:img/star-white32.png']});
 }
 
+/*
+------------------------------------------------- */
+h3.mostReviewedProject {
+	border-bottom: 2px solid #5cb85c;
+	padding-bottom: 5px;
+	font-weight: normal;
+	font-size: 1.4em;
+	border-top: none !important;
+}
+
 /* Fixando colunas de tabelas no bootstrap
 ------------------------------------------------- */
 .table-responsive>.fixed-column {

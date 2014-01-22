@@ -46,7 +46,17 @@
 					<h:panelGroup id="projectTitle" layout="block" styleClass="row">
 						<div class="col-md-1">
 							<a class="pull-left" href="#">
-								<img class="media-object" height="64" width="64" src="#{projectDetailMB.project.mediumLogoURL}"  />
+								<h:graphicImage
+									style="margin-bottom: 10px"
+									rendered="#{projectDetailMB.project.mediumLogoURL eq 'no_logo.png'}" 
+									styleClass="media-object" height="64" width="64" library="default" 
+									name="img/no_logo.png" />
+								<h:graphicImage
+									style="margin-bottom: 10px"
+									rendered="#{projectDetailMB.project.mediumLogoURL != 'no_logo.png'}" 
+									styleClass="media-object" height="64" width="64"
+									value="#{projectDetailMB.project.mediumLogoURL}" 
+									/>
 							</a>
 						</div>
 						<div class="col-md-9">

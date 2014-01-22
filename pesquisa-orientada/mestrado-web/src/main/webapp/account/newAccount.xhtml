@@ -11,7 +11,10 @@
 		
 			<ui:define name="titlePage">Novo Usuário</ui:define>
 			
-			<ui:define name="content">				
+			<ui:define name="content">			
+			
+				<f:loadBundle var="accountMsg" basename="br.ufba.dcc.mestrado.computacao.account"   />
+				
 				<section class="container">
 				
 					<h:panelGroup id="newAccountAlert" layout="block" styleClass="alert alert-danger col-md-12" 
@@ -57,17 +60,21 @@
 									<fieldset>
 										<legend>Nova Conta</legend>
 										<div class="form-group">
-											<label><b>Login</b></label>
-											<h:inputText styleClass="form-control" tabindex="1"
-												value="#{accountMB.account.login}" 
+											<h:outputLabel for="login"><b>Login</b></h:outputLabel>
+											<h:inputText styleClass="form-control" tabindex="1" id="login"
+												value="#{accountMB.account.login}" required="true"
+												requiredMessage="#{accountMsg['account.login.required.message']}"
 												/>
 											<span class="help-block">
 												Seu login é o seu nome púbico a ser utilizado.
 											</span>
 										</div>
 										<div class="form-group">
-											<label><b>Email</b></label>
-											<h:inputText styleClass="form-control" tabindex="2"
+											<h:outputLabel for="email"><b>Email</b></h:outputLabel>
+											<h:inputText styleClass="form-control" 
+												id="email" tabindex="2"
+												required="true" 
+												requiredMessage="#{accountMsg['account.email.required.message']}"
 												value="#{accountMB.account.email}">
 												<f:validator validatorId="emailConfirmationFieldValidator"  />
 												<f:attribute name="match" value="#{confirmEmail}" />
@@ -87,9 +94,11 @@
 											</span>
 										</div>
 										<div class="form-group">
-											<label><b>Senha</b></label>
+											<h:outputLabel for="password"><b>Senha</b></h:outputLabel>
 											<h:inputSecret styleClass="form-control" tabindex="4" id="password"
 												validatorMessage="#{messages['password.length.error.message']}"
+												required="true"
+												requiredMessage="#{accountMsg['account.password.required.message']}"
 												value="#{accountMB.account.password}">
 												<f:validateLength  minimum="6" for="password" />
 												<f:validator validatorId="passwordConfirmationFieldValidator"  />
