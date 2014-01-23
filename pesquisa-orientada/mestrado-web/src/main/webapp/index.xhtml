@@ -25,58 +25,61 @@
 					
 					<ui:include src="/layout/carousel.xhtml"  />
 					
-					<hr/>
 					
-					<div class="row">
-						<div class="col-md-4">
-							<h:panelGroup layout="block" rendered="#{not empty indexMB.topTenReviewedProjectList}">
-								<h3 class="mostReviewedProject">Projetos mais avaliados</h3>
-								<ui:repeat var="projectPreferenceInfo" value="#{indexMB.topTenReviewedProjectList}">
-									<ui:param name="widthValue" value="#{ (projectPreferenceInfo.reviewsCount * 80) / indexMB.mostReviewedProjectPreferenceInfo.reviewsCount}" />
-									<div>
-										<div class="pull-left col-md-2">
-											<h:outputLink
-												value="#{facesContext.externalContext.applicationContextPath}/detail/projectDetail.jsf" 
-												rendered="#{projectPreferenceInfo.project.mediumLogoURL != 'no_logo.png'}">
-												<f:param name="projectId" value="#{projectPreferenceInfo.project.id}" />													
-												<img class="media-object" src="#{projectPreferenceInfo.project.mediumLogoURL}" height="32" width="32" />
-											</h:outputLink>
-											<h:outputLink  
-												value="#{facesContext.externalContext.applicationContextPath}/detail/projectDetail.jsf"
-												rendered="#{projectPreferenceInfo.project.mediumLogoURL eq 'no_logo.png'}">
-												<f:param name="projectId" value="#{projectPreferenceInfo.project.id}" />
-												<h:graphicImage styleClass="media-object" height="32" width="32" library="default" name="img/no_logo.png" />													
-											</h:outputLink>
-										</div>
-										<div class="col-md-10">
-											<h:outputLink  
-												value="#{facesContext.externalContext.applicationContextPath}/detail/projectDetail.jsf">
-												<f:param name="projectId" value="#{projectPreferenceInfo.project.id}" />
-												<h:outputText value="#{projectPreferenceInfo.project.name} "  />
-												<h:outputText value="(#{projectPreferenceInfo.reviewsCount} avaliações)"  rendered="#{projectPreferenceInfo.reviewsCount > 1}" />
-												<h:outputText value="(#{projectPreferenceInfo.reviewsCount} avaliação)" rendered="#{projectPreferenceInfo.reviewsCount eq 1}"  />
-											</h:outputLink>
-											<div class="progress progress-striped active" style="height: 10px">
-												<div class="progress-bar progress-bar-success"  p:role="progressbar" 
-													p:aria-valuenow="#{widthValue}" p:aria-valuemin="0" p:aria-valuemax="100"
-													style="width: #{widthValue}%; " 
-													>
+					<h:panelGroup layout="block" rendered="#{not empty indexMB.topTenReviewedProjectList}">
+						<hr/>
+						
+						<div class="row">
+							<div class="col-md-4">
+								<h:panelGroup layout="block" rendered="#{not empty indexMB.topTenReviewedProjectList}">
+									<h3 class="mostReviewedProject">Projetos mais avaliados</h3>
+									<ui:repeat var="projectPreferenceInfo" value="#{indexMB.topTenReviewedProjectList}">
+										<ui:param name="widthValue" value="#{ (projectPreferenceInfo.reviewsCount * 80) / indexMB.mostReviewedProjectPreferenceInfo.reviewsCount}" />
+										<div>
+											<div class="pull-left col-md-2">
+												<h:outputLink
+													value="#{facesContext.externalContext.applicationContextPath}/detail/projectDetail.jsf" 
+													rendered="#{projectPreferenceInfo.project.mediumLogoURL != 'no_logo.png'}">
+													<f:param name="projectId" value="#{projectPreferenceInfo.project.id}" />													
+													<img class="media-object" src="#{projectPreferenceInfo.project.mediumLogoURL}" height="32" width="32" />
+												</h:outputLink>
+												<h:outputLink  
+													value="#{facesContext.externalContext.applicationContextPath}/detail/projectDetail.jsf"
+													rendered="#{projectPreferenceInfo.project.mediumLogoURL eq 'no_logo.png'}">
+													<f:param name="projectId" value="#{projectPreferenceInfo.project.id}" />
+													<h:graphicImage styleClass="media-object" height="32" width="32" library="default" name="img/no_logo.png" />													
+												</h:outputLink>
+											</div>
+											<div class="col-md-10">
+												<h:outputLink  
+													value="#{facesContext.externalContext.applicationContextPath}/detail/projectDetail.jsf">
+													<f:param name="projectId" value="#{projectPreferenceInfo.project.id}" />
+													<h:outputText value="#{projectPreferenceInfo.project.name} "  />
+													<h:outputText value="(#{projectPreferenceInfo.reviewsCount} avaliações)"  rendered="#{projectPreferenceInfo.reviewsCount > 1}" />
+													<h:outputText value="(#{projectPreferenceInfo.reviewsCount} avaliação)" rendered="#{projectPreferenceInfo.reviewsCount eq 1}"  />
+												</h:outputLink>
+												<div class="progress progress-striped active" style="height: 10px">
+													<div class="progress-bar progress-bar-success"  p:role="progressbar" 
+														p:aria-valuenow="#{widthValue}" p:aria-valuemin="0" p:aria-valuemax="100"
+														style="width: #{widthValue}%; " 
+														>
+													</div>
 												</div>
 											</div>
 										</div>
-									</div>
-								</ui:repeat>
-							</h:panelGroup>
-							
-							<h:panelGroup layout="block" rendered="#{empty indexMB.topTenReviewedProjectList}">
-							</h:panelGroup>
-							
+									</ui:repeat>
+								</h:panelGroup>
+								
+								<h:panelGroup layout="block" rendered="#{empty indexMB.topTenReviewedProjectList}">
+								</h:panelGroup>
+								
+							</div>
+							<div class="col-md-4">
+							</div>
+							<div class="col-md-4">
+							</div>
 						</div>
-						<div class="col-md-4">
-						</div>
-						<div class="col-md-4">
-						</div>
-					</div>
+					</h:panelGroup>
 					
 					<hr/>
 					
