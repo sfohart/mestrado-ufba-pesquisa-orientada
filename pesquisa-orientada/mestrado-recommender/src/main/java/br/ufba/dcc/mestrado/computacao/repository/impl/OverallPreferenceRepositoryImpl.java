@@ -20,7 +20,6 @@ import javax.persistence.criteria.Root;
 import javax.persistence.criteria.Subquery;
 
 import org.apache.commons.lang3.StringUtils;
-import org.apache.hadoop.mapred.join.TupleWritable;
 import org.hibernate.ejb.criteria.OrderImpl;
 import org.springframework.stereotype.Repository;
 
@@ -86,7 +85,10 @@ public class OverallPreferenceRepositoryImpl  extends BaseRepositoryImpl<Long, P
 			Expression<Timestamp> greatestRegisteredAt = preferenceRoot.get("registeredAt");
 			
 			subquery.select(criteriaBuilder.greatest((greatestRegisteredAt)));
-			subquery.where(criteriaBuilder.equal(preferenceJoin.get("userId"), preferenceRoot.get("userId")));
+			subquery.where(
+					criteriaBuilder.equal(preferenceJoin.get("projectId"), preferenceRoot.get("projectId")),
+					criteriaBuilder.equal(preferenceJoin.get("userId"), preferenceRoot.get("userId"))
+				);
 			
 			Predicate registeredAtPredicate = criteriaBuilder.equal(preferenceJoin.get("registeredAt"), subquery);
 			predicateList.add(registeredAtPredicate);
@@ -133,7 +135,10 @@ public class OverallPreferenceRepositoryImpl  extends BaseRepositoryImpl<Long, P
 			Expression<Timestamp> greatestRegisteredAt = preferenceRoot.get("registeredAt");
 			
 			subquery.select(criteriaBuilder.greatest((greatestRegisteredAt)));
-			subquery.where(criteriaBuilder.equal(preferenceJoin.get("userId"), preferenceRoot.get("userId")));
+			subquery.where(
+					criteriaBuilder.equal(preferenceJoin.get("projectId"), preferenceRoot.get("projectId")),
+					criteriaBuilder.equal(preferenceJoin.get("userId"), preferenceRoot.get("userId"))
+				);
 			
 			Predicate registeredAtPredicate = criteriaBuilder.equal(preferenceJoin.get("registeredAt"), subquery);
 			predicateList.add(registeredAtPredicate);
@@ -182,7 +187,10 @@ public class OverallPreferenceRepositoryImpl  extends BaseRepositoryImpl<Long, P
 		Expression<Timestamp> greatestRegisteredAt = p2.get("registeredAt");
 		
 		subquery.select(criteriaBuilder.greatest((greatestRegisteredAt)));
-		subquery.where(criteriaBuilder.equal(p1.get("userId"), p2.get("userId")));
+		subquery.where(
+				criteriaBuilder.equal(p1.get("projectId"), p2.get("projectId")),
+				criteriaBuilder.equal(p1.get("userId"), p2.get("userId"))
+			);
 		
 		Predicate registeredAtPredicate = criteriaBuilder.equal(p1.get("registeredAt"), subquery);
 		predicateList.add(registeredAtPredicate);
@@ -242,7 +250,10 @@ public class OverallPreferenceRepositoryImpl  extends BaseRepositoryImpl<Long, P
 		Expression<Timestamp> greatestRegisteredAt = p2.get("registeredAt");
 		
 		subquery.select(criteriaBuilder.greatest((greatestRegisteredAt)));
-		subquery.where(criteriaBuilder.equal(p1.get("userId"), p2.get("userId")));
+		subquery.where(
+				criteriaBuilder.equal(p1.get("projectId"), p2.get("projectId")),
+				criteriaBuilder.equal(p1.get("userId"), p2.get("userId"))
+			);
 		
 		Predicate registeredAtPredicate = criteriaBuilder.equal(p1.get("registeredAt"), subquery);
 		
@@ -306,7 +317,10 @@ public class OverallPreferenceRepositoryImpl  extends BaseRepositoryImpl<Long, P
 		Expression<Timestamp> greatestRegisteredAt = p2.get("registeredAt");
 		
 		subquery.select(criteriaBuilder.greatest((greatestRegisteredAt)));
-		subquery.where(criteriaBuilder.equal(p1.get("userId"), p2.get("userId")));
+		subquery.where(
+				criteriaBuilder.equal(p1.get("projectId"), p2.get("projectId")),
+				criteriaBuilder.equal(p1.get("userId"), p2.get("userId"))
+			);
 		
 		Predicate registeredAtPredicate = criteriaBuilder.equal(p1.get("registeredAt"), subquery);
 		predicateList.add(registeredAtPredicate);
@@ -364,7 +378,8 @@ public class OverallPreferenceRepositoryImpl  extends BaseRepositoryImpl<Long, P
 					+	"	p1.projectId = :projectId AND "
 					+	"	p1.registeredAt = ( "
 					+	"		SELECT MAX(p2.registeredAt) FROM PreferenceEntity p2 "
-					+	"		WHERE p2.userId = p1.userId"
+					+	"		WHERE 	p2.projectId = p1.projectId"
+					+	"				AND p2.userId = p1.userId"
 					+	"	) "
 					;
 			
@@ -424,7 +439,8 @@ public class OverallPreferenceRepositoryImpl  extends BaseRepositoryImpl<Long, P
 					+	"	p1.userId = :userId AND "
 					+	"	p1.registeredAt = ( "
 					+	"		SELECT MAX(p2.registeredAt) FROM PreferenceEntity p2 "
-					+	"		WHERE p2.userId = p1.userId"
+					+	"		WHERE 	p2.projectId = p1.projectId"
+					+	"				AND p2.userId = p1.userId"
 					+	"	) "
 					;
 			
@@ -536,7 +552,10 @@ public class OverallPreferenceRepositoryImpl  extends BaseRepositoryImpl<Long, P
 		Expression<Timestamp> greatestRegisteredAt = preferenceRoot.get("registeredAt");
 		
 		subquery.select(criteriaBuilder.greatest((greatestRegisteredAt)));
-		subquery.where(criteriaBuilder.equal(root.get("userId"), preferenceRoot.get("userId")));
+		subquery.where(
+				criteriaBuilder.equal(root.get("projectId"), preferenceRoot.get("projectId")),
+				criteriaBuilder.equal(root.get("userId"), preferenceRoot.get("userId"))
+			);
 		
 		Predicate registeredAtPredicate = criteriaBuilder.equal(root.get("registeredAt"), subquery);
 		predicateList.add(registeredAtPredicate);
@@ -589,6 +608,21 @@ public class OverallPreferenceRepositoryImpl  extends BaseRepositoryImpl<Long, P
 			.having(criteriaBuilder.gt(reviewCount, 0))
 			.orderBy(new OrderImpl(reviewCount, false));
 		
+		
+		//pegando apenas as opiniões mais atuais
+		Subquery<Timestamp> subquery = tupleQuery.subquery(Timestamp.class);
+		
+		Root<PreferenceEntity> preferenceRoot = subquery.from(PreferenceEntity.class);
+		Expression<Timestamp> greatestRegisteredAt = preferenceRoot.get("registeredAt");
+		
+		subquery.select(criteriaBuilder.greatest((greatestRegisteredAt)));
+		subquery.where(
+				criteriaBuilder.equal(root.get("projectId"), preferenceRoot.get("projectId")),
+				criteriaBuilder.equal(root.get("userId"), preferenceRoot.get("userId"))
+			);
+		
+		Predicate registeredAtPredicate = criteriaBuilder.equal(root.get("registeredAt"), subquery);
+		tupleQuery.where(registeredAtPredicate);
 		
 		TypedQuery<Tuple> tupleTypedQuery = getEntityManager().createQuery(tupleQuery);
 		

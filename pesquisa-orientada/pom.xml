@@ -34,6 +34,7 @@
 	</modules>
 
 	<properties>
+		<project.build.sourceEncoding>cp1252</project.build.sourceEncoding>
 		<spring.version>3.2.5.RELEASE</spring.version>
 		<java.version>1.7</java.version>
 		<joda-time.version>2.2</joda-time.version>
