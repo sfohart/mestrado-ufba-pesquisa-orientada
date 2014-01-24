@@ -46,18 +46,11 @@
   						<h:outputLink  class="btn" value="#{facesContext.externalContext.applicationContextPath}/account/account.jsf" style="margin-right: 10px" >
   							<f:param name="accountId" value="#{loginMB.loggedUser.id}" />
   							<span class="glyphicon glyphicon-user"></span> 
-  							<h:outputText
-  								rendered="#{loginMB.loggedUser.firstName != null and loginMB.loggedUser.login == null}"
-  								style="margin-left: 10px; vertical-align: middle" 
-  								value="#{loginMB.loggedUser.firstName}" />
-  							<h:outputText
-  								rendered="#{loginMB.loggedUser.firstName != null and loginMB.loggedUser.login != null}"
-  								style="margin-left: 10px; vertical-align: middle" 
-  								value="#{loginMB.loggedUser.firstName}" />
-  							<h:outputText
-  								rendered="#{loginMB.loggedUser.firstName == null and loginMB.loggedUser.login != null}"
-  								style="margin-left: 10px; vertical-align: middle" 
-  								value="#{loginMB.loggedUser.login}" />
+  							
+  							<ui:include src="/account/accountName.xhtml"  >
+  								<ui:param name="user" value="#{loginMB.loggedUser}"  />
+  							</ui:include>  							
+  							
   						</h:outputLink>
   						<h:commandLink class="btn" action="#{loginMB.signOut}" >
   							<span class="glyphicon glyphicon-log-out"></span> Sair

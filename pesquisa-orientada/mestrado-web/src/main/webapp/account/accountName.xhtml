@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!DOCTYPE html>
+<ui:composition 
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://xmlns.jcp.org/jsf/passthrough"
+	>
+	
+	<h:outputText
+		rendered="#{user.firstName != null and user.login == null}"
+		style="margin-left: 10px; " 
+		value="#{user.firstName}" />
+	<h:outputText
+		rendered="#{user.firstName != null and user.login != null}"
+		style="margin-left: 10px; " 
+		value="#{user.firstName}" />
+	<h:outputText
+		rendered="#{user.firstName == null and user.login != null}"
+		style="margin-left: 10px; " 
+		value="#{user.login}" />
+	
+	
+</ui:composition>

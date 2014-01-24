@@ -16,18 +16,10 @@
 		<h:panelGroup layout="block" styleClass="pull-left" rendered="#{hidingProject}" style="width: 13%">
 			<div class="pull-right" style="text-align: right;">
 				<h:outputLink value="#{facesContext.externalContext.applicationContextPath}/account/account.jsf?accountId=#{preference.user.id}">
-					<h:outputText
-						rendered="#{preference.user.firstName != null and preference.user.login == null}"
-						style="margin-left: 10px; vertical-align: middle" 
-						value="...#{preference.user.firstName}" />
-					<h:outputText
-						rendered="#{preference.user.firstName != null and preference.user.login != null}"
-						style="margin-left: 10px; vertical-align: middle" 
-						value="...#{preference.user.firstName}" />
-					<h:outputText
-						rendered="#{preference.user.firstName == null and preference.user.login != null}"
-						style="margin-left: 10px; vertical-align: middle" 
-						value="...#{preference.user.login}" />
+					
+					<ui:include src="/account/accountName.xhtml"  >
+						<ui:param name="user" value="#{preference.user}"  />
+					</ui:include>
 				</h:outputLink>
 				disse:
 			</div>
@@ -35,10 +27,14 @@
 			<br />
 			<!-- Foto do usuario -->
 			<h:panelGroup layout="block" rendered="#{ (preference.user.encodedEmail eq null) or (preference.user.encodedEmail eq '') }">
-				<h:graphicImage styleClass="media-object pull-right img-thumbnail" height="64" width="64" library="default" name="img/no_logo.png" />
+				<h:outputLink value="#{facesContext.externalContext.applicationContextPath}/account/account.jsf?accountId=#{preference.user.id}">
+					<h:graphicImage styleClass="media-object pull-right img-thumbnail" height="64" width="64" library="default" name="img/no_logo.png" />
+				</h:outputLink>
 			</h:panelGroup>
 			<h:panelGroup layout="block" rendered="#{ (preference.user.encodedEmail != null) and (preference.user.encodedEmail != '') }">
-				<h:graphicImage styleClass="media-object pull-right img-thumbnail" url="http://www.gravatar.com/avatar/#{preference.user.encodedEmail}.png?s=128&amp;d=mm" />
+				<h:outputLink value="#{facesContext.externalContext.applicationContextPath}/account/account.jsf?accountId=#{preference.user.id}">
+					<h:graphicImage styleClass="media-object pull-right img-thumbnail" url="http://www.gravatar.com/avatar/#{preference.user.encodedEmail}.png?s=64&amp;d=mm" />
+				</h:outputLink>
 			</h:panelGroup>
 		</h:panelGroup>
 		

@@ -14,7 +14,9 @@ import javax.faces.event.ComponentSystemEvent;
 import br.ufba.dcc.mestrado.computacao.entities.ohloh.project.OhLohProjectEntity;
 import br.ufba.dcc.mestrado.computacao.entities.recommender.preference.PreferenceEntity;
 import br.ufba.dcc.mestrado.computacao.entities.recommender.user.UserEntity;
+import br.ufba.dcc.mestrado.computacao.service.base.OhLohProjectService;
 import br.ufba.dcc.mestrado.computacao.service.base.OverallPreferenceService;
+import br.ufba.dcc.mestrado.computacao.service.base.UserService;
 import br.ufba.dcc.mestrado.computacao.service.basic.RepositoryBasedUserDetailsService;
 import br.ufba.dcc.mestrado.computacao.web.pagination.LazyLoadingDataModel;
 import br.ufba.dcc.mestrado.computacao.web.pagination.PageList;
@@ -37,6 +39,12 @@ public class ProjectReviewListManagedBean extends AbstractListingManagedBean<Lon
 	
 	@ManagedProperty("#{overallPreferenceService}")
 	private OverallPreferenceService preferenceService;
+	
+	@ManagedProperty("#{ohLohProjectService}")
+	private OhLohProjectService projectService;
+	
+	@ManagedProperty("#{userService}")
+	private UserService userService;
 	
 	private boolean orderByRegisteredAt;
 	private boolean orderByReviewRanking;
@@ -82,6 +90,22 @@ public class ProjectReviewListManagedBean extends AbstractListingManagedBean<Lon
 		this.preferenceService = preferenceService;
 	}
 	
+	public OhLohProjectService getProjectService() {
+		return projectService;
+	}
+	
+	public void setProjectService(OhLohProjectService projectService) {
+		this.projectService = projectService;
+	}
+	
+	public UserService getUserService() {
+		return userService;
+	}
+	
+	public void setUserService(UserService userService) {
+		this.userService = userService;
+	}
+	
 	public boolean isOrderByRegisteredAt() {
 		return orderByRegisteredAt;
 	}
@@ -112,6 +136,14 @@ public class ProjectReviewListManagedBean extends AbstractListingManagedBean<Lon
 		final boolean validUser = (getUser() != null && getUser().getId() != null);
 		
 		if (validProject || validUser) {
+			
+			if (validProject) {
+				this.project = getProjectService().findById(getProject().getId());
+			}
+			
+			if (validUser) {
+				this.user = getUserService().findById(getUser().getId());
+			}
 			
 			this.dataModel = new LazyLoadingDataModel<Long, PreferenceEntity>() {
 
