@@ -1,5 +1,8 @@
 package br.ufba.dcc.mestrado.computacao.entities.recommender.user;
 
+import java.io.UnsupportedEncodingException;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.sql.Timestamp;
 import java.util.List;
 
@@ -16,6 +19,9 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
+
+import org.apache.commons.codec.binary.Hex;
+import org.apache.commons.lang3.StringUtils;
 
 import br.ufba.dcc.mestrado.computacao.entities.BaseEntity;
 import br.ufba.dcc.mestrado.computacao.entities.ohloh.account.OhLohAccountEntity;
@@ -228,6 +234,22 @@ public class UserEntity implements BaseEntity<Long>{
 		this.middleName = middleName;
 	}
 	
-	
+	public String getEncodedEmail() {
+		String encoded = "";
+		
+		try {
+			MessageDigest messageDigest = MessageDigest.getInstance("MD5");
+			
+			byte[] bytes = getEmail().getBytes("CP1252");
+			encoded = Hex.encodeHexString(messageDigest.digest(bytes));
+			
+		} catch (NoSuchAlgorithmException e) {
+			e.printStackTrace();
+		} catch (UnsupportedEncodingException e) {
+			e.printStackTrace();
+		}
+		
+		return encoded;
+	}
 	
 }

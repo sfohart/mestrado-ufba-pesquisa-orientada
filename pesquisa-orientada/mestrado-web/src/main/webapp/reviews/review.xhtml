@@ -34,7 +34,12 @@
 			
 			<br />
 			<!-- Foto do usuario -->
-			<h:graphicImage layout="block" styleClass="media-object pull-right img-thumbnail" height="64" width="64" library="default" name="img/no_logo.png" />	
+			<h:panelGroup layout="block" rendered="#{ (preference.user.encodedEmail eq null) or (preference.user.encodedEmail eq '') }">
+				<h:graphicImage styleClass="media-object pull-right img-thumbnail" height="64" width="64" library="default" name="img/no_logo.png" />
+			</h:panelGroup>
+			<h:panelGroup layout="block" rendered="#{ (preference.user.encodedEmail != null) and (preference.user.encodedEmail != '') }">
+				<h:graphicImage styleClass="media-object pull-right img-thumbnail" url="http://www.gravatar.com/avatar/#{preference.user.encodedEmail}.png?s=128&amp;d=mm" />
+			</h:panelGroup>
 		</h:panelGroup>
 		
 		<h:panelGroup styleClass="pull-left" rendered="#{hidingUser}" style="width: 13%">
