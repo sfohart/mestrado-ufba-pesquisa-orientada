@@ -26,7 +26,7 @@
 					<ui:include src="/layout/carousel.xhtml"  />
 					
 					
-					<h:panelGroup layout="block" rendered="#{not empty indexMB.topTenReviewedProjectList}">
+					<h:panelGroup layout="block" rendered="#{(not empty indexMB.topTenReviewedProjectList) or (not empty indexMB.topTenViewedProjectList)}">
 						<hr/>
 						
 						<div class="row">
@@ -71,10 +71,51 @@
 								</h:panelGroup>
 								
 								<h:panelGroup layout="block" rendered="#{empty indexMB.topTenReviewedProjectList}">
+								</h:panelGroup>								
+							</div>
+							
+							<div class="col-md-4">
+								<h:panelGroup layout="block" rendered="#{not empty indexMB.topTenViewedProjectList}">
+									<h3 class="mostViewedProject">Projetos mais vistos</h3>
+									<ui:repeat var="pageViewInfo" value="#{indexMB.topTenViewedProjectList}">
+										<ui:param name="widthValue" value="#{ (pageViewInfo.pageViewCount * 80) / indexMB.mostViewedProjectDetailInfo.pageViewCount}" />
+										<div>
+											<div class="pull-left col-md-2">
+												<h:outputLink
+													value="#{facesContext.externalContext.applicationContextPath}/detail/projectDetail.jsf" 
+													rendered="#{pageViewInfo.project.mediumLogoURL != 'no_logo.png'}">
+													<f:param name="projectId" value="#{pageViewInfo.project.id}" />													
+													<img class="media-object" src="#{pageViewInfo.project.mediumLogoURL}" height="32" width="32" />
+												</h:outputLink>
+												<h:outputLink  
+													value="#{facesContext.externalContext.applicationContextPath}/detail/projectDetail.jsf"
+													rendered="#{pageViewInfo.project.mediumLogoURL eq 'no_logo.png'}">
+													<f:param name="projectId" value="#{pageViewInfo.project.id}" />
+													<h:graphicImage styleClass="media-object" height="32" width="32" library="default" name="img/no_logo.png" />													
+												</h:outputLink>
+											</div>
+											<div class="col-md-10">
+												<h:outputLink  
+													value="#{facesContext.externalContext.applicationContextPath}/detail/projectDetail.jsf">
+													<f:param name="projectId" value="#{pageViewInfo.project.id}" />
+													<h:outputText value="#{pageViewInfo.project.name} "  />
+													<h:outputText value="(#{pageViewInfo.pageViewCount} visualizações)"  rendered="#{pageViewInfo.pageViewCount > 1}" />
+													<h:outputText value="(#{pageViewInfo.pageViewCount} visualização)" rendered="#{pageViewInfo.pageViewCount eq 1}"  />
+												</h:outputLink>
+												<div class="progress progress-striped active" style="height: 10px">
+													<div class="progress-bar progress-bar-info"  p:role="progressbar" 
+														p:aria-valuenow="#{widthValue}" p:aria-valuemin="0" p:aria-valuemax="100"
+														style="width: #{widthValue}%; " 
+														>
+													</div>
+												</div>
+											</div>
+										</div>
+									</ui:repeat>
 								</h:panelGroup>
 								
-							</div>
-							<div class="col-md-4">
+								<h:panelGroup layout="block" rendered="#{empty indexMB.topTenViewedProjectList}">
+								</h:panelGroup>	
 							</div>
 							<div class="col-md-4">
 							</div>

@@ -39,6 +39,9 @@
 		<class>br.ufba.dcc.mestrado.computacao.entities.recommender.preference.PreferenceReviewEntity</class>
 		<class>br.ufba.dcc.mestrado.computacao.entities.recommender.user.UserEntity</class>
 		
+		<class>br.ufba.dcc.mestrado.computacao.entities.web.pageview.PageViewEntity</class>
+		<class>br.ufba.dcc.mestrado.computacao.entities.web.pageview.ProjectDetailPageViewEntity</class>
+		
 		<exclude-unlisted-classes>false</exclude-unlisted-classes>
 	</persistence-unit>
 </persistence>

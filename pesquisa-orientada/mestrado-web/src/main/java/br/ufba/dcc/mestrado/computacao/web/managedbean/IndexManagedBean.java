@@ -9,10 +9,12 @@ import javax.faces.bean.ViewScoped;
 import javax.faces.event.ComponentSystemEvent;
 
 import br.ufba.dcc.mestrado.computacao.entities.recommender.preference.ProjectPreferenceInfo;
+import br.ufba.dcc.mestrado.computacao.entities.web.pageview.ProjectDetailPageViewInfo;
 import br.ufba.dcc.mestrado.computacao.service.base.OhLohProjectService;
 import br.ufba.dcc.mestrado.computacao.service.base.OverallPreferenceService;
 import br.ufba.dcc.mestrado.computacao.service.base.RecommenderCriteriumService;
 import br.ufba.dcc.mestrado.computacao.service.base.UserService;
+import br.ufba.dcc.mestrado.computacao.service.basic.ProjectDetailPageViewService;
 
 @ManagedBean(name="indexMB")
 @ViewScoped
@@ -35,18 +37,29 @@ public class IndexManagedBean implements Serializable {
 	@ManagedProperty("#{recommenderCriteriumService}")
 	private RecommenderCriteriumService recommenderCriteriumService;
 	
+	@ManagedProperty("#{projectDetailPageViewService}")
+	private ProjectDetailPageViewService pageViewService;
 	
 	private List<ProjectPreferenceInfo> topTenReviewedProjectList;
+	private List<ProjectDetailPageViewInfo> topTenViewedProjectList;
 	
 	private ProjectPreferenceInfo mostReviewedProjectPreferenceInfo;
+	private ProjectDetailPageViewInfo mostViewedProjectDetailInfo;
 		
 	public IndexManagedBean() {
 	}
 
 	public void init(ComponentSystemEvent event) {
 		this.topTenReviewedProjectList = getOverallPreferenceService().findAllProjectPreferenceInfo(0, 10);
+		this.topTenViewedProjectList = getPageViewService().findAllProjectDetailPageViewInfo(0, 10);
+		
+		
 		if (this.topTenReviewedProjectList != null && ! this.topTenReviewedProjectList.isEmpty()) {
 			this.mostReviewedProjectPreferenceInfo = this.topTenReviewedProjectList.get(0);
+		}
+		
+		if (this.topTenViewedProjectList != null && ! this.topTenViewedProjectList.isEmpty()) {
+			this.mostViewedProjectDetailInfo = this.topTenViewedProjectList.get(0);
 		}
 	}
 	
@@ -84,6 +97,14 @@ public class IndexManagedBean implements Serializable {
 		this.recommenderCriteriumService = recommenderCriteriumService;
 	}
 	
+	public ProjectDetailPageViewService getPageViewService() {
+		return pageViewService;
+	}
+	
+	public void setPageViewService(ProjectDetailPageViewService pageViewService) {
+		this.pageViewService = pageViewService;
+	}
+	
 	public Long getProjectCount() {
 		return getOhLohProjectService().countAll();
 	}
@@ -106,6 +127,14 @@ public class IndexManagedBean implements Serializable {
 	
 	public ProjectPreferenceInfo getMostReviewedProjectPreferenceInfo() {
 		return mostReviewedProjectPreferenceInfo;
+	}
+	
+	public List<ProjectDetailPageViewInfo> getTopTenViewedProjectList() {
+		return topTenViewedProjectList;
+	}
+	
+	public ProjectDetailPageViewInfo getMostViewedProjectDetailInfo() {
+		return mostViewedProjectDetailInfo;
 	}
 	
 }

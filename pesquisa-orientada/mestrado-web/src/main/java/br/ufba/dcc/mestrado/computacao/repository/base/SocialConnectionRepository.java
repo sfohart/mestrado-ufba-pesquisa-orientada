@@ -1,4 +1,4 @@
-package br.ufba.dcc.mestrado.computacao.repository.basic;
+package br.ufba.dcc.mestrado.computacao.repository.base;
 
 import org.springframework.social.connect.ConnectionRepository;
 

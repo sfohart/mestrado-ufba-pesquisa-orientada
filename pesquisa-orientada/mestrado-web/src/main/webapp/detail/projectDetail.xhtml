@@ -114,10 +114,10 @@
 									<dd style="margin-bottom: .5em;">
 									
 										<h:panelGroup  layout="block" rendered="#{projectDetailMB.linkCount eq 1}">
-											<ui:repeat var="enlistment" value="#{projectDetailMB.linkList}" >
-												<h:link value="#{enlistment.ohLohRepository.url}" >
-													<h:outputText value="#{enlistment.ohLohRepository.url}" />
-												</h:link>
+											<ui:repeat var="link" value="#{projectDetailMB.linkList}" >
+												<a href="#{link.url}" >
+													<h:outputText value="#{link.title}" />
+												</a>
 											</ui:repeat>
 										</h:panelGroup>			
 																	

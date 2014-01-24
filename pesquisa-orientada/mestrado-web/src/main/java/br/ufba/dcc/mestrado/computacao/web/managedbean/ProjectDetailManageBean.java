@@ -1,12 +1,15 @@
 package br.ufba.dcc.mestrado.computacao.web.managedbean;
 
 import java.io.Serializable;
+import java.sql.Timestamp;
 import java.util.List;
 
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
+import javax.faces.context.FacesContext;
 import javax.faces.event.ComponentSystemEvent;
+import javax.servlet.http.HttpServletRequest;
 
 import br.ufba.dcc.mestrado.computacao.entities.ohloh.analysis.OhLohAnalysisLanguagesEntity;
 import br.ufba.dcc.mestrado.computacao.entities.ohloh.enlistment.OhLohEnlistmentEntity;
@@ -15,12 +18,14 @@ import br.ufba.dcc.mestrado.computacao.entities.ohloh.project.OhLohLinkEntity;
 import br.ufba.dcc.mestrado.computacao.entities.ohloh.project.OhLohProjectEntity;
 import br.ufba.dcc.mestrado.computacao.entities.recommender.preference.PreferenceEntity;
 import br.ufba.dcc.mestrado.computacao.entities.recommender.user.UserEntity;
+import br.ufba.dcc.mestrado.computacao.entities.web.pageview.ProjectDetailPageViewEntity;
 import br.ufba.dcc.mestrado.computacao.service.base.CriteriumPreferenceService;
 import br.ufba.dcc.mestrado.computacao.service.base.OhLohAnalysisService;
 import br.ufba.dcc.mestrado.computacao.service.base.OhLohEnlistmentService;
 import br.ufba.dcc.mestrado.computacao.service.base.OhLohLinkService;
 import br.ufba.dcc.mestrado.computacao.service.base.OhLohProjectService;
 import br.ufba.dcc.mestrado.computacao.service.base.OverallPreferenceService;
+import br.ufba.dcc.mestrado.computacao.service.basic.ProjectDetailPageViewService;
 import br.ufba.dcc.mestrado.computacao.service.basic.RepositoryBasedUserDetailsService;
 
 @ManagedBean(name="projectDetailMB", eager=true)
@@ -52,6 +57,9 @@ public class ProjectDetailManageBean implements Serializable {
 	
 	@ManagedProperty("#{repositoryBasedUserDetailsService}")
 	private RepositoryBasedUserDetailsService userDetailsService;
+		
+	@ManagedProperty("#{projectDetailPageViewService}")
+	private ProjectDetailPageViewService pageViewService;
 	
 	private OhLohProjectEntity project;
 	private List<OhLohFactoidEntity> factoidList;
@@ -75,10 +83,27 @@ public class ProjectDetailManageBean implements Serializable {
 		this.averagePreference = new PreferenceEntity();
 	}
 	
+	protected void savePageViewInfo() throws Exception {
+		HttpServletRequest request = 
+				(HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
+		
+		ProjectDetailPageViewEntity pageViewEntity = new ProjectDetailPageViewEntity();
+		
+		UserEntity user = getUserDetailsService().loadFullLoggedUser();
+		pageViewEntity.setUser(user);
+		pageViewEntity.setProject(getProject());
+		pageViewEntity.setViewedAt(new Timestamp(System.currentTimeMillis()));
+		pageViewEntity.setIpAddress(request.getRemoteAddr());
+		
+		getPageViewService().save(pageViewEntity);
+		
+	}
+	
 	public void init(ComponentSystemEvent event) {
 		if (getProject() != null && getProject().getId() != null) {
 			this.project = getProjectService().findById(getProject().getId());
 			
+						
 			if (getProject().getDescription() != null) {
 				this.projectDescritionParagraphs = getProject().getDescription().split("\n");
 			}
@@ -106,6 +131,12 @@ public class ProjectDetailManageBean implements Serializable {
 			this.averagePreference = getOverallPreferenceService().averagePreferenceByProject(getProject().getId());
 			if (currentUser != null) {
 				this.userPreference = getOverallPreferenceService().findLastByProjectAndUser(getProject().getId(), currentUser.getId());
+			}
+			
+			try {
+				savePageViewInfo();
+			} catch (Exception e) {
+				e.printStackTrace();
 			}
 			
 		}
@@ -176,6 +207,14 @@ public class ProjectDetailManageBean implements Serializable {
 	public void setUserDetailsService(
 			RepositoryBasedUserDetailsService userDetailsService) {
 		this.userDetailsService = userDetailsService;
+	}
+	
+	public ProjectDetailPageViewService getPageViewService() {
+		return pageViewService;
+	}
+	
+	public void setPageViewService(ProjectDetailPageViewService pageViewService) {
+		this.pageViewService = pageViewService;
 	}
 	
 	public OhLohProjectEntity getProject() {
