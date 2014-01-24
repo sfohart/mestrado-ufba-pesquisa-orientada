@@ -43,7 +43,7 @@
 		</h:panelGroup>
 		
 		<h:panelGroup styleClass="pull-left" rendered="#{hidingUser}" style="width: 13%">
-			<div style="margin-left: 15px">
+			<div style="margin-left: 15px" class="row">
 				<h:outputLink styleClass="pull-left" rendered="#{preference.project.mediumLogoURL != 'no_logo.png'}">													
 					<img class="media-object" src="#{preference.project.mediumLogoURL}" height="64px" width="64px" />
 				</h:outputLink>
@@ -51,9 +51,11 @@
 					<h:graphicImage styleClass="media-object" height="64" width="64" library="default" name="img/#{preference.project.mediumLogoURL}" />													
 				</h:outputLink>
 			</div>
-			
-			<div style="margin-left: 15px">
-				<h:outputText value="#{preference.project.name}" />
+			<div style="margin-left: 15px" class="row">
+				<h:outputLink value="#{facesContext.externalContext.applicationContextPath}/detail/projectDetail.jsf" class="pull-left">
+					<f:param name="projectId" value="#{preference.project.id}" />
+					<h4><h:outputText value="#{preference.project.name}" style="font-size: 14px" /></h4>														
+				</h:outputLink>
 			</div>
 			
 		</h:panelGroup>
