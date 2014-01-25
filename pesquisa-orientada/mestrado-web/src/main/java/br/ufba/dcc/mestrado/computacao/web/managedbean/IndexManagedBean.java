@@ -64,7 +64,7 @@ public class IndexManagedBean implements Serializable {
 		this.projectViewedList = getPageViewService().findAllProjectRecentlyViewed(
 				getUserDetailsService().loadFullLoggedUser(), 
 				0, 
-				5);
+				6);
 		
 		if (this.topTenReviewedProjectList != null && ! this.topTenReviewedProjectList.isEmpty()) {
 			this.mostReviewedProjectPreferenceInfo = this.topTenReviewedProjectList.get(0);
