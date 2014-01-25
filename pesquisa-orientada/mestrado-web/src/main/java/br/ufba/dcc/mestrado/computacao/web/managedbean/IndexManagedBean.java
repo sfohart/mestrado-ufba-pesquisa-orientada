@@ -8,6 +8,7 @@ import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
 import javax.faces.event.ComponentSystemEvent;
 
+import br.ufba.dcc.mestrado.computacao.entities.ohloh.project.OhLohProjectEntity;
 import br.ufba.dcc.mestrado.computacao.entities.recommender.preference.ProjectPreferenceInfo;
 import br.ufba.dcc.mestrado.computacao.entities.web.pageview.ProjectDetailPageViewInfo;
 import br.ufba.dcc.mestrado.computacao.service.base.OhLohProjectService;
@@ -15,6 +16,7 @@ import br.ufba.dcc.mestrado.computacao.service.base.OverallPreferenceService;
 import br.ufba.dcc.mestrado.computacao.service.base.RecommenderCriteriumService;
 import br.ufba.dcc.mestrado.computacao.service.base.UserService;
 import br.ufba.dcc.mestrado.computacao.service.basic.ProjectDetailPageViewService;
+import br.ufba.dcc.mestrado.computacao.service.basic.RepositoryBasedUserDetailsService;
 
 @ManagedBean(name="indexMB")
 @ViewScoped
@@ -31,6 +33,9 @@ public class IndexManagedBean implements Serializable {
 	@ManagedProperty("#{userService}")
 	private UserService userService;
 	
+	@ManagedProperty("#{repositoryBasedUserDetailsService}")
+	private RepositoryBasedUserDetailsService userDetailsService;
+	
 	@ManagedProperty("#{overallPreferenceService}")
 	private OverallPreferenceService overallPreferenceService;
 	
@@ -43,6 +48,8 @@ public class IndexManagedBean implements Serializable {
 	private List<ProjectPreferenceInfo> topTenReviewedProjectList;
 	private List<ProjectDetailPageViewInfo> topTenViewedProjectList;
 	
+	private List<OhLohProjectEntity> projectViewedList;
+	
 	private ProjectPreferenceInfo mostReviewedProjectPreferenceInfo;
 	private ProjectDetailPageViewInfo mostViewedProjectDetailInfo;
 		
@@ -53,6 +60,11 @@ public class IndexManagedBean implements Serializable {
 		this.topTenReviewedProjectList = getOverallPreferenceService().findAllProjectPreferenceInfo(0, 10);
 		this.topTenViewedProjectList = getPageViewService().findAllProjectDetailPageViewInfo(0, 10);
 		
+		
+		this.projectViewedList = getPageViewService().findAllProjectRecentlyViewed(
+				getUserDetailsService().loadFullLoggedUser(), 
+				0, 
+				5);
 		
 		if (this.topTenReviewedProjectList != null && ! this.topTenReviewedProjectList.isEmpty()) {
 			this.mostReviewedProjectPreferenceInfo = this.topTenReviewedProjectList.get(0);
@@ -77,6 +89,15 @@ public class IndexManagedBean implements Serializable {
 	
 	public void setUserService(UserService userService) {
 		this.userService = userService;
+	}
+	
+	public RepositoryBasedUserDetailsService getUserDetailsService() {
+		return userDetailsService;
+	}
+	
+	public void setUserDetailsService(
+			RepositoryBasedUserDetailsService userDetailsService) {
+		this.userDetailsService = userDetailsService;
 	}
 	
 	public OverallPreferenceService getOverallPreferenceService() {
@@ -135,6 +156,10 @@ public class IndexManagedBean implements Serializable {
 	
 	public ProjectDetailPageViewInfo getMostViewedProjectDetailInfo() {
 		return mostViewedProjectDetailInfo;
+	}
+
+	public List<OhLohProjectEntity> getProjectViewedList() {
+		return projectViewedList;
 	}
 	
 }

@@ -2,6 +2,8 @@ package br.ufba.dcc.mestrado.computacao.repository.base;
 
 import java.util.List;
 
+import br.ufba.dcc.mestrado.computacao.entities.ohloh.project.OhLohProjectEntity;
+import br.ufba.dcc.mestrado.computacao.entities.recommender.user.UserEntity;
 import br.ufba.dcc.mestrado.computacao.entities.web.pageview.ProjectDetailPageViewEntity;
 import br.ufba.dcc.mestrado.computacao.entities.web.pageview.ProjectDetailPageViewInfo;
 
@@ -9,5 +11,11 @@ public interface ProjectDetailPageViewRepository extends BaseRepository<Long, Pr
 	
 	List<ProjectDetailPageViewInfo> findAllProjectDetailPageViewInfo();
 	List<ProjectDetailPageViewInfo> findAllProjectDetailPageViewInfo(Integer startAt, Integer offset);
+	
+	
+	List<OhLohProjectEntity> findAllProjectRecentlyViewed(
+			UserEntity user,
+			Integer startAt, 
+			Integer offset);
 	
 }

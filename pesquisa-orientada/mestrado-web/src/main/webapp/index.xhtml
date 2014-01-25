@@ -122,6 +122,56 @@
 						</div>
 					</h:panelGroup>
 					
+					<h:panelGroup layout="block" rendered="#{not empty indexMB.projectViewedList}">
+						<hr/>
+					
+						<h3>Projetos recentemente vistos por você</h3>
+						<div class="row">
+							<ui:repeat var="viewedProject" value="#{indexMB.projectViewedList}" >
+								<div class="col-md-4" >
+									<div class="media" style="margin-bottom: 20px">
+										<h:outputLink styleClass="pull-left"
+											value="#{facesContext.externalContext.applicationContextPath}/detail/projectDetail.jsf" 
+											rendered="#{viewedProject.mediumLogoURL != 'no_logo.png'}">
+											<f:param name="projectId" value="#{viewedProject.id}" />													
+											<img class="media-object" src="#{viewedProject.mediumLogoURL}" height="64" width="64" />
+										</h:outputLink>
+										<h:outputLink   styleClass="pull-left"
+											value="#{facesContext.externalContext.applicationContextPath}/detail/projectDetail.jsf"
+											rendered="#{viewedProject.mediumLogoURL eq 'no_logo.png'}">
+											<f:param name="projectId" value="#{viewedProject.id}" />
+											<h:graphicImage styleClass="media-object" height="64" width="64" library="default" name="img/no_logo.png" />													
+										</h:outputLink>
+										
+										<div class="media-body" style="min-height: 64px">
+											<h4 class="media-heading">
+												<h:outputLink value="#{facesContext.externalContext.applicationContextPath}/detail/projectDetail.jsf">
+													<f:param name="projectId" value="#{viewedProject.id}" />
+													<h:outputText value="#{viewedProject.name}"  />
+												</h:outputLink>
+											</h4>														
+											<div class="expandable">
+												<p>
+													<h:outputText value="#{viewedProject.description}" />
+												</p>
+											</div>
+										</div>
+									</div>									
+								</div>
+							</ui:repeat>
+							
+							<!-- leia mais para a descricao do projeto -->
+							<script>
+								$('div.expandable p').expander({
+									slicePoint: 150,
+									expandText: '[Leia mais]',
+									userCollapseText: '[Esconder]'
+								});
+							</script>
+						</div>
+						
+					</h:panelGroup>
+
 					<hr/>
 					
 					<div class="row">

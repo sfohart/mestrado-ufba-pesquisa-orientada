@@ -1,5 +1,6 @@
 package br.ufba.dcc.mestrado.computacao.repository.impl;
 
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -10,14 +11,16 @@ import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Expression;
 import javax.persistence.criteria.Join;
 import javax.persistence.criteria.JoinType;
-import javax.persistence.criteria.Path;
+import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
+import javax.persistence.criteria.Subquery;
 
 import org.hibernate.ejb.criteria.OrderImpl;
 import org.springframework.stereotype.Repository;
 
 import br.ufba.dcc.mestrado.computacao.entities.ohloh.project.OhLohProjectEntity;
 import br.ufba.dcc.mestrado.computacao.entities.recommender.preference.PreferenceEntity;
+import br.ufba.dcc.mestrado.computacao.entities.recommender.user.UserEntity;
 import br.ufba.dcc.mestrado.computacao.entities.web.pageview.ProjectDetailPageViewEntity;
 import br.ufba.dcc.mestrado.computacao.entities.web.pageview.ProjectDetailPageViewInfo;
 import br.ufba.dcc.mestrado.computacao.repository.base.ProjectDetailPageViewRepository;
@@ -37,6 +40,61 @@ public class ProjectDetailPageViewRepositoryImpl
 
 	public ProjectDetailPageViewRepositoryImpl() {
 		super(ProjectDetailPageViewEntity.class);
+	}
+	
+	
+	public List<OhLohProjectEntity> findAllProjectRecentlyViewed(
+			UserEntity user,
+			Integer startAt, 
+			Integer offset) {
+		
+		List<OhLohProjectEntity> result = null;
+		
+		if (user != null) {
+			
+			CriteriaBuilder criteriaBuilder = getEntityManager().getCriteriaBuilder();
+			CriteriaQuery<OhLohProjectEntity> criteriaQuery = criteriaBuilder.createQuery(OhLohProjectEntity.class);
+			
+			Root<ProjectDetailPageViewEntity> root = criteriaQuery.from(getEntityClass());
+			
+			Join<ProjectDetailPageViewEntity, OhLohProjectEntity> projectJoin = root.join("project", JoinType.INNER);
+			Join<ProjectDetailPageViewEntity, UserEntity> userJoin = root.join("user", JoinType.INNER);
+			
+			criteriaQuery.select(projectJoin);
+						
+			//Subquery pra selecionar apenas os projetos mais recentes
+			
+			Subquery<Timestamp> viewedAtSubquery = criteriaQuery.subquery(Timestamp.class);
+			Root<ProjectDetailPageViewEntity> subqueryRoot = viewedAtSubquery.from(ProjectDetailPageViewEntity.class);
+			Expression<Timestamp> greatestViewedAt = subqueryRoot.get("viewedAt");
+			
+			viewedAtSubquery.select(criteriaBuilder.greatest((greatestViewedAt)));
+			viewedAtSubquery.where(
+					criteriaBuilder.equal(root.get("projectId"), subqueryRoot.get("projectId")),
+					criteriaBuilder.equal(root.get("userId"), subqueryRoot.get("userId"))
+				);
+			criteriaQuery.orderBy(criteriaBuilder.desc(root.get("viewedAt")));
+			
+			Predicate registeredAtPredicate = criteriaBuilder.equal(root.get("viewedAt"), viewedAtSubquery);
+			criteriaQuery.where(registeredAtPredicate);
+			
+			TypedQuery<OhLohProjectEntity> typedQuery = getEntityManager().createQuery(criteriaQuery);
+			
+			if (offset != null) {
+				typedQuery.setMaxResults(offset);
+			}
+			
+			if (startAt != null) {
+				typedQuery.setFirstResult(startAt);
+			}
+			
+			result = typedQuery.getResultList();
+		}
+		
+		
+		
+		return result;
+		
 	}
 	
 	@Override
