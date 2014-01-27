@@ -41,53 +41,55 @@ public class SearchServiceImpl implements SearchService {
 		if (searchRequest != null && searchRequest.getQuery() != null) {
 			FullTextQuery fullTextQuery = projectRepository.findAllByFullTextQuery(searchRequest.getQuery());
 			
-			FacetManager facetManager = fullTextQuery.getFacetManager();
-			
-			FacetingRequest facetingRequest = projectRepository.createTagFacetingRequest();
-			facetManager.enableFaceting(facetingRequest);
-			
-			List<Facet> tagFacets = facetManager.getFacets(facetingRequest.getFacetingName());
-			
-			Comparator<Facet> inverseComparator = new Comparator<Facet>() {
-				@Override
-				public int compare(Facet facet1, Facet facet2) {
-					int result = 0;
-					
-					if (facet1.getCount() > facet2.getCount()) {
-						result = -1;
-					} else if (facet2.getCount() > facet1.getCount()) {
-						return 1;
+			if (fullTextQuery != null) {
+				FacetManager facetManager = fullTextQuery.getFacetManager();
+				
+				FacetingRequest facetingRequest = projectRepository.createTagFacetingRequest();
+				facetManager.enableFaceting(facetingRequest);
+				
+				List<Facet> tagFacets = facetManager.getFacets(facetingRequest.getFacetingName());
+				
+				Comparator<Facet> inverseComparator = new Comparator<Facet>() {
+					@Override
+					public int compare(Facet facet1, Facet facet2) {
+						int result = 0;
+						
+						if (facet1.getCount() > facet2.getCount()) {
+							result = -1;
+						} else if (facet2.getCount() > facet1.getCount()) {
+							return 1;
+						}
+						
+						return result;
 					}
-					
-					return result;
+				};
+				
+				Collections.sort(tagFacets, inverseComparator);
+				
+				if (searchRequest.getStartPosition() != null && searchRequest.getStartPosition() > 0) {
+					fullTextQuery.setFirstResult(searchRequest.getStartPosition());
 				}
-			};
-			
-			Collections.sort(tagFacets, inverseComparator);
-			
-			if (searchRequest.getStartPosition() != null && searchRequest.getStartPosition() > 0) {
-				fullTextQuery.setFirstResult(searchRequest.getStartPosition());
+				
+				if (searchRequest.getMaxResult() != null && searchRequest.getMaxResult() > 0) {
+					fullTextQuery.setMaxResults(searchRequest.getMaxResult());
+				}
+				
+				if (searchRequest.getSelectedFacets() != null && ! searchRequest.getSelectedFacets().isEmpty()) {
+					FacetSelection facetSelection = facetManager.getFacetGroup(facetingRequest.getFacetingName());
+					facetSelection.selectFacets(searchRequest.getSelectedFacets().toArray(new Facet[0]));
+				}
+				
+				if (searchRequest.getDeselectedFacets() != null && ! searchRequest.getDeselectedFacets().isEmpty()) {
+					FacetSelection facetSelection = facetManager.getFacetGroup(facetingRequest.getFacetingName());
+					facetSelection.deselectFacets(searchRequest.getDeselectedFacets().toArray(new Facet[0]));
+				}
+				
+				Integer totalResults = fullTextQuery.getResultSize();
+				
+				List<OhLohProjectEntity> projectList = fullTextQuery.getResultList();		
+				
+				searchResult = new SearchResponse(tagFacets, projectList, totalResults);
 			}
-			
-			if (searchRequest.getMaxResult() != null && searchRequest.getMaxResult() > 0) {
-				fullTextQuery.setMaxResults(searchRequest.getMaxResult());
-			}
-			
-			if (searchRequest.getSelectedFacets() != null && ! searchRequest.getSelectedFacets().isEmpty()) {
-				FacetSelection facetSelection = facetManager.getFacetGroup(facetingRequest.getFacetingName());
-				facetSelection.selectFacets(searchRequest.getSelectedFacets().toArray(new Facet[0]));
-			}
-			
-			if (searchRequest.getDeselectedFacets() != null && ! searchRequest.getDeselectedFacets().isEmpty()) {
-				FacetSelection facetSelection = facetManager.getFacetGroup(facetingRequest.getFacetingName());
-				facetSelection.deselectFacets(searchRequest.getDeselectedFacets().toArray(new Facet[0]));
-			}
-			
-			Integer totalResults = fullTextQuery.getResultSize();
-			
-			List<OhLohProjectEntity> projectList = fullTextQuery.getResultList();		
-			
-			searchResult = new SearchResponse(tagFacets, projectList, totalResults);
 		}
 		
 		return searchResult;

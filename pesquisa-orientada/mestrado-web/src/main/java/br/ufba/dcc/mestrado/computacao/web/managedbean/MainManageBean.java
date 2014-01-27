@@ -103,18 +103,25 @@ public class MainManageBean extends AbstractListingManagedBean<Long, OhLohProjec
 					
 					SearchResponse searchResponse = getSearchService().findAllProjects(getSearchRequest());
 					
-					List<OhLohProjectEntity> data = searchResponse.getProjectList();
-					this.setWrappedData(data);
+					PageList pageList = null;
 					
-					getSearchRequest().getDeselectedFacets().clear();
-					getSearchRequest().getDeselectedFacets().addAll(searchResponse.getTagFacetsList());
-					getSearchRequest().getDeselectedFacets().removeAll(getSearchRequest().getSelectedFacets());
+					if (searchResponse != null) {
+						List<OhLohProjectEntity> data = searchResponse.getProjectList();
+						this.setWrappedData(data);
+						
+						getSearchRequest().getDeselectedFacets().clear();
+						getSearchRequest().getDeselectedFacets().addAll(searchResponse.getTagFacetsList());
+						getSearchRequest().getDeselectedFacets().removeAll(getSearchRequest().getSelectedFacets());
+						
+						this.setRowCount(data.size());
+						
+						Integer currentPage = (startPosition / maxResult) + 1;
+						
+						pageList = new PageList(currentPage, searchResponse.getTotalResults(), maxResult);
+					} else {
+						pageList = new PageList();
+					}
 					
-					this.setRowCount(data.size());
-					
-					Integer currentPage = (startPosition / maxResult) + 1;
-					
-					PageList pageList = new PageList(currentPage, searchResponse.getTotalResults(), maxResult);
 					setPageList(pageList);
 				}
 			};

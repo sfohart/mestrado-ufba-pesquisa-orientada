@@ -6,6 +6,7 @@ import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 
+import org.hibernate.search.errors.EmptyQueryException;
 import org.hibernate.search.jpa.FullTextEntityManager;
 import org.hibernate.search.jpa.FullTextQuery;
 import org.hibernate.search.jpa.Search;
@@ -115,30 +116,36 @@ public class OhLohProjectRepositoryImpl
 				.forEntity(OhLohProjectEntity.class)
 				.get();
 		
-		org.apache.lucene.search.Query luceneQuery = queryBuilder
-				.keyword()
-				.onField(SearchFieldsEnum.projectName.fieldName())
-					.boostedTo(SearchFieldsEnum.projectName.boost())
-				.andField(SearchFieldsEnum.projectDescription.fieldName())
-					.boostedTo(SearchFieldsEnum.projectDescription.boost())
-					.andField(SearchFieldsEnum.tagName.fieldName())
-					.boostedTo(SearchFieldsEnum.tagName.boost())
-				.andField(SearchFieldsEnum.projectMainLanguageName.fieldName())
-					.boostedTo(SearchFieldsEnum.projectMainLanguageName.boost())
-				.andField(SearchFieldsEnum.languageName.fieldName())
-					.boostedTo(SearchFieldsEnum.languageName.boost())
-				.andField(SearchFieldsEnum.languageNiceName.fieldName())
-					.boostedTo(SearchFieldsEnum.languageNiceName.boost())
-				.andField(SearchFieldsEnum.languageCategory.fieldName())
-					.boostedTo(SearchFieldsEnum.languageCategory.boost())
-				.matching(query)
-				.createQuery();
 		
-		FullTextQuery fullTextQuery = fullTextEntityManager.createFullTextQuery(
-				luceneQuery, 
-				OhLohProjectEntity.class);
+		FullTextQuery fullTextQuery = null;
 		
+		try {
 		
+			org.apache.lucene.search.Query luceneQuery = queryBuilder
+					.keyword()
+					.onField(SearchFieldsEnum.projectName.fieldName())
+						.boostedTo(SearchFieldsEnum.projectName.boost())
+					.andField(SearchFieldsEnum.projectDescription.fieldName())
+						.boostedTo(SearchFieldsEnum.projectDescription.boost())
+						.andField(SearchFieldsEnum.tagName.fieldName())
+						.boostedTo(SearchFieldsEnum.tagName.boost())
+					.andField(SearchFieldsEnum.projectMainLanguageName.fieldName())
+						.boostedTo(SearchFieldsEnum.projectMainLanguageName.boost())
+					.andField(SearchFieldsEnum.languageName.fieldName())
+						.boostedTo(SearchFieldsEnum.languageName.boost())
+					.andField(SearchFieldsEnum.languageNiceName.fieldName())
+						.boostedTo(SearchFieldsEnum.languageNiceName.boost())
+					.andField(SearchFieldsEnum.languageCategory.fieldName())
+						.boostedTo(SearchFieldsEnum.languageCategory.boost())
+					.matching(query)
+					.createQuery();
+			
+			fullTextQuery = fullTextEntityManager.createFullTextQuery(
+					luceneQuery, 
+					OhLohProjectEntity.class);
+		} catch (EmptyQueryException ex) {
+			
+		}
 		
 		return fullTextQuery;
 	}

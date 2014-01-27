@@ -34,6 +34,10 @@ public class PageList implements Serializable {
 	private List<Integer> pageList;
 	
 	public PageList() {
+		this.currentPage = 0;
+		this.rowCount = 0;
+		this.pageSize = 10;
+		this.totalPages = 0;
 	}
 	
 	public PageList(Integer currentPage, Integer rowCount, Integer pageSize) {
