@@ -15,6 +15,7 @@ import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 import javax.persistence.criteria.Subquery;
 
+import org.apache.commons.lang3.StringUtils;
 import org.hibernate.ejb.criteria.OrderImpl;
 import org.springframework.stereotype.Repository;
 
@@ -45,12 +46,13 @@ public class ProjectDetailPageViewRepositoryImpl
 	
 	public List<OhLohProjectEntity> findAllProjectRecentlyViewed(
 			UserEntity user,
+			String ipAddress,
 			Integer startAt, 
 			Integer offset) {
 		
 		List<OhLohProjectEntity> result = null;
 		
-		if (user != null) {
+		if (user != null || ! StringUtils.isEmpty(ipAddress)) {
 			
 			CriteriaBuilder criteriaBuilder = getEntityManager().getCriteriaBuilder();
 			CriteriaQuery<OhLohProjectEntity> criteriaQuery = criteriaBuilder.createQuery(OhLohProjectEntity.class);
@@ -58,7 +60,7 @@ public class ProjectDetailPageViewRepositoryImpl
 			Root<ProjectDetailPageViewEntity> root = criteriaQuery.from(getEntityClass());
 			
 			Join<ProjectDetailPageViewEntity, OhLohProjectEntity> projectJoin = root.join("project", JoinType.INNER);
-			Join<ProjectDetailPageViewEntity, UserEntity> userJoin = root.join("user", JoinType.INNER);
+			Join<ProjectDetailPageViewEntity, UserEntity> userJoin = root.join("user", JoinType.LEFT);
 			
 			criteriaQuery.select(projectJoin);
 						
@@ -69,14 +71,35 @@ public class ProjectDetailPageViewRepositoryImpl
 			Expression<Timestamp> greatestViewedAt = subqueryRoot.get("viewedAt");
 			
 			viewedAtSubquery.select(criteriaBuilder.greatest((greatestViewedAt)));
+			
+			List<Predicate> predicateSubqueryList = new ArrayList<Predicate>();
+			predicateSubqueryList.add(criteriaBuilder.equal(root.get("projectId"), subqueryRoot.get("projectId")));
+			if (user != null) {
+				predicateSubqueryList.add(criteriaBuilder.equal(root.get("userId"), subqueryRoot.get("userId")));
+			}
+			
+			if (! StringUtils.isEmpty(ipAddress)) {
+				predicateSubqueryList.add(criteriaBuilder.equal(root.get("ipAddress"), subqueryRoot.get("ipAddress")));
+			}
+			
 			viewedAtSubquery.where(
-					criteriaBuilder.equal(root.get("projectId"), subqueryRoot.get("projectId")),
-					criteriaBuilder.equal(root.get("userId"), subqueryRoot.get("userId"))
+					predicateSubqueryList.toArray(new Predicate[0])
 				);
 			criteriaQuery.orderBy(criteriaBuilder.desc(root.get("viewedAt")));
 			
-			Predicate registeredAtPredicate = criteriaBuilder.equal(root.get("viewedAt"), viewedAtSubquery);
-			criteriaQuery.where(registeredAtPredicate);
+			
+			List<Predicate> predicateQueryList = new ArrayList<Predicate>();
+			predicateQueryList.add(criteriaBuilder.equal(root.get("viewedAt"), viewedAtSubquery));
+			
+			if (user != null && user.getId() != null) {
+				predicateQueryList.add(criteriaBuilder.equal(root.get("userId"), user.getId()));
+			}
+			
+			if (! StringUtils.isEmpty(ipAddress)) {
+				predicateQueryList.add(criteriaBuilder.equal(root.get("ipAddress"), ipAddress));
+			}
+			
+			criteriaQuery.where(predicateQueryList.toArray(new Predicate[0]));
 			
 			TypedQuery<OhLohProjectEntity> typedQuery = getEntityManager().createQuery(criteriaQuery);
 			

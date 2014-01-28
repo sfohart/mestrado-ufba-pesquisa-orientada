@@ -6,7 +6,9 @@ import java.util.List;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
+import javax.faces.context.FacesContext;
 import javax.faces.event.ComponentSystemEvent;
+import javax.servlet.http.HttpServletRequest;
 
 import br.ufba.dcc.mestrado.computacao.entities.ohloh.project.OhLohProjectEntity;
 import br.ufba.dcc.mestrado.computacao.entities.recommender.preference.ProjectPreferenceInfo;
@@ -61,8 +63,19 @@ public class IndexManagedBean implements Serializable {
 		this.topTenViewedProjectList = getPageViewService().findAllProjectDetailPageViewInfo(0, 10);
 		
 		
+		
+		String ipAddress = null;
+		if (FacesContext.getCurrentInstance().getExternalContext().getRequest() != null) {
+			HttpServletRequest request = 
+					(HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
+			
+			ipAddress = request.getRemoteAddr();
+		}
+		
+		
 		this.projectViewedList = getPageViewService().findAllProjectRecentlyViewed(
 				getUserDetailsService().loadFullLoggedUser(), 
+				ipAddress,
 				0, 
 				6);
 		

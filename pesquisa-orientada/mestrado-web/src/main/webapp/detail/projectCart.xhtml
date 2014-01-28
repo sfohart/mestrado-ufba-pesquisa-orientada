@@ -13,42 +13,37 @@
 	
 		<h3> <h:outputText value="#{projectCartTitle}" /> </h3>
 		<div class="row">
-			<table class="table unstyled">
-				<tbody>
-					<ui:repeat var="viewedProject" value="#{projectCart}" >
-						<tr class="pull-left" style="width: 33%; border-color: transparent;">
-							<td style="border-top: none;">
-								<div class="media" style="margin-bottom: 20px">
-									<h:outputLink styleClass="pull-left"
-										value="#{facesContext.externalContext.applicationContextPath}/detail/projectDetail.jsf" 
-										rendered="#{viewedProject.mediumLogoURL != 'no_logo.png'}">
-										<f:param name="projectId" value="#{viewedProject.id}" />													
-										<img class="media-object" src="#{viewedProject.mediumLogoURL}" height="64" width="64" />
-									</h:outputLink>
-									<h:outputLink   styleClass="pull-left"
-										value="#{facesContext.externalContext.applicationContextPath}/detail/projectDetail.jsf"
-										rendered="#{viewedProject.mediumLogoURL eq 'no_logo.png'}">
-										<f:param name="projectId" value="#{viewedProject.id}" />
-										<h:graphicImage styleClass="media-object" height="64" width="64" library="default" name="img/no_logo.png" />													
-									</h:outputLink>
-									
-									<div class="media-body" style="min-height: 64px">
-										<h4 class="media-heading">
-											<h:outputLink value="#{facesContext.externalContext.applicationContextPath}/detail/projectDetail.jsf">
-												<f:param name="projectId" value="#{viewedProject.id}" />
-												<h:outputText value="#{viewedProject.name}"  />
-											</h:outputLink>
-										</h4>														
-										<p class="truncate">
-											<h:outputText value="#{viewedProject.description}" />
-										</p>
-									</div>
-								</div>
-							</td>
-						</tr>
-					</ui:repeat>
-				</tbody>
-			</table>
+			<ul class="media-list">
+				<ui:repeat var="viewedProject" value="#{projectCart}" >
+					<li class="media col-md-4" style="margin: 10px 0px; min-height: 150px; height: auto;">
+						<h:outputLink styleClass="pull-left"
+							value="#{facesContext.externalContext.applicationContextPath}/detail/projectDetail.jsf" 
+							rendered="#{viewedProject.mediumLogoURL != 'no_logo.png'}">
+							<f:param name="projectId" value="#{viewedProject.id}" />													
+							<img class="media-object" src="#{viewedProject.mediumLogoURL}" height="64" width="64" />
+						</h:outputLink>
+						<h:outputLink   styleClass="pull-left"
+							value="#{facesContext.externalContext.applicationContextPath}/detail/projectDetail.jsf"
+							rendered="#{viewedProject.mediumLogoURL eq 'no_logo.png'}">
+							<f:param name="projectId" value="#{viewedProject.id}" />
+							<h:graphicImage styleClass="media-object" height="64" width="64" library="default" name="img/no_logo.png" />													
+						</h:outputLink>
+						
+						<div class="media-body" style="min-height: 64px">
+							<h4 class="media-heading">
+								<h:outputLink value="#{facesContext.externalContext.applicationContextPath}/detail/projectDetail.jsf">
+									<f:param name="projectId" value="#{viewedProject.id}" />
+									<h:outputText value="#{viewedProject.name}"  />
+								</h:outputLink>
+							</h4>														
+							<p class="truncate">
+								<h:outputText value="#{viewedProject.description}" />
+							</p>
+						</div>
+					</li>
+				</ui:repeat>
+			</ul>
+					
 			
 			<!-- leia mais para a descricao do projeto -->
 			<script>
