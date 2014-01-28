@@ -131,6 +131,17 @@
 						</ui:include>
 						
 					</h:panelGroup>
+					
+					
+					<h:panelGroup layout="block" rendered="#{not empty indexMB.recommendedProjectList}">
+						<hr/>
+					
+						<ui:include src="/detail/projectCart.xhtml">
+							<ui:param name="projectCart" value="#{indexMB.recommendedProjectList}"  />
+							<ui:param name="projectCartTitle" value="Projetos recomendados para você"  />
+						</ui:include>
+						
+					</h:panelGroup>
 
 					<hr/>
 					

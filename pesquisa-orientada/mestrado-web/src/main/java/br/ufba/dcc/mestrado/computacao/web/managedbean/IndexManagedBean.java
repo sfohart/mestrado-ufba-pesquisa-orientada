@@ -1,6 +1,7 @@
 package br.ufba.dcc.mestrado.computacao.web.managedbean;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.faces.bean.ManagedBean;
@@ -10,8 +11,13 @@ import javax.faces.context.FacesContext;
 import javax.faces.event.ComponentSystemEvent;
 import javax.servlet.http.HttpServletRequest;
 
+import org.apache.mahout.cf.taste.common.TasteException;
+import org.apache.mahout.cf.taste.impl.recommender.GenericBooleanPrefItemBasedRecommender;
+import org.apache.mahout.cf.taste.recommender.RecommendedItem;
+
 import br.ufba.dcc.mestrado.computacao.entities.ohloh.project.OhLohProjectEntity;
 import br.ufba.dcc.mestrado.computacao.entities.recommender.preference.ProjectPreferenceInfo;
+import br.ufba.dcc.mestrado.computacao.entities.recommender.user.UserEntity;
 import br.ufba.dcc.mestrado.computacao.entities.web.pageview.ProjectDetailPageViewInfo;
 import br.ufba.dcc.mestrado.computacao.service.base.OhLohProjectService;
 import br.ufba.dcc.mestrado.computacao.service.base.OverallPreferenceService;
@@ -51,6 +57,7 @@ public class IndexManagedBean implements Serializable {
 	private List<ProjectDetailPageViewInfo> topTenViewedProjectList;
 	
 	private List<OhLohProjectEntity> projectViewedList;
+	private List<OhLohProjectEntity> recommendedProjectList;
 	
 	private ProjectPreferenceInfo mostReviewedProjectPreferenceInfo;
 	private ProjectDetailPageViewInfo mostViewedProjectDetailInfo;
@@ -61,8 +68,6 @@ public class IndexManagedBean implements Serializable {
 	public void init(ComponentSystemEvent event) {
 		this.topTenReviewedProjectList = getOverallPreferenceService().findAllProjectPreferenceInfo(0, 10);
 		this.topTenViewedProjectList = getPageViewService().findAllProjectDetailPageViewInfo(0, 10);
-		
-		
 		
 		String ipAddress = null;
 		if (FacesContext.getCurrentInstance().getExternalContext().getRequest() != null) {
@@ -86,7 +91,32 @@ public class IndexManagedBean implements Serializable {
 		if (this.topTenViewedProjectList != null && ! this.topTenViewedProjectList.isEmpty()) {
 			this.mostViewedProjectDetailInfo = this.topTenViewedProjectList.get(0);
 		}
+		
+		findRecommendedProjectList();
 	}
+	
+	protected void findRecommendedProjectList() {
+		try {
+			//limpa lista atual de projetos recomendados
+			this.recommendedProjectList = new ArrayList<>();
+			UserEntity currentUser = getUserDetailsService().loadFullLoggedUser();
+			
+			if (currentUser != null) {
+				GenericBooleanPrefItemBasedRecommender recommender = getPageViewService().buildProjectRecommender();
+				List<RecommendedItem> recommendedItemList = recommender.recommend(currentUser.getId(), 6);
+				
+				if (recommendedItemList != null) {
+					for (RecommendedItem recommendedItem : recommendedItemList) {
+						OhLohProjectEntity recommendedProject = getOhLohProjectService().findById(recommendedItem.getItemID());
+						this.recommendedProjectList.add(recommendedProject);
+					}
+				}
+			}
+		} catch (TasteException e1) {
+			e1.printStackTrace();
+		}
+	}
+
 	
 	public OhLohProjectService getOhLohProjectService() {
 		return ohLohProjectService;
@@ -175,4 +205,7 @@ public class IndexManagedBean implements Serializable {
 		return projectViewedList;
 	}
 	
+	public List<OhLohProjectEntity> getRecommendedProjectList() {
+		return recommendedProjectList;
+	}
 }
