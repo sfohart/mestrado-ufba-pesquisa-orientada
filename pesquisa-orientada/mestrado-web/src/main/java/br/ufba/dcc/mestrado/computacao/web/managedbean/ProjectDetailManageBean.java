@@ -2,6 +2,7 @@ package br.ufba.dcc.mestrado.computacao.web.managedbean;
 
 import java.io.Serializable;
 import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.faces.bean.ManagedBean;
@@ -10,6 +11,10 @@ import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 import javax.faces.event.ComponentSystemEvent;
 import javax.servlet.http.HttpServletRequest;
+
+import org.apache.mahout.cf.taste.common.TasteException;
+import org.apache.mahout.cf.taste.impl.recommender.GenericBooleanPrefItemBasedRecommender;
+import org.apache.mahout.cf.taste.recommender.RecommendedItem;
 
 import br.ufba.dcc.mestrado.computacao.entities.ohloh.analysis.OhLohAnalysisLanguagesEntity;
 import br.ufba.dcc.mestrado.computacao.entities.ohloh.enlistment.OhLohEnlistmentEntity;
@@ -62,6 +67,9 @@ public class ProjectDetailManageBean implements Serializable {
 	private ProjectDetailPageViewService pageViewService;
 	
 	private OhLohProjectEntity project;
+	private List<OhLohProjectEntity> alsoViewedProjectList;
+	
+	
 	private List<OhLohFactoidEntity> factoidList;
 	private OhLohAnalysisLanguagesEntity analysisLanguages;
 		
@@ -103,7 +111,9 @@ public class ProjectDetailManageBean implements Serializable {
 		if (getProject() != null && getProject().getId() != null) {
 			this.project = getProjectService().findById(getProject().getId());
 			
-						
+			findAlsoViewedProjectList();
+			
+			
 			if (getProject().getDescription() != null) {
 				this.projectDescritionParagraphs = getProject().getDescription().split("\n");
 			}
@@ -139,6 +149,28 @@ public class ProjectDetailManageBean implements Serializable {
 				e.printStackTrace();
 			}
 			
+		}
+	}
+
+	/**
+	 * Recomenda outros projetos vistos pelos mesmos usuários que viram o projeto corrente
+	 */
+	protected void findAlsoViewedProjectList() {
+		try {
+			//limpa lista atual de projetos recomendados
+			this.alsoViewedProjectList = new ArrayList<>();
+
+			GenericBooleanPrefItemBasedRecommender recommender = getPageViewService().buildProjectRecommender();
+			List<RecommendedItem> recommendedItemList = recommender.mostSimilarItems(getProject().getId(), 6);
+			
+			if (recommendedItemList != null) {
+				for (RecommendedItem recommendedItem : recommendedItemList) {
+					OhLohProjectEntity recommendedProject = getProjectService().findById(recommendedItem.getItemID());
+					this.alsoViewedProjectList.add(recommendedProject);
+				}
+			}
+		} catch (TasteException e1) {
+			e1.printStackTrace();
 		}
 	}
 	
@@ -259,5 +291,9 @@ public class ProjectDetailManageBean implements Serializable {
 	
 	public PreferenceEntity getUserPreference() {
 		return userPreference;
+	}
+	
+	public List<OhLohProjectEntity> getAlsoViewedProjectList() {
+		return alsoViewedProjectList;
 	}
 }

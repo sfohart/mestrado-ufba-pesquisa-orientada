@@ -16,13 +16,20 @@ import org.apache.log4j.Logger;
 import org.apache.mahout.cf.taste.common.TasteException;
 import org.apache.mahout.cf.taste.eval.RecommenderBuilder;
 import org.apache.mahout.cf.taste.impl.common.FastByIDMap;
+import org.apache.mahout.cf.taste.impl.model.BooleanItemPreferenceArray;
+import org.apache.mahout.cf.taste.impl.model.BooleanPreference;
+import org.apache.mahout.cf.taste.impl.model.BooleanUserPreferenceArray;
+import org.apache.mahout.cf.taste.impl.model.GenericBooleanPrefDataModel;
 import org.apache.mahout.cf.taste.impl.model.GenericDataModel;
 import org.apache.mahout.cf.taste.impl.model.GenericItemPreferenceArray;
 import org.apache.mahout.cf.taste.impl.model.GenericUserPreferenceArray;
 import org.apache.mahout.cf.taste.impl.neighborhood.CachingUserNeighborhood;
 import org.apache.mahout.cf.taste.impl.neighborhood.NearestNUserNeighborhood;
+import org.apache.mahout.cf.taste.impl.neighborhood.ThresholdUserNeighborhood;
 import org.apache.mahout.cf.taste.impl.recommender.AllUnknownItemsCandidateItemsStrategy;
 import org.apache.mahout.cf.taste.impl.recommender.CachingRecommender;
+import org.apache.mahout.cf.taste.impl.recommender.GenericBooleanPrefItemBasedRecommender;
+import org.apache.mahout.cf.taste.impl.recommender.GenericBooleanPrefUserBasedRecommender;
 import org.apache.mahout.cf.taste.impl.recommender.GenericItemBasedRecommender;
 import org.apache.mahout.cf.taste.impl.recommender.GenericUserBasedRecommender;
 import org.apache.mahout.cf.taste.impl.recommender.PreferredItemsNeighborhoodCandidateItemsStrategy;
@@ -42,8 +49,6 @@ import org.apache.mahout.cf.taste.similarity.UserSimilarity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.google.common.util.concurrent.ThreadFactoryBuilder;
-
 import br.ufba.dcc.mestrado.computacao.entities.recommender.criterium.RecommenderCriteriumEntity;
 import br.ufba.dcc.mestrado.computacao.entities.recommender.criterium.UserRecommenderCriteriumEntity;
 import br.ufba.dcc.mestrado.computacao.recommender.MultiCriteriaRecommender;
@@ -54,6 +59,8 @@ import br.ufba.dcc.mestrado.computacao.repository.base.CriteriumPreferenceReposi
 import br.ufba.dcc.mestrado.computacao.repository.base.RecommenderCriteriumRepository;
 import br.ufba.dcc.mestrado.computacao.repository.base.UserRecommenderCriteriumRepository;
 import br.ufba.dcc.mestrado.computacao.service.base.RecommenderService;
+
+import com.google.common.util.concurrent.ThreadFactoryBuilder;
 
 @Service(RecommenderServiceImpl.BEAN_NAME)
 public class RecommenderServiceImpl implements RecommenderService {
@@ -143,20 +150,25 @@ public class RecommenderServiceImpl implements RecommenderService {
 
 	public DataModel buildUserDataModel(Long criteriumID) {
 		List<Preference> preferencesByCriterium = findAllByCriterium(criteriumID);
-		
+		DataModel dataModel = buildUserDataModel(preferencesByCriterium);
+		return dataModel;
+	}
+
+	@Override
+	public DataModel buildUserDataModel(List<Preference> preferenceList) {
 		Map<Long, List<Preference>> userPreferenceMap = new HashMap<>();
 		
-		if (preferencesByCriterium != null) {
-			for (Preference pref : preferencesByCriterium) {
-				List<Preference> preferenceList = userPreferenceMap.get(pref.getUserID());
+		if (preferenceList != null) {
+			for (Preference pref : preferenceList) {
+				List<Preference> preferenceListByUser = userPreferenceMap.get(pref.getUserID());
 				
-				if (preferenceList == null) {
-					preferenceList = new ArrayList<>();
+				if (preferenceListByUser == null) {
+					preferenceListByUser = new ArrayList<>();
 				}
 				
-				preferenceList.add(pref);
+				preferenceListByUser.add(pref);
 				
-				userPreferenceMap.put(pref.getUserID(), preferenceList);
+				userPreferenceMap.put(pref.getUserID(), preferenceListByUser);
 			}
 		}
 		
@@ -167,26 +179,59 @@ public class RecommenderServiceImpl implements RecommenderService {
 		}
 		
 		DataModel dataModel = new GenericDataModel(userData);
+		return dataModel;
+	}
+	
+	
+	@Override
+	public GenericBooleanPrefDataModel buildBooleanDataModel(List<BooleanPreference> preferenceList) {
+		Map<Long, List<BooleanPreference>> userPreferenceMap = new HashMap<>();
 		
+		if (preferenceList != null) {
+			for (BooleanPreference pref : preferenceList) {
+				List<BooleanPreference> preferenceListByUser = userPreferenceMap.get(pref.getUserID());
+				
+				if (preferenceListByUser == null) {
+					preferenceListByUser = new ArrayList<>();
+				}
+				
+				preferenceListByUser.add(pref);
+				
+				userPreferenceMap.put(pref.getUserID(), preferenceListByUser);
+			}
+		}
+		
+		FastByIDMap<PreferenceArray> userData = new FastByIDMap<>(userPreferenceMap.size());
+		for (Map.Entry<Long, List<BooleanPreference>> entry : userPreferenceMap.entrySet()) {
+			PreferenceArray array = new BooleanUserPreferenceArray(entry.getValue());
+			userData.put(entry.getKey(), array);
+		}
+		
+		GenericBooleanPrefDataModel dataModel = new GenericBooleanPrefDataModel(GenericBooleanPrefDataModel.toDataMap(userData));
 		return dataModel;
 	}
 	
 	public DataModel buildItemDataModel(Long criteriumID) {
 		List<Preference> preferencesByCriterium = findAllByCriterium(criteriumID);
-		
+		DataModel dataModel = buildItemDataModel(preferencesByCriterium);
+		return dataModel;
+	}
+
+	@Override
+	public DataModel buildItemDataModel(List<Preference> preferenceList) {
 		Map<Long, List<Preference>> itemPreferenceMap = new HashMap<>();
 		
-		if (preferencesByCriterium != null) {
-			for (Preference pref : preferencesByCriterium) {
-				List<Preference> preferenceList = itemPreferenceMap.get(pref.getItemID());
+		if (preferenceList != null) {
+			for (Preference pref : preferenceList) {
+				List<Preference> preferenceListByItem = itemPreferenceMap.get(pref.getItemID());
 				
-				if (preferenceList == null) {
-					preferenceList = new ArrayList<>();
+				if (preferenceListByItem == null) {
+					preferenceListByItem = new ArrayList<>();
 				}
 				
-				preferenceList.add(pref);
+				preferenceListByItem.add(pref);
 				
-				itemPreferenceMap.put(pref.getItemID(), preferenceList);
+				itemPreferenceMap.put(pref.getItemID(), preferenceListByItem);
 			}
 		}
 		
@@ -197,7 +242,6 @@ public class RecommenderServiceImpl implements RecommenderService {
 		}
 		
 		DataModel dataModel = new GenericDataModel(itemData);
-		
 		return dataModel;
 	}
 	
@@ -220,6 +264,24 @@ public class RecommenderServiceImpl implements RecommenderService {
 		
 		return recommenderBuilder;
 	}
+	
+	@Override
+	public RecommenderBuilder createBooleanUserBasedRecomenderBuilder(GenericBooleanPrefDataModel dataModel) {
+		RecommenderBuilder recommenderBuilder = new RecommenderBuilder() {
+			@Override
+			public Recommender buildRecommender(DataModel dataModel) throws TasteException {
+				
+				UserSimilarity userSimilarity = new LogLikelihoodSimilarity(dataModel);
+				
+				UserNeighborhood userNeighborhood = new ThresholdUserNeighborhood(0.7, userSimilarity, dataModel);
+				
+				Recommender recommender = new GenericBooleanPrefUserBasedRecommender(dataModel, userNeighborhood, userSimilarity);
+				return recommender;
+			}
+		};
+		
+		return recommenderBuilder;
+	}
 
 
 	public RecommenderBuilder createItemBasedRecomenderBuilder(DataModel dataModel) {
@@ -235,6 +297,25 @@ public class RecommenderServiceImpl implements RecommenderService {
 				
 				Recommender baseRecommender = new GenericItemBasedRecommender(dataModel, itemSimilarity, candidateItemsStrategy, mostSimilarItemsCandidateItemsStrategy);
 				Recommender recommender = new CachingRecommender(baseRecommender);
+				return recommender;
+			}
+		};
+		
+		return recommenderBuilder;
+	}
+	
+	@Override
+	public RecommenderBuilder createBooleanItemBasedRecomenderBuilder(GenericBooleanPrefDataModel dataModel) {
+		RecommenderBuilder recommenderBuilder = new RecommenderBuilder() {
+			@Override
+			public Recommender buildRecommender(DataModel dataModel) throws TasteException {
+				
+				ItemSimilarity itemSimilarity = new LogLikelihoodSimilarity(dataModel);
+				
+				CandidateItemsStrategy candidateItemsStrategy = new AllUnknownItemsCandidateItemsStrategy();
+				MostSimilarItemsCandidateItemsStrategy mostSimilarItemsCandidateItemsStrategy = new AllUnknownItemsCandidateItemsStrategy();
+				
+				Recommender recommender = new GenericBooleanPrefItemBasedRecommender(dataModel, itemSimilarity, candidateItemsStrategy, mostSimilarItemsCandidateItemsStrategy);
 				return recommender;
 			}
 		};

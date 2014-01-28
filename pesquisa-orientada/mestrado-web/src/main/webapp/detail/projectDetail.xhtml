@@ -318,6 +318,16 @@
 						</div>						
 					</h:panelGroup>
 					
+					<h:panelGroup layout="block"
+						style="border-top: 1px solid #aaa;" 
+						rendered="#{not empty projectDetailMB.alsoViewedProjectList}">
+						<ui:include src="/detail/projectCart.xhtml">
+							<ui:param name="projectCart" value="#{projectDetailMB.alsoViewedProjectList}"  />
+							<ui:param name="projectCartTitle" value="Quem visualizou este projeto também viu:"  />
+						</ui:include>
+						
+					</h:panelGroup>
+					
 					<div class="row" style="border-top: 1px solid #aaa;">
 						<h2>Sobre o Código Fonte</h2>
 					</div>

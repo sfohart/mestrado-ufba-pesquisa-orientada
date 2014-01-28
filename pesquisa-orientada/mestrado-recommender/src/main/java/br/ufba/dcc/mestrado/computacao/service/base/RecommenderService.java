@@ -6,6 +6,8 @@ import java.util.List;
 import org.apache.mahout.cf.taste.common.TasteException;
 import org.apache.mahout.cf.taste.eval.RecommenderBuilder;
 import org.apache.mahout.cf.taste.impl.common.FastByIDMap;
+import org.apache.mahout.cf.taste.impl.model.BooleanPreference;
+import org.apache.mahout.cf.taste.impl.model.GenericBooleanPrefDataModel;
 import org.apache.mahout.cf.taste.impl.recommender.AllUnknownItemsCandidateItemsStrategy;
 import org.apache.mahout.cf.taste.model.DataModel;
 import org.apache.mahout.cf.taste.model.Preference;
@@ -115,6 +117,17 @@ public interface RecommenderService extends Serializable {
 	 * @param userID
 	 */
 	FastByIDMap<Float> findUserCriteriaWeight(Long userID);
+
+	DataModel buildItemDataModel(List<Preference> preferenceList);
+
+	DataModel buildUserDataModel(List<Preference> preferenceList);
+
+	RecommenderBuilder createBooleanItemBasedRecomenderBuilder(GenericBooleanPrefDataModel dataModel);
+
+	RecommenderBuilder createBooleanUserBasedRecomenderBuilder(GenericBooleanPrefDataModel dataModel);
+
+	GenericBooleanPrefDataModel buildBooleanDataModel(List<BooleanPreference> preferenceList);
+
 	
 	
 }

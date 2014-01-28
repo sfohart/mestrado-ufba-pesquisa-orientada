@@ -2,6 +2,11 @@ package br.ufba.dcc.mestrado.computacao.service.impl;
 
 import java.util.List;
 
+import org.apache.mahout.cf.taste.common.TasteException;
+import org.apache.mahout.cf.taste.eval.RecommenderBuilder;
+import org.apache.mahout.cf.taste.impl.model.BooleanPreference;
+import org.apache.mahout.cf.taste.impl.model.GenericBooleanPrefDataModel;
+import org.apache.mahout.cf.taste.impl.recommender.GenericBooleanPrefItemBasedRecommender;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
@@ -12,6 +17,7 @@ import br.ufba.dcc.mestrado.computacao.entities.web.pageview.ProjectDetailPageVi
 import br.ufba.dcc.mestrado.computacao.entities.web.pageview.ProjectDetailPageViewInfo;
 import br.ufba.dcc.mestrado.computacao.repository.base.ProjectDetailPageViewRepository;
 import br.ufba.dcc.mestrado.computacao.repository.impl.ProjectDetailPageViewRepositoryImpl;
+import br.ufba.dcc.mestrado.computacao.service.base.RecommenderService;
 import br.ufba.dcc.mestrado.computacao.service.basic.ProjectDetailPageViewService;
 
 @Service(ProjectDetailPageViewServiceImpl.BEAN_NAME)
@@ -26,6 +32,10 @@ public class ProjectDetailPageViewServiceImpl
 	private static final long serialVersionUID = -5717255957053110654L;
 	
 	public static final String BEAN_NAME =  "projectDetailPageViewService";
+	
+	@Autowired
+	private RecommenderService recommenderService;
+	
 	
 	@Autowired
 	public ProjectDetailPageViewServiceImpl(
@@ -49,6 +59,20 @@ public class ProjectDetailPageViewServiceImpl
 			Integer startAt, 
 			Integer offset) {
 		return ((ProjectDetailPageViewRepository) getRepository()).findAllProjectRecentlyViewed(user,ipAddress, startAt, offset);
+	}
+	
+	@Override
+	public GenericBooleanPrefItemBasedRecommender buildProjectRecommender() throws TasteException {
+		GenericBooleanPrefItemBasedRecommender recommender = null;
+		
+		List<BooleanPreference> preferenceList = ((ProjectDetailPageViewRepository) getRepository()).findAllPageViewDataWithUsers();
+		
+		GenericBooleanPrefDataModel dataModel = recommenderService.buildBooleanDataModel(preferenceList);
+		RecommenderBuilder recommenderBuilder = recommenderService.createBooleanItemBasedRecomenderBuilder(dataModel);
+		
+		recommender = (GenericBooleanPrefItemBasedRecommender) recommenderBuilder.buildRecommender(dataModel);
+		
+		return recommender;
 	}
 	
 }

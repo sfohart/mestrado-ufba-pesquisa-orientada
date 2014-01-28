@@ -2,6 +2,8 @@ package br.ufba.dcc.mestrado.computacao.repository.base;
 
 import java.util.List;
 
+import org.apache.mahout.cf.taste.impl.model.BooleanPreference;
+
 import br.ufba.dcc.mestrado.computacao.entities.ohloh.project.OhLohProjectEntity;
 import br.ufba.dcc.mestrado.computacao.entities.recommender.user.UserEntity;
 import br.ufba.dcc.mestrado.computacao.entities.web.pageview.ProjectDetailPageViewEntity;
@@ -18,5 +20,8 @@ public interface ProjectDetailPageViewRepository extends BaseRepository<Long, Pr
 			String ipAddress,
 			Integer startAt, 
 			Integer offset);
+	
+	
+	List<BooleanPreference> findAllPageViewDataWithUsers();
 	
 }

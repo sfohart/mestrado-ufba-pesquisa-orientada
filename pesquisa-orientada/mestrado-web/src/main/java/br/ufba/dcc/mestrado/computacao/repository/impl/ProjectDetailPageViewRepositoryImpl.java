@@ -11,11 +11,14 @@ import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Expression;
 import javax.persistence.criteria.Join;
 import javax.persistence.criteria.JoinType;
+import javax.persistence.criteria.Path;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 import javax.persistence.criteria.Subquery;
 
 import org.apache.commons.lang3.StringUtils;
+import org.apache.mahout.cf.taste.impl.model.BooleanPreference;
+import org.apache.mahout.cf.taste.model.Preference;
 import org.hibernate.ejb.criteria.OrderImpl;
 import org.springframework.stereotype.Repository;
 
@@ -114,10 +117,8 @@ public class ProjectDetailPageViewRepositoryImpl
 			result = typedQuery.getResultList();
 		}
 		
-		
-		
-		return result;
-		
+			
+		return result;	
 	}
 	
 	@Override
@@ -146,7 +147,6 @@ public class ProjectDetailPageViewRepositoryImpl
 			.having(criteriaBuilder.gt(pageViewCount, 0))
 			.orderBy(new OrderImpl(pageViewCount, false));
 		
-		
 		TypedQuery<Tuple> tupleTypedQuery = getEntityManager().createQuery(tupleQuery);
 		
 		if (offset != null) {
@@ -156,8 +156,6 @@ public class ProjectDetailPageViewRepositoryImpl
 		if (startAt != null) {
 			tupleTypedQuery.setFirstResult(startAt);
 		}
-		
-		
 		
 		List<Tuple> tupleList = tupleTypedQuery.getResultList();
 		List<ProjectDetailPageViewInfo> resultList = null;
@@ -182,9 +180,49 @@ public class ProjectDetailPageViewRepositoryImpl
 			}
 		}
 		
-		
 		return resultList;
+	}
+	
+	public List<BooleanPreference> findAllPageViewDataWithUsers() {
+		CriteriaBuilder criteriaBuilder = getEntityManager().getCriteriaBuilder();
+		CriteriaQuery<Tuple> tupleQuery = criteriaBuilder.createTupleQuery();
 		
+		Root<ProjectDetailPageViewEntity> root = tupleQuery.from(getEntityClass());
+		
+		Path<Long> projectIdPath = root.get("projectId");
+		Path<Long> userIdPath = root.get("userId");
+		
+		tupleQuery.multiselect(
+				projectIdPath,
+				userIdPath
+			);
+		
+		tupleQuery.distinct(true);
+		
+		Predicate predicate = criteriaBuilder.isNotNull(userIdPath);
+		tupleQuery.where(predicate);
+		
+		TypedQuery<Tuple> tupleTypedQuery = getEntityManager().createQuery(tupleQuery);
+		List<Tuple> tupleList = tupleTypedQuery.getResultList();
+		
+		List<BooleanPreference> preferenceList = null;
+		
+		if (tupleList != null) {
+			preferenceList = new ArrayList<>();
+			
+			for (Tuple tuple : tupleList) {
+				assert tuple.get(0) == tuple.get(projectIdPath);
+				assert tuple.get(1) == tuple.get(userIdPath);
+				
+				Long userID = tuple.get(userIdPath);
+				Long itemID = tuple.get(projectIdPath);
+				
+				BooleanPreference preference = new BooleanPreference(userID, itemID);
+				preferenceList.add(preference);
+			}
+		}
+		
+		return preferenceList;
 	}
 
 }

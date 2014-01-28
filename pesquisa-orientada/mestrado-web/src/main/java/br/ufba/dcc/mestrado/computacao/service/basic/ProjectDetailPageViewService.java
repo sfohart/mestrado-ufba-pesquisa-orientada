@@ -2,6 +2,9 @@ package br.ufba.dcc.mestrado.computacao.service.basic;
 
 import java.util.List;
 
+import org.apache.mahout.cf.taste.common.TasteException;
+import org.apache.mahout.cf.taste.impl.recommender.GenericBooleanPrefItemBasedRecommender;
+
 import br.ufba.dcc.mestrado.computacao.entities.ohloh.project.OhLohProjectEntity;
 import br.ufba.dcc.mestrado.computacao.entities.recommender.user.UserEntity;
 import br.ufba.dcc.mestrado.computacao.entities.web.pageview.ProjectDetailPageViewEntity;
@@ -18,5 +21,7 @@ public interface ProjectDetailPageViewService extends BaseOhLohService<Long, Pro
 			String ipAddress,
 			Integer startAt, 
 			Integer offset);
+	
+	GenericBooleanPrefItemBasedRecommender buildProjectRecommender() throws TasteException;
 	
 }
