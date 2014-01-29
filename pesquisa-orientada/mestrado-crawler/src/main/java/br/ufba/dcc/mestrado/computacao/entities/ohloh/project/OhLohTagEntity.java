@@ -12,6 +12,7 @@ import org.hibernate.search.annotations.Field;
 import org.hibernate.search.annotations.Fields;
 import org.hibernate.search.annotations.Index;
 import org.hibernate.search.annotations.Store;
+import org.hibernate.search.annotations.TermVector;
 
 import br.ufba.dcc.mestrado.computacao.entities.BaseEntity;
 
@@ -30,7 +31,7 @@ public class OhLohTagEntity implements BaseEntity<Long> {
 	private Long id;
 	
 	@Fields({
-			@Field(name = "name", index=Index.YES, analyze=Analyze.YES, store=Store.NO),
+			@Field(name = "name", index=Index.YES, analyze=Analyze.YES, store=Store.NO, termVector = TermVector.YES),
 			@Field(name = "tag_facet", analyze=Analyze.NO)
 	})
 	@Column(name = "name", unique = true, nullable = false)

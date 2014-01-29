@@ -15,7 +15,6 @@ import javax.persistence.Table;
 
 import org.hibernate.search.annotations.Analyze;
 import org.hibernate.search.annotations.ContainedIn;
-import org.hibernate.search.annotations.DocumentId;
 import org.hibernate.search.annotations.Field;
 import org.hibernate.search.annotations.Index;
 import org.hibernate.search.annotations.IndexedEmbedded;
@@ -37,7 +36,6 @@ public class OhLohAnalysisEntity implements BaseEntity<Long> {
 	public final static String NODE_NAME = "analysis";
 
 	@Id
-	@DocumentId
 	private Long id;
 
 	@Column(name = "url")

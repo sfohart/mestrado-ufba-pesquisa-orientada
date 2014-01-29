@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!DOCTYPE html>
+<ui:composition  
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:p="http://xmlns.jcp.org/jsf/passthrough"
+	>
+	
+	
+	<table class="table"  >
+		<tbody>
+			<ui:repeat var="project" value="#{projectList}" >
+				<tr class="pull-left" style="width: 50%; height: 50px">
+					<td style="width: 1%; border-top: none;">
+						<h:outputLink styleClass="pull-left"
+							value="#{facesContext.externalContext.applicationContextPath}/detail/projectDetail.jsf" 
+							rendered="#{project.mediumLogoURL != 'no_logo.png'}">
+							<f:param name="projectId" value="#{project.id}" />													
+							<h:graphicImage styleClass="media-object" height="24" width="24" url="#{project.mediumLogoURL}"  />
+						</h:outputLink>
+						<h:outputLink   styleClass="pull-left"
+							value="#{facesContext.externalContext.applicationContextPath}/detail/projectDetail.jsf"
+							rendered="#{project.mediumLogoURL eq 'no_logo.png'}">
+							<f:param name="projectId" value="#{project.id}" />
+							<h:graphicImage styleClass="media-object" height="24" width="24" library="default" name="img/no_logo.png" />													
+						</h:outputLink>
+					</td>
+					<td style="border-top: none;">
+						<h:outputLink value="#{facesContext.externalContext.applicationContextPath}/detail/projectDetail.jsf">
+							<f:param name="projectId" value="#{project.id}" />
+							<h:outputText value="#{project.name}"  />
+						</h:outputLink>
+					</td>
+				</tr>
+			</ui:repeat>
+		</tbody>
+	</table>
+	
+</ui:composition>

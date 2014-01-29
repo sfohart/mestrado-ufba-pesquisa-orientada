@@ -1,5 +1,6 @@
 package br.ufba.dcc.mestrado.computacao.web.managedbean;
 
+import java.io.IOException;
 import java.io.Serializable;
 import java.sql.Timestamp;
 import java.util.ArrayList;
@@ -12,6 +13,7 @@ import javax.faces.context.FacesContext;
 import javax.faces.event.ComponentSystemEvent;
 import javax.servlet.http.HttpServletRequest;
 
+import org.apache.hadoop.hdfs.server.namenode.FileChecksumServlets.GetServlet;
 import org.apache.mahout.cf.taste.common.TasteException;
 import org.apache.mahout.cf.taste.impl.recommender.GenericBooleanPrefItemBasedRecommender;
 import org.apache.mahout.cf.taste.recommender.RecommendedItem;
@@ -30,6 +32,7 @@ import br.ufba.dcc.mestrado.computacao.service.base.OhLohEnlistmentService;
 import br.ufba.dcc.mestrado.computacao.service.base.OhLohLinkService;
 import br.ufba.dcc.mestrado.computacao.service.base.OhLohProjectService;
 import br.ufba.dcc.mestrado.computacao.service.base.OverallPreferenceService;
+import br.ufba.dcc.mestrado.computacao.service.base.SearchService;
 import br.ufba.dcc.mestrado.computacao.service.basic.ProjectDetailPageViewService;
 import br.ufba.dcc.mestrado.computacao.service.basic.RepositoryBasedUserDetailsService;
 
@@ -66,8 +69,12 @@ public class ProjectDetailManageBean implements Serializable {
 	@ManagedProperty("#{projectDetailPageViewService}")
 	private ProjectDetailPageViewService pageViewService;
 	
+	@ManagedProperty("#{searchService}")
+	private SearchService searchService;
+	
 	private OhLohProjectEntity project;
 	private List<OhLohProjectEntity> alsoViewedProjectList;
+	private List<OhLohProjectEntity> relatedProjectEntities;
 	
 	
 	private List<OhLohFactoidEntity> factoidList;
@@ -112,7 +119,7 @@ public class ProjectDetailManageBean implements Serializable {
 			this.project = getProjectService().findById(getProject().getId());
 			
 			findAlsoViewedProjectList();
-			
+			findRelatedProjectList();
 			
 			if (getProject().getDescription() != null) {
 				this.projectDescritionParagraphs = getProject().getDescription().split("\n");
@@ -149,6 +156,17 @@ public class ProjectDetailManageBean implements Serializable {
 				e.printStackTrace();
 			}
 			
+		}
+	}
+
+	/**
+	 * Utiliza busca por conteúdo pra recomendar projetos similares.
+	 */
+	protected void findRelatedProjectList() {
+		try {
+			this.relatedProjectEntities = getSearchService().findRelatedProjects(getProject(), 6);
+		} catch (IOException e1) {
+			e1.printStackTrace();
 		}
 	}
 
@@ -249,6 +267,14 @@ public class ProjectDetailManageBean implements Serializable {
 		this.pageViewService = pageViewService;
 	}
 	
+	public SearchService getSearchService() {
+		return searchService;
+	}
+	
+	public void setSearchService(SearchService searchService) {
+		this.searchService = searchService;
+	}
+	
 	public OhLohProjectEntity getProject() {
 		return project;
 	}
@@ -295,5 +321,9 @@ public class ProjectDetailManageBean implements Serializable {
 	
 	public List<OhLohProjectEntity> getAlsoViewedProjectList() {
 		return alsoViewedProjectList;
+	}
+	
+	public List<OhLohProjectEntity> getRelatedProjectEntities() {
+		return relatedProjectEntities;
 	}
 }

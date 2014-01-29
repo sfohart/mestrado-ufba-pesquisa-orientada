@@ -1,9 +1,12 @@
 package br.ufba.dcc.mestrado.computacao.service.impl;
 
+import java.io.IOException;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
+import org.apache.lucene.index.IndexReader;
+import org.apache.lucene.search.Query;
 import org.hibernate.search.jpa.FullTextQuery;
 import org.hibernate.search.query.engine.spi.FacetManager;
 import org.hibernate.search.query.facet.Facet;
@@ -93,6 +96,17 @@ public class SearchServiceImpl implements SearchService {
 		}
 		
 		return searchResult;
+	}
+	
+	@Override
+	public List<OhLohProjectEntity> findRelatedProjects(OhLohProjectEntity project, int maxResults) throws IOException {
+		FullTextQuery fullTextQuery = projectRepository.findRelatedProjects(project);
+		
+		fullTextQuery.setMaxResults(maxResults);
+		
+		List<OhLohProjectEntity> resultList = fullTextQuery.getResultList();
+		
+		return resultList;
 	}
 
 	

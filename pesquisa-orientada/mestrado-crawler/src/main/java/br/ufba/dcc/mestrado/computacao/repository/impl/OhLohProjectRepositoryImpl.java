@@ -1,11 +1,18 @@
 package br.ufba.dcc.mestrado.computacao.repository.impl;
 
+import java.io.IOException;
+
 import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 
+import org.apache.lucene.index.IndexReader;
+import org.apache.lucene.index.Term;
+import org.apache.lucene.search.BooleanQuery;
+import org.apache.lucene.search.BooleanClause;
+import org.apache.lucene.search.TermQuery;
 import org.hibernate.search.errors.EmptyQueryException;
 import org.hibernate.search.jpa.FullTextEntityManager;
 import org.hibernate.search.jpa.FullTextQuery;
@@ -15,7 +22,9 @@ import org.hibernate.search.query.facet.FacetSortOrder;
 import org.hibernate.search.query.facet.FacetingRequest;
 import org.springframework.stereotype.Repository;
 
+import br.ufba.dcc.mestrado.computacao.entities.ohloh.project.OhLohLicenseEntity;
 import br.ufba.dcc.mestrado.computacao.entities.ohloh.project.OhLohProjectEntity;
+import br.ufba.dcc.mestrado.computacao.entities.ohloh.project.OhLohTagEntity;
 import br.ufba.dcc.mestrado.computacao.repository.base.OhLohProjectRepository;
 import br.ufba.dcc.mestrado.computacao.search.SearchFacetsEnum;
 import br.ufba.dcc.mestrado.computacao.search.SearchFieldsEnum;
@@ -116,7 +125,6 @@ public class OhLohProjectRepositoryImpl
 				.forEntity(OhLohProjectEntity.class)
 				.get();
 		
-		
 		FullTextQuery fullTextQuery = null;
 		
 		try {
@@ -148,6 +156,80 @@ public class OhLohProjectRepositoryImpl
 		}
 		
 		return fullTextQuery;
+	}
+
+	@Override
+	public FullTextQuery findRelatedProjects(OhLohProjectEntity project) throws IOException {
+		
+		FullTextEntityManager fullTextEntityManager = Search.getFullTextEntityManager(getEntityManager());
+		BooleanQuery booleanQuery = new BooleanQuery();
+		
+		booleanQuery.add(
+				new TermQuery(
+						new Term(
+								SearchFieldsEnum.projectName.fieldName(), 
+								project.getName())), 
+				BooleanClause.Occur.MUST_NOT);
+		
+		booleanQuery.add(
+				new TermQuery(
+						new Term(
+								"id", 
+								project.getId().toString())), 
+				BooleanClause.Occur.MUST_NOT);
+		
+		booleanQuery.add(
+				new TermQuery(
+						new Term(
+								SearchFieldsEnum.projectDescription.fieldName(), 
+								project.getDescription())), 
+				BooleanClause.Occur.SHOULD);
+		
+		if (project.getOhLohTags() != null) {
+			for (OhLohTagEntity tag : project.getOhLohTags()) {
+				booleanQuery.add(
+						new TermQuery(
+								new Term(
+										SearchFieldsEnum.tagName.fieldName(), 
+										tag.getName())), 
+						BooleanClause.Occur.SHOULD);
+			}
+		}
+		
+		if (project.getOhLohLicenses() != null) {
+			for (OhLohLicenseEntity license : project.getOhLohLicenses()) {
+				booleanQuery.add(
+						new TermQuery(
+								new Term(
+										SearchFieldsEnum.licenseName.fieldName(), 
+										license.getName())), 
+						BooleanClause.Occur.SHOULD);
+				
+				booleanQuery.add(
+						new TermQuery(
+								new Term(
+										SearchFieldsEnum.licenseNiceName.fieldName(), 
+										license.getNiceName())), 
+						BooleanClause.Occur.SHOULD);
+			}
+		}
+		
+		
+		FullTextQuery fullTextQuery =  fullTextEntityManager.createFullTextQuery(booleanQuery, getEntityClass());
+		
+		return fullTextQuery;
+	}
+
+	@Override
+	public IndexReader getIndexReader() {
+		FullTextEntityManager fullTextEntityManager = Search.getFullTextEntityManager(getEntityManager());
+		
+		IndexReader indexReader = fullTextEntityManager
+				.getSearchFactory()
+				.getIndexReaderAccessor()
+				.open(getEntityClass());
+		
+		return indexReader;
 	}
 	
 }

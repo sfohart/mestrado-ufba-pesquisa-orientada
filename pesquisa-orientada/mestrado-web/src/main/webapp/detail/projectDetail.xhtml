@@ -145,7 +145,14 @@
 										<h:panelGroup layout="block" rendered="#{empty projectDetailMB.project.ohLohLicenses}">
 											<h:outputText value="Sem Licenças de Uso" />
 										</h:panelGroup>																		
-									</dd>						
+									</dd>
+									
+									<dt>Projetos <br /> Relacionados:</dt>
+									<dd style="margin-bottom: .5em;">
+										<ui:include src="/detail/projectTable.xhtml">
+											<ui:param name="projectList" value="#{projectDetailMB.relatedProjectEntities}"/>
+										</ui:include>
+									</dd>					
 								</dl>
 							</h:panelGroup>
 						</div>

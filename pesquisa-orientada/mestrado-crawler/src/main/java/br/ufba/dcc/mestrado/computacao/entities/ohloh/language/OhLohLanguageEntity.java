@@ -9,6 +9,7 @@ import org.hibernate.search.annotations.Analyze;
 import org.hibernate.search.annotations.Field;
 import org.hibernate.search.annotations.Index;
 import org.hibernate.search.annotations.Store;
+import org.hibernate.search.annotations.TermVector;
 
 import br.ufba.dcc.mestrado.computacao.entities.BaseEntity;
 
@@ -26,15 +27,15 @@ public class OhLohLanguageEntity implements BaseEntity<Long> {
 	@Id
 	private Long id;
 	
-	@Field(index = Index.YES, analyze = Analyze.YES, store = Store.NO)
+	@Field(index = Index.YES, analyze = Analyze.YES, store = Store.NO, termVector = TermVector.YES)
 	@Column(nullable = false, unique = true)
 	private String name;
 	
-	@Field(index = Index.YES, analyze = Analyze.YES, store = Store.NO)
+	@Field(index = Index.YES, analyze = Analyze.YES, store = Store.NO, termVector = TermVector.YES)
 	@Column(name = "nice_name")
 	private String niceName;
 	
-	@Field(index = Index.YES, analyze = Analyze.YES, store = Store.NO)
+	@Field(index = Index.YES, analyze = Analyze.YES, store = Store.NO, termVector = TermVector.YES)
 	private String category;
 	
 	private Long code;

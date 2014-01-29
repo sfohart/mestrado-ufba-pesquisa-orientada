@@ -34,7 +34,6 @@ public enum SearchFieldsEnum {
 	public static String[] toArrayNames() {
 		String[] array = new String[] {
 			projectName.fieldName(),
-			projectName.fieldName(),
 			projectDescription.fieldName(),
 			linkCategory.fieldName(),
 			linkTitle.fieldName(),

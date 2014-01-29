@@ -10,7 +10,6 @@ import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
-import javax.persistence.Lob;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
@@ -18,11 +17,13 @@ import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 
 import org.hibernate.search.annotations.Analyze;
+import org.hibernate.search.annotations.DocumentId;
 import org.hibernate.search.annotations.Field;
 import org.hibernate.search.annotations.Index;
 import org.hibernate.search.annotations.Indexed;
 import org.hibernate.search.annotations.IndexedEmbedded;
 import org.hibernate.search.annotations.Store;
+import org.hibernate.search.annotations.TermVector;
 
 import br.ufba.dcc.mestrado.computacao.entities.BaseEntity;
 import br.ufba.dcc.mestrado.computacao.entities.ohloh.analysis.OhLohAnalysisEntity;
@@ -40,10 +41,11 @@ public class OhLohProjectEntity implements BaseEntity<Long> {
 	public final static String NODE_NAME = "project";
 
 	@Id
+	@DocumentId(name = "id")
 	private Long id;
 	
 	@Column(name = "name")
-	@Field(index = Index.YES, analyze = Analyze.YES, store = Store.NO)
+	@Field(index = Index.YES, analyze = Analyze.YES, store = Store.NO, termVector = TermVector.YES)
 	private String name;
 
 	@Column(name = "url")
@@ -58,7 +60,7 @@ public class OhLohProjectEntity implements BaseEntity<Long> {
 	@Column(name = "updated_at")
 	private Timestamp updatedAt;
 
-	@Field(index = Index.YES, analyze = Analyze.YES, store = Store.NO)
+	@Field(index = Index.YES, analyze = Analyze.YES, store = Store.NO, termVector = TermVector.YES)
 	@Column(name = "description")
 	private String description;
 

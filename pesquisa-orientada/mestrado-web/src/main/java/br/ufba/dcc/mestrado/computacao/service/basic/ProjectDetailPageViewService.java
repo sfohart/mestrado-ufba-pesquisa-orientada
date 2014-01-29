@@ -22,6 +22,16 @@ public interface ProjectDetailPageViewService extends BaseOhLohService<Long, Pro
 			Integer startAt, 
 			Integer offset);
 	
+	
+	/**
+	 * Cria um recomendador do tipo "Slope One".
+	 * 
+	 * Avalia usuários que visualizaram os mesmos ítens que o usuário corrente, e então 
+	 * pode recomendar itens que o usuário corrente ainda não viu.
+	 * 
+	 * @return
+	 * @throws TasteException
+	 */
 	GenericBooleanPrefItemBasedRecommender buildProjectRecommender() throws TasteException;
 	
 }

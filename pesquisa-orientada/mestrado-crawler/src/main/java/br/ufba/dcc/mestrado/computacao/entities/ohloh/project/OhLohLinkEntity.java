@@ -12,6 +12,7 @@ import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 
 import org.hibernate.search.annotations.Analyze;
+import org.hibernate.search.annotations.ContainedIn;
 import org.hibernate.search.annotations.Field;
 import org.hibernate.search.annotations.Index;
 import org.hibernate.search.annotations.Store;
@@ -38,6 +39,7 @@ public class OhLohLinkEntity implements BaseEntity<Long> {
 	
 	@ManyToOne(optional = false)	
 	@JoinColumn(name = "project_id", referencedColumnName = "id")
+	@ContainedIn
 	private OhLohProjectEntity ohlohProject;
 	
 	@Column(name = "project_id", updatable = false, insertable = false)
