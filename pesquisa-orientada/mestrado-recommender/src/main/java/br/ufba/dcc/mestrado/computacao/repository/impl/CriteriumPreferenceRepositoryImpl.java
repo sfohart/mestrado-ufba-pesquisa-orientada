@@ -95,7 +95,12 @@ public class CriteriumPreferenceRepositoryImpl extends BaseRepositoryImpl<Long, 
 		Expression<Timestamp> greatestRegisteredAt = p2.get("registeredAt");
 		
 		subquery.select(criteriaBuilder.greatest((greatestRegisteredAt)));
-		subquery.where(criteriaBuilder.equal(p1.get("userId"), p2.get("userId")));
+		
+		List<Predicate> subqueryPredicateList = new ArrayList<>();
+		subqueryPredicateList.add(criteriaBuilder.equal(p1.get("userId"), p2.get("userId")));
+		subqueryPredicateList.add(criteriaBuilder.equal(p1.get("projectId"), p2.get("projectId")));
+		
+		subquery.where(subqueryPredicateList.toArray(new Predicate[0]));
 		
 		Predicate registeredAtPredicate = criteriaBuilder.equal(p1.get("registeredAt"), subquery);
 		
