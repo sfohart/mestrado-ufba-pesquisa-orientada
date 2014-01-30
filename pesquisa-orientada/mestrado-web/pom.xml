@@ -31,6 +31,14 @@
 			<name>Spring Maven Milestone Repository</name>
 			<url>http://repo.springsource.org/libs-milestone-local</url>
 		</repository>
+		<repository>
+			<id>spring-snapshots</id>
+			<name>Spring Snapshots</name>
+			<url>http://repo.spring.io/snapshot</url>
+			<snapshots>
+				<enabled>true</enabled>
+			</snapshots>
+		</repository>
 	</repositories>
 
 
@@ -138,6 +146,12 @@
 			<groupId>org.springframework.social</groupId>
 			<artifactId>spring-social-facebook</artifactId>
 			<version>${spring-social-facebook.version}</version>
+			<exclusions>
+				<exclusion>
+					<groupId>org.springframework.social</groupId>
+					<artifactId>spring-social-core</artifactId>
+				</exclusion>
+			</exclusions>
 		</dependency>
 		<dependency>
 			<groupId>org.springframework.social</groupId>
@@ -186,12 +200,12 @@
 			<artifactId>jersey-spring3</artifactId>
 			<version>${jersey.version}</version>
 		</dependency>
-		
+
 		<!-- Pretty Faces -->
 		<dependency>
-		    <groupId>com.ocpsoft</groupId>
-   			<artifactId>prettyfaces-jsf2</artifactId>
-		    <version>${pretty-faces.version}</version>
+			<groupId>com.ocpsoft</groupId>
+			<artifactId>prettyfaces-jsf2</artifactId>
+			<version>${pretty-faces.version}</version>
 		</dependency>
 
 	</dependencies>

@@ -64,7 +64,7 @@
 						</div>
 					</h:panelGroup>
 					
-					<div class="row" style="border-top: 1px solid #aaa;">
+					<div style="border-top: 1px solid #aaa;">
 						<h2>Sumário</h2>
 					</div>
 					
@@ -157,171 +157,167 @@
 						</div>
 					</h:panelGroup>
 					
-					<div class="row" style="border-top: 1px solid #aaa; margin-bottom: 20px">
+					<div style="border-top: 1px solid #aaa; margin-bottom: 20px">
 						<h2>Comunidade</h2>
 					</div>
 					
-					<h:panelGroup id="communityPanel" layout="block" styleClass="row" style="margin-bottom: 20px">
-						
-						<div class="row">
-							<div class="col-md-6 col-sm-6">
-								<div style="padding: 19px">
-									<h:outputText 
-										rendered="#{projectDetailMB.overallPreferenceCount eq 1}"
-										value="#{projectDetailMB.overallPreferenceCount} pessoa avaliou este projeto" />
-									<h:outputText 
-										rendered="#{projectDetailMB.overallPreferenceCount > 1}"
-										value="#{projectDetailMB.overallPreferenceCount} pessoas avaliaram este projeto" />
-									<h:outputText 
-										rendered="#{projectDetailMB.overallPreferenceCount eq 0}"
-										value="Nenhum usuário avaliou ainda este projeto" /> 
-									<br />
-									<div class="rateit" data-rateit-readonly="true"
-										data-rateit-min="0" data-rateit-max="10"
-										data-rateit-value="#{projectDetailMB.averagePreference.value}" data-rateit-ispreset="true"  />
-									<span style="margin-left: 10px" class="soft small">
-										<h:outputText value="#{projectDetailMB.averagePreference.value}" >
-											<f:convertNumber maxFractionDigits="2" maxIntegerDigits="2" pattern="#0.00" />
-										</h:outputText> / 10
-									</span>
-								</div>								
-								
+					<h:panelGroup styleClass="row" layout="block" style="margin-bottom: 20px">
+						<div class="col-md-6 col-sm-6">
+							<div style="padding: 19px">
+								<h:outputText 
+									rendered="#{projectDetailMB.overallPreferenceCount eq 1}"
+									value="#{projectDetailMB.overallPreferenceCount} pessoa avaliou este projeto" />
+								<h:outputText 
+									rendered="#{projectDetailMB.overallPreferenceCount > 1}"
+									value="#{projectDetailMB.overallPreferenceCount} pessoas avaliaram este projeto" />
+								<h:outputText 
+									rendered="#{projectDetailMB.overallPreferenceCount eq 0}"
+									value="Nenhum usuário avaliou ainda este projeto" /> 
+								<br />
+								<div class="rateit" data-rateit-readonly="true"
+									data-rateit-min="0" data-rateit-max="10"
+									data-rateit-value="#{projectDetailMB.averagePreference.value}" data-rateit-ispreset="true"  />
+								<span style="margin-left: 10px" class="soft small">
+									<h:outputText value="#{projectDetailMB.averagePreference.value}" >
+										<f:convertNumber maxFractionDigits="2" maxIntegerDigits="2" pattern="#0.00" />
+									</h:outputText> / 10
+								</span>
 							</div>
-							<div class="col-md-6 col-sm-6">
+						</div>
+						<div class="col-md-6 col-sm-6">
+							
+						</div>
+					</h:panelGroup>
+					
+					<h:panelGroup styleClass="row" layout="block" style="margin-bottom: 20px">
+						<div class="col-md-6 col-sm-6">
+							<div class="well">
+								<h4>Avaliação média por Critério</h4>
+								
+								<ui:include src="/reviews/reviewByCriterium.xhtml">
+									<ui:param name="preference" value="#{projectDetailMB.averagePreference}" />
+								</ui:include>
+								
 								
 							</div>
 						</div>
-						
-						<div class="row">
-							<div class="col-md-6 col-sm-6 well">
-								<div>
-									<h4>Avaliação média por Critério</h4>
-									
-									<ui:include src="/reviews/reviewByCriterium.xhtml">
-										<ui:param name="preference" value="#{projectDetailMB.averagePreference}" />
-									</ui:include>
-									
-									
-								</div>
-							</div>
-							<div class="col-md-6 col-sm-6">
-								<h:panelGroup id="contributorsGraph" layout="block" style="min-height: 250px;">
-								</h:panelGroup>
-								
-								<script type="text/javascript">
-									$(document).ready(function() {
-										var contributorsOptions = {
-											title: { text: 'Colaboradores por mês' },
-											plotOptions: {
-												series: {
-													marker: {
-														enabled: false
-													}
+						<div class="col-md-6 col-sm-6">
+							<h:panelGroup id="contributorsGraph" layout="block" style="min-height: 250px;">
+							</h:panelGroup>
+							
+							<script type="text/javascript">
+								$(document).ready(function() {
+									var contributorsOptions = {
+										title: { text: 'Colaboradores por mês' },
+										plotOptions: {
+											series: {
+												marker: {
+													enabled: false
 												}
-											},
-											
-											chart: {
-												renderTo: 'contributorsGraph',
-												type: 'line'
-											},
-											
-										 	xAxis: {
-								                type: 'datetime',
-								                maxZoom: 30 * 24 * 3600000, // fourteen days
-								                title: {
-								                    text: null
-								                }
-								            },
-								            
-								            yAxis: {
-								                title: {
-								                    text: null
-								                }
-								            },
-								            
-								            legend: {
-								                enabled: false
-								            },
-								            
-								            tooltip: {
-								                shared: true
-								            },
-								            
-											series: [{
-												name: 'Colaboradores',
-												pointInterval: 30 * 24 * 3600 * 1000
-											}]
-										};
-																			
-										var url = "#{facesContext.externalContext.applicationContextPath}/restful/activityFact/#{projectDetailMB.project.id}/contributors/chartData";
-										$.getJSON(url,  function(returnedData) {
-											contributorsOptions.series[0].data = returnedData.data;
-											contributorsOptions.series[0].pointStart = returnedData.pointStart;
-											var chart = new Highcharts.Chart(contributorsOptions);
-										});
-									});
-								</script>
-							</div>
-						</div>
-						
-						<div class="row">
-							<div class="col-md-6 col-sm-6">
-								<div class="row">								
-									<h4>
-										<h:outputLink value="#{facesContext.externalContext.applicationContextPath}/summary/summaryReviews.jsf" >
-											<f:param name="projectId" value="#{projectDetailMB.project.id}" />
-											Veja outras avaliações
-										</h:outputLink>
-									</h4>
-								</div>
-								
-								<h:panelGroup layout="block" styleClass="row" rendered="#{projectDetailMB.userPreference != null}">
-									<h4>Sua avaliação:</h4>
-									<div class="rateit" data-rateit-readonly="true"
-										data-rateit-min="0" data-rateit-max="10"
-										data-rateit-value="#{projectDetailMB.userPreference.value}" data-rateit-ispreset="true"  />
+											}
+										},
 										
-									<!-- legenda das estrelas -->
-									<h:panelGroup style="margin-left: 10px" styleClass="soft small" rendered="#{projectDetailMB.userPreference.value != null and projectDetailMB.userPreference.value > 0}">
-										(<h:outputText value="#{projectDetailMB.userPreference.value}" >
-											<f:convertNumber maxFractionDigits="2" maxIntegerDigits="2" pattern="#0.00" />
-										</h:outputText> / 10)
-									</h:panelGroup>
-									<h:panelGroup style="margin-left: 10px" styleClass="soft small" rendered="#{projectDetailMB.userPreference.value == null or projectDetailMB.userPreference.value == 0}">
-										(0 / 10)
-									</h:panelGroup>
+										chart: {
+											renderTo: 'contributorsGraph',
+											type: 'line'
+										},
+										
+										xAxis: {
+											type: 'datetime',
+											maxZoom: 30 * 24 * 3600000, // fourteen days
+											title: {
+												text: null
+											}
+										},
+										
+										yAxis: {
+											title: {
+												text: null
+											}
+										},
+										
+										legend: {
+											enabled: false
+										},
+										
+										tooltip: {
+											shared: true
+										},
+										
+										series: [{
+											name: 'Colaboradores',
+											pointInterval: 30 * 24 * 3600 * 1000
+										}]
+									};
+																		
+									var url = "#{facesContext.externalContext.applicationContextPath}/restful/activityFact/#{projectDetailMB.project.id}/contributors/chartData";
+									$.getJSON(url,  function(returnedData) {
+										contributorsOptions.series[0].data = returnedData.data;
+										contributorsOptions.series[0].pointStart = returnedData.pointStart;
+										var chart = new Highcharts.Chart(contributorsOptions);
+									});
+								});
+							</script>
+						</div>
+					</h:panelGroup>
+					
+					<h:panelGroup styleClass="row" layout="block" style="margin-bottom: 20px">
+						<div class="col-md-6 col-sm-6">
+							<div>								
+								<h4>
+									<h:outputLink value="#{facesContext.externalContext.applicationContextPath}/summary/summaryReviews.jsf" >
+										<f:param name="projectId" value="#{projectDetailMB.project.id}" />
+										Veja outras avaliações
+									</h:outputLink>
+								</h4>
+							</div>
+							
+							<h:panelGroup layout="block" rendered="#{projectDetailMB.userPreference != null}">
+								<h4>Sua avaliação:</h4>
+								<div class="rateit" data-rateit-readonly="true"
+									data-rateit-min="0" data-rateit-max="10"
+									data-rateit-value="#{projectDetailMB.userPreference.value}" data-rateit-ispreset="true"  />
 									
-									<!-- notas por critério -->
-									<h:panelGroup layout="block" style="clear: both; margin-top: 20px"
-											rendered="#{not empty projectDetailMB.userPreference.preferenceEntryList}">
-											
-										<ui:include src="/reviews/reviewByCriterium.xhtml">
-											<ui:param name="preference" value="#{projectDetailMB.userPreference}" />
-											<ui:param name="criteriumInPopup" value="true" />	
-										</ui:include>
-									</h:panelGroup>	
-									
-									<h4>
-										<h:outputLink value="#{facesContext.externalContext.applicationContextPath}/reviews/newProjectReview.jsf">
-											<f:param name="projectId" value="#{projectDetailMB.project.id}" />
-											Mudou de idéia? Que tal avaliar novamente este projeto?
-										</h:outputLink>
-									</h4>
-									
+								<!-- legenda das estrelas -->
+								<h:panelGroup style="margin-left: 10px" styleClass="soft small" rendered="#{projectDetailMB.userPreference.value != null and projectDetailMB.userPreference.value > 0}">
+									(<h:outputText value="#{projectDetailMB.userPreference.value}" >
+										<f:convertNumber maxFractionDigits="2" maxIntegerDigits="2" pattern="#0.00" />
+									</h:outputText> / 10)
+								</h:panelGroup>
+								<h:panelGroup style="margin-left: 10px" styleClass="soft small" rendered="#{projectDetailMB.userPreference.value == null or projectDetailMB.userPreference.value == 0}">
+									(0 / 10)
 								</h:panelGroup>
 								
-								<h:panelGroup layout="block" styleClass="row" rendered="#{projectDetailMB.userPreference == null}">
-									<h4>
-										<h:outputLink value="#{facesContext.externalContext.applicationContextPath}/reviews/newProjectReview.jsf">
-											<f:param name="projectId" value="#{projectDetailMB.project.id}" />
-											Avalie você também este projeto
-										</h:outputLink>
-									</h4>
-								</h:panelGroup>
-							</div>
-							<div class="col-md-6 col-sm-6">
-							</div>	
-						</div>						
+								<!-- notas por critério -->
+								<h:panelGroup layout="block" style="clear: both; margin-top: 20px"
+										rendered="#{not empty projectDetailMB.userPreference.preferenceEntryList}">
+										
+									<ui:include src="/reviews/reviewByCriterium.xhtml">
+										<ui:param name="preference" value="#{projectDetailMB.userPreference}" />
+										<ui:param name="criteriumInPopup" value="true" />	
+									</ui:include>
+								</h:panelGroup>	
+								
+								<h4>
+									<h:outputLink value="#{facesContext.externalContext.applicationContextPath}/reviews/newProjectReview.jsf">
+										<f:param name="projectId" value="#{projectDetailMB.project.id}" />
+										Mudou de idéia? Que tal avaliar novamente este projeto?
+									</h:outputLink>
+								</h4>
+								
+							</h:panelGroup>
+							
+							<h:panelGroup layout="block" rendered="#{projectDetailMB.userPreference == null}">
+								<h4>
+									<h:outputLink value="#{facesContext.externalContext.applicationContextPath}/reviews/newProjectReview.jsf">
+										<f:param name="projectId" value="#{projectDetailMB.project.id}" />
+										Avalie você também este projeto
+									</h:outputLink>
+								</h4>
+							</h:panelGroup>
+						</div>
+						<div class="col-md-6 col-sm-6">
+						</div>
 					</h:panelGroup>
 					
 					<h:panelGroup layout="block"
@@ -334,13 +330,12 @@
 						
 					</h:panelGroup>
 					
-					<div class="row" style="border-top: 1px solid #aaa;">
+					<div style="border-top: 1px solid #aaa;">
 						<h2>Sobre o Código Fonte</h2>
 					</div>
 					
 					<h:panelGroup id="nutshelPanel" layout="block" styleClass="row" style="margin-top: 20px">
 						<div class="col-md-6 col-sm-6">
-							
 							<h:panelGroup id="projectNutshelFull" layout="block" styleClass="well" rendered="#{not empty projectDetailMB.factoidList}"
 								style="min-height: 350px;">
 								<h5>Em resumo, <h:outputText value="#{projectDetailMB.project.name}" />...</h5>
@@ -491,7 +486,7 @@
 					
 					</h:panelGroup>
 					
-					<div class="row" style="border-top: 1px solid #aaa;">
+					<div style="border-top: 1px solid #aaa;">
 						<h2>Atividade</h2>
 					</div>
 					
