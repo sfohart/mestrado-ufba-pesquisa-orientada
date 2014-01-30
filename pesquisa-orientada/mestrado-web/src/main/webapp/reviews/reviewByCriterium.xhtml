@@ -57,10 +57,11 @@
 										
 						<div class="row">
 							<div class="col-md-10 col-md-offset-1">
-								<table class="table table-condensed unstyled pull-left" style="width: auto">
+							
+								<table class="table table-condensed unstyledt" style="width: auto">
 									<tbody >
 										<ui:repeat var="preferenceEntry" value="#{preference.preferenceEntryList}">
-											<tr class="pull-left" style="width: 50%; min-height: 95px">
+											<tr class="pull-left col-xs-12 col-sm-6 col-md-6 "  style="min-height: 95px">
 												<td style="border: none;">
 												
 													<h:panelGroup layout="block" rendered="#{not enableEditing}">
@@ -122,10 +123,10 @@
 	
 		<ui:include src="/reviews/reviewCriteriumHelp.xhtml"/>
 	
-		<table class="table table-condensed unstyled pull-left" style="width: 100%">
+		<table class="table table-condensed unstyled" style="width: 100%">
 			<tbody >
 				<ui:repeat var="preferenceEntry" value="#{preference.preferenceEntryList}">
-					<tr class="pull-left" style="width: 50%; min-height: 95px">
+					<tr class="pull-left  col-xs-12 col-sm-6 col-md-6 " style="min-height: 95px">
 						<td style="border: none;">
 							<h:panelGroup layout="block" rendered="#{not enableEditing}">
 								<span

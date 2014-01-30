@@ -15,7 +15,7 @@
 		<div class="row">
 			<ul class="media-list">
 				<ui:repeat var="viewedProject" value="#{projectCart}" >
-					<li class="media col-md-4" style="margin: 10px 0px; min-height: 150px; height: auto;">
+					<li class="media col-md-4 col-sm-4" style="margin: 10px 0px; min-height: 150px; height: auto;">
 						<h:outputLink styleClass="pull-left"
 							value="#{facesContext.externalContext.applicationContextPath}/detail/projectDetail.jsf" 
 							rendered="#{viewedProject.mediumLogoURL != 'no_logo.png'}">

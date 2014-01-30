@@ -69,7 +69,7 @@
 					</div>
 					
 					<h:panelGroup id="projectSummary" layout="block" styleClass="row" style="margin-bottom: 20px">
-						<div class="col-md-6">
+						<div class="col-md-6 col-sm-6">
 							<h:panelGroup id="projectDescription" p:itemprop="description" >
 								<ui:repeat var="paragraph" value="#{projectDetailMB.projectDescritionParagraphs}">
 									<p>
@@ -88,7 +88,7 @@
 														
 						</div>
 						
-						<div class="col-md-6">
+						<div class="col-md-6 col-sm-6">
 							<h:panelGroup id="projectReferences" layout="block" styleClass="well">
 								<h4>Referências</h4>
 								
@@ -164,7 +164,7 @@
 					<h:panelGroup id="communityPanel" layout="block" styleClass="row" style="margin-bottom: 20px">
 						
 						<div class="row">
-							<div class="col-md-6">
+							<div class="col-md-6 col-sm-6">
 								<div style="padding: 19px">
 									<h:outputText 
 										rendered="#{projectDetailMB.overallPreferenceCount eq 1}"
@@ -187,13 +187,13 @@
 								</div>								
 								
 							</div>
-							<div class="col-md-6">
+							<div class="col-md-6 col-sm-6">
 								
 							</div>
 						</div>
 						
 						<div class="row">
-							<div class="col-md-6 well">
+							<div class="col-md-6 col-sm-6 well">
 								<div>
 									<h4>Avaliação média por Critério</h4>
 									
@@ -204,7 +204,7 @@
 									
 								</div>
 							</div>
-							<div class="col-md-6">
+							<div class="col-md-6 col-sm-6">
 								<h:panelGroup id="contributorsGraph" layout="block" style="min-height: 250px;">
 								</h:panelGroup>
 								
@@ -265,7 +265,7 @@
 						</div>
 						
 						<div class="row">
-							<div class="col-md-6">
+							<div class="col-md-6 col-sm-6">
 								<div class="row">								
 									<h4>
 										<h:outputLink value="#{facesContext.externalContext.applicationContextPath}/summary/summaryReviews.jsf" >
@@ -319,7 +319,7 @@
 									</h4>
 								</h:panelGroup>
 							</div>
-							<div class="col-md-6">
+							<div class="col-md-6 col-sm-6">
 							</div>	
 						</div>						
 					</h:panelGroup>
@@ -339,7 +339,7 @@
 					</div>
 					
 					<h:panelGroup id="nutshelPanel" layout="block" styleClass="row" style="margin-top: 20px">
-						<div class="col-md-6">
+						<div class="col-md-6 col-sm-6">
 							
 							<h:panelGroup id="projectNutshelFull" layout="block" styleClass="well" rendered="#{not empty projectDetailMB.factoidList}"
 								style="min-height: 350px;">
@@ -381,7 +381,7 @@
 							</h:panelGroup>
 						</div>
 						
-						<div class="col-md-6">
+						<div class="col-md-6 col-sm-6">
 							<h:panelGroup id="projectLanguages" layout="block" rendered="#{projectDetailMB.project.ohLohAnalysis != null}" >
 								<h:link>
 									<h4>Linguagens</h4>
@@ -496,7 +496,7 @@
 					</div>
 					
 					<h:panelGroup id="activityPanel" layout="block" styleClass="row">
-						<div class="col-md-6">
+						<div class="col-md-6 col-sm-6">
 							<div class="well" style="min-height: 200px;">
 								<table class="unstyled" id="activity_table" style="width: 100%" >
 									<tbody>
@@ -530,7 +530,7 @@
 								</table>
 							</div>
 						</div>
-						<div class="col-md-6">
+						<div class="col-md-6 col-sm-6">
 							<h:panelGroup id="commitGraph" layout="block" style="min-height: 200px">
 							</h:panelGroup>
 							

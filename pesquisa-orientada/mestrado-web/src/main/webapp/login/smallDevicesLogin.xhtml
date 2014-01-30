@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!DOCTYPE html>
+<ui:composition 
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://xmlns.jcp.org/jsf/passthrough"
+	>
+
+	<div class="visible-xs">
+		<h:form  prependId="false">
+			<h:panelGroup layout="block" rendered="#{loginMB.loggedUser eq null}">
+				<ul class="nav nav-pills">
+					<li>
+						<h:outputLink class="btn"  value="#{facesContext.externalContext.applicationContextPath}/login/login.jsf" style="margin-right: 10px" >
+							<span class="glyphicon glyphicon-log-in"></span> Entrar
+						</h:outputLink>
+					</li>
+					<li>
+						<button class="btn btn-success btn-mini" formaction="#{facesContext.externalContext.applicationContextPath}/account/newAccount.jsf" >
+							<span class="glyphicon glyphicon-plus-sign white"></span> Cadastre-se 
+						</button>
+					</li>
+				</ul>
+			</h:panelGroup>
+			
+			<h:panelGroup layout="block" rendered="#{loginMB.loggedUser != null}">
+			
+				<ul class="nav nav-pills">
+					<li>
+						<h:outputLink  class="btn" value="#{facesContext.externalContext.applicationContextPath}/account/account.jsf" style="margin-right: 10px" >
+							<f:param name="accountId" value="#{loginMB.loggedUser.id}" />
+							<span class="glyphicon glyphicon-user"></span> 
+							
+							<ui:include src="/account/accountName.xhtml"  >
+								<ui:param name="user" value="#{loginMB.loggedUser}"  />
+							</ui:include>  							
+						</h:outputLink>
+					</li>
+					<li>
+						<h:commandLink class="btn" action="#{loginMB.signOut}" >
+							<span class="glyphicon glyphicon-log-out"></span> Sair
+						</h:commandLink>
+					</li>
+				</ul>
+			</h:panelGroup>
+		</h:form>
+	</div>	
+	
+</ui:composition>
