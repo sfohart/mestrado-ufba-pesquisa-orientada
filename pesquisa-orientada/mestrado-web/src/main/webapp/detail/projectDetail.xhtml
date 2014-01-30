@@ -84,7 +84,7 @@
 							<h:panelGroup id="tagsPanel" rendered="#{not empty projectDetailMB.project.ohLohTags}">
 								<span class="glyphicon glyphicon-tags" style="margin-right: 5px"></span>
 								<ui:repeat var="tag" value="#{projectDetailMB.project.ohLohTags}">
-									<span class="label label-info"><h:outputText value="#{tag.name}" /></span>      														
+									<span class="label-custom"><h:outputText value="#{tag.name}" /></span>      														
 								</ui:repeat>      														
 							</h:panelGroup>							
 						</div>

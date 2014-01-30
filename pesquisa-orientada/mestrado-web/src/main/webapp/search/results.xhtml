@@ -4,6 +4,7 @@
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:ui="http://java.sun.com/jsf/facelets"
 	xmlns:f="http://java.sun.com/jsf/core"	
+	xmlns:fn="http://java.sun.com/jsp/jstl/functions"
 	xmlns:p="http://xmlns.jcp.org/jsf/passthrough">
 	
 	<f:metadata>
@@ -124,13 +125,19 @@
 															</p>
 														</div>
 													</div>
-													<h:panelGroup layout="block" id="tagsPanel" rendered="#{not empty project.ohLohTags}" style="margin-top: 10px">
-														<span class="glyphicon glyphicon-tags" style="margin-right: 5px"></span>
-														<ui:repeat var="tag" value="#{project.ohLohTags}">
-															<span class="label label-tag"><h:outputText value="#{tag.name}" /></span>      														
-														</ui:repeat>      														
-													</h:panelGroup>
 												</div>
+												<h:panelGroup layout="block" class="row add-info">
+												</h:panelGroup>
+												<h:panelGroup layout="block" id="tagsPanel" class="root tags-panel" rendered="#{not empty project.ohLohTags}" style="margin-top: 10px">
+													<span class="glyphicon glyphicon-tags" style="margin-right: 5px"></span>
+													<ui:repeat var="tag" value="#{project.ohLohTags}" size="7">
+														<span class="label-custom"><h:outputText value="#{tag.name}" /></span>      														
+													</ui:repeat>
+													<ui:param name="tagOthersSize" value="#{fn:length(project.ohLohTags) - 7}" />
+													<h:outputText 
+														rendered="#{fn:length(project.ohLohTags) > 7}"
+														value=" e #{tagOthersSize} outras"/>					
+												</h:panelGroup>
 											</div>
 										</ui:repeat>
 									</section>

@@ -1,3 +1,12 @@
+body {
+	font-family:Open Sans;
+}
+
+
+h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6 {
+	font-family:Open Sans;
+}
+
 /* Cores */
 .white {
 	color: white;
@@ -71,6 +80,23 @@ div.bigstars div.rateit-reset
 div.bigstars div.rateit-reset:hover
 {	
     background: url(#{resource['default:img/star-white32.png']});
+}
+
+/*
+------------------------------------------------- */
+.label-custom {
+	background-color: #dbe4ee;
+	border: 1px solid #aaa;
+	border-radius: 0px;
+	color: #333 !important;
+	padding: 5px 8px;
+	margin: 0 2px 4px 0;
+	display: inline-block;
+	font-size: 11px;
+	font-weight: 400;
+	text-decoration: none;
+	cursor: pointer;
+	line-height: 11px;
 }
 
 /*
