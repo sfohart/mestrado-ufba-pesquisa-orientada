@@ -8,15 +8,30 @@
 	>
       
 			<div class="jumbotron">
-				<h1>Que software livre utilizar?</h1>
-				<p>				
-					Muita gente desconhece o fato de que existe um software de código aberto para
-					a maioria dos softwares pelos quais pagou. Em muitos casos, esse software pago não
-					atende totalmente as necessidades dos seus usuários. Este é um bom lugar para começar a procurar,
-					já que nossos usuários levam muita coisa em consideração para avaliar
-					a qualidade de um software. 
-				</p>
-				
+				<div class="row">
+					<h1>Que software livre utilizar?</h1>
+					<p>				
+						Muita gente desconhece o fato de que existe um software de código aberto para
+						a maioria dos softwares pelos quais pagou. Em muitos casos, esse software pago não
+						atende totalmente as necessidades dos seus usuários. Este é um bom lugar para começar a procurar,
+						já que nossos usuários levam muita coisa em consideração para avaliar
+						a qualidade de um software. 
+					</p>
+					
+					<div>
+						<h:form id="indexSearch" >
+							<div class="input-group input-group-lg col-md-8 col-md-offset-2">
+								<h:inputText styleClass="form-control" id="query" p:placeholder="Digite aqui"  value="#{mainMB.searchRequest.query}" />
+								<span class="input-group-btn">
+									<h:commandButton styleClass="btn btn-default" value="Buscar"
+				  						action="#{mainMB.loadResults}">
+				  						<f:param name="query" value="#{mainMB.searchRequest.query}"  />
+				  					</h:commandButton>
+								</span>
+							</div>
+						</h:form>
+					</div>
+				</div>
 				
 			</div>
       

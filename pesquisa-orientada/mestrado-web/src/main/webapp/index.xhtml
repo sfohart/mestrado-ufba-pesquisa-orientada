@@ -16,6 +16,13 @@
 		<ui:composition template="/layout/mainLayout.xhtml">
 			<ui:define name="titlePage">Sfohart</ui:define>
 			
+			
+			<ui:define name="header">
+				<ui:include src="/layout/mainHeader.xhtml" >
+					<ui:param name="hideSearchForm" value="true" />
+				</ui:include>
+			</ui:define>
+			
 			<ui:define name="content">
 				<section class="container">
 				
