@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!DOCTYPE html>
+<ui:composition  
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:fn="http://java.sun.com/jsp/jstl/functions"
+	xmlns:p="http://xmlns.jcp.org/jsf/passthrough"
+	>
+	
+	
+	<h:panelGroup layout="block" id="tagsPanel" class="root tags-panel" rendered="#{(not empty tagList) and (not fullList)}" style="margin-top: 10px">
+		<span class="glyphicon glyphicon-tags" style="margin-right: 5px"></span>
+		<ui:repeat var="tag" value="#{tagList}" size="7">
+			<span class="label-custom"><h:outputText value="#{tag.name}" /></span>      														
+		</ui:repeat>
+		<ui:param name="tagOthersSize" value="#{fn:length(tagList) - 7 - 1}" />
+		<h:outputText 
+			rendered="#{fn:length(tagList) > 7}"
+			value=" e #{tagOthersSize} outras"/>					
+	</h:panelGroup>
+	
+	<h:panelGroup id="tagsPanelFullList" rendered="#{(not empty tagList) and fullList}">
+		<span class="glyphicon glyphicon-tags" style="margin-right: 5px"></span>
+		<ui:repeat var="tag" value="#{tagList}">
+			<span class="label-custom"><h:outputText value="#{tag.name}" /></span>      														
+		</ui:repeat>      														
+	</h:panelGroup>
+	
+	
+</ui:composition>

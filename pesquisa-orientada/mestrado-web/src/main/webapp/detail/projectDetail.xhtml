@@ -81,12 +81,11 @@
 							<div class="row"></div>
 							
 							<h4>Tags</h4>
-							<h:panelGroup id="tagsPanel" rendered="#{not empty projectDetailMB.project.ohLohTags}">
-								<span class="glyphicon glyphicon-tags" style="margin-right: 5px"></span>
-								<ui:repeat var="tag" value="#{projectDetailMB.project.ohLohTags}">
-									<span class="label-custom"><h:outputText value="#{tag.name}" /></span>      														
-								</ui:repeat>      														
-							</h:panelGroup>							
+							<ui:include src="/detail/projectTagList.xhtml">
+								<ui:param name="tagList" value="#{projectDetailMB.project.ohLohTags}"/>
+								<ui:param name="fullList" value="true" />
+							</ui:include>
+														
 						</div>
 						
 						<div class="col-md-6">
