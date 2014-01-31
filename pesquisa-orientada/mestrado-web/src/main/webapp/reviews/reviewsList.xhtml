@@ -35,7 +35,6 @@
 							<h:messages  />
 						</h:panelGroup>
 										
-						<div class="row">
 						
 							<h:panelGroup id="reviewsPanel" layout="block">
 								
@@ -43,7 +42,7 @@
 								<ui:param name="hidingProject" value="#{reviewListMB.project.id != null and reviewListMB.user.id eq null}"/>
 								
 								<h:panelGroup layout="block" rendered="#{hidingUser}">
-									<div class="row" style="margin-bottom: 20px">
+									<div style="margin-bottom: 20px">
 										<div class="col-md-2 pull-left">
 											<h:outputLink value="#{facesContext.externalContext.applicationContextPath}/account/account.jsf?accountId=#{reviewListMB.user.id}">
 												<h:panelGroup layout="block" rendered="#{ (reviewListMB.user.encodedEmail eq null) or (reviewListMB.user.encodedEmail eq '') }">
@@ -65,7 +64,7 @@
 										</div>
 									</div>
 									
-									<div class="row" style="border-top: 1px solid #aaa; margin-bottom: 20px">
+									<div style="border-top: 1px solid #aaa; margin-bottom: 20px">
 										<h3>Projetos comentados pelo usuário</h3>
 									</div>
 								</h:panelGroup>
@@ -96,7 +95,7 @@
 										</div>
 									</div>
 									
-									<div class="row" style="border-top: 1px solid #aaa; margin-bottom: 20px">
+									<div style="border-top: 1px solid #aaa; margin-bottom: 20px">
 										<h3>Comentários dos usuários</h3>
 									</div>
 								</h:panelGroup>
@@ -138,7 +137,6 @@
 								</ui:include>
 							
 							</h:panelGroup>
-						</div>
 					</h:form>
 				
 				</section>

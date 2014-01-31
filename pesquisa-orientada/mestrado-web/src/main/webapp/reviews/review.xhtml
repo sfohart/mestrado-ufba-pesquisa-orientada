@@ -10,44 +10,39 @@
 	>
 	
 	
-	<h:panelGroup layout="block" styleClass="row" rendered="#{preference != null}">
+	<h:panelGroup layout="block" styleClass="media" rendered="#{preference != null}">
 		<!-- Dados do usuario ou projeto -->
 		
-		<h:panelGroup layout="block" styleClass="pull-left" rendered="#{hidingProject}" style="width: 13%">
-			<div class="pull-right" style="text-align: right;">
-				<h:outputLink value="#{facesContext.externalContext.applicationContextPath}/account/account.jsf?accountId=#{preference.user.id}">
-					
-					<ui:include src="/account/accountName.xhtml"  >
-						<ui:param name="user" value="#{preference.user}"  />
-					</ui:include>
-				</h:outputLink>
-				disse:
-			</div>
-			
-			<br />
-			<!-- Foto do usuario -->
+		<h:panelGroup layout="block"  rendered="#{hidingProject}" styleClass="pull-left" >
+			<h:outputLink value="#{facesContext.externalContext.applicationContextPath}/account/account.jsf?accountId=#{preference.user.id}">
+				
+				<ui:include src="/account/accountName.xhtml"  >
+					<ui:param name="user" value="#{preference.user}"  />
+				</ui:include>
+			</h:outputLink>
+			disse:
 			<h:panelGroup layout="block" rendered="#{ (preference.user.encodedEmail eq null) or (preference.user.encodedEmail eq '') }">
 				<h:outputLink value="#{facesContext.externalContext.applicationContextPath}/account/account.jsf?accountId=#{preference.user.id}">
-					<h:graphicImage styleClass="media-object pull-right img-thumbnail" height="64" width="64" library="default" name="img/no_logo.png" />
+					<h:graphicImage styleClass="media-object img-thumbnail" height="64" width="64" library="default" name="img/no_logo.png" />
 				</h:outputLink>
 			</h:panelGroup>
 			<h:panelGroup layout="block" rendered="#{ (preference.user.encodedEmail != null) and (preference.user.encodedEmail != '') }">
 				<h:outputLink value="#{facesContext.externalContext.applicationContextPath}/account/account.jsf?accountId=#{preference.user.id}">
-					<h:graphicImage styleClass="media-object pull-right img-thumbnail" url="http://www.gravatar.com/avatar/#{preference.user.encodedEmail}.png?s=64&amp;d=mm" />
+					<h:graphicImage styleClass="media-object img-thumbnail" url="http://www.gravatar.com/avatar/#{preference.user.encodedEmail}.png?s=64&amp;d=mm" />
 				</h:outputLink>
 			</h:panelGroup>
 		</h:panelGroup>
 		
-		<h:panelGroup styleClass="pull-left" rendered="#{hidingUser}" style="width: 13%">
-			<div style="margin-left: 15px" class="row">
-				<h:outputLink styleClass="pull-left" rendered="#{preference.project.mediumLogoURL != 'no_logo.png'}">													
+		<h:panelGroup  rendered="#{hidingUser}" styleClass="pull-left" >
+			<div style="margin-left: 15px" >
+				<h:outputLink  rendered="#{preference.project.mediumLogoURL != 'no_logo.png'}">													
 					<img class="media-object" src="#{preference.project.mediumLogoURL}" height="64px" width="64px" />
 				</h:outputLink>
 				<h:outputLink styleClass="pull-left" rendered="#{preference.project.mediumLogoURL eq 'no_logo.png'}">
 					<h:graphicImage styleClass="media-object" height="64" width="64" library="default" name="img/#{preference.project.mediumLogoURL}" />													
 				</h:outputLink>
 			</div>
-			<div style="margin-left: 15px" class="row">
+			<div style="margin-left: 15px">
 				<h:outputLink value="#{facesContext.externalContext.applicationContextPath}/detail/projectDetail.jsf" class="pull-left">
 					<f:param name="projectId" value="#{preference.project.id}" />
 					<h4><h:outputText value="#{preference.project.name}" style="font-size: 14px" /></h4>														
@@ -56,38 +51,37 @@
 			
 		</h:panelGroup>
 		
-		<div style="width: 5%"></div>
 		
-		<div class="pull-right" style="width: 82%">
-			<div class="row">
-				<!-- Titulo da Review -->
-				<div class="pull-left">
-					<h4 class="media-heading strong">
-						<h:outputText value="#{preference.preferenceReview.title}" />      													
-					</h4>
-				</div>
-				<!-- Nota da review -->
-				<div class="pull-left" style="margin-left: 10px">				
+		<div class="media-body">
+			<!-- Titulo da Review -->
+			<h4 class="media-heading">
+				<h:outputText value="#{preference.preferenceReview.title}" />      													
+			</h4>
+			<!-- Nota da review -->
+			<div>
+				<div>				
 					<!-- Estrelas -->
 					<div class="rateit" data-rateit-readonly="true"
 							data-rateit-min="0" data-rateit-max="10"
 							data-rateit-value="#{preference.value}" data-rateit-ispreset="true"  />
-							
+				</div>
+				<div>
 					<!-- legenda das estrelas -->
-					<h:panelGroup style="margin-left: 10px" styleClass="soft small" rendered="#{preference.value != null and preference.value > 0}">
+					<h:panelGroup styleClass="soft small" rendered="#{preference.value != null and preference.value > 0}">
 						(<h:outputText value="#{preference.value}" >
 							<f:convertNumber maxFractionDigits="2" maxIntegerDigits="2" pattern="#0.00" />
 						</h:outputText> / 10)
 					</h:panelGroup>
-					<h:panelGroup style="margin-left: 10px" styleClass="soft small" rendered="#{preference.value == null or preference.value == 0}">
+					<h:panelGroup styleClass="soft small" rendered="#{preference.value == null or preference.value == 0}">
 						(0 / 10)
 					</h:panelGroup>
 						
 				</div>
 			</div>
 			
+			
 			<!-- data em que foi escrita -->
-			<div class="row">
+			<div>
 				<span class="small soft italic" title="#{preference.registeredAt}">
 					<h:outputText value="#{preference.registeredAt}">
 						<f:convertDateTime pattern="'escrito no dia' dd/MM/yyyy 'às' HH:mm:ss" />
@@ -96,7 +90,7 @@
 			</div>
 			
 			<!-- notas por critério -->
-			<h:panelGroup layout="block" class="row" style="clear: both; margin-top: 20px"
+			<h:panelGroup layout="block" style="clear: both; margin-top: 20px"
 					rendered="#{not empty preference.preferenceEntryList}">
 					
 				<ui:include src="/reviews/reviewByCriterium.xhtml">
@@ -107,12 +101,8 @@
 			</h:panelGroup>
 			
 			<!-- descrição da review -->
-			<div class="row" style="clear: both; padding-top: 10px">
-				<div class="col-md-10">
-					<h:outputText value="#{preference.preferenceReview.description}" />
-				</div>
-				<div class="col-md-2">
-				</div>
+			<div style="clear: both; padding-top: 10px">
+				<h:outputText value="#{preference.preferenceReview.description}" />
 			</div>
 			
 			<p class="soft small">

@@ -28,7 +28,7 @@
 					</h:panelGroup>
 					
 					<h:panelGroup id="projectTitle" layout="block" styleClass="row">
-						<div class="col-md-1">
+						<div class="col-md-1 col-xs-12">
 							<a class="pull-left" href="#">
 								<h:graphicImage
 									style="margin-bottom: 10px"
@@ -43,12 +43,12 @@
 									/>
 							</a>
 						</div>
-						<div class="col-md-9">
+						<div class="col-md-11 col-xs-12">
 							<h2> <h:outputText value="#{summaryReviewsMB.project.name}" /> </h2>
 						</div>
 					</h:panelGroup>
 					
-					<div class="row" style="border-top: 1px solid #aaa;">
+					<div  style="border-top: 1px solid #aaa;">
 						<h3>Avaliações e Opiniões</h3>
 					</div>
 					
@@ -77,9 +77,9 @@
 						</div>
 						
 						<div class="col-md-9">
-							<div class="well row">
+							<div class="well">
 								<h3>Minha avaliação deste projeto:</h3>
-								<h:panelGroup layout="block" styleClass="media" rendered="#{summaryReviewsMB.currentUserPreference != null}">
+								<h:panelGroup layout="block" rendered="#{summaryReviewsMB.currentUserPreference.preferenceReview != null}">
 									<ui:include src="/reviews/review.xhtml">
 										<ui:param name="preference" value="#{summaryReviewsMB.currentUserPreference}" />
 										<ui:param name="hidingProject" value="true" />	
@@ -88,7 +88,7 @@
 									</ui:include> 										
 								</h:panelGroup>
 								
-								<h:panelGroup layout="block" styleClass="media" rendered="#{summaryReviewsMB.currentUserPreference == null}">
+								<h:panelGroup layout="block" styleClass="media" rendered="#{summaryReviewsMB.currentUserPreference.preferenceReview == null}">
 									<div style="margin-bottom: 10px">
 										Você ainda não avaliou este projeto. Clique abaixo para avaliá-lo.
 									</div>
@@ -107,7 +107,7 @@
 					</h:panelGroup>
 					
 					
-					<h:panelGroup layout="block" styleClass="row" style="border-top: 1px solid #aaa;">
+					<h:panelGroup layout="block" style="border-top: 1px solid #aaa;">
 						<div class="col-md-9 col-md-offset-3">
 							<h3>Avaliação média por Critério</h3>
 							
@@ -152,7 +152,6 @@
 								</h3>
 								
 								<h:panelGroup layout="block" rendered="#{not empty summaryReviewsMB.mostHelpfulReviewList}">
-									<section>
 										<ui:repeat var="preference" value="#{summaryReviewsMB.mostHelpfulReviewList}" varStatus="status"  >
 											<div class="well">
 												<ui:include src="/reviews/review.xhtml">
@@ -164,7 +163,6 @@
 												</ui:include>
 											</div>
 										</ui:repeat>
-									</section>
 								</h:panelGroup>
 								<h:panelGroup layout="block" rendered="#{empty summaryReviewsMB.mostHelpfulReviewList}">
 									<section>
@@ -193,7 +191,6 @@
 								</h3>
 								
 								<h:panelGroup layout="block" rendered="#{not empty summaryReviewsMB.mostRecentReviewList}">
-									<section>
 										<ui:repeat var="preference" value="#{summaryReviewsMB.mostRecentReviewList}" varStatus="status"  >
 											<div class="well">
 												<ui:include src="/reviews/review.xhtml">
@@ -205,7 +202,6 @@
 												</ui:include>
 											</div>
 										</ui:repeat>
-									</section>
 								</h:panelGroup>
 								
 								<h:panelGroup layout="block" rendered="#{empty summaryReviewsMB.mostRecentReviewList}">

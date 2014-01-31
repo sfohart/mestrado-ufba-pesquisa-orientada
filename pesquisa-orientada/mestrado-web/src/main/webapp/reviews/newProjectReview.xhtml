@@ -46,7 +46,7 @@
 					</div>
 				</h:panelGroup>
 
-				<h:panelGroup id="projectReview" layout="block" styleClass="row">
+				<h:panelGroup id="projectReview" layout="block" >
 					<hr />
 					<h3>
 						<h:outputLink value="projectReviews.jsf">
@@ -56,7 +56,7 @@
 						Nova
 					</h3>
 
-					<div class="col-md-9" style="margin-left: 137px;">
+					<div class="col-md-8 col-md-offset-2" >
 						<div class="well">
 							<h:form id="projectReviewForm">
 							
@@ -149,9 +149,17 @@
 									</div>
 								</div>
 
-								<h:commandButton styleClass="btn btn-primary" value="Enviar"
-									action="#{newReviewMB.saveReview}">
-								</h:commandButton>
+								<div class="btn-toolbar" p:role="toolbar">
+									<div class="btn-group">
+										<h:commandButton styleClass="btn btn-primary" value="Enviar"
+											action="#{newReviewMB.saveReview}">
+										</h:commandButton>
+										<h:commandButton styleClass="btn btn-default" value="Limpar" type="reset">
+										</h:commandButton>
+									</div>
+									
+								</div>
+								
 							</h:form>
 						</div>
 					</div>
