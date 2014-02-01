@@ -21,7 +21,7 @@
 					<ui:include src="accountHeader.xhtml" >
 					</ui:include>
 
-					<div class="row" style="border-top: 1px solid #aaa;">
+					<div  style="border-top: 1px solid #aaa;">
 						<h3>
 							<h:outputLink value="#{facesContext.externalContext.applicationContextPath}/account/accountSettings.jsf">
 								<f:param  name="accountId" value="#{accountMB.account.id}" />
@@ -36,7 +36,7 @@
 						<h:messages showDetail="true" showSummary="true" />
 					</h:panelGroup>
 					
-					<h:panelGroup layout="block" styleClass="col-md-9" style="margin-left: 137px;"
+					<h:panelGroup layout="block" styleClass="col-md-8 col-md-offset-2" 
 						rendered="#{empty facesContext.messageList}">
 						<div class="well">
 							<h:form>
