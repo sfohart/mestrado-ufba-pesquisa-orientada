@@ -152,8 +152,12 @@
             <param-name>jersey.config.server.provider.packages</param-name>
             <param-value>br.ufba.dcc.mestrado.computacao</param-value>
         </init-param>
-    </servlet>
+    </servlet>	
 	
+	<error-page>
+		<exception-type>javax.faces.application.ViewExpiredException</exception-type>
+		<location>/login/login.jsf</location>
+	</error-page>
 	
 	<welcome-file-list>
 	    <welcome-file>index.jsf</welcome-file>

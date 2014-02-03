@@ -76,7 +76,7 @@ public abstract class AbstractListingManagedBean<ID extends Number, E extends Ba
 			if (page != null && page > 0) {
 				startPosition = getDataModel().getPageSize() * (page - 1);
 			}
-		} else if (getPageList().getCurrentPage() != null) {
+		} else if (getPageList().getCurrentPage() != null && getPageList().getCurrentPage() > 0) {
 			startPosition = getDataModel().getPageSize() * (getPageList().getCurrentPage() - 1);
 		} else {
 			startPosition = 0;

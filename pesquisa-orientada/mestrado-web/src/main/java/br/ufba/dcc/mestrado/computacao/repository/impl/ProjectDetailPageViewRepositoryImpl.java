@@ -18,8 +18,6 @@ import javax.persistence.criteria.Subquery;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.mahout.cf.taste.impl.model.BooleanPreference;
-import org.apache.mahout.cf.taste.model.Preference;
-import org.hibernate.ejb.criteria.OrderImpl;
 import org.springframework.stereotype.Repository;
 
 import br.ufba.dcc.mestrado.computacao.entities.ohloh.project.OhLohProjectEntity;
@@ -145,7 +143,7 @@ public class ProjectDetailPageViewRepositoryImpl
 					projectJoin.get("id")
 				)
 			.having(criteriaBuilder.gt(pageViewCount, 0))
-			.orderBy(new OrderImpl(pageViewCount, false));
+			.orderBy(criteriaBuilder.desc(pageViewCount));
 		
 		TypedQuery<Tuple> tupleTypedQuery = getEntityManager().createQuery(tupleQuery);
 		

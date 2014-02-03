@@ -15,11 +15,11 @@
 		<beanutils-version>1.8.3</beanutils-version>
 		<xstream.version>1.4.3</xstream.version>
 		<restfulie.version>1.0.1</restfulie.version>
-		<hibernate.version>4.2.6.Final</hibernate.version>
-		<hibernate-jpa-2.0-api.version>1.0.1.Final</hibernate-jpa-2.0-api.version>
+		<hibernate.version>4.3.1.Final</hibernate.version>
+		<hibernate-jpa-2.1-api.version>1.0.0.Final</hibernate-jpa-2.1-api.version>
 		<postgresql.version>9.2-1003-jdbc4</postgresql.version>
 		
-		<hibernate-search.version>4.4.2.Final</hibernate-search.version>
+		<hibernate-search.version>4.5.0.Final</hibernate-search.version>
 		
 	</properties>
 
@@ -44,8 +44,8 @@
 		</dependency>
 		<dependency>
 			<groupId>org.hibernate.javax.persistence</groupId>
-			<artifactId>hibernate-jpa-2.0-api</artifactId>
-			<version>${hibernate-jpa-2.0-api.version}</version>
+			<artifactId>hibernate-jpa-2.1-api</artifactId>
+			<version>${hibernate-jpa-2.1-api.version}</version>
 		</dependency>
 		
 	

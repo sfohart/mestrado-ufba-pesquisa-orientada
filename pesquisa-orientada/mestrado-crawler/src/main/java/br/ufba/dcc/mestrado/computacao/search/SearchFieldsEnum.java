@@ -1,12 +1,12 @@
 package br.ufba.dcc.mestrado.computacao.search;
 
 public enum SearchFieldsEnum {
-	projectName("name", 1.5f),
-	projectDescription("description", 1.4f),
+	projectName("name", 5.0f),
+	projectDescription("description", 2.0f),
 	linkCategory("ohLohLinks.category", 1.0f),
 	linkTitle("ohLohLinks.title", 1.0f),
 	linkURL("ohLohLinks.url", 1.0f),
-	tagName("ohLohTags.name", 1.3f),
+	tagName("ohLohTags.name", 3.0f),
 	licenseName("ohLohLicenses.name", 1.2f),
 	licenseNiceName("ohLohLicenses.niceName", 1.2f),
 	projectMainLanguageName("ohLohAnalysis.mainLanguageName", 1.0f),

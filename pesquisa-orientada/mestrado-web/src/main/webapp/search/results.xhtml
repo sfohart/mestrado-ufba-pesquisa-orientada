@@ -52,21 +52,28 @@
 								
 								<h4>Tags Relacionadas</h4>
 								<ul class="nav nav-pills nav-stacked">
-									<ui:repeat var="unselectedFacet" value="#{mainMB.searchRequest.deselectedFacets}">
-										<li>
-											<h:commandLink
-												actionListener="#{mainMB.addFacetsToFilter}"
-												p:data-toggle="tooltip" 
-												p:data-placement="right" 
-												p:data-original-title="filtar por #{unselectedFacet.value}">
-												
-												<f:param  name="facetValue" value="#{unselectedFacet.value}" />
-												<i class="glyphicon glyphicon-plus-sign"></i>
-												<h:outputText value=" #{unselectedFacet.value}" />
-												<span class="badge"><h:outputText value="#{unselectedFacet.count}" /> </span>
-											</h:commandLink>
-										</li>
-									</ui:repeat>
+									<li class="dropdown">
+										<a class="dropdown-toggle" data-toggle="dropdown" href="#">
+      										Selecione <span class="caret"></span>
+    									</a>
+										<ul class="dropdown-menu" style="width: 400%">
+											<ui:repeat var="unselectedFacet" value="#{mainMB.searchRequest.deselectedFacets}">
+												<li class="col-md-4">
+													<h:commandLink
+														actionListener="#{mainMB.addFacetsToFilter}"
+														p:data-toggle="tooltip" 
+														p:data-placement="right" 
+														p:data-original-title="filtar por #{unselectedFacet.value}">
+														
+														<f:param  name="facetValue" value="#{unselectedFacet.value}" />
+														<i class="glyphicon glyphicon-plus-sign"></i>
+														<h:outputText value=" #{unselectedFacet.value}" />
+														<span class="badge"><h:outputText value="#{unselectedFacet.count}" /> </span>
+													</h:commandLink>
+												</li>
+											</ui:repeat>
+										</ul>
+ 									</li>
 								</ul>
 							</h:panelGroup>
 							
@@ -111,6 +118,8 @@
 														</h:panelGroup>
 													</div>
 												</div>
+												
+												
 												<div class="media">
 													<h:outputLink styleClass="pull-left" rendered="#{project.mediumLogoURL != 'no_logo.png'}">													
 														<img class="media-object" src="#{project.mediumLogoURL}" height="64px" width="64px" />
@@ -126,11 +135,13 @@
 														</div>
 													</div>
 												</div>
+												
 												<h:panelGroup layout="block" class="row add-info">
 												</h:panelGroup>
 												
 												<ui:include src="/detail/projectTagList.xhtml">
 													<ui:param name="tagList" value="#{project.ohLohTags}"/>
+													<ui:param name="bean" value="#{mainMB}" />
 												</ui:include>
 											</div>
 										</ui:repeat>

@@ -20,7 +20,6 @@ import javax.persistence.criteria.Root;
 import javax.persistence.criteria.Subquery;
 
 import org.apache.commons.lang3.StringUtils;
-import org.hibernate.ejb.criteria.OrderImpl;
 import org.springframework.stereotype.Repository;
 
 import br.ufba.dcc.mestrado.computacao.entities.ohloh.project.OhLohProjectEntity;
@@ -606,7 +605,7 @@ public class OverallPreferenceRepositoryImpl  extends BaseRepositoryImpl<Long, P
 					projectJoin.get("id")
 				)
 			.having(criteriaBuilder.gt(reviewCount, 0))
-			.orderBy(new OrderImpl(reviewCount, false));
+			.orderBy(criteriaBuilder.desc(reviewCount));
 		
 		
 		//pegando apenas as opiniões mais atuais

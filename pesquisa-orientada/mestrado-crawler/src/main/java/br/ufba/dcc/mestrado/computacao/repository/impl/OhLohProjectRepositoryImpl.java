@@ -137,14 +137,14 @@ public class OhLohProjectRepositoryImpl
 						.boostedTo(SearchFieldsEnum.projectDescription.boost())
 						.andField(SearchFieldsEnum.tagName.fieldName())
 						.boostedTo(SearchFieldsEnum.tagName.boost())
-					.andField(SearchFieldsEnum.projectMainLanguageName.fieldName())
+					/*.andField(SearchFieldsEnum.projectMainLanguageName.fieldName())
 						.boostedTo(SearchFieldsEnum.projectMainLanguageName.boost())
 					.andField(SearchFieldsEnum.languageName.fieldName())
 						.boostedTo(SearchFieldsEnum.languageName.boost())
 					.andField(SearchFieldsEnum.languageNiceName.fieldName())
 						.boostedTo(SearchFieldsEnum.languageNiceName.boost())
 					.andField(SearchFieldsEnum.languageCategory.fieldName())
-						.boostedTo(SearchFieldsEnum.languageCategory.boost())
+						.boostedTo(SearchFieldsEnum.languageCategory.boost())*/
 					.matching(query)
 					.createQuery();
 			
