@@ -28,7 +28,7 @@
 			</h:panelGroup>
 			<h:panelGroup layout="block" rendered="#{ (preference.user.encodedEmail != null) and (preference.user.encodedEmail != '') }">
 				<h:outputLink value="#{facesContext.externalContext.applicationContextPath}/account/account.jsf?accountId=#{preference.user.id}">
-					<h:graphicImage styleClass="media-object img-thumbnail" url="http://www.gravatar.com/avatar/#{preference.user.encodedEmail}.png?s=64&amp;d=mm" />
+					<h:graphicImage styleClass="media-object img-thumbnail" url="http://www.gravatar.com/avatar/#{preference.user.encodedEmail}.png?s=64&amp;d=mm&amp;r=g" />
 				</h:outputLink>
 			</h:panelGroup>
 		</h:panelGroup>
