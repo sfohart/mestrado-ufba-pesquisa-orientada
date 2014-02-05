@@ -29,7 +29,7 @@
 							
 							<!-- barra lateral de tags -->
 							<h:panelGroup id="tagSideBar" layout="block" styleClass="col-md-3 col-sm-3 tag-tooltip pull-left hidden-xs" rendered="#{mainMB.pageList.totalPages != 0}" >
-								<h4>Tags Selecionadas</h4>
+								<h4><span class="fa fa-filter" style="padding-right: 10px"></span> Tags Selecionadas</h4>
 								<ul class="nav nav-pills nav-stacked">
 									<ui:repeat var="selectedFacet" value="#{mainMB.searchRequest.selectedFacets}">
 										<li class="active">
@@ -50,7 +50,7 @@
 								</ul>
 								
 								
-								<h4>Tags Relacionadas</h4>
+								<h4><span class="fa fa-tags" style="padding-right: 10px"></span>Tags Relacionadas</h4>
 								<ul class="nav nav-pills nav-stacked">
 									<li class="dropdown">
 										<a class="dropdown-toggle" data-toggle="dropdown" href="#">

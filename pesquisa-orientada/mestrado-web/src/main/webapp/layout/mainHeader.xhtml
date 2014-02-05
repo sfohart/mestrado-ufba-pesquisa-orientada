@@ -37,18 +37,38 @@
   					</h:panelGroup>
   					
   					<h:panelGroup layout="block" rendered="#{loginMB.loggedUser != null}">
-  						<h:outputLink  class="btn" value="#{facesContext.externalContext.applicationContextPath}/account/account.jsf" style="margin-right: 10px" >
-  							<f:param name="accountId" value="#{loginMB.loggedUser.id}" />
-  							<span class="glyphicon glyphicon-user"></span> 
-  							
-  							<ui:include src="/account/accountName.xhtml"  >
-  								<ui:param name="user" value="#{loginMB.loggedUser}"  />
-  							</ui:include>  							
-  							
-  						</h:outputLink>
-  						<h:commandLink class="btn" action="#{loginMB.signOut}" >
-  							<span class="glyphicon glyphicon-log-out"></span> Sair
-  						</h:commandLink>
+  						<ul class="nav" id="accountDropDown">
+  							<li class="dropdown">
+	  							<a data-toggle="dropdown" href="#">
+		  							<span class="glyphicon glyphicon-user"></span> 
+		  							<ui:include src="/account/accountName.xhtml"  >
+		  								<ui:param name="user" value="#{loginMB.loggedUser}"  />
+		  							</ui:include> 
+		  							<span class="caret"></span> 
+	  							</a>
+	  							
+	  							<ul class="dropdown-menu" p:role="menu" p:aria-labelledby="dLabel">
+	  								<li p:role="presentation">
+	  									<h:outputLink value="#{facesContext.externalContext.applicationContextPath}/account/account.jsf">
+	  										<f:param name="accountId" value="#{loginMB.loggedUser.id}" />
+	  										<span class="fa fa-user"></span> Perfil
+	  									</h:outputLink>
+	  								</li>
+	  								<li p:role="presentation">
+	  									<h:outputLink value="#{facesContext.externalContext.applicationContextPath}/account/accountSettings.jsf">
+	  										<f:param name="accountId" value="#{loginMB.loggedUser.id}" />
+	  										<span class="fa fa-cog"></span> Configurações
+	  									</h:outputLink>
+	  								</li>
+	  								<li p:role="presentation" class="divider"></li>
+	  								<li p:role="presentation">
+		  								<h:outputLink action="#{loginMB.signOut}" >
+				  							<span class="fa fa-power-off"></span> Sair
+				  						</h:outputLink>
+	  								</li>
+	  							</ul>
+  							</li>
+  						</ul> 
   					</h:panelGroup>
   				</h:form>
   			</div>
