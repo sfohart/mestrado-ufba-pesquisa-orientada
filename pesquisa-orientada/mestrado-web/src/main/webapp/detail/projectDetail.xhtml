@@ -9,7 +9,11 @@
 	
 	
 	<f:metadata>
-		<f:viewParam id="projectId" name="projectId" value="#{projectDetailMB.project.id}" required="true"  requiredMessage="#{messages['project.detail.error.projectId']}"  />
+		<f:viewParam id="projectDetailedId" name="projectId" value="#{projectDetailMB.project.id}" required="true"  requiredMessage="#{messages['project.detail.error.projectId']}"  />
+		<f:viewParam id="relatedProjectId" name="projectId" value="#{relatedProjectMB.project.id}" required="true" />
+		
+		<f:event listener="#{relatedProjectMB.init}" type="preRenderView"/>
+		<f:event listener="#{alsoViewedProjectMB.init}" type="preRenderView"/>
 		<f:event listener="#{projectDetailMB.init}" type="preRenderView"/>
 	</f:metadata>
 	
@@ -40,29 +44,12 @@
 				<section class="container">
 					<h:panelGroup id="projectDetailAlert" layout="block" styleClass="alert alert-danger col-md-12" rendered="#{projectDetailMB.project.id eq null}">
 						<strong>Vish! </strong>
-						<h:message for="projectId"  />
+						<h:message for="projectDetailedId"  />
 					</h:panelGroup>
 				
-					<h:panelGroup id="projectTitle" layout="block" styleClass="row">
-						<div class="col-md-1">
-							<a class="pull-left" href="#">
-								<h:graphicImage
-									style="margin-bottom: 10px"
-									rendered="#{projectDetailMB.project.mediumLogoURL eq 'no_logo.png'}" 
-									styleClass="media-object" height="64" width="64" library="default" 
-									name="img/no_logo.png" />
-								<h:graphicImage
-									style="margin-bottom: 10px"
-									rendered="#{projectDetailMB.project.mediumLogoURL != 'no_logo.png'}" 
-									styleClass="media-object" height="64" width="64"
-									value="#{projectDetailMB.project.mediumLogoURL}" 
-									/>
-							</a>
-						</div>
-						<div class="col-md-9">
-							<h2> <h:outputText value="#{projectDetailMB.project.name}" /> </h2>
-						</div>
-					</h:panelGroup>
+					<ui:include src="/detail/projectHeader.xhtml">
+						<ui:param name="project" value="#{projectDetailMB.project}" />
+					</ui:include>
 					
 					<div style="border-top: 1px solid #aaa;">
 						<h2>Sumário</h2>
@@ -146,10 +133,15 @@
 										</h:panelGroup>																		
 									</dd>
 									
-									<dt>Projetos <br /> Relacionados:</dt>
+									<dt>
+										<h:outputLink value="#{facesContext.externalContext.applicationContextPath}/detail/relatedProjectList.jsf">
+											<f:param name="projectId" value="#{relatedProjectMB.project.id}" />
+											Projetos <br /> Relacionados:
+										</h:outputLink>
+									</dt>
 									<dd style="margin-bottom: .5em;">
 										<ui:include src="/detail/projectTable.xhtml">
-											<ui:param name="projectList" value="#{projectDetailMB.relatedProjectEntities}"/>
+											<ui:param name="projectList" value="#{relatedProjectMB.relatedProjectEntities}"/>
 										</ui:include>
 									</dd>					
 								</dl>
@@ -322,12 +314,11 @@
 					
 					<h:panelGroup layout="block"
 						style="border-top: 1px solid #aaa;" 
-						rendered="#{not empty projectDetailMB.alsoViewedProjectList}">
+						rendered="#{not empty alsoViewedProjectMB.alsoViewedProjectList}">
 						<ui:include src="/detail/projectCart.xhtml">
-							<ui:param name="projectCart" value="#{projectDetailMB.alsoViewedProjectList}"  />
-							<ui:param name="projectCartTitle" value="Quem visualizou este projeto também viu:"  />
+							<ui:param name="projectCart" value="#{alsoViewedProjectMB.alsoViewedProjectList}"  />
+							<ui:param name="projectCartTitle" value="Quem se interessou por este projeto também viu:"  />
 						</ui:include>
-						
 					</h:panelGroup>
 					
 					<div style="border-top: 1px solid #aaa;">

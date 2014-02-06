@@ -99,10 +99,19 @@ public class SearchServiceImpl implements SearchService {
 	}
 	
 	@Override
-	public List<OhLohProjectEntity> findRelatedProjects(OhLohProjectEntity project, int maxResults) throws IOException {
+	public List<OhLohProjectEntity> findRelatedProjects(
+			OhLohProjectEntity project,
+			Integer firstResult,
+			Integer maxResults) throws IOException {
 		FullTextQuery fullTextQuery = projectRepository.findRelatedProjects(project);
 		
-		fullTextQuery.setMaxResults(maxResults);
+		if (firstResult != null && firstResult > 0) {
+			fullTextQuery.setFirstResult(firstResult);
+		}
+		
+		if (maxResults != null && maxResults > 0) {
+			fullTextQuery.setMaxResults(maxResults);
+		}
 		
 		List<OhLohProjectEntity> resultList = fullTextQuery.getResultList();
 		

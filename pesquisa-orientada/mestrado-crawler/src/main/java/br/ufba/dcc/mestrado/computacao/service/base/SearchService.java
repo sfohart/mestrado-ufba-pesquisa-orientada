@@ -12,6 +12,9 @@ public interface SearchService extends Serializable {
 
 	SearchResponse findAllProjects(SearchRequest searchRequest);
 
-	List<OhLohProjectEntity> findRelatedProjects(OhLohProjectEntity project, int maxResults) throws IOException;
+	List<OhLohProjectEntity> findRelatedProjects(
+			OhLohProjectEntity project,
+			Integer firstResult,
+			Integer maxResults) throws IOException;
 	
 }

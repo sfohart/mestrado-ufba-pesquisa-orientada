@@ -1,13 +1,11 @@
 package br.ufba.dcc.mestrado.computacao.web.managedbean;
 
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
 
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
-import javax.faces.event.ActionEvent;
 import javax.faces.event.ComponentSystemEvent;
 
 import br.ufba.dcc.mestrado.computacao.entities.ohloh.project.OhLohProjectEntity;
@@ -20,8 +18,6 @@ import br.ufba.dcc.mestrado.computacao.service.base.OhLohProjectService;
 import br.ufba.dcc.mestrado.computacao.service.base.OverallPreferenceService;
 import br.ufba.dcc.mestrado.computacao.service.base.RecommenderCriteriumService;
 import br.ufba.dcc.mestrado.computacao.service.basic.RepositoryBasedUserDetailsService;
-import br.ufba.dcc.mestrado.computacao.web.pagination.LazyLoadingDataModel;
-import br.ufba.dcc.mestrado.computacao.web.pagination.PageList;
 
 @ManagedBean(name="newReviewMB", eager=true)
 @ViewScoped

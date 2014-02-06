@@ -13,7 +13,7 @@
 	<table class="table"  >
 		<tbody>
 			<ui:repeat var="project" value="#{projectList}" >
-				<tr class="pull-left" style="width: 50%; height: 50px">
+				<tr class="pull-left" style="width: 50%; min-height: 50px; height: auto;">
 					<td style="width: 1%; border-top: none;">
 						<h:outputLink styleClass="pull-left"
 							value="#{facesContext.externalContext.applicationContextPath}/detail/projectDetail.jsf" 
@@ -31,12 +31,23 @@
 					<td style="border-top: none;">
 						<h:outputLink value="#{facesContext.externalContext.applicationContextPath}/detail/projectDetail.jsf">
 							<f:param name="projectId" value="#{project.id}" />
-							<h:outputText value="#{project.name}"  />
+							<p class="truncateProjectName">
+								<h:outputText value="#{project.name}"  />
+							</p>
 						</h:outputLink>
 					</td>
 				</tr>
 			</ui:repeat>
 		</tbody>
 	</table>
+	
+	<!-- leia mais para a descricao do projeto -->
+	<script>
+	    $(function(){
+	        $('.truncateProjectName').succinct({
+	            size: 16
+	        });
+	    });
+	</script>
 	
 </ui:composition>
