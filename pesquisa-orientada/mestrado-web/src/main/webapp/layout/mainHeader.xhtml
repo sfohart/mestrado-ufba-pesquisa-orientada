@@ -31,9 +31,9 @@
   						<h:outputLink class="btn"  value="#{facesContext.externalContext.applicationContextPath}/login/login.jsf" style="margin-right: 10px" >
   							<span class="glyphicon glyphicon-log-in"></span> Entrar
   						</h:outputLink>
-  						<button class="btn btn-success btn-mini" formaction="#{facesContext.externalContext.applicationContextPath}/account/newAccount.jsf" >
+  						<a class="btn btn-success btn-mini" href="#{facesContext.externalContext.applicationContextPath}/account/newAccount.jsf" >
   							<span class="glyphicon glyphicon-plus-sign white"></span> Cadastre-se 
-  						</button>
+  						</a>
   					</h:panelGroup>
   					
   					<h:panelGroup layout="block" rendered="#{loginMB.loggedUser != null}">
