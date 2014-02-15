@@ -576,7 +576,58 @@
 						</div>
 					</h:panelGroup>
 					
-					
+					<div class="row" style="margin-bottom: 20px">
+						<div class="col-md-3 acoes">
+							<h4>
+								<span class="fa fa-tachometer"></span>
+								Sumário do Projeto
+							</h4>
+							
+							<ul class="nav nav-pills nav-stacked">
+								<li>
+									<h:outputLink title="Homepage" value="#{projectDetailMB.project.homepageURL}"
+										rendered="#{not empty projectDetailMB.project.homepageURL}">
+										Homepage
+									</h:outputLink>
+								</li>
+								<li>
+									<h:outputLink title="Download" value="#{projectDetailMB.project.downloadURL}" 
+										rendered="#{not empty projectDetailMB.project.downloadURL}">
+										Download
+									</h:outputLink>
+								</li>
+								<li>
+									<h:outputLink value="#{facesContext.externalContext.applicationContextPath}/detail/relatedProjectList.jsf">
+										<f:param name="projectId" value="#{relatedProjectMB.project.id}" />
+										Projetos Relacionados:
+									</h:outputLink>
+								</li>
+							</ul>
+							
+						</div>
+						
+						<div class="col-md-3 acoes">
+						</div>
+						
+						<div class="col-md-3 acoes">
+						</div>
+						
+						<div class="col-md-3 acoes">
+							<h4>
+								<span class="fa fa-users"></span>
+								Dados da Comunidade
+							</h4>
+							
+							<ul class="nav nav-pills nav-stacked">
+								<li>
+									<h:outputLink value="#{facesContext.externalContext.applicationContextPath}/reviews/reviewsList.jsf">
+										<f:param name="projectId" value="#{projectDetailMB.project.id}"  />										
+										Opiniões e Avaliações
+									</h:outputLink>
+								</li>
+							</ul>
+						</div>
+					</div>
 				
 				</section>
 				

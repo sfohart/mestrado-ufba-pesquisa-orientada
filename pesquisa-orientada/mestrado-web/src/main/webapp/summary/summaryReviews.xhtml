@@ -27,26 +27,9 @@
 						<h:message for="projectId"  />
 					</h:panelGroup>
 					
-					<h:panelGroup id="projectTitle" layout="block" styleClass="row">
-						<div class="col-md-1 col-xs-12">
-							<a class="pull-left" href="#">
-								<h:graphicImage
-									style="margin-bottom: 10px"
-									rendered="#{summaryReviewsMB.project.mediumLogoURL eq 'no_logo.png'}" 
-									styleClass="media-object" height="64" width="64" library="default" 
-									name="img/no_logo.png" />
-								<h:graphicImage
-									style="margin-bottom: 10px"
-									rendered="#{summaryReviewsMB.project.mediumLogoURL != 'no_logo.png'}" 
-									styleClass="media-object" height="64" width="64"
-									value="#{summaryReviewsMB.project.mediumLogoURL}" 
-									/>
-							</a>
-						</div>
-						<div class="col-md-11 col-xs-12">
-							<h2> <h:outputText value="#{summaryReviewsMB.project.name}" /> </h2>
-						</div>
-					</h:panelGroup>
+					<ui:include src="/detail/projectHeader.xhtml">
+						<ui:param name="project" value="#{summaryReviewsMB.project}" />
+					</ui:include>
 					
 					<div  style="border-top: 1px solid #aaa;">
 						<h3>Avaliações e Opiniões</h3>
