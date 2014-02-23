@@ -42,6 +42,9 @@ public class PreferenceEntryEntity implements BaseEntity<Long> {
 	@Column(name = "value_preference")
 	private Double value;
 	
+	@Column(name = "not_available")
+	private Boolean notAvailable;
+	
 	public Long getId() {
 		return id;
 	}
@@ -81,7 +84,13 @@ public class PreferenceEntryEntity implements BaseEntity<Long> {
 	public void setValue(Double value) {
 		this.value = value;
 	}
-	
-	
 
+	public Boolean getNotAvailable() {
+		return notAvailable;
+	}
+
+	public void setNotAvailable(Boolean notAvailable) {
+		this.notAvailable = notAvailable;
+	}
+	
 }

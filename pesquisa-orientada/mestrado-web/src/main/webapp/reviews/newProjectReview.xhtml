@@ -76,7 +76,7 @@
 											<ui:repeat var="preferenceEntry"
 												value="#{newReviewMB.preference.preferenceEntryList}"
 												varStatus="status">
-												<div class="col-md-6" style="height: 70px; margin-bottom: 10px">
+												<div class="col-md-6" style="min-height: 85px; height: auto; margin-bottom: 10px">
 													<div class="row">
 														<div class="form-group">
 															<label> 
@@ -92,9 +92,17 @@
 															<h:inputText type="range"
 																styleClass="criterio#{preferenceEntry.criterium.id}"
 																value="#{preferenceEntry.value}" min="0" max="10" />
+																
 															<div class="rateit"
 																data-rateit-backingfld=".criterio#{preferenceEntry.criterium.id}"
 																data-rateit-min="0" data-rateit-max="10"></div>
+														</div>
+														<div class="form-group">
+															<div class="btn-group" data-toggle="buttons">
+																<h:outputLabel styleClass="btn btn-primary" for="notAvailable" value="Não quero avaliar este critério">
+																	<h:selectBooleanCheckbox id="notAvailable" value="#{preferenceEntry.notAvailable}" />																		
+																</h:outputLabel>
+															</div>
 														</div>
 													</div>
 												</div>
@@ -121,9 +129,6 @@
 												</div>
 											</div>
 										</fieldset>
-
-
-
 									</div>
 								</div>
 
