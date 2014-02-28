@@ -124,7 +124,9 @@ public class OverallPreferenceServiceImpl extends BaseOhLohServiceImpl<Long, Pre
 				PreferenceEntryEntity preferenceEntry = new PreferenceEntryEntity();
 				preferenceEntry.setPreference(averagePreference);
 				preferenceEntry.setCriterium(entry.getKey());
+				
 				preferenceEntry.setValue(entry.getValue() == null ? 0 : entry.getValue());
+				preferenceEntry.setNotAvailable(entry.getValue() == null ? true : false);				
 				
 				preferenceEntryList.add(preferenceEntry);
 			}

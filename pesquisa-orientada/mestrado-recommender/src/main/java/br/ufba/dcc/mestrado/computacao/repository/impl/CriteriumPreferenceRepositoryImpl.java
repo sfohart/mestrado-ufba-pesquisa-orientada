@@ -80,11 +80,22 @@ public class CriteriumPreferenceRepositoryImpl extends BaseRepositoryImpl<Long, 
 		
 		CriteriaQuery<Double> select = criteriaQuery.select(criteriaBuilder.avg( valuePath ));
 		
+		List<Predicate> predicateList = new ArrayList<>();
+		
 		//filtrando por projeto
 		Predicate projectPredicate = criteriaBuilder.equal(p1.get("projectId"), projectId);
+		predicateList.add(projectPredicate);
 		
 		//filtrando por critério de recomendação
 		Predicate criteriumPredicate = criteriaBuilder.equal(join.get("criteriumId"), criteriumId);
+		predicateList.add(criteriumPredicate);
+		
+		//puxando apenas as notas válidas
+		Predicate availablePredicate = criteriaBuilder.or(
+				criteriaBuilder.isNull(join.get("notAvailable")),
+				criteriaBuilder.equal(join.get("notAvailable"), Boolean.FALSE));
+		predicateList.add(availablePredicate);
+		
 		
 		/*
 		 * Criando subquery para trazer os últimos registros de cada usuario/projeto
@@ -103,11 +114,9 @@ public class CriteriumPreferenceRepositoryImpl extends BaseRepositoryImpl<Long, 
 		subquery.where(subqueryPredicateList.toArray(new Predicate[0]));
 		
 		Predicate registeredAtPredicate = criteriaBuilder.equal(p1.get("registeredAt"), subquery);
+		predicateList.add(registeredAtPredicate);
 		
-		select.where(
-				projectPredicate, 
-				registeredAtPredicate, 
-				criteriumPredicate);
+		select.where(predicateList.toArray(new Predicate[0]));
 		
 		return getEntityManager().createQuery(criteriaQuery).getSingleResult();
 	}

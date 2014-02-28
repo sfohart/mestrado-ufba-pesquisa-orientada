@@ -92,8 +92,9 @@
 																data-rateit-min="0" data-rateit-max="5"
 																data-rateit-value="#{preferenceEntry.value}" data-rateit-ispreset="true"  />
 														</h:panelGroup>
+														
 														<h:panelGroup rendered="#{preferenceEntry.notAvailable}">
-															<span class="fa fa-ban"></span> Não avaliei este item
+															<span class="fa fa-ban"></span> Critério não avaliado
 														</h:panelGroup>
 														
 														
@@ -147,20 +148,26 @@
 							
 								<br />		
 							
-								<h:panelGroup style="margin-left: 10px" styleClass="soft small" rendered="#{preferenceEntry.value != null and preferenceEntry.value > 0}">
-									(<h:outputText value="#{preferenceEntry.value}" >
-										<f:convertNumber maxFractionDigits="2" maxIntegerDigits="2" pattern="#0.00" />
-									</h:outputText> / 5)
-								</h:panelGroup>
-								<h:panelGroup style="margin-left: 10px" styleClass="soft small" rendered="#{preferenceEntry.value == null or preferenceEntry.value == 0}">
-									(0 / 5)
+								<h:panelGroup rendered="#{not preferenceEntry.notAvailable}">
+									<h:panelGroup style="margin-left: 10px" styleClass="soft small" rendered="#{preferenceEntry.value != null and preferenceEntry.value > 0}">
+										(<h:outputText value="#{preferenceEntry.value}" >
+											<f:convertNumber maxFractionDigits="2" maxIntegerDigits="2" pattern="#0.00" />
+										</h:outputText> / 5)
+									</h:panelGroup>
+									<h:panelGroup style="margin-left: 10px" styleClass="soft small" rendered="#{preferenceEntry.value == null or preferenceEntry.value == 0}">
+										(0 / 5)
+									</h:panelGroup>
+									
+									<br />								
+			
+									<div class="rateit" data-rateit-readonly="true"
+										data-rateit-min="0" data-rateit-max="5"
+										data-rateit-value="#{preferenceEntry.value}" data-rateit-ispreset="true"  />
 								</h:panelGroup>
 								
-								<br />								
-		
-								<div class="rateit" data-rateit-readonly="true"
-									data-rateit-min="0" data-rateit-max="5"
-									data-rateit-value="#{preferenceEntry.value}" data-rateit-ispreset="true"  />
+								<h:panelGroup rendered="#{preferenceEntry.notAvailable}">
+									<span class="fa fa-ban"></span> Critério não avaliado
+								</h:panelGroup>
 							</h:panelGroup>
 							
 							<h:panelGroup layout="block" rendered="#{enableEditing}">
