@@ -62,7 +62,7 @@
 				<div>				
 					<!-- Estrelas -->
 					<div class="rateit" data-rateit-readonly="true"
-							data-rateit-min="0" data-rateit-max="10"
+							data-rateit-min="0" data-rateit-max="5"
 							data-rateit-value="#{preference.value}" data-rateit-ispreset="true"  />
 				</div>
 				<div>
@@ -70,10 +70,10 @@
 					<h:panelGroup styleClass="soft small" rendered="#{preference.value != null and preference.value > 0}">
 						(<h:outputText value="#{preference.value}" >
 							<f:convertNumber maxFractionDigits="2" maxIntegerDigits="2" pattern="#0.00" />
-						</h:outputText> / 10)
+						</h:outputText> / 5)
 					</h:panelGroup>
 					<h:panelGroup styleClass="soft small" rendered="#{preference.value == null or preference.value == 0}">
-						(0 / 10)
+						(0 / 5)
 					</h:panelGroup>
 						
 				</div>

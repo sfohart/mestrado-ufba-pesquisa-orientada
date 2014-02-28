@@ -83,13 +83,13 @@
 									<ui:repeat var="project" value="#{compareMB.projectList}">
 										<td>
 											<div class="rateit" data-rateit-readonly="true"
-													data-rateit-min="0" data-rateit-max="10"
+													data-rateit-min="0" data-rateit-max="5"
 													data-rateit-value="#{compareMB.averagePreferenceMap[project.id].value}" data-rateit-ispreset="true"  />
 											<br />
 											<span style="margin-left: 10px" class="soft small"> 
 												(<h:outputText value="#{compareMB.averagePreferenceMap[project.id].value}" >
 													<f:convertNumber maxFractionDigits="2" maxIntegerDigits="2" pattern="#0.00" />
-												</h:outputText> / 10)
+												</h:outputText> / 5)
 											</span>
 											<br />
 											<span style="margin-left: 10px" class="soft small">
@@ -119,7 +119,7 @@
 												</span>
 												<br />
 												<div class="rateit" data-rateit-readonly="true"
-													data-rateit-min="0" data-rateit-max="10"
+													data-rateit-min="0" data-rateit-max="5"
 													data-rateit-value="#{entry.value}" data-rateit-ispreset="true"  />
 												<br />
 											</ui:repeat>

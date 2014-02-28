@@ -167,12 +167,12 @@
 									value="Nenhum usuário avaliou ainda este projeto" /> 
 								<br />
 								<div class="rateit" data-rateit-readonly="true"
-									data-rateit-min="0" data-rateit-max="10"
+									data-rateit-min="0" data-rateit-max="5"
 									data-rateit-value="#{projectDetailMB.averagePreference.value}" data-rateit-ispreset="true"  />
 								<span style="margin-left: 10px" class="soft small">
 									<h:outputText value="#{projectDetailMB.averagePreference.value}" >
 										<f:convertNumber maxFractionDigits="2" maxIntegerDigits="2" pattern="#0.00" />
-									</h:outputText> / 10
+									</h:outputText> / 5
 								</span>
 							</div>
 						</div>
@@ -267,17 +267,17 @@
 							<h:panelGroup layout="block" rendered="#{projectDetailMB.userPreference != null}">
 								<h4>Sua avaliação:</h4>
 								<div class="rateit" data-rateit-readonly="true"
-									data-rateit-min="0" data-rateit-max="10"
+									data-rateit-min="0" data-rateit-max="5"
 									data-rateit-value="#{projectDetailMB.userPreference.value}" data-rateit-ispreset="true"  />
 									
 								<!-- legenda das estrelas -->
 								<h:panelGroup style="margin-left: 10px" styleClass="soft small" rendered="#{projectDetailMB.userPreference.value != null and projectDetailMB.userPreference.value > 0}">
 									(<h:outputText value="#{projectDetailMB.userPreference.value}" >
 										<f:convertNumber maxFractionDigits="2" maxIntegerDigits="2" pattern="#0.00" />
-									</h:outputText> / 10)
+									</h:outputText> / 5)
 								</h:panelGroup>
 								<h:panelGroup style="margin-left: 10px" styleClass="soft small" rendered="#{projectDetailMB.userPreference.value == null or projectDetailMB.userPreference.value == 0}">
-									(0 / 10)
+									(0 / 5)
 								</h:panelGroup>
 								
 								<!-- notas por critério -->

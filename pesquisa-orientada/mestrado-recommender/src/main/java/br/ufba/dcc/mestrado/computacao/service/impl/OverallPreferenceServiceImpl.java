@@ -247,6 +247,15 @@ public class OverallPreferenceServiceImpl extends BaseOhLohServiceImpl<Long, Pre
 			entity.setRegisteredAt(new Timestamp(System.currentTimeMillis()));
 		}
 		
+		//validar apropriadamente os valores
+		if (entity.getPreferenceEntryList() != null && ! entity.getPreferenceEntryList().isEmpty()) {
+			for (PreferenceEntryEntity entry : entity.getPreferenceEntryList()) {
+				if (entry.getValue() == null || entry.getValue() == 0) {
+					entry.setNotAvailable(true);
+				}
+			}
+		}
+		
 		if (entity.getPreferenceReview() != null) {
 			
 			if  (entity.getPreferenceReview().getId() == null) {

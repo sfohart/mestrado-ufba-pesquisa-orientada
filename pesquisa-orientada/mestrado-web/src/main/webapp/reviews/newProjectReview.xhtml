@@ -26,25 +26,9 @@
 					<h:message for="projectId" />
 				</h:panelGroup>
 				
-				
-
-				<h:panelGroup id="projectTitle" layout="block" styleClass="row">
-					<div class="col-md-1">
-						<a class="pull-left" href="#"> 
-							<h:outputLink styleClass="pull-left" rendered="#{newReviewMB.project.mediumLogoURL != 'no_logo.png'}">													
-								<img class="media-object" src="#{newReviewMB.project.mediumLogoURL}" height="64px" width="64px" />
-							</h:outputLink>
-							<h:outputLink styleClass="pull-left" rendered="#{newReviewMB.project.mediumLogoURL eq 'no_logo.png'}">
-								<h:graphicImage styleClass="media-object" height="64" width="64" library="default" name="img/no_logo.png" />													
-							</h:outputLink>							
-						</a>
-					</div>
-					<div class="col-md-9">
-						<h2>
-							<h:outputText value="#{newReviewMB.project.name}" />
-						</h2>
-					</div>
-				</h:panelGroup>
+				<ui:include src="/detail/projectHeader.xhtml">
+					<ui:param name="project" value="#{newReviewMB.project}" />
+				</ui:include>
 
 				<h:panelGroup id="projectReview" layout="block" >
 					<hr />
@@ -61,6 +45,11 @@
 							<h:form id="projectReviewForm">
 							
 								<ui:include src="/reviews/reviewCriteriumHelp.xhtml"/>
+								
+								<div class="alert alert-info fade in">									
+									Para não avaliar um determinado critério, simplesmente não dê nota a ele. 
+									Se você deseja avaliar, dê nota ao critério variando entre 1 e 5.
+								</div>
 
 								<div class="panel panel-primary">
 									<div class="panel-heading">
@@ -89,21 +78,21 @@
 																<h:outputText value=" #{preferenceEntry.criterium.name}" />
 															</label> 
 															<br />
-															<h:inputText type="range"
-																styleClass="criterio#{preferenceEntry.criterium.id}"
-																value="#{preferenceEntry.value}" min="0" max="10" />
-																
-															<div class="rateit"
-																data-rateit-backingfld=".criterio#{preferenceEntry.criterium.id}"
-																data-rateit-min="0" data-rateit-max="10"></div>
+															<h:selectOneMenu id="preferenceValue"
+																styleClass="criterio#{preferenceEntry.criterium.id}" 
+																value="#{preferenceEntry.value}">
+																<f:selectItem itemValue="" itemLabel="Não quero avaliar" />
+																<f:selectItem itemValue="1" itemLabel="Muito Ruim" />
+																<f:selectItem itemValue="2" itemLabel="Ruim" />
+																<f:selectItem itemValue="3" itemLabel="Razoável" />
+																<f:selectItem itemValue="4" itemLabel="Bom" />
+																<f:selectItem itemValue="5" itemLabel="Muito Bom" />
+															</h:selectOneMenu>
+															
+															<div class="rateit" data-rateit-backingfld=".criterio#{preferenceEntry.criterium.id}"></div>
+
 														</div>
-														<div class="form-group">
-															<div class="btn-group" data-toggle="buttons">
-																<h:outputLabel styleClass="btn btn-primary" for="notAvailable" value="Não quero avaliar este critério">
-																	<h:selectBooleanCheckbox id="notAvailable" value="#{preferenceEntry.notAvailable}" />																		
-																</h:outputLabel>
-															</div>
-														</div>
+														
 													</div>
 												</div>
 											</ui:repeat>
@@ -119,12 +108,19 @@
 											<div class="col-md-12">
 												<div class="row">
 													<div class="form-group">
-														<h:inputText type="range" styleClass="criterioGeral"
-															value="#{newReviewMB.preference.value}" min="0"
-															max="10" />
-														<div class="rateit"
-															data-rateit-backingfld=".criterioGeral"
-															data-rateit-min="0" data-rateit-max="10"></div>
+														<h:selectOneMenu id="preferenceValue"
+															styleClass="criterioGeral" 
+															value="#{newReviewMB.preference.value}">
+															<f:selectItem itemValue="" itemLabel="Não quero avaliar" />
+															<f:selectItem itemValue="1" itemLabel="Muito Ruim" />
+															<f:selectItem itemValue="2" itemLabel="Ruim" />
+															<f:selectItem itemValue="3" itemLabel="Razoável" />
+															<f:selectItem itemValue="4" itemLabel="Bom" />
+															<f:selectItem itemValue="5" itemLabel="Muito Bom" />
+														</h:selectOneMenu>
+													
+														<div class="rateit" data-rateit-backingfld=".criterioGeral"></div>
+					
 													</div>
 												</div>
 											</div>
