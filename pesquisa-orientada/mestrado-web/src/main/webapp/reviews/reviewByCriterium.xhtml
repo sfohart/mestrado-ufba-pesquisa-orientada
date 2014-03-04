@@ -11,15 +11,15 @@
 	
 	<h:panelGroup layout="block" rendered="#{criteriumInPopup}"   >
 	
-		<ui:param name="modalId" value="#{'reviewModalCriterium'.concat(reviewId)}"  />
-		<ui:param name="dataTarget" value="#{'#reviewModalCriterium'.concat(reviewId)}" />
+		<ui:param name="modalId" value="#{ popupId eq null ? 'popupCriteria'.concat(reviewId) : ''.concat(popupId).concat(reviewId) }"  />
+		<ui:param name="dataTarget" value="#{'.'.concat(modalId)}" />
 		
 		<button class="btn btn-primary btn-sm" data-toggle="modal" data-target="#{dataTarget}">
 			Critérios
 		</button>
 		
-		<div class="modal fade" id="#{modalId}" tabindex="-1" p:role="dialog" p:aria-labelledby="#{modalId}Label" p:aria-hidden="true">
-			<div class="modal-dialog">
+		<div class="modal fade #{modalId}" tabindex="-1" p:role="dialog" p:aria-labelledby="#{modalId}Label" p:aria-hidden="true">
+			<div class="modal-dialog modal-lg">
 				<div class="modal-content">
 					<div class="modal-header">
 						<button type="button" class="close" data-dismiss="modal" p:aria-hidden="true">&#215;</button>
@@ -107,12 +107,7 @@
 											</tr>
 										</ui:repeat>
 									</tbody>
-								</table>
-								<SCRIPT type="text/javascript">
-									$('.meuPopover').popover({
-							
-									});
-								</SCRIPT>
+								</table>								
 							</div>
 						</div>
 					</div>
@@ -178,14 +173,13 @@
 				</ui:repeat>
 			</tbody>
 		</table>
-		<SCRIPT type="text/javascript">
-			$('.meuPopover').popover({
-	
-			});
-		</SCRIPT>
 	</h:panelGroup>
 	
 	
 	
-	
+	<SCRIPT type="text/javascript">
+		$('.meuPopover').popover({
+
+		});
+	</SCRIPT>
 </ui:composition>

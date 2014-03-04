@@ -123,79 +123,81 @@
 						</h:panelGroup>
 					</h:panelGroup>
 					
-					<h:panelGroup layout="block" styleClass="row" style="margin-bottom: 20px">
+					<h:panelGroup layout="block" id="reviewsPanel" styleClass="row" style="margin-bottom: 20px">
 						<div class="col-md-6">
-							<h:form id="helpfulReview">
-								<h3>
-									<h:outputLink value="#{facesContext.externalContext.applicationContextPath}/reviews/reviewsList.jsf">
-										<f:param name="projectId" value="#{summaryReviewsMB.project.id}" />
-										<f:param name="orderByRegisteredAt" value="false" />
-										Opiniões mais úteis
-									</h:outputLink>
-								</h3>
-								
-								<h:panelGroup layout="block" rendered="#{not empty summaryReviewsMB.mostHelpfulReviewList}">
-										<ui:repeat var="preference" value="#{summaryReviewsMB.mostHelpfulReviewList}" varStatus="status"  >
-											<div class="well">
-												<ui:include src="/reviews/review.xhtml">
-													<ui:param name="preference" value="#{preference}" />
-													<ui:param name="enableVoting" value="true"/>
-													<ui:param name="criteriumInPopup" value="true" />
-													<ui:param name="hidingProject" value="true" />
-													<ui:param name="bean" value="#{summaryReviewsMB}" />
-												</ui:include>
-											</div>
-										</ui:repeat>
-								</h:panelGroup>
-								<h:panelGroup layout="block" rendered="#{empty summaryReviewsMB.mostHelpfulReviewList}">
-									<section>
-										<div class="well">
-											Ainda não existem avaliações para este projeto.
-										</div>
-									</section>
-								</h:panelGroup>
-								
-								
-								<h:outputLink value="reviewsList.jsf" styleClass="btn btn-default" 
-									rendered="#{summaryReviewsMB.reviewsCount > 2}">
+							<h3>
+								<h:outputLink value="#{facesContext.externalContext.applicationContextPath}/reviews/reviewsList.jsf">
 									<f:param name="projectId" value="#{summaryReviewsMB.project.id}" />
-									Ver todas as opiniões
+									<f:param name="orderByRegisteredAt" value="false" />
+									Opiniões mais úteis
 								</h:outputLink>
-							</h:form>
+							</h3>
+							
+							<h:panelGroup layout="block" rendered="#{not empty summaryReviewsMB.mostHelpfulReviewList}">
+									<ui:repeat var="preference" value="#{summaryReviewsMB.mostHelpfulReviewList}" varStatus="status"  >
+										<div class="well">
+											<ui:include src="/reviews/review.xhtml">
+												<ui:param name="preference" value="#{preference}" />
+												<ui:param name="enableVoting" value="true"/>
+												
+												<ui:param name="criteriumInPopup" value="true" />
+												<ui:param name="popupId" value="mostHelpfulReview" />
+												
+												<ui:param name="hidingProject" value="true" />
+												<ui:param name="bean" value="#{summaryReviewsMB}" />
+											</ui:include>
+										</div>
+									</ui:repeat>
+							</h:panelGroup>
+							<h:panelGroup layout="block" rendered="#{empty summaryReviewsMB.mostHelpfulReviewList}">
+								<section>
+									<div class="well">
+										Ainda não existem avaliações para este projeto.
+									</div>
+								</section>
+							</h:panelGroup>
+							
+							
+							<h:outputLink value="reviewsList.jsf" styleClass="btn btn-default" 
+								rendered="#{summaryReviewsMB.reviewsCount > 2}">
+								<f:param name="projectId" value="#{summaryReviewsMB.project.id}" />
+								Ver todas as opiniões
+							</h:outputLink>
+
 						</div>
 						<div class="col-md-6">
-							<h:form id="helplessReview">
-								<h3>
-									<h:outputLink value="#{facesContext.externalContext.applicationContextPath}/reviews/reviewsList.jsf">
-										<f:param name="projectId" value="#{summaryReviewsMB.project.id}" />
-										<f:param name="orderByReviewRanking" value="false" />
-										Opiniões mais recentes
-									</h:outputLink>
-								</h3>
-								
-								<h:panelGroup layout="block" rendered="#{not empty summaryReviewsMB.mostRecentReviewList}">
-										<ui:repeat var="preference" value="#{summaryReviewsMB.mostRecentReviewList}" varStatus="status"  >
-											<div class="well">
-												<ui:include src="/reviews/review.xhtml">
-													<ui:param name="preference" value="#{preference}" />
-													<ui:param name="enableVoting" value="true"/>
-													<ui:param name="criteriumInPopup" value="true" />
-													<ui:param name="hidingProject" value="true" />
-													<ui:param name="bean" value="#{summaryReviewsMB}" />
-												</ui:include>
-											</div>
-										</ui:repeat>
-								</h:panelGroup>
-								
-								<h:panelGroup layout="block" rendered="#{empty summaryReviewsMB.mostRecentReviewList}">
-									<section>
+							<h3>
+								<h:outputLink value="#{facesContext.externalContext.applicationContextPath}/reviews/reviewsList.jsf">
+									<f:param name="projectId" value="#{summaryReviewsMB.project.id}" />
+									<f:param name="orderByReviewRanking" value="false" />
+									Opiniões mais recentes
+								</h:outputLink>
+							</h3>
+							
+							<h:panelGroup layout="block" rendered="#{not empty summaryReviewsMB.mostRecentReviewList}">
+									<ui:repeat var="preference" value="#{summaryReviewsMB.mostRecentReviewList}" varStatus="status"  >
 										<div class="well">
-											Ainda não existem avaliações para este projeto.
+											<ui:include src="/reviews/review.xhtml">
+												<ui:param name="preference" value="#{preference}" />
+												<ui:param name="enableVoting" value="true"/>
+												
+												<ui:param name="criteriumInPopup" value="true" />
+												<ui:param name="popupId" value="mostRecentReview" />
+												
+												<ui:param name="hidingProject" value="true" />
+												<ui:param name="bean" value="#{summaryReviewsMB}" />
+											</ui:include>
 										</div>
-									</section>
-								</h:panelGroup>
-								
-							</h:form>
+									</ui:repeat>
+							</h:panelGroup>
+							
+							<h:panelGroup layout="block" rendered="#{empty summaryReviewsMB.mostRecentReviewList}">
+								<section>
+									<div class="well">
+										Ainda não existem avaliações para este projeto.
+									</div>
+								</section>
+							</h:panelGroup>
 						</div>
 					</h:panelGroup>
 				

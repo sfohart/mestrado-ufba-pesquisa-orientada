@@ -109,31 +109,33 @@
 			</p>
 			
 			<div class="row">
-				<div class="col-md-6 pull-left">
-					<ui:param name="totalVotes" value="#{preference.preferenceReview.usefulCount + preference.preferenceReview.uselessCount}" />
-					<h:panelGroup layout="block" styleClass="small soft" rendered="#{totalVotes > 0}">
-						<h:outputText  value="#{fn:length(preference.preferenceReview.usefulList)}" /> 
-						de <h:outputText value="#{totalVotes}" /> avaliaram esta opinião como útil.
-					</h:panelGroup>
-				</div>	      				
-				<h:panelGroup layout="block" styleClass="col-md-6 pull-right" rendered="#{enableVoting}">
-					<h:panelGroup rendered="#{loginMB.loggedUser != null}">
-						<span class="soft small italic">
-							Você achou esta avaliação útil?
-							<br />
-							<h:commandLink style="text-decoration: none; margin-right: 10px" >
-								<f:attribute name="preference" value="#{preference}"  />
-								<f:ajax execute="@all" render="@form" listener="#{bean.addUsefulVoteToReview}" />
-								<span class="glyphicon glyphicon-thumbs-up" /> Sim
-							</h:commandLink>
-							<h:commandLink style="text-decoration: none; margin-right: 10px" >
-								<f:attribute name="preference" value="#{preference}" />
-								<f:ajax execute="@all" render="@form" listener="#{bean.addUselessVoteToReview}"  />
-								<span class="glyphicon glyphicon-thumbs-down" /> Não
-							</h:commandLink>
-						</span>
-					</h:panelGroup>
-				</h:panelGroup>								
+				<h:form>
+					<div class="col-md-6 pull-left">
+						<ui:param name="totalVotes" value="#{preference.preferenceReview.usefulCount + preference.preferenceReview.uselessCount}" />
+						<h:panelGroup layout="block" styleClass="small soft" rendered="#{totalVotes > 0}">
+							<h:outputText  value="#{fn:length(preference.preferenceReview.usefulList)}" /> 
+							de <h:outputText value="#{totalVotes}" /> avaliaram esta opinião como útil.
+						</h:panelGroup>
+					</div>	      				
+					<h:panelGroup layout="block" styleClass="col-md-6 pull-right" rendered="#{enableVoting}">
+						<h:panelGroup rendered="#{loginMB.loggedUser != null}">
+							<span class="soft small italic">
+								Você achou esta avaliação útil?
+								<br />
+								<h:commandLink style="text-decoration: none; margin-right: 10px" >
+									<f:attribute name="preference" value="#{preference}"  />
+									<f:ajax execute="@all" render="@form" listener="#{bean.addUsefulVoteToReview}" />
+									<span class="glyphicon glyphicon-thumbs-up" /> Sim
+								</h:commandLink>
+								<h:commandLink style="text-decoration: none; margin-right: 10px" >
+									<f:attribute name="preference" value="#{preference}" />
+									<f:ajax execute="@all" render="@form" listener="#{bean.addUselessVoteToReview}"  />
+									<span class="glyphicon glyphicon-thumbs-down" /> Não
+								</h:commandLink>
+							</span>
+						</h:panelGroup>
+					</h:panelGroup>								
+				</h:form>
 			</div>
 		
 		</div>

@@ -166,14 +166,22 @@
 									rendered="#{projectDetailMB.overallPreferenceCount eq 0}"
 									value="Nenhum usuário avaliou ainda este projeto" /> 
 								<br />
-								<div class="rateit" data-rateit-readonly="true"
-									data-rateit-min="0" data-rateit-max="5"
-									data-rateit-value="#{projectDetailMB.averagePreference.value}" data-rateit-ispreset="true"  />
-								<span style="margin-left: 10px" class="soft small">
-									<h:outputText value="#{projectDetailMB.averagePreference.value}" >
-										<f:convertNumber maxFractionDigits="2" maxIntegerDigits="2" pattern="#0.00" />
-									</h:outputText> / 5
-								</span>
+								
+								<h:panelGroup id="generalPreference" layout="block"
+									rendered="#{projectDetailMB.overallPreferenceCount > 0}"
+									>
+									
+									<div class="rateit" data-rateit-readonly="true"
+										data-rateit-min="0" data-rateit-max="5"
+										data-rateit-value="#{projectDetailMB.averagePreference.value}" data-rateit-ispreset="true"  />
+									<span style="margin-left: 10px" class="soft small">
+										<h:outputText value="#{projectDetailMB.averagePreference.value}" >
+											<f:convertNumber maxFractionDigits="2" maxIntegerDigits="2" pattern="#0.00" />
+										</h:outputText> / 5
+									</span>
+								</h:panelGroup>
+								
+								
 							</div>
 						</div>
 						<div class="col-md-6 col-sm-6">
