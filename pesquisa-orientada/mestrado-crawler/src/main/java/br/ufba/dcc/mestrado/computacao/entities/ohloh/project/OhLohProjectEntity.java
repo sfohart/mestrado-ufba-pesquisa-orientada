@@ -79,6 +79,7 @@ public class OhLohProjectEntity implements BaseEntity<Long> {
 	@Column(name = "small_logo_url")
 	private String smallLogoURL;
 
+	@Field(name = "user_count", index=Index.YES, analyze=Analyze.YES, store=Store.NO, termVector = TermVector.YES)
 	@Column(name = "user_count")
 	private Long userCount;
 

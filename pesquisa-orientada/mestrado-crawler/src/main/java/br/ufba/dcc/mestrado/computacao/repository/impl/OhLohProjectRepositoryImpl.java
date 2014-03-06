@@ -135,16 +135,8 @@ public class OhLohProjectRepositoryImpl
 						.boostedTo(SearchFieldsEnum.projectName.boost())
 					.andField(SearchFieldsEnum.projectDescription.fieldName())
 						.boostedTo(SearchFieldsEnum.projectDescription.boost())
-						.andField(SearchFieldsEnum.tagName.fieldName())
+					.andField(SearchFieldsEnum.tagName.fieldName())
 						.boostedTo(SearchFieldsEnum.tagName.boost())
-					/*.andField(SearchFieldsEnum.projectMainLanguageName.fieldName())
-						.boostedTo(SearchFieldsEnum.projectMainLanguageName.boost())
-					.andField(SearchFieldsEnum.languageName.fieldName())
-						.boostedTo(SearchFieldsEnum.languageName.boost())
-					.andField(SearchFieldsEnum.languageNiceName.fieldName())
-						.boostedTo(SearchFieldsEnum.languageNiceName.boost())
-					.andField(SearchFieldsEnum.languageCategory.fieldName())
-						.boostedTo(SearchFieldsEnum.languageCategory.boost())*/
 					.matching(query)
 					.createQuery();
 			
@@ -158,6 +150,12 @@ public class OhLohProjectRepositoryImpl
 		return fullTextQuery;
 	}
 
+	/**
+	 *
+	 * Encontra projetos que possuam as mesmas tags que o projeto  em questão
+	 * @param project Projeto para o qual se deseja encontrar projetos semelhantes
+	 * @returns Um objeto FullTextQuery contendo a lógica necessária para se encontrar projetos semelhantes
+	 */
 	@Override
 	public FullTextQuery findRelatedProjects(OhLohProjectEntity project) throws IOException {
 		
@@ -178,13 +176,6 @@ public class OhLohProjectRepositoryImpl
 								project.getId().toString())), 
 				BooleanClause.Occur.MUST_NOT);
 		
-		booleanQuery.add(
-				new TermQuery(
-						new Term(
-								SearchFieldsEnum.projectDescription.fieldName(), 
-								project.getDescription())), 
-				BooleanClause.Occur.SHOULD);
-		
 		if (project.getOhLohTags() != null) {
 			for (OhLohTagEntity tag : project.getOhLohTags()) {
 				booleanQuery.add(
@@ -195,25 +186,6 @@ public class OhLohProjectRepositoryImpl
 						BooleanClause.Occur.SHOULD);
 			}
 		}
-		
-		if (project.getOhLohLicenses() != null) {
-			for (OhLohLicenseEntity license : project.getOhLohLicenses()) {
-				booleanQuery.add(
-						new TermQuery(
-								new Term(
-										SearchFieldsEnum.licenseName.fieldName(), 
-										license.getName())), 
-						BooleanClause.Occur.SHOULD);
-				
-				booleanQuery.add(
-						new TermQuery(
-								new Term(
-										SearchFieldsEnum.licenseNiceName.fieldName(), 
-										license.getNiceName())), 
-						BooleanClause.Occur.SHOULD);
-			}
-		}
-		
 		
 		FullTextQuery fullTextQuery =  fullTextEntityManager.createFullTextQuery(booleanQuery, getEntityClass());
 		
