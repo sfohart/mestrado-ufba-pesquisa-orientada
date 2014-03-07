@@ -86,9 +86,13 @@ public class OhLohProjectEntity implements BaseEntity<Long> {
 	@Column(name = "average_rating")
 	private Double averageRating;
 
+	
+	@Field(name = "rating_count", index=Index.YES, analyze=Analyze.YES, store=Store.NO, termVector = TermVector.YES)
 	@Column(name = "rating_count")
 	private Long ratingCount;
 
+	
+	@Field(name = "review_count", index=Index.YES, analyze=Analyze.YES, store=Store.NO, termVector = TermVector.YES)
 	@Column(name = "review_count")
 	private Long reviewCount;
 

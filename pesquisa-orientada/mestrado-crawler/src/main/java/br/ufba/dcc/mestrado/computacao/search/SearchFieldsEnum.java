@@ -3,6 +3,9 @@ package br.ufba.dcc.mestrado.computacao.search;
 public enum SearchFieldsEnum {
 	projectName("name", 5.0f),
 	projectDescription("description", 2.0f),
+	projectUserCount("user_count",1.0f),
+	projectRatingCount("rating_count",1.0f),
+	projectReviewCount("review_count",1.0f),
 	linkCategory("ohLohLinks.category", 1.0f),
 	linkTitle("ohLohLinks.title", 1.0f),
 	linkURL("ohLohLinks.url", 1.0f),
@@ -35,6 +38,9 @@ public enum SearchFieldsEnum {
 		String[] array = new String[] {
 			projectName.fieldName(),
 			projectDescription.fieldName(),
+			projectUserCount.fieldName(),
+			projectRatingCount.fieldName(),
+			projectReviewCount.fieldName(),
 			linkCategory.fieldName(),
 			linkTitle.fieldName(),
 			linkURL.fieldName(),

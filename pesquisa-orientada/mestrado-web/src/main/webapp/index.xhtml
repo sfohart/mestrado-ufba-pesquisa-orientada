@@ -62,8 +62,9 @@
 													value="#{facesContext.externalContext.applicationContextPath}/detail/projectDetail.jsf">
 													<f:param name="projectId" value="#{projectPreferenceInfo.project.id}" />
 													<h:outputText value="#{projectPreferenceInfo.project.name} "  />
-													<h:outputText value="(#{projectPreferenceInfo.reviewsCount} avaliações)"  rendered="#{projectPreferenceInfo.reviewsCount > 1}" />
-													<h:outputText value="(#{projectPreferenceInfo.reviewsCount} avaliação)" rendered="#{projectPreferenceInfo.reviewsCount eq 1}"  />
+													<br />
+													<h:outputText styleClass="small" value="(#{projectPreferenceInfo.reviewsCount} avaliações)"  rendered="#{projectPreferenceInfo.reviewsCount > 1}" />
+													<h:outputText styleClass="small" value="(#{projectPreferenceInfo.reviewsCount} avaliação)" rendered="#{projectPreferenceInfo.reviewsCount eq 1}"  />
 												</h:outputLink>
 												<div class="progress progress-striped active" style="height: 10px">
 													<div class="progress-bar progress-bar-success"  p:role="progressbar" 
@@ -106,8 +107,9 @@
 													value="#{facesContext.externalContext.applicationContextPath}/detail/projectDetail.jsf">
 													<f:param name="projectId" value="#{pageViewInfo.project.id}" />
 													<h:outputText value="#{pageViewInfo.project.name} "  />
-													<h:outputText value="(#{pageViewInfo.pageViewCount} visualizações)"  rendered="#{pageViewInfo.pageViewCount > 1}" />
-													<h:outputText value="(#{pageViewInfo.pageViewCount} visualização)" rendered="#{pageViewInfo.pageViewCount eq 1}"  />
+													<br />
+													<h:outputText styleClass="small" value="(#{pageViewInfo.pageViewCount} visualizações)"  rendered="#{pageViewInfo.pageViewCount > 1}" />
+													<h:outputText styleClass="small" value="(#{pageViewInfo.pageViewCount} visualização)" rendered="#{pageViewInfo.pageViewCount eq 1}"  />
 												</h:outputLink>
 												<div class="progress progress-striped active" style="height: 10px">
 													<div class="progress-bar progress-bar-info"  p:role="progressbar" 
