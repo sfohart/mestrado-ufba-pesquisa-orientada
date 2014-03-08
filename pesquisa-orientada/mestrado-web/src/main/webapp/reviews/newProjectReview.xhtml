@@ -18,6 +18,9 @@
 		<ui:define name="titlePage">Nova Avaliação</ui:define>
 
 		<ui:define name="content">
+		
+			<f:loadBundle var="reviewMsg" basename="br.ufba.dcc.mestrado.computacao.reviews"   />
+		
 			<section class="container">
 				<h:panelGroup id="projectReviewError" layout="block"
 					styleClass="alert alert-danger col-md-12"
@@ -107,9 +110,12 @@
 											<legend>Avaliação Geral</legend>
 											<div class="col-md-12">
 												<div class="row">
-													<div class="form-group">
-														<h:selectOneMenu id="preferenceValue"
+													<div class="form-group #{not averagePreferenceInput.valid ? 'has-error has-feedback' : ''}">
+														<h:selectOneMenu id="averagePreferenceValue"
 															styleClass="criterioGeral" 
+															required="true" 
+															requiredMessage="#{reviewMsg['reviews.new.averagePreference.required.message']}"
+															binding="#{averagePreferenceInput}"
 															value="#{newReviewMB.preference.value}">
 															<f:selectItem itemValue="" itemLabel="Não quero avaliar" />
 															<f:selectItem itemValue="1" itemLabel="Muito Ruim" />
@@ -120,6 +126,13 @@
 														</h:selectOneMenu>
 													
 														<div class="rateit" data-rateit-backingfld=".criterioGeral"></div>
+														
+														<span class="help-block">
+															<h:message for="averagePreferenceValue"></h:message>
+														</span>
+														<h:panelGroup
+															rendered="#{not averagePreferenceInput.valid}" 
+															styleClass="glyphicon glyphicon-remove form-control-feedback" />
 					
 													</div>
 												</div>

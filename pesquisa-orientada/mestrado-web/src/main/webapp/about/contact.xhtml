@@ -1,21 +1,140 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml"
+<ui:composition 
+	xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:ui="http://java.sun.com/jsf/facelets"
 	xmlns:f="http://java.sun.com/jsf/core"
-	>
+	xmlns:p="http://xmlns.jcp.org/jsf/passthrough">
 	
-	<h:body>
-		<ui:composition template="/layout/mainLayout.xhtml">
-			<ui:define name="titlePage">Contato</ui:define>
-			
-			<ui:define name="content">
-				<section class="container">
-				</section>
-			</ui:define>			
-			
-		</ui:composition>
-	</h:body>
+	<div class="modal-dialog">
+   		<div class="modal-content">
+   			<div class="modal-header">
+	        	<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&#215;</button>
+	        	<h4 class="modal-title" id="#{modalIdLabel}">Envie-nos uma mensagem</h4>
+			</div>
+   			<div class="modal-body">
+				<h:form id="contactForm" prependId="false">
+					<h:inputHidden id="successSendingMail" value="#{mailMB.successSendingMail}"  />
+					
+					<fieldset>
+							
+						<h:messages globalOnly="true" 
+							styleClass="list-group"  
+							infoClass="list-group-item list-group-item-info" 
+							warnClass="list-group-item list-group-item-warning"
+							errorClass="list-group-item list-group-item-danger"
+							fatalClass="list-group-item list-group-item-danger"  />
+					
+						<div class="form-group #{not contactNameInput.valid ? 'has-error has-feedback' : ''}">
+							<h:outputLabel styleClass="control-label" value="Seu Nome" />
+							<h:inputText tabindex="1" id="contactName" value="#{mailMB.mailOptions.contactName}"
+								styleClass="form-control"
+								binding="#{contactNameInput}" 
+								required="true" 
+								requiredMessage="Por favor, preencha o seu nome" 
+								/>
+							<span class="help-block">
+								<h:message for="contactName"></h:message>
+							</span>
+							<h:panelGroup
+								rendered="#{not contactNameInput.valid}" 
+								styleClass="glyphicon glyphicon-remove form-control-feedback" />
+						</div>			
+						
+						<div class="form-group #{not contactAddressInput.valid ? 'has-error has-feedback' : ''}">
+							<h:outputLabel styleClass="control-label" value="Seu Email" />
+							<h:inputText tabindex="1" id="contactAddress" value="#{mailMB.mailOptions.contactAddress}"
+								styleClass="form-control"
+								binding="#{contactAddressInput}"
+								required="true" 
+								requiredMessage="Por favor, preencha o seu email" 
+								/>
+							<span class="help-block">
+								<h:message for="contactAddress"></h:message>
+							</span>
+							<h:panelGroup
+								rendered="#{not contactAddressInput.valid}" 
+								styleClass="glyphicon glyphicon-remove form-control-feedback" />
+						</div>
+						
+						<div class="form-group #{not contactSubjectInput.valid ? 'has-error has-feedback' : ''}">
+							<h:outputLabel styleClass="control-label" value="Assunto" />
+							<h:inputText tabindex="1" id="contactSubject" value="#{mailMB.mailOptions.contactSubject}"
+								styleClass="form-control"
+								binding="#{contactSubjectInput}"
+								required="true" 
+								requiredMessage="Por favor, diga do que se trata a mensagem" 
+								/>
+							<span class="help-block">
+								<h:message for="contactSubject"></h:message>
+							</span>
+							<h:panelGroup
+								rendered="#{not contactSubjectInput.valid}" 
+								styleClass="glyphicon glyphicon-remove form-control-feedback" />
+						</div>
+						
+						<div class="form-group #{not messageTextInput.valid ? 'has-error has-feedback' : ''}">
+							<h:outputLabel styleClass="control-label" value="Sua Mensagem" />
+							<h:inputTextarea tabindex="1" id="messageText" value="#{mailMB.mailOptions.messageText}"
+								styleClass="form-control"
+								binding="#{messageTextInput}"
+								required="true" 
+								requiredMessage="Por favor, preencha a sua mensagem" 
+								>
+							</h:inputTextarea>
+							<span class="help-block">
+								<h:message for="messageText"></h:message>
+							</span>
+							<h:panelGroup
+								rendered="#{not messageTextInput.valid}" 
+								styleClass="glyphicon glyphicon-remove form-control-feedback" />
+						</div>
+						
+						<div class="checkbox">
+							<h:outputLabel value="Enviar para mim uma cópia deste email" >
+								<h:selectBooleanCheckbox id="sendCopy" value="#{mailMB.mailOptions.sendCopy}" />
+							</h:outputLabel>
+      					</div>
+						
+						<div class="btn-toolbar" p:role="toolbar">
+							<div class="btn-group">
+								<h:commandButton styleClass="btn btn-primary" value="Enviar" type="submit" actionListener="#{mailMB.sendMail}">
+									<f:ajax execute="@form" render="@form" onevent="handleContactFormEvent" />
+								</h:commandButton>
+								<h:commandButton styleClass="btn btn-default" value="Limpar" type="reset" actionListener="#{mailMB.clearMail}">
+									<f:ajax execute="@form" render="@form" />
+								</h:commandButton>
+							</div>
+						</div>
+					</fieldset>
+				</h:form>
+			</div>
+		</div>
+	</div>
 	
-</html>
+	<script type="text/javascript">
+		function handleContactFormEvent(data) {
+			var status = data.status;
+			switch (status) {
+	        case "begin": // Before the ajax request is sent.
+	            // ...
+	            break;
+
+	        case "complete": // After the ajax response is arrived.
+	            // ...
+	            break;
+
+	        case "success": // After update of HTML DOM based on ajax response..
+	        	if ($('#successSendingMail').val() == 'true') {
+	        		//se descomentar, depois de 3 segundos a janela modal some
+		        	/* setTimeout(function() {
+		        		$('#contactModal').modal('hide')
+		        	}, 3000); */
+	        	}
+	            break;
+	    	}
+		}
+	</script>
+	
+</ui:composition>

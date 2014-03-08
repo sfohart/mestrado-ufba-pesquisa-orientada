@@ -17,11 +17,13 @@
 			
 			<ui:define name="content">				
 				<section class="container">
-					<h:panelGroup id="loginAlert" layout="block" styleClass="alert alert-danger col-md-12" 
-						rendered="#{not empty facesContext.messageList}">
-						<strong>Vish! </strong>
-						<h:messages />
-					</h:panelGroup>
+				
+					<h:messages globalOnly="true" 
+							styleClass="list-group"  
+							infoClass="list-group-item list-group-item-info" 
+							warnClass="list-group-item list-group-item-warning"
+							errorClass="list-group-item list-group-item-danger"
+							fatalClass="list-group-item list-group-item-danger"  />
 				
 					<div class="row">
 						<div class="col-md-6">

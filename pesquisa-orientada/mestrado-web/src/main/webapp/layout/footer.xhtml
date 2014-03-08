@@ -1,8 +1,11 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
 <!DOCTYPE html>
-<ui:composition xmlns:h="http://java.sun.com/jsf/html"
+<ui:composition 
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:ui="http://java.sun.com/jsf/facelets"
-	xmlns:f="http://java.sun.com/jsf/core">
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://xmlns.jcp.org/jsf/passthrough">
 
 	<div id="footer">
 		<div class="container">
@@ -13,6 +16,11 @@
 							<h:link outcome="/about/about.jsf">
 								<b>Sobre</b>
 							</h:link>
+						</li>
+						<li>
+							<h:outputLink styleClass="btn" p:data-toggle="modal" p:data-target="#contactModal">
+								<b>Contato</b>
+							</h:outputLink>
 						</li>					
 					</ul>
 				</div>
@@ -24,5 +32,12 @@
 				</div>
 			</div>
 		</div>
+	</div>
+	
+	
+	<div class="modal fade" id="contactModal" tabindex="-1" p:role="dialog" p:aria-labelledby="contactModalLabel" p:aria-hidden="true">
+		<ui:include src="/about/contact.xhtml" >
+			<ui:param name="modalIdLabel" value="contactModalLabel" />
+		</ui:include>
 	</div>
 </ui:composition>
