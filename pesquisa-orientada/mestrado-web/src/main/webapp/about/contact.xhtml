@@ -48,8 +48,11 @@
 								styleClass="form-control"
 								binding="#{contactAddressInput}"
 								required="true" 
-								requiredMessage="Por favor, preencha o seu email" 
-								/>
+								requiredMessage="Por favor, preencha o seu email"
+								validatorMessage="#{messages['email.invalid.message']}" 
+								>
+								<f:validator validatorId="emailValidator"  />
+							</h:inputText>
 							<span class="help-block">
 								<h:message for="contactAddress"></h:message>
 							</span>
