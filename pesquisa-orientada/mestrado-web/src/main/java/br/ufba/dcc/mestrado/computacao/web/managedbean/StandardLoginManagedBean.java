@@ -122,7 +122,7 @@ public class StandardLoginManagedBean implements Serializable {
 		
 		FacesContext.getCurrentInstance().responseComplete();
 		
-		return null;
+		return "/index.jsf";
 	}
 	
 
