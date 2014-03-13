@@ -21,7 +21,7 @@
 					<div>
 						<h:form id="indexSearch" >
 							<div class="input-group input-group-lg col-md-8 col-md-offset-2">
-								<h:inputText styleClass="form-control" id="query" p:placeholder="Digite aqui"  value="#{mainMB.searchRequest.query}" />
+								<h:inputText styleClass="form-control" id="query" p:placeholder="Digite aqui palavras-chave para buscar um software"  value="#{mainMB.searchRequest.query}" />
 								<span class="input-group-btn">
 									<h:commandButton styleClass="btn btn-default" value="Buscar"
 				  						action="#{mainMB.loadResults}">
@@ -35,8 +35,7 @@
 				
 				<div class="row">
 					<ui:include src="/login/smallDevicesLogin.xhtml" />
-				</div>
-				
+				</div>				
 			</div>
       
 </ui:composition>
