@@ -27,7 +27,7 @@
   				</h:form>
   				
   				<h:form styleClass="navbar-form navbar-right" prependId="false">
-  					<h:panelGroup layout="block" rendered="#{loginMB.loggedUser eq null}">
+  					<h:panelGroup layout="block" rendered="#{loginMB.loggedUser eq null}" id="loginButtonBar">
   						<h:outputLink styleClass="btn"  value="#{facesContext.externalContext.applicationContextPath}/login/login.jsf" style="margin-right: 10px" >
   							<span class="glyphicon glyphicon-log-in"></span> Entrar
   						</h:outputLink>

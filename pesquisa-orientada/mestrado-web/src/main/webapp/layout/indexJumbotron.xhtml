@@ -25,7 +25,7 @@
 					<div>
 						<h:form id="indexSearch" prependId="false" >
 							<div class="input-group input-group-lg col-md-8 col-md-offset-2">
-								<h:inputText styleClass="form-control" id="query" p:placeholder="Digite aqui"  value="#{mainMB.searchRequest.query}" />
+								<h:inputText styleClass="form-control" id="query" p:placeholder="Digite aqui palavras-chave para buscar um software"  value="#{mainMB.searchRequest.query}" />
 								<span class="input-group-btn">
 									<h:commandButton styleClass="btn btn-default" value="Buscar"
 				  						action="#{mainMB.loadResults}">
@@ -41,8 +41,7 @@
 				
 				<div class="row">
 					<ui:include src="/login/smallDevicesLogin.xhtml" />
-				</div>
-				
+				</div>				
 			</div>
 			
 			
@@ -91,13 +90,28 @@
 					content: "Envie-nos um email! Sua colaboração vai ajudar o nosso sistema a ficar ainda melhor pra você!"
 				});
 				
+				initialTour.addStep({
+					path: "#{facesContext.externalContext.applicationContextPath}/",
+					element: "#loginButtonBar",
+					placement: "bottom",
+					title: "Para participar mais efetivamente, crie uma conta!",
+					content: "Assim a gente vai poder lhe recomendar software de modo personalizado."
+				});
+				
+				initialTour.addStep({
+					path: "#{facesContext.externalContext.applicationContextPath}/",
+					element: "#query",
+					placement: "bottom",
+					orphan: true,
+					title: "Pronto!",
+					content: "Agora que você já tem uma idéia básica sobre como isso funciona, mãos à obra!"
+				});
+				
 				initialTour.init();
 				
 				$('#tourButton').click(function() {
 						initialTour.restart();
 				});
-				
-				
 				
 			</script>
       
