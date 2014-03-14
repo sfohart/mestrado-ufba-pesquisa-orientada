@@ -18,7 +18,9 @@
 						a qualidade de um software. 
 					</p>
 					
-					<a id="tourButton" class="btn btn-lg btn-success" role="button"><b>Faça um Tour</b></a>
+					<p>
+						<a id="tourButton" class="btn btn-lg btn-success" role="button"><b>Faça um Tour</b></a>
+					</p>
 					
 					<div>
 						<h:form id="indexSearch" prependId="false" >
@@ -45,7 +47,7 @@
 			
 			<script>
 				var initialTour = new Tour({
-					debug:	true
+					debug:		true
 				});
 				
 				initialTour.addStep({
@@ -67,7 +69,7 @@
 				initialTour.addStep({
 					path: "#{facesContext.externalContext.applicationContextPath}/",
 					element: "#topTenReview",
-					placement: "top",
+					placement: "top",					
 					title: "Sempre que tiver algo a falar, fale!",
 					content: "Se você já utilizou algum software, comente sobre ele! A sua opinião vai ajudar a muitos outros usuários."
 				});
