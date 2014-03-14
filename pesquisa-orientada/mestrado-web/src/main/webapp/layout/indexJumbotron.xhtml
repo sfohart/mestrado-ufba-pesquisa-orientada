@@ -90,6 +90,15 @@
 					content: "Envie-nos um email! Sua colaboração vai ajudar o nosso sistema a ficar ainda melhor pra você!"
 				});
 				
+				initialTour.addStep({
+					path: "#{facesContext.externalContext.applicationContextPath}/",
+					element: "#query",
+					placement: "bottom",
+					orphan: true,
+					title: "Pronto!",
+					content: "Agora que você já tem uma idéia básica sobre como isso funciona, mãos à obra!"
+				});
+				
 				initialTour.init();
 				
 				$('#tourButton').click(function() {
