@@ -751,15 +751,15 @@
 					});
 					
 					projectDetailTour.addStep({
-						path: "#{facesContext.externalContext.applicationContextPath}/",
+						path: "#{facesContext.externalContext.applicationContextPath}/detail/projectDetail.jsf?projectId=#{projectDetailMB.project.id}",
 						element: "#contactLink",
 						placement: "top",
 						title: "E para críticas e sugestões...",
 						content: "Envie-nos um email! Sua colaboração vai ajudar o nosso sistema a ficar ainda melhor pra você!"
 					});
 					
-					initialTour.addStep({
-						path: "#{facesContext.externalContext.applicationContextPath}/",
+					projectDetailTour.addStep({
+						path: "#{facesContext.externalContext.applicationContextPath}/detail/projectDetail.jsf?projectId=#{projectDetailMB.project.id}",
 						element: "#projectDetailTourButton",
 						placement: "bottom",
 						orphan: true,
