@@ -102,12 +102,17 @@
 						
 						<div class="btn-toolbar" p:role="toolbar">
 							<div class="btn-group">
-								<h:commandButton styleClass="btn btn-primary" value="Enviar" type="submit" actionListener="#{mailMB.sendMail}">
-									<f:ajax execute="@form" render="@form" onevent="handleContactFormEvent" />
-								</h:commandButton>
-								<h:commandButton styleClass="btn btn-default" value="Limpar" type="reset" actionListener="#{mailMB.clearMail}">
-									<f:ajax execute="@form" render="@form" />
-								</h:commandButton>
+								<h:commandLink styleClass="btn btn-primary ladda-button"  id="sendContactMail"
+									p:data-style="expand-left" p:data-spinner-color="#FFFFFF" p:data-size="xs"
+									actionListener="#{mailMB.sendMail}">
+									<span class="ladda-label">Enviar</span>
+									<span class="ladda-spinner"></span>
+									<f:ajax execute="@form" render="@form" onevent="handleSendContactFormEvent" />
+								</h:commandLink>
+								<button type="reset" class="btn btn-default" >
+									Limpar
+								</button>
+								
 							</div>
 						</div>
 					</fieldset>
@@ -117,11 +122,17 @@
 	</div>
 	
 	<script type="text/javascript">
-		function handleContactFormEvent(data) {
+		function handleClearContactFormEvent(data) {
+			handleLaddaLoadingIndicator(data,'#clearContactMail');
+		}
+	
+		function handleSendContactFormEvent(data) {
 			var status = data.status;
+			handleLaddaLoadingIndicator(data,'#sendContactMail');
+			
 			switch (status) {
 	        case "begin": // Before the ajax request is sent.
-	            // ...
+	        	// ...
 	            break;
 
 	        case "complete": // After the ajax response is arrived.
