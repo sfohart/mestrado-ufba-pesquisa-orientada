@@ -109,13 +109,10 @@
 									<span class="ladda-spinner"></span>
 									<f:ajax execute="@form" render="@form" onevent="handleSendContactFormEvent" />
 								</h:commandLink>
-								<h:commandLink styleClass="btn btn-default ladda-button" id="clearContactMail" immediate="true"
-									p:data-style="expand-right"  p:data-size="xs"  p:data-spinner-color="#000000"
-									actionListener="#{mailMB.clearMail}">
-									<span class="ladda-label">Limpar</span>
-									<span class="ladda-spinner"></span>
-									<f:ajax execute="@form" render="@form" onevent="handleClearContactFormEvent" />
-								</h:commandLink>
+								<button type="reset" class="btn btn-default" >
+									Limpar
+								</button>
+								
 							</div>
 						</div>
 					</fieldset>
