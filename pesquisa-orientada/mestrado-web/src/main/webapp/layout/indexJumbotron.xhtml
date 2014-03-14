@@ -18,8 +18,10 @@
 						a qualidade de um software. 
 					</p>
 					
+					<a id="tourButton" class="btn btn-lg btn-success" role="button"><b>Faça um Tour</b></a>
+					
 					<div>
-						<h:form id="indexSearch" >
+						<h:form id="indexSearch" prependId="false" >
 							<div class="input-group input-group-lg col-md-8 col-md-offset-2">
 								<h:inputText styleClass="form-control" id="query" p:placeholder="Digite aqui"  value="#{mainMB.searchRequest.query}" />
 								<span class="input-group-btn">
@@ -28,6 +30,8 @@
 				  						<f:param name="query" value="#{mainMB.searchRequest.query}"  />
 				  					</h:commandButton>
 								</span>
+								
+								
 							</div>
 						</h:form>
 					</div>
@@ -38,5 +42,53 @@
 				</div>
 				
 			</div>
+			
+			
+			<script>
+				var initialTour = new Tour({
+					debug:	true
+				});
+				
+				initialTour.addStep({
+					path: "#{facesContext.externalContext.applicationContextPath}/",
+					element: "#tourButton",
+					placement: "bottom",
+					title: "Por onde começar?",
+					content: "Confuso sobre como utilizar o nosso site? Nós lhe daremos uma forcinha!"
+				});
+				
+				initialTour.addStep({
+					path: "#{facesContext.externalContext.applicationContextPath}/",
+					element: "#query",
+					placement: "bottom",
+					title: "Comece buscando por alguma palavra chave...",
+					content: "Tente qualquer palavra ou expressão que remeta ao software ou ao tipo de software que você deseja."
+				});
+				
+				initialTour.addStep({
+					path: "#{facesContext.externalContext.applicationContextPath}/",
+					element: "#topTenReview",
+					placement: "top",
+					title: "Sempre que tiver algo a falar, fale!",
+					content: "Se você já utilizou algum software, comente sobre ele! A sua opinião vai ajudar a muitos outros usuários."
+				});
+				
+				initialTour.addStep({
+					path: "#{facesContext.externalContext.applicationContextPath}/",
+					element: "#topTenViewed",
+					placement: "top",
+					title: "O que as outas pessoas estão buscando?",
+					content: "Aqui você vê a lista dos softwares mais vistos pelos outros usuários"
+				});
+				
+				initialTour.init();
+				
+				$('#tourButton').click(function() {
+						initialTour.restart();
+				});
+				
+				
+				
+			</script>
       
 </ui:composition>
