@@ -100,6 +100,15 @@
 				
 				initialTour.addStep({
 					path: "#{facesContext.externalContext.applicationContextPath}/",
+					element: "#recommendedProjects",
+					placement: "top",
+					orphan:	true,
+					title: "Projetos recomendados pra você",
+					content: "Comparamos o seu perfil de interesse por software com os perfis de outros usuários. Para os perfis que se assemelham, verificamos quais projetos você ainda não viu e lhe recomendamos."
+				});
+				
+				initialTour.addStep({
+					path: "#{facesContext.externalContext.applicationContextPath}/",
 					element: "#query",
 					placement: "bottom",
 					orphan: true,
