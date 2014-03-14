@@ -17,11 +17,13 @@
 			
 			<ui:define name="content">				
 				<section class="container">
-					<h:panelGroup id="loginAlert" layout="block" styleClass="alert alert-danger col-md-12" 
-						rendered="#{not empty facesContext.messageList}">
-						<strong>Vish! </strong>
-						<h:messages />
-					</h:panelGroup>
+				
+					<h:messages globalOnly="true" 
+							styleClass="list-group"  
+							infoClass="list-group-item list-group-item-info" 
+							warnClass="list-group-item list-group-item-warning"
+							errorClass="list-group-item list-group-item-danger"
+							fatalClass="list-group-item list-group-item-danger"  />
 				
 					<div class="row">
 						<div class="col-md-6">
@@ -66,31 +68,47 @@
 								<h:form prependId="false">
 									<fieldset>
 										<legend>Entrar</legend>
-										<div class="form-group">
+										<div class="form-group #{not usernameField.valid ? 'has-error has-feedback' : ''}">
 											<div class="input-prepend">
 												<div class="input-group">
 													<span class="input-group-addon">
-														<span class="glyphicon glyphicon-user"></span>
+														<span class="fa fa-user"></span>
 													</span>
-													<h:inputText styleClass="form-control" id="j_username"
+													<h:inputText styleClass="form-control" id="j_username" tabindex="1" 
+														binding="#{usernameField}"
 														requiredMessage="#{messages['login.username.required.message']}"  
-														tabindex="1" required="true"  
-														p:placeholder="Nome de Usuário" />												
+														required="true"  
+														p:placeholder="Nome de Usuário" />	
+													<h:panelGroup
+														rendered="#{not usernameField.valid}" 
+														styleClass="input-group-addon fa fa-times">
+													</h:panelGroup>											
 												</div>
+												<span class="help-block">
+													<h:message for="j_username"></h:message>
+												</span>
 											</div>
 										</div>
 										
-										<div class="form-group">
+										<div class="form-group #{not usernameField.valid ? 'has-error has-feedback' : ''}">
 											<div class="input-prepend">
 												<div class="input-group">
 													<span class="input-group-addon">
-														<span class="glyphicon glyphicon-eye-close"></span>
+														<span class="fa fa-key"></span>
 													</span>
-													<h:inputSecret  styleClass="form-control" id="j_password"
+													<h:inputSecret  styleClass="form-control" id="j_password" tabindex="2"
+														binding="#{passwordField}"
 														requiredMessage="#{messages['login.password.required.message']}" 
-														tabindex="2" required="true"  
-														p:placeholder="Senha" />												
+														required="true"  
+														p:placeholder="Senha" />
+													<h:panelGroup
+														rendered="#{not passwordField.valid}" 
+														styleClass="input-group-addon fa fa-times" >
+													</h:panelGroup>																					
 												</div>
+												<span class="help-block">
+													<h:message for="j_password"></h:message>
+												</span>
 											</div>
 										</div>
 										<h:commandButton  styleClass="btn btn-primary" tabindex="3" value="Login" action="#{loginMB.signIn}" />

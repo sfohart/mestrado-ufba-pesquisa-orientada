@@ -28,7 +28,7 @@
   				
   				<h:form styleClass="navbar-form navbar-right" prependId="false">
   					<h:panelGroup layout="block" rendered="#{loginMB.loggedUser eq null}">
-  						<h:outputLink class="btn"  value="#{facesContext.externalContext.applicationContextPath}/login/login.jsf" style="margin-right: 10px" >
+  						<h:outputLink styleClass="btn"  value="#{facesContext.externalContext.applicationContextPath}/login/login.jsf" style="margin-right: 10px" >
   							<span class="glyphicon glyphicon-log-in"></span> Entrar
   						</h:outputLink>
   						<a class="btn btn-success btn-mini" href="#{facesContext.externalContext.applicationContextPath}/account/newAccount.jsf" >
@@ -62,9 +62,9 @@
 	  								</li>
 	  								<li p:role="presentation" class="divider"></li>
 	  								<li p:role="presentation">
-		  								<h:outputLink action="#{loginMB.signOut}" >
+		  								<h:commandLink action="#{loginMB.signOut}" >
 				  							<span class="fa fa-power-off"></span> Sair
-				  						</h:outputLink>
+				  						</h:commandLink>
 	  								</li>
 	  							</ul>
   							</li>

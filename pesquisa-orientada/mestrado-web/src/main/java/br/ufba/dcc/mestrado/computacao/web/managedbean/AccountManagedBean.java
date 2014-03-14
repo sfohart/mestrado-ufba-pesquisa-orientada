@@ -179,9 +179,11 @@ public class AccountManagedBean implements Serializable {
 		
 		
 		try {
-			getUserService().save(getAccount());
-			
+			getUserService().save(getAccount());			
 			setAccount(new UserEntity());
+			
+			FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Conta criada com sucesso", null);
+			FacesContext.getCurrentInstance().addMessage(null, message);
 			
 		} catch (Exception e) {
 			FacesMessage message = new FacesMessage("Ocorreu um erro durante esta operação", e.getLocalizedMessage());

@@ -81,6 +81,14 @@
 					content: "Aqui você vê a lista dos softwares mais vistos pelos outros usuários"
 				});
 				
+				initialTour.addStep({
+					path: "#{facesContext.externalContext.applicationContextPath}/",
+					element: "#contactLink",
+					placement: "top",
+					title: "E para críticas e sugestões...",
+					content: "Envie-nos um email! Sua colaboração vai ajudar o nosso sistema a ficar ainda melhor pra você!"
+				});
+				
 				initialTour.init();
 				
 				$('#tourButton').click(function() {

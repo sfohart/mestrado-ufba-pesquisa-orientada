@@ -17,6 +17,7 @@
 		<spring-security.version>3.1.4.RELEASE</spring-security.version>
 		<jersey.version>2.4.1</jersey.version>
 		<pretty-faces.version>3.3.3</pretty-faces.version>
+		<java-mail.version>1.5.1</java-mail.version>
 	</properties>
 
 	<repositories>
@@ -206,6 +207,13 @@
 			<groupId>com.ocpsoft</groupId>
 			<artifactId>prettyfaces-jsf2</artifactId>
 			<version>${pretty-faces.version}</version>
+		</dependency>
+
+		<!-- Java Mail -->
+		<dependency>
+			<groupId>com.sun.mail</groupId>
+			<artifactId>javax.mail</artifactId>
+			<version>${java-mail.version}</version>
 		</dependency>
 
 	</dependencies>

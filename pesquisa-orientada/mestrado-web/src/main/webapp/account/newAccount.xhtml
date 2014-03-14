@@ -17,11 +17,12 @@
 				
 				<section class="container">
 				
-					<h:panelGroup id="newAccountAlert" layout="block" styleClass="alert alert-danger col-md-12" 
-						rendered="#{not empty facesContext.messageList}">
-						<strong>Vish! </strong>
-						<h:messages />
-					</h:panelGroup>
+					<h:messages globalOnly="true" 
+							styleClass="list-group"  
+							infoClass="list-group-item list-group-item-info" 
+							warnClass="list-group-item list-group-item-warning"
+							errorClass="list-group-item list-group-item-danger"
+							fatalClass="list-group-item list-group-item-danger"  />
 				
 					<div class="row">
 						<div class="col-md-6">
@@ -59,64 +60,101 @@
 								<h:form>
 									<fieldset>
 										<legend>Nova Conta</legend>
-										<div class="form-group">
+										
+										<div class="form-group #{not loginInput.valid ? 'has-error has-feedback' : ''}">
 											<h:outputLabel for="login"><b>Login</b></h:outputLabel>
 											<h:inputText styleClass="form-control" tabindex="1" id="login"
+												binding="#{loginInput}" 
 												value="#{accountMB.account.login}" required="true"
 												requiredMessage="#{accountMsg['account.login.required.message']}"
 												/>
 											<span class="help-block">
 												Seu login é o seu nome púbico a ser utilizado.
 											</span>
+											
+											<span class="help-block">
+												<h:message for="login"></h:message>
+											</span>
+											<h:panelGroup
+												rendered="#{not loginInput.valid}" 
+												styleClass="glyphicon glyphicon-remove form-control-feedback" />
 										</div>
-										<div class="form-group">
+										
+										<div class="form-group #{not emailInput.valid ? 'has-error has-feedback' : ''}">
 											<h:outputLabel for="email"><b>Email</b></h:outputLabel>
-											<h:inputText styleClass="form-control" 
-												id="email" tabindex="2"
+											<h:inputText styleClass="form-control" id="email" tabindex="2"
+												binding="#{emailInput}" 
 												required="true" 
 												requiredMessage="#{accountMsg['account.email.required.message']}"
 												value="#{accountMB.account.email}">
+												<f:validator validatorId="emailValidator"  />
 												<f:validator validatorId="emailConfirmationFieldValidator"  />
-												<f:attribute name="match" value="#{confirmEmail}" />
+												<f:attribute name="match" value="#{confirmEmailInput}" />
 											</h:inputText>
 											<span class="help-block">
 												Você precisa fornecer um email válido para que a sua nova conta
 												seja ativada.
 											</span>
-										</div>
-										<div class="form-group">
-											<label><b>Confirmar Email</b></label>
-											<h:inputText styleClass="form-control" tabindex="3"
-												value="#{accountMB.account.email}"  
-												binding="#{confirmEmail}" />
 											<span class="help-block">
-												Confirme o seu endereço de email.
+												<h:message for="email"></h:message>
 											</span>
+											<h:panelGroup
+												rendered="#{not emailInput.valid}" 
+												styleClass="glyphicon glyphicon-remove form-control-feedback" />
 										</div>
-										<div class="form-group">
+										
+										<div class="form-group #{not confirmEmailInput.valid ? 'has-error has-feedback' : ''}">
+											<label><b>Confirme seu Email</b></label>
+											<h:inputText styleClass="form-control" tabindex="3" id="confirmEmail"
+												required="true"
+												requiredMessage="#{accountMsg['account.confirmEmail.required.message']}"
+												value="#{accountMB.account.email}"  
+												binding="#{confirmEmailInput}" >
+												<f:validator validatorId="emailValidator"  />
+											</h:inputText>
+											<span class="help-block">
+												<h:message for="confirmEmail"></h:message>
+											</span>
+											<h:panelGroup
+												rendered="#{not confirmEmailInput.valid}" 
+												styleClass="glyphicon glyphicon-remove form-control-feedback" />
+										</div>
+										
+										<div class="form-group #{not passwordInput.valid ? 'has-error has-feedback' : ''}">
 											<h:outputLabel for="password"><b>Senha</b></h:outputLabel>
 											<h:inputSecret styleClass="form-control" tabindex="4" id="password"
+												binding="#{passwordInput}"
 												validatorMessage="#{messages['password.length.error.message']}"
 												required="true"
 												requiredMessage="#{accountMsg['account.password.required.message']}"
 												value="#{accountMB.account.password}">
 												<f:validateLength  minimum="6" for="password" />
 												<f:validator validatorId="passwordConfirmationFieldValidator"  />
-												<f:attribute name="match" value="#{confirmPassword}" />
+												<f:attribute name="match" value="#{confirmPasswordInput}" />
 											</h:inputSecret>
 											<span class="help-block">
-												Digite uma senha para a sua conta.
+												<h:message for="password"></h:message>
 											</span>
+											<h:panelGroup
+												rendered="#{not passwordInput.valid}" 
+												styleClass="glyphicon glyphicon-remove form-control-feedback" />
 										</div>
-										<div class="form-group">
-											<label><b>Confirmar Senha</b></label>
-											<h:inputSecret styleClass="form-control" tabindex="5"
+										
+										<div class="form-group #{not confirmPasswordInput.valid ? 'has-error has-feedback' : ''}">
+											<label><b>Confirme sua Senha</b></label>
+											<h:inputSecret styleClass="form-control" tabindex="5" id="confirmPassword"
+												required="true"
+												requiredMessage="#{accountMsg['account.confirmPassword.required.message']}"
 												value="#{accountMB.account.password}" 
-												binding="#{confirmPassword}" />
+												binding="#{confirmPasswordInput}" />
 											<span class="help-block">
-												Confirme a sua senha
+												<h:message for="confirmPassword"></h:message>
 											</span>
+											<h:panelGroup
+												rendered="#{not confirmPasswordInput.valid}" 
+												styleClass="glyphicon glyphicon-remove form-control-feedback" />
 										</div>
+										
 										<h:commandButton 
 											styleClass="btn btn-primary" tabindex="6" value="Cadastrar"
 											action="#{accountMB.createAccount}"  
