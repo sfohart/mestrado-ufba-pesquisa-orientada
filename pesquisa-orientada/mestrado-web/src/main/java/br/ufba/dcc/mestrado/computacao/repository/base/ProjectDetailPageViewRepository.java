@@ -17,7 +17,6 @@ public interface ProjectDetailPageViewRepository extends BaseRepository<Long, Pr
 	
 	List<OhLohProjectEntity> findAllProjectRecentlyViewed(
 			UserEntity user,
-			String ipAddress,
 			Integer startAt, 
 			Integer offset);
 	
