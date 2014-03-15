@@ -68,7 +68,7 @@
 											<ui:repeat var="preferenceEntry"
 												value="#{newReviewMB.preference.preferenceEntryList}"
 												varStatus="status">
-												<div class="col-md-6" style="min-height: 85px; height: auto; margin-bottom: 10px">
+												<div class="col-md-6" style="min-height: 105px; height: auto; margin-bottom: 10px">
 													<div class="row">
 														<div class="form-group">
 															<label> 
@@ -82,7 +82,7 @@
 															</label> 
 															<br />
 															<h:selectOneMenu id="preferenceValue"
-																styleClass="criterio#{preferenceEntry.criterium.id}" 
+																styleClass="listaValoresCriterio#{preferenceEntry.criterium.id}" 
 																value="#{preferenceEntry.value}">
 																<f:selectItem itemValue="" itemLabel="Não quero avaliar" />
 																<f:selectItem itemValue="1" itemLabel="Muito Ruim" />
@@ -92,10 +92,38 @@
 																<f:selectItem itemValue="5" itemLabel="Muito Bom" />
 															</h:selectOneMenu>
 															
-															<div class="rateit" data-rateit-backingfld=".criterio#{preferenceEntry.criterium.id}"></div>
-
+															<div 	class="rateit criterio#{preferenceEntry.criterium.id}" 
+																	data-rateit-backingfld=".listaValoresCriterio#{preferenceEntry.criterium.id}"></div>
 														</div>
-														
+														<div class="labelValorCriterio#{preferenceEntry.criterium.id}" style="display:none">
+															Valor selecionado: <kbd class="valorCriterio#{preferenceEntry.criterium.id}"></kbd>
+														</div>
+														<script type="text/javascript">
+															$(".criterio#{preferenceEntry.criterium.id}")
+																.bind('rated', 
+																		function (event, value) { 
+																	
+																			var label = 
+																				$('.listaValoresCriterio#{preferenceEntry.criterium.id} option:eq(' + value + ')')
+																					.text();
+																	
+																			$('.valorCriterio#{preferenceEntry.criterium.id}')
+																				.text(label); 
+																			
+																			$('.labelValorCriterio#{preferenceEntry.criterium.id}').show();
+																		}
+																);
+															
+															$(".criterio#{preferenceEntry.criterium.id}")
+																.bind('reset', 
+																		function () { 
+																			$('.valorCriterio#{preferenceEntry.criterium.id}')
+																				.text('');
+																	
+																			$('.labelValorCriterio#{preferenceEntry.criterium.id}').hide();
+																		}
+																);
+														</script>
 													</div>
 												</div>
 											</ui:repeat>
