@@ -140,7 +140,7 @@
 												<div class="row">
 													<div class="form-group #{not averagePreferenceInput.valid ? 'has-error has-feedback' : ''}">
 														<h:selectOneMenu id="averagePreferenceValue"
-															styleClass="criterioGeral" 
+															styleClass="listaValoresCriterioGeral" 
 															required="true" 
 															requiredMessage="#{reviewMsg['reviews.new.averagePreference.required.message']}"
 															binding="#{averagePreferenceInput}"
@@ -153,7 +153,7 @@
 															<f:selectItem itemValue="5" itemLabel="Muito Bom" />
 														</h:selectOneMenu>
 													
-														<div class="rateit" data-rateit-backingfld=".criterioGeral"></div>
+														<div class="rateit criterioGeral" data-rateit-backingfld=".listaValoresCriterioGeral"></div>
 														
 														<span class="help-block">
 															<h:message for="averagePreferenceValue"></h:message>
@@ -163,6 +163,38 @@
 															styleClass="glyphicon glyphicon-remove form-control-feedback" />
 					
 													</div>
+													
+													<div class="labelValorCriterioGeral" style="display:none">
+														Valor selecionado: <kbd class="valorCriterioGeral"></kbd>
+													</div>
+													
+													<script type="text/javascript">
+														$(".criterioGeral")
+															.bind('rated', 
+																	function (event, value) { 
+																
+																		var label = 
+																			$('.listaValoresCriterioGeral option:eq(' + value + ')')
+																				.text();
+																
+																		$('.valorCriterioGeral')
+																			.text(label); 
+																		
+																		$('.labelValorCriterioGeral').show();
+																	}
+															);
+														
+														$(".criterioGeral")
+															.bind('reset', 
+																	function () { 
+																		$('.valorCriterioGeral')
+																			.text('');
+																
+																		$('.labelValorCriterioGeral').hide();
+																	}
+															);
+													</script>
+													
 												</div>
 											</div>
 										</fieldset>
