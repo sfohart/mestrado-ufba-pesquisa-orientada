@@ -61,8 +61,8 @@
 						
 						<div class="col-md-9">
 							<div class="well">
-								<h3>Minha avaliação deste projeto:</h3>
-								<h:panelGroup layout="block" rendered="#{summaryReviewsMB.currentUserPreference.preferenceReview != null}">
+								<h3>Sua avaliação deste projeto:</h3>
+								<h:panelGroup layout="block" rendered="#{summaryReviewsMB.currentUserPreference != null}">
 									<ui:include src="/reviews/review.xhtml">
 										<ui:param name="preference" value="#{summaryReviewsMB.currentUserPreference}" />
 										<ui:param name="hidingProject" value="true" />	
@@ -73,7 +73,21 @@
 								
 								<h:panelGroup layout="block" styleClass="media" rendered="#{summaryReviewsMB.currentUserPreference.preferenceReview == null}">
 									<div style="margin-bottom: 10px">
-										Você ainda não avaliou este projeto. Clique abaixo para avaliá-lo.
+										Você não comentou nada sobre este projeto. Gostaria de fazer um novo comentário, ou reavaliar este projeto?
+									</div>
+									<div>
+										<h:outputLink
+											styleClass="btn btn-default" 
+											value="#{facesContext.externalContext.applicationContextPath}/reviews/newProjectReview.jsf">
+											<f:param name="projectId" value="#{summaryReviewsMB.project.id}" />
+											Nova Avaliação
+										</h:outputLink>
+									</div>
+								</h:panelGroup>
+								
+								<h:panelGroup layout="block" styleClass="media" rendered="#{summaryReviewsMB.currentUserPreference.preferenceReview != null}">
+									<div style="margin-bottom: 10px">
+										Mudou de idéia? Que tal avaliar novamente este projeto?
 									</div>
 									<div>
 										<h:outputLink
