@@ -18,8 +18,12 @@
 						a qualidade de um software. 
 					</p>
 					
+					<p>
+						<a id="tourButton" class="btn btn-lg btn-success" role="button"><b>Faça um Tour</b></a>
+					</p>
+					
 					<div>
-						<h:form id="indexSearch" >
+						<h:form id="indexSearch" prependId="false" >
 							<div class="input-group input-group-lg col-md-8 col-md-offset-2">
 								<h:inputText styleClass="form-control" id="query" p:placeholder="Digite aqui palavras-chave para buscar um software"  value="#{mainMB.searchRequest.query}" />
 								<span class="input-group-btn">
@@ -28,6 +32,8 @@
 				  						<f:param name="query" value="#{mainMB.searchRequest.query}"  />
 				  					</h:commandButton>
 								</span>
+								
+								
 							</div>
 						</h:form>
 					</div>
@@ -37,5 +43,85 @@
 					<ui:include src="/login/smallDevicesLogin.xhtml" />
 				</div>				
 			</div>
+			
+			
+			<script type="text/javascript">
+				var initialTour = new Tour({
+					debug:		true
+				});
+				
+				initialTour.addStep({
+					path: "#{facesContext.externalContext.applicationContextPath}/",
+					element: "#tourButton",
+					placement: "bottom",
+					title: "Por onde começar?",
+					content: "Confuso sobre como utilizar o nosso site? Nós lhe daremos uma forcinha!"
+				});
+				
+				initialTour.addStep({
+					path: "#{facesContext.externalContext.applicationContextPath}/",
+					element: "#query",
+					placement: "bottom",
+					title: "Comece buscando por alguma palavra chave...",
+					content: "Tente qualquer palavra ou expressão que remeta ao software ou ao tipo de software que você deseja."
+				});
+				
+				initialTour.addStep({
+					path: "#{facesContext.externalContext.applicationContextPath}/",
+					element: "#topTenReview",
+					placement: "top",					
+					title: "Sempre que tiver algo a falar, fale!",
+					content: "Se você já utilizou algum software, comente sobre ele! A sua opinião vai ajudar a muitos outros usuários."
+				});
+				
+				initialTour.addStep({
+					path: "#{facesContext.externalContext.applicationContextPath}/",
+					element: "#topTenViewed",
+					placement: "top",
+					title: "O que as outas pessoas estão buscando?",
+					content: "Aqui você vê a lista dos softwares mais vistos pelos outros usuários"
+				});
+				
+				initialTour.addStep({
+					path: "#{facesContext.externalContext.applicationContextPath}/",
+					element: "#contactLink",
+					placement: "top",
+					title: "E para críticas e sugestões...",
+					content: "Envie-nos um email! Sua colaboração vai ajudar o nosso sistema a ficar ainda melhor pra você!"
+				});
+				
+				initialTour.addStep({
+					path: "#{facesContext.externalContext.applicationContextPath}/",
+					element: "#loginButtonBar",
+					placement: "bottom",
+					title: "Para participar mais efetivamente, crie uma conta!",
+					content: "Assim a gente vai poder lhe recomendar software de modo personalizado."
+				});
+				
+				initialTour.addStep({
+					path: "#{facesContext.externalContext.applicationContextPath}/",
+					element: "#recommendedProjects",
+					placement: "top",
+					orphan:	true,
+					title: "Projetos recomendados pra você",
+					content: "Comparamos o seu perfil de interesse por software com os perfis de outros usuários. Para os perfis que se assemelham, verificamos quais projetos você ainda não viu e lhe recomendamos."
+				});
+				
+				initialTour.addStep({
+					path: "#{facesContext.externalContext.applicationContextPath}/",
+					element: "#query",
+					placement: "bottom",
+					orphan: true,
+					title: "Pronto!",
+					content: "Agora que você já tem uma idéia básica sobre como isso funciona, mãos à obra!"
+				});
+				
+				initialTour.init();
+				
+				$('#tourButton').click(function() {
+						initialTour.restart();
+				});
+				
+			</script>
       
 </ui:composition>

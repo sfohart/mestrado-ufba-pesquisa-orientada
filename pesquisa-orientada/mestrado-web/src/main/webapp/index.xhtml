@@ -38,7 +38,7 @@
 						
 						<div class="row">
 							<div class="col-md-4">
-								<h:panelGroup layout="block" rendered="#{not empty indexMB.topTenReviewedProjectList}">
+								<h:panelGroup layout="block" rendered="#{not empty indexMB.topTenReviewedProjectList}" id="topTenReview">
 									<h3 class="mostReviewedProject">Projetos mais avaliados</h3>
 									<ui:repeat var="projectPreferenceInfo" value="#{indexMB.topTenReviewedProjectList}">
 										<ui:param name="widthValue" value="#{ (projectPreferenceInfo.reviewsCount * 80) / indexMB.mostReviewedProjectPreferenceInfo.reviewsCount}" />
@@ -83,7 +83,7 @@
 							</div>
 							
 							<div class="col-md-4">
-								<h:panelGroup layout="block" rendered="#{not empty indexMB.topTenViewedProjectList}">
+								<h:panelGroup layout="block" rendered="#{not empty indexMB.topTenViewedProjectList}" id="topTenViewed">
 									<h3 class="mostViewedProject">Projetos mais vistos</h3>
 									<ui:repeat var="pageViewInfo" value="#{indexMB.topTenViewedProjectList}">
 										<ui:param name="widthValue" value="#{ (pageViewInfo.pageViewCount * 80) / indexMB.mostViewedProjectDetailInfo.pageViewCount}" />
@@ -142,7 +142,7 @@
 					</h:panelGroup>
 					
 					
-					<h:panelGroup layout="block" rendered="#{not empty indexMB.recommendedProjectList}">
+					<h:panelGroup layout="block" rendered="#{not empty indexMB.recommendedProjectList}" id="recommendedProjects">
 						<hr/>
 					
 						<ui:include src="/detail/projectCart.xhtml">
@@ -183,11 +183,12 @@
 					</div>
 					
 					
-					
-					
 				</section>				
+				
 			</ui:define>
 			
-		</ui:composition>		
+		</ui:composition>	
+
+		
 	</h:body>
 </html>

@@ -22,6 +22,8 @@
 		<h:outputScript library="default" name="js/ladda/spin.min.js" />
 		<h:outputScript library="default" name="js/ladda/ladda.min.js" />
 		
+		<h:outputScript library="default" name="js/bootstrap-tour/bootstrap-tour.min.js" />
+		
 		<title>
 			<ui:insert name="titlePage" />
 		</title>
@@ -41,6 +43,8 @@
 		<h:outputStylesheet library="default" name="css/bootstrap.css.map" />
 		<h:outputStylesheet library="default" name="css/main.css" />
 		
+		<h:outputStylesheet library="default" name="css/bootstrap-tour/bootstrap-tour.min.css" />
+		
 		<ui:insert name="javascriptAddOns" />
 		
 	</h:head>
@@ -59,12 +63,11 @@
 		<ui:insert name="footer">
 			<ui:include src="footer.xhtml" />
 		</ui:insert>
-		
+
 		<script type="text/javascript">
 			Ladda.bind( 'input[type=submit]' );
 		</script>
-		
-		
+
 	</h:body>
 
 </html>
