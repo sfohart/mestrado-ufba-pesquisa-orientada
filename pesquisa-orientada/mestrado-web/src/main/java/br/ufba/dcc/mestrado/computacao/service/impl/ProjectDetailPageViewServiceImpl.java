@@ -55,10 +55,9 @@ public class ProjectDetailPageViewServiceImpl
 	
 	public List<OhLohProjectEntity> findAllProjectRecentlyViewed(
 			UserEntity user,
-			String ipAddress,
 			Integer startAt, 
 			Integer offset) {
-		return ((ProjectDetailPageViewRepository) getRepository()).findAllProjectRecentlyViewed(user,ipAddress, startAt, offset);
+		return ((ProjectDetailPageViewRepository) getRepository()).findAllProjectRecentlyViewed(user, startAt, offset);
 	}
 	
 	@Override

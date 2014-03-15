@@ -47,13 +47,12 @@ public class ProjectDetailPageViewRepositoryImpl
 	
 	public List<OhLohProjectEntity> findAllProjectRecentlyViewed(
 			UserEntity user,
-			String ipAddress,
 			Integer startAt, 
 			Integer offset) {
 		
 		List<OhLohProjectEntity> result = null;
 		
-		if (user != null || ! StringUtils.isEmpty(ipAddress)) {
+		if (user != null) {
 			
 			CriteriaBuilder criteriaBuilder = getEntityManager().getCriteriaBuilder();
 			CriteriaQuery<OhLohProjectEntity> criteriaQuery = criteriaBuilder.createQuery(OhLohProjectEntity.class);
@@ -79,9 +78,6 @@ public class ProjectDetailPageViewRepositoryImpl
 				predicateSubqueryList.add(criteriaBuilder.equal(root.get("userId"), subqueryRoot.get("userId")));
 			}
 			
-			if (! StringUtils.isEmpty(ipAddress)) {
-				predicateSubqueryList.add(criteriaBuilder.equal(root.get("ipAddress"), subqueryRoot.get("ipAddress")));
-			}
 			
 			viewedAtSubquery.where(
 					predicateSubqueryList.toArray(new Predicate[0])
@@ -96,9 +92,6 @@ public class ProjectDetailPageViewRepositoryImpl
 				predicateQueryList.add(criteriaBuilder.equal(root.get("userId"), user.getId()));
 			}
 			
-			if (! StringUtils.isEmpty(ipAddress)) {
-				predicateQueryList.add(criteriaBuilder.equal(root.get("ipAddress"), ipAddress));
-			}
 			
 			criteriaQuery.where(predicateQueryList.toArray(new Predicate[0]));
 			

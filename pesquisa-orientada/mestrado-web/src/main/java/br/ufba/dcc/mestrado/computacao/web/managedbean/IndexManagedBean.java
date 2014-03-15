@@ -7,9 +7,7 @@ import java.util.List;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
-import javax.faces.context.FacesContext;
 import javax.faces.event.ComponentSystemEvent;
-import javax.servlet.http.HttpServletRequest;
 
 import org.apache.mahout.cf.taste.common.TasteException;
 import org.apache.mahout.cf.taste.impl.recommender.GenericBooleanPrefItemBasedRecommender;
@@ -69,20 +67,8 @@ public class IndexManagedBean implements Serializable {
 		this.topTenReviewedProjectList = getOverallPreferenceService().findAllProjectPreferenceInfo(0, 10);
 		this.topTenViewedProjectList = getPageViewService().findAllProjectDetailPageViewInfo(0, 10);
 		
-		String ipAddress = null;
-		if (FacesContext.getCurrentInstance().getExternalContext().getRequest() != null) {
-			HttpServletRequest request = 
-					(HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
-			
-			ipAddress = request.getRemoteAddr();
-		}
 		
-		
-		this.projectViewedList = getPageViewService().findAllProjectRecentlyViewed(
-				getUserDetailsService().loadFullLoggedUser(), 
-				ipAddress,
-				0, 
-				6);
+		findUserRecentlyViewedProjectList();
 		
 		if (this.topTenReviewedProjectList != null && ! this.topTenReviewedProjectList.isEmpty()) {
 			this.mostReviewedProjectPreferenceInfo = this.topTenReviewedProjectList.get(0);
@@ -92,7 +78,20 @@ public class IndexManagedBean implements Serializable {
 			this.mostViewedProjectDetailInfo = this.topTenViewedProjectList.get(0);
 		}
 		
+		findUserRecentlyViewedProjectList();
 		findRecommendedProjectList();
+	}
+
+	private void findUserRecentlyViewedProjectList() {
+		this.projectViewedList = new ArrayList<>();
+		UserEntity currentUser = getUserDetailsService().loadFullLoggedUser();
+		
+		if (currentUser != null) {
+			this.projectViewedList = getPageViewService().findAllProjectRecentlyViewed(
+					getUserDetailsService().loadFullLoggedUser(), 
+					0, 
+					6);
+		}
 	}
 	
 	protected void findRecommendedProjectList() {

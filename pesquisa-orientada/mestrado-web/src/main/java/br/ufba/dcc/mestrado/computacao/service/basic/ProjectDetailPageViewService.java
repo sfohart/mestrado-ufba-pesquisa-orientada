@@ -18,7 +18,6 @@ public interface ProjectDetailPageViewService extends BaseOhLohService<Long, Pro
 	
 	List<OhLohProjectEntity> findAllProjectRecentlyViewed(
 			UserEntity user,
-			String ipAddress,
 			Integer startAt, 
 			Integer offset);
 	
