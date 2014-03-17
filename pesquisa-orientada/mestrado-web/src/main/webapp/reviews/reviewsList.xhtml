@@ -109,47 +109,139 @@
 									</ul>
 								</h:panelGroup>							
 
-								<h:panelGroup layout="block" id="reviews">
+								<div class="container">
+									<div class="page-header text-center">
+										<h1 id="timeline">Timeline 2.1</h1>
+									</div>
 									
-										<ul class="timeline">
-											<ui:repeat var="preference" value="#{reviewListMB.dataModel}" varStatus="status"  >
-												<li>
-													<div class="timeline-badge primary"><a><i class="glyphicon glyphicon-record" rel="tooltip" title="11 hours ago via Twitter" id=""></i></a></div>
-													<div class="timeline-panel">
-														<div class="timeline-heading">
-															<img class="img-responsive" src="http://lorempixel.com/1600/500/sports/2" />														  
-														</div>
-														<div class="timeline-body">
-															<p>Mussum ipsum cacilds, vidis litro abertis. Consetis adipiscings elitis. Pra lá , depois divoltis porris, paradis. Paisis, filhis, espiritis santis. Mé faiz elementum girarzis, nisi eros vermeio, in elementis mé pra quem é amistosis quis leo. Manduma pindureta quium dia nois paga. Sapien in monti palavris qui num significa nadis i pareci latim. Interessantiss quisso pudia ce receita de bolis, mais bolis eu num gostis.</p>
-														</div>														
-														<div class="timeline-footer">
-															<a><i class="glyphicon glyphicon-thumbs-up"></i></a>
-															<a><i class="glyphicon glyphicon-share"></i></a>
-															<a class="pull-right">Continuar Lendo</a>
-														</div>
-													</div>
-												</li>
-											</ui:repeat>
-										</ul>
+									
+									<ul class="timeline">
 									
 										<ui:repeat var="preference" value="#{reviewListMB.dataModel}" varStatus="status"  >
-											<div class="well">
-												<ui:include src="/reviews/review.xhtml">
-													<ui:param name="preference" value="#{preference}" />
-													<ui:param name="enableVoting" value="true"/>
-													<ui:param name="hidingUser" value="#{hidingUser}"/>
-													<ui:param name="hidingProject" value="#{hidingProject}"/>
-													<ui:param name="bean" value="#{reviewListMB}"/>
-													<ui:param name="criteriumInPopup" value="true" />
-												</ui:include>
-											</div>
+											<li class="#{status.odd ? 'timeline-inverted' : ''}">
+												<div class="timeline-badge info">
+													
+													<a	
+														data-toggle="tooltip"  
+														data-placement="top" 
+														data-original-title="Teste">
+														<span class="glyphicon glyphicon-comment" id=""></span>
+													</a>
+												</div>
+			  
+												<div class="timeline-panel timeline-info">
+													<div class="timeline-heading">
+														<div class="row">
+															<div class="pull-left col-md-3">
+																<h:outputLink value="#{facesContext.externalContext.applicationContextPath}/account/account.jsf?accountId=#{preference.user.id}">				
+																	<ui:include src="/account/accountName.xhtml"  >
+																		<ui:param name="user" value="#{preference.user}"  />
+																	</ui:include>
+																</h:outputLink>
+																disse:
+																<h:panelGroup layout="block" rendered="#{ (preference.user.encodedEmail eq null) or (preference.user.encodedEmail eq '') }">
+																	<h:outputLink value="#{facesContext.externalContext.applicationContextPath}/account/account.jsf?accountId=#{preference.user.id}">
+																		<h:graphicImage styleClass="media-object img-thumbnail" height="32" width="32" library="default" name="img/no_logo.png" />
+																	</h:outputLink>
+																</h:panelGroup>
+																<h:panelGroup layout="block" rendered="#{ (preference.user.encodedEmail != null) and (preference.user.encodedEmail != '') }">
+																	<h:outputLink value="#{facesContext.externalContext.applicationContextPath}/account/account.jsf?accountId=#{preference.user.id}">
+																		<h:graphicImage styleClass="media-object img-thumbnail" url="http://www.gravatar.com/avatar/#{preference.user.encodedEmail}.png?s=32&amp;d=mm&amp;r=g" />
+																	</h:outputLink>
+																</h:panelGroup>
+															</div>															
+															<div class="col-md-9">
+																<h4>
+																	<h:outputLink
+																		value="#{facesContext.externalContext.applicationContextPath}/detail/projectDetail.jsf">
+																		<f:param name="projectId" value="#{preference.project.id}" /> 
+																		<h:outputText value="#{preference.project.name}" />
+																	</h:outputLink>
+																</h4>
+																<h:outputText value="#{preference.preferenceReview.title}" />  
+																<!-- data em que foi escrita -->
+																<div>
+																	<span class="small soft italic" title="#{preference.registeredAt}">
+																		<h:outputText value="#{preference.registeredAt}">
+																			<f:convertDateTime pattern="'escrito no dia' dd/MM/yyyy 'às' HH:mm:ss" />
+																		</h:outputText>
+																	</span>
+																</div>		
+																<div>				
+																	<!-- Estrelas -->
+																	<div class="rateit" data-rateit-readonly="true"
+																			data-rateit-min="0" data-rateit-max="5"
+																			data-rateit-value="#{preference.value}" data-rateit-ispreset="true"  />
+																
+																	<!-- legenda das estrelas -->
+																	<h:panelGroup styleClass="soft small" rendered="#{preference.value != null and preference.value > 0}">
+																		(<h:outputText value="#{preference.value}" >
+																			<f:convertNumber maxFractionDigits="2" maxIntegerDigits="2" pattern="#0.00" />
+																		</h:outputText> / 5)
+																	</h:panelGroup>
+																	<h:panelGroup styleClass="soft small" rendered="#{preference.value == null or preference.value == 0}">
+																		(0 / 5)
+																	</h:panelGroup>																	
+																</div>
+																
+																
+															</div>
+														</div>
+													</div>
+				
+													<div class="timeline-body">
+														
+														<!-- descrição da review -->														
+														<h:outputText value="#{preference.preferenceReview.description}" />
+														
+													</div>
+													<div class="timeline-footer">
+														<h:form>
+															<div class="row">
+																<div class="col-md-6 pull-left">
+																	<ui:param name="totalVotes" value="#{preference.preferenceReview.usefulCount + preference.preferenceReview.uselessCount}" />
+																	<h:panelGroup layout="block" styleClass="small soft" rendered="#{totalVotes > 0}">
+																		<h:outputText  value="#{fn:length(preference.preferenceReview.usefulList)}" /> 
+																		de <h:outputText value="#{totalVotes}" /> avaliaram esta opinião como útil.
+																	</h:panelGroup>
+																</div>	      				
+																<h:panelGroup layout="block" styleClass="col-md-6 pull-right">
+																	<h:panelGroup rendered="#{loginMB.loggedUser != null}">
+																		<span class="soft small italic">
+																			Você achou esta avaliação útil?
+																			<br />
+																			<h:commandLink style="text-decoration: none; margin-right: 10px" >
+																				<f:attribute name="preference" value="#{preference}"  />
+																				<f:ajax execute="@all" render="@form" listener="#{reviewListMB.addUsefulVoteToReview}" />
+																				<span class="glyphicon glyphicon-thumbs-up" /> Sim
+																			</h:commandLink>
+																			<h:commandLink style="text-decoration: none; margin-right: 10px" >
+																				<f:attribute name="preference" value="#{preference}" />
+																				<f:ajax execute="@all" render="@form" listener="#{reviewListMB.addUselessVoteToReview}"  />
+																				<span class="glyphicon glyphicon-thumbs-down" /> Não
+																			</h:commandLink>
+																		</span>
+																	</h:panelGroup>
+																</h:panelGroup>								
+															</div>
+														</h:form>
+													</div>
+												</div>
+											</li>
+											
+											
 										</ui:repeat>
-									
-									
-									<script type="text/javascript">
-    									$(function () { $('.rateit').rateit({ max: 10,  min: 0}); });
-									</script>
-								</h:panelGroup>
+        
+										<li class="clearfix" style="float: none;"></li>
+									</ul>
+								</div>
+								
+								<!-- tooltip das tags -->
+								<script type="text/javascript">
+									$('.timeline').tooltip({
+										selector: "a[data-toggle=tooltip]"
+									})
+								</script>
 								
 								<!-- Paginação -->
 								<ui:include src="/layout/pagination.xhtml">
@@ -158,6 +250,9 @@
 								</ui:include>
 							
 							</h:panelGroup>
+							
+							
+							
 					</h:form>
 				
 				</section>
