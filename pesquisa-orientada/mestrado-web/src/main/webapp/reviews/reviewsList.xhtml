@@ -40,7 +40,7 @@
 							<ui:param name="hidingUser" value="#{reviewListMB.project.id eq null and reviewListMB.user.id != null}"/>
 							<ui:param name="hidingProject" value="#{reviewListMB.project.id != null and reviewListMB.user.id eq null}"/>
 							
-							<h:panelGroup layout="block" rendered="#{hidingUser}">
+							<h:panelGroup layout="block" rendered="#{hidingUser}" style="">
 								<div class="row">
 									<div class="col-md-2 pull-left">
 										<h:outputLink value="#{facesContext.externalContext.applicationContextPath}/account/account.jsf?accountId=#{reviewListMB.user.id}">
@@ -62,7 +62,7 @@
 										</h:outputLink>
 									</div>
 								</div>
-								
+								<hr />
 								<div class="page-header text-center">
 									<h1 id="timeline">Projetos comentados pelo usuário</h1>
 								</div>
@@ -71,43 +71,65 @@
 							
 							<h:panelGroup layout="block" rendered="#{hidingProject}">
 								<div class="row">
-									<div class="col-md-1">
+									<div class="col-md-2 pull-left">
 										<h:outputLink value="#{facesContext.externalContext.applicationContextPath}/detail/projectDetail.jsf" class="pull-left">
 											<f:param name="projectId" value="#{reviewListMB.project.id}" />
 											<h:graphicImage
 												style="margin-bottom: 10px"
 												rendered="#{reviewListMB.project.mediumLogoURL eq 'no_logo.png'}" 
-												styleClass="media-object" height="64" width="64" library="default" 
+												styleClass="media-object" height="128" width="128" library="default" 
 												name="img/no_logo.png" />
 											<h:graphicImage
 												style="margin-bottom: 10px"
 												rendered="#{reviewListMB.project.mediumLogoURL != 'no_logo.png'}" 
-												styleClass="media-object" height="64" width="64"
+												styleClass="media-object" height="128" width="128"
 												value="#{reviewListMB.project.mediumLogoURL}" 
 												/>
 										</h:outputLink>
 									</div>
-									<div class="col-md-11">
+									<div class="col-md-10 pull-left">
 										<h:outputLink value="#{facesContext.externalContext.applicationContextPath}/detail/projectDetail.jsf" class="pull-left">
 											<f:param name="projectId" value="#{reviewListMB.project.id}" />
 											<h2> <h:outputText value="#{reviewListMB.project.name}" /> </h2>
 										</h:outputLink>
 									</div>
 								</div>
-								
+								<hr />
 								<div class="page-header text-center">
 									<h1 id="timeline">Comentários dos usuários</h1>
 								</div>									
 							</h:panelGroup>
-
+							
 							<div class="infinite-scroll">
+								<div class="timeline-comments-alert">
+									<div class="row">
+										<div class="col-md-6 pull-left">
+											<div class="alert alert-success">
+												<h4>Comentários Positivos</h4>
+												<p>
+													Deste lado, todos os comentários cuja nota geral dada
+													está acima de <kbd>Razoável</kbd>
+												</p>
+											</div>										
+										</div>
+										<div class="col-md-6 pull-right">
+											<div class="alert alert-danger">
+												<h4>Comentários Negativos</h4>
+												<p>
+													Deste lado, todos os comentários cuja nota geral dada
+													é igual ou está abaixo de <kbd>Razoável</kbd>
+												</p>
+											</div>										
+										</div>
+									</div>
+								</div>
 								
 								<ul class="timeline">
 								
-									<ui:repeat var="preference" id="reviewIterator" value="#{reviewListMB.reviewList}" varStatus="status"  >
-										<h:outputText styleClass="status" value="#{status.index}" />
-										<li class="#{status.odd ? 'timeline-inverted' : ''}">
-											<div class="timeline-badge info">
+									<ui:repeat var="preference" id="reviewIterator" value="#{reviewListMB.reviewList}" size="#{fn:length(reviewListMB.reviewList)}" varStatus="status"  >
+										<ui:param name="reviewPositiva" value="#{preference.value > 3 ? true : false}" />
+										<li class="#{reviewPositiva ? '' : 'timeline-inverted'}">
+											<div class="timeline-badge #{reviewPositiva ? 'success' : 'danger'}">
 												
 												<a	
 													data-toggle="tooltip"  
@@ -117,7 +139,7 @@
 												</a>
 											</div>
 		  
-											<div class="timeline-panel timeline-info">
+											<div class="timeline-panel #{reviewPositiva ? 'timeline-success' : 'timeline-danger'} ">
 												<div class="timeline-heading">
 													<div class="row">
 														<div class="pull-left col-md-3">
@@ -179,49 +201,55 @@
 			
 												<div class="timeline-body">
 													
-													<!-- descrição da review -->														
-													<h:outputText value="#{preference.preferenceReview.description}" />
+													<!-- descrição da review -->	
+													<p>
+														<h:outputText value="#{preference.preferenceReview.description}" />
+													</p>
+													
+													<ui:include src="/reviews/reviewByCriterium.xhtml">
+														<ui:param name="preference" value="#{preference}" />
+														<ui:param name="criteriumInPopup" value="true" />
+														<ui:param name="reviewId" value="#{preference.id}"  />
+													</ui:include>
 													
 												</div>
 												
 												<ui:param name="totalVotes" value="#{preference.preferenceReview.usefulCount + preference.preferenceReview.uselessCount}" />
 												
 												<h:panelGroup layout="block" styleClass="timeline-footer" rendered="#{ (totalVotes > 0) or (loginMB.loggedUser != null)}" >
-													<h:panelGroup rendered="#{loginMB.loggedUser eq null}">
-														<h:panelGroup layout="block" styleClass="small soft">
+													<h:panelGroup layout="block" styleClass="small soft" rendered="#{loginMB.loggedUser eq null}">
+														<span class="glyphicon glyphicon-thumbs-up" /> 
+														<h:outputText 
+															style="margin-left: 5px; margin-right: 10px"
+															value="#{preference.preferenceReview.usefulCount}" />
+													
+														<span class="glyphicon glyphicon-thumbs-down" /> 
+														<h:outputText 
+															style="margin-left: 5px; margin-right: 10px"
+															value="#{preference.preferenceReview.uselessCount}" />
+													</h:panelGroup>
+													
+													<h:panelGroup layout="block" styleClass="small soft" rendered="#{loginMB.loggedUser != null}">
+														
+														Você achou esta avaliação útil?
+														<br />
+														<h:commandLink id="voteUseful" style="text-decoration: none; margin-right: 10px" actionListener="#{reviewListMB.addUsefulVoteToReview}">
+															<f:attribute name="preference" value="#{preference}"  />
+															<f:ajax execute="@form" render="@form"  />
 															<span class="glyphicon glyphicon-thumbs-up" /> 
 															<h:outputText 
 																style="margin-left: 5px; margin-right: 10px"
 																value="#{preference.preferenceReview.usefulCount}" />
-														
+														</h:commandLink>
+														<h:commandLink id="voteUseless" style="text-decoration: none; margin-right: 10px" actionListener="#{reviewListMB.addUselessVoteToReview}" >
+															<f:attribute name="preference" value="#{preference}" />
+															<f:ajax execute="@form" render="@form"  />
 															<span class="glyphicon glyphicon-thumbs-down" /> 
 															<h:outputText 
 																style="margin-left: 5px; margin-right: 10px"
 																value="#{preference.preferenceReview.uselessCount}" />
-														</h:panelGroup>
-													</h:panelGroup>
-													
-													<h:panelGroup rendered="#{loginMB.loggedUser != null}">
-														<span class="soft small italic">
-															Você achou esta avaliação útil?
-															<br />
-															<h:commandLink style="text-decoration: none; margin-right: 10px" >
-																<f:attribute name="preference" value="#{preference}"  />
-																<f:ajax execute="@all" render="@form" listener="#{reviewListMB.addUsefulVoteToReview}" />
-																<span class="glyphicon glyphicon-thumbs-up" /> 
-																<h:outputText 
-																	style="margin-left: 5px; margin-right: 10px"
-																	value="#{preference.preferenceReview.usefulCount}" />
-															</h:commandLink>
-															<h:commandLink style="text-decoration: none; margin-right: 10px" >
-																<f:attribute name="preference" value="#{preference}" />
-																<f:ajax execute="@all" render="@form" listener="#{reviewListMB.addUselessVoteToReview}"  />
-																<span class="glyphicon glyphicon-thumbs-down" /> 
-																<h:outputText 
-																	style="margin-left: 5px; margin-right: 10px"
-																	value="#{preference.preferenceReview.uselessCount}" />
-															</h:commandLink>
-														</span>
+														</h:commandLink>
+														
 													</h:panelGroup>
 													
 												</h:panelGroup>
@@ -239,7 +267,7 @@
 										id="moreReviewsButton"
 										styleClass="ladda-button btn btn-info"
 										p:data-style="expand-left" p:data-spinner-color="#FFFFFF" p:data-size="xs"
-										actionListener="#{reviewListMB.searchReviews}" 
+										actionListener="#{reviewListMB.moreReviews}" 
 										rendered="#{reviewListMB.startPosition != reviewListMB.totalReviews}" >	
 										<f:ajax execute="@form" render="@form" onevent="handleMoreReviewsFormEvent" />
 										<span class="ladda-label">Mais Opiniões</span>

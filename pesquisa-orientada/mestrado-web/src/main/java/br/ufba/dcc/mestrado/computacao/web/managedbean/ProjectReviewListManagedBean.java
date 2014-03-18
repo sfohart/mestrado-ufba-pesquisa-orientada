@@ -13,6 +13,7 @@ import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
 import javax.faces.event.ComponentSystemEvent;
+import javax.faces.event.AjaxBehaviorEvent;
 
 import br.ufba.dcc.mestrado.computacao.entities.ohloh.project.OhLohProjectEntity;
 import br.ufba.dcc.mestrado.computacao.entities.recommender.preference.PreferenceEntity;
@@ -25,7 +26,7 @@ import br.ufba.dcc.mestrado.computacao.service.basic.RepositoryBasedUserDetailsS
 
 @ManagedBean(name="reviewListMB", eager=true)
 @ViewScoped
-public class ProjectReviewListManagedBean implements Serializable {
+public class ProjectReviewListManagedBean extends AbstractReviewVotingManagedBean {
 
 	/**
 	 * 
@@ -192,15 +193,17 @@ public class ProjectReviewListManagedBean implements Serializable {
 				reviewList = data;
 			}
 			
-			if (reviewList != null) {
-				this.startPosition = reviewList.size();
-			}
-			
 			if (validProject) {
 				this.totalReviews = getPreferenceService().countAllLastReviewsByProject(getProject().getId()).intValue();				
 			} else if (validUser) {
 				this.totalReviews = getPreferenceService().countAllLastReviewsByUser(getUser().getId()).intValue();
 			}		
+			
+			//Se não houver mais o que carregar, atualize logo o startPosition, pro botão do scroll não aparecer a toa
+			if (reviewList != null && reviewList.size() >= totalReviews) {
+				this.startPosition = reviewList.size();
+			}
+			
 		} else {
 			FacesContext context = FacesContext.getCurrentInstance();
 			ResourceBundle bundle = ResourceBundle.getBundle("br.ufba.dcc.mestrado.computacao.reviews");
@@ -211,6 +214,14 @@ public class ProjectReviewListManagedBean implements Serializable {
 			
 			context.addMessage(null, facesMessage);
 		}
+	}
+	
+	public void moreReviews(ActionEvent event) {
+		if (reviewList != null) {
+			this.startPosition = reviewList.size();
+		}
+	
+		searchReviews();
 	}
 	
 	public void searchReviews(ActionEvent event) {
@@ -239,10 +250,19 @@ public class ProjectReviewListManagedBean implements Serializable {
 			}
 		
 			searchReviews();
-			
 		}
+	}
+	
+	public void addUsefulVoteToReview(ActionEvent event) {
+		super.addUsefulVoteToReview(event);
 		
+		searchReviews();
+	}
+	
+	public void addUselessVoteToReview(ActionEvent event) {
+		super.addUselessVoteToReview(event);
 		
+		searchReviews();
 	}
 
 }

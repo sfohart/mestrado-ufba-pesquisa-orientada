@@ -7,7 +7,7 @@ import java.util.ResourceBundle;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.context.FacesContext;
-import javax.faces.event.AjaxBehaviorEvent;
+import javax.faces.event.ActionEvent;
 
 import br.ufba.dcc.mestrado.computacao.entities.recommender.preference.PreferenceEntity;
 import br.ufba.dcc.mestrado.computacao.entities.recommender.user.UserEntity;
@@ -45,7 +45,7 @@ public abstract class AbstractReviewVotingManagedBean implements Serializable {
 		this.preferenceService = preferenceService;
 	}
 
-	public void addUsefulVoteToReview(AjaxBehaviorEvent event) {
+	public void addUsefulVoteToReview(ActionEvent event) {
 		PreferenceEntity preference = (PreferenceEntity)
 				event.getComponent().getAttributes().get("preference");
 		
@@ -75,7 +75,7 @@ public abstract class AbstractReviewVotingManagedBean implements Serializable {
 		}
 	}
 	
-	public void addUselessVoteToReview(AjaxBehaviorEvent event) {
+	public void addUselessVoteToReview(ActionEvent event) {
 		PreferenceEntity preference = (PreferenceEntity)
 				event.getComponent().getAttributes().get("preference");
 		
@@ -105,7 +105,7 @@ public abstract class AbstractReviewVotingManagedBean implements Serializable {
 		}
 	}
 
-	protected boolean isDulicatedVoteMessage(AjaxBehaviorEvent event, PreferenceEntity preference) {
+	protected boolean isDulicatedVoteMessage(ActionEvent event, PreferenceEntity preference) {
 		boolean duplicated = false;
 		
 		UserEntity user = getUserDetailsService().loadFullLoggedUser();
