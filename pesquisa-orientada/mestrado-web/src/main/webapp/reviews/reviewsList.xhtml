@@ -109,94 +109,95 @@
 									</ul>
 								</h:panelGroup>							
 
-								<div class="container">
-									<div class="page-header text-center">
-										<h1 id="timeline">Timeline 2.1</h1>
-									</div>
-									
-									
-									<ul class="timeline">
-									
-										<ui:repeat var="preference" value="#{reviewListMB.dataModel}" varStatus="status"  >
-											<li class="#{status.odd ? 'timeline-inverted' : ''}">
-												<div class="timeline-badge info">
-													
-													<a	
-														data-toggle="tooltip"  
-														data-placement="top" 
-														data-original-title="Teste">
-														<span class="glyphicon glyphicon-comment" id=""></span>
-													</a>
-												</div>
-			  
-												<div class="timeline-panel timeline-info">
-													<div class="timeline-heading">
-														<div class="row">
-															<div class="pull-left col-md-3">
-																<h:outputLink value="#{facesContext.externalContext.applicationContextPath}/account/account.jsf?accountId=#{preference.user.id}">				
-																	<ui:include src="/account/accountName.xhtml"  >
-																		<ui:param name="user" value="#{preference.user}"  />
-																	</ui:include>
-																</h:outputLink>
-																disse:
-																<h:panelGroup layout="block" rendered="#{ (preference.user.encodedEmail eq null) or (preference.user.encodedEmail eq '') }">
-																	<h:outputLink value="#{facesContext.externalContext.applicationContextPath}/account/account.jsf?accountId=#{preference.user.id}">
-																		<h:graphicImage styleClass="media-object img-thumbnail" height="32" width="32" library="default" name="img/no_logo.png" />
+								<div class="infinite-scroll">
+									<h:form>
+										<div class="page-header text-center">
+											<h1 id="timeline">Timeline 2.1</h1>
+										</div>
+										
+										
+										<ul class="timeline">
+										
+											<ui:repeat var="preference" value="#{reviewListMB.dataModel}" varStatus="status"  >
+												<li>
+													<div class="timeline-badge info">
+														
+														<a	
+															data-toggle="tooltip"  
+															data-placement="top" 
+															data-original-title="Teste">
+															<span class="glyphicon glyphicon-comment" id=""></span>
+														</a>
+													</div>
+				  
+													<div class="timeline-panel timeline-info">
+														<div class="timeline-heading">
+															<div class="row">
+																<div class="pull-left col-md-3">
+																	<h:outputLink value="#{facesContext.externalContext.applicationContextPath}/account/account.jsf?accountId=#{preference.user.id}">				
+																		<ui:include src="/account/accountName.xhtml"  >
+																			<ui:param name="user" value="#{preference.user}"  />
+																		</ui:include>
 																	</h:outputLink>
-																</h:panelGroup>
-																<h:panelGroup layout="block" rendered="#{ (preference.user.encodedEmail != null) and (preference.user.encodedEmail != '') }">
-																	<h:outputLink value="#{facesContext.externalContext.applicationContextPath}/account/account.jsf?accountId=#{preference.user.id}">
-																		<h:graphicImage styleClass="media-object img-thumbnail" url="http://www.gravatar.com/avatar/#{preference.user.encodedEmail}.png?s=32&amp;d=mm&amp;r=g" />
-																	</h:outputLink>
-																</h:panelGroup>
-															</div>															
-															<div class="col-md-9">
-																<h4>
-																	<h:outputLink
-																		value="#{facesContext.externalContext.applicationContextPath}/detail/projectDetail.jsf">
-																		<f:param name="projectId" value="#{preference.project.id}" /> 
-																		<h:outputText value="#{preference.project.name}" />
-																	</h:outputLink>
-																</h4>
-																<h:outputText value="#{preference.preferenceReview.title}" />  
-																<!-- data em que foi escrita -->
-																<div>
-																	<span class="small soft italic" title="#{preference.registeredAt}">
-																		<h:outputText value="#{preference.registeredAt}">
-																			<f:convertDateTime pattern="'escrito no dia' dd/MM/yyyy 'às' HH:mm:ss" />
-																		</h:outputText>
-																	</span>
-																</div>		
-																<div>				
-																	<!-- Estrelas -->
-																	<div class="rateit" data-rateit-readonly="true"
-																			data-rateit-min="0" data-rateit-max="5"
-																			data-rateit-value="#{preference.value}" data-rateit-ispreset="true"  />
-																
-																	<!-- legenda das estrelas -->
-																	<h:panelGroup styleClass="soft small" rendered="#{preference.value != null and preference.value > 0}">
-																		(<h:outputText value="#{preference.value}" >
-																			<f:convertNumber maxFractionDigits="2" maxIntegerDigits="2" pattern="#0.00" />
-																		</h:outputText> / 5)
+																	disse:
+																	<h:panelGroup layout="block" rendered="#{ (preference.user.encodedEmail eq null) or (preference.user.encodedEmail eq '') }">
+																		<h:outputLink value="#{facesContext.externalContext.applicationContextPath}/account/account.jsf?accountId=#{preference.user.id}">
+																			<h:graphicImage styleClass="media-object img-thumbnail" height="32" width="32" library="default" name="img/no_logo.png" />
+																		</h:outputLink>
 																	</h:panelGroup>
-																	<h:panelGroup styleClass="soft small" rendered="#{preference.value == null or preference.value == 0}">
-																		(0 / 5)
-																	</h:panelGroup>																	
+																	<h:panelGroup layout="block" rendered="#{ (preference.user.encodedEmail != null) and (preference.user.encodedEmail != '') }">
+																		<h:outputLink value="#{facesContext.externalContext.applicationContextPath}/account/account.jsf?accountId=#{preference.user.id}">
+																			<h:graphicImage styleClass="media-object img-thumbnail" url="http://www.gravatar.com/avatar/#{preference.user.encodedEmail}.png?s=32&amp;d=mm&amp;r=g" />
+																		</h:outputLink>
+																	</h:panelGroup>
+																</div>															
+																<div class="col-md-9">
+																	<h4>
+																		<h:outputLink
+																			value="#{facesContext.externalContext.applicationContextPath}/detail/projectDetail.jsf">
+																			<f:param name="projectId" value="#{preference.project.id}" /> 
+																			<h:outputText value="#{preference.project.name}" />
+																		</h:outputLink>
+																	</h4>
+																	<h:outputText value="#{preference.preferenceReview.title}" />  
+																	<!-- data em que foi escrita -->
+																	<div>
+																		<span class="small soft italic" title="#{preference.registeredAt}">
+																			<h:outputText value="#{preference.registeredAt}">
+																				<f:convertDateTime pattern="'escrito no dia' dd/MM/yyyy 'às' HH:mm:ss" />
+																			</h:outputText>
+																		</span>
+																	</div>		
+																	<div>				
+																		<!-- Estrelas -->
+																		<div class="rateit" data-rateit-readonly="true"
+																				data-rateit-min="0" data-rateit-max="5"
+																				data-rateit-value="#{preference.value}" data-rateit-ispreset="true"  />
+																	
+																		<!-- legenda das estrelas -->
+																		<h:panelGroup styleClass="soft small" rendered="#{preference.value != null and preference.value > 0}">
+																			(<h:outputText value="#{preference.value}" >
+																				<f:convertNumber maxFractionDigits="2" maxIntegerDigits="2" pattern="#0.00" />
+																			</h:outputText> / 5)
+																		</h:panelGroup>
+																		<h:panelGroup styleClass="soft small" rendered="#{preference.value == null or preference.value == 0}">
+																			(0 / 5)
+																		</h:panelGroup>																	
+																	</div>
+																	
+																	
 																</div>
-																
-																
 															</div>
 														</div>
-													</div>
-				
-													<div class="timeline-body">
-														
-														<!-- descrição da review -->														
-														<h:outputText value="#{preference.preferenceReview.description}" />
-														
-													</div>
-													<div class="timeline-footer">
-														<h:form>
+					
+														<div class="timeline-body">
+															
+															<!-- descrição da review -->														
+															<h:outputText value="#{preference.preferenceReview.description}" />
+															
+														</div>
+														<div class="timeline-footer">
+															
 															<div class="row">
 																<div class="col-md-6 pull-left">
 																	<ui:param name="totalVotes" value="#{preference.preferenceReview.usefulCount + preference.preferenceReview.uselessCount}" />
@@ -224,20 +225,31 @@
 																	</h:panelGroup>
 																</h:panelGroup>								
 															</div>
-														</h:form>
+														</div>
 													</div>
-												</div>
-											</li>
-											
-											
-										</ui:repeat>
-        
-										<li class="clearfix" style="float: none;"></li>
-									</ul>
+												</li>
+												
+												
+											</ui:repeat>
+	        
+											<li class="clearfix" style="float: none;"></li>
+										</ul>
+										
+										<h:commandLink actionListener="#{reviewListMB.searchReviews}" rendered="#{reviewListMB.pageList.currentPage != reviewListMB.pageList.lastPage}" >
+											<f:param  name="page" value="#{reviewListMB.pageList.nextPage}" />
+											<f:ajax execute="@form" render="@form" />
+											próximo
+										</h:commandLink>
+									</h:form>
 								</div>
 								
 								<!-- tooltip das tags -->
 								<script type="text/javascript">
+								
+									$('.infinite-scroll').jscroll({
+										autoTrigger: false
+									});
+								
 									$('.timeline').tooltip({
 										selector: "a[data-toggle=tooltip]"
 									})

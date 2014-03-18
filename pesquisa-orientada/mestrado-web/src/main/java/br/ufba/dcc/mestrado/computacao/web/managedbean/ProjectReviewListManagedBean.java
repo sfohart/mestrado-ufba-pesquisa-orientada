@@ -174,6 +174,12 @@ public class ProjectReviewListManagedBean extends AbstractListingManagedBean<Lon
 					}
 					
 					
+					if (this.getWrappedData() != null) {
+						List<PreferenceEntity> fullData = (List<PreferenceEntity>) this.getWrappedData();
+						fullData.addAll(data);
+						data = fullData;
+					}
+					
 					
 					this.setWrappedData(data);
 					
