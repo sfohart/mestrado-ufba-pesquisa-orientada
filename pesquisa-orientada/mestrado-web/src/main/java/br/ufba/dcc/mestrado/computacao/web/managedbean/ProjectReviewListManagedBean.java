@@ -1,7 +1,10 @@
 package br.ufba.dcc.mestrado.computacao.web.managedbean;
 
 import java.util.List;
+import java.util.ArrayList;
 import java.util.ResourceBundle;
+
+import java.io.Serializable;
 
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
@@ -10,6 +13,7 @@ import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
 import javax.faces.event.ComponentSystemEvent;
+import javax.faces.event.AjaxBehaviorEvent;
 
 import br.ufba.dcc.mestrado.computacao.entities.ohloh.project.OhLohProjectEntity;
 import br.ufba.dcc.mestrado.computacao.entities.recommender.preference.PreferenceEntity;
@@ -18,12 +22,11 @@ import br.ufba.dcc.mestrado.computacao.service.base.OhLohProjectService;
 import br.ufba.dcc.mestrado.computacao.service.base.OverallPreferenceService;
 import br.ufba.dcc.mestrado.computacao.service.base.UserService;
 import br.ufba.dcc.mestrado.computacao.service.basic.RepositoryBasedUserDetailsService;
-import br.ufba.dcc.mestrado.computacao.web.pagination.LazyLoadingDataModel;
-import br.ufba.dcc.mestrado.computacao.web.pagination.PageList;
+
 
 @ManagedBean(name="reviewListMB", eager=true)
 @ViewScoped
-public class ProjectReviewListManagedBean extends AbstractListingManagedBean<Long, PreferenceEntity> {
+public class ProjectReviewListManagedBean extends AbstractReviewVotingManagedBean {
 
 	/**
 	 * 
@@ -48,13 +51,43 @@ public class ProjectReviewListManagedBean extends AbstractListingManagedBean<Lon
 	
 	private boolean orderByRegisteredAt;
 	private boolean orderByReviewRanking;
+		
+	private Integer startPosition;
+	private Integer offset;
+	private Integer totalReviews;
 	
+	private List<PreferenceEntity> reviewList;
+		
 	public ProjectReviewListManagedBean() {
 		this.project = new OhLohProjectEntity();
 		this.user = new UserEntity();
 		
 		this.orderByRegisteredAt = true;
 		this.orderByReviewRanking = true;
+	}
+	
+	public Integer getStartPosition() {
+		return this.startPosition;
+	}
+	
+	public void setStartPosition(Integer startPosition) {
+		this.startPosition = startPosition;
+	}
+	
+	public Integer getOffset() {
+		return this.offset;
+	}
+	
+	public void setOffset(Integer offset) {
+		this.offset = offset;
+	}
+	
+	public Integer getTotalReviews() {
+		return this.totalReviews;
+	}
+	
+	public void setTotalReviews(Integer totalReviews) {
+		this.totalReviews = totalReviews;
 	}
 	
 	public OhLohProjectEntity getProject() {
@@ -122,86 +155,55 @@ public class ProjectReviewListManagedBean extends AbstractListingManagedBean<Lon
 		this.orderByReviewRanking = orderByReviewRanking;
 	}
 
-	public void searchReviews(ActionEvent event) {
-		Integer startPosition = loadStartPositionFromParams();
-		Integer pageSize = getDataModel().getPageSize();
-		
-		getDataModel().load(startPosition, pageSize);
+	public List<PreferenceEntity> getReviewList() {
+		return this.reviewList;
 	}
 	
+	public void setReviewList(List<PreferenceEntity> reviewList) {
+		this.reviewList = reviewList;
+	}
 	
-	
-	public void initList(ComponentSystemEvent event) {
+	protected void searchReviews() {
 		final boolean validProject = (getProject() != null && getProject().getId() != null);
 		final boolean validUser = (getUser() != null && getUser().getId() != null);
 		
 		if (validProject || validUser) {
-			
+		
+			List<PreferenceEntity> data = null;
+					
 			if (validProject) {
-				this.project = getProjectService().findById(getProject().getId());
+				data = getPreferenceService().findAllLastReviewsByProject(
+						getProject().getId(), 
+						startPosition, 
+						offset,
+						isOrderByRegisteredAt(),
+						isOrderByReviewRanking());
+			} else if (validUser) {
+				data = getPreferenceService().findAllLastReviewsByUser(
+						getUser().getId(), 
+						startPosition, 
+						offset,
+						isOrderByRegisteredAt(),
+						isOrderByReviewRanking());
 			}
 			
-			if (validUser) {
-				this.user = getUserService().findById(getUser().getId());
+			if (reviewList != null) {
+				reviewList.addAll(data);
+			} else {
+				reviewList = data;
+			}
+
+			if (validProject) {
+				this.totalReviews = getPreferenceService().countAllLastReviewsByProject(getProject().getId()).intValue();				
+			} else if (validUser) {
+				this.totalReviews = getPreferenceService().countAllLastReviewsByUser(getUser().getId()).intValue();
+			}		
+			
+			//Se não houver mais o que carregar, atualize logo o startPosition, pro botão do scroll não aparecer a toa
+			if (reviewList != null && reviewList.size() >= totalReviews) {
+				this.startPosition = reviewList.size();
 			}
 			
-			this.dataModel = new LazyLoadingDataModel<Long, PreferenceEntity>() {
-
-				/**
-				 * 
-				 */
-				private static final long serialVersionUID = 1L;
-
-				@Override
-				public void load(int first, int pageSize) {
-					
-					List<PreferenceEntity> data = null;
-					
-					if (validProject) {
-						data = getPreferenceService().findAllLastReviewsByProject(
-								getProject().getId(), 
-								first, 
-								pageSize,
-								isOrderByRegisteredAt(),
-								isOrderByReviewRanking());
-					} else if (validUser) {
-						data = getPreferenceService().findAllLastReviewsByUser(
-								getUser().getId(), 
-								first, 
-								pageSize,
-								isOrderByRegisteredAt(),
-								isOrderByReviewRanking());
-					}
-					
-					
-					if (this.getWrappedData() != null) {
-						List<PreferenceEntity> fullData = (List<PreferenceEntity>) this.getWrappedData();
-						fullData.addAll(data);
-						data = fullData;
-					}
-					
-					
-					this.setWrappedData(data);
-					
-					Integer totalRecords = null;
-					
-					if (validProject) {
-						totalRecords = getPreferenceService().countAllLastReviewsByProject(getProject().getId()).intValue();				
-					} else if (validUser) {
-						totalRecords = getPreferenceService().countAllLastReviewsByUser(getUser().getId()).intValue();
-					}
-					
-					Integer currentPage = (first / pageSize) + 1;
-									
-					PageList pageList = new PageList(currentPage, totalRecords, pageSize);
-					setPageList(pageList);
-				}
-			};
-			
-			Integer first = 0;
-			Integer pageSize = 10;
-			
-			getDataModel().load(first, pageSize);
 		} else {
 			FacesContext context = FacesContext.getCurrentInstance();
 			ResourceBundle bundle = ResourceBundle.getBundle("br.ufba.dcc.mestrado.computacao.reviews");
@@ -212,7 +214,55 @@ public class ProjectReviewListManagedBean extends AbstractListingManagedBean<Lon
 			
 			context.addMessage(null, facesMessage);
 		}
+	}
+	
+	public void moreReviews(ActionEvent event) {
+		if (reviewList != null) {
+			this.startPosition = reviewList.size();
+		}
+	
+		searchReviews();
+	}
+	
+	public void searchReviews(ActionEvent event) {
+		searchReviews();
+	}
+	
+	public void initList(ComponentSystemEvent event) {		
+		if (this.reviewList == null) {
+			this.reviewList = new ArrayList<PreferenceEntity>();
+			this.startPosition = 0;
+			this.offset = 10;
+			this.totalReviews = 0;
+			
+			final boolean validProject = (getProject() != null && getProject().getId() != null);
+			final boolean validUser = (getUser() != null && getUser().getId() != null);
+			
+			if (validProject || validUser) {
+			
+				if (validProject) {
+					this.project = getProjectService().findById(getProject().getId());
+				}
+
+				if (validUser) {
+					this.user = getUserService().findById(getUser().getId());
+				}
+			}
 		
+			searchReviews();
+		}
+	}
+	
+	public void addUsefulVoteToReview(ActionEvent event) {
+		super.addUsefulVoteToReview(event);
+		
+		searchReviews();
+	}
+	
+	public void addUselessVoteToReview(ActionEvent event) {
+		super.addUselessVoteToReview(event);
+		
+		searchReviews();
 	}
 
 }

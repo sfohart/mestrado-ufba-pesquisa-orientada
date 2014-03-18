@@ -6,6 +6,7 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
 import javax.faces.event.ComponentSystemEvent;
+import javax.faces.event.ActionEvent;
 
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -144,6 +145,11 @@ public class ProjectSummaryReviewsManagedBean extends AbstractReviewVotingManage
 		return mostRecentReviewList;
 	}
 
+	protected void findTopFiveReviews() {
+		this.mostHelpfulReviewList 	= getOverallPreferenceService().findAllLastReviewsByProject(getProject().getId(), 0, 5, false, true);
+		this.mostRecentReviewList 	= getOverallPreferenceService().findAllLastReviewsByProject(getProject().getId(), 0, 5, true, false);
+	}
+	
 	public void init(ComponentSystemEvent event) {
 		if (getProject() != null && getProject().getId() != null) {
 			this.project = getProjectService().findById(getProject().getId());
@@ -151,8 +157,7 @@ public class ProjectSummaryReviewsManagedBean extends AbstractReviewVotingManage
 			this.overallPreferenceCount = getOverallPreferenceService().countAllLastByProject(getProject().getId());
 			this.reviewsCount = getOverallPreferenceService().countAllLastReviewsByProject(getProject().getId());
 			
-			this.mostHelpfulReviewList 	= getOverallPreferenceService().findAllLastReviewsByProject(getProject().getId(), 0, 5, false, true);
-			this.mostRecentReviewList 	= getOverallPreferenceService().findAllLastReviewsByProject(getProject().getId(), 0, 5, true, false);
+			findTopFiveReviews();
 			
 			//calculando avaliação média do projeto
 			this.averagePreference = getOverallPreferenceService().averagePreferenceByProject(getProject().getId());
@@ -176,6 +181,16 @@ public class ProjectSummaryReviewsManagedBean extends AbstractReviewVotingManage
 		}
 	}
 	
+	public void addUsefulVoteToReview(ActionEvent event) {
+		super.addUsefulVoteToReview(event);
+		
+		findTopFiveReviews();
+	}
 	
+	public void addUselessVoteToReview(ActionEvent event) {
+		super.addUselessVoteToReview(event);
+		
+		findTopFiveReviews();
+	}
 
 }
