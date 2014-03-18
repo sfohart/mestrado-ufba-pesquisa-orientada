@@ -1,9 +1,11 @@
 package br.ufba.dcc.mestrado.computacao.web.managedbean;
 
+import java.util.LinkedHashSet;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
-
+import java.util.Set;
 import java.io.Serializable;
 
 import javax.faces.application.FacesMessage;
@@ -168,7 +170,7 @@ public class ProjectReviewListManagedBean extends AbstractReviewVotingManagedBea
 		final boolean validUser = (getUser() != null && getUser().getId() != null);
 		
 		if (validProject || validUser) {
-		
+			
 			List<PreferenceEntity> data = null;
 					
 			if (validProject) {
@@ -187,10 +189,14 @@ public class ProjectReviewListManagedBean extends AbstractReviewVotingManagedBea
 						isOrderByReviewRanking());
 			}
 			
-			if (reviewList != null) {
-				reviewList.addAll(data);
-			} else {
-				reviewList = data;
+			if (data != null) {
+				for (PreferenceEntity preference : data) {
+					if (getReviewList().contains(preference)) {
+						getReviewList().remove(preference);
+					}
+					
+					getReviewList().add(preference);
+				}
 			}
 
 			if (validProject) {

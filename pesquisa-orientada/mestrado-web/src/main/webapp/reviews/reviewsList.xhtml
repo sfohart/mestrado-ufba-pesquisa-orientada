@@ -234,16 +234,16 @@
 														Você achou esta avaliação útil?
 														<br />
 														<h:commandLink id="voteUseful" style="text-decoration: none; margin-right: 10px" actionListener="#{reviewListMB.addUsefulVoteToReview}">
-															<f:attribute name="preference" value="#{preference}"  />
 															<f:ajax execute="@form" render="@form"  />
+															<f:attribute name="preference" value="#{preference}"  />
 															<span class="glyphicon glyphicon-thumbs-up" /> 
 															<h:outputText 
 																style="margin-left: 5px; margin-right: 10px"
 																value="#{preference.preferenceReview.usefulCount}" />
 														</h:commandLink>
 														<h:commandLink id="voteUseless" style="text-decoration: none; margin-right: 10px" actionListener="#{reviewListMB.addUselessVoteToReview}" >
-															<f:attribute name="preference" value="#{preference}" />
 															<f:ajax execute="@form" render="@form"  />
+															<f:attribute name="preference" value="#{preference}" />
 															<span class="glyphicon glyphicon-thumbs-down" /> 
 															<h:outputText 
 																style="margin-left: 5px; margin-right: 10px"
