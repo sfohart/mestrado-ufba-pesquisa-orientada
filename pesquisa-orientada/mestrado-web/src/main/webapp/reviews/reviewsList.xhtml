@@ -17,8 +17,7 @@
 		
 		<f:event listener="#{reviewListMB.initList}" type="preRenderView"/>
 	</f:metadata>
-	
-	
+		
 	<h:body>
 		<ui:composition template="/layout/mainLayout.xhtml">
 			<ui:define name="titlePage">Detalhes do Projeto</ui:define>
@@ -99,17 +98,8 @@
 										<h3>Comentários dos usuários</h3>
 									</div>
 								</h:panelGroup>
-								
-								<h:panelGroup layout="block" id="breadcrump" rendered="#{reviewListMB.dataModel.rowAvailable}">
-									<!-- Exibindo quantidade de resultados -->
-									<ul class="breadcrumb" style="border-bottom: 1px solid #ddd;">
-										<li>
-											Exibindo página <h:outputText value="#{reviewListMB.pageList.currentPage}" /> de <h:outputText value="#{reviewListMB.pageList.totalPages}" /> 
-										</li>
-									</ul>
-								</h:panelGroup>							
 
-								<div class="container">
+								<div class=".infinite-scroll">
 									<div class="page-header text-center">
 										<h1 id="timeline">Timeline 2.1</h1>
 									</div>
@@ -117,7 +107,7 @@
 									
 									<ul class="timeline">
 									
-										<ui:repeat var="preference" value="#{reviewListMB.dataModel}" varStatus="status"  >
+										<ui:repeat var="preference" value="#{reviewListMB.reviewList}" varStatus="status"  >
 											<li class="#{status.odd ? 'timeline-inverted' : ''}">
 												<div class="timeline-badge info">
 													
@@ -234,21 +224,34 @@
         
 										<li class="clearfix" style="float: none;"></li>
 									</ul>
+									
+									<div class="pagination-center">
+										
+										<h:commandLink 
+											id="moreReviewsButton"
+											styleClass="ladda-button btn btn-info"
+											p:data-style="expand-left" p:data-spinner-color="#FFFFFF" p:data-size="xs"
+											actionListener="#{reviewListMB.searchReviews}" 
+											rendered="#{reviewListMB.startPosition != reviewListMB.totalReviews}" >	
+											<f:ajax execute="@form" render="@form" onevent="handleMoreReviewsFormEvent" />
+											<span class="ladda-label">Mais Opiniões</span>
+											<span class="ladda-spinner"></span>
+										</h:commandLink>
+									</div>
+									
 								</div>
 								
 								<!-- tooltip das tags -->
 								<script type="text/javascript">
+									function handleMoreReviewsFormEvent(data) {
+										handleLaddaLoadingIndicator(data,'#moreReviewsButton');
+									}
+								
 									$('.timeline').tooltip({
 										selector: "a[data-toggle=tooltip]"
 									})
 								</script>
 								
-								<!-- Paginação -->
-								<ui:include src="/layout/pagination.xhtml">
-									<ui:param name="searchMethod" value="searchReviews" />
-									<ui:param name="bean" value="#{reviewListMB}"/>
-								</ui:include>
-							
 							</h:panelGroup>
 							
 							
