@@ -63,8 +63,11 @@
 									</div>
 								</div>
 								<hr />
-								<div class="page-header text-center">
-									<h1 id="timeline">Projetos comentados pelo usuário</h1>
+								<div class="page-header text-center">									
+									<h1 id="timeline">
+										<span class="fa fa-comments" />
+										Projetos comentados pelo usuário
+									</h1>
 								</div>
 
 							</h:panelGroup>
@@ -96,7 +99,10 @@
 								</div>
 								<hr />
 								<div class="page-header text-center">
-									<h1 id="timeline">Comentários dos usuários</h1>
+									<h1 id="timeline">
+										<span class="fa fa-comments" />
+										Comentários dos usuários
+									</h1>
 								</div>									
 							</h:panelGroup>
 							
@@ -105,20 +111,34 @@
 									<div class="row">
 										<div class="col-md-6 pull-left">
 											<div class="alert alert-success">
-												<h4>Comentários Positivos</h4>
-												<p>
-													Deste lado, todos os comentários cuja nota geral dada
-													está acima de <kbd>Razoável</kbd>
-												</p>
+												<div class="media">
+													<div class="pull-left">
+														<span class="fa fa-thumbs-up fa-3x" />
+													</div>
+													<div class="media-body">
+														<h4 class="media-heading">Comentários Positivos</h4>
+														<p>
+															Deste lado, todos os comentários cuja nota geral dada
+															está acima de 3, valor considerado como <kbd>Razoável</kbd>
+														</p>
+													</div>
+												</div>
 											</div>										
 										</div>
 										<div class="col-md-6 pull-right">
 											<div class="alert alert-danger">
-												<h4>Comentários Negativos</h4>
-												<p>
-													Deste lado, todos os comentários cuja nota geral dada
-													é igual ou está abaixo de <kbd>Razoável</kbd>
-												</p>
+												<div class="media">
+													<div class="pull-left">
+														<span class="fa fa-thumbs-down fa-3x" />
+													</div>
+													<div class="media-body">
+														<h4 class="media-heading">Comentários Negativos</h4>
+														<p>
+															Deste lado, todos os comentários cuja nota geral dada
+															é igual ou está abaixo de 3, valor considerado como <kbd>Razoável</kbd>
+														</p>
+													</div>
+												</div>
 											</div>										
 										</div>
 									</div>
@@ -135,7 +155,7 @@
 													data-toggle="tooltip"  
 													data-placement="top" 
 													data-original-title="">
-													<span class="glyphicon glyphicon-comment" id=""></span>
+													<span class="fa fa-comment" id=""></span>
 												</a>
 											</div>
 		  
