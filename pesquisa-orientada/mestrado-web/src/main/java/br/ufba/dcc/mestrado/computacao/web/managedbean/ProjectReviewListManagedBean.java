@@ -202,7 +202,7 @@ public class ProjectReviewListManagedBean extends AbstractReviewVotingManagedBea
 			
 			//Se não houver mais o que carregar, atualize logo o startPosition, pro botão do scroll não aparecer a toa
 			if (reviewList != null && reviewList.size() >= totalReviews) {
-				this.startPosition = reviewList.size();
+				this.offset = reviewList.size();
 			}
 			
 		} else {
@@ -219,7 +219,7 @@ public class ProjectReviewListManagedBean extends AbstractReviewVotingManagedBea
 	
 	public void moreReviews(ActionEvent event) {
 		if (reviewList != null) {
-			this.startPosition = reviewList.size();
+			this.offset += reviewList.size();
 		}
 	
 		searchReviews();

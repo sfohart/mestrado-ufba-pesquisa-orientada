@@ -27,7 +27,7 @@
 				
 				<section class="container">
 				
-					<h:form prependId="false" >	
+					<h:form id="reviewsForm">	
 					
 						<h:panelGroup id="alert" layout="block" styleClass="alert alert-danger col-md-12" rendered="#{not empty facesContext.messageList}">
 							<strong>Vish! </strong>
@@ -126,7 +126,7 @@
 								
 								<ul class="timeline">
 								
-									<ui:repeat var="preference" id="reviewIterator" value="#{reviewListMB.reviewList}" size="#{fn:length(reviewListMB.reviewList)}" varStatus="status"  >
+									<ui:repeat var="preference" id="reviewsIterator" value="#{reviewListMB.reviewList}" size="#{fn:length(reviewListMB.reviewList)}" varStatus="status"  >
 										<ui:param name="reviewPositiva" value="#{preference.value > 3 ? true : false}" />
 										<li class="#{reviewPositiva ? '' : 'timeline-inverted'}">
 											<div class="timeline-badge #{reviewPositiva ? 'success' : 'danger'}">
@@ -139,8 +139,9 @@
 												</a>
 											</div>
 		  
-											<h:panelGroup layout="block" styleClass="timeline-panel #{reviewPositiva ? 'timeline-success' : 'timeline-danger'} ">
-												<div class="timeline-heading">
+											<h:panelGroup layout="block" id="timeline-panel" styleClass="timeline-panel #{reviewPositiva ? 'timeline-success' : 'timeline-danger'} ">
+												
+												<h:panelGroup layout="block" id="timeline-heading" styleClass="timeline-heading" >
 													<div class="row">
 														<div class="pull-left col-md-3">
 															<h:outputLink value="#{facesContext.externalContext.applicationContextPath}/account/account.jsf?accountId=#{preference.user.id}">				
@@ -197,10 +198,9 @@
 															
 														</div>
 													</div>
-												</div>
-			
-												<div class="timeline-body">
-													
+												</h:panelGroup>
+												
+												<h:panelGroup layout="block" id="timeline-body" styleClass="timeline-body" >
 													<!-- descrição da review -->	
 													<p>
 														<h:outputText value="#{preference.preferenceReview.description}" />
@@ -211,47 +211,41 @@
 														<ui:param name="criteriumInPopup" value="true" />
 														<ui:param name="reviewId" value="#{preference.id}"  />
 													</ui:include>
-													
-												</div>
+												</h:panelGroup>
 												
-												<ui:param name="totalVotes" value="#{preference.preferenceReview.usefulCount + preference.preferenceReview.uselessCount}" />
-												
-												<h:panelGroup layout="block">
-													<h:panelGroup layout="block" styleClass="timeline-footer" rendered="#{ (totalVotes > 0) or (loginMB.loggedUser != null)}" >
-														<h:panelGroup layout="block">
-															<h:panelGroup layout="block" styleClass="small soft" rendered="#{loginMB.loggedUser eq null}">
+												<h:panelGroup layout="block" id="timeline-footer" styleClass="timeline-footer" >
+													<h:panelGroup layout="block" styleClass="row">
+														<h:panelGroup id="helpfulCounter" layout="block" styleClass="small soft col-md-6" >
+															<span class="glyphicon glyphicon-thumbs-up" /> 
+															<h:outputText 
+																id="usefulCount"
+																style="margin-left: 5px; margin-right: 10px"
+																value="#{preference.preferenceReview.usefulCount}" />
+														
+															<span class="glyphicon glyphicon-thumbs-down" /> 
+															<h:outputText 
+																id="uselessCount"
+																style="margin-left: 5px; margin-right: 10px"
+																value="#{preference.preferenceReview.uselessCount}" />
+														</h:panelGroup>
+														
+														<h:panelGroup layout="block" styleClass="small soft col-md-6"    rendered="#{loginMB.loggedUser != null}">															
+															<h:commandLink id="voteUseful" style="text-decoration: none; margin-right: 10px" actionListener="#{reviewListMB.addUsefulVoteToReview}">
+																<f:ajax execute="@all" render="@form"  />
+																<f:attribute name="preference" value="#{preference}"  />
 																<span class="glyphicon glyphicon-thumbs-up" /> 
 																<h:outputText 
 																	style="margin-left: 5px; margin-right: 10px"
-																	value="#{preference.preferenceReview.usefulCount}" />
-															
+																	value="Achei útil" />
+															</h:commandLink>
+															<h:commandLink id="voteUseless" style="text-decoration: none; margin-right: 10px" actionListener="#{reviewListMB.addUselessVoteToReview}" >
+																<f:ajax execute="@all" render="@form"  />
+																<f:attribute name="preference" value="#{preference}" />
 																<span class="glyphicon glyphicon-thumbs-down" /> 
 																<h:outputText 
 																	style="margin-left: 5px; margin-right: 10px"
-																	value="#{preference.preferenceReview.uselessCount}" />
-															</h:panelGroup>
-															
-															<h:panelGroup layout="block" styleClass="small soft" rendered="#{loginMB.loggedUser != null}">
-																
-																Você achou esta avaliação útil?
-																<br />
-																<h:commandLink id="voteUseful" style="text-decoration: none; margin-right: 10px" actionListener="#{reviewListMB.addUsefulVoteToReview}">
-																	<f:ajax execute="@all" render="@form"  />
-																	<f:attribute name="preference" value="#{preference}"  />
-																	<span class="glyphicon glyphicon-thumbs-up" /> 
-																	<h:outputText 
-																		style="margin-left: 5px; margin-right: 10px"
-																		value="#{preference.preferenceReview.usefulCount}" />
-																</h:commandLink>
-																<h:commandLink id="voteUseless" style="text-decoration: none; margin-right: 10px" actionListener="#{reviewListMB.addUselessVoteToReview}" >
-																	<f:ajax execute="@all" render="@form"  />
-																	<f:attribute name="preference" value="#{preference}" />
-																	<span class="glyphicon glyphicon-thumbs-down" /> 
-																	<h:outputText 
-																		style="margin-left: 5px; margin-right: 10px"
-																		value="#{preference.preferenceReview.uselessCount}" />
-																</h:commandLink>
-															</h:panelGroup>
+																	value="Não achei útil" />
+															</h:commandLink>
 														</h:panelGroup>
 													</h:panelGroup>
 												</h:panelGroup>
@@ -264,25 +258,25 @@
 									<li class="clearfix" style="float: none;"></li>
 								</ul>
 								
-								<div class="pagination-center" style="margin-bottom: 20px">										
+								<h:panelGroup layout="block" styleClass="pagination-center" style="margin-bottom: 20px">										
 									<h:commandLink 
 										id="moreReviewsButton"
-										styleClass="ladda-button btn btn-info"
+										styleClass="ladda-button btn btn-info moreReviewsButton"
 										p:data-style="expand-left" p:data-spinner-color="#FFFFFF" p:data-size="xs"
 										actionListener="#{reviewListMB.moreReviews}" 
-										rendered="#{reviewListMB.startPosition != reviewListMB.totalReviews}" >	
+										rendered="#{reviewListMB.offset != reviewListMB.totalReviews}" >	
 										<f:ajax execute="@form" render="@form" onevent="handleMoreReviewsFormEvent" />
 										<span class="ladda-label">Mais Opiniões</span>
 										<span class="ladda-spinner"></span>
 									</h:commandLink>
-								</div>
+								</h:panelGroup>
 								
 							</h:panelGroup>
 							
 							<!-- tooltip das tags -->
 							<script type="text/javascript">
 								function handleMoreReviewsFormEvent(data) {
-									handleLaddaLoadingIndicator(data,'#moreReviewsButton');
+									handleLaddaLoadingIndicator(data,'.moreReviewsButton');
 								}
 								
 								$('.rateit').rateit();
