@@ -236,7 +236,10 @@
 																<span class="glyphicon glyphicon-thumbs-up" /> 
 																<h:outputText 
 																	style="margin-left: 5px; margin-right: 10px"
-																	value="Achei útil" />
+																	value="Achei útil" rendered="#{not preference.preferenceReview.usefulList.contains(loginMB.loggedUser)}" />
+																<h:outputText 
+																	style="margin-left: 5px; margin-right: 10px"
+																	value="Desfazer achei útil" rendered="#{preference.preferenceReview.usefulList.contains(loginMB.loggedUser)}" />
 															</h:commandLink>
 															<h:commandLink id="voteUseless" style="text-decoration: none; margin-right: 10px" actionListener="#{reviewListMB.watchDislikeReview}" >
 																<f:ajax execute="@all" render="@form"  />
@@ -244,7 +247,10 @@
 																<span class="glyphicon glyphicon-thumbs-down" /> 
 																<h:outputText 
 																	style="margin-left: 5px; margin-right: 10px"
-																	value="Não achei útil" />
+																	value="Não achei útil" rendered="#{not preference.preferenceReview.uselessList.contains(loginMB.loggedUser)}" />
+																<h:outputText 
+																	style="margin-left: 5px; margin-right: 10px"
+																	value="Desfazer não achei útil" rendered="#{preference.preferenceReview.uselessList.contains(loginMB.loggedUser)}" />
 															</h:commandLink>
 														</h:panelGroup>
 													</h:panelGroup>
