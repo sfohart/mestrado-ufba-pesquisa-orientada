@@ -230,7 +230,7 @@
 														</h:panelGroup>
 														
 														<h:panelGroup layout="block" styleClass="small soft col-md-6"    rendered="#{loginMB.loggedUser != null}">															
-															<h:commandLink id="voteUseful" style="text-decoration: none; margin-right: 10px" actionListener="#{reviewListMB.addUsefulVoteToReview}">
+															<h:commandLink id="voteUseful" style="text-decoration: none; margin-right: 10px" actionListener="#{reviewListMB.watchLikeReview}">
 																<f:ajax execute="@all" render="@form"  />
 																<f:attribute name="preference" value="#{preference}"  />
 																<span class="glyphicon glyphicon-thumbs-up" /> 
@@ -238,7 +238,7 @@
 																	style="margin-left: 5px; margin-right: 10px"
 																	value="Achei útil" />
 															</h:commandLink>
-															<h:commandLink id="voteUseless" style="text-decoration: none; margin-right: 10px" actionListener="#{reviewListMB.addUselessVoteToReview}" >
+															<h:commandLink id="voteUseless" style="text-decoration: none; margin-right: 10px" actionListener="#{reviewListMB.watchDislikeReview}" >
 																<f:ajax execute="@all" render="@form"  />
 																<f:attribute name="preference" value="#{preference}" />
 																<span class="glyphicon glyphicon-thumbs-down" /> 
@@ -264,7 +264,7 @@
 										styleClass="ladda-button btn btn-info moreReviewsButton"
 										p:data-style="expand-left" p:data-spinner-color="#FFFFFF" p:data-size="xs"
 										actionListener="#{reviewListMB.moreReviews}" 
-										rendered="#{reviewListMB.offset != reviewListMB.totalReviews}" >	
+										rendered="#{reviewListMB.startPosition != reviewListMB.totalReviews}" >	
 										<f:ajax execute="@form" render="@form" onevent="handleMoreReviewsFormEvent" />
 										<span class="ladda-label">Mais Opiniões</span>
 										<span class="ladda-spinner"></span>

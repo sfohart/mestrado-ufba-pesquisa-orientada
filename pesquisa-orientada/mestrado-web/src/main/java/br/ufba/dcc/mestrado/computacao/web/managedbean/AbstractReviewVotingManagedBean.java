@@ -45,7 +45,7 @@ public abstract class AbstractReviewVotingManagedBean implements Serializable {
 		this.preferenceService = preferenceService;
 	}
 
-	public void addUsefulVoteToReview(ActionEvent event) {
+	protected PreferenceEntity addUsefulVoteToReview(ActionEvent event) {
 		PreferenceEntity preference = (PreferenceEntity)
 				event.getComponent().getAttributes().get("preference");
 		
@@ -64,18 +64,18 @@ public abstract class AbstractReviewVotingManagedBean implements Serializable {
 					preference.getPreferenceReview().getUsefulList().add(user);
 					
 					try {
-						getPreferenceService().save(preference);
+						return getPreferenceService().save(preference);
 					} catch (Exception e) {
 						e.printStackTrace();
 					}
-				} else {
-					
-				}
+				} 
 			}
 		}
+		
+		return preference;
 	}
 	
-	public void addUselessVoteToReview(ActionEvent event) {
+	protected PreferenceEntity addUselessVoteToReview(ActionEvent event) {
 		PreferenceEntity preference = (PreferenceEntity)
 				event.getComponent().getAttributes().get("preference");
 		
@@ -94,15 +94,15 @@ public abstract class AbstractReviewVotingManagedBean implements Serializable {
 					preference.getPreferenceReview().getUselessList().add(user);
 					
 					try {
-						getPreferenceService().save(preference);
+						return getPreferenceService().save(preference);
 					} catch (Exception e) {
 						e.printStackTrace();
 					}
-				} else {
-					
-				}
+				} 
 			}
 		}
+		
+		return preference;
 	}
 
 	protected boolean isDulicatedVoteMessage(ActionEvent event, PreferenceEntity preference) {

@@ -22,7 +22,7 @@ import br.ufba.dcc.mestrado.computacao.service.base.UserService;
 
 @ManagedBean(name = "summaryReviewsMB")
 @ViewScoped
-public class ProjectSummaryReviewsManagedBean extends AbstractReviewVotingManagedBean {
+public class ProjectSummaryReviewsManagedBean extends AbstractReviewVotingManagedBean implements ReviewVoting  {
 
 	/**
 	 * 
@@ -181,13 +181,13 @@ public class ProjectSummaryReviewsManagedBean extends AbstractReviewVotingManage
 		}
 	}
 	
-	public void addUsefulVoteToReview(ActionEvent event) {
+	public void watchLikeReview(ActionEvent event) {
 		super.addUsefulVoteToReview(event);
 		
 		findTopFiveReviews();
 	}
 	
-	public void addUselessVoteToReview(ActionEvent event) {
+	public void watchDislikeReview(ActionEvent event) {
 		super.addUselessVoteToReview(event);
 		
 		findTopFiveReviews();

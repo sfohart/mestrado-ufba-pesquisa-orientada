@@ -20,10 +20,9 @@ import br.ufba.dcc.mestrado.computacao.service.base.OverallPreferenceService;
 import br.ufba.dcc.mestrado.computacao.service.base.UserService;
 import br.ufba.dcc.mestrado.computacao.service.basic.RepositoryBasedUserDetailsService;
 
-
 @ManagedBean(name="reviewListMB")
 @ViewScoped
-public class ProjectReviewListManagedBean extends AbstractReviewVotingManagedBean {
+public class ProjectReviewListManagedBean extends AbstractReviewVotingManagedBean implements ReviewVoting {
 
 	/**
 	 * 
@@ -202,7 +201,7 @@ public class ProjectReviewListManagedBean extends AbstractReviewVotingManagedBea
 			
 			//Se não houver mais o que carregar, atualize logo o startPosition, pro botão do scroll não aparecer a toa
 			if (reviewList != null && reviewList.size() >= totalReviews) {
-				this.offset = reviewList.size();
+				startPosition = reviewList.size();
 			}
 			
 		} else {
@@ -219,7 +218,7 @@ public class ProjectReviewListManagedBean extends AbstractReviewVotingManagedBea
 	
 	public void moreReviews(ActionEvent event) {
 		if (reviewList != null) {
-			this.offset += reviewList.size();
+			startPosition = reviewList.size();
 		}
 	
 		searchReviews();
@@ -254,16 +253,25 @@ public class ProjectReviewListManagedBean extends AbstractReviewVotingManagedBea
 		}
 	}
 	
-	public void addUsefulVoteToReview(ActionEvent event) {
-		super.addUsefulVoteToReview(event);
+	protected void updatePreferenceInList(PreferenceEntity preference) {
+		//atualizando preferência
 		
-		searchReviews();
+		Integer index = getReviewList().indexOf(preference);
+		if (index >= 0) {
+			getReviewList().set(index, preference);
+		}
 	}
 	
-	public void addUselessVoteToReview(ActionEvent event) {
-		super.addUselessVoteToReview(event);
+	public void watchLikeReview(ActionEvent event) {
+		PreferenceEntity preference = super.addUsefulVoteToReview(event);
 		
-		searchReviews();
+		updatePreferenceInList(preference);
+	}
+	
+	public void watchDislikeReview(ActionEvent event) {
+		PreferenceEntity preference = super.addUselessVoteToReview(event);
+		
+		updatePreferenceInList(preference);
 	}
 
 }
