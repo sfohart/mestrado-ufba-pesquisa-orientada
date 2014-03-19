@@ -1,12 +1,8 @@
 package br.ufba.dcc.mestrado.computacao.web.managedbean;
 
-import java.util.LinkedHashSet;
-import java.util.LinkedList;
-import java.util.List;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.ResourceBundle;
-import java.util.Set;
-import java.io.Serializable;
 
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
@@ -15,7 +11,6 @@ import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
 import javax.faces.event.ComponentSystemEvent;
-import javax.faces.event.AjaxBehaviorEvent;
 
 import br.ufba.dcc.mestrado.computacao.entities.ohloh.project.OhLohProjectEntity;
 import br.ufba.dcc.mestrado.computacao.entities.recommender.preference.PreferenceEntity;
@@ -26,7 +21,7 @@ import br.ufba.dcc.mestrado.computacao.service.base.UserService;
 import br.ufba.dcc.mestrado.computacao.service.basic.RepositoryBasedUserDetailsService;
 
 
-@ManagedBean(name="reviewListMB", eager=true)
+@ManagedBean(name="reviewListMB")
 @ViewScoped
 public class ProjectReviewListManagedBean extends AbstractReviewVotingManagedBean {
 

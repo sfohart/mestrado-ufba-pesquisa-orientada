@@ -10,7 +10,7 @@
 	<packaging>war</packaging>
 
 	<properties>
-		<jsf.version>2.2.4</jsf.version>
+		<jsf.version>2.2.6</jsf.version>
 		<spring-social.version>1.0.3.RELEASE</spring-social.version>
 		<spring-social-facebook.version>1.0.3.RELEASE</spring-social-facebook.version>
 		<spring-social-twitter.version>1.0.5.RELEASE</spring-social-twitter.version>

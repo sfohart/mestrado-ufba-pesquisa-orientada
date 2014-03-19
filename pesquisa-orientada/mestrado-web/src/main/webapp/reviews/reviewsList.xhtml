@@ -100,7 +100,7 @@
 								</div>									
 							</h:panelGroup>
 							
-							<div class="infinite-scroll">
+							<h:panelGroup layout="block" styleClass="infinite-scroll">
 								<div class="timeline-comments-alert">
 									<div class="row">
 										<div class="col-md-6 pull-left">
@@ -139,7 +139,7 @@
 												</a>
 											</div>
 		  
-											<div class="timeline-panel #{reviewPositiva ? 'timeline-success' : 'timeline-danger'} ">
+											<h:panelGroup layout="block" styleClass="timeline-panel #{reviewPositiva ? 'timeline-success' : 'timeline-danger'} ">
 												<div class="timeline-heading">
 													<div class="row">
 														<div class="pull-left col-md-3">
@@ -151,12 +151,12 @@
 															disse:
 															<h:panelGroup layout="block" rendered="#{ (preference.user.encodedEmail eq null) or (preference.user.encodedEmail eq '') }">
 																<h:outputLink value="#{facesContext.externalContext.applicationContextPath}/account/account.jsf?accountId=#{preference.user.id}">
-																	<h:graphicImage styleClass="media-object img-thumbnail" height="32" width="32" library="default" name="img/no_logo.png" />
+																	<h:graphicImage styleClass="media-object img-thumbnail" height="64" width="64" library="default" name="img/no_logo.png" />
 																</h:outputLink>
 															</h:panelGroup>
 															<h:panelGroup layout="block" rendered="#{ (preference.user.encodedEmail != null) and (preference.user.encodedEmail != '') }">
 																<h:outputLink value="#{facesContext.externalContext.applicationContextPath}/account/account.jsf?accountId=#{preference.user.id}">
-																	<h:graphicImage styleClass="media-object img-thumbnail" url="http://www.gravatar.com/avatar/#{preference.user.encodedEmail}.png?s=32&amp;d=mm&amp;r=g" />
+																	<h:graphicImage styleClass="media-object img-thumbnail" url="http://www.gravatar.com/avatar/#{preference.user.encodedEmail}.png?s=64&amp;d=mm&amp;r=g" />
 																</h:outputLink>
 															</h:panelGroup>
 														</div>															
@@ -216,44 +216,46 @@
 												
 												<ui:param name="totalVotes" value="#{preference.preferenceReview.usefulCount + preference.preferenceReview.uselessCount}" />
 												
-												<h:panelGroup layout="block" styleClass="timeline-footer" rendered="#{ (totalVotes > 0) or (loginMB.loggedUser != null)}" >
-													<h:panelGroup layout="block" styleClass="small soft" rendered="#{loginMB.loggedUser eq null}">
-														<span class="glyphicon glyphicon-thumbs-up" /> 
-														<h:outputText 
-															style="margin-left: 5px; margin-right: 10px"
-															value="#{preference.preferenceReview.usefulCount}" />
-													
-														<span class="glyphicon glyphicon-thumbs-down" /> 
-														<h:outputText 
-															style="margin-left: 5px; margin-right: 10px"
-															value="#{preference.preferenceReview.uselessCount}" />
+												<h:panelGroup layout="block">
+													<h:panelGroup layout="block" styleClass="timeline-footer" rendered="#{ (totalVotes > 0) or (loginMB.loggedUser != null)}" >
+														<h:panelGroup layout="block">
+															<h:panelGroup layout="block" styleClass="small soft" rendered="#{loginMB.loggedUser eq null}">
+																<span class="glyphicon glyphicon-thumbs-up" /> 
+																<h:outputText 
+																	style="margin-left: 5px; margin-right: 10px"
+																	value="#{preference.preferenceReview.usefulCount}" />
+															
+																<span class="glyphicon glyphicon-thumbs-down" /> 
+																<h:outputText 
+																	style="margin-left: 5px; margin-right: 10px"
+																	value="#{preference.preferenceReview.uselessCount}" />
+															</h:panelGroup>
+															
+															<h:panelGroup layout="block" styleClass="small soft" rendered="#{loginMB.loggedUser != null}">
+																
+																Você achou esta avaliação útil?
+																<br />
+																<h:commandLink id="voteUseful" style="text-decoration: none; margin-right: 10px" actionListener="#{reviewListMB.addUsefulVoteToReview}">
+																	<f:ajax execute="@all" render="@form"  />
+																	<f:attribute name="preference" value="#{preference}"  />
+																	<span class="glyphicon glyphicon-thumbs-up" /> 
+																	<h:outputText 
+																		style="margin-left: 5px; margin-right: 10px"
+																		value="#{preference.preferenceReview.usefulCount}" />
+																</h:commandLink>
+																<h:commandLink id="voteUseless" style="text-decoration: none; margin-right: 10px" actionListener="#{reviewListMB.addUselessVoteToReview}" >
+																	<f:ajax execute="@all" render="@form"  />
+																	<f:attribute name="preference" value="#{preference}" />
+																	<span class="glyphicon glyphicon-thumbs-down" /> 
+																	<h:outputText 
+																		style="margin-left: 5px; margin-right: 10px"
+																		value="#{preference.preferenceReview.uselessCount}" />
+																</h:commandLink>
+															</h:panelGroup>
+														</h:panelGroup>
 													</h:panelGroup>
-													
-													<h:panelGroup layout="block" styleClass="small soft" rendered="#{loginMB.loggedUser != null}">
-														
-														Você achou esta avaliação útil?
-														<br />
-														<h:commandLink id="voteUseful" style="text-decoration: none; margin-right: 10px" actionListener="#{reviewListMB.addUsefulVoteToReview}">
-															<f:ajax execute="@form" render="@form"  />
-															<f:attribute name="preference" value="#{preference}"  />
-															<span class="glyphicon glyphicon-thumbs-up" /> 
-															<h:outputText 
-																style="margin-left: 5px; margin-right: 10px"
-																value="#{preference.preferenceReview.usefulCount}" />
-														</h:commandLink>
-														<h:commandLink id="voteUseless" style="text-decoration: none; margin-right: 10px" actionListener="#{reviewListMB.addUselessVoteToReview}" >
-															<f:ajax execute="@form" render="@form"  />
-															<f:attribute name="preference" value="#{preference}" />
-															<span class="glyphicon glyphicon-thumbs-down" /> 
-															<h:outputText 
-																style="margin-left: 5px; margin-right: 10px"
-																value="#{preference.preferenceReview.uselessCount}" />
-														</h:commandLink>
-														
-													</h:panelGroup>
-													
 												</h:panelGroup>
-											</div>
+											</h:panelGroup>
 										</li>
 										
 										
@@ -275,7 +277,7 @@
 									</h:commandLink>
 								</div>
 								
-							</div>
+							</h:panelGroup>
 							
 							<!-- tooltip das tags -->
 							<script type="text/javascript">
@@ -291,8 +293,6 @@
 							</script>
 							
 						</h:panelGroup>
-							
-							
 							
 					</h:form>
 				
