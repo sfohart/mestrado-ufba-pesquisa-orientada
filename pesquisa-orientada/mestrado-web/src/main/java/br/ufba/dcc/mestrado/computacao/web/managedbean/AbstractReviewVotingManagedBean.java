@@ -62,13 +62,15 @@ public abstract class AbstractReviewVotingManagedBean implements Serializable {
 				
 				if (! isDulicatedVoteMessage(event, preference)) {
 					preference.getPreferenceReview().getUsefulList().add(user);
-					
-					try {
-						return getPreferenceService().save(preference);
-					} catch (Exception e) {
-						e.printStackTrace();
-					}
-				} 
+				} else {
+					preference.getPreferenceReview().getUsefulList().remove(user);
+				}
+				
+				try {
+					return getPreferenceService().save(preference);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
 			}
 		}
 		
@@ -92,13 +94,16 @@ public abstract class AbstractReviewVotingManagedBean implements Serializable {
 				
 				if (! isDulicatedVoteMessage(event, preference)) {
 					preference.getPreferenceReview().getUselessList().add(user);
-					
-					try {
-						return getPreferenceService().save(preference);
-					} catch (Exception e) {
-						e.printStackTrace();
-					}
-				} 
+				} else {
+					preference.getPreferenceReview().getUselessList().remove(user);
+				}
+				
+				
+				try {
+					return getPreferenceService().save(preference);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
 			}
 		}
 		
@@ -114,15 +119,6 @@ public abstract class AbstractReviewVotingManagedBean implements Serializable {
 			duplicated = true;
 		} else if (preference.getPreferenceReview().getUsefulList().contains(user)) {
 			duplicated = true;
-		}
-		
-		if (duplicated) {
-			ResourceBundle bundle = ResourceBundle.getBundle("br.ufba.dcc.mestrado.computacao.reviews");
-			
-			String message = bundle.getString("reviews.vote.duplicated.message");
-			FacesMessage facesMessage = new FacesMessage(message);
-			
-			FacesContext.getCurrentInstance().addMessage(event.getComponent().getId(), facesMessage);
 		}
 		
 		return duplicated;
