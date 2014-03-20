@@ -4,6 +4,7 @@
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:ui="http://java.sun.com/jsf/facelets"
 	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:prime="http://primefaces.org/ui"
 	xmlns:p="http://xmlns.jcp.org/jsf/passthrough">
 
 <f:metadata>
@@ -216,8 +217,9 @@
 
 										<div class="form-group">
 											<h:outputLabel for="reviewDescription">Descrição</h:outputLabel>
-											<p:inputTextarea id="reviewDescription"
+											<prime:inputTextarea id="reviewDescription"
 												styleClass="form-control" rows="5" counter="reviewDescriptionCounter" maxlength="255"
+												counterTemplate="{0} caractere(s) restante(s)."
 												value="#{newReviewMB.preference.preferenceReview.description}" />
 											<h:outputText id="reviewDescriptionCounter" />
 										</div>
