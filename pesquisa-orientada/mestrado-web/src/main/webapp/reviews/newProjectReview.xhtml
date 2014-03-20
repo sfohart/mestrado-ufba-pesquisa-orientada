@@ -216,9 +216,10 @@
 
 										<div class="form-group">
 											<h:outputLabel for="reviewDescription">Descrição</h:outputLabel>
-											<h:inputTextarea id="reviewDescription"
-												styleClass="form-control" rows="5"
+											<p:inputTextarea id="reviewDescription"
+												styleClass="form-control" rows="5" counter="reviewDescriptionCounter" maxlength="255"
 												value="#{newReviewMB.preference.preferenceReview.description}" />
+											<h:outputText id="reviewDescriptionCounter" />
 										</div>
 									</div>
 								</div>
