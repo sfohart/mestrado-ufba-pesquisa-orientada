@@ -1,0 +1,341 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:fn="http://java.sun.com/jsp/jstl/functions"
+	xmlns:p="http://xmlns.jcp.org/jsf/passthrough">
+	
+	<f:metadata>
+		<f:viewParam id="projectId" name="projectId" value="#{reviewListMB.project.id}" />
+		<f:viewParam id="userId" name="userId" value="#{reviewListMB.user.id}"  />
+		
+		<f:viewParam id="orderByRegisteredAt" name="orderByRegisteredAt" value="#{reviewListMB.orderByRegisteredAt}" />
+		<f:viewParam id="orderByReviewRanking" name="orderByReviewRanking" value="#{reviewListMB.orderByReviewRanking}" />
+		
+		<f:event listener="#{reviewListMB.initList}" type="preRenderView"/>
+	</f:metadata>
+	
+	
+	<h:body>
+		<ui:composition template="/layout/mainLayout.xhtml">
+			<ui:define name="titlePage">Detalhes do Projeto</ui:define>
+			
+			<ui:define name="content">
+				<f:loadBundle var="reviewsMsg" basename="br.ufba.dcc.mestrado.computacao.reviews"   />
+				
+				<section class="container">
+				
+					<h:form prependId="false" >	
+					
+						<h:panelGroup id="alert" layout="block" styleClass="alert alert-danger col-md-12" rendered="#{not empty facesContext.messageList}">
+							<strong>Vish! </strong>
+							<h:messages  />
+						</h:panelGroup>
+										
+						
+							<h:panelGroup id="reviewsPanel" layout="block">
+								
+								<ui:param name="hidingUser" value="#{reviewListMB.project.id eq null and reviewListMB.user.id != null}"/>
+								<ui:param name="hidingProject" value="#{reviewListMB.project.id != null and reviewListMB.user.id eq null}"/>
+								
+								<h:panelGroup layout="block" rendered="#{hidingUser}">
+									<div class="row">
+										<div class="col-md-2 pull-left">
+											<h:outputLink value="#{facesContext.externalContext.applicationContextPath}/account/account.jsf?accountId=#{reviewListMB.user.id}">
+												<h:panelGroup layout="block" rendered="#{ (reviewListMB.user.encodedEmail eq null) or (reviewListMB.user.encodedEmail eq '') }">
+													<h:graphicImage styleClass="media-object pull-right img-thumbnail" height="128" width="128" library="default" name="img/no_logo.png" />
+												</h:panelGroup>
+												<h:panelGroup layout="block" rendered="#{ (reviewListMB.user.encodedEmail != null) and (reviewListMB.user.encodedEmail != '') }">
+													<h:graphicImage styleClass="media-object pull-right img-thumbnail" url="http://www.gravatar.com/avatar/#{reviewListMB.user.encodedEmail}.png?s=128&amp;d=mm" />
+												</h:panelGroup>
+											</h:outputLink>
+										</div>
+										<div class="col-md-10 pull-left">
+											<h:outputLink value="#{facesContext.externalContext.applicationContextPath}/account/account.jsf?accountId=#{reviewListMB.user.id}">
+												<h2>
+													<ui:include src="/account/accountName.xhtml"  >
+														<ui:param name="user" value="#{reviewListMB.user}"  />
+													</ui:include>
+												</h2>
+											</h:outputLink>
+										</div>
+									</div>
+									
+									<div style="border-top: 1px solid #aaa; margin: 20px 0">
+										<h3>Projetos comentados pelo usuário</h3>
+									</div>
+								</h:panelGroup>
+								
+								<h:panelGroup layout="block" rendered="#{hidingProject}">
+									<div class="row">
+										<div class="col-md-1">
+											<h:outputLink value="#{facesContext.externalContext.applicationContextPath}/detail/projectDetail.jsf" class="pull-left">
+												<f:param name="projectId" value="#{reviewListMB.project.id}" />
+												<h:graphicImage
+													style="margin-bottom: 10px"
+													rendered="#{reviewListMB.project.mediumLogoURL eq 'no_logo.png'}" 
+													styleClass="media-object" height="64" width="64" library="default" 
+													name="img/no_logo.png" />
+												<h:graphicImage
+													style="margin-bottom: 10px"
+													rendered="#{reviewListMB.project.mediumLogoURL != 'no_logo.png'}" 
+													styleClass="media-object" height="64" width="64"
+													value="#{reviewListMB.project.mediumLogoURL}" 
+													/>
+											</h:outputLink>
+										</div>
+										<div class="col-md-11">
+											<h:outputLink value="#{facesContext.externalContext.applicationContextPath}/detail/projectDetail.jsf" class="pull-left">
+												<f:param name="projectId" value="#{reviewListMB.project.id}" />
+												<h2> <h:outputText value="#{reviewListMB.project.name}" /> </h2>
+											</h:outputLink>
+										</div>
+									</div>
+									
+									<div style="border-top: 1px solid #aaa; margin: 20px 0">
+										<h3>Comentários dos usuários</h3>
+									</div>
+								</h:panelGroup>
+								
+								<h:panelGroup layout="block" id="breadcrump" rendered="#{reviewListMB.dataModel.rowAvailable}">
+									<!-- Exibindo quantidade de resultados -->
+									<ul class="breadcrumb" style="border-bottom: 1px solid #ddd;">
+										<li>
+											Exibindo página <h:outputText value="#{reviewListMB.pageList.currentPage}" /> de <h:outputText value="#{reviewListMB.pageList.totalPages}" /> 
+										</li>
+									</ul>
+								</h:panelGroup>							
+
+								<div class="container">
+									<div class="page-header text-center">
+										<h1 id="timeline">Timeline 2.1</h1>
+									</div>
+									
+									
+									<ul class="timeline">
+									
+										<ui:repeat var="preference" value="#{reviewListMB.dataModel}" varStatus="status"  >
+											<li>
+												<div class="timeline-badge default">
+													<a>
+														<i class="glyphicon glyphicon-comment" rel="tooltip"  id=""></i>
+													</a>
+												</div>
+			  
+												<div class="timeline-panel timeline-warning">
+													<div class="timeline-heading">
+														<div class="row">
+															<div class="pull-left col-md-3">
+																<h:outputLink value="#{facesContext.externalContext.applicationContextPath}/account/account.jsf?accountId=#{preference.user.id}">				
+																	<ui:include src="/account/accountName.xhtml"  >
+																		<ui:param name="user" value="#{preference.user}"  />
+																	</ui:include>
+																</h:outputLink>
+																disse:
+																<h:panelGroup layout="block" rendered="#{ (preference.user.encodedEmail eq null) or (preference.user.encodedEmail eq '') }">
+																	<h:outputLink value="#{facesContext.externalContext.applicationContextPath}/account/account.jsf?accountId=#{preference.user.id}">
+																		<h:graphicImage styleClass="media-object img-thumbnail" height="32" width="32" library="default" name="img/no_logo.png" />
+																	</h:outputLink>
+																</h:panelGroup>
+																<h:panelGroup layout="block" rendered="#{ (preference.user.encodedEmail != null) and (preference.user.encodedEmail != '') }">
+																	<h:outputLink value="#{facesContext.externalContext.applicationContextPath}/account/account.jsf?accountId=#{preference.user.id}">
+																		<h:graphicImage styleClass="media-object img-thumbnail" url="http://www.gravatar.com/avatar/#{preference.user.encodedEmail}.png?s=32&amp;d=mm&amp;r=g" />
+																	</h:outputLink>
+																</h:panelGroup>
+															</div>															
+															<div class="col-md-9">
+																<h:outputText value="#{preference.preferenceReview.title}" />  
+																<!-- data em que foi escrita -->
+																<div>
+																	<span class="small soft italic" title="#{preference.registeredAt}">
+																		<h:outputText value="#{preference.registeredAt}">
+																			<f:convertDateTime pattern="'escrito no dia' dd/MM/yyyy 'às' HH:mm:ss" />
+																		</h:outputText>
+																	</span>
+																</div>		
+																<div>				
+																	<!-- Estrelas -->
+																	<div class="rateit" data-rateit-readonly="true"
+																			data-rateit-min="0" data-rateit-max="5"
+																			data-rateit-value="#{preference.value}" data-rateit-ispreset="true"  />
+																
+																	<!-- legenda das estrelas -->
+																	<h:panelGroup styleClass="soft small" rendered="#{preference.value != null and preference.value > 0}">
+																		(<h:outputText value="#{preference.value}" >
+																			<f:convertNumber maxFractionDigits="2" maxIntegerDigits="2" pattern="#0.00" />
+																		</h:outputText> / 5)
+																	</h:panelGroup>
+																	<h:panelGroup styleClass="soft small" rendered="#{preference.value == null or preference.value == 0}">
+																		(0 / 5)
+																	</h:panelGroup>																	
+																</div>
+																
+																
+															</div>
+														</div>
+													</div>
+				
+													<div class="timeline-body">
+														
+														<!-- descrição da review -->														
+														<h:outputText value="#{preference.preferenceReview.description}" />
+														
+													</div>
+													<div class="timeline-footer">
+														<h:form>
+															<div class="row">
+																<div class="col-md-6 pull-left">
+																	<ui:param name="totalVotes" value="#{preference.preferenceReview.usefulCount + preference.preferenceReview.uselessCount}" />
+																	<h:panelGroup layout="block" styleClass="small soft" rendered="#{totalVotes > 0}">
+																		<h:outputText  value="#{fn:length(preference.preferenceReview.usefulList)}" /> 
+																		de <h:outputText value="#{totalVotes}" /> avaliaram esta opinião como útil.
+																	</h:panelGroup>
+																</div>	      				
+																<h:panelGroup layout="block" styleClass="col-md-6 pull-right">
+																	<h:panelGroup rendered="#{loginMB.loggedUser != null}">
+																		<span class="soft small italic">
+																			Você achou esta avaliação útil?
+																			<br />
+																			<h:commandLink style="text-decoration: none; margin-right: 10px" >
+																				<f:attribute name="preference" value="#{preference}"  />
+																				<f:ajax execute="@all" render="@form" listener="#{reviewListMB.addUsefulVoteToReview}" />
+																				<span class="glyphicon glyphicon-thumbs-up" /> Sim
+																			</h:commandLink>
+																			<h:commandLink style="text-decoration: none; margin-right: 10px" >
+																				<f:attribute name="preference" value="#{preference}" />
+																				<f:ajax execute="@all" render="@form" listener="#{reviewListMB.addUselessVoteToReview}"  />
+																				<span class="glyphicon glyphicon-thumbs-down" /> Não
+																			</h:commandLink>
+																		</span>
+																	</h:panelGroup>
+																</h:panelGroup>								
+															</div>
+														</h:form>
+													</div>
+												</div>
+											</li>
+											
+											
+											<li class="timeline-inverted">
+												<div class="timeline-badge default">
+													<a>
+														<i class="glyphicon glyphicon-comment" rel="tooltip"  id=""></i>
+													</a>
+												</div>
+			  
+												<div class="timeline-panel timeline-warning">
+													<div class="timeline-heading">
+														<div class="row">
+															<div class="pull-left col-md-3">
+																<h:outputLink value="#{facesContext.externalContext.applicationContextPath}/account/account.jsf?accountId=#{preference.user.id}">				
+																	<ui:include src="/account/accountName.xhtml"  >
+																		<ui:param name="user" value="#{preference.user}"  />
+																	</ui:include>
+																</h:outputLink>
+																disse:
+																<h:panelGroup layout="block" rendered="#{ (preference.user.encodedEmail eq null) or (preference.user.encodedEmail eq '') }">
+																	<h:outputLink value="#{facesContext.externalContext.applicationContextPath}/account/account.jsf?accountId=#{preference.user.id}">
+																		<h:graphicImage styleClass="media-object img-thumbnail" height="32" width="32" library="default" name="img/no_logo.png" />
+																	</h:outputLink>
+																</h:panelGroup>
+																<h:panelGroup layout="block" rendered="#{ (preference.user.encodedEmail != null) and (preference.user.encodedEmail != '') }">
+																	<h:outputLink value="#{facesContext.externalContext.applicationContextPath}/account/account.jsf?accountId=#{preference.user.id}">
+																		<h:graphicImage styleClass="media-object img-thumbnail" url="http://www.gravatar.com/avatar/#{preference.user.encodedEmail}.png?s=32&amp;d=mm&amp;r=g" />
+																	</h:outputLink>
+																</h:panelGroup>
+															</div>															
+															<div class="col-md-9">
+																<h:outputText value="#{preference.preferenceReview.title}" />  
+																<!-- data em que foi escrita -->
+																<div>
+																	<span class="small soft italic" title="#{preference.registeredAt}">
+																		<h:outputText value="#{preference.registeredAt}">
+																			<f:convertDateTime pattern="'escrito no dia' dd/MM/yyyy 'às' HH:mm:ss" />
+																		</h:outputText>
+																	</span>
+																</div>		
+																<div>				
+																	<!-- Estrelas -->
+																	<div class="rateit" data-rateit-readonly="true"
+																			data-rateit-min="0" data-rateit-max="5"
+																			data-rateit-value="#{preference.value}" data-rateit-ispreset="true"  />
+																
+																	<!-- legenda das estrelas -->
+																	<h:panelGroup styleClass="soft small" rendered="#{preference.value != null and preference.value > 0}">
+																		(<h:outputText value="#{preference.value}" >
+																			<f:convertNumber maxFractionDigits="2" maxIntegerDigits="2" pattern="#0.00" />
+																		</h:outputText> / 5)
+																	</h:panelGroup>
+																	<h:panelGroup styleClass="soft small" rendered="#{preference.value == null or preference.value == 0}">
+																		(0 / 5)
+																	</h:panelGroup>																	
+																</div>
+																
+																
+															</div>
+														</div>
+													</div>
+				
+													<div class="timeline-body">
+														
+														<!-- descrição da review -->														
+														<h:outputText value="#{preference.preferenceReview.description}" />
+														
+													</div>
+													<div class="timeline-footer">
+														<h:form>
+															<div class="row">
+																<div class="col-md-6 pull-left">
+																	<ui:param name="totalVotes" value="#{preference.preferenceReview.usefulCount + preference.preferenceReview.uselessCount}" />
+																	<h:panelGroup layout="block" styleClass="small soft" rendered="#{totalVotes > 0}">
+																		<h:outputText  value="#{fn:length(preference.preferenceReview.usefulList)}" /> 
+																		de <h:outputText value="#{totalVotes}" /> avaliaram esta opinião como útil.
+																	</h:panelGroup>
+																</div>	      				
+																<h:panelGroup layout="block" styleClass="col-md-6 pull-right">
+																	<h:panelGroup rendered="#{loginMB.loggedUser != null}">
+																		<span class="soft small italic">
+																			Você achou esta avaliação útil?
+																			<br />
+																			<h:commandLink style="text-decoration: none; margin-right: 10px" >
+																				<f:attribute name="preference" value="#{preference}"  />
+																				<f:ajax execute="@all" render="@form" listener="#{reviewListMB.addUsefulVoteToReview}" />
+																				<span class="glyphicon glyphicon-thumbs-up" /> Sim
+																			</h:commandLink>
+																			<h:commandLink style="text-decoration: none; margin-right: 10px" >
+																				<f:attribute name="preference" value="#{preference}" />
+																				<f:ajax execute="@all" render="@form" listener="#{reviewListMB.addUselessVoteToReview}"  />
+																				<span class="glyphicon glyphicon-thumbs-down" /> Não
+																			</h:commandLink>
+																		</span>
+																	</h:panelGroup>
+																</h:panelGroup>								
+															</div>
+														</h:form>
+													</div>
+												</div>
+											</li>
+										</ui:repeat>
+        
+										<li class="clearfix" style="float: none;"></li>
+									</ul>
+								</div>
+								
+								<!-- Paginação -->
+								<ui:include src="/layout/pagination.xhtml">
+									<ui:param name="searchMethod" value="searchReviews" />
+									<ui:param name="bean" value="#{reviewListMB}"/>
+								</ui:include>
+							
+							</h:panelGroup>
+					</h:form>
+				
+				</section>
+			</ui:define>
+			
+		</ui:composition>
+	</h:body>
+</html>

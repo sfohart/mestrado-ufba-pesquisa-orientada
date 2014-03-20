@@ -14,9 +14,9 @@
 		<ui:param name="modalId" value="#{ popupId eq null ? 'popupCriteria'.concat(reviewId) : ''.concat(popupId).concat(reviewId) }"  />
 		<ui:param name="dataTarget" value="#{'.'.concat(modalId)}" />
 		
-		<button class="btn btn-primary btn-sm" data-toggle="modal" data-target="#{dataTarget}">
+		<a class="btn btn-primary btn-sm" data-toggle="modal" data-target="#{dataTarget}">
 			Critérios
-		</button>
+		</a>
 		
 		<div class="modal fade #{modalId}" tabindex="-1" p:role="dialog" p:aria-labelledby="#{modalId}Label" p:aria-hidden="true">
 			<div class="modal-dialog modal-lg">

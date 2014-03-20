@@ -3,6 +3,7 @@
 <html xmlns:h="http://java.sun.com/jsf/html"
       xmlns:ui="http://java.sun.com/jsf/facelets"
       xmlns:f="http://java.sun.com/jsf/core"
+	  xmlns:fmt="http://java.sun.com/jsp/jstl/fmt"
       xmlns:passthrough="http://xmlns.jcp.org/jsf/passthrough"
       >
       
@@ -17,11 +18,13 @@
 		<h:outputScript library="default" name="js/succinct/jquery.succinct.min.js" />
 		<h:outputScript library="default" name="js/bootstrap.min.js" />
 		<h:outputScript library="default" name="js/main.js" />
-		
+		<!-- timeline -->
+		<h:outputScript library="default" name="js/timeline/timeline.js" />		
 		<!-- loading indicator on buttons and links -->
 		<h:outputScript library="default" name="js/ladda/spin.min.js" />
-		<h:outputScript library="default" name="js/ladda/ladda.min.js" />
-		
+
+		<h:outputScript library="default" name="js/ladda/ladda.min.js" />		
+				
 		<h:outputScript library="default" name="js/bootstrap-tour/bootstrap-tour.min.js" />
 		
 		<title>
@@ -42,6 +45,8 @@
 		<h:outputStylesheet library="default" name="css/bootstrap.css" />
 		<h:outputStylesheet library="default" name="css/bootstrap.css.map" />
 		<h:outputStylesheet library="default" name="css/main.css" />
+		<!-- timeline -->
+		<h:outputStylesheet library="default" name="css/timeline/timeline.css" />
 		
 		<h:outputStylesheet library="default" name="css/bootstrap-tour/bootstrap-tour.min.css" />
 		

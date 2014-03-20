@@ -7,7 +7,7 @@ import java.util.ResourceBundle;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.context.FacesContext;
-import javax.faces.event.AjaxBehaviorEvent;
+import javax.faces.event.ActionEvent;
 
 import br.ufba.dcc.mestrado.computacao.entities.recommender.preference.PreferenceEntity;
 import br.ufba.dcc.mestrado.computacao.entities.recommender.user.UserEntity;
@@ -45,7 +45,7 @@ public abstract class AbstractReviewVotingManagedBean implements Serializable {
 		this.preferenceService = preferenceService;
 	}
 
-	public void addUsefulVoteToReview(AjaxBehaviorEvent event) {
+	protected PreferenceEntity addUsefulVoteToReview(ActionEvent event) {
 		PreferenceEntity preference = (PreferenceEntity)
 				event.getComponent().getAttributes().get("preference");
 		
@@ -62,20 +62,22 @@ public abstract class AbstractReviewVotingManagedBean implements Serializable {
 				
 				if (! isDulicatedVoteMessage(event, preference)) {
 					preference.getPreferenceReview().getUsefulList().add(user);
-					
-					try {
-						getPreferenceService().save(preference);
-					} catch (Exception e) {
-						e.printStackTrace();
-					}
 				} else {
-					
+					preference.getPreferenceReview().getUsefulList().remove(user);
+				}
+				
+				try {
+					return getPreferenceService().save(preference);
+				} catch (Exception e) {
+					e.printStackTrace();
 				}
 			}
 		}
+		
+		return preference;
 	}
 	
-	public void addUselessVoteToReview(AjaxBehaviorEvent event) {
+	protected PreferenceEntity addUselessVoteToReview(ActionEvent event) {
 		PreferenceEntity preference = (PreferenceEntity)
 				event.getComponent().getAttributes().get("preference");
 		
@@ -92,20 +94,23 @@ public abstract class AbstractReviewVotingManagedBean implements Serializable {
 				
 				if (! isDulicatedVoteMessage(event, preference)) {
 					preference.getPreferenceReview().getUselessList().add(user);
-					
-					try {
-						getPreferenceService().save(preference);
-					} catch (Exception e) {
-						e.printStackTrace();
-					}
 				} else {
-					
+					preference.getPreferenceReview().getUselessList().remove(user);
+				}
+				
+				
+				try {
+					return getPreferenceService().save(preference);
+				} catch (Exception e) {
+					e.printStackTrace();
 				}
 			}
 		}
+		
+		return preference;
 	}
 
-	protected boolean isDulicatedVoteMessage(AjaxBehaviorEvent event, PreferenceEntity preference) {
+	protected boolean isDulicatedVoteMessage(ActionEvent event, PreferenceEntity preference) {
 		boolean duplicated = false;
 		
 		UserEntity user = getUserDetailsService().loadFullLoggedUser();
@@ -114,15 +119,6 @@ public abstract class AbstractReviewVotingManagedBean implements Serializable {
 			duplicated = true;
 		} else if (preference.getPreferenceReview().getUsefulList().contains(user)) {
 			duplicated = true;
-		}
-		
-		if (duplicated) {
-			ResourceBundle bundle = ResourceBundle.getBundle("br.ufba.dcc.mestrado.computacao.reviews");
-			
-			String message = bundle.getString("reviews.vote.duplicated.message");
-			FacesMessage facesMessage = new FacesMessage(message);
-			
-			FacesContext.getCurrentInstance().addMessage(event.getComponent().getId(), facesMessage);
 		}
 		
 		return duplicated;
