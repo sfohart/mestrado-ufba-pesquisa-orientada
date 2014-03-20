@@ -5,6 +5,7 @@
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:ui="http://java.sun.com/jsf/facelets"
 	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:prime="http://primefaces.org/ui"
 	xmlns:p="http://xmlns.jcp.org/jsf/passthrough">
 	
 	<div class="modal-dialog">
@@ -79,13 +80,15 @@
 						
 						<div class="form-group #{not messageTextInput.valid ? 'has-error has-feedback' : ''}">
 							<h:outputLabel styleClass="control-label" value="Sua Mensagem" />
-							<h:inputTextarea tabindex="1" id="messageText" value="#{mailMB.mailOptions.messageText}"
+							<prime:inputTextarea tabindex="1" id="messageText" value="#{mailMB.mailOptions.messageText}"
 								styleClass="form-control"
 								binding="#{messageTextInput}"
 								required="true" 
 								requiredMessage="Por favor, preencha a sua mensagem" 
-								>
-							</h:inputTextarea>
+								counter="messageTextCounter" maxlength="255"
+								counterTemplate="{0} caractere(s) restante(s)."
+								/>
+							<h:outputText id="messageTextCounter" />
 							<span class="help-block">
 								<h:message for="messageText"></h:message>
 							</span>
