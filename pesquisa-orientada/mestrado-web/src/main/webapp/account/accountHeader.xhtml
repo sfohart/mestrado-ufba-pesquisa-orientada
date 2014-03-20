@@ -15,14 +15,14 @@
 	<h:panelGroup id="accountTitle" layout="block" styleClass="row" style="margin-bottom: 20px"
 			rendered="#{empty facesContext.messageList}">
 		<div class="col-md-2 pull-left">
-			<h:outputLink value="#{facesContext.externalContext.applicationContextPath}/account/accountSettings.jsf">
+			<h:outputLink value="#{facesContext.externalContext.applicationContextPath}/account/account.jsf">
 				<f:param  name="accountId" value="#{accountMB.account.id}" />
 				<h:graphicImage styleClass="media-object img-thumbnail" url="http://www.gravatar.com/avatar/#{accountMB.encodedEmail}.png?s=128&amp;d=mm&amp;r=g" />
 			</h:outputLink>
 		</div>
 		<div class="col-md-10 pull-left">
 			<h2> 
-				<h:outputLink value="#{facesContext.externalContext.applicationContextPath}/account/accountSettings.jsf">
+				<h:outputLink value="#{facesContext.externalContext.applicationContextPath}/account/account.jsf">
 					<f:param  name="accountId" value="#{accountMB.account.id}" />
 					<ui:include src="/account/accountName.xhtml"  >
 						<ui:param name="user" value="#{accountMB.account}"  />
@@ -30,7 +30,7 @@
 				</h:outputLink> 
 			</h2>
 			<h:outputLink class="btn" rendered="#{loginMB.loggedUser eq accountMB.account}" 
-					value="#{facesContext.externalContext.applicationContextPath}/account/accountSettings.jsf">
+					value="#{facesContext.externalContext.applicationContextPath}/account/account.jsf">
 				<span class="glyphicon glyphicon-cog"></span>
 				<f:param  name="accountId" value="#{accountMB.account.id}" />
 				Configurações
