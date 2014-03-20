@@ -219,7 +219,7 @@
 											<h:outputLabel for="reviewDescription">Descrição</h:outputLabel>
 											<prime:inputTextarea id="reviewDescription"
 												styleClass="form-control" rows="5" counter="reviewDescriptionCounter" maxlength="255"
-												counterTemplate="{0} caractere(s) restante(s)."
+												counterTemplate="#{messages['input.textarea.characters.remmaining']}"
 												value="#{newReviewMB.preference.preferenceReview.description}" />
 											<h:outputText id="reviewDescriptionCounter" />
 										</div>
