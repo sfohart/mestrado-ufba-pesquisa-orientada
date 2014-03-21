@@ -47,7 +47,8 @@
 			
 			<script type="text/javascript">
 				var initialTour = new Tour({
-					debug:		true
+					debug:		true,
+					template: '<div class="popover"> <div class="arrow"></div> <h3 class="popover-title"></h3> <div class="popover-content"></div> <div class="popover-navigation"> <div class="btn-group"> <button class="btn btn-sm btn-default" data-role="prev">&#171; Anterior</button> <button class="btn btn-sm btn-default" data-role="next">Próximo &#187;</button> <button class="btn btn-sm btn-default" data-role="pause-resume" data-pause-text="Pausar" data-resume-text="Resume">Retomar</button> </div> <button class="btn btn-sm btn-default" data-role="end">Encerrar</button> </div> </div>',
 				});
 				
 				initialTour.addStep({
