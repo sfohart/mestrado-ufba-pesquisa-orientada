@@ -676,7 +676,7 @@
 				<script type="text/javascript">
 					var projectDetailTour = new Tour({
 						debug:		true,
-						template: '<div class="popover"> <div class="arrow"></div> <h3 class="popover-title"></h3> <div class="popover-content"></div> <div class="popover-navigation"> <div class="btn-group"> <button class="btn btn-sm btn-default" data-role="prev">&#171; Anterior</button> <button class="btn btn-sm btn-default" data-role="next">Próximo &#187;</button> <button class="btn btn-sm btn-default" data-role="pause-resume" data-pause-text="Pausar" data-resume-text="Resume">Retomar</button> </div> <button class="btn btn-sm btn-default" data-role="end">Encerrar</button> </div> </div>',
+						template: '<div class="popover"> <div class="arrow"></div> <h3 class="popover-title"></h3> <div class="popover-content"></div> <div class="popover-navigation"> <div class="btn-group"> <button class="btn btn-sm btn-default" data-role="prev">&#171; #{messages["tour.prev.button.label"]}</button> <button class="btn btn-sm btn-default" data-role="next">#{messages["tour.next.button.label"]} &#187;</button> <button class="btn btn-sm btn-default" data-role="pause-resume" data-pause-text="#{messages["tour.pause.button.label"]}" data-resume-text="#{messages["tour.resume.button.label"]}">#{messages["tour.pause.button.label"]}</button> </div> <button class="btn btn-sm btn-default" data-role="end">#{messages["tour.end.button.label"]}</button> </div> </div>'
 					});
 					
 					projectDetailTour.addStep({
