@@ -11,13 +11,17 @@ import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 
+import org.apache.lucene.analysis.Analyzer;
 import org.apache.lucene.index.IndexReader;
 import org.apache.lucene.index.Term;
+import org.apache.lucene.queryParser.MultiFieldQueryParser;
+import org.apache.lucene.queryParser.ParseException;
 import org.apache.lucene.search.BooleanClause;
 import org.apache.lucene.search.BooleanQuery;
 import org.apache.lucene.search.Sort;
 import org.apache.lucene.search.SortField;
 import org.apache.lucene.search.TermQuery;
+import org.apache.lucene.util.Version;
 import org.hibernate.search.errors.EmptyQueryException;
 import org.hibernate.search.jpa.FullTextEntityManager;
 import org.hibernate.search.jpa.FullTextQuery;
@@ -122,38 +126,40 @@ public class OhLohProjectRepositoryImpl
 	}
 	
 	public FullTextQuery findAllByFullTextQuery(String query) {
+		
 		FullTextEntityManager fullTextEntityManager = Search.getFullTextEntityManager(getEntityManager());
-		QueryBuilder queryBuilder = fullTextEntityManager
+		
+		Analyzer analyzer = fullTextEntityManager
 				.getSearchFactory()
-				.buildQueryBuilder()
-				.forEntity(OhLohProjectEntity.class)
-				.get();
+				.getAnalyzer(getEntityClass());
+		
+		String[] searchFields = {
+			SearchFieldsEnum.projectName.fieldName(),
+			SearchFieldsEnum.projectDescription.fieldName(),
+			SearchFieldsEnum.tagName.fieldName()
+		};
+		
+		org.apache.lucene.queryParser.MultiFieldQueryParser queryParser =
+				new MultiFieldQueryParser(
+						Version.LUCENE_36, 
+						searchFields, 
+						analyzer);
 		
 		FullTextQuery fullTextQuery = null;
 		
 		try {
 		
-			org.apache.lucene.search.Query luceneQuery = queryBuilder
-					.keyword()
-					.onField(SearchFieldsEnum.projectName.fieldName())
-//						.boostedTo(SearchFieldsEnum.projectName.boost())
-					.andField(SearchFieldsEnum.projectDescription.fieldName())
-//						.boostedTo(SearchFieldsEnum.projectDescription.boost())
-					.andField(SearchFieldsEnum.tagName.fieldName())
-//						.boostedTo(SearchFieldsEnum.tagName.boost())
-					.matching(query)
-					.createQuery();
+			org.apache.lucene.search.Query luceneQuery = 
+					queryParser.parse(query);
 			
 			fullTextQuery = fullTextEntityManager.createFullTextQuery(
 					luceneQuery, 
 					OhLohProjectEntity.class);
-			
-			
 						
 			configureRelevanceSort(fullTextQuery);
 			
 			
-		} catch (EmptyQueryException ex) {
+		} catch (EmptyQueryException | ParseException ex) {
 			
 		}
 		
