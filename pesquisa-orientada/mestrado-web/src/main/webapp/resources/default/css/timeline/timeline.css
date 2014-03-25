@@ -142,6 +142,13 @@
     border-bottom: 1px solid transparent;
 }
 
+/** tirando decoração dos links no timeline-heading
+--------------------------------------------*/
+.timeline-heading > div.row > div.col-md-9 > h4 > a,
+.timeline-heading > div.row > div.pull-left.col-md-3 > a  {
+	text-decoration: none;
+}
+
 .timeline-heading > .dropdown .dropdown-toggle {
     color: inherit;
 }
@@ -185,40 +192,53 @@
     text-decoration: none;
 }
 
+
+
+
+
+/** título, corpo e bordas
+ * ajustados com base no bootstrap
+--------------------------------------------*/
+
+
+
+
+
+
 .timeline > .list-group {
-    margin-bottom: 0;
+  margin-bottom: 0;
 }
 
 .timeline > .list-group .list-group-item {
-    border-width: 1px 0;
-    border-radius: 0;
+  border-width: 1px 0;
+  border-radius: 0;
 }
 
 .timeline > .list-group:first-child .list-group-item:first-child {
-    border-top: 0;
-    border-top-left-radius: 3px;
-    border-top-right-radius: 3px;
+  border-top: 0;
+  border-top-right-radius: -1;
+  border-top-left-radius: -1;
 }
 
 .timeline > .list-group:last-child .list-group-item:last-child {
-    border-bottom: 0;
-    border-bottom-right-radius: 3px;
-    border-bottom-left-radius: 3px;
+  border-bottom: 0;
+  border-bottom-right-radius: -1;
+  border-bottom-left-radius: -1;
 }
 
 .timeline-heading + .list-group .list-group-item:first-child {
-    border-top-width: 0;
+  border-top-width: 0;
 }
 
 .timeline > .table,
 .timeline > .table-responsive > .table {
-    margin-bottom: 0;
+  margin-bottom: 0;
 }
 
 .timeline > .table:first-child,
 .timeline > .table-responsive:first-child > .table:first-child {
-    border-top-left-radius: 3px;
-    border-top-right-radius: 3px;
+  border-top-right-radius: -1;
+  border-top-left-radius: -1;
 }
 
 .timeline > .table:first-child > thead:first-child > tr:first-child td:first-child,
@@ -229,7 +249,7 @@
 .timeline > .table-responsive:first-child > .table:first-child > thead:first-child > tr:first-child th:first-child,
 .timeline > .table:first-child > tbody:first-child > tr:first-child th:first-child,
 .timeline > .table-responsive:first-child > .table:first-child > tbody:first-child > tr:first-child th:first-child {
-    border-top-left-radius: 3px;
+  border-top-left-radius: -1;
 }
 
 .timeline > .table:first-child > thead:first-child > tr:first-child td:last-child,
@@ -240,13 +260,13 @@
 .timeline > .table-responsive:first-child > .table:first-child > thead:first-child > tr:first-child th:last-child,
 .timeline > .table:first-child > tbody:first-child > tr:first-child th:last-child,
 .timeline > .table-responsive:first-child > .table:first-child > tbody:first-child > tr:first-child th:last-child {
-    border-top-right-radius: 3px;
+  border-top-right-radius: -1;
 }
 
 .timeline > .table:last-child,
 .timeline > .table-responsive:last-child > .table:last-child {
-    border-bottom-right-radius: 3px;
-    border-bottom-left-radius: 3px;
+  border-bottom-right-radius: -1;
+  border-bottom-left-radius: -1;
 }
 
 .timeline > .table:last-child > tbody:last-child > tr:last-child td:first-child,
@@ -257,7 +277,7 @@
 .timeline > .table-responsive:last-child > .table:last-child > tbody:last-child > tr:last-child th:first-child,
 .timeline > .table:last-child > tfoot:last-child > tr:last-child th:first-child,
 .timeline > .table-responsive:last-child > .table:last-child > tfoot:last-child > tr:last-child th:first-child {
-    border-bottom-left-radius: 3px;
+  border-bottom-left-radius: -1;
 }
 
 .timeline > .table:last-child > tbody:last-child > tr:last-child td:last-child,
@@ -268,22 +288,22 @@
 .timeline > .table-responsive:last-child > .table:last-child > tbody:last-child > tr:last-child th:last-child,
 .timeline > .table:last-child > tfoot:last-child > tr:last-child th:last-child,
 .timeline > .table-responsive:last-child > .table:last-child > tfoot:last-child > tr:last-child th:last-child {
-    border-bottom-right-radius: 3px;
+  border-bottom-right-radius: -1;
 }
 
 .timeline > .timeline-body + .table,
 .timeline > .timeline-body + .table-responsive {
-    border-top: 1px solid #ddd;
+  border-top: 1px solid #dddddd;
 }
 
 .timeline > .table > tbody:first-child > tr:first-child th,
 .timeline > .table > tbody:first-child > tr:first-child td {
-    border-top: 0;
+  border-top: 0;
 }
 
 .timeline > .table-bordered,
 .timeline > .table-responsive > .table-bordered {
-    border: 0;
+  border: 0;
 }
 
 .timeline > .table-bordered > thead > tr > th:first-child,
@@ -298,7 +318,7 @@
 .timeline > .table-responsive > .table-bordered > tbody > tr > td:first-child,
 .timeline > .table-bordered > tfoot > tr > td:first-child,
 .timeline > .table-responsive > .table-bordered > tfoot > tr > td:first-child {
-    border-left: 0;
+  border-left: 0;
 }
 
 .timeline > .table-bordered > thead > tr > th:last-child,
@@ -313,7 +333,7 @@
 .timeline > .table-responsive > .table-bordered > tbody > tr > td:last-child,
 .timeline > .table-bordered > tfoot > tr > td:last-child,
 .timeline > .table-responsive > .table-bordered > tfoot > tr > td:last-child {
-    border-right: 0;
+  border-right: 0;
 }
 
 .timeline > .table-bordered > thead > tr:first-child > td,
@@ -324,7 +344,7 @@
 .timeline > .table-responsive > .table-bordered > thead > tr:first-child > th,
 .timeline > .table-bordered > tbody > tr:first-child > th,
 .timeline > .table-responsive > .table-bordered > tbody > tr:first-child > th {
-    border-bottom: 0;
+  border-bottom: 0;
 }
 
 .timeline > .table-bordered > tbody > tr:last-child > td,
@@ -335,102 +355,102 @@
 .timeline > .table-responsive > .table-bordered > tbody > tr:last-child > th,
 .timeline > .table-bordered > tfoot > tr:last-child > th,
 .timeline > .table-responsive > .table-bordered > tfoot > tr:last-child > th {
-    border-bottom: 0;
+  border-bottom: 0;
 }
 
 .timeline > .table-responsive {
-    margin-bottom: 0;
-    border: 0;
+  border: 0;
+  margin-bottom: 0;
 }
 
 .timeline-group {
-    margin-bottom: 20px;
+  margin-bottom: 21px;
 }
 
 .timeline-group .timeline {
-    margin-bottom: 0;
-    overflow: hidden;
-    border-radius: 4px;
+  margin-bottom: 0;
+  border-radius: 0;
+  overflow: hidden;
 }
 
 .timeline-group .timeline + .timeline {
-    margin-top: 5px;
+  margin-top: 5px;
 }
 
 .timeline-group .timeline-heading {
-    border-bottom: 0;
+  border-bottom: 0;
 }
 
 .timeline-group .timeline-heading + .timeline-collapse .timeline-body {
-    border-top: 1px solid #ddd;
+  border-top: 1px solid #dddddd;
 }
 
 .timeline-group .timeline-footer {
-    border-top: 0;
+  border-top: 0;
 }
 
 .timeline-group .timeline-footer + .timeline-collapse .timeline-body {
-    border-bottom: 1px solid #ddd;
+  border-bottom: 1px solid #dddddd;
 }
 
 .timeline-default {
-    border-color: #ddd !important;
+  border-color: #dddddd;
 }
 
 .timeline-default > .timeline-heading {
-    color: #333;
-    background-color: #f5f5f5;
-    border-color: #ddd !important;
+  color: #333333;
+  background-color: #f5f5f5;
+  border-color: #dddddd;
 }
 
 .timeline-default > .timeline-heading + .timeline-collapse .timeline-body {
-    border-top-color: #ddd !important;
+  border-top-color: #dddddd;
 }
 
 .timeline-default > .timeline-footer + .timeline-collapse .timeline-body {
-    border-bottom-color: #ddd !important;
+  border-bottom-color: #dddddd;
 }
 
 .timeline-primary {
-    border-color: #428bca !important;
+  border-color: #008cba !important;
 }
 
 .timeline > li > .timeline-primary:before {
     border-top: 15px solid transparent;
-    border-left: 15px solid #428bca;
-    border-right: 0 solid #428bca;
+    border-left: 15px solid #008cba;
+    border-right: 0 solid #008cba;
     border-bottom: 15px solid transparent;
 }
 
 .timeline > li > .timeline-primary:after {
     border-top: 14px solid transparent;
-    border-left: 14px solid #428bca;
-    border-right: 0 solid #428bca;
+    border-left: 14px solid #008cba;
+    border-right: 0 solid #008cba;
     border-bottom: 14px solid transparent;
 }
 
 .timeline-primary > .timeline-heading {
-    color: #fff;
-    background-color: #428bca;
-    border-color: #428bca !important;
+  color: #ffffff;
+  background-color: #008cba;
+  border-color: #008cba !important;
 }
 
 .timeline-primary > .timeline-heading + .timeline-collapse .timeline-body {
-    border-top-color: #428bca !important;
+  border-top-color: #008cba !important;
 }
 
 .timeline-primary > .timeline-footer + .timeline-collapse .timeline-body {
-    border-bottom-color: #428bca !important;
+  border-bottom-color: #008cba !important;
 }
 
 .timeline-success {
-    border-color: #d6e9c6 !important;
+  border-color: #3c9a5f !important;
 }
 
 .timeline > li > .timeline-success:before {
     border-top: 15px solid transparent;
-    border-left: 15px solid #d6e9c6;
-    border-right: 0 solid #d6e9c6;
+    border-left: 15px solid #3c9a5f;
+    border-right: 0 solid #3c9a5f;
     border-bottom: 15px solid transparent;
 }
 
@@ -441,28 +461,29 @@
     border-bottom: 14px solid transparent;
 }
 
+
 .timeline-success > .timeline-heading {
-    color: #3c763d;
-    background-color: #dff0d8;
-    border-color: #d6e9c6 !important;
+  color: #43ac6a;
+  background-color: #dff0d8;
+  border-color: #3c9a5f !important;
 }
 
 .timeline-success > .timeline-heading + .timeline-collapse .timeline-body {
-    border-top-color: #d6e9c6 !important;
+  border-top-color: #3c9a5f !important;
 }
 
 .timeline-success > .timeline-footer + .timeline-collapse .timeline-body {
-    border-bottom-color: #d6e9c6 !important;
+  border-bottom-color: #3c9a5f !important;
 }
 
 .timeline-info {
-    border-color: #bce8f1 !important;
+  border-color: #3db5d8 !important;
 }
 
 .timeline > li > .timeline-info:before {
     border-top: 15px solid transparent;
-    border-left: 15px solid #bce8f1;
-    border-right: 0 solid #bce8f1;
+    border-left: 15px solid #3db5d8;
+    border-right: 0 solid #3db5d8;
     border-bottom: 15px solid transparent;
 }
 
@@ -474,28 +495,28 @@
 }
 
 .timeline-info > .timeline-heading {
-    color: #31708f;
-    background-color: #d9edf7;
-    border-color: #bce8f1 !important;
+  color: #5bc0de;
+  background-color: #d9edf7;
+  border-color: #3db5d8 !important;
 }
 
 .timeline-info > .timeline-heading + .timeline-collapse .timeline-body {
-    border-top-color: #bce8f1 !important;
+  border-top-color: #3db5d8 !important;
 }
 
 .timeline-info > .timeline-footer + .timeline-collapse .timeline-body {
-    border-bottom-color: #bce8f1 !important;
+  border-bottom-color: #3db5d8 !important;
 }
 
 .timeline-warning {
-    border-color: #faebcc !important;
+  border-color: #d08002 !important;
 }
 
 .timeline > li > .timeline-warning:before {
     color: #8a6d3b;
     border-top: 15px solid transparent;
-    border-left: 15px solid #faebcc;
-    border-right: 0 solid #faebcc;
+    border-left: 15px solid #d08002;
+    border-right: 0 solid #d08002;
     border-bottom: 15px solid transparent;
 }
 
@@ -508,27 +529,27 @@
 }
 
 .timeline-warning > .timeline-heading {
-    color: #8a6d3b;
-    background-color: #fcf8e3;
-    border-color: #faebcc !important;
+  color: #e99002;
+  background-color: #fcf8e3;
+  border-color: #d08002 !important;
 }
 
 .timeline-warning > .timeline-heading + .timeline-collapse .timeline-body {
-    border-top-color: #faebcc !important;
+  border-top-color: #d08002 !important;
 }
 
 .timeline-warning > .timeline-footer + .timeline-collapse .timeline-body {
-    border-bottom-color: #faebcc !important;
+  border-bottom-color: #d08002 !important;
 }
 
 .timeline-danger {
-    border-color: #ebccd1 !important;
+  border-color: #ea2f10 !important;
 }
 
 .timeline > li > .timeline-danger:before {
     border-top: 15px solid transparent;
-    border-left: 15px solid #ebccd1;
-    border-right: 0 solid #ebccd1;
+    border-left: 15px solid #ea2f10;
+    border-right: 0 solid #ea2f10;
     border-bottom: 15px solid transparent;
 }
 
@@ -540,17 +561,17 @@
 }
 
 .timeline-danger > .timeline-heading {
-    color: #a94442;
-    background-color: #f2dede;
-    border-color: #ebccd1 !important;
+  color: #f04124;
+  background-color: #f2dede;
+  border-color: #ea2f10 !important;
 }
 
 .timeline-danger > .timeline-heading + .timeline-collapse .timeline-body {
-    border-top-color: #ebccd1 !important;
+  border-top-color: #ea2f10 !important;
 }
 
 .timeline-danger > .timeline-footer + .timeline-collapse .timeline-body {
-    border-bottom-color: #ebccd1 !important;
+  border-bottom-color: #ea2f10 !important;
 }
 
 @media (max-width: 767px) {

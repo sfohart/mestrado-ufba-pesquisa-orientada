@@ -72,7 +72,7 @@
 												<div class="col-md-6" style="min-height: 105px; height: auto; margin-bottom: 10px">
 													<div class="row">
 														<div class="form-group">
-															<label> 
+															<label class="control-label"> 
 																<span
 																	class="glyphicon glyphicon-question-sign meuPopover"
 																	data-toggle="popover" title="" data-placement="top"
@@ -96,7 +96,7 @@
 															<div 	class="rateit criterio#{preferenceEntry.criterium.id}" 
 																	data-rateit-backingfld=".listaValoresCriterio#{preferenceEntry.criterium.id}"></div>
 														</div>
-														<div class="labelValorCriterio#{preferenceEntry.criterium.id}" style="display:none">
+														<div class="labelValorCriterio#{preferenceEntry.criterium.id} help-block" style="display:none">
 															Valor selecionado: <kbd class="valorCriterio#{preferenceEntry.criterium.id}"></kbd>
 														</div>
 														<script type="text/javascript">
@@ -165,7 +165,7 @@
 					
 													</div>
 													
-													<div class="labelValorCriterioGeral" style="display:none">
+													<div class="labelValorCriterioGeral help-block" style="display:none">
 														Valor selecionado: <kbd class="valorCriterioGeral"></kbd>
 													</div>
 													
@@ -221,7 +221,7 @@
 												styleClass="form-control" rows="5" counter="reviewDescriptionCounter" maxlength="255"
 												counterTemplate="#{messages['input.textarea.characters.remmaining']}"
 												value="#{newReviewMB.preference.preferenceReview.description}" />
-											<h:outputText id="reviewDescriptionCounter" />
+											<h:outputText id="reviewDescriptionCounter" styleClass="help-block" />
 										</div>
 									</div>
 								</div>

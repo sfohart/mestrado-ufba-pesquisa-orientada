@@ -681,16 +681,16 @@
 						debug:		true,
 						template: function(i, step) {
 						
-						var prevLabel = '#{messages["tour.prev.button.label"]}';
-						var nextLabel = '#{messages["tour.next.button.label"]}';
-						var pauseLabel = '#{messages["tour.pause.button.label"]}';
-						var resumeLabel = '#{messages["tour.resume.button.label"]}';
-						var endLabel = '#{messages["tour.end.button.label"]}';
-						
-						var text = '<div class="popover"> <div class="arrow"></div> <h3 class="popover-title"></h3> <div class="popover-content"></div> <div class="popover-navigation"> <div class="btn-group"> <button class="btn btn-sm btn-default" data-role="prev">&#171; ' + prevLabel + '</button> <button class="btn btn-sm btn-default" data-role="next">' + nextLabel + ' &#187;</button> <button class="btn btn-sm btn-default" data-role="pause-resume" data-pause-text="' + pauseLabel + '" data-resume-text="' + resumeLabel + '">' + pauseLabel + '</button> </div> <button class="btn btn-sm btn-default" data-role="end">' + endLabel + '</button> </div> </div>';
-						
-						return text;
-					}
+							var prevLabel = '#{messages["tour.prev.button.label"]}';
+							var nextLabel = '#{messages["tour.next.button.label"]}';
+							var pauseLabel = '#{messages["tour.pause.button.label"]}';
+							var resumeLabel = '#{messages["tour.resume.button.label"]}';
+							var endLabel = '#{messages["tour.end.button.label"]}';
+							
+							var text = '<div class="popover"> <div class="arrow"></div> <h3 class="popover-title"></h3> <div class="popover-content"></div> <div class="popover-navigation"> <div class="btn-group"> <button class="btn btn-xs btn-default" data-role="prev">&#171; ' + prevLabel + '</button> <button class="btn btn-xs btn-default" data-role="next">' + nextLabel + ' &#187;</button> <button class="btn btn-xs btn-default" data-role="pause-resume" data-pause-text="' + pauseLabel + '" data-resume-text="' + resumeLabel + '">' + pauseLabel + '</button> </div> <button class="btn btn-xs btn-default" data-role="end">' + endLabel + '</button> </div> </div>';
+							
+							return text;
+						}
 					});
 					
 					projectDetailTour.addStep({

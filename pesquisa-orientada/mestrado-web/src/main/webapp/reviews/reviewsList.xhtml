@@ -235,7 +235,7 @@
 												
 												<h:panelGroup layout="block" id="timeline-footer" styleClass="timeline-footer" >
 													<h:panelGroup layout="block" styleClass="row">
-														<h:panelGroup id="helpfulCounter" layout="block" styleClass="small soft col-md-6" >
+														<h:panelGroup id="helpfulCounter" layout="block" styleClass="small soft col-md-3 pull-left" >
 															<span class="glyphicon glyphicon-thumbs-up" /> 
 															<h:outputText 
 																id="usefulCount"
@@ -249,7 +249,7 @@
 																value="#{preference.preferenceReview.uselessCount}" />
 														</h:panelGroup>
 														
-														<h:panelGroup layout="block" styleClass="small soft col-md-6"    rendered="#{loginMB.loggedUser != null}">															
+														<h:panelGroup layout="block" styleClass="small soft col-md-9 pull-right"    rendered="#{loginMB.loggedUser != null}">															
 															<h:commandLink id="voteUseful" style="text-decoration: none; margin-right: 10px" actionListener="#{reviewListMB.watchLikeReview}">
 																<f:ajax execute="@all" render="@form"  />
 																<f:attribute name="preference" value="#{preference}"  />

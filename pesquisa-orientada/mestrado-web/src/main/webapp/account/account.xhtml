@@ -6,7 +6,8 @@
 	xmlns:f="http://java.sun.com/jsf/core">
 	
 	<f:metadata>
-		<f:viewParam id="accountId" name="accountId" value="#{accountMB.account.id}" required="true" />
+		<f:viewParam id="accountId" name="accountId" value="#{accountMB.account.id}" />
+		<f:viewParam id="accountLogin" name="accountLogin" value="#{accountMB.account.login}"  />
 		<f:event listener="#{accountMB.init}" type="preRenderView"  />
 	</f:metadata>
 	
