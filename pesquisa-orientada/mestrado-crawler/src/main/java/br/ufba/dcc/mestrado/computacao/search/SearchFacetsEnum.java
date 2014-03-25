@@ -1,7 +1,7 @@
 package br.ufba.dcc.mestrado.computacao.search;
 
 public enum SearchFacetsEnum {
-	tagFacet("ohLohTags.tag_facet");
+	tagFacet("tags.tag_facet");
 	
 	private String facetName;
 	

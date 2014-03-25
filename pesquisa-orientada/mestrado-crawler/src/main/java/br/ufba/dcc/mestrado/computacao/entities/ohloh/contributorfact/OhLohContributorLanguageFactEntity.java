@@ -25,7 +25,7 @@ public class OhLohContributorLanguageFactEntity implements BaseEntity<Long> {
 	
 	@ManyToOne
 	@JoinColumn(name="contributor_fact_id", referencedColumnName="id")
-	private OhLohContributorFactEntity ohLohContributorFact;
+	private OhLohContributorFactEntity contributorFact;
 
 	@Column(name="analysis_id")
 	private Long analysisId;
@@ -134,15 +134,12 @@ public class OhLohContributorLanguageFactEntity implements BaseEntity<Long> {
 		this.medianCommits = medianCommits;
 	}
 
-
-	public OhLohContributorFactEntity getOhLohContributorFact() {
-		return ohLohContributorFact;
-	}
-
-	public void setOhLohContributorFact(OhLohContributorFactEntity ohLohContributorFactEntity) {
-		this.ohLohContributorFact = ohLohContributorFactEntity;
+	public OhLohContributorFactEntity getContributorFact() {
+		return contributorFact;
 	}
 	
+	public void setContributorFact(OhLohContributorFactEntity contributorFact) {
+		this.contributorFact = contributorFact;
+	}
 	
-
 }

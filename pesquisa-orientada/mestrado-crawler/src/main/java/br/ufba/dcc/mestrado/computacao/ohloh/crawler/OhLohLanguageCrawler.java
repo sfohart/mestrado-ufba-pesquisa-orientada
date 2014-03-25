@@ -46,7 +46,7 @@ public class OhLohLanguageCrawler {
 		this.ohLanguageService = ohLanguageService;
 	}
 
-	public OhLohRestfulClient getOhLohRestfulClient() {
+	public OhLohRestfulClient getRestfulClient() {
 		return ohLohRestfulClient;
 	}
 
@@ -83,7 +83,7 @@ public class OhLohLanguageCrawler {
 				request.setPage(config.getCurrentPage());
 				
 				//efetuando requisi��o
-				OhLohLanguageResponse response = getOhLohRestfulClient().getAllLanguages(request);
+				OhLohLanguageResponse response = getRestfulClient().getAllLanguages(request);
 				logger.info(String.format("Current Language Page %d | Total Language Pages: %d | Total Language Stored: %d", page, totalPages, getOhLanguageService().countAll()));
 				
 				//atualizando 
@@ -101,7 +101,7 @@ public class OhLohLanguageCrawler {
 					OhLohLanguageResult result = response.getResult();
 					
 					if  (result != null) {
-						List<OhLohLanguageDTO> languageDTOList = result.getOhLohLanguages();
+						List<OhLohLanguageDTO> languageDTOList = result.getLanguages();
 						if (languageDTOList != null && ! languageDTOList.isEmpty()) {
 							for (OhLohLanguageDTO languageDTO : languageDTOList) {
 								if (getOhLanguageService().findById(languageDTO.getId()) == null) {

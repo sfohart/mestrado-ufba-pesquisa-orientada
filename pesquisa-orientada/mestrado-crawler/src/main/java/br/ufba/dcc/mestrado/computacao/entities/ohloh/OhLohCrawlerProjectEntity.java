@@ -41,7 +41,7 @@ public class OhLohCrawlerProjectEntity  implements BaseEntity<Long> {
 	
 	@ManyToOne
 	@JoinColumn(name = "project_id", referencedColumnName = "id")
-	private OhLohProjectEntity ohLohProject;
+	private OhLohProjectEntity project;
 
 	public Long getId() {
 		return id;
@@ -83,16 +83,13 @@ public class OhLohCrawlerProjectEntity  implements BaseEntity<Long> {
 		this.itemsPerPage = itemsPerPage;
 	}
 
-	public OhLohProjectEntity getOhLohProject() {
-		return ohLohProject;
-	}
-
-	public void setOhLohProject(OhLohProjectEntity ohLohProject) {
-		this.ohLohProject = ohLohProject;
+	public OhLohProjectEntity getProject() {
+		return project;
 	}
 	
-	
-	
+	public void setProject(OhLohProjectEntity project) {
+		this.project = project;
+	}
 	
 
 }

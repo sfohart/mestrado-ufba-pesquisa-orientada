@@ -47,7 +47,7 @@ public class OhLohAnalysisEntity implements BaseEntity<Long> {
 	@ManyToOne(optional = false)
 	@JoinColumn(name = "project_id", referencedColumnName = "id")
 	@ContainedIn
-	private OhLohProjectEntity ohlohProject;
+	private OhLohProjectEntity project;
 
 	@Column(name = "updated_at")
 	private Timestamp updatedAt;
@@ -73,13 +73,13 @@ public class OhLohAnalysisEntity implements BaseEntity<Long> {
 	@Column(name = "total_code_lines")
 	private Long totalCodeLines;
 
-	@OneToMany(mappedBy = "ohLohAnalysis", cascade=CascadeType.ALL)
-	private List<OhLohFactoidEntity> ohLohFactoids;
+	@OneToMany(mappedBy = "analysis", cascade=CascadeType.ALL)
+	private List<OhLohFactoidEntity> factoids;
 
 	@ManyToOne(cascade = CascadeType.ALL, fetch=FetchType.EAGER)	
 	@JoinColumn(name = "analysis_languages_id", referencedColumnName = "id")
 	@IndexedEmbedded
-	private OhLohAnalysisLanguagesEntity ohLohAnalysisLanguages;
+	private OhLohAnalysisLanguagesEntity analysisLanguages;
 
 	@Column(name = "main_language_id")
 	private Long mainLanguageId;
@@ -115,14 +115,14 @@ public class OhLohAnalysisEntity implements BaseEntity<Long> {
 		this.projectId = projectId;
 	}
 
-	public OhLohProjectEntity getOhlohProject() {
-		return ohlohProject;
+	public OhLohProjectEntity getProject() {
+		return project;
 	}
-
-	public void setOhlohProject(OhLohProjectEntity ohlohProject) {
-		this.ohlohProject = ohlohProject;
+	
+	public void setProject(OhLohProjectEntity project) {
+		this.project = project;
 	}
-
+	
 	public Timestamp getUpdatedAt() {
 		return updatedAt;
 	}
@@ -171,23 +171,23 @@ public class OhLohAnalysisEntity implements BaseEntity<Long> {
 		this.totalCodeLines = totalCodeLines;
 	}
 
-	public List<OhLohFactoidEntity> getOhLohFactoids() {
-		return ohLohFactoids;
+	public List<OhLohFactoidEntity> getFactoids() {
+		return factoids;
 	}
-
-	public void setOhLohFactoids(List<OhLohFactoidEntity> ohLohFactoids) {
-		this.ohLohFactoids = ohLohFactoids;
+	
+	public void setFactoids(List<OhLohFactoidEntity> factoids) {
+		this.factoids = factoids;
 	}
-
-	public OhLohAnalysisLanguagesEntity getOhLohAnalysisLanguages() {
-		return ohLohAnalysisLanguages;
+	
+	public OhLohAnalysisLanguagesEntity getAnalysisLanguages() {
+		return analysisLanguages;
 	}
-
-	public void setOhLohAnalysisLanguages(
-			OhLohAnalysisLanguagesEntity ohLohAnalysisLanguagesEntity) {
-		this.ohLohAnalysisLanguages = ohLohAnalysisLanguagesEntity;
+	
+	public void setAnalysisLanguages(
+			OhLohAnalysisLanguagesEntity analysisLanguages) {
+		this.analysisLanguages = analysisLanguages;
 	}
-
+	
 	public Long getMainLanguageId() {
 		return mainLanguageId;
 	}

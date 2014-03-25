@@ -59,25 +59,25 @@ public class OhLohProjectRepositoryImpl
 		
 		if (result != null) {
 			
-			if (result.getOhLohLicenses() != null) {
-				result.getOhLohLicenses().size();
+			if (result.getLicenses() != null) {
+				result.getLicenses().size();
 			}
 			
-			if (result.getOhLohTags() != null) {
-				result.getOhLohTags().size();
+			if (result.getTags() != null) {
+				result.getTags().size();
 			}
 			
-			if (result.getOhLohLinks() != null) {
-				result.getOhLohLinks().size();
+			if (result.getLinks() != null) {
+				result.getLinks().size();
 			}
 			
-			if (result.getOhLohAnalysis() != null) {
-				if (result.getOhLohAnalysis().getOhLohFactoids() != null) {
-					result.getOhLohAnalysis().getOhLohFactoids().size();
+			if (result.getAnalysis() != null) {
+				if (result.getAnalysis().getFactoids() != null) {
+					result.getAnalysis().getFactoids().size();
 				}
 				
-				if (result.getOhLohAnalysis().getOhLohAnalysisLanguages() != null) {
-					result.getOhLohAnalysis().getOhLohAnalysisLanguages().getContent();
+				if (result.getAnalysis().getAnalysisLanguages() != null) {
+					result.getAnalysis().getAnalysisLanguages().getContent();
 				}
 				
 			}
@@ -208,8 +208,8 @@ public class OhLohProjectRepositoryImpl
 								project.getId().toString())), 
 				BooleanClause.Occur.MUST_NOT);
 		
-		if (project.getOhLohTags() != null) {
-			for (OhLohTagEntity tag : project.getOhLohTags()) {
+		if (project.getTags() != null) {
+			for (OhLohTagEntity tag : project.getTags()) {
 				booleanQuery.add(
 						new TermQuery(
 								new Term(

@@ -29,7 +29,7 @@ public class OhLohEnlistmentCrawler {
 	@Autowired
 	private OhLohEnlistmentService ohLohEnlistmentService;
 
-	public OhLohCrawlerEnlistmentService getOhLohCrawlerEnlistmentService() {
+	public OhLohCrawlerEnlistmentService getCrawlerEnlistmentService() {
 		return ohLohCrawlerEnlistmentService;
 	}
 
@@ -38,7 +38,7 @@ public class OhLohEnlistmentCrawler {
 		this.ohLohCrawlerEnlistmentService = ohLohCrawlerEnlistmentService;
 	}
 
-	public OhLohRestfulClient getOhLohRestfulClient() {
+	public OhLohRestfulClient getRestfulClient() {
 		return ohLohRestfulClient;
 	}
 
@@ -46,7 +46,7 @@ public class OhLohEnlistmentCrawler {
 		this.ohLohRestfulClient = ohLohRestfulClient;
 	}
 
-	public OhLohEnlistmentService getOhLohEnlistmentService() {
+	public OhLohEnlistmentService getEnlistmentService() {
 		return ohLohEnlistmentService;
 	}
 
@@ -69,7 +69,7 @@ public class OhLohEnlistmentCrawler {
 		Integer totalPages = 0;
 		Integer page = 1;
 		
-		OhLohCrawlerEnlistmentEntity config = getOhLohCrawlerEnlistmentService().findCrawlerConfig();
+		OhLohCrawlerEnlistmentEntity config = getCrawlerEnlistmentService().findCrawlerConfig();
 		if (config == null) {
 			config = new OhLohCrawlerEnlistmentEntity();
 			config.setCurrentPage(page);
@@ -83,8 +83,8 @@ public class OhLohEnlistmentCrawler {
 			}
 		}
 		
-		if (config.getOhLohProject() == null || ! config.getOhLohProject().equals(project)) {
-			config.setOhLohProject(project);
+		if (config.getProject() == null || ! config.getProject().equals(project)) {
+			config.setProject(project);
 			config.setTotalPage(null);
 			config.setItemsAvailable(null);
 			config.setItemsPerPage(null);
@@ -101,7 +101,7 @@ public class OhLohEnlistmentCrawler {
 					
 					logger.info(String.format("Baixando enlistments para o projeto %d - p�gina %d", project.getId(), request.getPage()));
 					
-					OhLohEnlistmentResponse response = getOhLohRestfulClient().getAllProjectEnlistments(project.getId().toString(), request);
+					OhLohEnlistmentResponse response = getRestfulClient().getAllProjectEnlistments(project.getId().toString(), request);
 					if (totalPages <= 0 
 							&& response != null 
 							&& response.getItemsAvailable() != null && response.getItemsAvailable() != 0 
@@ -116,10 +116,10 @@ public class OhLohEnlistmentCrawler {
 					}
 					
 					if (OhLohEnlistmentResponse.SUCCESS.equals(response.getStatus())) {
-						List<OhLohEnlistmentDTO> ohLohEnlistmentDTOs = response.getResult().getOhLohEnlistments();
+						List<OhLohEnlistmentDTO> ohLohEnlistmentDTOs = response.getResult().getEnlistments();
 						if (ohLohEnlistmentDTOs != null && ! ohLohEnlistmentDTOs.isEmpty()) {
 							for (OhLohEnlistmentDTO enlistment : ohLohEnlistmentDTOs) {
-								getOhLohEnlistmentService().process(enlistment);
+								getEnlistmentService().process(enlistment);
 							}
 						}
 					}
@@ -129,7 +129,7 @@ public class OhLohEnlistmentCrawler {
 						page++;
 					}
 					
-					config.setOhLohProject(project);
+					config.setProject(project);
 					config.setCurrentPage(page);
 					config.setItemsAvailable(response.getItemsAvailable());
 					config.setItemsPerPage(response.getItemsReturned());
@@ -139,7 +139,7 @@ public class OhLohEnlistmentCrawler {
 			} catch (Exception ex) {
 				ex.printStackTrace();
 			} finally {
-				getOhLohCrawlerEnlistmentService().save(config);
+				getCrawlerEnlistmentService().save(config);
 			}
 		}
 	}

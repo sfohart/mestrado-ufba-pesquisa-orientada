@@ -71,23 +71,23 @@ public class OhLohAnalysisServiceImpl extends DefaultOhLohServiceImpl<OhLohAnaly
 		super.validateEntity(entity);
 		
 		if (entity != null) {
-			if (entity.getOhLohAnalysisLanguages() != null && entity.getOhLohAnalysisLanguages().getContent() != null) {
+			if (entity.getAnalysisLanguages() != null && entity.getAnalysisLanguages().getContent() != null) {
 				
-				if (entity.getOhLohAnalysisLanguages().getId() == null || entity.getOhLohAnalysisLanguages().getId() == 0) {
-					entity.getOhLohAnalysisLanguages().setId(entity.getId());
+				if (entity.getAnalysisLanguages().getId() == null || entity.getAnalysisLanguages().getId() == 0) {
+					entity.getAnalysisLanguages().setId(entity.getId());
 				}
 				
 				
-				OhLohAnalysisLanguagesEntity analysisLanguagesEntity = analysisLanguagesRepository.findById(entity.getOhLohAnalysisLanguages().getId());
+				OhLohAnalysisLanguagesEntity analysisLanguagesEntity = analysisLanguagesRepository.findById(entity.getAnalysisLanguages().getId());
 				if (analysisLanguagesEntity != null) {
-					entity.setOhLohAnalysisLanguages(analysisLanguagesEntity);
+					entity.setAnalysisLanguages(analysisLanguagesEntity);
 				} else {
-					analysisLanguagesEntity = entity.getOhLohAnalysisLanguages();
+					analysisLanguagesEntity = entity.getAnalysisLanguages();
 				}
 				
-				if (entity.getOhLohFactoids() != null && ! entity.getOhLohFactoids().isEmpty()) {
-					for (OhLohFactoidEntity factoid : entity.getOhLohFactoids()) {
-						factoid.setOhLohAnalysis(entity);
+				if (entity.getFactoids() != null && ! entity.getFactoids().isEmpty()) {
+					for (OhLohFactoidEntity factoid : entity.getFactoids()) {
+						factoid.setAnalysis(entity);
 						factoid.setAnalysisId(entity.getId());
 					}
 				}
@@ -96,8 +96,8 @@ public class OhLohAnalysisServiceImpl extends DefaultOhLohServiceImpl<OhLohAnaly
 				
 				OhLohBaseRequest request = new OhLohBaseRequest();
 				
-				for (OhLohAnalysisLanguageEntity analysisLanguage : entity.getOhLohAnalysisLanguages().getContent()) {
-					analysisLanguage.setOhLohAnalysisLanguages(analysisLanguagesEntity);
+				for (OhLohAnalysisLanguageEntity analysisLanguage : entity.getAnalysisLanguages().getContent()) {
+					analysisLanguage.setAnalysisLanguages(analysisLanguagesEntity);
 					
 					if (analysisLanguage.getLanguageId() != null && analysisLanguage.getLanguageId() > 0) {
 						OhLohLanguageEntity language = languageService.findById(analysisLanguage.getLanguageId());
@@ -108,14 +108,14 @@ public class OhLohAnalysisServiceImpl extends DefaultOhLohServiceImpl<OhLohAnaly
 							languageService.validateEntity(language);
 						}
 						
-						analysisLanguage.setOhLohLanguage(language);
+						analysisLanguage.setLanguage(language);
 					}
 					
 					analysisLanguageList.add(analysisLanguage);
 				}
 				
-				entity.getOhLohAnalysisLanguages().getContent().clear();
-				entity.getOhLohAnalysisLanguages().getContent().addAll(analysisLanguageList);
+				entity.getAnalysisLanguages().getContent().clear();
+				entity.getAnalysisLanguages().getContent().addAll(analysisLanguageList);
 			}
 		}
 	}

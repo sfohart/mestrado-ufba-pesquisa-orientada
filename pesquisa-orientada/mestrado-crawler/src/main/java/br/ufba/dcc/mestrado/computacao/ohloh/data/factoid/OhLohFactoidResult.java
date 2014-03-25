@@ -9,14 +9,14 @@ import com.thoughtworks.xstream.annotations.XStreamImplicit;
 public class OhLohFactoidResult {
 	
 	@XStreamImplicit(itemFieldName="factoid")
-	private List<OhLohFactoidDTO> ohLohFactoids;
+	private List<OhLohFactoidDTO> factoids;
 	
-	public List<OhLohFactoidDTO> getOhLohFactoids() {
-		return ohLohFactoids;
+	public List<OhLohFactoidDTO> getFactoids() {
+		return factoids;
 	}
 	
-	public void setOhLohFactoids(List<OhLohFactoidDTO> ohLohFactoids) {
-		this.ohLohFactoids = ohLohFactoids;
+	public void setFactoids(List<OhLohFactoidDTO> factoids) {
+		this.factoids = factoids;
 	}
 	
 }

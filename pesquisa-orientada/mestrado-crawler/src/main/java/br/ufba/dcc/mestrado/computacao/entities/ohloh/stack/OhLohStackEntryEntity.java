@@ -32,7 +32,7 @@ public class OhLohStackEntryEntity implements BaseEntity<Long> {
 
 	@ManyToOne(cascade = CascadeType.ALL, optional = false)
 	@JoinColumn(name = "stack_id", referencedColumnName = "id")
-	private OhLohStackEntity ohLohStack;
+	private OhLohStackEntity stack;
 
 	@Column(name = "created_at")
 	private Timestamp createdAt;
@@ -52,12 +52,12 @@ public class OhLohStackEntryEntity implements BaseEntity<Long> {
 		this.id = id;
 	}
 
-	public OhLohStackEntity getOhLohStack() {
-		return ohLohStack;
+	public OhLohStackEntity getStack() {
+		return stack;
 	}
-
-	public void setOhLohStack(OhLohStackEntity ohLohStack) {
-		this.ohLohStack = ohLohStack;
+	
+	public void setStack(OhLohStackEntity stack) {
+		this.stack = stack;
 	}
 
 	public Long getStackId() {

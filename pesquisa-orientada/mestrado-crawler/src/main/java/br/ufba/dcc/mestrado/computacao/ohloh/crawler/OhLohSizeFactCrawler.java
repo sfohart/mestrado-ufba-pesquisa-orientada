@@ -22,14 +22,14 @@ public class OhLohSizeFactCrawler {
 	@Autowired
 	private OhLohRestfulClient ohLohRestfulClient;
 	
-	public OhLohRestfulClient getOhLohRestfulClient() {
+	public OhLohRestfulClient getRestfulClient() {
 		return ohLohRestfulClient;
 	}
 	public void setOhLohRestfulClient(OhLohRestfulClient ohLohRestfulClient) {
 		this.ohLohRestfulClient = ohLohRestfulClient;
 	}
 	
-	public OhLohSizeFactService getOhLohSizeFactService() {
+	public OhLohSizeFactService getSizeFactService() {
 		return ohLohSizeFactService;
 	}
 	
@@ -45,18 +45,18 @@ public class OhLohSizeFactCrawler {
 	 */
 	public void downloadSizeFacts(OhLohProjectEntity project) throws Exception {
 		if (project != null && project.getId() != null) {
-			OhLohSizeFactResponse response = getOhLohRestfulClient().getLatestSizeFackByProject(project.getId().toString());
+			OhLohSizeFactResponse response = getRestfulClient().getLatestSizeFackByProject(project.getId().toString());
 			if (OhLohSizeFactResponse.SUCCESS.equals(response.getStatus())) {
 				OhLohSizeFactResult result = response.getResult();
-				if (result != null && result.getOhLohSizeFacts() != null) {
-					for (OhLohSizeFactDTO sizeFactDTO : result.getOhLohSizeFacts()) {
+				if (result != null && result.getSizeFacts() != null) {
+					for (OhLohSizeFactDTO sizeFactDTO : result.getSizeFacts()) {
 						OhLohProjectDTO projectDTO = new OhLohProjectDTO();
 						projectDTO.setId(project.getId());
 						
 						sizeFactDTO.setProjectId(project.getId());
-						sizeFactDTO.setOhlohProject(projectDTO);
+						sizeFactDTO.setProject(projectDTO);
 						
-						getOhLohSizeFactService().process(sizeFactDTO);
+						getSizeFactService().process(sizeFactDTO);
 					}
 				}
 			}

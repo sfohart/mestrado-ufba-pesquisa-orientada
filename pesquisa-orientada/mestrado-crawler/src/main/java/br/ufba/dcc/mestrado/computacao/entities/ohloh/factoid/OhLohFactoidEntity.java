@@ -35,7 +35,7 @@ public class OhLohFactoidEntity implements BaseEntity<Long> {
 
 	@ManyToOne
 	@JoinColumn(name = "analysis_id", referencedColumnName = "id")
-	private OhLohAnalysisEntity ohLohAnalysis;
+	private OhLohAnalysisEntity analysis;
 
 	@Column(name = "severity")
 	private Long severity;
@@ -82,13 +82,13 @@ public class OhLohFactoidEntity implements BaseEntity<Long> {
 	public void setDescription(String description) {
 		this.description = description;
 	}
-
-	public OhLohAnalysisEntity getOhLohAnalysis() {
-		return ohLohAnalysis;
+	
+	public OhLohAnalysisEntity getAnalysis() {
+		return analysis;
 	}
-
-	public void setOhLohAnalysis(OhLohAnalysisEntity ohLohAnalysisEntity) {
-		this.ohLohAnalysis = ohLohAnalysisEntity;
+	
+	public void setAnalysis(OhLohAnalysisEntity analysis) {
+		this.analysis = analysis;
 	}
-
+	
 }

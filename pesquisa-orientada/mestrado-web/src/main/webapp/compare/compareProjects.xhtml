@@ -139,7 +139,7 @@
 									</td>
 									<ui:repeat var="project" value="#{compareMB.projectList}">
 										<td>
-											<ui:repeat var="license" value="#{project.ohLohLicenses}">
+											<ui:repeat var="license" value="#{project.licenses}">
 												<h:link>
 													<h:outputText value="#{license.niceName}" />
 												</h:link>
@@ -174,7 +174,7 @@
 									</td>
 									<ui:repeat var="project" value="#{compareMB.projectList}">
 										<td>
-											<h:outputText  value="#{project.ohLohAnalysis.twelveMonthContributorCount}" />
+											<h:outputText  value="#{project.analysis.twelveMonthContributorCount}" />
 										</td>
 									</ui:repeat>
 								</tr>
@@ -184,7 +184,7 @@
 									</td>
 									<ui:repeat var="project" value="#{compareMB.projectList}">
 										<td>
-											<h:outputText  value="#{project.ohLohAnalysis.twelveMonthCommitCount}" />
+											<h:outputText  value="#{project.analysis.twelveMonthCommitCount}" />
 										</td>
 									</ui:repeat>
 								</tr>
@@ -201,7 +201,7 @@
 									</td>
 									<ui:repeat var="project" value="#{compareMB.projectList}">
 										<td>
-											<h:outputText  value="#{project.ohLohAnalysis.mainLanguageName}" />
+											<h:outputText  value="#{project.analysis.mainLanguageName}" />
 										</td>
 									</ui:repeat>
 								</tr>
@@ -211,7 +211,7 @@
 									</td>
 									<ui:repeat var="project" value="#{compareMB.projectList}">
 										<td>
-											<h:outputText  value="#{project.ohLohAnalysis.totalCodeLines}" >
+											<h:outputText  value="#{project.analysis.totalCodeLines}" >
 												<f:convertNumber groupingUsed="true" integerOnly="true"  />
 											</h:outputText> linhas
 										</td>

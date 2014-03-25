@@ -65,8 +65,8 @@ public class OhLohContributorFactEntity implements BaseEntity<Long> {
 	@Column(name="median_commits")
 	private Double medianCommits;
 	
-	@OneToMany(mappedBy="ohLohContributorFact")
-	private List<OhLohContributorLanguageFactEntity> ohLohContributorLanguageFacts;
+	@OneToMany(mappedBy="contributorFact")
+	private List<OhLohContributorLanguageFactEntity> contributorLanguageFacts;
 
 	public Long getId() {
 		return id;
@@ -180,12 +180,12 @@ public class OhLohContributorFactEntity implements BaseEntity<Long> {
 		this.medianCommits = medianCommits;
 	}
 	
-	public List<OhLohContributorLanguageFactEntity> getOhLohContributorLanguageFacts() {
-		return ohLohContributorLanguageFacts;
+	public List<OhLohContributorLanguageFactEntity> getContributorLanguageFacts() {
+		return contributorLanguageFacts;
 	}
 	
-	public void setOhLohContributorLanguageFacts(
-			List<OhLohContributorLanguageFactEntity> ohLohContributorLanguageFacts) {
-		this.ohLohContributorLanguageFacts = ohLohContributorLanguageFacts;
+	public void setContributorLanguageFacts(
+			List<OhLohContributorLanguageFactEntity> contributorLanguageFacts) {
+		this.contributorLanguageFacts = contributorLanguageFacts;
 	}
 }

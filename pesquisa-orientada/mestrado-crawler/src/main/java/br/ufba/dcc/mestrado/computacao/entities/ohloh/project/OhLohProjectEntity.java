@@ -102,7 +102,7 @@ public class OhLohProjectEntity implements BaseEntity<Long> {
 	@ManyToOne(cascade=CascadeType.ALL, fetch=FetchType.EAGER, targetEntity=OhLohAnalysisEntity.class)
 	@JoinColumn(name = "analysis_id", referencedColumnName = "id")
 	@IndexedEmbedded
-	private OhLohAnalysisEntity ohLohAnalysis;
+	private OhLohAnalysisEntity analysis;
 
 	@ManyToMany(cascade=CascadeType.ALL)
 	@JoinTable(
@@ -112,7 +112,7 @@ public class OhLohProjectEntity implements BaseEntity<Long> {
 			uniqueConstraints=@UniqueConstraint(columnNames={"project_id","license_id"})
 			)
 	@IndexedEmbedded
-	private List<OhLohLicenseEntity> ohLohLicenses;
+	private List<OhLohLicenseEntity> licenses;
 
 	@ManyToMany(cascade=CascadeType.ALL, fetch=FetchType.EAGER)
 	@JoinTable(
@@ -122,18 +122,18 @@ public class OhLohProjectEntity implements BaseEntity<Long> {
 			uniqueConstraints=@UniqueConstraint(columnNames={"project_id","tag_id"})
 			)
 	@IndexedEmbedded
-	private List<OhLohTagEntity> ohLohTags;
+	private List<OhLohTagEntity> tags;
 	
-	@OneToMany(cascade=CascadeType.ALL, mappedBy="ohlohProject")	
+	@OneToMany(cascade=CascadeType.ALL, mappedBy="project")	
 	@IndexedEmbedded
-	private List<OhLohLinkEntity> ohLohLinks;
+	private List<OhLohLinkEntity> links;
 
-	public List<OhLohLinkEntity> getOhLohLinks() {
-		return ohLohLinks;
+	public List<OhLohLinkEntity> getLinks() {
+		return links;
 	}
-
-	public void setOhLohLinks(List<OhLohLinkEntity> ohLohLinks) {
-		this.ohLohLinks = ohLohLinks;
+	
+	public void setLinks(List<OhLohLinkEntity> links) {
+		this.links = links;
 	}
 
 	public Long getId() {
@@ -264,22 +264,22 @@ public class OhLohProjectEntity implements BaseEntity<Long> {
 		this.analysisId = analysisId;
 	}
 
-	public OhLohAnalysisEntity getOhLohAnalysis() {
-		return ohLohAnalysis;
+	public OhLohAnalysisEntity getAnalysis() {
+		return analysis;
 	}
-
-	public void setOhLohAnalysis(OhLohAnalysisEntity ohLohAnalysis) {
-		this.ohLohAnalysis = ohLohAnalysis;
+	
+	public void setAnalysis(OhLohAnalysisEntity analysis) {
+		this.analysis = analysis;
 	}
-
-	public List<OhLohLicenseEntity> getOhLohLicenses() {
-		return ohLohLicenses;
+	
+	public List<OhLohLicenseEntity> getLicenses() {
+		return licenses;
 	}
-
-	public void setOhLohLicenses(List<OhLohLicenseEntity> ohLohLicenses) {
-		this.ohLohLicenses = ohLohLicenses;
+	
+	public void setLicenses(List<OhLohLicenseEntity> licenses) {
+		this.licenses = licenses;
 	}
-
+	
 	public Long getReviewCount() {
 		return reviewCount;
 	}
@@ -288,14 +288,14 @@ public class OhLohProjectEntity implements BaseEntity<Long> {
 		this.reviewCount = reviewCount;
 	}
 
-	public List<OhLohTagEntity> getOhLohTags() {
-		return ohLohTags;
+	public List<OhLohTagEntity> getTags() {
+		return tags;
 	}
-
-	public void setOhLohTags(List<OhLohTagEntity> ohLohTags) {
-		this.ohLohTags = ohLohTags;
+	
+	public void setTags(List<OhLohTagEntity> tags) {
+		this.tags = tags;
 	}
-
+	
 	@Override
 	public int hashCode() {
 		final int prime = 31;

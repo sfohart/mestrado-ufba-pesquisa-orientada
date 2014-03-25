@@ -11,7 +11,6 @@ import br.ufba.dcc.mestrado.computacao.xstream.converters.NullableLongXStreamCon
 import com.thoughtworks.xstream.annotations.XStreamAlias;
 import com.thoughtworks.xstream.annotations.XStreamAsAttribute;
 import com.thoughtworks.xstream.annotations.XStreamConverter;
-import com.thoughtworks.xstream.annotations.XStreamImplicit;
 import com.thoughtworks.xstream.converters.extended.ISO8601SqlTimestampConverter;
 
 @XStreamAlias(OhLohProjectDTO.NODE_NAME)
@@ -81,16 +80,16 @@ public class OhLohProjectDTO implements OhLohResultDTO {
 	private Long analysisId;
 
 	@XStreamAlias("analysis")
-	private OhLohAnalysisDTO ohLohAnalysis;
+	private OhLohAnalysisDTO analysis;
 
 	@XStreamAlias("licenses")
-	private List<OhLohLicenseDTO> ohLohLicenses;
+	private List<OhLohLicenseDTO> licenses;
 	
 	@XStreamAlias("links")
-	private List<OhLohLinkDTO> ohLohLinks;
+	private List<OhLohLinkDTO> links;
 
 	@XStreamAlias("tags")	
-	private List<OhLohTagDTO> ohLohTags;
+	private List<OhLohTagDTO> tags;
 
 	public String getName() {
 		return name;
@@ -212,12 +211,12 @@ public class OhLohProjectDTO implements OhLohResultDTO {
 		this.analysisId = analysisId;
 	}
 
-	public List<OhLohLicenseDTO> getOhLohLicenses() {
-		return ohLohLicenses;
+	public List<OhLohLicenseDTO> getLicenses() {
+		return licenses;
 	}
-
-	public void setOhLohLicenses(List<OhLohLicenseDTO> ohLohLicenses) {
-		this.ohLohLicenses = ohLohLicenses;
+	
+	public void setLicenses(List<OhLohLicenseDTO> licenses) {
+		this.licenses = licenses;
 	}
 
 	public Long getReviewCount() {
@@ -228,12 +227,12 @@ public class OhLohProjectDTO implements OhLohResultDTO {
 		this.reviewCount = reviewCount;
 	}
 
-	public List<OhLohTagDTO> getOhLohTags() {
-		return ohLohTags;
+	public List<OhLohTagDTO> getTags() {
+		return tags;
 	}
-
-	public void setOhLohTags(List<OhLohTagDTO> ohLohTags) {
-		this.ohLohTags = ohLohTags;
+	
+	public void setTags(List<OhLohTagDTO> tags) {
+		this.tags = tags;
 	}
 
 	public Long getId() {
@@ -244,20 +243,20 @@ public class OhLohProjectDTO implements OhLohResultDTO {
 		this.id = id;
 	}
 
-	public OhLohAnalysisDTO getOhLohAnalysis() {
-		return ohLohAnalysis;
+	public OhLohAnalysisDTO getAnalysis() {
+		return analysis;
 	}
-
-	public void setOhLohAnalysis(OhLohAnalysisDTO ohLohAnalysis) {
-		this.ohLohAnalysis = ohLohAnalysis;
+	
+	public void setAnalysis(OhLohAnalysisDTO analysis) {
+		this.analysis = analysis;
 	}
-
-	public List<OhLohLinkDTO> getOhLohLinks() {
-		return ohLohLinks;
+	
+	public List<OhLohLinkDTO> getLinks() {
+		return links;
 	}
-
-	public void setOhLohLinks(List<OhLohLinkDTO> ohLohLinks) {
-		this.ohLohLinks = ohLohLinks;
+	
+	public void setLinks(List<OhLohLinkDTO> links) {
+		this.links = links;
 	}
 
 }

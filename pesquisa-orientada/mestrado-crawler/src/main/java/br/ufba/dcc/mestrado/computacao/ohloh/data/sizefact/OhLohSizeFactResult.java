@@ -10,14 +10,15 @@ public class OhLohSizeFactResult {
 
 	
 	@XStreamImplicit(itemFieldName="size_fact")
-	private List<OhLohSizeFactDTO> ohLohSizeFacts;
+	private List<OhLohSizeFactDTO> sizeFacts;
 	
-	public List<OhLohSizeFactDTO> getOhLohSizeFacts() {
-		return ohLohSizeFacts;
+	public List<OhLohSizeFactDTO> getSizeFacts() {
+		return sizeFacts;
 	}
 	
-	public void setOhLohSizeFacts(List<OhLohSizeFactDTO> ohLohSizeFacts) {
-		this.ohLohSizeFacts = ohLohSizeFacts;
+	
+	public void setSizeFacts(List<OhLohSizeFactDTO> sizeFacts) {
+		this.sizeFacts = sizeFacts;
 	}
 	
 	

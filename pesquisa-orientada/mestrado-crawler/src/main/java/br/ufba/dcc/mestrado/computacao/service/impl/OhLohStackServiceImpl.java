@@ -55,11 +55,11 @@ public class OhLohStackServiceImpl extends DefaultOhLohServiceImpl<OhLohStackDTO
 		
 		OhLohBaseRequest request  = new OhLohBaseRequest();
 		
-		if (entity.getOhLohStackEntries() != null) {
+		if (entity.getStackEntries() != null) {
 			Map<String, OhLohTagEntity> tagMap = new HashMap<>();
 			Map<String, OhLohLicenseEntity> licenseMap = new HashMap<>();
 			
-			for (OhLohStackEntryEntity stackEntry : entity.getOhLohStackEntries()) {
+			for (OhLohStackEntryEntity stackEntry : entity.getStackEntries()) {
 				if (stackEntry.getProjectId() != null) {
 					OhLohProjectEntity project = projectService.findById(stackEntry.getProjectId());
 					
@@ -74,15 +74,15 @@ public class OhLohStackServiceImpl extends DefaultOhLohServiceImpl<OhLohStackDTO
 					}
 					
 					if (project != null) {
-						if (project.getOhLohTags() != null) {
-							for (OhLohTagEntity tag : project.getOhLohTags()) {
+						if (project.getTags() != null) {
+							for (OhLohTagEntity tag : project.getTags()) {
 								tagMap.put(tag.getName(), tag);
 							}
 						}
 						
 						
-						if (project.getOhLohLicenses() != null) {
-							for (OhLohLicenseEntity license : project.getOhLohLicenses()) {
+						if (project.getLicenses() != null) {
+							for (OhLohLicenseEntity license : project.getLicenses()) {
 								licenseMap.put(license.getName(), license);
 							}
 						}
@@ -92,26 +92,26 @@ public class OhLohStackServiceImpl extends DefaultOhLohServiceImpl<OhLohStackDTO
 				}
 			}
 			
-			for (OhLohStackEntryEntity stackEntry : entity.getOhLohStackEntries()) {
-				if (stackEntry.getProject() != null && stackEntry.getProject().getOhLohTags() != null) {
+			for (OhLohStackEntryEntity stackEntry : entity.getStackEntries()) {
+				if (stackEntry.getProject() != null && stackEntry.getProject().getTags() != null) {
 					
 					List<OhLohTagEntity> projectTagList = new ArrayList<>();
 					List<OhLohLicenseEntity> projectLicenseList = new ArrayList<>();
 					
-					for (OhLohTagEntity tag : stackEntry.getProject().getOhLohTags()) {
+					for (OhLohTagEntity tag : stackEntry.getProject().getTags()) {
 						projectTagList.add(tagMap.get(tag.getName()));						
 					}
 					
-					for (OhLohLicenseEntity license : stackEntry.getProject().getOhLohLicenses()) {
+					for (OhLohLicenseEntity license : stackEntry.getProject().getLicenses()) {
 						projectLicenseList.add(licenseMap.get(license.getName()));						
 					}
 					
-					stackEntry.getProject().getOhLohTags().clear();
-					stackEntry.getProject().getOhLohTags().addAll(projectTagList);
+					stackEntry.getProject().getTags().clear();
+					stackEntry.getProject().getTags().addAll(projectTagList);
 					
 					
-					stackEntry.getProject().getOhLohLicenses().clear();
-					stackEntry.getProject().getOhLohLicenses().addAll(projectLicenseList);
+					stackEntry.getProject().getLicenses().clear();
+					stackEntry.getProject().getLicenses().addAll(projectLicenseList);
 				}				
 			}
 		}
@@ -122,8 +122,8 @@ public class OhLohStackServiceImpl extends DefaultOhLohServiceImpl<OhLohStackDTO
 	public OhLohStackEntity process(OhLohStackDTO dto) throws Exception{
 		OhLohStackEntity entity = super.process(dto);
 		
-		if (entity != null && entity.getOhLohStackEntries() != null) {
-			Iterator<OhLohStackEntryEntity> iterator = entity.getOhLohStackEntries().iterator();
+		if (entity != null && entity.getStackEntries() != null) {
+			Iterator<OhLohStackEntryEntity> iterator = entity.getStackEntries().iterator();
 			while(iterator.hasNext()) {
 				OhLohStackEntryEntity stackEntry  = iterator.next();
 				
@@ -138,13 +138,13 @@ public class OhLohStackServiceImpl extends DefaultOhLohServiceImpl<OhLohStackDTO
 						stackEntry.setProject(project);
 						stackEntry.setProjectId(project.getId());
 						
-						stackEntry.setOhLohStack(entity);
+						stackEntry.setStack(entity);
 						stackEntry.setStackId(entity.getId());
 					} else {
 						iterator.remove();
 						logger.error(String.format("stack entry %d project %d nao persistiu corretamente", stackEntry.getId(), stackEntry.getProjectId()));
 					}
-				} else if (stackEntry.getProject() == null || stackEntry.getOhLohStack() == null) {
+				} else if (stackEntry.getProject() == null || stackEntry.getStack() == null) {
 					iterator.remove();
 					logger.error(String.format("stack entry %d project %d nao persistiu corretamente", stackEntry.getId(), stackEntry.getProjectId()));
 				}

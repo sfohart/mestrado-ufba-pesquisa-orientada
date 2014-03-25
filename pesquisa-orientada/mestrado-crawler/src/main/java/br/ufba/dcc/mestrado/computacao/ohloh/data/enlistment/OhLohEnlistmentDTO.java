@@ -30,7 +30,7 @@ public class OhLohEnlistmentDTO implements OhLohResultDTO {
 	private Long repositoryId;
 
 	@XStreamAlias("repository")
-	private OhLohRepositoryDTO ohLohRepository;
+	private OhLohRepositoryDTO repository;
 
 	public Long getProjectId() {
 		return projectId;
@@ -48,12 +48,12 @@ public class OhLohEnlistmentDTO implements OhLohResultDTO {
 		this.repositoryId = repositoryId;
 	}
 
-	public OhLohRepositoryDTO getOhLohRepository() {
-		return ohLohRepository;
+	public OhLohRepositoryDTO getRepository() {
+		return repository;
 	}
-
-	public void setOhLohRepository(OhLohRepositoryDTO ohLohRepository) {
-		this.ohLohRepository = ohLohRepository;
+	
+	public void setRepository(OhLohRepositoryDTO repository) {
+		this.repository = repository;
 	}
 
 	public Long getId() {

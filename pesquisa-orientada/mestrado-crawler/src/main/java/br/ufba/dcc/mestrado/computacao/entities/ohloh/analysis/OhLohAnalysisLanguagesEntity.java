@@ -40,12 +40,12 @@ public class OhLohAnalysisLanguagesEntity implements BaseEntity<Long> {
 	@ManyToOne
 	@JoinColumn(name = "analysis_id", referencedColumnName = "id")
 	@ContainedIn
-	private OhLohAnalysisEntity ohLohAnalysis;
+	private OhLohAnalysisEntity analysis;
 	
 	@Column(name="graph_url")
 	private String graphURL;
 	
-	@OneToMany(mappedBy="ohLohAnalysisLanguages", cascade=CascadeType.ALL)
+	@OneToMany(mappedBy="analysisLanguages", cascade=CascadeType.ALL)
 	@IndexedEmbedded
 	private List<OhLohAnalysisLanguageEntity> content;
 
@@ -73,13 +73,12 @@ public class OhLohAnalysisLanguagesEntity implements BaseEntity<Long> {
 		this.content = content;
 	}
 
-	public OhLohAnalysisEntity getOhLohAnalysis() {
-		return ohLohAnalysis;
-	}
-
-	public void setOhLohAnalysis(OhLohAnalysisEntity ohLohAnalysis) {
-		this.ohLohAnalysis = ohLohAnalysis;
+	public OhLohAnalysisEntity getAnalysis() {
+		return analysis;
 	}
 	
+	public void setAnalysis(OhLohAnalysisEntity analysis) {
+		this.analysis = analysis;
+	}
 	
 }
