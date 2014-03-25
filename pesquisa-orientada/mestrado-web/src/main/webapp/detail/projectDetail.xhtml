@@ -102,7 +102,7 @@
 							
 							<h4>Tags</h4>
 							<ui:include src="/detail/projectTagList.xhtml">
-								<ui:param name="tagList" value="#{projectDetailMB.project.ohLohTags}"/>
+								<ui:param name="tagList" value="#{projectDetailMB.project.tags}"/>
 								<ui:param name="fullList" value="true" />
 							</ui:include>
 														
@@ -152,8 +152,8 @@
 									
 									<dt><a href="#">Licenças:</a></dt>	
 									<dd style="margin-bottom: .5em;">
-										<h:panelGroup layout="block" rendered="#{not empty projectDetailMB.project.ohLohLicenses}">
-											<ui:repeat var="license" value="#{projectDetailMB.project.ohLohLicenses}">
+										<h:panelGroup layout="block" rendered="#{not empty projectDetailMB.project.licenses}">
+											<ui:repeat var="license" value="#{projectDetailMB.project.licenses}">
 												<h:link>
 													<h:outputText value="#{license.niceName}" />
 												</h:link>
@@ -161,7 +161,7 @@
 											</ui:repeat>
 										</h:panelGroup>
 										
-										<h:panelGroup layout="block" rendered="#{empty projectDetailMB.project.ohLohLicenses}">
+										<h:panelGroup layout="block" rendered="#{empty projectDetailMB.project.licenses}">
 											<h:outputText value="Sem Licenças de Uso" />
 										</h:panelGroup>																		
 									</dd>
@@ -378,9 +378,9 @@
 									<li>
 										...
 										<div class="indent" style="margin-left: 1em; margin-top: -1.4em;">
-											<h:outputText  value="tem um total de #{projectDetailMB.project.ohLohAnalysis.totalCommitCount} commits
-											feitos por #{projectDetailMB.project.ohLohAnalysis.totalContributorCount} desenvolvedores, representando
-											#{projectDetailMB.project.ohLohAnalysis.totalCodeLines} linhas de código
+											<h:outputText  value="tem um total de #{projectDetailMB.project.analysis.totalCommitCount} commits
+											feitos por #{projectDetailMB.project.analysis.totalContributorCount} desenvolvedores, representando
+											#{projectDetailMB.project.analysis.totalCodeLines} linhas de código
 											" />
 										</div>
 									</li>
@@ -388,11 +388,11 @@
 									<li>
 										...
 										<div class="indent" style="margin-left: 1em; margin-top: -1.4em;">
-											<h:outputText value="é escrito principalmente em #{projectDetailMB.project.ohLohAnalysis.mainLanguageName}"  />
+											<h:outputText value="é escrito principalmente em #{projectDetailMB.project.analysis.mainLanguageName}"  />
 										</div>
 									</li>
 								
-									<ui:repeat var="factoid" value="#{projectDetailMB.project.ohLohAnalysis.ohLohFactoids}">
+									<ui:repeat var="factoid" value="#{projectDetailMB.project.analysis.factoids}">
 										<li >
 											...
 											<div class="indent" style="margin-left: 1em; margin-top: -1.4em;">
@@ -410,7 +410,7 @@
 						</div>
 						
 						<div class="col-md-6 col-sm-6">
-							<h:panelGroup id="projectLanguages" layout="block" rendered="#{projectDetailMB.project.ohLohAnalysis != null}" >
+							<h:panelGroup id="projectLanguages" layout="block" rendered="#{projectDetailMB.project.analysis != null}" >
 								<h:link>
 									<h4>Linguagens</h4>
 								</h:link>
@@ -425,7 +425,7 @@
 													<td style="width: 120px">
 														<div class="pull-left" style="width:5px; height: 12px; margin-top: 5px; margin-right: 10px; background-color:##{languageAnalysis.color}">
 														</div>
-														<h:outputText  value="#{languageAnalysis.ohLohLanguage.niceName}"  rendered="#{languageAnalysis.languageId != null}" />
+														<h:outputText  value="#{languageAnalysis.language.niceName}"  rendered="#{languageAnalysis.languageId != null}" />
 														<h:outputText  value="Outras"  rendered="#{languageAnalysis.languageId eq null}" />
 													</td>
 													<td style="width: 20px">
@@ -546,10 +546,10 @@
 												
 												<ul class="unstyled">
 													<li>
-														<span style="font-size: 18px;"><h:outputText  value="#{projectDetailMB.project.ohLohAnalysis.twelveMonthCommitCount}" /></span> Commits
+														<span style="font-size: 18px;"><h:outputText  value="#{projectDetailMB.project.analysis.twelveMonthCommitCount}" /></span> Commits
 													</li>
 													<li>
-														<span style="font-size: 18px;"><h:outputText  value="#{projectDetailMB.project.ohLohAnalysis.twelveMonthContributorCount}" /></span> Colaboradores
+														<span style="font-size: 18px;"><h:outputText  value="#{projectDetailMB.project.analysis.twelveMonthContributorCount}" /></span> Colaboradores
 													</li>
 												</ul>
 											</td>

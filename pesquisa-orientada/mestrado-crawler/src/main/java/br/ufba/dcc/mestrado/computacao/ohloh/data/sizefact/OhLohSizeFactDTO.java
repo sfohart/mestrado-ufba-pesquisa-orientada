@@ -49,7 +49,7 @@ public class OhLohSizeFactDTO implements OhLohResultDTO {
 	
 	private Long projectId;
 	
-	private OhLohProjectDTO ohlohProject;
+	private OhLohProjectDTO project;
 
 	public Timestamp getMonth() {
 		return month;
@@ -115,12 +115,12 @@ public class OhLohSizeFactDTO implements OhLohResultDTO {
 		this.projectId = projectId;
 	}
 
-	public OhLohProjectDTO getOhlohProject() {
-		return ohlohProject;
+	public OhLohProjectDTO getProject() {
+		return project;
 	}
-
-	public void setOhlohProject(OhLohProjectDTO ohlohProject) {
-		this.ohlohProject = ohlohProject;
+	
+	public void setProject(OhLohProjectDTO project) {
+		this.project = project;
 	}
 	
 	

@@ -46,7 +46,7 @@ public class OhLohRepositoryEntity implements BaseEntity<Long> {
 	private Long commits;
 
 	@Column(name = "ohloh_job_status")
-	private String ohlohJobStatus;
+	private String jobStatus;
 
 	public Long getId() {
 		return id;
@@ -112,12 +112,12 @@ public class OhLohRepositoryEntity implements BaseEntity<Long> {
 		this.commits = commits;
 	}
 
-	public String getOhlohJobStatus() {
-		return ohlohJobStatus;
+	public String getJobStatus() {
+		return jobStatus;
 	}
-
-	public void setOhlohJobStatus(String ohlohJobStatus) {
-		this.ohlohJobStatus = ohlohJobStatus;
+	
+	public void setJobStatus(String jobStatus) {
+		this.jobStatus = jobStatus;
 	}
 
 }

@@ -39,7 +39,7 @@ public class OhLohAnalysisLanguageEntity implements BaseEntity<Long> {
 	@ManyToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = "language_id", referencedColumnName = "id")
 	@IndexedEmbedded
-	private OhLohLanguageEntity ohLohLanguage;
+	private OhLohLanguageEntity language;
 
 	@Column(name = "percentage")
 	private String percentage;
@@ -50,7 +50,7 @@ public class OhLohAnalysisLanguageEntity implements BaseEntity<Long> {
 	@ManyToOne
 	@JoinColumn(name = "analysis_languages_id", referencedColumnName = "id")
 	@ContainedIn
-	private OhLohAnalysisLanguagesEntity ohLohAnalysisLanguages;
+	private OhLohAnalysisLanguagesEntity analysisLanguages;
 
 	@Column(name = "entry_content")
 	private String entryContent;
@@ -87,13 +87,13 @@ public class OhLohAnalysisLanguageEntity implements BaseEntity<Long> {
 		this.entryContent = entryContent;
 	}
 
-	public OhLohAnalysisLanguagesEntity getOhLohAnalysisLanguages() {
-		return ohLohAnalysisLanguages;
+	public OhLohAnalysisLanguagesEntity getAnalysisLanguages() {
+		return analysisLanguages;
 	}
-
-	public void setOhLohAnalysisLanguages(
-			OhLohAnalysisLanguagesEntity ohLohAnalysisLanguagesEntity) {
-		this.ohLohAnalysisLanguages = ohLohAnalysisLanguagesEntity;
+	
+	public void setAnalysisLanguages(
+			OhLohAnalysisLanguagesEntity analysisLanguages) {
+		this.analysisLanguages = analysisLanguages;
 	}
 
 	public Long getLanguageId() {
@@ -104,12 +104,12 @@ public class OhLohAnalysisLanguageEntity implements BaseEntity<Long> {
 		this.languageId = languageId;
 	}
 
-	public OhLohLanguageEntity getOhLohLanguage() {
-		return ohLohLanguage;
+	public OhLohLanguageEntity getLanguage() {
+		return language;
 	}
-
-	public void setOhLohLanguage(OhLohLanguageEntity ohLohLanguage) {
-		this.ohLohLanguage = ohLohLanguage;
+	
+	public void setLanguage(OhLohLanguageEntity language) {
+		this.language = language;
 	}
 
 }

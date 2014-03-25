@@ -7,7 +7,6 @@ import br.ufba.dcc.mestrado.computacao.ohloh.data.project.OhLohProjectDTO;
 import br.ufba.dcc.mestrado.computacao.xstream.converters.NullableLongXStreamConverter;
 
 import com.thoughtworks.xstream.annotations.XStreamAlias;
-import com.thoughtworks.xstream.annotations.XStreamAsAttribute;
 import com.thoughtworks.xstream.annotations.XStreamConverter;
 import com.thoughtworks.xstream.converters.extended.ISO8601SqlTimestampConverter;
 
@@ -55,7 +54,7 @@ public class OhLohActivityFactDTO implements OhLohResultDTO {
 	
 	private Long projectId;
 	
-	private OhLohProjectDTO ohlohProject;
+	private OhLohProjectDTO project;
 
 	public Timestamp getMonth() {
 		return month;
@@ -137,12 +136,12 @@ public class OhLohActivityFactDTO implements OhLohResultDTO {
 		this.projectId = projectId;
 	}
 
-	public OhLohProjectDTO getOhlohProject() {
-		return ohlohProject;
+	public OhLohProjectDTO getProject() {
+		return project;
 	}
-
-	public void setOhlohProject(OhLohProjectDTO ohlohProject) {
-		this.ohlohProject = ohlohProject;
+	
+	public void setProject(OhLohProjectDTO project) {
+		this.project = project;
 	}
 
 	

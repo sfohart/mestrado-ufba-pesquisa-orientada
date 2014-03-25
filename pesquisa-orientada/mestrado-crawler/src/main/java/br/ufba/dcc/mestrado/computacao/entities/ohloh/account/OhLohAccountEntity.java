@@ -69,7 +69,7 @@ public class OhLohAccountEntity implements BaseEntity<Long> {
 
 	@ManyToOne(cascade=CascadeType.ALL)
 	@JoinColumn(name = "kudo_score_id", referencedColumnName = "id")
-	private OhLohKudoScoreEntity ohLohKudoScore;
+	private OhLohKudoScoreEntity kudoScore;
 
 	@Column(name = "url")
 	private String url;
@@ -187,12 +187,12 @@ public class OhLohAccountEntity implements BaseEntity<Long> {
 		this.longitude = longitude;
 	}
 
-	public OhLohKudoScoreEntity getOhLohKudoScore() {
-		return ohLohKudoScore;
+	public OhLohKudoScoreEntity getKudoScore() {
+		return kudoScore;
 	}
-
-	public void setOhLohKudoScore(OhLohKudoScoreEntity ohLohKudoScoreEntity) {
-		this.ohLohKudoScore = ohLohKudoScoreEntity;
+	
+	public void setKudoScore(OhLohKudoScoreEntity kudoScore) {
+		this.kudoScore = kudoScore;
 	}
 
 	public String getUrl() {

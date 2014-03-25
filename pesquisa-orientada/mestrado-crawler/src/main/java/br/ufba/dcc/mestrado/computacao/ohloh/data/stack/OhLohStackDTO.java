@@ -39,7 +39,7 @@ public class OhLohStackDTO implements OhLohResultDTO {
 	private Long projectCount;
 
 	@XStreamAlias("stack_entries")
-	private List<OhLohStackEntryDTO> ohLohStackEntries;
+	private List<OhLohStackEntryDTO> stackEntries;
 
 	@XStreamAlias("account_id")
 	@XStreamConverter(value=NullableLongXStreamConverter.class)
@@ -80,12 +80,12 @@ public class OhLohStackDTO implements OhLohResultDTO {
 		this.projectCount = projectCount;
 	}
 
-	public List<OhLohStackEntryDTO> getOhLohStackEntries() {
-		return ohLohStackEntries;
+	public List<OhLohStackEntryDTO> getStackEntries() {
+		return stackEntries;
 	}
-
-	public void setOhLohStackEntries(List<OhLohStackEntryDTO> ohLohStackEntries) {
-		this.ohLohStackEntries = ohLohStackEntries;
+	
+	public void setStackEntries(List<OhLohStackEntryDTO> stackEntries) {
+		this.stackEntries = stackEntries;
 	}
 
 	public Long getAcountId() {

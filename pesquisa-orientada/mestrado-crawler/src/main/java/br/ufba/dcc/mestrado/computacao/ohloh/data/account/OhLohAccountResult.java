@@ -9,15 +9,14 @@ import com.thoughtworks.xstream.annotations.XStreamImplicit;
 public class OhLohAccountResult {
 	
 	@XStreamImplicit(itemFieldName="account")
-	private List<OhLohAccountDTO> ohLohAccounts;
+	private List<OhLohAccountDTO> accounts;
 	
-	public List<OhLohAccountDTO> getOhLohAccounts() {
-		return ohLohAccounts;
+	public List<OhLohAccountDTO> getAccounts() {
+		return accounts;
 	}
 	
-	public void setOhLohAccounts(List<OhLohAccountDTO> ohLohAccounts) {
-		this.ohLohAccounts = ohLohAccounts;
+	public void setAccounts(List<OhLohAccountDTO> accounts) {
+		this.accounts = accounts;
 	}
-	
 	
 }

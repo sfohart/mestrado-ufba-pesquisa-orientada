@@ -22,7 +22,7 @@ public class OhLohActivityFactCrawler {
 	@Autowired
 	private OhLohRestfulClient ohLohRestfulClient;
 	
-	public OhLohRestfulClient getOhLohRestfulClient() {
+	public OhLohRestfulClient getRestfulClient() {
 		return ohLohRestfulClient;
 	}
 	
@@ -30,7 +30,7 @@ public class OhLohActivityFactCrawler {
 		this.ohLohRestfulClient = ohLohRestfulClient;
 	}
 	
-	public OhLohActivityFactService getOhLohActivityFactService() {
+	public OhLohActivityFactService getActivityFactService() {
 		return ohLohActivityFactService;
 	}
 	
@@ -46,18 +46,18 @@ public class OhLohActivityFactCrawler {
 	 */
 	public void downloadActivityFacts(OhLohProjectEntity project) throws Exception {
 		if (project != null && project.getId() != null) {
-			OhLohActivityFactResponse response = getOhLohRestfulClient().getLatestProjectActivityFacts(project.getId().toString());
+			OhLohActivityFactResponse response = getRestfulClient().getLatestProjectActivityFacts(project.getId().toString());
 			if (OhLohActivityFactResponse.SUCCESS.equals(response.getStatus())) {
 				OhLohActivityFactResult result = response.getResult();
-				if (result != null && result.getOhLohActivityFacts() != null) {
-					for (OhLohActivityFactDTO activityFactDTO : result.getOhLohActivityFacts()) {
+				if (result != null && result.getActivityFacts() != null) {
+					for (OhLohActivityFactDTO activityFactDTO : result.getActivityFacts()) {
 						OhLohProjectDTO projectDTO = new OhLohProjectDTO();
 						projectDTO.setId(project.getId());
 						
 						activityFactDTO.setProjectId(project.getId());
-						activityFactDTO.setOhlohProject(projectDTO);
+						activityFactDTO.setProject(projectDTO);
 						
-						getOhLohActivityFactService().process(activityFactDTO);
+						getActivityFactService().process(activityFactDTO);
 					}
 				}
 			}

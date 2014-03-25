@@ -190,7 +190,7 @@ public class OhLohRestfulClient implements Serializable {
 		
 		OhLohLanguageResponse resource = this.<OhLohLanguageResponse>processResponse(url, request, restfulie, languageId);
 		if (OhLohBaseResponse.SUCCESS.equals(resource.getStatus())) {
-			List<OhLohLanguageDTO> ohLohLanguageDTOs = resource.getResult().getOhLohLanguages();
+			List<OhLohLanguageDTO> ohLohLanguageDTOs = resource.getResult().getLanguages();
 			if (ohLohLanguageDTOs != null && ! ohLohLanguageDTOs.isEmpty())
 				language =  ohLohLanguageDTOs.get(0);
 		}
@@ -260,7 +260,7 @@ public class OhLohRestfulClient implements Serializable {
 		
 		OhLohAccountResponse resource = this.<OhLohAccountResponse>processResponse(url, request, restfulie, accountId);
 		if (OhLohBaseResponse.SUCCESS.equals(resource.getStatus())) {
-			List<OhLohAccountDTO> ohLohAccountDTOs = resource.getResult().getOhLohAccounts();
+			List<OhLohAccountDTO> ohLohAccountDTOs = resource.getResult().getAccounts();
 			if (ohLohAccountDTOs != null && ! ohLohAccountDTOs.isEmpty())
 				account =  ohLohAccountDTOs.get(0);
 		}
@@ -310,7 +310,7 @@ public class OhLohRestfulClient implements Serializable {
 		OhLohProjectResponse resource = this.<OhLohProjectResponse>processResponse(url, request, restfulie, projectId);
 		
 		if (OhLohBaseResponse.SUCCESS.equals(resource.getStatus())) {
-			List<OhLohProjectDTO> ohLohProjectDTOs = resource.getResult().getOhLohProjects();
+			List<OhLohProjectDTO> ohLohProjectDTOs = resource.getResult().getProjects();
 			if (ohLohProjectDTOs != null && ! ohLohProjectDTOs.isEmpty()) {
 				project = ohLohProjectDTOs.get(0);
 			}
@@ -341,7 +341,7 @@ public class OhLohRestfulClient implements Serializable {
 		
 		OhLohStackResponse resource = this.<OhLohStackResponse>processResponse(url, request, restfulie);
 		if (OhLohBaseResponse.SUCCESS.equals(resource.getStatus())) {
-			List<OhLohStackDTO> ohLohStackDTOs = resource.getResult().getOhLohStacks();
+			List<OhLohStackDTO> ohLohStackDTOs = resource.getResult().getStacks();
 			if (ohLohStackDTOs != null && ! ohLohStackDTOs.isEmpty()) {
 				stack = ohLohStackDTOs.get(0);
 			}
@@ -369,7 +369,7 @@ public class OhLohRestfulClient implements Serializable {
 		
 		OhLohStackResponse resource = this.<OhLohStackResponse>processResponse(url, request, restfulie, accountId);
 		if (OhLohBaseResponse.SUCCESS.equals(resource.getStatus())) {
-			List<OhLohStackDTO> ohLohStackDTOs = resource.getResult().getOhLohStacks();
+			List<OhLohStackDTO> ohLohStackDTOs = resource.getResult().getStacks();
 			if (ohLohStackDTOs != null && ! ohLohStackDTOs.isEmpty()) {
 				stack = ohLohStackDTOs.get(0);
 			}
@@ -530,7 +530,7 @@ public class OhLohRestfulClient implements Serializable {
 		OhLohContributorFactResponse resource = this.<OhLohContributorFactResponse>processResponse(url, request, restfulie, projectId, contributorId);
 		
 		if (resource != null && OhLohBaseResponse.SUCCESS.equals(resource.getStatus())) {
-			List<OhLohContributorFactDTO> ohLohContributorFactDTOs = resource.getResult().getOhLohContributorFacts();
+			List<OhLohContributorFactDTO> ohLohContributorFactDTOs = resource.getResult().getContributorFacts();
 			
 			if (ohLohContributorFactDTOs != null && ! ohLohContributorFactDTOs.isEmpty()) {
 				contributorFact = ohLohContributorFactDTOs.get(0);
@@ -642,7 +642,7 @@ public class OhLohRestfulClient implements Serializable {
 		OhLohEnlistmentResponse resource = this.<OhLohEnlistmentResponse>processResponse(url, null, restfulie, projectId, enlistmentId);
 		
 		if (resource != null && OhLohBaseResponse.SUCCESS.equals(resource.getStatus())) {
-			List<OhLohEnlistmentDTO> ohLohEnlistmentDTOs = resource.getResult().getOhLohEnlistments();
+			List<OhLohEnlistmentDTO> ohLohEnlistmentDTOs = resource.getResult().getEnlistments();
 			
 			if (ohLohEnlistmentDTOs != null && ! ohLohEnlistmentDTOs.isEmpty()) {
 				enlistment = ohLohEnlistmentDTOs.get(0);

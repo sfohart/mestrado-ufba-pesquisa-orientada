@@ -31,14 +31,14 @@ public class OhLohEnlistmentEntity implements BaseEntity<Long> {
 
 	@ManyToOne
 	@JoinColumn(name = "project_id", referencedColumnName = "id", insertable = false, updatable = false)
-	private OhLohProjectEntity ohLohProject;
+	private OhLohProjectEntity project;
 
 	@Column(name = "repository_id", insertable = false, updatable = false)
 	private Long repositoryId;
 
 	@ManyToOne(cascade=CascadeType.ALL, fetch=FetchType.EAGER)
 	@JoinColumn(name = "repository_id", referencedColumnName = "id")
-	private OhLohRepositoryEntity ohLohRepository;
+	private OhLohRepositoryEntity repository;
 
 	public Long getId() {
 		return id;
@@ -48,12 +48,12 @@ public class OhLohEnlistmentEntity implements BaseEntity<Long> {
 		this.id = id;
 	}
 
-	public OhLohProjectEntity getOhLohProject() {
-		return ohLohProject;
+	public OhLohProjectEntity getProject() {
+		return project;
 	}
-
-	public void setOhLohProject(OhLohProjectEntity ohLohProject) {
-		this.ohLohProject = ohLohProject;
+	
+	public void setProject(OhLohProjectEntity project) {
+		this.project = project;
 	}
 
 	public Long getProjectId() {
@@ -72,12 +72,12 @@ public class OhLohEnlistmentEntity implements BaseEntity<Long> {
 		this.repositoryId = repositoryId;
 	}
 
-	public OhLohRepositoryEntity getOhLohRepository() {
-		return ohLohRepository;
+	public OhLohRepositoryEntity getRepository() {
+		return repository;
 	}
-
-	public void setOhLohRepository(OhLohRepositoryEntity ohLohRepositoryEntity) {
-		this.ohLohRepository = ohLohRepositoryEntity;
+	
+	public void setRepository(OhLohRepositoryEntity repository) {
+		this.repository = repository;
 	}
 
 }

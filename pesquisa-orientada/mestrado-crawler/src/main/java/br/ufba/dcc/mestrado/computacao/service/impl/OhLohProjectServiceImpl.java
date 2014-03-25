@@ -62,10 +62,10 @@ public class OhLohProjectServiceImpl extends DefaultOhLohServiceImpl<OhLohProjec
 	public Map<String, List<OhLohLinkEntity>> buildLinkMapByCategory(OhLohProjectEntity project) {
 		Map<String, List<OhLohLinkEntity>> linkMap = null;
 		
-		if (project != null && project.getOhLohLinks() != null) {
+		if (project != null && project.getLinks() != null) {
 			linkMap = new HashMap<>();
 			
-			for (OhLohLinkEntity link : project.getOhLohLinks()) {
+			for (OhLohLinkEntity link : project.getLinks()) {
 				List<OhLohLinkEntity> linkList = linkMap.get(link.getCategory());
 				
 				if (linkList == null) {
@@ -90,9 +90,9 @@ public class OhLohProjectServiceImpl extends DefaultOhLohServiceImpl<OhLohProjec
 		
 		reloadLicensesFromDatabase(entity);
 
-		if (entity.getOhLohLinks() != null) {
-			for (OhLohLinkEntity link : entity.getOhLohLinks()) {
-				link.setOhlohProject(entity);
+		if (entity.getLinks() != null) {
+			for (OhLohLinkEntity link : entity.getLinks()) {
+				link.setProject(entity);
 			}
 		}
 		
@@ -107,8 +107,8 @@ public class OhLohProjectServiceImpl extends DefaultOhLohServiceImpl<OhLohProjec
 				analysisService.validateEntity(analysis);
 				
 				if (analysis != null) {
-					analysis.setOhlohProject(entity);
-					entity.setOhLohAnalysis(analysis);
+					analysis.setProject(entity);
+					entity.setAnalysis(analysis);
 				}
 			}
 		}
@@ -118,10 +118,10 @@ public class OhLohProjectServiceImpl extends DefaultOhLohServiceImpl<OhLohProjec
 	@Override
 	@Transactional
 	public void reloadAnalysisFromDatabase(OhLohProjectEntity entity) throws Exception{
-		if (entity != null && entity.getOhLohAnalysis() != null) {
-			OhLohAnalysisEntity analysis = analysisService.findById(entity.getOhLohAnalysis().getId());
+		if (entity != null && entity.getAnalysis() != null) {
+			OhLohAnalysisEntity analysis = analysisService.findById(entity.getAnalysis().getId());
 			if (analysis != null) {
-				entity.setOhLohAnalysis(analysis);
+				entity.setAnalysis(analysis);
 			}
 		}
 	}
@@ -129,9 +129,9 @@ public class OhLohProjectServiceImpl extends DefaultOhLohServiceImpl<OhLohProjec
 	@Override
 	@Transactional
 	public void reloadLicensesFromDatabase(OhLohProjectEntity entity) throws Exception{
-		if (entity != null && entity.getOhLohLicenses() != null) {
+		if (entity != null && entity.getLicenses() != null) {
 			Set<OhLohLicenseEntity> licenseList = new HashSet<OhLohLicenseEntity>();
-			Iterator<OhLohLicenseEntity> licenseIterator = entity.getOhLohLicenses().iterator();
+			Iterator<OhLohLicenseEntity> licenseIterator = entity.getLicenses().iterator();
 			
 			while (licenseIterator.hasNext()) {
 				OhLohLicenseEntity license = licenseIterator.next();
@@ -147,17 +147,17 @@ public class OhLohProjectServiceImpl extends DefaultOhLohServiceImpl<OhLohProjec
 				licenseList.add(already);
 			}
 			
-			entity.getOhLohLicenses().clear();
-			entity.getOhLohLicenses().addAll(licenseList);
+			entity.getLicenses().clear();
+			entity.getLicenses().addAll(licenseList);
 		}
 	}
 
 	@Override
 	@Transactional
 	public void reloadTagsFromDatabase(OhLohProjectEntity entity) throws Exception{
-		if (entity != null && entity.getOhLohTags() != null) {
+		if (entity != null && entity.getTags() != null) {
 			Set<OhLohTagEntity> tagList = new HashSet<OhLohTagEntity>();
-			Iterator<OhLohTagEntity> tagIterator = entity.getOhLohTags().iterator();
+			Iterator<OhLohTagEntity> tagIterator = entity.getTags().iterator();
 			while (tagIterator.hasNext()) {
 				OhLohTagEntity tag = tagIterator.next();				
 				OhLohTagEntity already = tagRepository.findByName(tag.getName());
@@ -172,8 +172,8 @@ public class OhLohProjectServiceImpl extends DefaultOhLohServiceImpl<OhLohProjec
 				tagList.add(already);
 			}
 			
-			entity.getOhLohTags().clear();
-			entity.getOhLohTags().addAll(tagList);
+			entity.getTags().clear();
+			entity.getTags().addAll(tagList);
 		}
 	}
 	

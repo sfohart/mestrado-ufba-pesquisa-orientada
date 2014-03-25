@@ -40,7 +40,7 @@ public class OhLohLinkEntity implements BaseEntity<Long> {
 	@ManyToOne(optional = false)	
 	@JoinColumn(name = "project_id", referencedColumnName = "id")
 	@ContainedIn
-	private OhLohProjectEntity ohlohProject;
+	private OhLohProjectEntity project;
 	
 	@Column(name = "project_id", updatable = false, insertable = false)
 	private Long projectId;
@@ -92,12 +92,12 @@ public class OhLohLinkEntity implements BaseEntity<Long> {
 		this.projectId = projectId;
 	}
 	
-	public OhLohProjectEntity getOhlohProject() {
-		return ohlohProject;
+	public OhLohProjectEntity getProject() {
+		return project;
 	}
 	
-	public void setOhlohProject(OhLohProjectEntity ohlohProject) {
-		this.ohlohProject = ohlohProject;
+	public void setProject(OhLohProjectEntity project) {
+		this.project = project;
 	}
 
 	@Override

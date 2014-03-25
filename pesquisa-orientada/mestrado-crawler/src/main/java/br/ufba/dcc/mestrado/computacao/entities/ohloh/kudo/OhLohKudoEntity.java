@@ -46,7 +46,7 @@ public class OhLohKudoEntity implements BaseEntity<Long> {
 
 	@ManyToOne
 	@JoinColumn(name = "project_id", referencedColumnName = "id", insertable = false, updatable = false)
-	private OhLohProjectEntity ohLohProject;
+	private OhLohProjectEntity project;
 
 	@Column(name = "project_name")
 	private String projectName;
@@ -137,12 +137,12 @@ public class OhLohKudoEntity implements BaseEntity<Long> {
 		this.contributorName = contributorName;
 	}
 
-	public OhLohProjectEntity getOhLohProject() {
-		return ohLohProject;
+	public OhLohProjectEntity getProject() {
+		return project;
 	}
-
-	public void setOhLohProject(OhLohProjectEntity ohLohProjectEntity) {
-		this.ohLohProject = ohLohProjectEntity;
+	
+	public void setProject(OhLohProjectEntity project) {
+		this.project = project;
 	}
 
 }

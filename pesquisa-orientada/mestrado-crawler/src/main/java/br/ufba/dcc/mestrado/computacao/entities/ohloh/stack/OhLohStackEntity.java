@@ -42,8 +42,8 @@ public class OhLohStackEntity implements BaseEntity<Long> {
 	@Column(name = "project_count")
 	private Long projectCount;
 
-	@OneToMany(mappedBy = "ohLohStack", cascade=CascadeType.ALL)
-	private List<OhLohStackEntryEntity> ohLohStackEntries;
+	@OneToMany(mappedBy = "stack", cascade=CascadeType.ALL)
+	private List<OhLohStackEntryEntity> stackEntries;
 
 	@Column(name = "account_id", insertable = false, updatable = false)
 	private Long acountId;
@@ -92,12 +92,12 @@ public class OhLohStackEntity implements BaseEntity<Long> {
 		this.projectCount = projectCount;
 	}
 
-	public List<OhLohStackEntryEntity> getOhLohStackEntries() {
-		return ohLohStackEntries;
+	public List<OhLohStackEntryEntity> getStackEntries() {
+		return stackEntries;
 	}
-
-	public void setOhLohStackEntries(List<OhLohStackEntryEntity> ohLohStackEntries) {
-		this.ohLohStackEntries = ohLohStackEntries;
+	
+	public void setStackEntries(List<OhLohStackEntryEntity> stackEntries) {
+		this.stackEntries = stackEntries;
 	}
 
 	public Long getAcountId() {

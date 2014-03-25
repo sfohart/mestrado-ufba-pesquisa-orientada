@@ -75,7 +75,7 @@ public class OhLohContributorFactDTO implements OhLohResultDTO {
 	private Double medianCommits;
 
 	@XStreamAlias("contributor_language_facts")
-	private List<OhLohContributorLanguageFactDTO> ohLohContributorLanguageFacts;
+	private List<OhLohContributorLanguageFactDTO> contributorLanguageFacts;
 
 	public Long getAccountId() {
 		return accountId;
@@ -173,12 +173,12 @@ public class OhLohContributorFactDTO implements OhLohResultDTO {
 		this.medianCommits = medianCommits;
 	}
 
-	public List<OhLohContributorLanguageFactDTO> getOhLohContributorLanguageFacts() {
-		return ohLohContributorLanguageFacts;
+	public List<OhLohContributorLanguageFactDTO> getContributorLanguageFacts() {
+		return contributorLanguageFacts;
 	}
-
-	public void setOhLohContributorLanguageFacts(
-			List<OhLohContributorLanguageFactDTO> ohLohContributorLanguageFacts) {
-		this.ohLohContributorLanguageFacts = ohLohContributorLanguageFacts;
+	
+	public void setContributorLanguageFacts(
+			List<OhLohContributorLanguageFactDTO> contributorLanguageFacts) {
+		this.contributorLanguageFacts = contributorLanguageFacts;
 	}
 }

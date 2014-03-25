@@ -25,8 +25,8 @@ public class OhLohAnalysisRepositoryImpl extends BaseRepositoryImpl<Long, OhLohA
 		// TODO Auto-generated method stub
 		OhLohAnalysisEntity result = super.findById(id);
 		if (result != null) {
-			if (result.getOhLohAnalysisLanguages() != null) {
-				result.getOhLohAnalysisLanguages().getContent();
+			if (result.getAnalysisLanguages() != null) {
+				result.getAnalysisLanguages().getContent();
 			}
 		}
 		

@@ -45,19 +45,19 @@ public class OhLohProjectCrawler {
 	private OhLohEnlistmentCrawler ohLohEnlistmentCrawler;
 	
 	
-	public OhLohRestfulClient getOhLohRestfulClient() {
+	public OhLohRestfulClient getRestfulClient() {
 		return ohLohRestfulClient;
 	}
 
-	public void setOhLohRestfulClient(OhLohRestfulClient ohLohRestfulClient) {
+	public void setRestfulClient(OhLohRestfulClient ohLohRestfulClient) {
 		this.ohLohRestfulClient = ohLohRestfulClient;
 	}
 
-	public OhLohProjectService getOhLohProjectService() {
+	public OhLohProjectService getProjectService() {
 		return ohLohProjectService;
 	}
 
-	public void setOhLohProjectService(OhLohProjectService ohLohProjectService) {
+	public void setProjectService(OhLohProjectService ohLohProjectService) {
 		this.ohLohProjectService = ohLohProjectService;
 	}
 
@@ -70,28 +70,28 @@ public class OhLohProjectCrawler {
 		this.projectCrawlerConfigService = projectCrawlerConfigService;
 	}
 
-	public OhLohLanguageCrawler getOhLohLanguageCrawler() {
+	public OhLohLanguageCrawler getLanguageCrawler() {
 		return ohLohLanguageCrawler;
 	}
 
-	public void setOhLohLanguageCrawler(OhLohLanguageCrawler ohLohLanguageCrawler) {
+	public void setLanguageCrawler(OhLohLanguageCrawler ohLohLanguageCrawler) {
 		this.ohLohLanguageCrawler = ohLohLanguageCrawler;
 	}
 
-	public OhLohActivityFactCrawler getOhLohActivityFactCrawler() {
+	public OhLohActivityFactCrawler getActivityFactCrawler() {
 		return ohLohActivityFactCrawler;
 	}
 
-	public void setOhLohActivityFactCrawler(
+	public void setActivityFactCrawler(
 			OhLohActivityFactCrawler ohLohActivityFactCrawler) {
 		this.ohLohActivityFactCrawler = ohLohActivityFactCrawler;
 	}
 
-	public OhLohEnlistmentCrawler getOhLohEnlistmentCrawler() {
+	public OhLohEnlistmentCrawler getEnlistmentCrawler() {
 		return ohLohEnlistmentCrawler;
 	}
 
-	public void setOhLohEnlistmentCrawler(
+	public void setEnlistmentCrawler(
 			OhLohEnlistmentCrawler ohLohEnlistmentCrawler) {
 		this.ohLohEnlistmentCrawler = ohLohEnlistmentCrawler;
 	}
@@ -100,7 +100,7 @@ public class OhLohProjectCrawler {
 	 * Não usar JOB aqui, openshift pode dar OutOfMemoryException 
 	 */
 	public void run() throws Exception {
-		getOhLohLanguageCrawler().downloadLanguages();
+		getLanguageCrawler().downloadLanguages();
 		
 		OhLohBaseRequest request = new OhLohBaseRequest();
 		Integer totalPages = 0;
@@ -146,7 +146,7 @@ public class OhLohProjectCrawler {
 				
 				//Servidor retornou com sucesso. Armazene os dados dos projetos
 				if (OhLohProjectResponse.SUCCESS.equals(response.getStatus())) {
-					List<OhLohProjectDTO> ohLohProjectDTOs = response.getResult().getOhLohProjects();
+					List<OhLohProjectDTO> ohLohProjectDTOs = response.getResult().getProjects();
 					if (ohLohProjectDTOs != null && ! ohLohProjectDTOs.isEmpty()) {
 						logger.info(String.format("Page: %d | Projects: %d", page, ohLohProjectDTOs.size()));
 						
@@ -156,13 +156,13 @@ public class OhLohProjectCrawler {
 								//armazenando projeto
 								OhLohProjectEntity ohLohProject = ohLohProjectService.process(project);								
 								
-								config.setOhLohProject(ohLohProject);
+								config.setProject(ohLohProject);
 								config.setCurrentPage(page);
 								config.setItemsAvailable(response.getItemsAvailable());
 								config.setItemsPerPage(response.getItemsReturned());
 								getProjectCrawlerConfigService().save(config);
 								
-								getOhLohEnlistmentCrawler().downloadEnlistments(ohLohProject);
+								getEnlistmentCrawler().downloadEnlistments(ohLohProject);
 								
 								//downloadActivityFacts(ohLohProject);
 								
@@ -185,7 +185,7 @@ public class OhLohProjectCrawler {
 
 			
 				config.setCurrentPage(page);
-				config.setOhLohProject(null);
+				config.setProject(null);
 				config.setItemsAvailable(response.getItemsAvailable());
 				config.setItemsPerPage(response.getItemsReturned());
 				getProjectCrawlerConfigService().save(config);

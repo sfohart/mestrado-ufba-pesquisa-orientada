@@ -9,15 +9,14 @@ import com.thoughtworks.xstream.annotations.XStreamImplicit;
 public class OhLohLanguageResult {
 	
 	@XStreamImplicit(itemFieldName="language")
-	private List<OhLohLanguageDTO> ohLohLanguages;
+	private List<OhLohLanguageDTO> languages;
 	
-	public List<OhLohLanguageDTO> getOhLohLanguages() {
-		return ohLohLanguages;
+	public List<OhLohLanguageDTO> getLanguages() {
+		return languages;
 	}
 	
-	public void setOhLohLanguages(List<OhLohLanguageDTO> ohLohLanguages) {
-		this.ohLohLanguages = ohLohLanguages;
+	public void setLanguages(List<OhLohLanguageDTO> languages) {
+		this.languages = languages;
 	}
-	
 	
 }

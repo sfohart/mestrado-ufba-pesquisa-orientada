@@ -110,9 +110,9 @@ public class ProjectDetailManageBean implements Serializable {
 				this.projectDescritionParagraphs = getProject().getDescription().split("\n");
 			}
 			
-			if (getProject().getOhLohAnalysis() != null) {
-				this.factoidList = getProject().getOhLohAnalysis().getOhLohFactoids();
-				this.analysisLanguages = getProject().getOhLohAnalysis().getOhLohAnalysisLanguages();
+			if (getProject().getAnalysis() != null) {
+				this.factoidList = getProject().getAnalysis().getFactoids();
+				this.analysisLanguages = getProject().getAnalysis().getAnalysisLanguages();
 			}
 			
 			this.enlistmentCount = getEnlistmentService().countAllByProject(getProject());

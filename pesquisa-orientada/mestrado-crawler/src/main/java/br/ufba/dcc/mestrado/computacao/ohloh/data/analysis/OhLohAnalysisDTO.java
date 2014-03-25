@@ -69,10 +69,10 @@ public class OhLohAnalysisDTO implements OhLohResultDTO {
 	private Long twelveMonthCommitCount;
 
 	@XStreamAlias("factoids")
-	private List<OhLohFactoidDTO> ohLohFactoids;
+	private List<OhLohFactoidDTO> factoids;
 
 	@XStreamAlias("languages")
-	private OhLohAnalysisLanguagesDTO ohLohAnalysisLanguages;
+	private OhLohAnalysisLanguagesDTO analysisLanguages;
 
 	@XStreamAlias("main_language_id")
 	@XStreamConverter(value = NullableLongXStreamConverter.class)
@@ -161,21 +161,20 @@ public class OhLohAnalysisDTO implements OhLohResultDTO {
 		this.totalCodeLines = totalCodeLines;
 	}
 
-	public List<OhLohFactoidDTO> getOhLohFactoids() {
-		return ohLohFactoids;
+	public List<OhLohFactoidDTO> getFactoids() {
+		return factoids;
+	}
+	
+	public void setFactoids(List<OhLohFactoidDTO> factoids) {
+		this.factoids = factoids;
 	}
 
-	public void setOhLohFactoids(List<OhLohFactoidDTO> ohLohFactoidEntities) {
-		this.ohLohFactoids = ohLohFactoidEntities;
+	public OhLohAnalysisLanguagesDTO getAnalysisLanguages() {
+		return analysisLanguages;
 	}
-
-	public OhLohAnalysisLanguagesDTO getOhLohAnalysisLanguages() {
-		return ohLohAnalysisLanguages;
-	}
-
-	public void setOhLohAnalysisLanguages(
-			OhLohAnalysisLanguagesDTO ohLohAnalysisLanguagesDTO) {
-		this.ohLohAnalysisLanguages = ohLohAnalysisLanguagesDTO;
+	
+	public void setAnalysisLanguages(OhLohAnalysisLanguagesDTO analysisLanguages) {
+		this.analysisLanguages = analysisLanguages;
 	}
 
 	public Long getMainLanguageId() {
