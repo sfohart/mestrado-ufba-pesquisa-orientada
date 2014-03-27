@@ -6,11 +6,13 @@ import java.security.NoSuchAlgorithmException;
 import java.sql.Timestamp;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.CollectionTable;
 import javax.persistence.Column;
 import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
+import javax.persistence.FetchType;
 import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -19,11 +21,15 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 
 import org.apache.commons.codec.binary.Hex;
 import org.apache.commons.lang3.StringUtils;
 
 import br.ufba.dcc.mestrado.computacao.entities.BaseEntity;
+import br.ufba.dcc.mestrado.computacao.entities.ohloh.project.OhLohTagEntity;
 import br.ufba.dcc.mestrado.computacao.entities.ohloh.account.OhLohAccountEntity;
 
 @Entity
@@ -88,6 +94,15 @@ public class UserEntity implements BaseEntity<Long>{
 	
 	@Column(name = "locked")
 	private Boolean locked;
+	
+	@ManyToMany(cascade=CascadeType.ALL, fetch=FetchType.EAGER)
+	@JoinTable(
+			name="project_tag",
+			joinColumns=@JoinColumn(name = "project_id", referencedColumnName="id"),
+			inverseJoinColumns=@JoinColumn(name = "tag_id", referencedColumnName="id"),
+			uniqueConstraints=@UniqueConstraint(columnNames={"project_id","tag_id"})
+			)
+	private List<OhLohTagEntity> interestTags;
 	
 	public Long getId() {
 		return id;
@@ -250,6 +265,14 @@ public class UserEntity implements BaseEntity<Long>{
 		}
 		
 		return encoded;
+	}
+	
+	public List<OhLohTagEntity> getInterestTags() {
+		return this.interestTags;
+	}
+	
+	public void setInterestTags(List<OhLohTagEntity> interestTags) {
+		this.interestTags = interestTags;
 	}
 	
 }
