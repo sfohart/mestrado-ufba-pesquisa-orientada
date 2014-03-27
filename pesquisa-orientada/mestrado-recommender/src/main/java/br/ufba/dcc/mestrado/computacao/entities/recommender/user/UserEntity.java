@@ -97,10 +97,10 @@ public class UserEntity implements BaseEntity<Long>{
 	
 	@ManyToMany(cascade=CascadeType.ALL, fetch=FetchType.EAGER)
 	@JoinTable(
-			name="project_tag",
-			joinColumns=@JoinColumn(name = "project_id", referencedColumnName="id"),
+			name="user_interesttag",
+			joinColumns=@JoinColumn(name = "user_id", referencedColumnName="id"),
 			inverseJoinColumns=@JoinColumn(name = "tag_id", referencedColumnName="id"),
-			uniqueConstraints=@UniqueConstraint(columnNames={"project_id","tag_id"})
+			uniqueConstraints=@UniqueConstraint(columnNames={"user_id","tag_id"})
 			)
 	private List<OhLohTagEntity> interestTags;
 	
