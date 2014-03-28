@@ -31,57 +31,72 @@
 							Tags de Interesse
 						</h3>
 					</div>
-				
-					<h:panelGroup id="alert" layout="block" styleClass="alert alert-danger col-md-12" rendered="#{not empty facesContext.messageList}">
-						<strong>Vish! </strong>
-						<h:messages showDetail="true" showSummary="true" />
-					</h:panelGroup>
 					
-					<h:panelGroup layout="block" styleClass="col-md-8 col-md-offset-2">
-						<div class="well">
+					<h:panelGroup layout="block">
+						<div class="well row">
 							<h:form prependId="false">
-								<fieldset>
-									<legend>Tags de Interesse</legend>
-									<div class="form-group">
-										<h:selectManyMenu id="tagAutoComplete" styleClass="tag-autocomplete form-control"  />
-										<span class="help-block">											
-											Digite palavras chave correspondentes ao tipo de software do seu interesse. Selecione, dentre as 
-											opções disponíveis, aquela que mais se aproxima daquilo que você procura. As palavras chave que você 
-											selecionar servirão de filtro para os projetos de software livre que iremos lhe recomendar.
-										</span>
-										<script type="text/javascript">
-											$('.tag-autocomplete').selectize({
-												valueField: 'name',
-											    labelField:	'name',
-											    searchField: 'name',
-											    delimiter: ',',
-											    options: [],
-											    create:	false,
-											    render: {
-											    	item: function(item, escape) {
-											    		return 	'<span class="label-custom">' + escape(item.name) + '</span>';
-											    	},
-											    	option: function(item, escape) {
-											    		return 	'<span class="label-custom">' + escape(item.name) + '</span>';
-											    	}
-											    },
-											    load: function(query, callback) {
-											    	if (!query.length) return callback();
-											    	$.ajax({
-											    		type: 'GET',
-											            url: "#{facesContext.externalContext.applicationContextPath}/restful/tags/findTags/" + query,
-											            error: function() {
-											                callback();
-											            },
-											            success: function(res) {
-											                callback(res.data);
-											            }											            
-											    	});
-											    }
-											});
-										</script>
-									</div>
-								</fieldset>
+								<div class="col-md-8 pull-left">
+									<fieldset>
+										<legend>Tags de Interesse</legend>
+										
+										<div class="form-group">
+											<h:selectManyMenu id="tagAutoComplete" styleClass="tag-autocomplete form-control"
+												value="#{accountMB.selectedInterestTags}"  />
+											<span class="help-block">											
+												Digite palavras chave correspondentes ao tipo de software do seu interesse. Selecione, dentre as 
+												opções disponíveis, aquela que mais se aproxima daquilo que você procura. As palavras chave que você 
+												selecionar servirão de filtro para os projetos de software livre que iremos lhe recomendar.
+											</span>
+											<script type="text/javascript">
+												$('.tag-autocomplete').selectize({
+													valueField: 'name',
+												    labelField:	'name',
+												    searchField: 'name',
+												    delimiter: ',',
+												    options: [],
+												    create:	false,
+												    render: {
+												    	item: function(item, escape) {
+												    		return 	'<span class="label-custom">' + escape(item.name) + '</span>';
+												    	},
+												    	option: function(item, escape) {
+												    		return 	'<span class="label-custom">' + escape(item.name) + '</span>';
+												    	}
+												    },
+												    load: function(query, callback) {
+												    	if (!query.length) return callback();
+												    	$.ajax({
+												    		type: 'GET',
+												            url: "#{facesContext.externalContext.applicationContextPath}/restful/tags/findTags/" + query,
+												            error: function() {
+												                callback();
+												            },
+												            success: function(res) {
+												                callback(res.data);
+												            }											            
+												    	});
+												    }
+												});
+											</script>
+										</div>
+										<div class="form-group">
+											<h:commandButton styleClass="btn btn-primary" value="Salvar" 
+												immediate="true"
+												actionListener="#{accountMB.addInterestTags}">
+												<f:ajax execute="@form" render=":selectedTags"></f:ajax>
+											</h:commandButton>
+										</div>
+									</fieldset>
+								</div>
+								<h:panelGroup id="selectedTags" layout="block" class="col-md-4 pull-right">
+									<fieldset>
+										<legend>Tags já selecionadas</legend>
+										<ui:include src="/detail/projectTagList.xhtml">
+											<ui:param name="tagList" value="#{accountMB.account.interestTags}"/>
+											<ui:param name="fullList" value="true" />
+										</ui:include>
+									</fieldset>									
+								</h:panelGroup>
 							</h:form>
 						</div>
 					</h:panelGroup>

@@ -13,14 +13,18 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
+import javax.faces.event.ActionEvent;
 import javax.faces.event.ComponentSystemEvent;
 
 import org.apache.commons.codec.binary.Hex;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
+import br.ufba.dcc.mestrado.computacao.entities.ohloh.project.OhLohTagEntity;
+import br.ufba.dcc.mestrado.computacao.entities.recommender.preference.PreferenceEntity;
 import br.ufba.dcc.mestrado.computacao.entities.recommender.user.RoleEnum;
 import br.ufba.dcc.mestrado.computacao.entities.recommender.user.UserEntity;
+import br.ufba.dcc.mestrado.computacao.service.base.OhLohTagService;
 import br.ufba.dcc.mestrado.computacao.service.base.UserService;
 import br.ufba.dcc.mestrado.computacao.service.basic.RepositoryBasedUserDetailsService;
 
@@ -46,6 +50,9 @@ public class AccountManagedBean implements Serializable {
 	@ManagedProperty("#{repositoryBasedUserDetailsService}")
 	private RepositoryBasedUserDetailsService userDetailsService;
 	
+	@ManagedProperty("#{ohLohTagService}")
+	private OhLohTagService ohLohTagService;
+	
 	@ManagedProperty("#{userService}")
 	private UserService userService;
 	
@@ -53,6 +60,8 @@ public class AccountManagedBean implements Serializable {
 	private PasswordEncoder passwordEncoder;
 	
 	private UserEntity account;
+	
+	private List<String> selectedInterestTags;
 	
 	public AccountManagedBean() {
 		this.account = new UserEntity();
@@ -75,6 +84,14 @@ public class AccountManagedBean implements Serializable {
 		this.userService = userService;
 	}
 
+	public OhLohTagService getOhLohTagService() {
+		return ohLohTagService;
+	}
+
+	public void setOhLohTagService(OhLohTagService ohLohTagService) {
+		this.ohLohTagService = ohLohTagService;
+	}
+
 	public PasswordEncoder getPasswordEncoder() {
 		return passwordEncoder;
 	}
@@ -90,6 +107,16 @@ public class AccountManagedBean implements Serializable {
 	public void setAccount(UserEntity account) {
 		this.account = account;
 	}
+	
+	
+
+	public List<String> getSelectedInterestTags() {
+		return selectedInterestTags;
+	}
+
+	public void setSelectedInterestTags(List<String> selectedInterestTags) {
+		this.selectedInterestTags = selectedInterestTags;
+	}
 
 	public void init(ComponentSystemEvent event) {
 		if (this.account != null && this.account.getId() != null) {
@@ -98,6 +125,28 @@ public class AccountManagedBean implements Serializable {
 	}
 	
 	public void initEditSettings (ComponentSystemEvent event) {
+		init(event);		
+		
+		if (this.account != null && this.account.getId() != null) {
+			UserEntity loggedUser = getUserDetailsService().loadFullLoggedUser();
+			if (loggedUser != null && ! this.account.getId().equals(loggedUser.getId())) {
+				FacesContext context = FacesContext.getCurrentInstance();
+				ResourceBundle bundle = ResourceBundle.getBundle("br.ufba.dcc.mestrado.computacao.account");
+				
+				String summary = bundle.getString("account.edit.settings.loggedUser.summary");
+				String detail = bundle.getString("account.edit.settings.loggedUser.detail");
+				FacesMessage facesMessage = new FacesMessage(summary, detail);
+				
+				context.addMessage(null, facesMessage);				
+			}
+		}
+	}
+	
+	public void initInterestTagSettings (ComponentSystemEvent event) {
+		init(event);
+		
+		this.selectedInterestTags = new ArrayList<>();
+		
 		if (this.account != null && this.account.getId() != null) {
 			UserEntity loggedUser = getUserDetailsService().loadFullLoggedUser();
 			if (loggedUser != null && ! this.account.getId().equals(loggedUser.getId())) {
@@ -109,13 +158,13 @@ public class AccountManagedBean implements Serializable {
 				FacesMessage facesMessage = new FacesMessage(summary, detail);
 				
 				context.addMessage(null, facesMessage);
-			} else {
-				init(event);
-			}
+			} 
 		}
 	}
 	
 	public void initViewSettings (ComponentSystemEvent event) {
+		init(event);
+		
 		if (this.account != null && this.account.getId() != null) {
 			UserEntity loggedUser = getUserDetailsService().loadFullLoggedUser();
 			if (loggedUser != null && ! this.account.getId().equals(loggedUser.getId())) {
@@ -127,9 +176,7 @@ public class AccountManagedBean implements Serializable {
 				FacesMessage facesMessage = new FacesMessage(summary, detail);
 				
 				context.addMessage(null, facesMessage);
-			} else {
-				init(event);
-			}
+			} 
 		}
 	}
 	
@@ -193,6 +240,37 @@ public class AccountManagedBean implements Serializable {
 		
 		
 		return "/login/login.jsf";
+	}
+	
+	public void addInterestTags(ActionEvent event) {
+		List<OhLohTagEntity> tagsToAdd = new ArrayList<>();
+		
+		if (selectedInterestTags != null) {
+			for (String selectedTag : selectedInterestTags) {
+				OhLohTagEntity tag = getOhLohTagService().findByName(selectedTag);
+				tagsToAdd.add(tag);
+			}
+		}
+		
+		if (tagsToAdd != null && getAccount() != null && getAccount().getInterestTags() != null) {
+			for (OhLohTagEntity selectedTag : tagsToAdd) {
+				if (getAccount().getInterestTags().contains(selectedTag)) {
+					getAccount().getInterestTags().remove(selectedTag);
+				}
+				
+				getAccount().getInterestTags().add(selectedTag);
+			}
+		}
+		
+		try {
+			getUserService().save(getAccount());
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+	
+	public void removeInterestTags(ActionEvent event) {
+		
 	}
 	
 }

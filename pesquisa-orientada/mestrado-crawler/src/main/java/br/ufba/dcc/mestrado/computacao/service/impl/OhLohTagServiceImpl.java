@@ -33,5 +33,10 @@ public class OhLohTagServiceImpl extends DefaultOhLohServiceImpl<OhLohTagDTO, Lo
 	public List<OhLohTagEntity> findTagListByName(String name) {
 		return ((OhLohTagRepository) getRepository()).findTagListByName(name);
 	}
+	
+	@Override
+	public OhLohTagEntity findByName(String name) {
+		return ((OhLohTagRepository) getRepository()).findByName(name);
+	}
 
 }

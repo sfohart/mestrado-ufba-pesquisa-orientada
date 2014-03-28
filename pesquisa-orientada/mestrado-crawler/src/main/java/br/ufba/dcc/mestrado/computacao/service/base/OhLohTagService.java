@@ -13,6 +13,8 @@ public interface OhLohTagService extends DefaultOhLohService<OhLohTagDTO, Long, 
 	
 	public List<OhLohTagEntity> findAll(Integer startAt, Integer offset);
 	
+	public OhLohTagEntity findByName(String name);
+	
 	public List<OhLohTagEntity> findTagListByName(String name);
 	
 }
