@@ -1,10 +1,13 @@
 package br.ufba.dcc.mestrado.computacao.repository.impl;
 
+import java.util.List;
+
 import javax.persistence.NoResultException;
 import javax.persistence.NonUniqueResultException;
 import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Path;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 
@@ -28,6 +31,27 @@ public class OhLohTagRepositoryImpl extends BaseRepositoryImpl<Long, OhLohTagEnt
 		super(OhLohTagEntity.class);
 	}
 
+	@Override
+	public List<OhLohTagEntity> findTagListByName(String name) {
+		CriteriaBuilder criteriaBuilder = getEntityManager()
+				.getCriteriaBuilder();
+		CriteriaQuery<OhLohTagEntity> criteriaQuery = criteriaBuilder
+				.createQuery(getEntityClass());
+
+		Root<OhLohTagEntity> root = criteriaQuery.from(getEntityClass());
+		CriteriaQuery<OhLohTagEntity> select = criteriaQuery.select(root);
+		
+		Path<String> namePath = root.<String>get("name");
+		
+		Predicate namePredicate = criteriaBuilder.like(namePath, name + "%");
+		select.where(namePredicate);
+		
+		TypedQuery<OhLohTagEntity> query = getEntityManager().createQuery(
+				criteriaQuery);
+		
+		return query.getResultList();
+	}
+	
 	@Override
 	public OhLohTagEntity findByName(String name) {
 		CriteriaBuilder criteriaBuilder = getEntityManager()

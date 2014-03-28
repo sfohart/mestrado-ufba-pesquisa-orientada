@@ -19,7 +19,12 @@ import javax.faces.event.ActionEvent;
 @ViewScoped
 public class TagManagedBean implements Serializable {
 
-	@ManagedProperty("#{ohLohProjectService}")
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -3127510040868054311L;
+
+	@ManagedProperty("#{ohLohTagService}")
 	private OhLohTagService ohLohTagService;
 	
 	private List<OhLohTagEntity> tagList;
@@ -29,8 +34,9 @@ public class TagManagedBean implements Serializable {
 	private Integer totalTags;
 	
 	public TagManagedBean() {
-		this.tagList = new ArrayList<OhLohTagEntity>();
 	}
+	
+	
 	
 	public List<OhLohTagEntity> getTagList() {
 		return this.tagList;

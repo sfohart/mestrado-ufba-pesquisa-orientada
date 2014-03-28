@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core">
+	
+	<f:metadata>
+		<f:viewParam id="accountId" name="accountId" value="#{accountMB.account.id}" />
+		<f:viewParam id="accountLogin" name="accountLogin" value="#{accountMB.account.login}"  />
+		<f:event listener="#{accountMB.init}" type="preRenderView"  />		
+	</f:metadata>
+	
+	<h:body>
+		<ui:composition template="/layout/mainLayout.xhtml">
+			<ui:define name="titlePage">Conta de Usuário</ui:define>
+		
+			<ui:define name="content">
+				<section class="container">
+				
+					<ui:include src="accountHeader.xhtml" >
+						<ui:param name="socialButtonsRendered" value="true" />
+					</ui:include>
+					
+					<div  style="border-top: 1px solid #aaa;">
+						<h3>
+							<h:outputLink value="#{facesContext.externalContext.applicationContextPath}/account/accountSettings.jsf">
+								<f:param  name="accountId" value="#{accountMB.account.id}" />
+								Sumário da Conta:
+							</h:outputLink>
+							Tags de Interesse
+						</h3>
+					</div>
+				
+					<h:panelGroup id="alert" layout="block" styleClass="alert alert-danger col-md-12" rendered="#{not empty facesContext.messageList}">
+						<strong>Vish! </strong>
+						<h:messages showDetail="true" showSummary="true" />
+					</h:panelGroup>
+					
+					<h:panelGroup layout="block" styleClass="col-md-8 col-md-offset-2">
+						<div class="well">
+							<h:form prependId="false">
+								<fieldset>
+									<legend>Tags de Interesse</legend>
+									<div class="form-group">
+										<h:selectManyMenu id="tagAutoComplete" styleClass="tag-autocomplete form-control"  />
+										<span class="help-block">											
+											Digite palavras chave correspondentes ao tipo de software do seu interesse. Selecione, dentre as 
+											opções disponíveis, aquela que mais se aproxima daquilo que você procura. As palavras chave que você 
+											selecionar servirão de filtro para os projetos de software livre que iremos lhe recomendar.
+										</span>
+										<script type="text/javascript">
+											$('.tag-autocomplete').selectize({
+												valueField: 'name',
+											    labelField:	'name',
+											    searchField: 'name',
+											    delimiter: ',',
+											    options: [],
+											    create:	false,
+											    render: {
+											    	item: function(item, escape) {
+											    		return 	'<span class="label-custom">' + escape(item.name) + '</span>';
+											    	},
+											    	option: function(item, escape) {
+											    		return 	'<span class="label-custom">' + escape(item.name) + '</span>';
+											    	}
+											    },
+											    load: function(query, callback) {
+											    	if (!query.length) return callback();
+											    	$.ajax({
+											    		type: 'GET',
+											            url: "#{facesContext.externalContext.applicationContextPath}/restful/tags/findTags/" + query,
+											            error: function() {
+											                callback();
+											            },
+											            success: function(res) {
+											                callback(res.data);
+											            }											            
+											    	});
+											    }
+											});
+										</script>
+									</div>
+								</fieldset>
+							</h:form>
+						</div>
+					</h:panelGroup>
+				
+				
+				</section>
+			</ui:define>
+		
+		</ui:composition>
+	</h:body>
+</html>

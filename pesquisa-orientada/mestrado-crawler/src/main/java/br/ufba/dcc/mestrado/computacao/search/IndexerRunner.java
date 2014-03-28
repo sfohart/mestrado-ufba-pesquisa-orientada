@@ -48,6 +48,8 @@ public class IndexerRunner {
 			SimpleDateFormat format = new SimpleDateFormat("mm:ss.S");
 			
 			logger.info("Tempo de dura��o: " + format.format(duration));
+			
+			System.exit(0);
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		} catch (ExecutionException e) {

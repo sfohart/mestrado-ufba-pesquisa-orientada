@@ -1,5 +1,7 @@
 package br.ufba.dcc.mestrado.computacao.service.impl;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
@@ -24,6 +26,12 @@ public class OhLohTagServiceImpl extends DefaultOhLohServiceImpl<OhLohTagDTO, Lo
 	@Autowired
 	public OhLohTagServiceImpl(@Qualifier("ohLohTagRepository") OhLohTagRepository repository) {
 		super(repository, OhLohTagDTO.class, OhLohTagEntity.class);
+	}
+
+
+	@Override
+	public List<OhLohTagEntity> findTagListByName(String name) {
+		return ((OhLohTagRepository) getRepository()).findTagListByName(name);
 	}
 
 }
