@@ -116,13 +116,17 @@ public class IndexManagedBean implements Serializable {
 					@Override
 					public boolean isFiltered(long id) {
 						OhLohProjectEntity project = getOhLohProjectService().findById(id);
-						for (OhLohTagEntity tag : currentUser.getInterestTags()) {
-							if (project.getTags().contains(tag)) {
-								return false;
+						if (currentUser.getInterestTags() != null && ! currentUser.getInterestTags().isEmpty()) {
+							for (OhLohTagEntity tag : currentUser.getInterestTags()) {
+								if (project.getTags().contains(tag)) {
+									return false;
+								}
 							}
+							
+							return true;
+						} else {
+							return false;
 						}
-						
-						return true;
 					}
 				});
 				
