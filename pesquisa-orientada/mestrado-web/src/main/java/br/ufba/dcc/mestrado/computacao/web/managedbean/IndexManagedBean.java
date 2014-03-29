@@ -11,9 +11,11 @@ import javax.faces.event.ComponentSystemEvent;
 
 import org.apache.mahout.cf.taste.common.TasteException;
 import org.apache.mahout.cf.taste.impl.recommender.GenericBooleanPrefItemBasedRecommender;
+import org.apache.mahout.cf.taste.recommender.IDRescorer;
 import org.apache.mahout.cf.taste.recommender.RecommendedItem;
 
 import br.ufba.dcc.mestrado.computacao.entities.ohloh.project.OhLohProjectEntity;
+import br.ufba.dcc.mestrado.computacao.entities.ohloh.project.OhLohTagEntity;
 import br.ufba.dcc.mestrado.computacao.entities.recommender.preference.ProjectPreferenceInfo;
 import br.ufba.dcc.mestrado.computacao.entities.recommender.user.UserEntity;
 import br.ufba.dcc.mestrado.computacao.entities.web.pageview.ProjectDetailPageViewInfo;
@@ -98,11 +100,31 @@ public class IndexManagedBean implements Serializable {
 		try {
 			//limpa lista atual de projetos recomendados
 			this.recommendedProjectList = new ArrayList<>();
-			UserEntity currentUser = getUserDetailsService().loadFullLoggedUser();
+			final UserEntity currentUser = getUserDetailsService().loadFullLoggedUser();
 			
 			if (currentUser != null) {
 				GenericBooleanPrefItemBasedRecommender recommender = getPageViewService().buildProjectRecommender();
-				List<RecommendedItem> recommendedItemList = recommender.recommend(currentUser.getId(), 6);
+				
+				//aplicando filtro de tags no recomendador
+				List<RecommendedItem> recommendedItemList = recommender.recommend(currentUser.getId(), 6, new IDRescorer() {
+					
+					@Override
+					public double rescore(long id, double originalScore) {
+						return originalScore;
+					}
+					
+					@Override
+					public boolean isFiltered(long id) {
+						OhLohProjectEntity project = getOhLohProjectService().findById(id);
+						for (OhLohTagEntity tag : currentUser.getInterestTags()) {
+							if (project.getTags().contains(tag)) {
+								return false;
+							}
+						}
+						
+						return true;
+					}
+				});
 				
 				if (recommendedItemList != null) {
 					for (RecommendedItem recommendedItem : recommendedItemList) {
