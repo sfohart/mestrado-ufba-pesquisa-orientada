@@ -3,6 +3,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://xmlns.jcp.org/jsf/passthrough"
 	xmlns:f="http://java.sun.com/jsf/core">
 	
 	<f:metadata>
@@ -40,7 +41,7 @@
 										<legend>Tags de Interesse</legend>
 										
 										<div class="form-group">
-											<h:selectManyMenu id="tagAutoComplete" styleClass="tag-autocomplete form-control"
+											<h:inputText id="tagAutoComplete" styleClass="tag-autocomplete form-control"
 												value="#{accountMB.selectedInterestTags}"  />
 											<span class="help-block">											
 												Digite palavras chave correspondentes ao tipo de software do seu interesse. Selecione, dentre as 
@@ -80,27 +81,47 @@
 											</script>
 										</div>
 										<div class="form-group">
-											<h:commandButton styleClass="btn btn-primary" value="Salvar" 
-												immediate="true"
+											<h:commandLink styleClass="btn btn-primary ladda-button add-interest-tags"  
+												p:data-style="expand-left" p:data-spinner-color="#FFFFFF" p:data-size="xs"
 												actionListener="#{accountMB.addInterestTags}">
-												<f:ajax execute="@form" render=":selectedTags"></f:ajax>
-											</h:commandButton>
+												<f:ajax execute="@form" render="@form" onevent="handleAddInterestTagsEvent"></f:ajax>
+												<span class="ladda-label">Adicionar</span>
+												<span class="ladda-spinner"></span>
+											</h:commandLink>
 										</div>
 									</fieldset>
 								</div>
 								<h:panelGroup id="selectedTags" layout="block" class="col-md-4 pull-right">
 									<fieldset>
 										<legend>Tags já selecionadas</legend>
-										<ui:include src="/detail/projectTagList.xhtml">
-											<ui:param name="tagList" value="#{accountMB.account.interestTags}"/>
-											<ui:param name="fullList" value="true" />
-										</ui:include>
+										<span class="help-block">											
+											Clique no <b>&#215;</b> para excluir uma palavra chave da sua lista de interesses
+										</span>
+										<h:panelGroup id="tagsPanelFullList" rendered="#{not empty accountMB.account.interestTags}">
+											<span class="glyphicon glyphicon-tags" style="margin-right: 5px"></span>
+											<ui:repeat var="tag" value="#{accountMB.account.interestTags}">
+												<span class="label-custom">
+													<h:outputText value="#{tag.name} " />
+													<h:commandLink style="text-decoration: none" actionListener="#{accountMB.removeInterestTags}">
+														&#215;
+														<f:attribute name="tag" value="#{tag}" />
+														<f:ajax execute="@form" render="@form" ></f:ajax>
+													</h:commandLink>
+												</span>      														
+											</ui:repeat>      														
+										</h:panelGroup>
 									</fieldset>									
 								</h:panelGroup>
 							</h:form>
 						</div>
 					</h:panelGroup>
 				
+				
+					<script type="text/javascript">
+						function handleAddInterestTagsEvent(data) {
+							handleLaddaLoadingIndicator(data,'.add-interest-tags');
+						}
+					</script>
 				
 				</section>
 			</ui:define>

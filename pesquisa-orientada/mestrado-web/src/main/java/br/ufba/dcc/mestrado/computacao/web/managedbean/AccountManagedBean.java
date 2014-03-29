@@ -5,8 +5,11 @@ import java.io.UnsupportedEncodingException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashSet;
 import java.util.List;
 import java.util.ResourceBundle;
+import java.util.Set;
 
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
@@ -61,7 +64,7 @@ public class AccountManagedBean implements Serializable {
 	
 	private UserEntity account;
 	
-	private List<String> selectedInterestTags;
+	private String selectedInterestTags;
 	
 	public AccountManagedBean() {
 		this.account = new UserEntity();
@@ -110,17 +113,19 @@ public class AccountManagedBean implements Serializable {
 	
 	
 
-	public List<String> getSelectedInterestTags() {
+	public String getSelectedInterestTags() {
 		return selectedInterestTags;
 	}
 
-	public void setSelectedInterestTags(List<String> selectedInterestTags) {
+	public void setSelectedInterestTags(String selectedInterestTags) {
 		this.selectedInterestTags = selectedInterestTags;
 	}
 
 	public void init(ComponentSystemEvent event) {
 		if (this.account != null && this.account.getId() != null) {
 			this.account = getUserService().findById(account.getId());
+			
+			Collections.sort(account.getInterestTags());
 		}
 	}
 	
@@ -144,8 +149,6 @@ public class AccountManagedBean implements Serializable {
 	
 	public void initInterestTagSettings (ComponentSystemEvent event) {
 		init(event);
-		
-		this.selectedInterestTags = new ArrayList<>();
 		
 		if (this.account != null && this.account.getId() != null) {
 			UserEntity loggedUser = getUserDetailsService().loadFullLoggedUser();
@@ -243,22 +246,41 @@ public class AccountManagedBean implements Serializable {
 	}
 	
 	public void addInterestTags(ActionEvent event) {
-		List<OhLohTagEntity> tagsToAdd = new ArrayList<>();
+		Set<OhLohTagEntity> allTags = new HashSet<>();
+		allTags.addAll(getAccount().getInterestTags());
 		
-		if (selectedInterestTags != null) {
-			for (String selectedTag : selectedInterestTags) {
+		if (selectedInterestTags != null && ! "".equals(selectedInterestTags)) {
+			String[] arraySelectedTags = selectedInterestTags.split(",");
+			for (String selectedTag : arraySelectedTags) {
 				OhLohTagEntity tag = getOhLohTagService().findByName(selectedTag);
-				tagsToAdd.add(tag);
+				allTags.add(tag);
 			}
 		}
 		
-		if (tagsToAdd != null && getAccount() != null && getAccount().getInterestTags() != null) {
-			for (OhLohTagEntity selectedTag : tagsToAdd) {
-				if (getAccount().getInterestTags().contains(selectedTag)) {
-					getAccount().getInterestTags().remove(selectedTag);
-				}
-				
-				getAccount().getInterestTags().add(selectedTag);
+		getAccount().getInterestTags().clear();
+		getAccount().getInterestTags().addAll(allTags);
+		
+		Collections.sort(getAccount().getInterestTags());
+		
+		try {
+			getUserService().save(getAccount());
+			clearSelectedTags();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+	
+	private void clearSelectedTags() {
+		this.selectedInterestTags = null;
+	}
+	
+	public void removeInterestTags(ActionEvent event) {
+		OhLohTagEntity tag = (OhLohTagEntity)
+				event.getComponent().getAttributes().get("tag");
+		
+		if (getAccount().getInterestTags() != null) {
+			if (getAccount().getInterestTags().contains(tag)) {
+				getAccount().getInterestTags().remove(tag);
 			}
 		}
 		
@@ -267,10 +289,6 @@ public class AccountManagedBean implements Serializable {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-	}
-	
-	public void removeInterestTags(ActionEvent event) {
-		
 	}
 	
 }

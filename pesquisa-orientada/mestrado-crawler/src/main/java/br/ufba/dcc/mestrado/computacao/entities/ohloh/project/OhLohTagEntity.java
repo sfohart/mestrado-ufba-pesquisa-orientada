@@ -18,7 +18,7 @@ import br.ufba.dcc.mestrado.computacao.entities.BaseEntity;
 
 @Entity
 @Table(name = OhLohTagEntity.NODE_NAME)
-public class OhLohTagEntity implements BaseEntity<Long> {
+public class OhLohTagEntity implements BaseEntity<Long>, Comparable<OhLohTagEntity>{
 	/**
 	 * 
 	 */
@@ -77,7 +77,10 @@ public class OhLohTagEntity implements BaseEntity<Long> {
 			return false;
 		return true;
 	}
-	
-	
 
+	@Override
+	public int compareTo(OhLohTagEntity arg0) {
+		return getName().compareTo(arg0.getName());
+	}
+	
 }
