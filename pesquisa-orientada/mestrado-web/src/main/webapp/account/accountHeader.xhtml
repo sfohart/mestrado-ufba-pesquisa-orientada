@@ -30,7 +30,7 @@
 				</h:outputLink> 
 			</h2>
 			<h:outputLink rendered="#{loginMB.loggedUser eq accountMB.account}" 
-					value="#{facesContext.externalContext.applicationContextPath}/account/account.jsf">
+					value="#{facesContext.externalContext.applicationContextPath}/account/accountSettings.jsf">
 				<span class="glyphicon glyphicon-cog"></span>
 				<f:param  name="accountId" value="#{accountMB.account.id}" />
 				Configurações

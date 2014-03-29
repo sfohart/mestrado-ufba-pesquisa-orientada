@@ -44,6 +44,18 @@
 						</div>
 						
 						<div class="col-md-6 pull-right">
+							<h4>
+								<h:outputLink value="#{facesContext.externalContext.applicationContextPath}/account/accountInterestTags.jsf">
+									<f:param  name="accountId" value="#{accountMB.account.id}" />
+									<span class="pull-left btn btn-lg">
+										<span class="fa fa-tags fa-3x" />
+									</span>
+									Tags de Interesse
+								</h:outputLink>
+							</h4>
+							<span>
+								Diga-nos que tipo de software livre você deseja que nós lhe recomendemos.
+							</span>
 						</div>
 					</h:panelGroup>
 				

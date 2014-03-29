@@ -144,11 +144,19 @@
 					
 					<h:panelGroup layout="block" rendered="#{not empty indexMB.recommendedProjectList}" id="recommendedProjects">
 						<hr/>
-					
+						
 						<ui:include src="/detail/projectCart.xhtml">
 							<ui:param name="projectCart" value="#{indexMB.recommendedProjectList}"  />
 							<ui:param name="projectCartTitle" value="Projetos recomendados para você"  />
 						</ui:include>
+						
+						<h:panelGroup layout="block" rendered="#{not empty loginMB.loggedUser.interestTags}">
+							<h4>Filtrando por suas <i>tags</i> de interesse</h4>
+							<ui:include src="/detail/projectTagList.xhtml">
+								<ui:param name="tagList" value="#{loginMB.loggedUser.interestTags}"/>
+								<ui:param name="fullList" value="true" />
+							</ui:include>
+						</h:panelGroup>
 						
 					</h:panelGroup>
 
