@@ -142,7 +142,7 @@
 							<h3>
 								<h:outputLink value="#{facesContext.externalContext.applicationContextPath}/reviews/reviewsList.jsf">
 									<f:param name="projectId" value="#{summaryReviewsMB.project.id}" />
-									<f:param name="orderByRegisteredAt" value="false" />
+									<f:param name="orderByReviewRanking" value="true" />
 									Opiniões mais úteis
 								</h:outputLink>
 							</h3>
@@ -183,7 +183,7 @@
 							<h3>
 								<h:outputLink value="#{facesContext.externalContext.applicationContextPath}/reviews/reviewsList.jsf">
 									<f:param name="projectId" value="#{summaryReviewsMB.project.id}" />
-									<f:param name="orderByReviewRanking" value="false" />
+									<f:param name="orderByRegisteredAt" value="true" />
 									Opiniões mais recentes
 								</h:outputLink>
 							</h3>

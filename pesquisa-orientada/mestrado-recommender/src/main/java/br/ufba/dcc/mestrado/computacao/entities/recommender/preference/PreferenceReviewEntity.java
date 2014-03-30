@@ -4,6 +4,7 @@ import java.util.Set;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -42,7 +43,7 @@ public class PreferenceReviewEntity implements BaseEntity<Long> {
 	@JoinColumn(name = "preference_id", referencedColumnName = "id")
 	private PreferenceEntity preference;
 	
-	@ManyToMany
+	@ManyToMany(fetch=FetchType.EAGER)
 	@JoinTable(
 		name="review_useful_users",
 		joinColumns=@JoinColumn(name="review_id", referencedColumnName="id"),
@@ -54,7 +55,7 @@ public class PreferenceReviewEntity implements BaseEntity<Long> {
 	@Column(name = "useful_count")
 	private Long usefulCount = 0L;
 	
-	@ManyToMany
+	@ManyToMany(fetch=FetchType.EAGER)
 	@JoinTable(
 		name="review_useless_users",
 		joinColumns=@JoinColumn(name="review_id", referencedColumnName="id"),

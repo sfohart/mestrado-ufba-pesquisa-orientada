@@ -29,12 +29,12 @@ import br.ufba.dcc.mestrado.computacao.service.basic.RepositoryBasedUserDetailsS
 		@URLMapping(
 				id="reviewListByProjectMapping",
 				beanName="reviewListMB", 
-				pattern="/reviews/#{ /[0-9]+/ projectId}",
+				pattern="/reviews/project/#{ /[0-9]+/ projectId}",
 				viewId="/reviews/reviewsList.jsf"),
 		@URLMapping(
 				id="reviewListByUserMapping",
 				beanName="reviewListMB", 
-				pattern="/reviews/#{ /[0-9]+/ userId}",
+				pattern="/reviews/user/#{ /[0-9]+/ userId}",
 				viewId="/reviews/reviewsList.jsf")
 	})
 public class ProjectReviewListManagedBean extends AbstractReviewVotingManagedBean implements ReviewVoting {
@@ -73,8 +73,8 @@ public class ProjectReviewListManagedBean extends AbstractReviewVotingManagedBea
 		this.project = new OhLohProjectEntity();
 		this.user = new UserEntity();
 		
-		this.orderByRegisteredAt = true;
-		this.orderByReviewRanking = true;
+		this.orderByRegisteredAt = false;
+		this.orderByReviewRanking = false;
 	}
 	
 	public Integer getStartPosition() {
@@ -194,8 +194,8 @@ public class ProjectReviewListManagedBean extends AbstractReviewVotingManagedBea
 						getUser().getId(), 
 						startPosition, 
 						offset,
-						isOrderByRegisteredAt(),
-						isOrderByReviewRanking());
+						true,
+						false);
 			}
 			
 			if (data != null) {
