@@ -4,10 +4,12 @@ import java.sql.Timestamp;
 
 import javax.persistence.Column;
 import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.MappedSuperclass;
+import javax.persistence.SequenceGenerator;
 
 import br.ufba.dcc.mestrado.computacao.entities.BaseEntity;
 import br.ufba.dcc.mestrado.computacao.entities.recommender.user.UserEntity;
@@ -22,7 +24,8 @@ public abstract class PageViewEntity implements BaseEntity<Long> {
 	private static final long serialVersionUID = -4071916917730573606L;
 	
 	@Id
-	@GeneratedValue
+	@SequenceGenerator(name="page_view_id", sequenceName="page_view_id_seq", allocationSize=1)
+	@GeneratedValue(strategy=GenerationType.SEQUENCE, generator="page_view_id")
 	private Long id;
 	
 	@Column(name = "user_id", insertable = false, updatable = false)
