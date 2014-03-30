@@ -99,6 +99,7 @@ public class SearchServiceImpl implements SearchService {
 	}
 	
 	@Override
+	@Transactional(propagation=Propagation.REQUIRED)
 	public List<OhLohProjectEntity> findRelatedProjects(
 			OhLohProjectEntity project,
 			Integer firstResult,

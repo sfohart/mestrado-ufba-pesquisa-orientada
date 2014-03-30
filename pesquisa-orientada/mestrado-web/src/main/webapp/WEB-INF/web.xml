@@ -159,6 +159,11 @@
 		<location>/login/login.jsf</location>
 	</error-page>
 	
+	<mime-mapping>
+		<extension>map</extension>
+		<mime-type>application/x-navimap</mime-type>
+	</mime-mapping>
+	
 	<welcome-file-list>
 	    <welcome-file>index.jsf</welcome-file>
 	</welcome-file-list>

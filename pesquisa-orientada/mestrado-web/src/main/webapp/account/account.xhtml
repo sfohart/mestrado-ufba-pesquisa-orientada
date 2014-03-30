@@ -28,12 +28,20 @@
 					
 					<h:panelGroup id="accountSummary" layout="block" styleClass="row" style="margin-bottom: 20px">
 						<div class="col-md-8">
+							<h:panelGroup layout="block" rendered="#{not empty loginMB.loggedUser.interestTags}">
+								<h4><i>Tags</i> de interesse</h4>
+								<ui:include src="/detail/projectTagList.xhtml">
+									<ui:param name="tagList" value="#{loginMB.loggedUser.interestTags}"/>
+									<ui:param name="fullList" value="true" />
+								</ui:include>
+							</h:panelGroup>
 						</div>
 						<div class="col-md-4">
-							<span class="pull-left" style="margin-top: 10px; margin-bottom: 10px; ">
+							<span style="margin-top: 10px; margin-bottom: 10px; ">
 								Entrou em 
 							</span>
-							<h4 class="pull-right">
+							<br />
+							<h4>
 								<h:outputText id="createdAt" value="#{accountMB.account.createdAt}" style="font-weight: bold" >
 									<f:convertDateTime for="createdAt" dateStyle="long" />
 								</h:outputText>
@@ -62,7 +70,8 @@
 							
 							<ul class="nav nav-pills nav-stacked">
 								<li>
-									<h:outputLink value="#{facesContext.externalContext.applicationContextPath}/reviews/reviewsList.jsf?userId=#{accountMB.account.id}">
+									<h:outputLink value="#{facesContext.externalContext.applicationContextPath}/reviews/reviewsList.jsf">
+										<f:param name="userId" value="#{accountMB.account.id}" />
 										Opiniões
 									</h:outputLink>
 								</li>

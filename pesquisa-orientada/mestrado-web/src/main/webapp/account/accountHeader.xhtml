@@ -7,11 +7,6 @@
 	xmlns:p="http://xmlns.jcp.org/jsf/passthrough"
 	>
 	
-	<h:panelGroup layout="block" styleClass="alert alert-danger col-md-12" rendered="#{not empty facesContext.messageList}">
-		<strong>Vish! </strong>
-		<h:messages showDetail="true" showSummary="true" />
-	</h:panelGroup>
-	
 	<h:panelGroup id="accountTitle" layout="block" styleClass="row" style="margin-bottom: 20px"
 			rendered="#{empty facesContext.messageList}">
 		<div class="col-md-2 pull-left">

@@ -31,7 +31,10 @@
 						</h3>
 					</div>
 					
-					<h:panelGroup id="alert" layout="block" styleClass="alert alert-danger col-md-12" rendered="#{not empty facesContext.messageList}">
+					<h:panelGroup layout="block"
+							style="margin-bottom: 10px" 
+							styleClass="alert alert-danger col-md-12" 
+							rendered="#{not empty facesContext.messageList}">
 						<strong>Vish! </strong>
 						<h:messages showDetail="true" showSummary="true" />
 					</h:panelGroup>

@@ -9,7 +9,7 @@
 	<f:metadata>
 		<f:viewParam id="accountId" name="accountId" value="#{accountMB.account.id}" />
 		<f:viewParam id="accountLogin" name="accountLogin" value="#{accountMB.account.login}"  />
-		<f:event listener="#{accountMB.init}" type="preRenderView"  />		
+		<f:event listener="#{accountMB.initInterestTagSettings}" type="preRenderView"  />		
 	</f:metadata>
 	
 	<h:body>
@@ -33,7 +33,15 @@
 						</h3>
 					</div>
 					
-					<h:panelGroup layout="block">
+					<h:panelGroup layout="block"
+							style="margin-bottom: 10px" 
+							styleClass="alert alert-danger col-md-12" 
+							rendered="#{not empty facesContext.messageList}">
+						<strong>Vish! </strong>
+						<h:messages showDetail="true" showSummary="true" />
+					</h:panelGroup>
+					
+					<h:panelGroup layout="block" rendered="#{empty facesContext.messageList}">
 						<div class="well row">
 							<h:form prependId="false">
 								<div class="col-md-8 pull-left">

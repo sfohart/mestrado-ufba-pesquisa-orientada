@@ -25,6 +25,14 @@
 					<div  style="border-top: 1px solid #aaa;">
 						<h3>Configurações da Conta</h3>
 					</div>
+					
+					<h:panelGroup layout="block"
+							style="margin-bottom: 10px" 
+							styleClass="alert alert-danger col-md-12" 
+							rendered="#{not empty facesContext.messageList}">
+						<strong>Vish! </strong>
+						<h:messages showDetail="true" showSummary="true" />
+					</h:panelGroup>
 															
 					<h:panelGroup id="accountSettingOptions" layout="block" styleClass="row" style="margin-bottom: 20px"
 							rendered="#{empty facesContext.messageList}">

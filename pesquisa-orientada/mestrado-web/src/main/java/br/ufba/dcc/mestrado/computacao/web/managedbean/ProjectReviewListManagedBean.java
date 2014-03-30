@@ -14,6 +14,7 @@ import javax.faces.event.ComponentSystemEvent;
 
 import com.ocpsoft.pretty.faces.annotation.URLMapping;
 import com.ocpsoft.pretty.faces.annotation.URLMappings;
+import com.ocpsoft.pretty.faces.annotation.URLQueryParameter;
 
 import br.ufba.dcc.mestrado.computacao.entities.ohloh.project.OhLohProjectEntity;
 import br.ufba.dcc.mestrado.computacao.entities.recommender.preference.PreferenceEntity;
@@ -60,7 +61,10 @@ public class ProjectReviewListManagedBean extends AbstractReviewVotingManagedBea
 	@ManagedProperty("#{userService}")
 	private UserService userService;
 	
+	@URLQueryParameter(mappingId="reviewListByProjectMapping", value="orderByRegisteredAt")
 	private boolean orderByRegisteredAt;
+	
+	@URLQueryParameter(mappingId="reviewListByProjectMapping", value="orderByReviewRanking")
 	private boolean orderByReviewRanking;
 		
 	private Integer startPosition;

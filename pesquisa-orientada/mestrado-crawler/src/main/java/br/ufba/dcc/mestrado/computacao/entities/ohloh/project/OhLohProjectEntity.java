@@ -2,6 +2,7 @@ package br.ufba.dcc.mestrado.computacao.entities.ohloh.project;
 
 import java.sql.Timestamp;
 import java.util.List;
+import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -114,7 +115,7 @@ public class OhLohProjectEntity implements BaseEntity<Long> {
 	@IndexedEmbedded
 	private List<OhLohLicenseEntity> licenses;
 
-	@ManyToMany(cascade=CascadeType.ALL, fetch=FetchType.EAGER)
+	@ManyToMany(cascade=CascadeType.ALL)
 	@JoinTable(
 			name="project_tag",
 			joinColumns=@JoinColumn(name = "project_id", referencedColumnName="id"),

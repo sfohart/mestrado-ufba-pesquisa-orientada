@@ -9,12 +9,22 @@ import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
 import javax.faces.event.ComponentSystemEvent;
 
+import com.ocpsoft.pretty.faces.annotation.URLMapping;
+import com.ocpsoft.pretty.faces.annotation.URLMappings;
+
 import br.ufba.dcc.mestrado.computacao.entities.ohloh.project.OhLohProjectEntity;
 import br.ufba.dcc.mestrado.computacao.service.base.OhLohProjectService;
 import br.ufba.dcc.mestrado.computacao.service.base.SearchService;
 
 @ManagedBean(name = "relatedProjectMB")
 @ViewScoped
+@URLMappings(mappings={
+		@URLMapping(
+				id="relatedProjectMapping",
+				beanName="relatedProjectMB", 
+				pattern="/detail/#{ /[0-9]+/ projectId}/relatedProject",
+				viewId="/detail/relatedProjectList.jsf")	
+})
 public class RelatedProjectManagedBean implements Serializable {
 
 	/**

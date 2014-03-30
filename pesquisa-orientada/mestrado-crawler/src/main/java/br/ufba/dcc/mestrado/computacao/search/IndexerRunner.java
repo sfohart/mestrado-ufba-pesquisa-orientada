@@ -26,14 +26,6 @@ public class IndexerRunner {
 	@Autowired
 	private SearchService searchService;
 
-	/**
-	 * Inicia a (re)constru��o dos �ndices do Apache Lucene, para posterior pesquisa com o
-	 * Hibernate Search. A anota��o {@link Scheduled} indica, atrav�s de uma express�o cron-like
-	 * ( @see http://en.wikipedia.org/wiki/Cron ) o per�odo de agendamento da execu��o.
-	 * 
-	 * Não usar Jobs aqui, openshift pode dar OutOfMemoryException
-	 *  
-	 */	
 	public void run() {
 		Timestamp duration = null;
 		logger.info("Iniciando recria��o dos �ndices do hibernate/lucene");
@@ -49,7 +41,6 @@ public class IndexerRunner {
 			
 			logger.info("Tempo de dura��o: " + format.format(duration));
 			
-			System.exit(0);
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		} catch (ExecutionException e) {
