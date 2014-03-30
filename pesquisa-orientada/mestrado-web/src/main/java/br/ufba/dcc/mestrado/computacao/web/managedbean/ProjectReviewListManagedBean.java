@@ -12,6 +12,9 @@ import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
 import javax.faces.event.ComponentSystemEvent;
 
+import com.ocpsoft.pretty.faces.annotation.URLMapping;
+import com.ocpsoft.pretty.faces.annotation.URLMappings;
+
 import br.ufba.dcc.mestrado.computacao.entities.ohloh.project.OhLohProjectEntity;
 import br.ufba.dcc.mestrado.computacao.entities.recommender.preference.PreferenceEntity;
 import br.ufba.dcc.mestrado.computacao.entities.recommender.user.UserEntity;
@@ -22,6 +25,18 @@ import br.ufba.dcc.mestrado.computacao.service.basic.RepositoryBasedUserDetailsS
 
 @ManagedBean(name="reviewListMB")
 @ViewScoped
+@URLMappings(mappings={
+		@URLMapping(
+				id="reviewListByProjectMapping",
+				beanName="reviewListMB", 
+				pattern="/reviews/#{ /[0-9]+/ projectId}",
+				viewId="/reviews/reviewsList.jsf"),
+		@URLMapping(
+				id="reviewListByUserMapping",
+				beanName="reviewListMB", 
+				pattern="/reviews/#{ /[0-9]+/ userId}",
+				viewId="/reviews/reviewsList.jsf")
+	})
 public class ProjectReviewListManagedBean extends AbstractReviewVotingManagedBean implements ReviewVoting {
 
 	/**

@@ -24,7 +24,6 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import br.ufba.dcc.mestrado.computacao.entities.ohloh.project.OhLohTagEntity;
-import br.ufba.dcc.mestrado.computacao.entities.recommender.preference.PreferenceEntity;
 import br.ufba.dcc.mestrado.computacao.entities.recommender.user.RoleEnum;
 import br.ufba.dcc.mestrado.computacao.entities.recommender.user.UserEntity;
 import br.ufba.dcc.mestrado.computacao.service.base.OhLohTagService;
@@ -41,7 +40,22 @@ import com.ocpsoft.pretty.faces.annotation.URLMappings;
 			id="accountMapping",
 			beanName="accountMB", 
 			pattern="/account/#{ /[0-9]+/ accountId}/",
-			viewId="/account/account.jsf")
+			viewId="/account/account.jsf"),
+	@URLMapping(
+			id="accountSettingsMapping",
+			beanName="accountMB", 
+			pattern="/account/#{ /[0-9]+/ accountId}/settings/",
+			viewId="/account/accountSettings.jsf"),
+	@URLMapping(
+			id="accountBasicDataEditMapping",
+			beanName="accountMB", 
+			pattern="/account/#{ /[0-9]+/ accountId}/basicDataEdit",
+			viewId="/account/accountBasicDataEdit.jsf"),
+	@URLMapping(
+			id="accountInterestTagsMapping",
+			beanName="accountMB", 
+			pattern="/account/#{ /[0-9]+/ accountId}/interestTags",
+			viewId="/account/accountInterestTags.jsf")
 })
 public class AccountManagedBean implements Serializable {
 

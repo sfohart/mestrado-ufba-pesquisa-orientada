@@ -8,6 +8,9 @@ import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
 import javax.faces.event.ComponentSystemEvent;
 
+import com.ocpsoft.pretty.faces.annotation.URLMapping;
+import com.ocpsoft.pretty.faces.annotation.URLMappings;
+
 import br.ufba.dcc.mestrado.computacao.entities.ohloh.project.OhLohProjectEntity;
 import br.ufba.dcc.mestrado.computacao.entities.recommender.criterium.RecommenderCriteriumEntity;
 import br.ufba.dcc.mestrado.computacao.entities.recommender.preference.PreferenceEntity;
@@ -21,6 +24,13 @@ import br.ufba.dcc.mestrado.computacao.service.basic.RepositoryBasedUserDetailsS
 
 @ManagedBean(name="newReviewMB", eager=true)
 @ViewScoped
+@URLMappings(mappings={
+		@URLMapping(
+				id="newReviewMapping",
+				beanName="newReviewMB", 
+				pattern="/reviews/#{ /[0-9]+/ projectId}/new",
+				viewId="/reviews/newProjectReview.jsf")	
+	})
 public class ProjectNewReviewManagedBean extends AbstractListingManagedBean<Long, PreferenceEntity> {
 	
 	/**

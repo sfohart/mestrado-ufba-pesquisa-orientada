@@ -11,6 +11,9 @@ import javax.faces.context.FacesContext;
 import javax.faces.event.ComponentSystemEvent;
 import javax.servlet.http.HttpServletRequest;
 
+import com.ocpsoft.pretty.faces.annotation.URLMapping;
+import com.ocpsoft.pretty.faces.annotation.URLMappings;
+
 import br.ufba.dcc.mestrado.computacao.entities.ohloh.analysis.OhLohAnalysisLanguagesEntity;
 import br.ufba.dcc.mestrado.computacao.entities.ohloh.enlistment.OhLohEnlistmentEntity;
 import br.ufba.dcc.mestrado.computacao.entities.ohloh.factoid.OhLohFactoidEntity;
@@ -30,6 +33,13 @@ import br.ufba.dcc.mestrado.computacao.service.basic.RepositoryBasedUserDetailsS
 
 @ManagedBean(name="projectDetailMB", eager=true)
 @ViewScoped
+@URLMappings(mappings={
+	@URLMapping(
+			id="projectDetailMapping",
+			beanName="projectDetailMB", 
+			pattern="/detail/#{ /[0-9]+/ projectId}/",
+			viewId="/detail/projectDetail.jsf")	
+})
 public class ProjectDetailManageBean implements Serializable {
 
 	/**

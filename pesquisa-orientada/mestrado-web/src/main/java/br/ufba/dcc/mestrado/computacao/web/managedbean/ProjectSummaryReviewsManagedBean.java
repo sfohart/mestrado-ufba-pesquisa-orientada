@@ -11,6 +11,9 @@ import javax.faces.event.ActionEvent;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 
+import com.ocpsoft.pretty.faces.annotation.URLMapping;
+import com.ocpsoft.pretty.faces.annotation.URLMappings;
+
 import br.ufba.dcc.mestrado.computacao.entities.ohloh.project.OhLohProjectEntity;
 import br.ufba.dcc.mestrado.computacao.entities.recommender.preference.PreferenceEntity;
 import br.ufba.dcc.mestrado.computacao.entities.recommender.preference.PreferenceReviewEntity;
@@ -22,6 +25,13 @@ import br.ufba.dcc.mestrado.computacao.service.base.UserService;
 
 @ManagedBean(name = "summaryReviewsMB")
 @ViewScoped
+@URLMappings(mappings={
+		@URLMapping(
+				id="summaryReviewsMapping",
+				beanName="summaryReviewsMB", 
+				pattern="/summary/#{ /[0-9]+/ projectId}/",
+				viewId="/summary/summaryReviews.jsf")	
+	})
 public class ProjectSummaryReviewsManagedBean extends AbstractReviewVotingManagedBean implements ReviewVoting  {
 
 	/**
