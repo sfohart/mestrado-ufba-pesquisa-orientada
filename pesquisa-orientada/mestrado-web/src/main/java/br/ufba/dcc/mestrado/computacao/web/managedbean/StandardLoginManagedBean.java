@@ -33,7 +33,7 @@ import com.ocpsoft.pretty.faces.annotation.URLMappings;
 	@URLMapping(
 			id="loginMapping",
 			beanName="loginMB", 
-			pattern="/login",
+			pattern="/login/login",
 			viewId="/login/login.jsf")
 })
 public class StandardLoginManagedBean implements Serializable {

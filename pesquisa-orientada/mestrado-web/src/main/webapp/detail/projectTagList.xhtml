@@ -16,7 +16,7 @@
 		<ui:repeat var="tag" value="#{tagList}" size="7">
 			<span class="label-custom"><h:outputText value="#{tag.name}" /></span>      														
 		</ui:repeat>
-		<ui:param name="tagOthersSize" value="#{fn:length(tagList) - 7 - 1}" />
+		<ui:param name="tagOthersSize" value="#{fn:length(tagList) - 7}" />
 		<h:outputText 
 			rendered="#{fn:length(tagList) > 7}"
 			value=" e #{tagOthersSize} outras"/>					

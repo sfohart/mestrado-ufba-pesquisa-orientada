@@ -219,6 +219,8 @@ public class OhLohProjectRepositoryImpl
 			}
 		}
 		
+		
+		
 		FullTextQuery fullTextQuery =  fullTextEntityManager.createFullTextQuery(booleanQuery, getEntityClass());
 		
 		configureRelevanceSort(fullTextQuery);
