@@ -253,6 +253,7 @@ public class AccountManagedBean implements Serializable {
 			FacesMessage message = new FacesMessage("Ocorreu um erro durante esta operação", e.getLocalizedMessage());
 			FacesContext.getCurrentInstance().addMessage(null, message);
 			e.printStackTrace();
+			return "";
 		}
 		
 		
