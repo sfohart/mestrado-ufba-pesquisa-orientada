@@ -55,7 +55,12 @@ import com.ocpsoft.pretty.faces.annotation.URLMappings;
 			id="accountInterestTagsMapping",
 			beanName="accountMB", 
 			pattern="/account/#{ /[0-9]+/ accountId}/interestTags",
-			viewId="/account/accountInterestTags.jsf")
+			viewId="/account/accountInterestTags.jsf"),
+	@URLMapping(
+			id="newAccountMapping",
+			beanName="accountMB", 
+			pattern="/account/new",
+			viewId="/account/newAccount.jsf")
 })
 public class AccountManagedBean implements Serializable {
 

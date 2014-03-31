@@ -24,8 +24,18 @@ import br.ufba.dcc.mestrado.computacao.entities.recommender.user.UserEntity;
 import br.ufba.dcc.mestrado.computacao.service.base.UserService;
 import br.ufba.dcc.mestrado.computacao.service.basic.RepositoryBasedUserDetailsService;
 
+import com.ocpsoft.pretty.faces.annotation.URLMapping;
+import com.ocpsoft.pretty.faces.annotation.URLMappings;
+
 @ManagedBean(name="loginMB")
 @ViewScoped
+@URLMappings(mappings={
+	@URLMapping(
+			id="loginMapping",
+			beanName="loginMB", 
+			pattern="/login",
+			viewId="/login/login.jsf")
+})
 public class StandardLoginManagedBean implements Serializable {
 	
 	/**
