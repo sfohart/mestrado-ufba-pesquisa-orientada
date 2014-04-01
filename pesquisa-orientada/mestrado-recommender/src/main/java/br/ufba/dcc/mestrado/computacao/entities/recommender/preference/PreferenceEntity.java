@@ -13,6 +13,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.persistence.FetchType;
 
 import br.ufba.dcc.mestrado.computacao.entities.BaseEntity;
 import br.ufba.dcc.mestrado.computacao.entities.ohloh.project.OhLohProjectEntity;
@@ -50,7 +51,7 @@ public class PreferenceEntity implements BaseEntity<Long> {
 	@Column(name = "value_preference")
 	private Double value;
 	
-	@OneToMany(mappedBy = "preference", cascade=CascadeType.ALL)
+	@OneToMany(mappedBy = "preference", cascade=CascadeType.ALL, fetch=FetchType.EAGER)
 	private List<PreferenceEntryEntity> preferenceEntryList;
 	
 	@ManyToOne(cascade=CascadeType.ALL)

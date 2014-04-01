@@ -67,7 +67,9 @@ public abstract class AbstractReviewVotingManagedBean implements Serializable {
 				}
 				
 				try {
-					return getPreferenceService().save(preference);
+					getPreferenceService().save(preference);
+					preference = getPreferenceService().findById(preference.getId());
+					return preference;
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -100,7 +102,9 @@ public abstract class AbstractReviewVotingManagedBean implements Serializable {
 				
 				
 				try {
-					return getPreferenceService().save(preference);
+					getPreferenceService().save(preference);
+					preference = getPreferenceService().findById(preference.getId());
+					return preference;
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
