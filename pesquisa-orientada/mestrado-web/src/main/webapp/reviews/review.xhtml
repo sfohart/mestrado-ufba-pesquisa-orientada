@@ -108,49 +108,46 @@
 			<p class="soft small">
 			</p>
 			
-			<h:panelGroup layout="block" styleClass="row" rendered="#{preference.preferenceReview == null}">			
-				<h:form>
-					<h:panelGroup id="helpfulCounter" layout="block" styleClass="small soft col-md-6" >
+			<h:panelGroup layout="block" styleClass="row" rendered="#{preference.preferenceReview != null}">							
+				<h:panelGroup id="helpfulCounter" layout="block" styleClass="small soft col-md-4" >
+					<span class="glyphicon glyphicon-thumbs-up" /> 
+					<h:outputText 
+						id="usefulCount"
+						style="margin-left: 5px; margin-right: 10px"
+						value="#{preference.preferenceReview.usefulCount}" />
+				
+					<span class="glyphicon glyphicon-thumbs-down" /> 
+					<h:outputText 
+						id="uselessCount"
+						style="margin-left: 5px; margin-right: 10px"
+						value="#{preference.preferenceReview.uselessCount}" />
+				</h:panelGroup>
+				
+				<h:panelGroup layout="block" styleClass="small soft col-md-8"    rendered="#{loginMB.loggedUser != null}">															
+					<h:commandLink id="voteUseful" style="text-decoration: none; margin-right: 10px" actionListener="#{bean['watchLikeReview']}">
+						<f:ajax execute="@all" render="@form :helpfulCounter"  />
+						<f:attribute name="preference" value="#{preference}"  />
 						<span class="glyphicon glyphicon-thumbs-up" /> 
 						<h:outputText 
-							id="usefulCount"
 							style="margin-left: 5px; margin-right: 10px"
-							value="#{preference.preferenceReview.usefulCount}" />
-					
+							value="Achei útil" rendered="#{not preference.preferenceReview.usefulList.contains(loginMB.loggedUser)}" />
+						<h:outputText 
+							style="margin-left: 5px; margin-right: 10px"
+							value="Desfazer achei útil" rendered="#{preference.preferenceReview.usefulList.contains(loginMB.loggedUser)}" />
+					</h:commandLink>
+					<h:commandLink id="voteUseless" style="text-decoration: none; margin-right: 10px" actionListener="#{bean['watchDislikeReview']}" >
+						<f:ajax execute="@all" render="@form :helpfulCounter"  />
+						<f:attribute name="preference" value="#{preference}"  />
 						<span class="glyphicon glyphicon-thumbs-down" /> 
 						<h:outputText 
-							id="uselessCount"
 							style="margin-left: 5px; margin-right: 10px"
-							value="#{preference.preferenceReview.uselessCount}" />
-					</h:panelGroup>
-					
-					<h:panelGroup layout="block" styleClass="small soft col-md-6"    rendered="#{loginMB.loggedUser != null}">															
-						<h:commandLink id="voteUseful" style="text-decoration: none; margin-right: 10px" actionListener="#{bean.watchLikeReview}">
-							<f:ajax execute="@all" render="@form"  />
-							<f:attribute name="preference" value="#{preference}"  />
-							<span class="glyphicon glyphicon-thumbs-up" /> 
-							<h:outputText 
-								style="margin-left: 5px; margin-right: 10px"
-								value="Achei útil" rendered="#{not preference.preferenceReview.usefulList.contains(loginMB.loggedUser)}" />
-							<h:outputText 
-								style="margin-left: 5px; margin-right: 10px"
-								value="Desfazer achei útil" rendered="#{preference.preferenceReview.usefulList.contains(loginMB.loggedUser)}" />
-						</h:commandLink>
-						<h:commandLink id="voteUseless" style="text-decoration: none; margin-right: 10px" actionListener="#{bean.watchDislikeReview}" >
-							<f:ajax execute="@all" render="@form"  />
-							<f:attribute name="preference" value="#{preference}" />
-							<span class="glyphicon glyphicon-thumbs-down" /> 
-							<h:outputText 
-								style="margin-left: 5px; margin-right: 10px"
-								value="Não achei útil" rendered="#{not preference.preferenceReview.uselessList.contains(loginMB.loggedUser)}" />
-							<h:outputText 
-								style="margin-left: 5px; margin-right: 10px"
-								value="Desfazer não achei útil" rendered="#{preference.preferenceReview.uselessList.contains(loginMB.loggedUser)}" />
-						</h:commandLink>
-					</h:panelGroup>					
-				</h:form>
-			</h:panelGroup>
-			
+							value="Não achei útil" rendered="#{not preference.preferenceReview.uselessList.contains(loginMB.loggedUser)}" />
+						<h:outputText 
+							style="margin-left: 5px; margin-right: 10px"
+							value="Desfazer não achei útil" rendered="#{preference.preferenceReview.uselessList.contains(loginMB.loggedUser)}" />
+					</h:commandLink>
+				</h:panelGroup>									
+			</h:panelGroup>			
 		</div>
 	</h:panelGroup>
 	
