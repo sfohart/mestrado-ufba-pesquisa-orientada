@@ -31,6 +31,16 @@
   					</h:commandButton>
   				</h:form>
 				
+				<h:panelGroup layout="block">
+					<ul class="nav navbar-nav">
+						<li>
+							<h:outputLink value="#{facesContext.externalContext.applicationContextPath}/help/help.jsf" style="margin-right: 10px" >
+								<span class="fa fa-question"></span> Ajuda
+							</h:outputLink>
+						</li>
+					</ul>
+				</h:panelGroup>
+				
 				<h:panelGroup layout="block" styleClass="navbar-right" rendered="#{loginMB.loggedUser eq null}" id="loginButtonBar">
 					<ul class="nav navbar-nav navbar-right">
 						<li>
@@ -44,7 +54,6 @@
 							</h:outputLink>
 						</li>
 					</ul>
-
 				</h:panelGroup>
 				
 				<h:panelGroup layout="block"  styleClass="navbar-right"  rendered="#{loginMB.loggedUser != null}">
