@@ -420,7 +420,7 @@
 									<h4>Linguagens</h4>
 								</h:link>
 								<div class="float_left col-md-3" style="padding-right: 10px">
-									<img src="http://www.ohloh.net/p/#{fn:toLowerCase(projectDetailMB.project.name)}/analyses/latest/languages.png?height=75&amp;width=75"  />
+									<img src="http://www.ohloh.net/p/#{fn:toLowerCase(projectDetailMB.project.urlName)}/analyses/latest/languages.png?height=75&amp;width=75"  />
 								</div>
 								<div class="float right col-md-9">
 									<table class="table table-striped unstyled pull-left" style="width: 300px" >
@@ -775,6 +775,14 @@
 						placement: "top",
 						title: "E para críticas e sugestões...",
 						content: "Envie-nos um email! Sua colaboração vai ajudar o nosso sistema a ficar ainda melhor pra você!"
+					});
+					
+					projectDetailTour.addStep({
+						path: "#{facesContext.externalContext.applicationContextPath}/detail/projectDetail.jsf?projectId=#{projectDetailMB.project.id}",
+						element: "#helpButtonBar",
+						placement: "bottom",
+						title: "Se precisar de ajuda...",
+						content: "Clique aqui neste link, e você verá uma página com dicas sobre como utilizar o site. Caso ache que as dicas não foram suficientes, não se acanhe em clicar no formulário de contato, no rodapé da página, e nos enviar suas opiniões, dúvidas e críticas."
 					});
 					
 					projectDetailTour.addStep({
