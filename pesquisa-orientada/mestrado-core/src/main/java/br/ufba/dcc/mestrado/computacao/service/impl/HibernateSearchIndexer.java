@@ -6,7 +6,6 @@ import java.util.concurrent.Future;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
-import org.hibernate.CacheMode;
 import org.hibernate.search.MassIndexer;
 import org.hibernate.search.batchindexing.MassIndexerProgressMonitor;
 import org.hibernate.search.impl.SimpleIndexingProgressMonitor;
@@ -45,7 +44,6 @@ public class HibernateSearchIndexer implements IndexBuilderService {
 		
 		massIndexer
 			//.batchSizeToLoadObjects( 25 )
-			.cacheMode( CacheMode.NORMAL )
 			//.threadsToLoadObjects( 5 )
 			//.idFetchSize( 150 )
 			//.threadsForSubsequentFetching( 50 )

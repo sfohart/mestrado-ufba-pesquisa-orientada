@@ -5,7 +5,7 @@
 	<parent>
 		<groupId>br.ufba.dcc.mestrado.computacao</groupId>
 		<artifactId>pesquisa-orientada</artifactId>
-		<version>0.0.1-SNAPSHOT</version>
+		<version>1.2.1.RELEASE</version>
 	</parent>
 
 	<artifactId>mestrado-crawler</artifactId>
@@ -14,73 +14,10 @@
 		<commons-collections.version>3.2.1</commons-collections.version>
 		<beanutils-version>1.8.3</beanutils-version>
 		<xstream.version>1.4.3</xstream.version>
-		<restfulie.version>1.0.1</restfulie.version>
-		<hibernate.version>4.3.1.Final</hibernate.version>
-		<hibernate-jpa-2.1-api.version>1.0.0.Final</hibernate-jpa-2.1-api.version>
-		<postgresql.version>9.2-1003-jdbc4</postgresql.version>
-		
-		<hibernate-search.version>4.5.0.Final</hibernate-search.version>
-		
+		<restfulie.version>1.0.1</restfulie.version>		
 	</properties>
 
 	<dependencies>
-		<!-- Banco de dados -->
-		<dependency>
-			<groupId>org.postgresql</groupId>
-			<artifactId>postgresql</artifactId>
-			<version>${postgresql.version}</version>
-		</dependency>
-	
-		<!-- Hibernate -->
-		<dependency>
-			<groupId>org.hibernate</groupId>
-			<artifactId>hibernate-core</artifactId>
-			<version>${hibernate.version}</version>
-		</dependency>		
-		<dependency>
-			<groupId>org.hibernate</groupId>
-			<artifactId>hibernate-entitymanager</artifactId>
-			<version>${hibernate.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>org.hibernate.javax.persistence</groupId>
-			<artifactId>hibernate-jpa-2.1-api</artifactId>
-			<version>${hibernate-jpa-2.1-api.version}</version>
-		</dependency>
-		
-	
-		
-		<!-- Hibernate Search -->
-		<dependency>
-			<groupId>org.hibernate</groupId>
-			<artifactId>hibernate-search</artifactId>
-			<version>${hibernate-search.version}</version>			
-		</dependency>
-		<dependency>
-			<groupId>org.hibernate</groupId>
-			<artifactId>hibernate-search-analyzers</artifactId>
-			<version>${hibernate-search.version}</version>			
-		</dependency>
-		<dependency>
-		    <groupId>org.hibernate</groupId>
-		    <artifactId>hibernate-search-infinispan</artifactId>
-		    <version>${hibernate-search.version}</version>
-		</dependency>
-		
-		<!-- Lucene -->
-		<!-- 
-		<dependency>
-			<groupId>org.apache.lucene</groupId>
-			<artifactId>lucene-core</artifactId>
-			<version>${lucene.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>org.apache.lucene</groupId>
-			<artifactId>lucene-facet</artifactId>
-			<version>${lucene.version}</version>
-		</dependency>
-		 -->
-		
 	
 		<!-- RESTfulie -->
 		<dependency>
