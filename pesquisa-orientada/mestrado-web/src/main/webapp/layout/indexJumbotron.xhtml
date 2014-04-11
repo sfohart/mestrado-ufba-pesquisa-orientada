@@ -115,6 +115,14 @@
 				
 				initialTour.addStep({
 					path: "#{facesContext.externalContext.applicationContextPath}/",
+					element: "#helpButtonBar",
+					placement: "bottom",
+					title: "Se precisar de ajuda...",
+					content: "Clique aqui neste link, e você verá uma página com dicas sobre como utilizar o site. Caso ache que as dicas não foram suficientes, não se acanhe em clicar no formulário de contato, no rodapé da página, e nos enviar suas opiniões, dúvidas e críticas."
+				});
+				
+				initialTour.addStep({
+					path: "#{facesContext.externalContext.applicationContextPath}/",
 					element: "#recommendedProjects",
 					placement: "top",
 					orphan:	true,

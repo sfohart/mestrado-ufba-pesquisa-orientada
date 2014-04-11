@@ -8,6 +8,7 @@ import java.util.Properties;
 
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
+import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
@@ -21,6 +22,9 @@ import javax.mail.Transport;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 
+import br.ufba.dcc.mestrado.computacao.entities.recommender.user.UserEntity;
+import br.ufba.dcc.mestrado.computacao.service.basic.RepositoryBasedUserDetailsService;
+
 @ManagedBean(name="mailMB")
 @ViewScoped
 public class SendMailManagedBean implements Serializable {
@@ -29,6 +33,7 @@ public class SendMailManagedBean implements Serializable {
 	 * 
 	 */
 	private static final long serialVersionUID = -1321840413856596153L;
+	
 	
 	public class MailOptions implements Serializable {
 		/**
@@ -88,6 +93,17 @@ public class SendMailManagedBean implements Serializable {
 	private boolean successSendingMail;
 	private Properties properties;
 	
+	@ManagedProperty("#{repositoryBasedUserDetailsService}")
+	private RepositoryBasedUserDetailsService userDetailsService;
+	
+	public RepositoryBasedUserDetailsService getUserDetailsService() {
+		return this.userDetailsService;		
+	}
+	
+	public void setUserDetailsService(RepositoryBasedUserDetailsService userDetailsService) {
+		this.userDetailsService = userDetailsService;
+	}
+	
 	
 	public SendMailManagedBean() {
 		
@@ -136,9 +152,19 @@ public class SendMailManagedBean implements Serializable {
 				}
 			});
 			
+			UserEntity loggedUser = getUserDetailsService().loadFullLoggedUser();
+			if (loggedUser != null) {
+				getMailOptions().setContactAddress(loggedUser.getEmail());
+				getMailOptions().setContactName(loggedUser.getName());
+			}
+			
 			session.setDebug(true);
 
 			Message message = new MimeMessage(session);
+			
+			String encodingOptions = "text/plain; charset=UTF-8";
+			message.addHeader("Content-Type", encodingOptions);
+			
 			message.setFrom(new InternetAddress(getMailOptions().getContactAddress())); // Remetente
 
 			message.setSentDate(new Date());
@@ -155,8 +181,18 @@ public class SendMailManagedBean implements Serializable {
 			message.setSubject(getMailOptions().getContactSubject());
 			
 			StringBuffer buffer = new StringBuffer();
-			buffer.append(String.format("Email enviado por %s:", getMailOptions().getContactName()));
+			String sendBy = "";
+			if (getMailOptions().getContactName() != null && ! "".equals(getMailOptions().getContactName())) {
+				sendBy = String.format("%s %s", getMailOptions().getContactName(), getMailOptions().getContactAddress()); 
+			} else {
+				sendBy = String.format("%s", getMailOptions().getContactAddress()); 
+			}
+			
+			
+			buffer.append(String.format("Email enviado por %s:", sendBy));
 			buffer.append("\n");
+			buffer.append("\n");
+			
 			buffer.append(getMailOptions().getMessageText());
 			
 			message.setText(buffer.toString());

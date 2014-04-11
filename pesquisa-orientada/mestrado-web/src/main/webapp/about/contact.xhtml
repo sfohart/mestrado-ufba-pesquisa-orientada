@@ -27,7 +27,9 @@
 							errorClass="list-group-item list-group-item-danger"
 							fatalClass="list-group-item list-group-item-danger"  />
 					
-						<div class="form-group #{not contactNameInput.valid ? 'has-error has-feedback' : ''}">
+						<h:panelGroup
+							rendered="#{loginMB.loggedUser eq null}" 
+							styleClass="form-group #{not contactNameInput.valid ? 'has-error has-feedback' : ''}">
 							<h:outputLabel styleClass="control-label" value="Seu Nome" />
 							<h:inputText tabindex="1" id="contactName" value="#{mailMB.mailOptions.contactName}"
 								styleClass="form-control"
@@ -41,9 +43,11 @@
 							<h:panelGroup
 								rendered="#{not contactNameInput.valid}" 
 								styleClass="glyphicon glyphicon-remove form-control-feedback" />
-						</div>			
+						</h:panelGroup>			
 						
-						<div class="form-group #{not contactAddressInput.valid ? 'has-error has-feedback' : ''}">
+						<h:panelGroup
+							rendered="#{loginMB.loggedUser eq null}" 
+							styleClass="form-group #{not contactAddressInput.valid ? 'has-error has-feedback' : ''}">
 							<h:outputLabel styleClass="control-label" value="Seu Email" />
 							<h:inputText tabindex="1" id="contactAddress" value="#{mailMB.mailOptions.contactAddress}"
 								styleClass="form-control"
@@ -60,9 +64,9 @@
 							<h:panelGroup
 								rendered="#{not contactAddressInput.valid}" 
 								styleClass="glyphicon glyphicon-remove form-control-feedback" />
-						</div>
+						</h:panelGroup>
 						
-						<div class="form-group #{not contactSubjectInput.valid ? 'has-error has-feedback' : ''}">
+						<h:panelGroup styleClass="form-group #{not contactSubjectInput.valid ? 'has-error has-feedback' : ''}">
 							<h:outputLabel styleClass="control-label" value="Assunto" />
 							<h:inputText tabindex="1" id="contactSubject" value="#{mailMB.mailOptions.contactSubject}"
 								styleClass="form-control"
@@ -76,9 +80,9 @@
 							<h:panelGroup
 								rendered="#{not contactSubjectInput.valid}" 
 								styleClass="glyphicon glyphicon-remove form-control-feedback" />
-						</div>
+						</h:panelGroup>
 						
-						<div class="form-group #{not messageTextInput.valid ? 'has-error has-feedback' : ''}">
+						<h:panelGroup styleClass="form-group #{not messageTextInput.valid ? 'has-error has-feedback' : ''}">
 							<h:outputLabel styleClass="control-label" value="Sua Mensagem" />
 							<prime:inputTextarea tabindex="1" id="messageText" value="#{mailMB.mailOptions.messageText}"
 								styleClass="form-control"
@@ -95,15 +99,15 @@
 							<h:panelGroup
 								rendered="#{not messageTextInput.valid}" 
 								styleClass="glyphicon glyphicon-remove form-control-feedback" />
-						</div>
+						</h:panelGroup>
 						
-						<div class="checkbox">
+						<h:panelGroup styleClass="checkbox">
 							<h:outputLabel value="Enviar para mim uma cópia deste email" >
 								<h:selectBooleanCheckbox id="sendCopy" value="#{mailMB.mailOptions.sendCopy}" />
 							</h:outputLabel>
-      					</div>
+      					</h:panelGroup>
 						
-						<div class="btn-toolbar" p:role="toolbar">
+						<h:panelGroup styleClass="btn-toolbar" p:role="toolbar">
 							<div class="btn-group">
 								<h:commandLink styleClass="btn btn-primary ladda-button"  id="sendContactMail"
 									p:data-style="expand-left" p:data-spinner-color="#FFFFFF" p:data-size="xs"
@@ -117,7 +121,7 @@
 								</button>
 								
 							</div>
-						</div>
+						</h:panelGroup>
 					</fieldset>
 				</h:form>
 			</div>
