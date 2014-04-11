@@ -3,10 +3,8 @@ package br.ufba.dcc.mestrado.computacao.recommender.aggregator;
 import java.util.Map;
 
 import org.apache.mahout.cf.taste.impl.common.FastByIDMap;
-import org.apache.mahout.cf.taste.impl.common.RunningAverage;
 import org.apache.mahout.cf.taste.impl.common.WeightedRunningAverage;
 
-import br.ufba.dcc.mestrado.computacao.exception.InvalidCriteriumWeighException;
 import br.ufba.dcc.mestrado.computacao.exception.RecommenderException;
 
 /**
