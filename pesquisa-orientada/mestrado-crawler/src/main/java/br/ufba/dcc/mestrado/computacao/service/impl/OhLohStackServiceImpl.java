@@ -22,6 +22,7 @@ import br.ufba.dcc.mestrado.computacao.ohloh.data.stack.OhLohStackDTO;
 import br.ufba.dcc.mestrado.computacao.ohloh.restful.client.OhLohRestfulClient;
 import br.ufba.dcc.mestrado.computacao.ohloh.restful.request.OhLohBaseRequest;
 import br.ufba.dcc.mestrado.computacao.repository.base.StackRepository;
+import br.ufba.dcc.mestrado.computacao.repository.impl.StackRepositoryImpl;
 import br.ufba.dcc.mestrado.computacao.service.base.OhLohProjectService;
 import br.ufba.dcc.mestrado.computacao.service.base.OhLohStackService;
 
@@ -45,7 +46,7 @@ public class OhLohStackServiceImpl extends DefaultOhLohServiceImpl<OhLohStackDTO
 	private OhLohRestfulClient restfulClient;
 	
 	@Autowired
-	public OhLohStackServiceImpl(@Qualifier("ohLohStackRepository") StackRepository repository) {
+	public OhLohStackServiceImpl(@Qualifier(StackRepositoryImpl.BEAN_NAME) StackRepository repository) {
 		super(repository, OhLohStackDTO.class, OhLohStackEntity.class);
 	}
 	

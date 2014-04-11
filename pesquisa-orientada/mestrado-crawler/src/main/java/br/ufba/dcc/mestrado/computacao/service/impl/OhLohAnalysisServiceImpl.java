@@ -23,6 +23,7 @@ import br.ufba.dcc.mestrado.computacao.repository.base.AnalysisLanguagesReposito
 import br.ufba.dcc.mestrado.computacao.repository.base.AnalysisRepository;
 import br.ufba.dcc.mestrado.computacao.repository.base.LicenseRepository;
 import br.ufba.dcc.mestrado.computacao.repository.base.TagRepository;
+import br.ufba.dcc.mestrado.computacao.repository.impl.AnalysisRepositoryImpl;
 import br.ufba.dcc.mestrado.computacao.service.base.OhLohAnalysisService;
 import br.ufba.dcc.mestrado.computacao.service.base.OhLohLanguageService;
 
@@ -40,7 +41,7 @@ public class OhLohAnalysisServiceImpl extends DefaultOhLohServiceImpl<OhLohAnaly
 	private static Logger logger = Logger.getLogger(OhLohAnalysisServiceImpl.class.getName());
 	
 	@Autowired
-	public OhLohAnalysisServiceImpl(@Qualifier("ohLohAnalysisRepository") AnalysisRepository repository) {
+	public OhLohAnalysisServiceImpl(@Qualifier(AnalysisRepositoryImpl.BEAN_NAME) AnalysisRepository repository) {
 		super(repository, OhLohAnalysisDTO.class, OhLohAnalysisEntity.class);
 	}
 

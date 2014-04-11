@@ -4,8 +4,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
-import br.ufba.dcc.mestrado.computacao.entities.ohloh.OhLohCrawlerProjectEntity;
+import br.ufba.dcc.mestrado.computacao.ohloh.entities.OhLohCrawlerProjectEntity;
 import br.ufba.dcc.mestrado.computacao.repository.base.OhLohCrawlerProjectRepository;
+import br.ufba.dcc.mestrado.computacao.repository.impl.OhLohCrawlerProjectRepositoryImpl;
 import br.ufba.dcc.mestrado.computacao.service.base.OhLohCrawlerProjectService;
 
 @Service(OhLohCrawlerProjectServiceImpl.BEAN_NAME)
@@ -21,7 +22,7 @@ public class OhLohCrawlerProjectServiceImpl
 	public static final String BEAN_NAME =  "ohLohCrawlerProjectService";
 
 	@Autowired
-	public OhLohCrawlerProjectServiceImpl(@Qualifier("ohLohCrawlerProjectRepository") OhLohCrawlerProjectRepository repository) {
+	public OhLohCrawlerProjectServiceImpl(@Qualifier(OhLohCrawlerProjectRepositoryImpl.BEAN_NAME) OhLohCrawlerProjectRepository repository) {
 		super(repository, OhLohCrawlerProjectEntity.class);
 	}
 	

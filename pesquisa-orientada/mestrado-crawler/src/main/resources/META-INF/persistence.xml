@@ -6,11 +6,11 @@
 	<persistence-unit name="ohloh-crawler">
 	
 		<provider>org.hibernate.ejb.HibernatePersistence</provider>
-		<class>br.ufba.dcc.mestrado.computacao.entities.ohloh.OhLohCrawlerEnlistmentEntity</class>
-		<class>br.ufba.dcc.mestrado.computacao.entities.ohloh.OhLohCrawlerLanguageEntity</class>
-		<class>br.ufba.dcc.mestrado.computacao.entities.ohloh.OhLohCrawlerLicenseEntity</class>
-		<class>br.ufba.dcc.mestrado.computacao.entities.ohloh.OhLohCrawlerProjectEntity</class>
-		<class>br.ufba.dcc.mestrado.computacao.entities.ohloh.OhLohCrawlerStackEntity</class>
+		<class>br.ufba.dcc.mestrado.computacao.ohloh.entities.OhLohCrawlerEnlistmentEntity</class>
+		<class>br.ufba.dcc.mestrado.computacao.ohloh.entities.OhLohCrawlerLanguageEntity</class>
+		<class>br.ufba.dcc.mestrado.computacao.ohloh.entities.OhLohCrawlerLicenseEntity</class>
+		<class>br.ufba.dcc.mestrado.computacao.ohloh.entities.OhLohCrawlerProjectEntity</class>
+		<class>br.ufba.dcc.mestrado.computacao.ohloh.entities.OhLohCrawlerStackEntity</class>
 		<class>br.ufba.dcc.mestrado.computacao.entities.ohloh.account.OhLohAccountEntity</class>
 		<class>br.ufba.dcc.mestrado.computacao.entities.ohloh.activityfact.OhLohActivityFactEntity</class>
 		<class>br.ufba.dcc.mestrado.computacao.entities.ohloh.analysis.OhLohAnalysisEntity</class>

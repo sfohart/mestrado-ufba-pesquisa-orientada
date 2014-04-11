@@ -13,7 +13,7 @@ import com.ocpsoft.pretty.faces.annotation.URLMapping;
 import com.ocpsoft.pretty.faces.annotation.URLMappings;
 
 import br.ufba.dcc.mestrado.computacao.entities.ohloh.project.OhLohProjectEntity;
-import br.ufba.dcc.mestrado.computacao.service.base.OhLohProjectService;
+import br.ufba.dcc.mestrado.computacao.service.base.ProjectService;
 import br.ufba.dcc.mestrado.computacao.service.base.SearchService;
 
 @ManagedBean(name = "relatedProjectMB")
@@ -37,8 +37,8 @@ public class RelatedProjectManagedBean implements Serializable {
 
 	private OhLohProjectEntity project;
 
-	@ManagedProperty("#{ohLohProjectService}")
-	private OhLohProjectService projectService;
+	@ManagedProperty("#{projectService}")
+	private ProjectService projectService;
 
 	@ManagedProperty("#{searchService}")
 	private SearchService searchService;
@@ -99,11 +99,11 @@ public class RelatedProjectManagedBean implements Serializable {
 		this.searchService = searchService;
 	}
 
-	public OhLohProjectService getProjectService() {
+	public ProjectService getProjectService() {
 		return projectService;
 	}
 
-	public void setProjectService(OhLohProjectService projectService) {
+	public void setProjectService(ProjectService projectService) {
 		this.projectService = projectService;
 	}
 

@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Scope;
 import org.springframework.core.env.Environment;
+import org.springframework.stereotype.Component;
 
 import br.com.caelum.restfulie.Response;
 import br.com.caelum.restfulie.RestClient;
@@ -51,6 +52,7 @@ import br.ufba.dcc.mestrado.computacao.ohloh.restful.responses.OhLohProjectRespo
 import br.ufba.dcc.mestrado.computacao.ohloh.restful.responses.OhLohSizeFactResponse;
 import br.ufba.dcc.mestrado.computacao.ohloh.restful.responses.OhLohStackResponse;
 
+@Component
 @Scope("singleton")
 public class OhLohRestfulClient implements Serializable {
 	

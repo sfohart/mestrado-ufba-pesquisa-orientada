@@ -26,7 +26,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import br.ufba.dcc.mestrado.computacao.entities.ohloh.project.OhLohTagEntity;
 import br.ufba.dcc.mestrado.computacao.entities.recommender.user.RoleEnum;
 import br.ufba.dcc.mestrado.computacao.entities.recommender.user.UserEntity;
-import br.ufba.dcc.mestrado.computacao.service.base.OhLohTagService;
+import br.ufba.dcc.mestrado.computacao.service.base.TagService;
 import br.ufba.dcc.mestrado.computacao.service.base.UserService;
 import br.ufba.dcc.mestrado.computacao.service.basic.RepositoryBasedUserDetailsService;
 
@@ -73,7 +73,7 @@ public class AccountManagedBean implements Serializable {
 	private RepositoryBasedUserDetailsService userDetailsService;
 	
 	@ManagedProperty("#{ohLohTagService}")
-	private OhLohTagService ohLohTagService;
+	private TagService tagService;
 	
 	@ManagedProperty("#{userService}")
 	private UserService userService;
@@ -106,12 +106,12 @@ public class AccountManagedBean implements Serializable {
 		this.userService = userService;
 	}
 
-	public OhLohTagService getOhLohTagService() {
-		return ohLohTagService;
+	public TagService getTagService() {
+		return tagService;
 	}
 
-	public void setOhLohTagService(OhLohTagService ohLohTagService) {
-		this.ohLohTagService = ohLohTagService;
+	public void setTagService(TagService tagService) {
+		this.tagService = tagService;
 	}
 
 	public PasswordEncoder getPasswordEncoder() {
@@ -272,7 +272,7 @@ public class AccountManagedBean implements Serializable {
 		if (selectedInterestTags != null && ! "".equals(selectedInterestTags)) {
 			String[] arraySelectedTags = selectedInterestTags.split(",");
 			for (String selectedTag : arraySelectedTags) {
-				OhLohTagEntity tag = getOhLohTagService().findByName(selectedTag);
+				OhLohTagEntity tag = getTagService().findByName(selectedTag);
 				allTags.add(tag);
 			}
 		}

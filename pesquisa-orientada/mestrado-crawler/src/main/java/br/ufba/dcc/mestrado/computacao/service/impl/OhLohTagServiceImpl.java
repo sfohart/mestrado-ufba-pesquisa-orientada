@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import br.ufba.dcc.mestrado.computacao.entities.ohloh.project.OhLohTagEntity;
 import br.ufba.dcc.mestrado.computacao.ohloh.data.project.OhLohTagDTO;
 import br.ufba.dcc.mestrado.computacao.repository.base.TagRepository;
+import br.ufba.dcc.mestrado.computacao.repository.impl.TagRepositoryImpl;
 import br.ufba.dcc.mestrado.computacao.service.base.OhLohTagService;
 
 @Service(OhLohTagServiceImpl.BEAN_NAME)
@@ -24,7 +25,7 @@ public class OhLohTagServiceImpl extends DefaultOhLohServiceImpl<OhLohTagDTO, Lo
 	
 
 	@Autowired
-	public OhLohTagServiceImpl(@Qualifier("ohLohTagRepository") TagRepository repository) {
+	public OhLohTagServiceImpl(@Qualifier(TagRepositoryImpl.BEAN_NAME) TagRepository repository) {
 		super(repository, OhLohTagDTO.class, OhLohTagEntity.class);
 	}
 

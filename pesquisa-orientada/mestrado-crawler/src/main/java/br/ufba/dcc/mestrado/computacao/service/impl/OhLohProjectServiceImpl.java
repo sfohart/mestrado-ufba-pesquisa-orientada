@@ -25,6 +25,7 @@ import br.ufba.dcc.mestrado.computacao.ohloh.restful.request.OhLohBaseRequest;
 import br.ufba.dcc.mestrado.computacao.repository.base.LicenseRepository;
 import br.ufba.dcc.mestrado.computacao.repository.base.ProjectRepository;
 import br.ufba.dcc.mestrado.computacao.repository.base.TagRepository;
+import br.ufba.dcc.mestrado.computacao.repository.impl.ProjectRepositoryImpl;
 import br.ufba.dcc.mestrado.computacao.service.base.OhLohAnalysisService;
 import br.ufba.dcc.mestrado.computacao.service.base.OhLohProjectService;
 
@@ -41,7 +42,7 @@ public class OhLohProjectServiceImpl extends DefaultOhLohServiceImpl<OhLohProjec
 	public static final String BEAN_NAME =  "ohLohProjectService";
 
 	@Autowired
-	public OhLohProjectServiceImpl(@Qualifier("ohLohProjectRepository") ProjectRepository repository) {
+	public OhLohProjectServiceImpl(@Qualifier(ProjectRepositoryImpl.BEAN_NAME) ProjectRepository repository) {
 		super(repository, OhLohProjectDTO.class, OhLohProjectEntity.class);
 	}
 

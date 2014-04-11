@@ -17,7 +17,7 @@ import br.ufba.dcc.mestrado.computacao.entities.recommender.preference.Preferenc
 import br.ufba.dcc.mestrado.computacao.entities.recommender.preference.PreferenceEntryEntity;
 import br.ufba.dcc.mestrado.computacao.entities.recommender.preference.PreferenceReviewEntity;
 import br.ufba.dcc.mestrado.computacao.entities.recommender.user.UserEntity;
-import br.ufba.dcc.mestrado.computacao.service.base.OhLohProjectService;
+import br.ufba.dcc.mestrado.computacao.service.base.ProjectService;
 import br.ufba.dcc.mestrado.computacao.service.base.OverallPreferenceService;
 import br.ufba.dcc.mestrado.computacao.service.base.RecommenderCriteriumService;
 import br.ufba.dcc.mestrado.computacao.service.basic.RepositoryBasedUserDetailsService;
@@ -43,8 +43,8 @@ public class ProjectNewReviewManagedBean extends AbstractListingManagedBean<Long
 	
 	private PreferenceEntity preference;
 	
-	@ManagedProperty("#{ohLohProjectService}")
-	private OhLohProjectService projectService;
+	@ManagedProperty("#{projectService}")
+	private ProjectService projectService;
 	
 	@ManagedProperty("#{overallPreferenceService}")
 	private OverallPreferenceService preferenceService;
@@ -75,11 +75,11 @@ public class ProjectNewReviewManagedBean extends AbstractListingManagedBean<Long
 		this.account = account;
 	}
 
-	public OhLohProjectService getProjectService() {
+	public ProjectService getProjectService() {
 		return projectService;
 	}
 
-	public void setProjectService(OhLohProjectService projectService) {
+	public void setProjectService(ProjectService projectService) {
 		this.projectService = projectService;
 	}
 	

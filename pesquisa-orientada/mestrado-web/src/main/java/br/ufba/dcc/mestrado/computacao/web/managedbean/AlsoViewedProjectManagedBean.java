@@ -14,7 +14,7 @@ import org.apache.mahout.cf.taste.impl.recommender.GenericBooleanPrefItemBasedRe
 import org.apache.mahout.cf.taste.recommender.RecommendedItem;
 
 import br.ufba.dcc.mestrado.computacao.entities.ohloh.project.OhLohProjectEntity;
-import br.ufba.dcc.mestrado.computacao.service.base.OhLohProjectService;
+import br.ufba.dcc.mestrado.computacao.service.base.ProjectService;
 import br.ufba.dcc.mestrado.computacao.service.basic.ProjectDetailPageViewService;
 
 @ManagedBean(name="alsoViewedProjectMB")
@@ -33,8 +33,8 @@ public class AlsoViewedProjectManagedBean implements Serializable {
 	
 	private Integer maxResults;
 	
-	@ManagedProperty("#{ohLohProjectService}")
-	private OhLohProjectService projectService;
+	@ManagedProperty("#{projectService}")
+	private ProjectService projectService;
 	
 	@ManagedProperty("#{projectDetailPageViewService}")
 	private ProjectDetailPageViewService pageViewService;
@@ -105,11 +105,11 @@ public class AlsoViewedProjectManagedBean implements Serializable {
 		this.pageViewService = pageViewService;
 	}
 
-	public OhLohProjectService getProjectService() {
+	public ProjectService getProjectService() {
 		return projectService;
 	}
 
-	public void setProjectService(OhLohProjectService projectService) {
+	public void setProjectService(ProjectService projectService) {
 		this.projectService = projectService;
 	}
 

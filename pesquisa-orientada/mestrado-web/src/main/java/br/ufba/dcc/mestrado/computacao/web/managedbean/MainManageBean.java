@@ -15,7 +15,7 @@ import org.hibernate.search.query.facet.Facet;
 import br.ufba.dcc.mestrado.computacao.entities.ohloh.project.OhLohProjectEntity;
 import br.ufba.dcc.mestrado.computacao.search.SearchRequest;
 import br.ufba.dcc.mestrado.computacao.search.SearchResponse;
-import br.ufba.dcc.mestrado.computacao.service.base.OhLohProjectService;
+import br.ufba.dcc.mestrado.computacao.service.base.ProjectService;
 import br.ufba.dcc.mestrado.computacao.service.base.SearchService;
 import br.ufba.dcc.mestrado.computacao.web.pagination.LazyLoadingDataModel;
 import br.ufba.dcc.mestrado.computacao.web.pagination.PageList;
@@ -37,8 +37,8 @@ public class MainManageBean extends AbstractListingManagedBean<Long, OhLohProjec
 	@ManagedProperty("#{searchService}")
 	private SearchService searchService;
 	
-	@ManagedProperty("#{ohLohProjectService}")
-	private OhLohProjectService projectService;
+	@ManagedProperty("#{projectService}")
+	private ProjectService projectService;
 
 	private SearchRequest searchRequest;
 	
@@ -62,11 +62,11 @@ public class MainManageBean extends AbstractListingManagedBean<Long, OhLohProjec
 		this.searchService = searchService;
 	}
 	
-	public OhLohProjectService getProjectService() {
+	public ProjectService getProjectService() {
 		return projectService;
 	}
 	
-	public void setProjectService(OhLohProjectService projectService) {
+	public void setProjectService(ProjectService projectService) {
 		this.projectService = projectService;
 	}
 	

@@ -32,19 +32,4 @@ public class CrawlerAppConfig {
 		return placeholderConfigurer;
 	}
 
-	@Bean
-	public IndexerRunner indexerRunner() {
-		return new IndexerRunner();
-	}
-	
-	@Bean
-	public OhLohProjectCrawler ohLohProjectCrawler() {
-		return new OhLohProjectCrawler();
-	}
-
-	@Bean
-	public OhLohRestfulClient ohLohRestfulClient() {
-		return new OhLohRestfulClient();
-	}
-
 }

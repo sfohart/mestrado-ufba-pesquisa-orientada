@@ -1,6 +1,6 @@
 package br.ufba.dcc.mestrado.computacao.web.managedbean;
 
-import br.ufba.dcc.mestrado.computacao.service.base.OhLohTagService;
+import br.ufba.dcc.mestrado.computacao.service.base.TagService;
 import br.ufba.dcc.mestrado.computacao.entities.ohloh.project.OhLohTagEntity;
 
 
@@ -24,8 +24,8 @@ public class TagManagedBean implements Serializable {
 	 */
 	private static final long serialVersionUID = -3127510040868054311L;
 
-	@ManagedProperty("#{ohLohTagService}")
-	private OhLohTagService ohLohTagService;
+	@ManagedProperty("#{tagService}")
+	private TagService tagService;
 	
 	private List<OhLohTagEntity> tagList;
 	
@@ -46,12 +46,12 @@ public class TagManagedBean implements Serializable {
 		this.tagList = tagList;
 	}
 	
-	public OhLohTagService getOhLohTagService() {
-		return this.ohLohTagService;
+	public TagService getTagService() {
+		return this.tagService;
 	}
 	
-	public void setOhLohTagService(OhLohTagService ohLohTagService) {
-		this.ohLohTagService = ohLohTagService;
+	public void setTagService(TagService TagService) {
+		this.tagService = TagService;
 	}
 	
 	public Integer getStartPosition() {
@@ -91,7 +91,7 @@ public class TagManagedBean implements Serializable {
 	
 	public void init(ComponentSystemEvent event) {
 		if (tagList == null) {
-			this.tagList = getOhLohTagService().findAll();
+			this.tagList = getTagService().findAll();
 		}
 	}
 	
@@ -108,7 +108,7 @@ public class TagManagedBean implements Serializable {
 	}
 	
 	protected void searchTags() {
-		List<OhLohTagEntity> data = getOhLohTagService().findAll(startPosition, offset);
+		List<OhLohTagEntity> data = getTagService().findAll(startPosition, offset);
 		
 		if (getTagList() == null) {
 			setTagList(new ArrayList<OhLohTagEntity>());

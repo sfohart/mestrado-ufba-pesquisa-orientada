@@ -1,4 +1,4 @@
-package br.ufba.dcc.mestrado.computacao.entities.ohloh;
+package br.ufba.dcc.mestrado.computacao.ohloh.entities;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;

@@ -6,9 +6,9 @@ import java.util.logging.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import br.ufba.dcc.mestrado.computacao.entities.ohloh.OhLohCrawlerEnlistmentEntity;
 import br.ufba.dcc.mestrado.computacao.entities.ohloh.project.OhLohProjectEntity;
 import br.ufba.dcc.mestrado.computacao.ohloh.data.enlistment.OhLohEnlistmentDTO;
+import br.ufba.dcc.mestrado.computacao.ohloh.entities.OhLohCrawlerEnlistmentEntity;
 import br.ufba.dcc.mestrado.computacao.ohloh.restful.client.OhLohRestfulClient;
 import br.ufba.dcc.mestrado.computacao.ohloh.restful.request.OhLohBaseRequest;
 import br.ufba.dcc.mestrado.computacao.ohloh.restful.responses.OhLohEnlistmentResponse;
@@ -99,7 +99,7 @@ public class OhLohEnlistmentCrawler {
 				do {
 					request.setPage(config.getCurrentPage());
 					
-					logger.info(String.format("Baixando enlistments para o projeto %d - pï¿½gina %d", project.getId(), request.getPage()));
+					logger.info(String.format("Baixando enlistments para o projeto %d - página %d", project.getId(), request.getPage()));
 					
 					OhLohEnlistmentResponse response = getRestfulClient().getAllProjectEnlistments(project.getId().toString(), request);
 					if (totalPages <= 0 

@@ -10,6 +10,7 @@ import br.ufba.dcc.mestrado.computacao.entities.ohloh.enlistment.OhLohEnlistment
 import br.ufba.dcc.mestrado.computacao.entities.ohloh.project.OhLohProjectEntity;
 import br.ufba.dcc.mestrado.computacao.ohloh.data.enlistment.OhLohEnlistmentDTO;
 import br.ufba.dcc.mestrado.computacao.repository.base.EnlistmentRepository;
+import br.ufba.dcc.mestrado.computacao.repository.impl.EnlistmentRepositoryImpl;
 import br.ufba.dcc.mestrado.computacao.service.base.OhLohEnlistmentService;
 
 @Service(OhLohEnlistmentServiceImpl.BEAN_NAME)
@@ -23,7 +24,7 @@ public class OhLohEnlistmentServiceImpl extends DefaultOhLohServiceImpl<OhLohEnl
 	public static final String BEAN_NAME =  "ohLohEnlistmentService";
 	
 	@Autowired
-	public OhLohEnlistmentServiceImpl(@Qualifier("ohLohEnlistmentRepository") EnlistmentRepository repository) {
+	public OhLohEnlistmentServiceImpl(@Qualifier(EnlistmentRepositoryImpl.BEAN_NAME) EnlistmentRepository repository) {
 		super(repository, OhLohEnlistmentDTO.class, OhLohEnlistmentEntity.class);
 	}
 

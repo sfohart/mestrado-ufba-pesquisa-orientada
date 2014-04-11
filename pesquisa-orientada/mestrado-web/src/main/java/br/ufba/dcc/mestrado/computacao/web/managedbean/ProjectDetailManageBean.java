@@ -23,10 +23,10 @@ import br.ufba.dcc.mestrado.computacao.entities.recommender.preference.Preferenc
 import br.ufba.dcc.mestrado.computacao.entities.recommender.user.UserEntity;
 import br.ufba.dcc.mestrado.computacao.entities.web.pageview.ProjectDetailPageViewEntity;
 import br.ufba.dcc.mestrado.computacao.service.base.CriteriumPreferenceService;
-import br.ufba.dcc.mestrado.computacao.service.base.OhLohAnalysisService;
-import br.ufba.dcc.mestrado.computacao.service.base.OhLohEnlistmentService;
-import br.ufba.dcc.mestrado.computacao.service.base.OhLohLinkService;
-import br.ufba.dcc.mestrado.computacao.service.base.OhLohProjectService;
+import br.ufba.dcc.mestrado.computacao.service.base.AnalysisService;
+import br.ufba.dcc.mestrado.computacao.service.base.EnlistmentService;
+import br.ufba.dcc.mestrado.computacao.service.base.LinkService;
+import br.ufba.dcc.mestrado.computacao.service.base.ProjectService;
 import br.ufba.dcc.mestrado.computacao.service.base.OverallPreferenceService;
 import br.ufba.dcc.mestrado.computacao.service.basic.ProjectDetailPageViewService;
 import br.ufba.dcc.mestrado.computacao.service.basic.RepositoryBasedUserDetailsService;
@@ -47,14 +47,14 @@ public class ProjectDetailManageBean implements Serializable {
 	 */
 	private static final long serialVersionUID = 3959153545005214806L;
 	
-	@ManagedProperty("#{ohLohProjectService}")
-	private OhLohProjectService projectService;
+	@ManagedProperty("#{projectService}")
+	private ProjectService projectService;
 	
-	@ManagedProperty("#{ohLohEnlistmentService}")
-	private OhLohEnlistmentService enlistmentService;
+	@ManagedProperty("#{enlistmentService}")
+	private EnlistmentService enlistmentService;
 	
-	@ManagedProperty("#{ohLohAnalysisService}")
-	private OhLohAnalysisService analysisService;
+	@ManagedProperty("#{analysisService}")
+	private AnalysisService analysisService;
 	
 	@ManagedProperty("#{overallPreferenceService}")
 	private OverallPreferenceService overallPreferenceService;
@@ -62,8 +62,8 @@ public class ProjectDetailManageBean implements Serializable {
 	@ManagedProperty("#{criteriumPreferenceService}")
 	private CriteriumPreferenceService criteriumPreferenceService;
 	
-	@ManagedProperty("#{ohLohLinkService}")
-	private OhLohLinkService linkService;
+	@ManagedProperty("#{linkService}")
+	private LinkService linkService;
 	
 	@ManagedProperty("#{repositoryBasedUserDetailsService}")
 	private RepositoryBasedUserDetailsService userDetailsService;
@@ -158,27 +158,27 @@ public class ProjectDetailManageBean implements Serializable {
 		return "projectDetail";
 	}
 
-	public OhLohProjectService getProjectService() {
+	public ProjectService getProjectService() {
 		return projectService;
 	}
 
-	public void setProjectService(OhLohProjectService projectService) {
+	public void setProjectService(ProjectService projectService) {
 		this.projectService = projectService;
 	}
 
-	public OhLohEnlistmentService getEnlistmentService() {
+	public EnlistmentService getEnlistmentService() {
 		return enlistmentService;
 	}
 
-	public void setEnlistmentService(OhLohEnlistmentService enlistmentService) {
+	public void setEnlistmentService(EnlistmentService enlistmentService) {
 		this.enlistmentService = enlistmentService;
 	}
 
-	public OhLohAnalysisService getAnalysisService() {
+	public AnalysisService getAnalysisService() {
 		return analysisService;
 	}
 
-	public void setAnalysisService(OhLohAnalysisService analysisService) {
+	public void setAnalysisService(AnalysisService analysisService) {
 		this.analysisService = analysisService;
 	}
 
@@ -204,11 +204,11 @@ public class ProjectDetailManageBean implements Serializable {
 		return linkCount;
 	}
 	
-	public OhLohLinkService getLinkService() {
+	public LinkService getLinkService() {
 		return linkService;
 	}
 	
-	public void setLinkService(OhLohLinkService linkService) {
+	public void setLinkService(LinkService linkService) {
 		this.linkService = linkService;
 	}
 

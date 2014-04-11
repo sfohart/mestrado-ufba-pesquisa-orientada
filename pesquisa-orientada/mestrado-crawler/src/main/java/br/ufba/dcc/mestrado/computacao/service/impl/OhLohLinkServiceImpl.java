@@ -10,6 +10,7 @@ import br.ufba.dcc.mestrado.computacao.entities.ohloh.project.OhLohLinkEntity;
 import br.ufba.dcc.mestrado.computacao.entities.ohloh.project.OhLohProjectEntity;
 import br.ufba.dcc.mestrado.computacao.ohloh.data.project.OhLohLinkDTO;
 import br.ufba.dcc.mestrado.computacao.repository.base.LinkRepository;
+import br.ufba.dcc.mestrado.computacao.repository.impl.LinkRepositoryImpl;
 import br.ufba.dcc.mestrado.computacao.service.base.OhLohLinkService;
 
 @Service(OhLohLinkServiceImpl.BEAN_NAME)
@@ -23,7 +24,7 @@ public class OhLohLinkServiceImpl extends DefaultOhLohServiceImpl<OhLohLinkDTO, 
 	public static final String BEAN_NAME =  "ohLohLinkService";
 	
 	@Autowired
-	public OhLohLinkServiceImpl(@Qualifier("ohLohLinkRepository") LinkRepository repository) {
+	public OhLohLinkServiceImpl(@Qualifier(LinkRepositoryImpl.BEAN_NAME) LinkRepository repository) {
 		super(repository, OhLohLinkDTO.class, OhLohLinkEntity.class);
 	}
 	

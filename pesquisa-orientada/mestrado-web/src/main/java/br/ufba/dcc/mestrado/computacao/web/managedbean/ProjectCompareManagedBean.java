@@ -16,7 +16,7 @@ import javax.faces.event.ComponentSystemEvent;
 
 import br.ufba.dcc.mestrado.computacao.entities.ohloh.project.OhLohProjectEntity;
 import br.ufba.dcc.mestrado.computacao.entities.recommender.preference.PreferenceEntity;
-import br.ufba.dcc.mestrado.computacao.service.base.OhLohProjectService;
+import br.ufba.dcc.mestrado.computacao.service.base.ProjectService;
 import br.ufba.dcc.mestrado.computacao.service.base.OverallPreferenceService;
 
 @ManagedBean(name = "compareMB")
@@ -29,8 +29,8 @@ public class ProjectCompareManagedBean implements Serializable {
 	 */
 	private static final long serialVersionUID = 3094192001849724997L;
 
-	@ManagedProperty("#{ohLohProjectService}")
-	private OhLohProjectService projectService;
+	@ManagedProperty("#{projectService}")
+	private ProjectService projectService;
 	
 	@ManagedProperty("#{overallPreferenceService}")
 	private OverallPreferenceService overallPreferenceService;
@@ -41,11 +41,11 @@ public class ProjectCompareManagedBean implements Serializable {
 	
 	private Map<Long, Long> preferenceCountMap;
 	
-	public OhLohProjectService getProjectService() {
+	public ProjectService getProjectService() {
 		return projectService;
 	}
 	
-	public void setProjectService(OhLohProjectService projectService) {
+	public void setProjectService(ProjectService projectService) {
 		this.projectService = projectService;
 	}
 	

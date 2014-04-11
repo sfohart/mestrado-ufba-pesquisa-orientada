@@ -19,7 +19,7 @@ import com.ocpsoft.pretty.faces.annotation.URLQueryParameter;
 import br.ufba.dcc.mestrado.computacao.entities.ohloh.project.OhLohProjectEntity;
 import br.ufba.dcc.mestrado.computacao.entities.recommender.preference.PreferenceEntity;
 import br.ufba.dcc.mestrado.computacao.entities.recommender.user.UserEntity;
-import br.ufba.dcc.mestrado.computacao.service.base.OhLohProjectService;
+import br.ufba.dcc.mestrado.computacao.service.base.ProjectService;
 import br.ufba.dcc.mestrado.computacao.service.base.OverallPreferenceService;
 import br.ufba.dcc.mestrado.computacao.service.base.UserService;
 import br.ufba.dcc.mestrado.computacao.service.basic.RepositoryBasedUserDetailsService;
@@ -55,8 +55,8 @@ public class ProjectReviewListManagedBean extends AbstractReviewVotingManagedBea
 	@ManagedProperty("#{overallPreferenceService}")
 	private OverallPreferenceService preferenceService;
 	
-	@ManagedProperty("#{ohLohProjectService}")
-	private OhLohProjectService projectService;
+	@ManagedProperty("#{projectService}")
+	private ProjectService projectService;
 	
 	@ManagedProperty("#{userService}")
 	private UserService userService;
@@ -138,11 +138,11 @@ public class ProjectReviewListManagedBean extends AbstractReviewVotingManagedBea
 		this.preferenceService = preferenceService;
 	}
 	
-	public OhLohProjectService getProjectService() {
+	public ProjectService getProjectService() {
 		return projectService;
 	}
 	
-	public void setProjectService(OhLohProjectService projectService) {
+	public void setProjectService(ProjectService projectService) {
 		this.projectService = projectService;
 	}
 	

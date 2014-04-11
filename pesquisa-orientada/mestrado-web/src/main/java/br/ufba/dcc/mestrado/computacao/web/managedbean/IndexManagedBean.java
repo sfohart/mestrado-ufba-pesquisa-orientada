@@ -19,7 +19,7 @@ import br.ufba.dcc.mestrado.computacao.entities.ohloh.project.OhLohTagEntity;
 import br.ufba.dcc.mestrado.computacao.entities.recommender.preference.ProjectPreferenceInfo;
 import br.ufba.dcc.mestrado.computacao.entities.recommender.user.UserEntity;
 import br.ufba.dcc.mestrado.computacao.entities.web.pageview.ProjectDetailPageViewInfo;
-import br.ufba.dcc.mestrado.computacao.service.base.OhLohProjectService;
+import br.ufba.dcc.mestrado.computacao.service.base.ProjectService;
 import br.ufba.dcc.mestrado.computacao.service.base.OverallPreferenceService;
 import br.ufba.dcc.mestrado.computacao.service.base.RecommenderCriteriumService;
 import br.ufba.dcc.mestrado.computacao.service.base.UserService;
@@ -35,8 +35,8 @@ public class IndexManagedBean implements Serializable {
 	 */
 	private static final long serialVersionUID = -1409944916651513725L;
 	
-	@ManagedProperty("#{ohLohProjectService}")
-	private OhLohProjectService ohLohProjectService;
+	@ManagedProperty("#{projectService}")
+	private ProjectService projectService;
 	
 	@ManagedProperty("#{userService}")
 	private UserService userService;
@@ -115,7 +115,7 @@ public class IndexManagedBean implements Serializable {
 					
 					@Override
 					public boolean isFiltered(long id) {
-						OhLohProjectEntity project = getOhLohProjectService().findById(id);
+						OhLohProjectEntity project = getProjectService().findById(id);
 						if (currentUser.getInterestTags() != null && ! currentUser.getInterestTags().isEmpty()) {
 							for (OhLohTagEntity tag : currentUser.getInterestTags()) {
 								if (project.getTags().contains(tag)) {
@@ -132,7 +132,7 @@ public class IndexManagedBean implements Serializable {
 				
 				if (recommendedItemList != null) {
 					for (RecommendedItem recommendedItem : recommendedItemList) {
-						OhLohProjectEntity recommendedProject = getOhLohProjectService().findById(recommendedItem.getItemID());
+						OhLohProjectEntity recommendedProject = getProjectService().findById(recommendedItem.getItemID());
 						this.recommendedProjectList.add(recommendedProject);
 					}
 				}
@@ -142,15 +142,14 @@ public class IndexManagedBean implements Serializable {
 		}
 	}
 
-	
-	public OhLohProjectService getOhLohProjectService() {
-		return ohLohProjectService;
+	public ProjectService getProjectService() {
+		return projectService;
 	}
 
-	public void setOhLohProjectService(OhLohProjectService ohLohProjectService) {
-		this.ohLohProjectService = ohLohProjectService;
+	public void setProjectService(ProjectService projectService) {
+		this.projectService = projectService;
 	}
-	
+
 	public UserService getUserService() {
 		return userService;
 	}
@@ -195,7 +194,7 @@ public class IndexManagedBean implements Serializable {
 	}
 	
 	public Long getProjectCount() {
-		return getOhLohProjectService().countAll();
+		return getProjectService().countAll();
 	}
 	
 	public Long getUserCount() {

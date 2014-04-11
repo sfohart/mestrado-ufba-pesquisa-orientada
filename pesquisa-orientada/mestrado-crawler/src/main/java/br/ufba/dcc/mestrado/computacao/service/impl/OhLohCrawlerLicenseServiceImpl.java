@@ -4,8 +4,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
-import br.ufba.dcc.mestrado.computacao.entities.ohloh.OhLohCrawlerLicenseEntity;
+import br.ufba.dcc.mestrado.computacao.ohloh.entities.OhLohCrawlerLicenseEntity;
 import br.ufba.dcc.mestrado.computacao.repository.base.OhLohCrawlerLicenseRepository;
+import br.ufba.dcc.mestrado.computacao.repository.impl.OhLohCrawlerLicenseRepositoryImpl;
 import br.ufba.dcc.mestrado.computacao.service.base.OhLohCrawlerLicenseService;
 
 @Service(OhLohCrawlerLicenseServiceImpl.BEAN_NAME)
@@ -21,7 +22,7 @@ public class OhLohCrawlerLicenseServiceImpl
 	public static final String BEAN_NAME =  "ohLohCrawlerLicenseService";
 
 	@Autowired
-	public OhLohCrawlerLicenseServiceImpl(@Qualifier("ohLohCrawlerLicenseRepository") OhLohCrawlerLicenseRepository repository) {
+	public OhLohCrawlerLicenseServiceImpl(@Qualifier(OhLohCrawlerLicenseRepositoryImpl.BEAN_NAME) OhLohCrawlerLicenseRepository repository) {
 		super(repository, OhLohCrawlerLicenseEntity.class);
 	}
 

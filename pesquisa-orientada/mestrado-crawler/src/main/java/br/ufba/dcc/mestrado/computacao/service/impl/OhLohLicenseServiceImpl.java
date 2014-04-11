@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 import br.ufba.dcc.mestrado.computacao.entities.ohloh.project.OhLohLicenseEntity;
 import br.ufba.dcc.mestrado.computacao.ohloh.data.project.OhLohLicenseDTO;
 import br.ufba.dcc.mestrado.computacao.repository.base.LicenseRepository;
+import br.ufba.dcc.mestrado.computacao.repository.impl.LicenseRepositoryImpl;
 import br.ufba.dcc.mestrado.computacao.service.base.OhLohLicenseService;
 
 @Service(OhLohLicenseServiceImpl.BEAN_NAME)
@@ -22,7 +23,7 @@ public class OhLohLicenseServiceImpl extends DefaultOhLohServiceImpl<OhLohLicens
 	
 
 	@Autowired
-	public OhLohLicenseServiceImpl(@Qualifier("ohLohLicenseRepository") LicenseRepository repository) {
+	public OhLohLicenseServiceImpl(@Qualifier(LicenseRepositoryImpl.BEAN_NAME) LicenseRepository repository) {
 		super(repository, OhLohLicenseDTO.class, OhLohLicenseEntity.class);
 	}
 
