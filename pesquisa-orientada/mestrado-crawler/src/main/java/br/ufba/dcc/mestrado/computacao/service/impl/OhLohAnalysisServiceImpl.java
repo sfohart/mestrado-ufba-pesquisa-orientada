@@ -18,11 +18,11 @@ import br.ufba.dcc.mestrado.computacao.ohloh.data.analysis.OhLohAnalysisDTO;
 import br.ufba.dcc.mestrado.computacao.ohloh.data.language.OhLohLanguageDTO;
 import br.ufba.dcc.mestrado.computacao.ohloh.restful.client.OhLohRestfulClient;
 import br.ufba.dcc.mestrado.computacao.ohloh.restful.request.OhLohBaseRequest;
-import br.ufba.dcc.mestrado.computacao.repository.base.OhLohAnalysisLanguageRepository;
-import br.ufba.dcc.mestrado.computacao.repository.base.OhLohAnalysisLanguagesRepository;
-import br.ufba.dcc.mestrado.computacao.repository.base.OhLohAnalysisRepository;
-import br.ufba.dcc.mestrado.computacao.repository.base.OhLohLicenseRepository;
-import br.ufba.dcc.mestrado.computacao.repository.base.OhLohTagRepository;
+import br.ufba.dcc.mestrado.computacao.repository.base.AnalysisLanguageRepository;
+import br.ufba.dcc.mestrado.computacao.repository.base.AnalysisLanguagesRepository;
+import br.ufba.dcc.mestrado.computacao.repository.base.AnalysisRepository;
+import br.ufba.dcc.mestrado.computacao.repository.base.LicenseRepository;
+import br.ufba.dcc.mestrado.computacao.repository.base.TagRepository;
 import br.ufba.dcc.mestrado.computacao.service.base.OhLohAnalysisService;
 import br.ufba.dcc.mestrado.computacao.service.base.OhLohLanguageService;
 
@@ -40,27 +40,27 @@ public class OhLohAnalysisServiceImpl extends DefaultOhLohServiceImpl<OhLohAnaly
 	private static Logger logger = Logger.getLogger(OhLohAnalysisServiceImpl.class.getName());
 	
 	@Autowired
-	public OhLohAnalysisServiceImpl(@Qualifier("ohLohAnalysisRepository") OhLohAnalysisRepository repository) {
+	public OhLohAnalysisServiceImpl(@Qualifier("ohLohAnalysisRepository") AnalysisRepository repository) {
 		super(repository, OhLohAnalysisDTO.class, OhLohAnalysisEntity.class);
 	}
 
 	@Autowired
-	private OhLohAnalysisRepository analysisRepository;
+	private AnalysisRepository analysisRepository;
 	
 	@Autowired
-	private OhLohAnalysisLanguagesRepository analysisLanguagesRepository;
+	private AnalysisLanguagesRepository analysisLanguagesRepository;
 	
 	@Autowired
-	private OhLohAnalysisLanguageRepository analysisLanguageRepository;
+	private AnalysisLanguageRepository analysisLanguageRepository;
 	
 	@Autowired
 	private OhLohRestfulClient restfulClient;
 
 	@Autowired
-	private OhLohTagRepository tagRepository;
+	private TagRepository tagRepository;
 	
 	@Autowired
-	private OhLohLicenseRepository licenseRepository;
+	private LicenseRepository licenseRepository;
 	
 	@Autowired
 	private OhLohLanguageService languageService;

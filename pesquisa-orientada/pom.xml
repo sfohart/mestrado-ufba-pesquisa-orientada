@@ -50,6 +50,7 @@
 		<module>mestrado-crawler</module>
 		<module>mestrado-recommender</module>
 		<module>mestrado-web</module>
+		<module>mestrado-core</module>
 	</modules>
 
 	<properties>

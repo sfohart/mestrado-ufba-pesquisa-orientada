@@ -14,8 +14,8 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.FutureTask;
 import java.util.concurrent.ThreadFactory;
+import java.util.logging.Logger;
 
-import org.apache.log4j.Logger;
 import org.apache.mahout.cf.taste.common.Refreshable;
 import org.apache.mahout.cf.taste.common.TasteException;
 import org.apache.mahout.cf.taste.eval.RecommenderBuilder;
@@ -350,7 +350,7 @@ public class MultiCriteriaRecommenderImpl implements MultiCriteriaRecommender {
 	 * @throws TasteException
 	 */
 	protected List<RecommendedItem> doRecommend(long userID, int howMany, IDRescorer rescorer) throws TasteException {
-		logger.debug(String.format("Recommending %d items for user '%d'", howMany, userID));
+		logger.info(String.format("Recommending %d items for user '%d'", howMany, userID));
 		
 		FastIDSet itemsID = getAllOtherItems(userID);
 		TopItems.Estimator<Long> estimator = new CachedEstimator(userID);
@@ -363,7 +363,7 @@ public class MultiCriteriaRecommenderImpl implements MultiCriteriaRecommender {
 		
 		logger.info(String.format("TopItems.getTopItems: time elapsed = %d ms", endTime - startTime));
 
-		logger.debug(String.format("Recommendations are: %s", topItems.toString()));
+		logger.info(String.format("Recommendations are: %s", topItems.toString()));
 	    return topItems;
 	}
 	
@@ -586,7 +586,7 @@ public class MultiCriteriaRecommenderImpl implements MultiCriteriaRecommender {
 	 */
 	@Override
 	public void clear(final long userID) {
-		logger.debug(String.format("Clearing recommendations for user ID '%d'", userID));
+		logger.info(String.format("Clearing recommendations for user ID '%d'", userID));
 		recommendationCache.remove(userID);
 		estimatedPreferenceCache
 			.removeKeysMatching(new Cache.MatchPredicate<LongPair>() {
@@ -613,11 +613,11 @@ public class MultiCriteriaRecommenderImpl implements MultiCriteriaRecommender {
 	 */
 	protected class RecommendationsRetriever implements Retriever<Long, Recommendations> {
 		
-		private Logger logger = Logger.getLogger(RecommendationsRetriever.class.getClass());
+		private Logger logger = Logger.getLogger(RecommendationsRetriever.class.getName());
 
 		@Override
 		public Recommendations get(Long key) throws TasteException {
-			logger.debug(String.format("Retrieving recommendations to user %d", key));
+			logger.info(String.format("Retrieving recommendations to user %d", key));
 			
 			int howMany = maxHowMany;
 			IDRescorer rescorer = currentRescorer;
@@ -633,14 +633,14 @@ public class MultiCriteriaRecommenderImpl implements MultiCriteriaRecommender {
 	 * critérios
 	 */
 	protected class EstimatedPreferenceRetriever implements Retriever<LongPair, Float> {
-		private Logger logger = Logger.getLogger(EstimatedPreferenceRetriever.class.getClass());
+		private Logger logger = Logger.getLogger(EstimatedPreferenceRetriever.class.getName());
 
 		@Override
 		public Float get(LongPair key) throws TasteException {
 			long userID = key.getFirst();
 			long itemID = key.getSecond();
 			
-			logger.debug(String.format("Retrieving preference values for user %d and item %d", userID, itemID));
+			logger.info(String.format("Retrieving preference values for user %d and item %d", userID, itemID));
 			float estimated = doEstimatePreference(userID, itemID);
 			
 			return estimated;

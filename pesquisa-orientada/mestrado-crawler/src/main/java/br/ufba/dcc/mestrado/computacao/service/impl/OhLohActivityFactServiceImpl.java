@@ -9,8 +9,8 @@ import org.springframework.stereotype.Service;
 import br.ufba.dcc.mestrado.computacao.entities.ohloh.activityfact.OhLohActivityFactEntity;
 import br.ufba.dcc.mestrado.computacao.entities.ohloh.project.OhLohProjectEntity;
 import br.ufba.dcc.mestrado.computacao.ohloh.data.activityfact.OhLohActivityFactDTO;
-import br.ufba.dcc.mestrado.computacao.repository.base.OhLohActivityFactRepository;
-import br.ufba.dcc.mestrado.computacao.repository.impl.OhLohActivityFactRepositoryImpl;
+import br.ufba.dcc.mestrado.computacao.repository.base.ActivityFactRepository;
+import br.ufba.dcc.mestrado.computacao.repository.impl.ActivityFactRepositoryImpl;
 import br.ufba.dcc.mestrado.computacao.service.base.OhLohActivityFactService;
 
 @Service(OhLohActivityFactServiceImpl.BEAN_NAME)
@@ -26,18 +26,18 @@ public class OhLohActivityFactServiceImpl
 	public static final String BEAN_NAME =  "ohLohActivityFactService";
 	
 	@Autowired
-	public OhLohActivityFactServiceImpl(@Qualifier(OhLohActivityFactRepositoryImpl.BEAN_NAME) OhLohActivityFactRepository repository) {
+	public OhLohActivityFactServiceImpl(@Qualifier(ActivityFactRepositoryImpl.BEAN_NAME) ActivityFactRepository repository) {
 		super(repository, OhLohActivityFactDTO.class, OhLohActivityFactEntity.class);
 	}
 
 	@Override
 	public Long countAllByProject(OhLohProjectEntity project) {
-		return ((OhLohActivityFactRepository) getRepository()).countAllByProject(project);
+		return ((ActivityFactRepository) getRepository()).countAllByProject(project);
 	}
 
 	@Override
 	public List<OhLohActivityFactEntity> findByProject(OhLohProjectEntity project) {
-		return ((OhLohActivityFactRepository) getRepository()).findByProject(project);
+		return ((ActivityFactRepository) getRepository()).findByProject(project);
 	}
 	
 	

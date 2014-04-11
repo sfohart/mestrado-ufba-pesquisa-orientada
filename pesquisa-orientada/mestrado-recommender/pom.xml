@@ -48,7 +48,7 @@
 		<!-- Mestrado Crawler -->
 		<dependency>
 			<groupId>br.ufba.dcc.mestrado.computacao</groupId>
-			<artifactId>mestrado-crawler</artifactId>
+			<artifactId>mestrado-core</artifactId>
 			<version>${project.version}</version>
 		</dependency>
 		

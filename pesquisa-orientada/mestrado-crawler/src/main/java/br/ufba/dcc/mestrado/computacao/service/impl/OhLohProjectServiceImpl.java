@@ -22,9 +22,9 @@ import br.ufba.dcc.mestrado.computacao.ohloh.data.analysis.OhLohAnalysisDTO;
 import br.ufba.dcc.mestrado.computacao.ohloh.data.project.OhLohProjectDTO;
 import br.ufba.dcc.mestrado.computacao.ohloh.restful.client.OhLohRestfulClient;
 import br.ufba.dcc.mestrado.computacao.ohloh.restful.request.OhLohBaseRequest;
-import br.ufba.dcc.mestrado.computacao.repository.base.OhLohLicenseRepository;
-import br.ufba.dcc.mestrado.computacao.repository.base.OhLohProjectRepository;
-import br.ufba.dcc.mestrado.computacao.repository.base.OhLohTagRepository;
+import br.ufba.dcc.mestrado.computacao.repository.base.LicenseRepository;
+import br.ufba.dcc.mestrado.computacao.repository.base.ProjectRepository;
+import br.ufba.dcc.mestrado.computacao.repository.base.TagRepository;
 import br.ufba.dcc.mestrado.computacao.service.base.OhLohAnalysisService;
 import br.ufba.dcc.mestrado.computacao.service.base.OhLohProjectService;
 
@@ -41,16 +41,16 @@ public class OhLohProjectServiceImpl extends DefaultOhLohServiceImpl<OhLohProjec
 	public static final String BEAN_NAME =  "ohLohProjectService";
 
 	@Autowired
-	public OhLohProjectServiceImpl(@Qualifier("ohLohProjectRepository") OhLohProjectRepository repository) {
+	public OhLohProjectServiceImpl(@Qualifier("ohLohProjectRepository") ProjectRepository repository) {
 		super(repository, OhLohProjectDTO.class, OhLohProjectEntity.class);
 	}
 
 
 	@Autowired
-	private OhLohTagRepository tagRepository;
+	private TagRepository tagRepository;
 	
 	@Autowired
-	private OhLohLicenseRepository licenseRepository;
+	private LicenseRepository licenseRepository;
 	
 	@Autowired
 	private OhLohAnalysisService analysisService;

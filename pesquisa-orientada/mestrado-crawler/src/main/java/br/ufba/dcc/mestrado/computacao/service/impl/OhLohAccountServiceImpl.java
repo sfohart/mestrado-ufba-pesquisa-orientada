@@ -6,7 +6,7 @@ import org.springframework.stereotype.Service;
 
 import br.ufba.dcc.mestrado.computacao.entities.ohloh.account.OhLohAccountEntity;
 import br.ufba.dcc.mestrado.computacao.ohloh.data.account.OhLohAccountDTO;
-import br.ufba.dcc.mestrado.computacao.repository.base.OhLohAccountRepository;
+import br.ufba.dcc.mestrado.computacao.repository.base.AccountRepository;
 import br.ufba.dcc.mestrado.computacao.service.base.OhLohAccountService;
 
 @Service(OhLohAccountServiceImpl.BEAN_NAME)
@@ -21,12 +21,12 @@ public class OhLohAccountServiceImpl extends DefaultOhLohServiceImpl<OhLohAccoun
 	public static final String BEAN_NAME =  "ohLohAccountService";
 
 	@Autowired
-	public OhLohAccountServiceImpl(@Qualifier("ohLohAccountRepository") OhLohAccountRepository repository) {
+	public OhLohAccountServiceImpl(@Qualifier("ohLohAccountRepository") AccountRepository repository) {
 		super(repository, OhLohAccountDTO.class, OhLohAccountEntity.class);
 	}
 	
 	public OhLohAccountEntity findByLogin(String login) {
-		return ((OhLohAccountRepository) getRepository()).findByLogin(login);
+		return ((AccountRepository) getRepository()).findByLogin(login);
 	}
 	
 }

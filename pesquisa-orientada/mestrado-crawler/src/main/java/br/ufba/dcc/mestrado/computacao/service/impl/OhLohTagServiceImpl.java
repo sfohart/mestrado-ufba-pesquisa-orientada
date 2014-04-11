@@ -8,7 +8,7 @@ import org.springframework.stereotype.Service;
 
 import br.ufba.dcc.mestrado.computacao.entities.ohloh.project.OhLohTagEntity;
 import br.ufba.dcc.mestrado.computacao.ohloh.data.project.OhLohTagDTO;
-import br.ufba.dcc.mestrado.computacao.repository.base.OhLohTagRepository;
+import br.ufba.dcc.mestrado.computacao.repository.base.TagRepository;
 import br.ufba.dcc.mestrado.computacao.service.base.OhLohTagService;
 
 @Service(OhLohTagServiceImpl.BEAN_NAME)
@@ -24,19 +24,19 @@ public class OhLohTagServiceImpl extends DefaultOhLohServiceImpl<OhLohTagDTO, Lo
 	
 
 	@Autowired
-	public OhLohTagServiceImpl(@Qualifier("ohLohTagRepository") OhLohTagRepository repository) {
+	public OhLohTagServiceImpl(@Qualifier("ohLohTagRepository") TagRepository repository) {
 		super(repository, OhLohTagDTO.class, OhLohTagEntity.class);
 	}
 
 
 	@Override
 	public List<OhLohTagEntity> findTagListByName(String name) {
-		return ((OhLohTagRepository) getRepository()).findTagListByName(name);
+		return ((TagRepository) getRepository()).findTagListByName(name);
 	}
 	
 	@Override
 	public OhLohTagEntity findByName(String name) {
-		return ((OhLohTagRepository) getRepository()).findByName(name);
+		return ((TagRepository) getRepository()).findByName(name);
 	}
 
 }

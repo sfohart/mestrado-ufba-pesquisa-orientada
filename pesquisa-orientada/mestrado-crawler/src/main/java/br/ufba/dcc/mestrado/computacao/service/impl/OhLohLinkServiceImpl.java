@@ -9,7 +9,7 @@ import org.springframework.stereotype.Service;
 import br.ufba.dcc.mestrado.computacao.entities.ohloh.project.OhLohLinkEntity;
 import br.ufba.dcc.mestrado.computacao.entities.ohloh.project.OhLohProjectEntity;
 import br.ufba.dcc.mestrado.computacao.ohloh.data.project.OhLohLinkDTO;
-import br.ufba.dcc.mestrado.computacao.repository.base.OhLohLinkRepository;
+import br.ufba.dcc.mestrado.computacao.repository.base.LinkRepository;
 import br.ufba.dcc.mestrado.computacao.service.base.OhLohLinkService;
 
 @Service(OhLohLinkServiceImpl.BEAN_NAME)
@@ -23,17 +23,17 @@ public class OhLohLinkServiceImpl extends DefaultOhLohServiceImpl<OhLohLinkDTO, 
 	public static final String BEAN_NAME =  "ohLohLinkService";
 	
 	@Autowired
-	public OhLohLinkServiceImpl(@Qualifier("ohLohLinkRepository") OhLohLinkRepository repository) {
+	public OhLohLinkServiceImpl(@Qualifier("ohLohLinkRepository") LinkRepository repository) {
 		super(repository, OhLohLinkDTO.class, OhLohLinkEntity.class);
 	}
 	
 	public List<OhLohLinkEntity> findByProject(OhLohProjectEntity project) {
-		return ((OhLohLinkRepository) getRepository()).findByProject(project);
+		return ((LinkRepository) getRepository()).findByProject(project);
 	}
 	
 	
 	public Long countAllByProject(OhLohProjectEntity project) {
-		return ((OhLohLinkRepository) getRepository()).countAllByProject(project);
+		return ((LinkRepository) getRepository()).countAllByProject(project);
 	}
 
 }

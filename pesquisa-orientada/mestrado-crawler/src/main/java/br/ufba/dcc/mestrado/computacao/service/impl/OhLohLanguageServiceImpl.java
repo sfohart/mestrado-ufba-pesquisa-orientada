@@ -6,7 +6,7 @@ import org.springframework.stereotype.Service;
 
 import br.ufba.dcc.mestrado.computacao.entities.ohloh.language.OhLohLanguageEntity;
 import br.ufba.dcc.mestrado.computacao.ohloh.data.language.OhLohLanguageDTO;
-import br.ufba.dcc.mestrado.computacao.repository.base.OhLohLanguageRepository;
+import br.ufba.dcc.mestrado.computacao.repository.base.LanguageRepository;
 import br.ufba.dcc.mestrado.computacao.service.base.OhLohLanguageService;
 
 @Service(OhLohLanguageServiceImpl.BEAN_NAME)
@@ -22,7 +22,7 @@ public class OhLohLanguageServiceImpl extends DefaultOhLohServiceImpl<OhLohLangu
 	
 
 	@Autowired
-	public OhLohLanguageServiceImpl(@Qualifier("ohLohLanguageRepository") OhLohLanguageRepository repository) {
+	public OhLohLanguageServiceImpl(@Qualifier("ohLohLanguageRepository") LanguageRepository repository) {
 		super(repository, OhLohLanguageDTO.class, OhLohLanguageEntity.class);
 	}
 

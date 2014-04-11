@@ -2,7 +2,6 @@ package br.ufba.dcc.mestrado.computacao.recommender;
 
 import java.util.Collection;
 import java.util.List;
-import java.util.Map;
 
 import org.apache.mahout.cf.taste.common.Refreshable;
 import org.apache.mahout.cf.taste.common.TasteException;

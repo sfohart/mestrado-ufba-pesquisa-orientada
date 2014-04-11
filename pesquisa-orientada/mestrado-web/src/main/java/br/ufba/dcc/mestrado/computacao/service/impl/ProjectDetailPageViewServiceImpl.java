@@ -22,7 +22,7 @@ import br.ufba.dcc.mestrado.computacao.service.basic.ProjectDetailPageViewServic
 
 @Service(ProjectDetailPageViewServiceImpl.BEAN_NAME)
 public class ProjectDetailPageViewServiceImpl
-		extends  BaseOhLohServiceImpl<Long, ProjectDetailPageViewEntity>
+		extends  BaseServiceImpl<Long, ProjectDetailPageViewEntity>
 		implements ProjectDetailPageViewService {
 	
 	

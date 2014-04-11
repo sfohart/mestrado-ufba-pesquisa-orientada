@@ -18,7 +18,7 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import br.ufba.dcc.mestrado.computacao.entities.ohloh.project.OhLohProjectEntity;
-import br.ufba.dcc.mestrado.computacao.repository.base.OhLohProjectRepository;
+import br.ufba.dcc.mestrado.computacao.repository.base.ProjectRepository;
 import br.ufba.dcc.mestrado.computacao.search.SearchRequest;
 import br.ufba.dcc.mestrado.computacao.search.SearchResponse;
 import br.ufba.dcc.mestrado.computacao.service.base.SearchService;
@@ -34,7 +34,7 @@ public class SearchServiceImpl implements SearchService {
 	public static final String BEAN_NAME =  "searchService";
 	
 	@Autowired
-	private OhLohProjectRepository projectRepository;
+	private ProjectRepository projectRepository;
 	
 	
 	@Transactional(propagation=Propagation.REQUIRED)

@@ -17,7 +17,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import br.ufba.dcc.mestrado.computacao.entities.ohloh.project.OhLohTagEntity;
-import br.ufba.dcc.mestrado.computacao.service.base.OhLohTagService;
+import br.ufba.dcc.mestrado.computacao.service.base.TagService;
 
 @Component
 @Path("/tags")
@@ -29,13 +29,13 @@ public class TagResource implements Serializable {
 	private static final long serialVersionUID = 5518910928445631027L;
 	
 	@Autowired
-	private OhLohTagService tagService;
+	private TagService tagService;
 	
-	public OhLohTagService getTagService() {
+	public TagService getTagService() {
 		return tagService;
 	}
 	
-	public void setTagService(OhLohTagService tagService) {
+	public void setTagService(TagService tagService) {
 		this.tagService = tagService;
 	}
 	

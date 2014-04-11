@@ -13,7 +13,7 @@ import br.ufba.dcc.mestrado.computacao.repository.base.UserRepository;
 import br.ufba.dcc.mestrado.computacao.service.base.UserService;
 
 @Service(UserServiceImpl.BEAN_NAME)
-public class UserServiceImpl extends BaseOhLohServiceImpl<Long, UserEntity>
+public class UserServiceImpl extends BaseServiceImpl<Long, UserEntity>
 		implements UserService {
 
 

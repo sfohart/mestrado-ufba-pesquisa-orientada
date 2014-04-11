@@ -16,9 +16,11 @@ import br.ufba.dcc.mestrado.computacao.service.CrawlerServiceConfig;
 
 @Configuration
 @ComponentScan("br.ufba.dcc.mestrado.computacao")
-@Import(CrawlerServiceConfig.class)
+@Import(value={CoreAppConfig.class, CrawlerServiceConfig.class})
 @PropertySource(name = "appProperties", value = {
-		"classpath:ohloh-account.properties", "classpath:ohloh.properties" })
+	"classpath:ohloh-account.properties", 
+	"classpath:ohloh.properties" 
+})
 public class CrawlerAppConfig {
 	@Autowired
 	private Environment environment;

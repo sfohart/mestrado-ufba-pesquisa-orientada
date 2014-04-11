@@ -17,7 +17,7 @@ import br.ufba.dcc.mestrado.computacao.service.base.CriteriumPreferenceService;
 import br.ufba.dcc.mestrado.computacao.service.base.RecommenderCriteriumService;
 
 @Service(CriteriumPreferenceServiceImpl.BEAN_NAME)
-public class CriteriumPreferenceServiceImpl extends BaseOhLohServiceImpl<Long, PreferenceEntity> implements CriteriumPreferenceService {
+public class CriteriumPreferenceServiceImpl extends BaseServiceImpl<Long, PreferenceEntity> implements CriteriumPreferenceService {
 
 	/**
 	 * 

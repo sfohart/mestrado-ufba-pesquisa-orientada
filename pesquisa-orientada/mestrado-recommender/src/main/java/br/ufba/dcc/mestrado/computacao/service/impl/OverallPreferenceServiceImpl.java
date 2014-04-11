@@ -13,7 +13,6 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import br.ufba.dcc.mestrado.computacao.entities.ohloh.project.OhLohProjectEntity;
 import br.ufba.dcc.mestrado.computacao.entities.recommender.criterium.RecommenderCriteriumEntity;
 import br.ufba.dcc.mestrado.computacao.entities.recommender.preference.PreferenceEntity;
 import br.ufba.dcc.mestrado.computacao.entities.recommender.preference.PreferenceEntryEntity;
@@ -26,7 +25,7 @@ import br.ufba.dcc.mestrado.computacao.service.base.RecommenderCriteriumService;
 import br.ufba.dcc.mestrado.computacao.service.base.UserService;
 
 @Service(OverallPreferenceServiceImpl.BEAN_NAME)
-public class OverallPreferenceServiceImpl extends BaseOhLohServiceImpl<Long, PreferenceEntity> implements OverallPreferenceService {
+public class OverallPreferenceServiceImpl extends BaseServiceImpl<Long, PreferenceEntity> implements OverallPreferenceService {
 	
 	
 	/**

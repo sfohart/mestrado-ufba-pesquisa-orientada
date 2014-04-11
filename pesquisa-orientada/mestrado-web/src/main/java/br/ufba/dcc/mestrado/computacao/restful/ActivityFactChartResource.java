@@ -19,7 +19,7 @@ import org.springframework.stereotype.Component;
 
 import br.ufba.dcc.mestrado.computacao.entities.ohloh.activityfact.OhLohActivityFactEntity;
 import br.ufba.dcc.mestrado.computacao.entities.ohloh.project.OhLohProjectEntity;
-import br.ufba.dcc.mestrado.computacao.service.base.OhLohActivityFactService;
+import br.ufba.dcc.mestrado.computacao.service.base.ActivityFactService;
 
 /**
  * 
@@ -36,14 +36,14 @@ public class ActivityFactChartResource implements Serializable {
 	private static final long serialVersionUID = -4894081803064618522L;
 	
 	@Autowired
-	private OhLohActivityFactService activityFactService;
+	private ActivityFactService activityFactService;
 	
-	public OhLohActivityFactService getActivityFactService() {
+	public ActivityFactService getActivityFactService() {
 		return activityFactService;
 	}
 	
 	public void setActivityFactService(
-			OhLohActivityFactService activityFactService) {
+			ActivityFactService activityFactService) {
 		this.activityFactService = activityFactService;
 	}
 	

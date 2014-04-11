@@ -3,11 +3,10 @@ package br.ufba.dcc.mestrado.computacao.service.base;
 import java.io.Serializable;
 import java.util.List;
 
-import br.ufba.dcc.mestrado.computacao.entities.ohloh.project.OhLohProjectEntity;
 import br.ufba.dcc.mestrado.computacao.entities.recommender.preference.PreferenceEntity;
 import br.ufba.dcc.mestrado.computacao.entities.recommender.preference.ProjectPreferenceInfo;
 
-public interface OverallPreferenceService extends BaseOhLohService<Long, PreferenceEntity> , Serializable {
+public interface OverallPreferenceService extends BaseService<Long, PreferenceEntity> , Serializable {
 
 	/**
 	 * Conta quantas avalições existem ao todo.

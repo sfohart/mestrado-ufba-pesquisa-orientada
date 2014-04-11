@@ -120,6 +120,13 @@
 			<artifactId>commons-collections</artifactId>
 			<version>${commons-collections.version}</version>
 		</dependency>
+		
+		<!-- Mestrado Crawler -->
+		<dependency>
+			<groupId>br.ufba.dcc.mestrado.computacao</groupId>
+			<artifactId>mestrado-core</artifactId>
+			<version>${project.version}</version>
+		</dependency>
 
 	</dependencies>
 

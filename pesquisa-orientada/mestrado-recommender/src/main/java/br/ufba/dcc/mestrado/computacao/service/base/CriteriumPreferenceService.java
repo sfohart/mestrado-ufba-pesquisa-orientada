@@ -9,7 +9,7 @@ import org.apache.mahout.cf.taste.model.Preference;
 import br.ufba.dcc.mestrado.computacao.entities.recommender.criterium.RecommenderCriteriumEntity;
 import br.ufba.dcc.mestrado.computacao.entities.recommender.preference.PreferenceEntity;
 
-public interface CriteriumPreferenceService extends BaseOhLohService<Long, PreferenceEntity> , Serializable {
+public interface CriteriumPreferenceService extends BaseService<Long, PreferenceEntity> , Serializable {
 	
 	/**
 	 * 

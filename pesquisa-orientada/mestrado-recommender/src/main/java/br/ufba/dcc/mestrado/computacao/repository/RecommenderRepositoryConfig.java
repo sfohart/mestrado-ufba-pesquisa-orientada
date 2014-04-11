@@ -6,7 +6,7 @@ import org.springframework.context.annotation.Import;
 import org.springframework.core.env.Environment;
 
 @Configuration
-@Import({CrawlerRepositoryConfig.class})
+@Import({CoreRepositoryConfig.class})
 public class RecommenderRepositoryConfig {
 	@Autowired
 	private Environment environment;
