@@ -32,6 +32,34 @@
 					
 					<ui:include src="/layout/carousel.xhtml"  />
 					
+					<h:panelGroup layout="block" rendered="#{not empty indexMB.projectViewedList}">
+						<hr/>
+					
+						<ui:include src="/detail/projectCart.xhtml">
+							<ui:param name="projectCart" value="#{indexMB.projectViewedList}"  />
+							<ui:param name="projectCartTitle" value="Projetos recentemente vistos por você"  />
+						</ui:include>
+						
+					</h:panelGroup>
+					
+					
+					<h:panelGroup layout="block" rendered="#{not empty indexMB.recommendedProjectList}" id="recommendedProjects">
+						<hr/>
+						
+						<ui:include src="/detail/projectCart.xhtml">
+							<ui:param name="projectCart" value="#{indexMB.recommendedProjectList}"  />
+							<ui:param name="projectCartTitle" value="Projetos recomendados para você"  />
+						</ui:include>
+						
+						<h:panelGroup layout="block" rendered="#{not empty loginMB.loggedUser.interestTags}">
+							<h4>Filtrando por suas <i>tags</i> de interesse</h4>
+							<ui:include src="/detail/projectTagList.xhtml">
+								<ui:param name="tagList" value="#{loginMB.loggedUser.interestTags}"/>
+								<ui:param name="fullList" value="true" />
+							</ui:include>
+						</h:panelGroup>
+						
+					</h:panelGroup>
 					
 					<h:panelGroup layout="block" rendered="#{(not empty indexMB.topTenReviewedProjectList) or (not empty indexMB.topTenViewedProjectList)}">
 						<hr/>
@@ -131,38 +159,11 @@
 						</div>
 					</h:panelGroup>
 					
-					<h:panelGroup layout="block" rendered="#{not empty indexMB.projectViewedList}">
-						<hr/>
 					
-						<ui:include src="/detail/projectCart.xhtml">
-							<ui:param name="projectCart" value="#{indexMB.projectViewedList}"  />
-							<ui:param name="projectCartTitle" value="Projetos recentemente vistos por você"  />
-						</ui:include>
-						
-					</h:panelGroup>
-					
-					
-					<h:panelGroup layout="block" rendered="#{not empty indexMB.recommendedProjectList}" id="recommendedProjects">
-						<hr/>
-						
-						<ui:include src="/detail/projectCart.xhtml">
-							<ui:param name="projectCart" value="#{indexMB.recommendedProjectList}"  />
-							<ui:param name="projectCartTitle" value="Projetos recomendados para você"  />
-						</ui:include>
-						
-						<h:panelGroup layout="block" rendered="#{not empty loginMB.loggedUser.interestTags}">
-							<h4>Filtrando por suas <i>tags</i> de interesse</h4>
-							<ui:include src="/detail/projectTagList.xhtml">
-								<ui:param name="tagList" value="#{loginMB.loggedUser.interestTags}"/>
-								<ui:param name="fullList" value="true" />
-							</ui:include>
-						</h:panelGroup>
-						
-					</h:panelGroup>
 
-					<hr/>
 					
 					<div class="row">
+						<hr/>
 						<div class="col-md-4">
 							<h4>Busque projetos por palavras chave</h4>
 							<p class="text-justify">
