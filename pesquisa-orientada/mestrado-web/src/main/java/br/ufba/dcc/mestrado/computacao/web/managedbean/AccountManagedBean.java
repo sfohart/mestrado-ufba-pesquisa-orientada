@@ -72,7 +72,7 @@ public class AccountManagedBean implements Serializable {
 	@ManagedProperty("#{repositoryBasedUserDetailsService}")
 	private RepositoryBasedUserDetailsService userDetailsService;
 	
-	@ManagedProperty("#{ohLohTagService}")
+	@ManagedProperty("#{tagService}")
 	private TagService tagService;
 	
 	@ManagedProperty("#{userService}")
