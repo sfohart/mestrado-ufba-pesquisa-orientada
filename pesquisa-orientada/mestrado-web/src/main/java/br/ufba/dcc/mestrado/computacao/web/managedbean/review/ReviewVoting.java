@@ -1,4 +1,4 @@
-package br.ufba.dcc.mestrado.computacao.web.managedbean;
+package br.ufba.dcc.mestrado.computacao.web.managedbean.review;
 
 import javax.faces.event.ActionEvent;
 

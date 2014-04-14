@@ -7,9 +7,9 @@
 	xmlns:f="http://java.sun.com/jsf/core">
 	
 	<f:metadata>
-		<f:viewParam id="accountId" name="accountId" value="#{accountMB.account.id}" />
-		<f:viewParam id="accountLogin" name="accountLogin" value="#{accountMB.account.login}"  />
-		<f:event listener="#{accountMB.initInterestTagSettings}" type="preRenderView"  />		
+		<f:viewParam id="accountId" name="accountId" value="#{accountInterestTagsMB.account.id}" />
+		<f:viewParam id="accountLogin" name="accountLogin" value="#{accountInterestTagsMB.account.login}"  />
+		<f:event listener="#{accountInterestTagsMB.init}" type="preRenderView"  />		
 	</f:metadata>
 	
 	<h:body>
@@ -21,12 +21,13 @@
 				
 					<ui:include src="accountHeader.xhtml" >
 						<ui:param name="socialButtonsRendered" value="true" />
+						<ui:param name="account" value="#{accountInterestTagsMB.account}" />
 					</ui:include>
 					
 					<div  style="border-top: 1px solid #aaa;">
 						<h3>
 							<h:outputLink value="#{facesContext.externalContext.applicationContextPath}/account/accountSettings.jsf">
-								<f:param  name="accountId" value="#{accountMB.account.id}" />
+								<f:param  name="accountId" value="#{accountInterestTagsMB.account.id}" />
 								Sumário da Conta:
 							</h:outputLink>
 							Tags de Interesse
@@ -50,7 +51,7 @@
 										
 										<div class="form-group">
 											<h:inputText id="tagAutoComplete" styleClass="tag-autocomplete form-control"
-												value="#{accountMB.selectedInterestTags}"  />
+												value="#{accountInterestTagsMB.selectedInterestTags}"  />
 											<span class="help-block">											
 												Digite palavras chave correspondentes ao tipo de software do seu interesse. Selecione, dentre as 
 												opções disponíveis, aquela(s) que mais se aproxima(m) daquilo que você procura. As palavras chave que você 
@@ -91,7 +92,7 @@
 										<div class="form-group">
 											<h:commandLink styleClass="btn btn-primary ladda-button add-interest-tags"  
 												p:data-style="expand-left" p:data-spinner-color="#FFFFFF" p:data-size="xs"
-												actionListener="#{accountMB.addInterestTags}">
+												actionListener="#{accountInterestTagsMB.addInterestTags}">
 												<f:ajax execute="@form" render="@form" onevent="handleAddInterestTagsEvent"></f:ajax>
 												<span class="ladda-label">Adicionar</span>
 												<span class="ladda-spinner"></span>
@@ -105,12 +106,12 @@
 										<span class="help-block">											
 											Clique no <b>&#215;</b> para excluir uma palavra chave da sua lista de interesses
 										</span>
-										<h:panelGroup id="tagsPanelFullList" rendered="#{not empty accountMB.account.interestTags}">
+										<h:panelGroup id="tagsPanelFullList" rendered="#{not empty accountInterestTagsMB.account.interestTags}">
 											<span class="glyphicon glyphicon-tags" style="margin-right: 5px"></span>
-											<ui:repeat var="tag" value="#{accountMB.account.interestTags}">
+											<ui:repeat var="tag" value="#{accountInterestTagsMB.account.interestTags}">
 												<span class="label-custom">
 													<h:outputText value="#{tag.name} " />
-													<h:commandLink style="text-decoration: none" actionListener="#{accountMB.removeInterestTags}">
+													<h:commandLink style="text-decoration: none" actionListener="#{accountInterestTagsMB.removeInterestTags}">
 														&#215;
 														<f:attribute name="tag" value="#{tag}" />
 														<f:ajax execute="@form" render="@form" ></f:ajax>

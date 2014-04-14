@@ -6,8 +6,8 @@
 	xmlns:f="http://java.sun.com/jsf/core">
 	
 	<f:metadata>
-		<f:viewParam id="accountId" name="accountId" value="#{accountMB.account.id}" required="true" />
-		<f:event listener="#{accountMB.initEditSettings}" type="preRenderView"  />
+		<f:viewParam id="accountId" name="accountId" value="#{accountBasicDataEditMB.account.id}" required="true" />
+		<f:event listener="#{accountBasicDataEditMB.init}" type="preRenderView"  />
 	</f:metadata>
 	
 	<h:body>
@@ -19,12 +19,13 @@
 				<section class="container">
 				
 					<ui:include src="accountHeader.xhtml" >
+						<ui:param name="account" value="#{accountBasicDataEditMB.account}" />
 					</ui:include>
 
 					<div  style="border-top: 1px solid #aaa;">
 						<h3>
 							<h:outputLink value="#{facesContext.externalContext.applicationContextPath}/account/accountSettings.jsf">
-								<f:param  name="accountId" value="#{accountMB.account.id}" />
+								<f:param  name="accountId" value="#{accountBasicDataEditMB.account.id}" />
 								Sumário da Conta:
 							</h:outputLink>
 							Dados Básicos
@@ -48,22 +49,22 @@
 									<div class="form-group">
 										<h:outputLabel for="firstName" value="Primeiro Nome"/>
 										<h:inputText id="firstName" styleClass="form-control" 
-											value="#{accountMB.account.firstName}"/>
+											value="#{accountBasicDataEditMB.account.firstName}"/>
 									</div>
 									<div class="form-group">
 										<h:outputLabel for="middleName" value="Nome do Meio"/>
 										<h:inputText id="middleName" styleClass="form-control" 
-											value="#{accountMB.account.middleName}"/>
+											value="#{accountBasicDataEditMB.account.middleName}"/>
 									</div>
 									<div class="form-group">
 										<h:outputLabel for="lastName" value="Último Nome"/>
 										<h:inputText id="lastName" styleClass="form-control" 
-											value="#{accountMB.account.lastName}"/>
+											value="#{accountBasicDataEditMB.account.lastName}"/>
 									</div>
 									<div class="form-group">
 										<h:outputLabel for="email" value="Email"/>
 										<h:inputText id="email" styleClass="form-control" 
-											value="#{accountMB.account.email}"/>
+											value="#{accountBasicDataEditMB.account.email}"/>
 										<span class="help-block">
 											Use seu e-mail para exibir o seu <h:outputLink value="http://www.gravatar.com">Gravatar</h:outputLink>
 										</span>
@@ -71,18 +72,18 @@
 									<div class="form-group">
 										<h:outputLabel for="facebookAccount" value="ID do Facebook"/>
 										<h:inputText id="facebookAccount" styleClass="form-control" 
-											value="#{accountMB.account.facebookAccount}"/>
+											value="#{accountBasicDataEditMB.account.facebookAccount}"/>
 									</div>
 									<div class="form-group">
 										<h:outputLabel for="twitterAccount" value="ID do Twitter"/>
 										<h:inputText id="twitterAccount" styleClass="form-control" 
-											value="#{accountMB.account.twitterAccount}"/>
+											value="#{accountBasicDataEditMB.account.twitterAccount}"/>
 									</div>
 									
 									
 									<h:commandButton 
 										styleClass="btn btn-primary" tabindex="6" value="Salvar"
-										action="#{accountMB.saveAccount}"  
+										action="#{accountBasicDataEditMB.saveAccount}"  
 										/>
 								</fieldset>
 							</h:form>

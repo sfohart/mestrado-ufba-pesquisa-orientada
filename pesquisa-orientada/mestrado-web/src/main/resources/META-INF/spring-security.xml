@@ -19,7 +19,7 @@
 		<intercept-url pattern="/account/newAccount.jsf" access="permitAll"  />
 		
 		<!-- Precisa estar logado para opinar sobre determinado projeto -->		
-		<intercept-url pattern="/account/account*" access="hasRole('ROLE_USER')"  />
+		<intercept-url pattern="/account/*" access="hasRole('ROLE_USER')"  />
 		<intercept-url pattern="/reviews/newProjectReview.jsf" access="hasRole('ROLE_USER')"/>
 
 		

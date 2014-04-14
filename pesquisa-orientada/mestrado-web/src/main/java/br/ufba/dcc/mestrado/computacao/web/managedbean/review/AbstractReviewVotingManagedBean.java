@@ -1,4 +1,4 @@
-package br.ufba.dcc.mestrado.computacao.web.managedbean;
+package br.ufba.dcc.mestrado.computacao.web.managedbean.review;
 
 import java.io.Serializable;
 import java.util.HashSet;

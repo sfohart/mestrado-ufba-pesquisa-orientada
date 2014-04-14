@@ -11,43 +11,43 @@
 			rendered="#{empty facesContext.messageList}">
 		<div class="col-md-2 pull-left">
 			<h:outputLink value="#{facesContext.externalContext.applicationContextPath}/account/account.jsf">
-				<f:param  name="accountId" value="#{accountMB.account.id}" />
-				<h:graphicImage styleClass="media-object img-thumbnail" url="http://www.gravatar.com/avatar/#{accountMB.encodedEmail}.png?s=128&amp;d=mm&amp;r=g" />
+				<f:param  name="accountId" value="#{account.id}" />
+				<h:graphicImage styleClass="media-object img-thumbnail" url="http://www.gravatar.com/avatar/#{account.encodedEmail}.png?s=128&amp;d=mm&amp;r=g" />
 			</h:outputLink>
 		</div>
 		<div class="col-md-10 pull-left">
 			<h2> 
 				<h:outputLink value="#{facesContext.externalContext.applicationContextPath}/account/account.jsf">
-					<f:param  name="accountId" value="#{accountMB.account.id}" />
+					<f:param  name="accountId" value="#{account.id}" />
 					<ui:include src="/account/accountName.xhtml"  >
-						<ui:param name="user" value="#{accountMB.account}"  />
+						<ui:param name="user" value="#{account}"  />
 					</ui:include>
 				</h:outputLink> 
 			</h2>
-			<h:outputLink rendered="#{loginMB.loggedUser eq accountMB.account}" 
+			<h:outputLink rendered="#{loginMB.loggedUser eq account}" 
 					value="#{facesContext.externalContext.applicationContextPath}/account/accountSettings.jsf">
 				<span class="glyphicon glyphicon-cog"></span>
-				<f:param  name="accountId" value="#{accountMB.account.id}" />
+				<f:param  name="accountId" value="#{account.id}" />
 				Configurações
 			</h:outputLink>
 			
 			<h:panelGroup layout="block" rendered="#{socialButtonsRendered}">
 				<ul class="nav nav-pills">
 					<li>
-						<h:outputLink value="http://www.facebook.com/#{accountMB.account.facebookAccount}" rendered="#{not empty accountMB.account.facebookAccount}">
+						<h:outputLink value="http://www.facebook.com/#{account.facebookAccount}" rendered="#{not empty account.facebookAccount}">
 							<h:panelGroup styleClass="fa fa-facebook" style="color: #3b5998; font-size: 1.5em;"/>
 						</h:outputLink>
 						
 						<h:panelGroup styleClass="fa fa-facebook" style="color: #ccc; font-size: 1.5em; padding: 10px 15px" 
-							rendered="#{empty accountMB.account.facebookAccount}"/>
+							rendered="#{empty account.facebookAccount}"/>
 					</li>
 					<li>								
-						<h:outputLink value="http://www.twitter.com/#{accountMB.account.twitterAccount}" rendered="#{not empty accountMB.account.twitterAccount}">
+						<h:outputLink value="http://www.twitter.com/#{account.twitterAccount}" rendered="#{not empty account.twitterAccount}">
 							<h:panelGroup styleClass="fa fa-twitter" style="color: #00a0d1; font-size: 1.5em;"  />
 						</h:outputLink>
 							
 						<h:panelGroup styleClass="fa fa-twitter" style="color: #ccc; font-size: 1.5em; padding: 10px 15px" 
-							rendered="#{empty accountMB.account.twitterAccount}"/>
+							rendered="#{empty account.twitterAccount}"/>
 					</li>
 				</ul>
 			</h:panelGroup>
