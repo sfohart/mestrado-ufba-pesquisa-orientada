@@ -9,22 +9,19 @@ import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
 import javax.faces.event.ComponentSystemEvent;
 
-import org.apache.mahout.cf.taste.common.TasteException;
-import org.apache.mahout.cf.taste.impl.recommender.GenericBooleanPrefItemBasedRecommender;
-import org.apache.mahout.cf.taste.recommender.IDRescorer;
-import org.apache.mahout.cf.taste.recommender.RecommendedItem;
+import org.apache.commons.lang3.tuple.ImmutablePair;
 
+import br.ufba.dcc.mestrado.computacao.dto.pageview.ProjectDetailPageViewInfo;
+import br.ufba.dcc.mestrado.computacao.dto.pageview.ProjectReviewsInfo;
 import br.ufba.dcc.mestrado.computacao.entities.ohloh.project.OhLohProjectEntity;
-import br.ufba.dcc.mestrado.computacao.entities.ohloh.project.OhLohTagEntity;
-import br.ufba.dcc.mestrado.computacao.entities.recommender.preference.ProjectPreferenceInfo;
 import br.ufba.dcc.mestrado.computacao.entities.recommender.user.UserEntity;
-import br.ufba.dcc.mestrado.computacao.entities.web.pageview.ProjectDetailPageViewInfo;
 import br.ufba.dcc.mestrado.computacao.service.base.ProjectService;
-import br.ufba.dcc.mestrado.computacao.service.base.OverallPreferenceService;
-import br.ufba.dcc.mestrado.computacao.service.base.RecommenderCriteriumService;
-import br.ufba.dcc.mestrado.computacao.service.base.UserService;
-import br.ufba.dcc.mestrado.computacao.service.basic.ProjectDetailPageViewService;
 import br.ufba.dcc.mestrado.computacao.service.basic.RepositoryBasedUserDetailsService;
+import br.ufba.dcc.mestrado.computacao.service.core.base.BaseColaborativeFilteringService;
+import br.ufba.dcc.mestrado.computacao.service.core.base.OverallRatingService;
+import br.ufba.dcc.mestrado.computacao.service.core.base.ProjectDetailPageViewService;
+import br.ufba.dcc.mestrado.computacao.service.core.base.RecommenderCriteriumService;
+import br.ufba.dcc.mestrado.computacao.service.core.base.UserService;
 
 @ManagedBean(name="indexMB")
 @ViewScoped
@@ -38,14 +35,17 @@ public class IndexManagedBean implements Serializable {
 	@ManagedProperty("#{projectService}")
 	private ProjectService projectService;
 	
+	@ManagedProperty("#{mahoutColaborativeFilteringService}")
+	private BaseColaborativeFilteringService colaborativeFilteringService;
+	
 	@ManagedProperty("#{userService}")
 	private UserService userService;
 	
 	@ManagedProperty("#{repositoryBasedUserDetailsService}")
 	private RepositoryBasedUserDetailsService userDetailsService;
 	
-	@ManagedProperty("#{overallPreferenceService}")
-	private OverallPreferenceService overallPreferenceService;
+	@ManagedProperty("#{overallRatingService}")
+	private OverallRatingService overallRatingService;
 	
 	@ManagedProperty("#{recommenderCriteriumService}")
 	private RecommenderCriteriumService recommenderCriteriumService;
@@ -53,22 +53,21 @@ public class IndexManagedBean implements Serializable {
 	@ManagedProperty("#{projectDetailPageViewService}")
 	private ProjectDetailPageViewService pageViewService;
 	
-	private List<ProjectPreferenceInfo> topTenReviewedProjectList;
+	private List<ProjectReviewsInfo> topTenReviewedProjectList;
 	private List<ProjectDetailPageViewInfo> topTenViewedProjectList;
 	
 	private List<OhLohProjectEntity> projectViewedList;
 	private List<OhLohProjectEntity> recommendedProjectList;
 	
-	private ProjectPreferenceInfo mostReviewedProjectPreferenceInfo;
+	private ProjectReviewsInfo mostReviewedProjectPreferenceInfo;
 	private ProjectDetailPageViewInfo mostViewedProjectDetailInfo;
 		
 	public IndexManagedBean() {
 	}
 
 	public void init(ComponentSystemEvent event) {
-		this.topTenReviewedProjectList = getOverallPreferenceService().findAllProjectPreferenceInfo(0, 10);
-		this.topTenViewedProjectList = getPageViewService().findAllProjectDetailPageViewInfo(0, 10);
-		
+		findTopTenReviewedProjectList();
+		findTopTenViewedProjectList();		
 		
 		findUserRecentlyViewedProjectList();
 		
@@ -84,6 +83,39 @@ public class IndexManagedBean implements Serializable {
 		findRecommendedProjectList();
 	}
 
+	protected void findTopTenViewedProjectList() {
+		
+		List<ImmutablePair<OhLohProjectEntity, Long>> viewedProjectData = getPageViewService().findAllProjectDetailViewsCount(0, 10);
+		this.topTenViewedProjectList = new ArrayList<>();
+		
+		if (viewedProjectData != null && ! viewedProjectData.isEmpty()) {
+			for (ImmutablePair<OhLohProjectEntity, Long> pair : viewedProjectData) {
+				ProjectDetailPageViewInfo info = new ProjectDetailPageViewInfo();
+				info.setProject(pair.getLeft());
+				info.setPageViewCount(pair.getRight());
+				
+				topTenViewedProjectList.add(info);
+			}
+		}
+	}
+
+	protected void findTopTenReviewedProjectList() {
+		List<ImmutablePair<OhLohProjectEntity, Long>> reviewedProjectData = getOverallRatingService().findRatingCountByProject(0, 10);
+		
+		this.topTenReviewedProjectList = new ArrayList<>();
+		
+		if (reviewedProjectData != null && ! reviewedProjectData.isEmpty()) {
+			for (ImmutablePair<OhLohProjectEntity, Long> pair : reviewedProjectData) {
+				ProjectReviewsInfo info = new ProjectReviewsInfo();
+				
+				info.setProject(pair.getLeft());
+				info.setReviewsCount(pair.getRight());
+				
+				this.topTenReviewedProjectList.add(info);
+			}
+		}
+	}
+
 	private void findUserRecentlyViewedProjectList() {
 		this.projectViewedList = new ArrayList<>();
 		UserEntity currentUser = getUserDetailsService().loadFullLoggedUser();
@@ -97,48 +129,10 @@ public class IndexManagedBean implements Serializable {
 	}
 	
 	protected void findRecommendedProjectList() {
-		try {
-			//limpa lista atual de projetos recomendados
-			this.recommendedProjectList = new ArrayList<>();
-			final UserEntity currentUser = getUserDetailsService().loadFullLoggedUser();
-			
-			if (currentUser != null) {
-				GenericBooleanPrefItemBasedRecommender recommender = getPageViewService().buildProjectRecommender();
-				
-				//aplicando filtro de tags no recomendador
-				List<RecommendedItem> recommendedItemList = recommender.recommend(currentUser.getId(), 6, new IDRescorer() {
-					
-					@Override
-					public double rescore(long id, double originalScore) {
-						return originalScore;
-					}
-					
-					@Override
-					public boolean isFiltered(long id) {
-						OhLohProjectEntity project = getProjectService().findById(id);
-						if (currentUser.getInterestTags() != null && ! currentUser.getInterestTags().isEmpty()) {
-							for (OhLohTagEntity tag : currentUser.getInterestTags()) {
-								if (project.getTags().contains(tag)) {
-									return false;
-								}
-							}
-							
-							return true;
-						} else {
-							return false;
-						}
-					}
-				});
-				
-				if (recommendedItemList != null) {
-					for (RecommendedItem recommendedItem : recommendedItemList) {
-						OhLohProjectEntity recommendedProject = getProjectService().findById(recommendedItem.getItemID());
-						this.recommendedProjectList.add(recommendedProject);
-					}
-				}
-			}
-		} catch (TasteException e1) {
-			e1.printStackTrace();
+		this.recommendedProjectList = new ArrayList<>();
+		final UserEntity currentUser = getUserDetailsService().loadFullLoggedUser();
+		if (currentUser != null && currentUser.getId() != null) {
+			this.recommendedProjectList = getColaborativeFilteringService().recommendViewedProjectsByUser(currentUser.getId(), 6, true);		
 		}
 	}
 
@@ -167,15 +161,14 @@ public class IndexManagedBean implements Serializable {
 		this.userDetailsService = userDetailsService;
 	}
 	
-	public OverallPreferenceService getOverallPreferenceService() {
-		return overallPreferenceService;
+	public OverallRatingService getOverallRatingService() {
+		return overallRatingService;
 	}
-	
-	public void setOverallPreferenceService(
-			OverallPreferenceService overallPreferenceService) {
-		this.overallPreferenceService = overallPreferenceService;
+
+	public void setOverallRatingService(OverallRatingService overallRatingService) {
+		this.overallRatingService = overallRatingService;
 	}
-	
+
 	public RecommenderCriteriumService getRecommenderCriteriumService() {
 		return recommenderCriteriumService;
 	}
@@ -193,6 +186,16 @@ public class IndexManagedBean implements Serializable {
 		this.pageViewService = pageViewService;
 	}
 	
+	
+	public BaseColaborativeFilteringService getColaborativeFilteringService() {
+		return colaborativeFilteringService;
+	}
+
+	public void setColaborativeFilteringService(
+			BaseColaborativeFilteringService colaborativeFilteringService) {
+		this.colaborativeFilteringService = colaborativeFilteringService;
+	}
+
 	public Long getProjectCount() {
 		return getProjectService().countAll();
 	}
@@ -202,18 +205,18 @@ public class IndexManagedBean implements Serializable {
 	}
 	
 	public Long getPreferencesCount() {
-		return getOverallPreferenceService().countAllLast();
+		return getOverallRatingService().countAllLast();
 	}
 	
 	public Long getRecommenderCriteriumCount() {
 		return  getRecommenderCriteriumService().countAll();
 	}
 	
-	public List<ProjectPreferenceInfo> getTopTenReviewedProjectList() {
+	public List<ProjectReviewsInfo> getTopTenReviewedProjectList() {
 		return topTenReviewedProjectList;
 	}
 	
-	public ProjectPreferenceInfo getMostReviewedProjectPreferenceInfo() {
+	public ProjectReviewsInfo getMostReviewedProjectPreferenceInfo() {
 		return mostReviewedProjectPreferenceInfo;
 	}
 	

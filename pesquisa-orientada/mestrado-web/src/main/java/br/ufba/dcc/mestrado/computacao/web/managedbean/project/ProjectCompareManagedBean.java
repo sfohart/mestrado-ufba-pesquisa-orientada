@@ -15,7 +15,7 @@ import javax.faces.event.ComponentSystemEvent;
 
 import br.ufba.dcc.mestrado.computacao.entities.ohloh.project.OhLohProjectEntity;
 import br.ufba.dcc.mestrado.computacao.entities.recommender.preference.PreferenceEntity;
-import br.ufba.dcc.mestrado.computacao.service.base.OverallPreferenceService;
+import br.ufba.dcc.mestrado.computacao.service.core.base.OverallRatingService;
 
 @ManagedBean(name = "compareMB")
 @ViewScoped
@@ -27,8 +27,8 @@ public class ProjectCompareManagedBean extends ProjectManagedBean {
 	private static final long serialVersionUID = 3094192001849724997L;
 
 	
-	@ManagedProperty("#{overallPreferenceService}")
-	private OverallPreferenceService overallPreferenceService;
+	@ManagedProperty("#{overallRatingService}")
+	private OverallRatingService overallRatingService;
 	
 	private List<OhLohProjectEntity> projectList;
 	
@@ -40,15 +40,14 @@ public class ProjectCompareManagedBean extends ProjectManagedBean {
 		super();
 	}
 	
-	public OverallPreferenceService getOverallPreferenceService() {
-		return overallPreferenceService;
+	public OverallRatingService getOverallRatingService() {
+		return overallRatingService;
 	}
-	
-	public void setOverallPreferenceService(
-			OverallPreferenceService overallPreferenceService) {
-		this.overallPreferenceService = overallPreferenceService;
+
+	public void setOverallRatingService(OverallRatingService overallRatingService) {
+		this.overallRatingService = overallRatingService;
 	}
-	
+
 	public List<OhLohProjectEntity> getProjectList() {
 		return projectList;
 	}
@@ -95,10 +94,10 @@ public class ProjectCompareManagedBean extends ProjectManagedBean {
 						OhLohProjectEntity project = getProjectService().findById(projectId);
 						this.projectList.add(project);
 						
-						PreferenceEntity averagePreference = getOverallPreferenceService().averagePreferenceByProject(projectId);
+						PreferenceEntity averagePreference = getOverallRatingService().averagePreferenceByItem(projectId);
 						this.averagePreferenceMap.put(projectId, averagePreference);
 						
-						Long preferenceCount = getOverallPreferenceService().countAllLastByProject(projectId);
+						Long preferenceCount = getOverallRatingService().countAllLastByProject(projectId);
 						this.preferenceCountMap.put(projectId, preferenceCount);
 					}
 				}

@@ -30,29 +30,48 @@
 					<h:panelGroup layout="block"
 							style="margin-bottom: 10px" 
 							styleClass="alert alert-danger col-md-12" 
-							rendered="#{not empty facesContext.messageList}">
-						<strong>Vish! </strong>
-						<h:messages showDetail="true" showSummary="true" />
+							rendered="#{(accountSettingsMB.loggedUserOnly) and (not accountSettingsMB.loggedUser)}">
+						<strong>
+							<span class="fa fa-ban"></span>
+							Vai com calma, aeh!
+						</strong>
+						Você não é o usuário desta conta para alterar informações sensíveis como estas...
 					</h:panelGroup>
 															
-					<h:panelGroup id="accountSettingOptions" layout="block" styleClass="row" style="margin-bottom: 20px"
-							rendered="#{empty facesContext.messageList}">
-						<div class="col-md-6 pull-left">
-							<h4>
-								<h:outputLink value="#{facesContext.externalContext.applicationContextPath}/account/accountBasicDataEdit.jsf">
-									<f:param  name="accountId" value="#{accountSettingsMB.account.id}" />
-									<span class="pull-left btn btn-lg">
-										<span class="fa fa-user fa-3x" />
-									</span>
-									Dados Pessoais
-								</h:outputLink>
-							</h4>
-							<span>
-								Login, Nome, Conta do Facebook e/ou Twitter, Email, etc.
-							</span>
+					<h:panelGroup id="accountSettingOptions" layout="block" rendered="#{accountSettingsMB.loggedUser}">
+						<div class="row" style="margin-bottom: 20px">
+							<div class="col-md-6 pull-left">
+								<h4>
+									<h:outputLink value="#{facesContext.externalContext.applicationContextPath}/account/accountBasicDataEdit.jsf">
+										<f:param  name="accountId" value="#{accountSettingsMB.account.id}" />
+										<span class="pull-left btn btn-lg">
+											<span class="fa fa-user fa-3x" />
+										</span>
+										Dados Pessoais
+									</h:outputLink>
+								</h4>
+								<span>
+									Login, Nome, Conta do Facebook e/ou Twitter, Email, etc.
+								</span>
+							</div>
+							
+							<div class="col-md-6 pull-right">
+								<h4>
+									<h:outputLink value="#{facesContext.externalContext.applicationContextPath}/account/accountChangePassword.jsf">
+										<f:param  name="accountId" value="#{accountSettingsMB.account.id}" />
+										<span class="pull-left btn btn-lg">
+											<span class="fa fa-key fa-3x" />
+										</span>
+										Alterar Senha
+									</h:outputLink>
+								</h4>
+								<span>
+									Caso ache necessário, altere a sua senha clicando aqui.
+								</span>
+							</div>
 						</div>
-						
-						<div class="col-md-6 pull-right">
+						<div class="row" style="margin-bottom: 20px">
+							<div class="col-md-6 pull-left">
 							<h4>
 								<h:outputLink value="#{facesContext.externalContext.applicationContextPath}/account/accountInterestTags.jsf">
 									<f:param  name="accountId" value="#{accountSettingsMB.account.id}" />
@@ -66,8 +85,13 @@
 								Diga-nos que tipo de software livre você deseja que nós lhe recomendemos.
 							</span>
 						</div>
+						
+						<div class="col-md-6 pull-right">
+							
+						</div>
+						</div>
 					</h:panelGroup>
-				
+					
 				
 				</section>
 			</ui:define>

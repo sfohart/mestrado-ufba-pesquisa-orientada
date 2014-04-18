@@ -47,6 +47,12 @@
 		    <groupId>org.hibernate</groupId>
 		    <artifactId>hibernate-search-infinispan</artifactId>
 		</dependency>
+		
+		<!-- Apache Commons Lang -->
+		<dependency>
+			<groupId>org.apache.commons</groupId>
+			<artifactId>commons-lang3</artifactId>
+		</dependency>
 	</dependencies>
 	
 </project>

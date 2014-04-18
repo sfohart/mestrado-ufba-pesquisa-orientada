@@ -14,10 +14,10 @@ import br.ufba.dcc.mestrado.computacao.entities.recommender.preference.Preferenc
 import br.ufba.dcc.mestrado.computacao.entities.recommender.preference.PreferenceEntryEntity;
 import br.ufba.dcc.mestrado.computacao.entities.recommender.preference.PreferenceReviewEntity;
 import br.ufba.dcc.mestrado.computacao.entities.recommender.user.UserEntity;
-import br.ufba.dcc.mestrado.computacao.service.base.OverallPreferenceService;
 import br.ufba.dcc.mestrado.computacao.service.base.ProjectService;
-import br.ufba.dcc.mestrado.computacao.service.base.RecommenderCriteriumService;
 import br.ufba.dcc.mestrado.computacao.service.basic.RepositoryBasedUserDetailsService;
+import br.ufba.dcc.mestrado.computacao.service.core.base.OverallRatingService;
+import br.ufba.dcc.mestrado.computacao.service.core.base.RecommenderCriteriumService;
 import br.ufba.dcc.mestrado.computacao.web.managedbean.AbstractListingManagedBean;
 
 import com.ocpsoft.pretty.faces.annotation.URLMapping;
@@ -47,8 +47,8 @@ public class ProjectNewReviewManagedBean extends AbstractListingManagedBean<Long
 	@ManagedProperty("#{projectService}")
 	private ProjectService projectService;
 	
-	@ManagedProperty("#{overallPreferenceService}")
-	private OverallPreferenceService preferenceService;
+	@ManagedProperty("#{overallRatingService}")
+	private OverallRatingService overallRatingService;
 	
 	@ManagedProperty("#{recommenderCriteriumService}")
 	private RecommenderCriteriumService criteriumService;
@@ -92,14 +92,14 @@ public class ProjectNewReviewManagedBean extends AbstractListingManagedBean<Long
 		this.criteriumService = criteriumService;
 	}
 	
-	public OverallPreferenceService getPreferenceService() {
-		return preferenceService;
+	public OverallRatingService getOverallRatingService() {
+		return overallRatingService;
 	}
-	
-	public void setPreferenceService(OverallPreferenceService preferenceService) {
-		this.preferenceService = preferenceService;
+
+	public void setOverallRatingService(OverallRatingService overallRatingService) {
+		this.overallRatingService = overallRatingService;
 	}
-	
+
 	public RepositoryBasedUserDetailsService getUserDetailsService() {
 		return userDetailsService;
 	}
@@ -164,7 +164,7 @@ public class ProjectNewReviewManagedBean extends AbstractListingManagedBean<Long
 	public String saveReview() {
 		
 		try {
-			getPreferenceService().save(getPreference());
+			getOverallRatingService().save(getPreference());
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

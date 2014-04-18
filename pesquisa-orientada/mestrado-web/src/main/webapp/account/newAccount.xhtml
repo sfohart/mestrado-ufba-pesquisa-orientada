@@ -88,8 +88,6 @@
 												requiredMessage="#{accountMsg['account.email.required.message']}"
 												value="#{accountMB.account.email}">
 												<f:validator validatorId="emailValidator"  />
-												<f:validator validatorId="emailConfirmationFieldValidator"  />
-												<f:attribute name="match" value="#{confirmEmailInput}" />
 											</h:inputText>
 											<span class="help-block">
 												Você precisa fornecer um email válido para que a sua nova conta
@@ -111,6 +109,8 @@
 												value="#{accountMB.account.email}"  
 												binding="#{confirmEmailInput}" >
 												<f:validator validatorId="emailValidator"  />
+												<f:validator validatorId="emailConfirmationFieldValidator"  />
+												<f:attribute name="match" value="#{emailInput}" />
 											</h:inputText>
 											<span class="help-block">
 												<h:message for="confirmEmail"></h:message>
@@ -129,8 +129,6 @@
 												requiredMessage="#{accountMsg['account.password.required.message']}"
 												value="#{accountMB.account.password}">
 												<f:validateLength  minimum="6" for="password" />
-												<f:validator validatorId="passwordConfirmationFieldValidator"  />
-												<f:attribute name="match" value="#{confirmPasswordInput}" />
 											</h:inputSecret>
 											<span class="help-block">
 												<h:message for="password"></h:message>
@@ -146,7 +144,10 @@
 												required="true"
 												requiredMessage="#{accountMsg['account.confirmPassword.required.message']}"
 												value="#{accountMB.account.password}" 
-												binding="#{confirmPasswordInput}" />
+												binding="#{confirmPasswordInput}" >
+												<f:validator validatorId="passwordConfirmationFieldValidator"  />
+												<f:attribute name="match" value="#{passwordInput}" />
+											</h:inputSecret>
 											<span class="help-block">
 												<h:message for="confirmPassword"></h:message>
 											</span>

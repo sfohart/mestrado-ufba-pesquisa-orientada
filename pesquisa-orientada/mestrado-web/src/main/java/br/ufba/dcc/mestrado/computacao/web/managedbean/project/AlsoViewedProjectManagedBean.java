@@ -8,12 +8,8 @@ import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
 import javax.faces.event.ComponentSystemEvent;
 
-import org.apache.mahout.cf.taste.common.TasteException;
-import org.apache.mahout.cf.taste.impl.recommender.GenericBooleanPrefItemBasedRecommender;
-import org.apache.mahout.cf.taste.recommender.RecommendedItem;
-
 import br.ufba.dcc.mestrado.computacao.entities.ohloh.project.OhLohProjectEntity;
-import br.ufba.dcc.mestrado.computacao.service.basic.ProjectDetailPageViewService;
+import br.ufba.dcc.mestrado.computacao.service.core.base.BaseColaborativeFilteringService;
 
 @ManagedBean(name="alsoViewedProjectMB")
 @ViewScoped
@@ -30,9 +26,8 @@ public class AlsoViewedProjectManagedBean extends ProjectManagedBean {
 	
 	private Integer maxResults;
 	
-	
-	@ManagedProperty("#{projectDetailPageViewService}")
-	private ProjectDetailPageViewService pageViewService;
+	@ManagedProperty("#{mahoutColaborativeFilteringService}")
+	private BaseColaborativeFilteringService colaborativeFilteringService;
 	
 	private List<OhLohProjectEntity> alsoViewedProjectList;
 	
@@ -40,6 +35,17 @@ public class AlsoViewedProjectManagedBean extends ProjectManagedBean {
 		super();
 		this.maxResults = SAMPLE_MAX_RESULTS;
 	}
+
+	public BaseColaborativeFilteringService getColaborativeFilteringService() {
+		return colaborativeFilteringService;
+	}
+
+	public void setColaborativeFilteringService(
+			BaseColaborativeFilteringService colaborativeFilteringService) {
+		this.colaborativeFilteringService = colaborativeFilteringService;
+	}
+
+
 
 	public void configureTopTenResults(ComponentSystemEvent event) {
 		this.maxResults = TOP10_MAX_RESULTS;
@@ -57,22 +63,10 @@ public class AlsoViewedProjectManagedBean extends ProjectManagedBean {
 	 * Recomenda outros projetos vistos pelos mesmos usuários que viram o projeto corrente
 	 */
 	protected void findAlsoViewedProjectList() {
-		try {
-			//limpa lista atual de projetos recomendados
-			this.alsoViewedProjectList = new ArrayList<>();
-
-			GenericBooleanPrefItemBasedRecommender recommender = getPageViewService().buildProjectRecommender();
-			List<RecommendedItem> recommendedItemList = recommender.mostSimilarItems(getProject().getId(), getMaxResults());
-			
-			if (recommendedItemList != null) {
-				for (RecommendedItem recommendedItem : recommendedItemList) {
-					OhLohProjectEntity recommendedProject = getProjectService().findById(recommendedItem.getItemID());
-					this.alsoViewedProjectList.add(recommendedProject);
-				}
-			}
-		} catch (TasteException e1) {
-			e1.printStackTrace();
-		}
+		//limpa lista atual de projetos recomendados
+		this.alsoViewedProjectList = new ArrayList<>();
+		
+		this.alsoViewedProjectList = getColaborativeFilteringService().recommendViewedProjectsByItem(getProject().getId(), getMaxResults());
 	}
 
 
@@ -84,14 +78,7 @@ public class AlsoViewedProjectManagedBean extends ProjectManagedBean {
 		this.maxResults = maxResults;
 	}
 
-	public ProjectDetailPageViewService getPageViewService() {
-		return pageViewService;
-	}
-
-	public void setPageViewService(ProjectDetailPageViewService pageViewService) {
-		this.pageViewService = pageViewService;
-	}
-
+	
 	public List<OhLohProjectEntity> getAlsoViewedProjectList() {
 		return alsoViewedProjectList;
 	}

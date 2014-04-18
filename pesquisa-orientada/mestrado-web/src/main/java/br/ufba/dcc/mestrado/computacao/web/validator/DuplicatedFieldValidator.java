@@ -30,13 +30,18 @@ public abstract class DuplicatedFieldValidator implements Validator {
 			FacesContext context, 
 			UIComponent component,
 			Object value) throws ValidatorException {
+		
+		((UIInput) component).setValid(true);
 
 		String stringToConfirm = (String) value;
 		
 		UIInput uiInput = (UIInput) component.getAttributes().get("match");
 		String stringParam = (String) uiInput.getValue();
 		
-		if (stringParam != null && ! stringParam.equals(stringToConfirm)) {
+		if (stringParam == null || ! stringParam.equals(stringToConfirm)) {
+		
+			uiInput.setValid(false);
+		
 			String message = bundle.getString(messageKey);
 			
 			FacesMessage facesMessage = new FacesMessage(message);

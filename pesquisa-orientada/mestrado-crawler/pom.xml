@@ -64,6 +64,12 @@
 			<artifactId>mestrado-core</artifactId>
 			<version>${project.version}</version>
 		</dependency>
+		
+		<!-- Apache Commons Lang -->
+		<dependency>
+			<groupId>org.apache.commons</groupId>
+			<artifactId>commons-lang3</artifactId>
+		</dependency>
 
 	</dependencies>
 

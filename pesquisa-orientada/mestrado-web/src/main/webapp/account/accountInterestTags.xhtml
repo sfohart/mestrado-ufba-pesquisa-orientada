@@ -37,12 +37,15 @@
 					<h:panelGroup layout="block"
 							style="margin-bottom: 10px" 
 							styleClass="alert alert-danger col-md-12" 
-							rendered="#{not empty facesContext.messageList}">
-						<strong>Vish! </strong>
-						<h:messages showDetail="true" showSummary="true" />
+							rendered="#{(accountInterestTagsMB.loggedUserOnly) and (not accountInterestTagsMB.loggedUser)}">
+						<strong>
+							<span class="fa fa-ban"></span>
+							Vai com calma, aeh!
+						</strong>
+						Você não é o usuário desta conta para alterar informações sensíveis como estas...
 					</h:panelGroup>
 					
-					<h:panelGroup layout="block" rendered="#{empty facesContext.messageList}">
+					<h:panelGroup layout="block" rendered="#{accountInterestTagsMB.loggedUser}">
 						<div class="well row">
 							<h:form prependId="false">
 								<div class="col-md-8 pull-left">

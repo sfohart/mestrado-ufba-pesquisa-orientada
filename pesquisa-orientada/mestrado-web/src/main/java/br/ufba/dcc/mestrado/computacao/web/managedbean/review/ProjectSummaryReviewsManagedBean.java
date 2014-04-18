@@ -15,10 +15,10 @@ import br.ufba.dcc.mestrado.computacao.entities.ohloh.project.OhLohProjectEntity
 import br.ufba.dcc.mestrado.computacao.entities.recommender.preference.PreferenceEntity;
 import br.ufba.dcc.mestrado.computacao.entities.recommender.preference.PreferenceReviewEntity;
 import br.ufba.dcc.mestrado.computacao.entities.recommender.user.UserEntity;
-import br.ufba.dcc.mestrado.computacao.service.base.CriteriumPreferenceService;
-import br.ufba.dcc.mestrado.computacao.service.base.OverallPreferenceService;
 import br.ufba.dcc.mestrado.computacao.service.base.ProjectService;
-import br.ufba.dcc.mestrado.computacao.service.base.UserService;
+import br.ufba.dcc.mestrado.computacao.service.core.base.OverallRatingService;
+import br.ufba.dcc.mestrado.computacao.service.core.base.PreferenceReviewService;
+import br.ufba.dcc.mestrado.computacao.service.core.base.UserService;
 
 import com.ocpsoft.pretty.faces.annotation.URLMapping;
 import com.ocpsoft.pretty.faces.annotation.URLMappings;
@@ -45,10 +45,10 @@ public class ProjectSummaryReviewsManagedBean extends AbstractReviewVotingManage
 	private ProjectService projectService;
 	
 	@ManagedProperty("#{overallPreferenceService}")
-	private OverallPreferenceService overallPreferenceService;
+	private OverallRatingService overallRatingService;
 	
-	@ManagedProperty("#{criteriumPreferenceService}")
-	private CriteriumPreferenceService criteriumPreferenceService;
+	@ManagedProperty("${preferenceReviewService}")
+	private PreferenceReviewService preferenceReviewService;
 	
 	@ManagedProperty("#{userService}")
 	private UserService userService;
@@ -63,8 +63,8 @@ public class ProjectSummaryReviewsManagedBean extends AbstractReviewVotingManage
 	private PreferenceReviewEntity mostHelpfulFavorableReview;
 	private PreferenceReviewEntity mostHelpfulCriticalReview;
 	
-	private List<PreferenceEntity> mostRecentReviewList;
-	private List<PreferenceEntity> mostHelpfulReviewList;
+	private List<PreferenceReviewEntity> mostRecentReviewList;
+	private List<PreferenceReviewEntity> mostHelpfulReviewList;
 	
 	
 	public ProjectSummaryReviewsManagedBean() {
@@ -88,25 +88,23 @@ public class ProjectSummaryReviewsManagedBean extends AbstractReviewVotingManage
 		this.projectService = projectService;
 	}
 	
-	public OverallPreferenceService getOverallPreferenceService() {
-		return overallPreferenceService;
+	public OverallRatingService getOverallRatingService() {
+		return overallRatingService;
 	}
-	
-	public void setOverallPreferenceService(
-			OverallPreferenceService overallPreferenceService) {
-		this.overallPreferenceService = overallPreferenceService;
+
+	public void setOverallRatingService(OverallRatingService overallRatingService) {
+		this.overallRatingService = overallRatingService;
 	}
-	
-	public CriteriumPreferenceService getCriteriumPreferenceService() {
-		return criteriumPreferenceService;
+
+	public PreferenceReviewService getPreferenceReviewService() {
+		return preferenceReviewService;
 	}
-	
-	public void setCriteriumPreferenceService(
-			CriteriumPreferenceService criteriumPreferenceService) {
-		this.criteriumPreferenceService = criteriumPreferenceService;
+
+	public void setPreferenceReviewService(
+			PreferenceReviewService preferenceReviewService) {
+		this.preferenceReviewService = preferenceReviewService;
 	}
-	
-	
+
 	public UserService getUserService() {
 		return userService;
 	}
@@ -147,30 +145,30 @@ public class ProjectSummaryReviewsManagedBean extends AbstractReviewVotingManage
 		return mostHelpfulCriticalReview;
 	}
 	
-	public List<PreferenceEntity> getMostHelpfulReviewList() {
+	public List<PreferenceReviewEntity> getMostHelpfulReviewList() {
 		return mostHelpfulReviewList;
 	}
 	
-	public List<PreferenceEntity> getMostRecentReviewList() {
+	public List<PreferenceReviewEntity> getMostRecentReviewList() {
 		return mostRecentReviewList;
 	}
 
 	protected void findTopFiveReviews() {
-		this.mostHelpfulReviewList 	= getOverallPreferenceService().findAllLastReviewsByProject(getProject().getId(), 0, 5, false, true);
-		this.mostRecentReviewList 	= getOverallPreferenceService().findAllLastReviewsByProject(getProject().getId(), 0, 5, true, false);
+		this.mostHelpfulReviewList 	= getPreferenceReviewService().findAllLastReviewsByProject(getProject().getId(), 0, 5, false, true);
+		this.mostRecentReviewList 	= getPreferenceReviewService().findAllLastReviewsByProject(getProject().getId(), 0, 5, true, false);
 	}
 	
 	public void init(ComponentSystemEvent event) {
 		if (getProject() != null && getProject().getId() != null) {
 			this.project = getProjectService().findById(getProject().getId());
 			
-			this.overallPreferenceCount = getOverallPreferenceService().countAllLastByProject(getProject().getId());
-			this.reviewsCount = getOverallPreferenceService().countAllLastReviewsByProject(getProject().getId());
+			this.overallPreferenceCount = getOverallRatingService().countAllLastByProject(getProject().getId());
+			this.reviewsCount = getPreferenceReviewService().countAllLastReviewsByProject(getProject().getId());
 			
 			findTopFiveReviews();
 			
 			//calculando avaliação média do projeto
-			this.averagePreference = getOverallPreferenceService().averagePreferenceByProject(getProject().getId());
+			this.averagePreference = getOverallRatingService().averagePreferenceByItem(getProject().getId());
 			
 			Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 			
@@ -182,7 +180,7 @@ public class ProjectSummaryReviewsManagedBean extends AbstractReviewVotingManage
 					}
 					
 					if (userEntity != null) {
-						this.currentUserPreference = getOverallPreferenceService().findLastByProjectAndUser(getProject().getId(), userEntity.getId());
+						this.currentUserPreference = getOverallRatingService().findLastOverallPreferenceByUserAndItem(getProject().getId(), userEntity.getId());
 						this.mostHelpfulReviewList.remove(currentUserPreference);
 						this.mostRecentReviewList.remove(currentUserPreference);
 					}

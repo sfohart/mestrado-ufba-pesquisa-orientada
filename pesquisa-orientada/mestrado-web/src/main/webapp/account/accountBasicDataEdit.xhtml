@@ -35,13 +35,16 @@
 					<h:panelGroup layout="block"
 							style="margin-bottom: 10px" 
 							styleClass="alert alert-danger col-md-12" 
-							rendered="#{not empty facesContext.messageList}">
-						<strong>Vish! </strong>
-						<h:messages showDetail="true" showSummary="true" />
+							rendered="#{(accountBasicDataEditMB.loggedUserOnly) and (not accountBasicDataEditMB.loggedUser)}">
+						<strong>
+							<span class="fa fa-ban"></span>
+							Vai com calma, aeh!
+						</strong>
+						Você não é o usuário desta conta para alterar informações sensíveis como estas...
 					</h:panelGroup>
 					
 					<h:panelGroup layout="block" styleClass="col-md-8 col-md-offset-2" 
-						rendered="#{empty facesContext.messageList}">
+						rendered="#{accountBasicDataEditMB.loggedUser}">
 						<div class="well">
 							<h:form>
 								<fieldset>

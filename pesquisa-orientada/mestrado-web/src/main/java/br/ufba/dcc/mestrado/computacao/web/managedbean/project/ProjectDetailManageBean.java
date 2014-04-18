@@ -14,20 +14,19 @@ import br.ufba.dcc.mestrado.computacao.entities.ohloh.analysis.OhLohAnalysisLang
 import br.ufba.dcc.mestrado.computacao.entities.ohloh.enlistment.OhLohEnlistmentEntity;
 import br.ufba.dcc.mestrado.computacao.entities.ohloh.factoid.OhLohFactoidEntity;
 import br.ufba.dcc.mestrado.computacao.entities.ohloh.project.OhLohLinkEntity;
-import br.ufba.dcc.mestrado.computacao.entities.ohloh.project.OhLohProjectEntity;
+import br.ufba.dcc.mestrado.computacao.entities.recommender.pageview.ProjectDetailPageViewEntity;
 import br.ufba.dcc.mestrado.computacao.entities.recommender.preference.PreferenceEntity;
 import br.ufba.dcc.mestrado.computacao.entities.recommender.user.UserEntity;
-import br.ufba.dcc.mestrado.computacao.entities.web.pageview.ProjectDetailPageViewEntity;
-import br.ufba.dcc.mestrado.computacao.service.base.AnalysisService;
-import br.ufba.dcc.mestrado.computacao.service.base.CriteriumPreferenceService;
 import br.ufba.dcc.mestrado.computacao.service.base.EnlistmentService;
 import br.ufba.dcc.mestrado.computacao.service.base.LinkService;
-import br.ufba.dcc.mestrado.computacao.service.base.OverallPreferenceService;
-import br.ufba.dcc.mestrado.computacao.service.basic.ProjectDetailPageViewService;
 import br.ufba.dcc.mestrado.computacao.service.basic.RepositoryBasedUserDetailsService;
+import br.ufba.dcc.mestrado.computacao.service.core.base.OverallRatingService;
+import br.ufba.dcc.mestrado.computacao.service.core.base.ProjectDetailPageViewService;
 
 import com.ocpsoft.pretty.faces.annotation.URLMapping;
 import com.ocpsoft.pretty.faces.annotation.URLMappings;
+
+
 
 @ManagedBean(name="projectDetailMB", eager=true)
 @ViewScoped
@@ -49,14 +48,8 @@ public class ProjectDetailManageBean extends ProjectManagedBean {
 	@ManagedProperty("#{enlistmentService}")
 	private EnlistmentService enlistmentService;
 	
-	@ManagedProperty("#{analysisService}")
-	private AnalysisService analysisService;
-	
-	@ManagedProperty("#{overallPreferenceService}")
-	private OverallPreferenceService overallPreferenceService;
-	
-	@ManagedProperty("#{criteriumPreferenceService}")
-	private CriteriumPreferenceService criteriumPreferenceService;
+	@ManagedProperty("#{overallRatingService}")
+	private OverallRatingService overallRatingService;
 	
 	@ManagedProperty("#{linkService}")
 	private LinkService linkService;
@@ -130,14 +123,14 @@ public class ProjectDetailManageBean extends ProjectManagedBean {
 				this.linkList = getLinkService().findByProject(getProject());
 			}
 			
-			this.overallPreferenceCount = getOverallPreferenceService().countAllLastByProject(getProject().getId());
+			this.overallPreferenceCount = getOverallRatingService().countAllLastByProject(getProject().getId());
 			
 			//calculando valores médios de preferência
 			UserEntity currentUser = getUserDetailsService().loadFullLoggedUser();
 			
-			this.averagePreference = getOverallPreferenceService().averagePreferenceByProject(getProject().getId());
+			this.averagePreference = getOverallRatingService().averagePreferenceByItem(getProject().getId());
 			if (currentUser != null) {
-				this.userPreference = getOverallPreferenceService().findLastByProjectAndUser(getProject().getId(), currentUser.getId());
+				this.userPreference = getOverallRatingService().findLastOverallPreferenceByUserAndItem(getProject().getId(), currentUser.getId());
 			}
 			
 			try {
@@ -161,31 +154,13 @@ public class ProjectDetailManageBean extends ProjectManagedBean {
 	public void setEnlistmentService(EnlistmentService enlistmentService) {
 		this.enlistmentService = enlistmentService;
 	}
-
-	public AnalysisService getAnalysisService() {
-		return analysisService;
-	}
-
-	public void setAnalysisService(AnalysisService analysisService) {
-		this.analysisService = analysisService;
-	}
-
-	public OverallPreferenceService getOverallPreferenceService() {
-		return overallPreferenceService;
-	}
-
-	public void setOverallPreferenceService(
-			OverallPreferenceService overallPreferenceService) {
-		this.overallPreferenceService = overallPreferenceService;
-	}
 	
-	public CriteriumPreferenceService getCriteriumPreferenceService() {
-		return criteriumPreferenceService;
+	public OverallRatingService getOverallRatingService() {
+		return overallRatingService;
 	}
-	
-	public void setCriteriumPreferenceService(
-			CriteriumPreferenceService criteriumPreferenceService) {
-		this.criteriumPreferenceService = criteriumPreferenceService;
+
+	public void setOverallRatingService(OverallRatingService overallRatingService) {
+		this.overallRatingService = overallRatingService;
 	}
 	
 	public Long getLinkCount() {

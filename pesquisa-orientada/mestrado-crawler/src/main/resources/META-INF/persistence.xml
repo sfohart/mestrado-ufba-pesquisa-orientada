@@ -6,6 +6,34 @@
 	<persistence-unit name="ohloh-crawler">
 	
 		<provider>org.hibernate.ejb.HibernatePersistence</provider>
+		
+		<class>br.ufba.dcc.mestrado.computacao.entities.ohloh.account.OhLohAccountEntity</class>
+		<class>br.ufba.dcc.mestrado.computacao.entities.ohloh.activityfact.OhLohActivityFactEntity</class>
+		<class>br.ufba.dcc.mestrado.computacao.entities.ohloh.analysis.OhLohAnalysisEntity</class>
+		<class>br.ufba.dcc.mestrado.computacao.entities.ohloh.analysis.OhLohAnalysisLanguageEntity</class>
+		<class>br.ufba.dcc.mestrado.computacao.entities.ohloh.analysis.OhLohAnalysisLanguagesEntity</class>
+		<class>br.ufba.dcc.mestrado.computacao.entities.ohloh.contributorfact.OhLohContributorFactEntity</class>
+		<class>br.ufba.dcc.mestrado.computacao.entities.ohloh.contributorfact.OhLohContributorLanguageFactEntity</class>
+		<class>br.ufba.dcc.mestrado.computacao.entities.ohloh.enlistment.OhLohEnlistmentEntity</class>
+		<class>br.ufba.dcc.mestrado.computacao.entities.ohloh.enlistment.OhLohRepositoryEntity</class>
+		<class>br.ufba.dcc.mestrado.computacao.entities.ohloh.factoid.OhLohFactoidEntity</class>
+		<class>br.ufba.dcc.mestrado.computacao.entities.ohloh.kudo.OhLohKudoEntity</class>
+		<class>br.ufba.dcc.mestrado.computacao.entities.ohloh.kudoskore.OhLohKudoScoreEntity</class>
+		<class>br.ufba.dcc.mestrado.computacao.entities.ohloh.language.OhLohLanguageEntity</class>
+		<class>br.ufba.dcc.mestrado.computacao.entities.ohloh.project.OhLohLicenseEntity</class>
+		<class>br.ufba.dcc.mestrado.computacao.entities.ohloh.project.OhLohLinkEntity</class>
+		<class>br.ufba.dcc.mestrado.computacao.entities.ohloh.project.OhLohProjectEntity</class>
+		<class>br.ufba.dcc.mestrado.computacao.entities.ohloh.project.OhLohTagEntity</class>
+		<class>br.ufba.dcc.mestrado.computacao.entities.ohloh.sizefact.OhLohSizeFactEntity</class>
+		<class>br.ufba.dcc.mestrado.computacao.entities.ohloh.stack.OhLohStackEntity</class>
+		<class>br.ufba.dcc.mestrado.computacao.entities.ohloh.stack.OhLohStackEntryEntity</class>
+		
+		
+		<class>br.ufba.dcc.mestrado.computacao.ohloh.entities.OhLohCrawlerEnlistmentEntity</class>
+		<class>br.ufba.dcc.mestrado.computacao.ohloh.entities.OhLohCrawlerLanguageEntity</class>
+		<class>br.ufba.dcc.mestrado.computacao.ohloh.entities.OhLohCrawlerLicenseEntity</class>
+		<class>br.ufba.dcc.mestrado.computacao.ohloh.entities.OhLohCrawlerProjectEntity</class>
+		<class>br.ufba.dcc.mestrado.computacao.ohloh.entities.OhLohCrawlerStackEntity</class>
 		<exclude-unlisted-classes>false</exclude-unlisted-classes>
 	</persistence-unit>
 </persistence>

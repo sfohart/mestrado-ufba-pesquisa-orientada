@@ -50,13 +50,17 @@
 		<module>mestrado-core</module>
 		<module>mestrado-crawler</module>
 		<module>mestrado-recommender</module>
-		<module>mestrado-web</module>		
+		<module>mestrado-web</module>
 	</modules>
 
 	<properties>
 		<project.build.sourceEncoding>cp1252</project.build.sourceEncoding>
 		<spring.version>4.0.3.RELEASE</spring.version>
+		
 		<java.version>1.7</java.version>
+		<jsp-api.version>2.2</jsp-api.version>
+
+		<jersey.version>2.7</jersey.version>
 		<joda-time.version>2.3</joda-time.version>
 		<junit.version>4.11</junit.version>
 
@@ -64,10 +68,13 @@
 			embora o Apache Mahout suporte a versão 4.3.0 -->
 		<lucene.version>3.6.2</lucene.version>
 
+		<hadoop-core.version>1.2.1</hadoop-core.version>
+
 		<hibernate.version>4.3.5.Final</hibernate.version>
 		<hibernate-search.version>4.5.0.Final</hibernate-search.version>
 		<postgresql.version>9.3-1101-jdbc4</postgresql.version>
 		<hibernate-jpa-2.1-api.version>1.0.0.Final</hibernate-jpa-2.1-api.version>
+		<commons-lang3.version>3.1</commons-lang3.version>
 	</properties>
 
 	<profiles>
@@ -88,6 +95,7 @@
 						<version>2.4</version>
 						<configuration>
 							<outputDirectory>webapps</outputDirectory>
+							<failOnMissingWebXml>false</failOnMissingWebXml>
 							<warName>ROOT</warName>
 						</configuration>
 					</plugin>
@@ -117,10 +125,17 @@
 		</pluginManagement>
 	</build>
 
-	<!-- Caso algum dos módulos necessite dessas dependências, deverão ser 
-		baixadas com versão unificada -->
+	<!-- Caso algum dos módulos necessite dessas dependências, deverão ser baixadas 
+		com versão unificada -->
 	<dependencyManagement>
 		<dependencies>
+
+			<dependency>
+				<groupId>javax.servlet.jsp</groupId>
+				<artifactId>jsp-api</artifactId>
+				<version>${jsp-api.version}</version>
+			</dependency>
+
 			<!-- Hibernate -->
 			<dependency>
 				<groupId>org.hibernate</groupId>
@@ -163,6 +178,62 @@
 				<groupId>org.postgresql</groupId>
 				<artifactId>postgresql</artifactId>
 				<version>${postgresql.version}</version>
+			</dependency>
+
+			<!-- Commons Lang -->
+			<dependency>
+				<groupId>org.apache.commons</groupId>
+				<artifactId>commons-lang3</artifactId>
+				<version>${commons-lang3.version}</version>
+			</dependency>
+
+			<!-- Jersey -->
+			<dependency>
+				<groupId>org.glassfish.jersey.core</groupId>
+				<artifactId>jersey-server</artifactId>
+				<version>${jersey.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.glassfish.jersey.core</groupId>
+				<artifactId>jersey-common</artifactId>
+				<version>${jersey.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.glassfish.jersey.media</groupId>
+				<artifactId>jersey-media-json-jettison</artifactId>
+				<version>${jersey.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.glassfish.jersey.ext</groupId>
+				<artifactId>jersey-bean-validation</artifactId>
+				<version>${jersey.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.glassfish.jersey.core</groupId>
+				<artifactId>jersey-client</artifactId>
+				<version>${jersey.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.glassfish.jersey.containers</groupId>
+				<artifactId>jersey-container-servlet</artifactId>
+				<version>${jersey.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.glassfish.jersey.ext</groupId>
+				<artifactId>jersey-spring3</artifactId>
+				<version>${jersey.version}</version>
+			</dependency>
+
+			<!-- Apache Hadoop -->
+			<dependency>
+				<groupId>org.apache.hadoop</groupId>
+				<artifactId>hadoop-core</artifactId>
+				<version>${hadoop-core.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.apache.hadoop</groupId>
+				<artifactId>hadoop-client</artifactId>
+				<version>${hadoop-core.version}</version>
 			</dependency>
 		</dependencies>
 	</dependencyManagement>
@@ -209,12 +280,7 @@
 		</dependency>
 
 
-		<!-- Commons Lang -->
-		<dependency>
-			<groupId>org.apache.commons</groupId>
-			<artifactId>commons-lang3</artifactId>
-			<version>3.1</version>
-		</dependency>
+
 	</dependencies>
 
 	<reporting>

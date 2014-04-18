@@ -13,12 +13,12 @@ import javax.faces.event.ActionEvent;
 import javax.faces.event.ComponentSystemEvent;
 
 import br.ufba.dcc.mestrado.computacao.entities.ohloh.project.OhLohProjectEntity;
-import br.ufba.dcc.mestrado.computacao.entities.recommender.preference.PreferenceEntity;
+import br.ufba.dcc.mestrado.computacao.entities.recommender.preference.PreferenceReviewEntity;
 import br.ufba.dcc.mestrado.computacao.entities.recommender.user.UserEntity;
-import br.ufba.dcc.mestrado.computacao.service.base.OverallPreferenceService;
 import br.ufba.dcc.mestrado.computacao.service.base.ProjectService;
-import br.ufba.dcc.mestrado.computacao.service.base.UserService;
 import br.ufba.dcc.mestrado.computacao.service.basic.RepositoryBasedUserDetailsService;
+import br.ufba.dcc.mestrado.computacao.service.core.base.PreferenceReviewService;
+import br.ufba.dcc.mestrado.computacao.service.core.base.UserService;
 
 import com.ocpsoft.pretty.faces.annotation.URLMapping;
 import com.ocpsoft.pretty.faces.annotation.URLMappings;
@@ -52,8 +52,8 @@ public class ProjectReviewListManagedBean extends AbstractReviewVotingManagedBea
 	@ManagedProperty("#{repositoryBasedUserDetailsService}")
 	private RepositoryBasedUserDetailsService userDetailsService;
 	
-	@ManagedProperty("#{overallPreferenceService}")
-	private OverallPreferenceService preferenceService;
+	@ManagedProperty("#{preferenceReviewService}")
+	private PreferenceReviewService preferenceReviewService;
 	
 	@ManagedProperty("#{projectService}")
 	private ProjectService projectService;
@@ -71,7 +71,7 @@ public class ProjectReviewListManagedBean extends AbstractReviewVotingManagedBea
 	private Integer offset;
 	private Integer totalReviews;
 	
-	private List<PreferenceEntity> reviewList;
+	private List<PreferenceReviewEntity> reviewList;
 		
 	public ProjectReviewListManagedBean() {
 		this.project = new OhLohProjectEntity();
@@ -130,14 +130,15 @@ public class ProjectReviewListManagedBean extends AbstractReviewVotingManagedBea
 		this.userDetailsService = userDetailsService;
 	}
 	
-	public OverallPreferenceService getPreferenceService() {
-		return preferenceService;
+	public PreferenceReviewService getPreferenceReviewService() {
+		return preferenceReviewService;
 	}
-	
-	public void setPreferenceService(OverallPreferenceService preferenceService) {
-		this.preferenceService = preferenceService;
+
+	public void setPreferenceReviewService(
+			PreferenceReviewService preferenceReviewService) {
+		this.preferenceReviewService = preferenceReviewService;
 	}
-	
+
 	public ProjectService getProjectService() {
 		return projectService;
 	}
@@ -170,11 +171,11 @@ public class ProjectReviewListManagedBean extends AbstractReviewVotingManagedBea
 		this.orderByReviewRanking = orderByReviewRanking;
 	}
 
-	public List<PreferenceEntity> getReviewList() {
+	public List<PreferenceReviewEntity> getReviewList() {
 		return this.reviewList;
 	}
 	
-	public void setReviewList(List<PreferenceEntity> reviewList) {
+	public void setReviewList(List<PreferenceReviewEntity> reviewList) {
 		this.reviewList = reviewList;
 	}
 	
@@ -184,17 +185,17 @@ public class ProjectReviewListManagedBean extends AbstractReviewVotingManagedBea
 		
 		if (validProject || validUser) {
 			
-			List<PreferenceEntity> data = null;
+			List<PreferenceReviewEntity> data = null;
 					
 			if (validProject) {
-				data = getPreferenceService().findAllLastReviewsByProject(
+				data = getPreferenceReviewService().findAllLastReviewsByProject(
 						getProject().getId(), 
 						startPosition, 
 						offset,
 						isOrderByRegisteredAt(),
 						isOrderByReviewRanking());
 			} else if (validUser) {
-				data = getPreferenceService().findAllLastReviewsByUser(
+				data = getPreferenceReviewService().findAllLastReviewsByUser(
 						getUser().getId(), 
 						startPosition, 
 						offset,
@@ -203,7 +204,7 @@ public class ProjectReviewListManagedBean extends AbstractReviewVotingManagedBea
 			}
 			
 			if (data != null) {
-				for (PreferenceEntity preference : data) {
+				for (PreferenceReviewEntity preference : data) {
 					if (getReviewList().contains(preference)) {
 						getReviewList().remove(preference);
 					}
@@ -213,9 +214,9 @@ public class ProjectReviewListManagedBean extends AbstractReviewVotingManagedBea
 			}
 
 			if (validProject) {
-				this.totalReviews = getPreferenceService().countAllLastReviewsByProject(getProject().getId()).intValue();				
+				this.totalReviews = getPreferenceReviewService().countAllLastReviewsByProject(getProject().getId()).intValue();				
 			} else if (validUser) {
-				this.totalReviews = getPreferenceService().countAllLastReviewsByUser(getUser().getId()).intValue();
+				this.totalReviews = getPreferenceReviewService().countAllLastReviewsByUser(getUser().getId()).intValue();
 			}		
 			
 			//Se não houver mais o que carregar, atualize logo o startPosition, pro botão do scroll não aparecer a toa
@@ -249,7 +250,7 @@ public class ProjectReviewListManagedBean extends AbstractReviewVotingManagedBea
 	
 	public void initList(ComponentSystemEvent event) {		
 		if (this.reviewList == null) {
-			this.reviewList = new ArrayList<PreferenceEntity>();
+			this.reviewList = new ArrayList<PreferenceReviewEntity>();
 			this.startPosition = 0;
 			this.offset = 10;
 			this.totalReviews = 0;
@@ -272,7 +273,7 @@ public class ProjectReviewListManagedBean extends AbstractReviewVotingManagedBea
 		}
 	}
 	
-	protected void updatePreferenceInList(PreferenceEntity preference) {
+	protected void updatePreferenceInList(PreferenceReviewEntity preference) {
 		//atualizando preferência
 		
 		Integer index = getReviewList().indexOf(preference);
@@ -282,13 +283,13 @@ public class ProjectReviewListManagedBean extends AbstractReviewVotingManagedBea
 	}
 	
 	public void watchLikeReview(ActionEvent event) {
-		PreferenceEntity preference = super.addUsefulVoteToReview(event);
+		PreferenceReviewEntity preference = super.addUsefulVoteToReview(event);
 		
 		updatePreferenceInList(preference);
 	}
 	
 	public void watchDislikeReview(ActionEvent event) {
-		PreferenceEntity preference = super.addUselessVoteToReview(event);
+		PreferenceReviewEntity preference = super.addUselessVoteToReview(event);
 		
 		updatePreferenceInList(preference);
 	}

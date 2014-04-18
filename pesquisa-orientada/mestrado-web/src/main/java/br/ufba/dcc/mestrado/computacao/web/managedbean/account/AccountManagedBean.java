@@ -23,8 +23,8 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import br.ufba.dcc.mestrado.computacao.entities.recommender.user.RoleEnum;
 import br.ufba.dcc.mestrado.computacao.entities.recommender.user.UserEntity;
 import br.ufba.dcc.mestrado.computacao.service.base.TagService;
-import br.ufba.dcc.mestrado.computacao.service.base.UserService;
 import br.ufba.dcc.mestrado.computacao.service.basic.RepositoryBasedUserDetailsService;
+import br.ufba.dcc.mestrado.computacao.service.core.base.UserService;
 
 import com.ocpsoft.pretty.faces.annotation.URLMapping;
 import com.ocpsoft.pretty.faces.annotation.URLMappings;
@@ -65,7 +65,8 @@ public class AccountManagedBean implements Serializable {
 	
 	private UserEntity account;
 	
-	private boolean loggedUserOnly;;
+	private boolean loggedUserOnly;
+	private boolean loggedUser;
 	
 	public AccountManagedBean() {
 		this.account = new UserEntity();
@@ -132,7 +133,8 @@ public class AccountManagedBean implements Serializable {
 		}
 	}
 	
-	protected void validateLoggedUser() {
+	protected void validateLoggedUser() {		
+		
 		UserEntity loggedUser = getUserDetailsService().loadFullLoggedUser();
 		if (loggedUser != null && ! getAccount().getId().equals(loggedUser.getId())) {
 			FacesContext context = FacesContext.getCurrentInstance();
@@ -143,7 +145,19 @@ public class AccountManagedBean implements Serializable {
 			FacesMessage facesMessage = new FacesMessage(summary, detail);
 			
 			context.addMessage(null, facesMessage);
-		} 
+			
+			this.loggedUser = false;
+		} else {
+			this.loggedUser = true;
+		}
+	}
+	
+	public void setLoggedUser(boolean loggedUser) {
+		this.loggedUser = loggedUser;
+	}
+	
+	public boolean isLoggedUser() {
+		return this.loggedUser;
 	}
 	
 	

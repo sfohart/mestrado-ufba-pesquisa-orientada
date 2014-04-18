@@ -2,7 +2,7 @@
 <class-diagram version="1.1.4" icons="true" automaticImage="PNG" always-add-relationships="false" generalizations="true" 
   realizations="true" associations="true" dependencies="false" nesting-relationships="true">  
   <class id="1" language="java" 
-    name="br.ufba.dcc.mestrado.computacao.recommender.aggregator.AbstractPreferenceAggregatorStrategy" 
+    name="br.ufba.dcc.mestrado.computacao.mahout.recommender.aggregator.AbstractPreferenceAggregatorStrategy" 
     project="mestrado-recommender" 
     file="/mestrado-recommender/src/main/java/br/ufba/dcc/mestrado/computacao/recommender/aggregator/AbstractPreferenceAggregatorStrategy.java" 
     binary="false" corner="BOTTOM_RIGHT">    
@@ -14,7 +14,7 @@
     </display>  
   </class>  
   <class id="2" language="java" 
-    name="br.ufba.dcc.mestrado.computacao.recommender.aggregator.WeightedAverageAggregatorStrategy" 
+    name="br.ufba.dcc.mestrado.computacao.mahout.recommender.aggregator.WeightedAverageAggregatorStrategy" 
     project="mestrado-recommender" 
     file="/mestrado-recommender/src/main/java/br/ufba/dcc/mestrado/computacao/recommender/aggregator/WeightedAverageAggregatorStrategy.java" 
     binary="false" corner="BOTTOM_RIGHT">    
@@ -26,7 +26,7 @@
     </display>  
   </class>  
   <class id="3" language="java" 
-    name="br.ufba.dcc.mestrado.computacao.recommender.aggregator.AveragePreferenceAggregatorStrategy" 
+    name="br.ufba.dcc.mestrado.computacao.mahout.recommender.aggregator.AveragePreferenceAggregatorStrategy" 
     project="mestrado-recommender" 
     file="/mestrado-recommender/src/main/java/br/ufba/dcc/mestrado/computacao/recommender/aggregator/AveragePreferenceAggregatorStrategy.java" 
     binary="false" corner="BOTTOM_RIGHT">    
@@ -37,7 +37,7 @@
       <operations public="false" package="false" protected="false" private="false" static="true"/>    
     </display>  
   </class>  
-  <interface id="4" language="java" name="br.ufba.dcc.mestrado.computacao.recommender.MultiCriteriaDataModelBuilder" 
+  <interface id="4" language="java" name="br.ufba.dcc.mestrado.computacao.mahout.recommender.MultiCriteriaDataModelBuilder" 
     project="mestrado-recommender" 
     file="/mestrado-recommender/src/main/java/br/ufba/dcc/mestrado/computacao/recommender/MultiCriteriaDataModelBuilder.java" 
     binary="false" corner="BOTTOM_RIGHT">    
@@ -48,7 +48,7 @@
       <operations public="false" package="false" protected="false" private="false" static="true"/>    
     </display>  
   </interface>  
-  <interface id="5" language="java" name="br.ufba.dcc.mestrado.computacao.recommender.MultiCriteriaRecommender" 
+  <interface id="5" language="java" name="br.ufba.dcc.mestrado.computacao.mahout.recommender.MultiCriteriaRecommender" 
     project="mestrado-recommender" 
     file="/mestrado-recommender/src/main/java/br/ufba/dcc/mestrado/computacao/recommender/MultiCriteriaRecommender.java" 
     binary="false" corner="BOTTOM_RIGHT">    
@@ -60,7 +60,7 @@
     </display>  
   </interface>  
   <class id="6" language="java" 
-    name="br.ufba.dcc.mestrado.computacao.recommender.impl.MultiCriteriaRecommenderImpl.Recommendations" 
+    name="br.ufba.dcc.mestrado.computacao.mahout.recommender.impl.MultiCriteriaRecommenderImpl.Recommendations" 
     project="mestrado-recommender" 
     file="/mestrado-recommender/src/main/java/br/ufba/dcc/mestrado/computacao/recommender/impl/MultiCriteriaRecommenderImpl.java" 
     binary="false" corner="BOTTOM_RIGHT">    
@@ -71,7 +71,7 @@
       <operations public="false" package="false" protected="false" private="false" static="true"/>    
     </display>  
   </class>  
-  <class id="7" language="java" name="br.ufba.dcc.mestrado.computacao.recommender.impl.MultiCriteriaRecommenderImpl" 
+  <class id="7" language="java" name="br.ufba.dcc.mestrado.computacao.mahout.recommender.impl.MultiCriteriaRecommenderImpl" 
     project="mestrado-recommender" 
     file="/mestrado-recommender/src/main/java/br/ufba/dcc/mestrado/computacao/recommender/impl/MultiCriteriaRecommenderImpl.java" 
     binary="false" corner="BOTTOM_RIGHT">    
@@ -83,7 +83,7 @@
     </display>  
   </class>  
   <class id="8" language="java" 
-    name="br.ufba.dcc.mestrado.computacao.recommender.impl.MultiCriteriaRecommenderImpl.CachedEstimator" 
+    name="br.ufba.dcc.mestrado.computacao.mahout.recommender.impl.MultiCriteriaRecommenderImpl.CachedEstimator" 
     project="mestrado-recommender" 
     file="/mestrado-recommender/src/main/java/br/ufba/dcc/mestrado/computacao/recommender/impl/MultiCriteriaRecommenderImpl.java" 
     binary="false" corner="BOTTOM_RIGHT">    
@@ -95,7 +95,7 @@
     </display>  
   </class>  
   <class id="9" language="java" 
-    name="br.ufba.dcc.mestrado.computacao.recommender.impl.MultiCriteriaRecommenderImpl.EstimatorCallable" 
+    name="br.ufba.dcc.mestrado.computacao.mahout.recommender.impl.MultiCriteriaRecommenderImpl.EstimatorCallable" 
     project="mestrado-recommender" 
     file="/mestrado-recommender/src/main/java/br/ufba/dcc/mestrado/computacao/recommender/impl/MultiCriteriaRecommenderImpl.java" 
     binary="false" corner="BOTTOM_RIGHT">    
@@ -107,7 +107,7 @@
     </display>  
   </class>  
   <class id="10" language="java" 
-    name="br.ufba.dcc.mestrado.computacao.recommender.impl.DefaultMultiCriteriaDataModelBuilder" 
+    name="br.ufba.dcc.mestrado.computacao.mahout.recommender.impl.DefaultMultiCriteriaDataModelBuilder" 
     project="mestrado-recommender" 
     file="/mestrado-recommender/src/main/java/br/ufba/dcc/mestrado/computacao/recommender/impl/DefaultMultiCriteriaDataModelBuilder.java" 
     binary="false" corner="BOTTOM_RIGHT">    
@@ -118,7 +118,7 @@
       <operations public="false" package="false" protected="false" private="false" static="true"/>    
     </display>  
   </class>  
-  <interface id="11" language="java" name="br.ufba.dcc.mestrado.computacao.recommender.PreferenceAggregatorStrategy" 
+  <interface id="11" language="java" name="br.ufba.dcc.mestrado.computacao.mahout.recommender.PreferenceAggregatorStrategy" 
     project="mestrado-recommender" 
     file="/mestrado-recommender/src/main/java/br/ufba/dcc/mestrado/computacao/recommender/PreferenceAggregatorStrategy.java" 
     binary="false" corner="BOTTOM_RIGHT">    
@@ -130,7 +130,7 @@
     </display>  
   </interface>  
   <class id="12" language="java" 
-    name="br.ufba.dcc.mestrado.computacao.recommender.impl.MultiCriteriaRecommenderImpl.EstimatedPreferenceRetriever" 
+    name="br.ufba.dcc.mestrado.computacao.mahout.recommender.impl.MultiCriteriaRecommenderImpl.EstimatedPreferenceRetriever" 
     project="mestrado-recommender" 
     file="/mestrado-recommender/src/main/java/br/ufba/dcc/mestrado/computacao/recommender/impl/MultiCriteriaRecommenderImpl.java" 
     binary="false" corner="BOTTOM_RIGHT">    
@@ -142,7 +142,7 @@
     </display>  
   </class>  
   <class id="13" language="java" 
-    name="br.ufba.dcc.mestrado.computacao.recommender.impl.MultiCriteriaRecommenderImpl.RecommendationsRetriever" 
+    name="br.ufba.dcc.mestrado.computacao.mahout.recommender.impl.MultiCriteriaRecommenderImpl.RecommendationsRetriever" 
     project="mestrado-recommender" 
     file="/mestrado-recommender/src/main/java/br/ufba/dcc/mestrado/computacao/recommender/impl/MultiCriteriaRecommenderImpl.java" 
     binary="false" corner="BOTTOM_RIGHT">    
@@ -153,7 +153,7 @@
       <operations public="false" package="false" protected="false" private="false" static="true"/>    
     </display>  
   </class>  
-  <interface id="14" language="java" name="br.ufba.dcc.mestrado.computacao.recommender.MultiCriteriaRecommenderBuilder" 
+  <interface id="14" language="java" name="br.ufba.dcc.mestrado.computacao.mahout.recommender.MultiCriteriaRecommenderBuilder" 
     project="mestrado-recommender" 
     file="/mestrado-recommender/src/main/java/br/ufba/dcc/mestrado/computacao/recommender/MultiCriteriaRecommenderBuilder.java" 
     binary="false" corner="BOTTOM_RIGHT">    

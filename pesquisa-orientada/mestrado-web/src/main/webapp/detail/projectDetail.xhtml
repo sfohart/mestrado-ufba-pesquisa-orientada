@@ -612,7 +612,7 @@
 										}]
 									};
 																		
-									var url = "#{facesContext.externalContext.applicationContextPath}/restful/activityFact/#{projectDetailMB.project.id}/commits/chartData";
+									var url = "#{facesContext.externalContext.applicationContextPath}\/restful\/activityFact\/#{projectDetailMB.project.id}\/commits\/chartData";
 									$.getJSON(url,  function(returnedData) {
 										commitsOptions.series[0].data = returnedData.data;
 										commitsOptions.series[0].pointStart = returnedData.pointStart;

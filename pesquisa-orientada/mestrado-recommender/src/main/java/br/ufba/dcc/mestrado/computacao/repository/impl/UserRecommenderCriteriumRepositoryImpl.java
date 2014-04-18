@@ -12,6 +12,7 @@ import org.springframework.stereotype.Repository;
 
 import br.ufba.dcc.mestrado.computacao.entities.recommender.criterium.UserRecommenderCriteriumEntity;
 import br.ufba.dcc.mestrado.computacao.repository.base.UserRecommenderCriteriumRepository;
+import br.ufba.dcc.mestrado.computacao.repository.impl.BaseRepositoryImpl;
 
 @Repository(UserRecommenderCriteriumRepositoryImpl.BEAN_NAME)
 public class UserRecommenderCriteriumRepositoryImpl extends BaseRepositoryImpl<Long, UserRecommenderCriteriumEntity>
@@ -36,7 +37,7 @@ public class UserRecommenderCriteriumRepositoryImpl extends BaseRepositoryImpl<L
 		Root<UserRecommenderCriteriumEntity> root = criteriaQuery.from(getEntityClass());
 		CriteriaQuery<UserRecommenderCriteriumEntity> select = criteriaQuery.select(root);
 		
-		Predicate predicate = criteriaBuilder.equal(root.get("accountId"), userId);
+		Predicate predicate = criteriaBuilder.equal(root.get("userId"), userId);
 		select.where(predicate);
 		
 		TypedQuery<UserRecommenderCriteriumEntity> query = getEntityManager().createQuery(criteriaQuery);

@@ -4,6 +4,7 @@ import java.util.ResourceBundle;
 
 import javax.faces.application.FacesMessage;
 import javax.faces.component.UIComponent;
+import javax.faces.component.html.HtmlInputSecret;
 import javax.faces.context.FacesContext;
 import javax.faces.validator.Validator;
 import javax.faces.validator.ValidatorException;
@@ -54,15 +55,20 @@ public class LoggedUserPasswordValidator implements Validator {
 			UIComponent component,
 			Object value) throws ValidatorException {
 		
+		((HtmlInputSecret) component).setValid(true);
+		
 		String userPassword = (String) value;
 
-		String encodedUserPassword = getPasswordEncoder().encode(userPassword);
 		UserEntity loggedUser = getUserDetailsService().loadFullLoggedUser();
-		if (loggedUser == null || ! loggedUser.getPassword().equals(encodedUserPassword)) {
+		
+		if (loggedUser == null || ! getPasswordEncoder().matches(userPassword, loggedUser.getPassword())) {
+		
+			((HtmlInputSecret) component).setValid(false);
+		
 			String message = bundle.getString("account.userPassword.invalid.message");
 			FacesMessage facesMessage = new FacesMessage(message);
 			throw new ValidatorException(facesMessage);
-		}
+		} 
 		
 	}
 

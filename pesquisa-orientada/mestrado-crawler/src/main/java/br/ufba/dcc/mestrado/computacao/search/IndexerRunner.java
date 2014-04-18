@@ -5,6 +5,9 @@ import java.text.SimpleDateFormat;
 import java.util.concurrent.ExecutionException;
 import java.util.logging.Logger;
 
+import org.joda.time.Duration;
+import org.joda.time.Instant;
+import org.joda.time.LocalTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
@@ -27,19 +30,19 @@ public class IndexerRunner {
 	private SearchService searchService;
 
 	public void run() {
-		Timestamp duration = null;
-		logger.info("Iniciando recriaï¿½ï¿½o dos ï¿½ndices do hibernate/lucene");
+		logger.info("Iniciando (re)criação dos índices do hibernate/lucene");
 		
 		try {
-			long startAt = System.currentTimeMillis();
+			
+			Instant startAt = Instant.now();
 			indexer.buildIndex();
-			long endAt = System.currentTimeMillis();
+			Instant endAt = Instant.now();
 			
-			duration = new Timestamp(endAt - startAt);
+			Duration duration = new Duration(startAt, endAt);
 			
-			SimpleDateFormat format = new SimpleDateFormat("mm:ss.S");
+			LocalTime localTime = new LocalTime(duration);
 			
-			logger.info("Tempo de duraï¿½ï¿½o: " + format.format(duration));
+			logger.info(String.format("Tempo de duração: %s", localTime.toString()));
 			
 		} catch (InterruptedException e) {
 			e.printStackTrace();
