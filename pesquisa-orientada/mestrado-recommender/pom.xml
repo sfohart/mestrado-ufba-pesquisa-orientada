@@ -11,7 +11,6 @@
 
 	<properties>
 		<mahout.version>0.9</mahout.version>
-		<spark.version>0.9.1</spark.version>
 	</properties>
 
 	<dependencies>
@@ -45,34 +44,6 @@
 			</exclusions>
 		</dependency>
 
-		<!-- Apache Spark -->
-		<!-- 
-		<dependency>
-			<groupId>org.apache.spark</groupId>
-			<artifactId>spark-core_2.10</artifactId>
-			<version>${spark.version}</version>
-			<exclusions>
-				<exclusion>
-					<groupId>org.apache.hadoop</groupId>
-					<artifactId>hadoop-client</artifactId>
-				</exclusion>
-				<exclusion>
-					<groupId>org.codehaus.jackson</groupId>
-					<artifactId>jackson-core-asl</artifactId>
-				</exclusion>
-				<exclusion>
-					<groupId>org.codehaus.jackson</groupId>
-					<artifactId>jackson-mapper-asl</artifactId>
-				</exclusion>
-			</exclusions>
-		</dependency>
-
-		<dependency>
-			<groupId>org.apache.spark</groupId>
-			<artifactId>spark-mllib_2.10</artifactId>
-			<version>${spark.version}</version>
-		</dependency>
-		 -->
 
 		<!-- Incompatibilidades entre Mahout e Spark -->
 		<dependency>
