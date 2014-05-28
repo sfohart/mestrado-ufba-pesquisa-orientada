@@ -210,16 +210,17 @@ public class ProjectRepositoryImpl
 		
 		if (project.getTags() != null) {
 			for (OhLohTagEntity tag : project.getTags()) {
+				TermQuery termQuery = new TermQuery(
+						new Term(
+								SearchFieldsEnum.tagName.fieldName(), 
+								tag.getName()));
 				booleanQuery.add(
-						new TermQuery(
-								new Term(
-										SearchFieldsEnum.tagName.fieldName(), 
-										tag.getName())), 
+						termQuery, 
 						BooleanClause.Occur.SHOULD);
 			}
 		}
 		
-		
+		booleanQuery.setMinimumNumberShouldMatch(3);
 		
 		FullTextQuery fullTextQuery =  fullTextEntityManager.createFullTextQuery(booleanQuery, getEntityClass());
 		

@@ -40,7 +40,7 @@ public class IndexerRunner {
 			
 			Duration duration = new Duration(startAt, endAt);
 			
-			LocalTime localTime = new LocalTime(duration);
+			LocalTime localTime = new LocalTime(duration.getMillis());
 			
 			logger.info(String.format("Tempo de duração: %s", localTime.toString()));
 			
