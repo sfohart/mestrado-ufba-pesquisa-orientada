@@ -13,6 +13,24 @@
 		<mahout.version>0.9</mahout.version>
 	</properties>
 
+	<build>
+		<plugins>
+			<plugin>
+				<artifactId>maven-assembly-plugin</artifactId>
+				<configuration>
+					<archive>
+						<manifest>
+							<mainClass>br.ufba.dcc.mestrado.computacao.recommender.mahout.classification.LogisticRegressionModelTrainer</mainClass>
+						</manifest>
+					</archive>
+					<descriptorRefs>
+						<descriptorRef>jar-with-dependencies</descriptorRef>
+					</descriptorRefs>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
+	
 	<dependencies>
 
 		<!-- Apache Mahout -->
