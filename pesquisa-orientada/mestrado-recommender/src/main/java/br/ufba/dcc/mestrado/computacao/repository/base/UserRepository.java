@@ -1,7 +1,6 @@
 package br.ufba.dcc.mestrado.computacao.repository.base;
 
-import br.ufba.dcc.mestrado.computacao.entities.recommender.user.UserEntity;
-import br.ufba.dcc.mestrado.computacao.repository.base.BaseRepository;
+import br.ufba.dcc.mestrado.computacao.entities.ohloh.recommender.user.UserEntity;
 
 public interface UserRepository extends BaseRepository<Long, UserEntity>{
 

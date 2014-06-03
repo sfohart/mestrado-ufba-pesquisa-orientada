@@ -6,7 +6,7 @@ import org.apache.lucene.index.IndexReader;
 import org.hibernate.search.jpa.FullTextQuery;
 import org.hibernate.search.query.facet.FacetingRequest;
 
-import br.ufba.dcc.mestrado.computacao.entities.ohloh.project.OhLohProjectEntity;
+import br.ufba.dcc.mestrado.computacao.entities.ohloh.core.project.OhLohProjectEntity;
 
 public interface ProjectRepository extends BaseRepository<Long, OhLohProjectEntity>{
 

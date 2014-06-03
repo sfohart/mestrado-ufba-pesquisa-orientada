@@ -2,9 +2,8 @@ package br.ufba.dcc.mestrado.computacao.repository.impl;
 
 import org.springframework.stereotype.Repository;
 
-import br.ufba.dcc.mestrado.computacao.entities.recommender.criterium.RecommenderCriteriumEntity;
+import br.ufba.dcc.mestrado.computacao.entities.ohloh.recommender.criterium.RecommenderCriteriumEntity;
 import br.ufba.dcc.mestrado.computacao.repository.base.RecommenderCriteriumRepository;
-import br.ufba.dcc.mestrado.computacao.repository.impl.BaseRepositoryImpl;
 
 @Repository(RecommenderCriteriumRepositoryImpl.BEAN_NAME)
 public class RecommenderCriteriumRepositoryImpl extends BaseRepositoryImpl<Long, RecommenderCriteriumEntity>

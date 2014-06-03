@@ -3,8 +3,8 @@ package br.ufba.dcc.mestrado.computacao.service.base;
 import java.util.List;
 import java.util.Map;
 
-import br.ufba.dcc.mestrado.computacao.entities.ohloh.project.OhLohLinkEntity;
-import br.ufba.dcc.mestrado.computacao.entities.ohloh.project.OhLohProjectEntity;
+import br.ufba.dcc.mestrado.computacao.entities.ohloh.core.project.OhLohLinkEntity;
+import br.ufba.dcc.mestrado.computacao.entities.ohloh.core.project.OhLohProjectEntity;
 import br.ufba.dcc.mestrado.computacao.ohloh.data.project.OhLohProjectDTO;
 
 public interface OhLohProjectService extends DefaultOhLohService<OhLohProjectDTO, Long, OhLohProjectEntity>{

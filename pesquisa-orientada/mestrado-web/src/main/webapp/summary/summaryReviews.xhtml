@@ -149,10 +149,10 @@
 								</h3>
 								
 								<h:panelGroup layout="block" rendered="#{not empty summaryReviewsMB.mostHelpfulReviewList}">
-										<ui:repeat var="preference" value="#{summaryReviewsMB.mostHelpfulReviewList}" varStatus="status"  >
+										<ui:repeat var="preferenceReview" value="#{summaryReviewsMB.mostHelpfulReviewList}" varStatus="status"  >
 											<div class="well">
 												<ui:include src="/reviews/review.xhtml">
-													<ui:param name="preference" value="#{preference}" />
+													<ui:param name="preference" value="#{preferenceReview.preference}" />
 													<ui:param name="enableVoting" value="true"/>
 													
 													<ui:param name="criteriumInPopup" value="true" />
@@ -190,10 +190,10 @@
 								</h3>
 								
 								<h:panelGroup layout="block" rendered="#{not empty summaryReviewsMB.mostRecentReviewList}">
-										<ui:repeat var="preference" value="#{summaryReviewsMB.mostRecentReviewList}" varStatus="status"  >
+										<ui:repeat var="preferenceReview" value="#{summaryReviewsMB.mostRecentReviewList}" varStatus="status"  >
 											<div class="well">
 												<ui:include src="/reviews/review.xhtml">
-													<ui:param name="preference" value="#{preference}" />
+													<ui:param name="preference" value="#{preferenceReview.preference}" />
 													<ui:param name="enableVoting" value="true"/>
 													
 													<ui:param name="criteriumInPopup" value="true" />

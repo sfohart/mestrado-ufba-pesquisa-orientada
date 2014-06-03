@@ -2,7 +2,7 @@ package br.ufba.dcc.mestrado.computacao.service.base;
 
 import java.util.List;
 
-import br.ufba.dcc.mestrado.computacao.entities.ohloh.stack.OhLohStackEntity;
+import br.ufba.dcc.mestrado.computacao.entities.ohloh.core.stack.OhLohStackEntity;
 
 public interface StackService extends BaseService<Long, OhLohStackEntity>{
 

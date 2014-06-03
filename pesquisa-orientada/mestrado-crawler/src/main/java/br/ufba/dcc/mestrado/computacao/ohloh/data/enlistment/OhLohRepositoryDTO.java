@@ -2,7 +2,7 @@ package br.ufba.dcc.mestrado.computacao.ohloh.data.enlistment;
 
 import java.sql.Timestamp;
 
-import br.ufba.dcc.mestrado.computacao.entities.ohloh.enlistment.OhLohRepositoryTypeEnum;
+import br.ufba.dcc.mestrado.computacao.entities.ohloh.core.enlistment.OhLohRepositoryTypeEnum;
 import br.ufba.dcc.mestrado.computacao.ohloh.data.OhLohResultDTO;
 import br.ufba.dcc.mestrado.computacao.xstream.converters.NullableISO8601SqlTimestampXStreamConverter;
 import br.ufba.dcc.mestrado.computacao.xstream.converters.NullableLongXStreamConverter;
@@ -10,7 +10,6 @@ import br.ufba.dcc.mestrado.computacao.xstream.converters.NullableLongXStreamCon
 import com.thoughtworks.xstream.annotations.XStreamAlias;
 import com.thoughtworks.xstream.annotations.XStreamAsAttribute;
 import com.thoughtworks.xstream.annotations.XStreamConverter;
-import com.thoughtworks.xstream.converters.extended.ISO8601SqlTimestampConverter;
 
 @XStreamAlias(OhLohRepositoryDTO.NODE_NAME)
 public class OhLohRepositoryDTO implements OhLohResultDTO {

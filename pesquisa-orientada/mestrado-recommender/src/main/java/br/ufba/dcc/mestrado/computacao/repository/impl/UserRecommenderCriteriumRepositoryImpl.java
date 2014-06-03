@@ -10,9 +10,8 @@ import javax.persistence.criteria.Root;
 
 import org.springframework.stereotype.Repository;
 
-import br.ufba.dcc.mestrado.computacao.entities.recommender.criterium.UserRecommenderCriteriumEntity;
+import br.ufba.dcc.mestrado.computacao.entities.ohloh.recommender.criterium.UserRecommenderCriteriumEntity;
 import br.ufba.dcc.mestrado.computacao.repository.base.UserRecommenderCriteriumRepository;
-import br.ufba.dcc.mestrado.computacao.repository.impl.BaseRepositoryImpl;
 
 @Repository(UserRecommenderCriteriumRepositoryImpl.BEAN_NAME)
 public class UserRecommenderCriteriumRepositoryImpl extends BaseRepositoryImpl<Long, UserRecommenderCriteriumEntity>

@@ -13,7 +13,7 @@ import javax.persistence.criteria.Root;
 
 import org.springframework.stereotype.Repository;
 
-import br.ufba.dcc.mestrado.computacao.entities.ohloh.project.OhLohTagEntity;
+import br.ufba.dcc.mestrado.computacao.entities.ohloh.core.project.OhLohTagEntity;
 import br.ufba.dcc.mestrado.computacao.repository.base.TagRepository;
 
 @Repository(TagRepositoryImpl.BEAN_NAME)

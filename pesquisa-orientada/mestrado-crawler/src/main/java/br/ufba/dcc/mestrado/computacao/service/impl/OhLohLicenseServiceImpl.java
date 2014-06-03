@@ -4,7 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
-import br.ufba.dcc.mestrado.computacao.entities.ohloh.project.OhLohLicenseEntity;
+import br.ufba.dcc.mestrado.computacao.entities.ohloh.core.project.OhLohLicenseEntity;
 import br.ufba.dcc.mestrado.computacao.ohloh.data.project.OhLohLicenseDTO;
 import br.ufba.dcc.mestrado.computacao.repository.base.LicenseRepository;
 import br.ufba.dcc.mestrado.computacao.repository.impl.LicenseRepositoryImpl;

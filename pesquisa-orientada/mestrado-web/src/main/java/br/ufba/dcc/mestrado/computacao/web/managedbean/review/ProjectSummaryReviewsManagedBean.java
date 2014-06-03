@@ -11,10 +11,10 @@ import javax.faces.event.ComponentSystemEvent;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 
-import br.ufba.dcc.mestrado.computacao.entities.ohloh.project.OhLohProjectEntity;
-import br.ufba.dcc.mestrado.computacao.entities.recommender.preference.PreferenceEntity;
-import br.ufba.dcc.mestrado.computacao.entities.recommender.preference.PreferenceReviewEntity;
-import br.ufba.dcc.mestrado.computacao.entities.recommender.user.UserEntity;
+import br.ufba.dcc.mestrado.computacao.entities.ohloh.core.project.OhLohProjectEntity;
+import br.ufba.dcc.mestrado.computacao.entities.ohloh.recommender.preference.PreferenceEntity;
+import br.ufba.dcc.mestrado.computacao.entities.ohloh.recommender.preference.PreferenceReviewEntity;
+import br.ufba.dcc.mestrado.computacao.entities.ohloh.recommender.user.UserEntity;
 import br.ufba.dcc.mestrado.computacao.service.base.ProjectService;
 import br.ufba.dcc.mestrado.computacao.service.core.base.OverallRatingService;
 import br.ufba.dcc.mestrado.computacao.service.core.base.PreferenceReviewService;
@@ -44,10 +44,10 @@ public class ProjectSummaryReviewsManagedBean extends AbstractReviewVotingManage
 	@ManagedProperty("#{projectService}")
 	private ProjectService projectService;
 	
-	@ManagedProperty("#{overallPreferenceService}")
+	@ManagedProperty("#{overallRatingService}")
 	private OverallRatingService overallRatingService;
 	
-	@ManagedProperty("${preferenceReviewService}")
+	@ManagedProperty("#{preferenceReviewService}")
 	private PreferenceReviewService preferenceReviewService;
 	
 	@ManagedProperty("#{userService}")

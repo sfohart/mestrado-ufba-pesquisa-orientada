@@ -1,5 +1,9 @@
 package br.ufba.dcc.mestrado.computacao.recommender.mahout.classification;
 
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -9,31 +13,25 @@ import java.util.Random;
 import java.util.logging.Logger;
 
 import org.apache.commons.lang3.tuple.ImmutablePair;
-import org.apache.mahout.classifier.sgd.L2;
 import org.apache.mahout.classifier.sgd.AdaptiveLogisticRegression;
+import org.apache.mahout.classifier.sgd.CrossFoldLearner;
+import org.apache.mahout.classifier.sgd.L2;
+import org.apache.mahout.classifier.sgd.ModelSerializer;
 import org.apache.mahout.common.RandomUtils;
 import org.apache.mahout.math.DenseVector;
 import org.apache.mahout.math.Vector;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.stereotype.Component;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
+import org.springframework.stereotype.Component;
 
-import br.ufba.dcc.mestrado.computacao.entities.recommender.criterium.RecommenderCriteriumEntity;
-import br.ufba.dcc.mestrado.computacao.entities.recommender.preference.PreferenceEntity;
+import br.ufba.dcc.mestrado.computacao.entities.ohloh.recommender.criterium.RecommenderCriteriumEntity;
+import br.ufba.dcc.mestrado.computacao.entities.ohloh.recommender.preference.PreferenceEntity;
 import br.ufba.dcc.mestrado.computacao.service.core.base.OverallRatingService;
 import br.ufba.dcc.mestrado.computacao.service.core.base.RatingByCriteriumService;
 import br.ufba.dcc.mestrado.computacao.service.core.base.RecommenderCriteriumService;
-import br.ufba.dcc.mestrado.computacao.recommender.mahout.classification.ModelTrainer;
 import br.ufba.dcc.mestrado.computacao.spring.RecommenderAppConfig;
-
-import org.apache.mahout.classifier.sgd.CrossFoldLearner;
-import java.io.FileInputStream;
-import java.io.InputStream;
-import java.io.IOException;
-import java.io.FileNotFoundException;
-import org.apache.mahout.classifier.sgd.ModelSerializer;
 
 @Component
 public class LogisticRegressionModelTrainer implements ModelTrainer {

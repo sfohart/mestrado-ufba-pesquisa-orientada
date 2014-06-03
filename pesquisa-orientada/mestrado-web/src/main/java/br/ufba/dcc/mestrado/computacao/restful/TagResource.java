@@ -1,7 +1,6 @@
 package br.ufba.dcc.mestrado.computacao.restful;
 
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.ws.rs.GET;
@@ -16,7 +15,7 @@ import org.glassfish.jersey.server.JSONP;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import br.ufba.dcc.mestrado.computacao.entities.ohloh.project.OhLohTagEntity;
+import br.ufba.dcc.mestrado.computacao.entities.ohloh.core.project.OhLohTagEntity;
 import br.ufba.dcc.mestrado.computacao.service.base.TagService;
 
 @Component

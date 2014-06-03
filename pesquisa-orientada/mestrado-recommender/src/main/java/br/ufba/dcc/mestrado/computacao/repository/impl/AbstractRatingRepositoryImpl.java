@@ -8,8 +8,7 @@ import javax.persistence.Tuple;
 
 import org.apache.commons.lang3.tuple.ImmutablePair;
 
-import br.ufba.dcc.mestrado.computacao.entities.recommender.preference.PreferenceEntity;
-import br.ufba.dcc.mestrado.computacao.repository.impl.BaseRepositoryImpl;
+import br.ufba.dcc.mestrado.computacao.entities.ohloh.recommender.preference.PreferenceEntity;
 
 public abstract class AbstractRatingRepositoryImpl extends BaseRepositoryImpl<Long, PreferenceEntity> {
 

@@ -2,7 +2,7 @@ package br.ufba.dcc.mestrado.computacao.repository.impl;
 
 import org.springframework.stereotype.Repository;
 
-import br.ufba.dcc.mestrado.computacao.entities.ohloh.stack.OhLohStackEntity;
+import br.ufba.dcc.mestrado.computacao.entities.ohloh.core.stack.OhLohStackEntity;
 import br.ufba.dcc.mestrado.computacao.repository.base.StackRepository;
 
 @Repository(StackRepositoryImpl.BEAN_NAME)

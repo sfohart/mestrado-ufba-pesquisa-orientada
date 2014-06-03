@@ -2,7 +2,7 @@ package br.ufba.dcc.mestrado.computacao.service.base;
 
 import java.util.List;
 
-import br.ufba.dcc.mestrado.computacao.entities.ohloh.account.OhLohAccountEntity;
+import br.ufba.dcc.mestrado.computacao.entities.ohloh.core.account.OhLohAccountEntity;
 
 public interface AccountService extends BaseService<Long, OhLohAccountEntity>{
 

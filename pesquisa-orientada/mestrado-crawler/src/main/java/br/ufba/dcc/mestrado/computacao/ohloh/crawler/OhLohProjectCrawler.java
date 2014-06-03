@@ -9,7 +9,7 @@ import org.springframework.context.annotation.AnnotationConfigApplicationContext
 import org.springframework.context.support.AbstractApplicationContext;
 import org.springframework.stereotype.Component;
 
-import br.ufba.dcc.mestrado.computacao.entities.ohloh.project.OhLohProjectEntity;
+import br.ufba.dcc.mestrado.computacao.entities.ohloh.core.project.OhLohProjectEntity;
 import br.ufba.dcc.mestrado.computacao.ohloh.data.project.OhLohProjectDTO;
 import br.ufba.dcc.mestrado.computacao.ohloh.entities.OhLohCrawlerProjectEntity;
 import br.ufba.dcc.mestrado.computacao.ohloh.restful.client.OhLohRestfulClient;
@@ -132,7 +132,7 @@ public class OhLohProjectCrawler {
 				
 				//baixando projetos
 				OhLohProjectResponse response = ohLohRestfulClient.getAllProjects(request);
-				logger.info(String.format("Total Pages: %d | Total Projects: %d", totalPages, ohLohProjectService.countAll()));
+				logger.info(String.format("Total Pages: %d | Total Projects: %d", totalPages, getProjectService().countAll()));
 				
 				if (totalPages <= 0 && response.getItemsAvailable() != null && response.getItemsReturned() != null) {
 					totalPages = response.getItemsAvailable() / response.getItemsReturned();
@@ -152,9 +152,9 @@ public class OhLohProjectCrawler {
 						
 						//iterar cada projeto da lista retornada
 						for (OhLohProjectDTO project : ohLohProjectDTOs) {
-							if (ohLohProjectService.findById(project.getId()) == null) {
+							if (getProjectService().findById(project.getId()) == null) {
 								//armazenando projeto
-								OhLohProjectEntity ohLohProject = ohLohProjectService.process(project);								
+								OhLohProjectEntity ohLohProject = getProjectService().process(project);								
 								
 								config.setProject(ohLohProject);
 								config.setCurrentPage(page);

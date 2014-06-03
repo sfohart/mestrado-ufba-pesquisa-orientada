@@ -2,7 +2,7 @@ package br.ufba.dcc.mestrado.computacao.service.core.base;
 
 import java.util.List;
 
-import br.ufba.dcc.mestrado.computacao.entities.recommender.preference.PreferenceReviewEntity;
+import br.ufba.dcc.mestrado.computacao.entities.ohloh.recommender.preference.PreferenceReviewEntity;
 import br.ufba.dcc.mestrado.computacao.service.base.BaseService;
 
 public interface PreferenceReviewService extends BaseService<Long, PreferenceReviewEntity> {

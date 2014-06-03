@@ -1,7 +1,6 @@
 package br.ufba.dcc.mestrado.computacao.repository.base;
 
-import br.ufba.dcc.mestrado.computacao.entities.recommender.criterium.RecommenderCriteriumEntity;
-import br.ufba.dcc.mestrado.computacao.repository.base.BaseRepository;
+import br.ufba.dcc.mestrado.computacao.entities.ohloh.recommender.criterium.RecommenderCriteriumEntity;
 
 public interface RecommenderCriteriumRepository extends BaseRepository<Long, RecommenderCriteriumEntity>{
 	

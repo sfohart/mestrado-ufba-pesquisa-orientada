@@ -2,26 +2,39 @@
 <persistence version="2.1" xmlns="http://xmlns.jcp.org/xml/ns/persistence" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence http://xmlns.jcp.org/xml/ns/persistence/persistence_2_1.xsd">
 	<persistence-unit name="mestrado">
 		<provider>org.hibernate.ejb.HibernatePersistence</provider>
-		<class>br.ufba.dcc.mestrado.computacao.entities.ohloh.account.OhLohAccountEntity</class>
-		<class>br.ufba.dcc.mestrado.computacao.entities.ohloh.activityfact.OhLohActivityFactEntity</class>
-		<class>br.ufba.dcc.mestrado.computacao.entities.ohloh.analysis.OhLohAnalysisEntity</class>
-		<class>br.ufba.dcc.mestrado.computacao.entities.ohloh.analysis.OhLohAnalysisLanguageEntity</class>
-		<class>br.ufba.dcc.mestrado.computacao.entities.ohloh.analysis.OhLohAnalysisLanguagesEntity</class>
-		<class>br.ufba.dcc.mestrado.computacao.entities.ohloh.contributorfact.OhLohContributorFactEntity</class>
-		<class>br.ufba.dcc.mestrado.computacao.entities.ohloh.contributorfact.OhLohContributorLanguageFactEntity</class>
-		<class>br.ufba.dcc.mestrado.computacao.entities.ohloh.enlistment.OhLohEnlistmentEntity</class>
-		<class>br.ufba.dcc.mestrado.computacao.entities.ohloh.enlistment.OhLohRepositoryEntity</class>
-		<class>br.ufba.dcc.mestrado.computacao.entities.ohloh.factoid.OhLohFactoidEntity</class>
-		<class>br.ufba.dcc.mestrado.computacao.entities.ohloh.kudo.OhLohKudoEntity</class>
-		<class>br.ufba.dcc.mestrado.computacao.entities.ohloh.kudoskore.OhLohKudoScoreEntity</class>
-		<class>br.ufba.dcc.mestrado.computacao.entities.ohloh.language.OhLohLanguageEntity</class>
-		<class>br.ufba.dcc.mestrado.computacao.entities.ohloh.project.OhLohLicenseEntity</class>
-		<class>br.ufba.dcc.mestrado.computacao.entities.ohloh.project.OhLohLinkEntity</class>
-		<class>br.ufba.dcc.mestrado.computacao.entities.ohloh.project.OhLohProjectEntity</class>
-		<class>br.ufba.dcc.mestrado.computacao.entities.ohloh.project.OhLohTagEntity</class>
-		<class>br.ufba.dcc.mestrado.computacao.entities.ohloh.sizefact.OhLohSizeFactEntity</class>
-		<class>br.ufba.dcc.mestrado.computacao.entities.ohloh.stack.OhLohStackEntity</class>
-		<class>br.ufba.dcc.mestrado.computacao.entities.ohloh.stack.OhLohStackEntryEntity</class>
+		<class>br.ufba.dcc.mestrado.computacao.entities.ohloh.core.account.OhLohAccountEntity</class>
+		<class>br.ufba.dcc.mestrado.computacao.entities.ohloh.core.activityfact.OhLohActivityFactEntity</class>
+		<class>br.ufba.dcc.mestrado.computacao.entities.ohloh.core.analysis.OhLohAnalysisEntity</class>
+		<class>br.ufba.dcc.mestrado.computacao.entities.ohloh.core.analysis.OhLohAnalysisLanguageEntity</class>
+		<class>br.ufba.dcc.mestrado.computacao.entities.ohloh.core.analysis.OhLohAnalysisLanguagesEntity</class>
+		<class>br.ufba.dcc.mestrado.computacao.entities.ohloh.core.contributorfact.OhLohContributorFactEntity</class>
+		<class>br.ufba.dcc.mestrado.computacao.entities.ohloh.core.contributorfact.OhLohContributorLanguageFactEntity</class>
+		<class>br.ufba.dcc.mestrado.computacao.entities.ohloh.core.enlistment.OhLohEnlistmentEntity</class>
+		<class>br.ufba.dcc.mestrado.computacao.entities.ohloh.core.enlistment.OhLohRepositoryEntity</class>
+		<class>br.ufba.dcc.mestrado.computacao.entities.ohloh.core.factoid.OhLohFactoidEntity</class>
+		<class>br.ufba.dcc.mestrado.computacao.entities.ohloh.core.kudo.OhLohKudoEntity</class>
+		<class>br.ufba.dcc.mestrado.computacao.entities.ohloh.core.kudoskore.OhLohKudoScoreEntity</class>
+		<class>br.ufba.dcc.mestrado.computacao.entities.ohloh.core.language.OhLohLanguageEntity</class>
+		<class>br.ufba.dcc.mestrado.computacao.entities.ohloh.core.project.OhLohLicenseEntity</class>
+		<class>br.ufba.dcc.mestrado.computacao.entities.ohloh.core.project.OhLohLinkEntity</class>
+		<class>br.ufba.dcc.mestrado.computacao.entities.ohloh.core.project.OhLohProjectEntity</class>
+		<class>br.ufba.dcc.mestrado.computacao.entities.ohloh.core.project.OhLohTagEntity</class>
+		<class>br.ufba.dcc.mestrado.computacao.entities.ohloh.core.sizefact.OhLohSizeFactEntity</class>
+		<class>br.ufba.dcc.mestrado.computacao.entities.ohloh.core.stack.OhLohStackEntity</class>
+		<class>br.ufba.dcc.mestrado.computacao.entities.ohloh.core.stack.OhLohStackEntryEntity</class>
+		<class>br.ufba.dcc.mestrado.computacao.entities.ohloh.recommender.criterium.RecommenderCriteriumEntity</class>
+		<class>br.ufba.dcc.mestrado.computacao.entities.ohloh.recommender.criterium.UserRecommenderCriteriumEntity</class>
+		<class>br.ufba.dcc.mestrado.computacao.entities.ohloh.recommender.pageview.PageViewEntity</class>
+		<class>br.ufba.dcc.mestrado.computacao.entities.ohloh.recommender.pageview.ProjectDetailPageViewEntity</class>
+		<class>br.ufba.dcc.mestrado.computacao.entities.ohloh.recommender.preference.PreferenceEntity</class>
+		<class>br.ufba.dcc.mestrado.computacao.entities.ohloh.recommender.preference.PreferenceEntryEntity</class>
+		<class>br.ufba.dcc.mestrado.computacao.entities.ohloh.recommender.preference.PreferenceReviewEntity</class>
+		<class>br.ufba.dcc.mestrado.computacao.entities.ohloh.recommender.user.UserEntity</class>
+		
+		<!-- Recommender -->
+		
+		
+		
 		<exclude-unlisted-classes>false</exclude-unlisted-classes>
 	</persistence-unit>
 </persistence>

@@ -10,7 +10,7 @@ import javax.persistence.criteria.Root;
 
 import org.springframework.stereotype.Repository;
 
-import br.ufba.dcc.mestrado.computacao.entities.ohloh.project.OhLohLicenseEntity;
+import br.ufba.dcc.mestrado.computacao.entities.ohloh.core.project.OhLohLicenseEntity;
 import br.ufba.dcc.mestrado.computacao.repository.base.LicenseRepository;
 
 @Repository(LicenseRepositoryImpl.BEAN_NAME)

@@ -1,9 +1,5 @@
 package br.ufba.dcc.mestrado.computacao.web.managedbean;
 
-import br.ufba.dcc.mestrado.computacao.service.base.TagService;
-import br.ufba.dcc.mestrado.computacao.entities.ohloh.project.OhLohTagEntity;
-
-
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -11,9 +7,11 @@ import java.util.List;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
+import javax.faces.event.ActionEvent;
 import javax.faces.event.ComponentSystemEvent;
 
-import javax.faces.event.ActionEvent;
+import br.ufba.dcc.mestrado.computacao.entities.ohloh.core.project.OhLohTagEntity;
+import br.ufba.dcc.mestrado.computacao.service.base.TagService;
 
 @ManagedBean(name="tagMB")
 @ViewScoped

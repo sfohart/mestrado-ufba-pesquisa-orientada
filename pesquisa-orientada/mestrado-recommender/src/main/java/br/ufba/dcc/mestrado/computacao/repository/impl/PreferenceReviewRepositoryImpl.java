@@ -16,11 +16,10 @@ import javax.persistence.criteria.Subquery;
 
 import org.springframework.stereotype.Repository;
 
-import br.ufba.dcc.mestrado.computacao.entities.recommender.preference.PreferenceEntity;
-import br.ufba.dcc.mestrado.computacao.entities.recommender.preference.PreferenceEntryEntity;
-import br.ufba.dcc.mestrado.computacao.entities.recommender.preference.PreferenceReviewEntity;
+import br.ufba.dcc.mestrado.computacao.entities.ohloh.recommender.preference.PreferenceEntity;
+import br.ufba.dcc.mestrado.computacao.entities.ohloh.recommender.preference.PreferenceEntryEntity;
+import br.ufba.dcc.mestrado.computacao.entities.ohloh.recommender.preference.PreferenceReviewEntity;
 import br.ufba.dcc.mestrado.computacao.repository.base.PreferenceReviewRepository;
-import br.ufba.dcc.mestrado.computacao.repository.impl.BaseRepositoryImpl;
 
 @Repository(PreferenceReviewRepositoryImpl.BEAN_NAME)
 public class PreferenceReviewRepositoryImpl 
@@ -172,10 +171,6 @@ public class PreferenceReviewRepositoryImpl
 			root.fetch("preference", JoinType.INNER);			
 			root.fetch("uselessList", JoinType.LEFT);
 			root.fetch("usefulList", JoinType.LEFT);
-			
-			Join<PreferenceEntity,PreferenceEntryEntity> preferenceEntryJoin = preferenceJoin.join("preferenceEntryList", JoinType.LEFT);
-			preferenceJoin.fetch("preferenceEntryList", JoinType.LEFT);
-			preferenceEntryJoin.fetch("usefulList", JoinType.LEFT);
 						
 			reviewQuery = reviewQuery.select(root);
 						

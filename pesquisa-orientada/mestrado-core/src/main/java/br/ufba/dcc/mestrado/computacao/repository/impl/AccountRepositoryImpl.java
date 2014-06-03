@@ -10,7 +10,7 @@ import javax.persistence.criteria.Root;
 
 import org.springframework.stereotype.Repository;
 
-import br.ufba.dcc.mestrado.computacao.entities.ohloh.account.OhLohAccountEntity;
+import br.ufba.dcc.mestrado.computacao.entities.ohloh.core.account.OhLohAccountEntity;
 import br.ufba.dcc.mestrado.computacao.repository.base.AccountRepository;
 
 @Repository(AccountRepositoryImpl.BEAN_NAME)
