@@ -19,10 +19,7 @@ import org.apache.mahout.classifier.sgd.L2;
 import org.apache.mahout.classifier.sgd.ModelSerializer;
 import org.apache.mahout.common.RandomUtils;
 import org.apache.mahout.math.DenseVector;
-import org.apache.mahout.math.Vector;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.stereotype.Component;
 
@@ -34,52 +31,31 @@ import br.ufba.dcc.mestrado.computacao.service.core.base.RecommenderCriteriumSer
 import br.ufba.dcc.mestrado.computacao.spring.RecommenderAppConfig;
 
 @Component
-public class LogisticRegressionModelTrainer implements ModelTrainer {
+public class MahoutLogisticRegressionModelTrainer extends AbstractModelTrainer {
 
-	public static Logger logger = Logger.getLogger(LogisticRegressionModelTrainer.class.getName());
-	
 	@Autowired
-	private RatingByCriteriumService ratingByCriteriumService;
-	
-	@Autowired
-	private RecommenderCriteriumService recommenderCriteriumService;
-	
-	@Autowired
-	private OverallRatingService overallRatingService;
+	public MahoutLogisticRegressionModelTrainer(
+			RatingByCriteriumService ratingByCriteriumService,
+			RecommenderCriteriumService recommenderCriteriumService,
+			OverallRatingService overallRatingService) {
+		
+		super(ratingByCriteriumService, recommenderCriteriumService, overallRatingService);
+	}
+
+	public static Logger logger = Logger.getLogger(MahoutLogisticRegressionModelTrainer.class.getName());
 	
 	private AdaptiveLogisticRegression adaptiveLogisticRegression;
 	private CrossFoldLearner crossFoldLearner;
 	
-	@Value("${prediction.model.path}")
-	private String modelPath;
-	
-	public void setModelPath(String modelPath) {
-		this.modelPath = modelPath;
-	}
-	
-	public String getModelPath() {
-		return modelPath;
-	}
-	
-	@Autowired
-	public LogisticRegressionModelTrainer(
-			RatingByCriteriumService ratingByCriteriumService,
-			RecommenderCriteriumService recommenderCriteriumService,
-			OverallRatingService overallRatingService) {
-		super();
-		this.ratingByCriteriumService = ratingByCriteriumService;
-		this.recommenderCriteriumService = recommenderCriteriumService;
-		this.overallRatingService = overallRatingService;
-	}
 	
 	public void storePredictionModel() throws IOException {		
 		if (crossFoldLearner != null) {
-			ModelSerializer.writeBinary(modelPath, crossFoldLearner);
+			ModelSerializer.writeBinary(getModelPath(), crossFoldLearner);
 		}
 	}
 	
 	public void loadPreditionModel() throws FileNotFoundException, IOException {
-		InputStream inputStream = new FileInputStream(modelPath);
+		InputStream inputStream = new FileInputStream(getModelPath());
 		crossFoldLearner = ModelSerializer.readBinary(inputStream,CrossFoldLearner.class);
 		inputStream.close();
 	}
@@ -99,8 +75,7 @@ public class LogisticRegressionModelTrainer implements ModelTrainer {
 	 * 
 	 *	Temos 10 critérios
 	 */
-	public void train() throws IOException {		
-		List<Vector> vectorList = new ArrayList<>();
+	public void train() throws Exception {		
 		
 		List<RecommenderCriteriumEntity> criteriumList = recommenderCriteriumService.findAll();
 		
@@ -179,13 +154,14 @@ public class LogisticRegressionModelTrainer implements ModelTrainer {
 		storePredictionModel();
 	}
 	
-	public static void main(String[] args) throws IOException {		
-		ApplicationContext context = new AnnotationConfigApplicationContext(RecommenderAppConfig.class);
+	public static void main(String[] args) throws Exception {		
+		AnnotationConfigApplicationContext context = new AnnotationConfigApplicationContext(RecommenderAppConfig.class);
 
-		LogisticRegressionModelTrainer main = context.getBean(LogisticRegressionModelTrainer.class);
+		MahoutLogisticRegressionModelTrainer main = context.getBean(MahoutLogisticRegressionModelTrainer.class);
 
 		if (main != null) {
 			main.train();
+			context.close();
 			System.exit(0);
 		}
 	}
