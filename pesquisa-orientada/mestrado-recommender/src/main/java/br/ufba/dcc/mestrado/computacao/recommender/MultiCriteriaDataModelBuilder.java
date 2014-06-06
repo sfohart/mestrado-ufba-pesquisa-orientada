@@ -1,4 +1,4 @@
-package br.ufba.dcc.mestrado.computacao.recommender.mahout;
+package br.ufba.dcc.mestrado.computacao.recommender;
 
 import org.apache.mahout.cf.taste.impl.common.FastByIDMap;
 import org.apache.mahout.cf.taste.model.DataModel;

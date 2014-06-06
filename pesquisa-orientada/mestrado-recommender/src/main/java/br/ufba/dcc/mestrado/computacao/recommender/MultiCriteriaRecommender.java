@@ -1,4 +1,4 @@
-package br.ufba.dcc.mestrado.computacao.recommender.mahout;
+package br.ufba.dcc.mestrado.computacao.recommender;
 
 import java.util.Collection;
 import java.util.List;

@@ -1,4 +1,4 @@
-package br.ufba.dcc.mestrado.computacao.recommender.mahout.eval;
+package br.ufba.dcc.mestrado.computacao.recommender.eval;
 
 import org.apache.mahout.cf.taste.impl.common.RunningAverageAndStdDev;
 import org.slf4j.Logger;

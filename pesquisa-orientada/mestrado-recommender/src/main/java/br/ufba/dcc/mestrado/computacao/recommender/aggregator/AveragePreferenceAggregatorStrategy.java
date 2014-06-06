@@ -1,4 +1,4 @@
-package br.ufba.dcc.mestrado.computacao.recommender.mahout.aggregator;
+package br.ufba.dcc.mestrado.computacao.recommender.aggregator;
 
 import org.apache.mahout.cf.taste.impl.common.FastByIDMap;
 import org.apache.mahout.cf.taste.impl.common.FullRunningAverage;

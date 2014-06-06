@@ -1,4 +1,4 @@
-package br.ufba.dcc.mestrado.computacao.recommender.mahout.aggregator;
+package br.ufba.dcc.mestrado.computacao.recommender.aggregator;
 
 import java.util.Map;
 
@@ -7,7 +7,7 @@ import org.apache.mahout.cf.taste.impl.model.GenericPreference;
 import org.apache.mahout.cf.taste.model.Preference;
 
 import br.ufba.dcc.mestrado.computacao.exception.RecommenderException;
-import br.ufba.dcc.mestrado.computacao.recommender.mahout.PreferenceAggregatorStrategy;
+import br.ufba.dcc.mestrado.computacao.recommender.PreferenceAggregatorStrategy;
 
 public abstract class AbstractPreferenceAggregatorStrategy implements PreferenceAggregatorStrategy {
 

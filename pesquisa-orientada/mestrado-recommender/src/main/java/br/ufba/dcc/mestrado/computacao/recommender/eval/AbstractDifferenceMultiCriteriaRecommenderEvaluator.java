@@ -1,4 +1,4 @@
-package br.ufba.dcc.mestrado.computacao.recommender.mahout.eval;
+package br.ufba.dcc.mestrado.computacao.recommender.eval;
 
 import java.util.Collection;
 import java.util.Iterator;
@@ -31,10 +31,10 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import br.ufba.dcc.mestrado.computacao.exception.InvalidMultiCriteriaDataModelException;
-import br.ufba.dcc.mestrado.computacao.recommender.mahout.MultiCriteriaDataModelBuilder;
-import br.ufba.dcc.mestrado.computacao.recommender.mahout.MultiCriteriaRecommender;
-import br.ufba.dcc.mestrado.computacao.recommender.mahout.MultiCriteriaRecommenderBuilder;
-import br.ufba.dcc.mestrado.computacao.recommender.mahout.PreferenceAggregatorStrategy;
+import br.ufba.dcc.mestrado.computacao.recommender.MultiCriteriaDataModelBuilder;
+import br.ufba.dcc.mestrado.computacao.recommender.MultiCriteriaRecommender;
+import br.ufba.dcc.mestrado.computacao.recommender.MultiCriteriaRecommenderBuilder;
+import br.ufba.dcc.mestrado.computacao.recommender.PreferenceAggregatorStrategy;
 
 import com.google.common.base.Preconditions;
 import com.google.common.collect.Lists;

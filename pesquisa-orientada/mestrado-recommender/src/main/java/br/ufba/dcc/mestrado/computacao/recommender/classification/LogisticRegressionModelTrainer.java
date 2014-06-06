@@ -1,4 +1,4 @@
-package br.ufba.dcc.mestrado.computacao.recommender.mahout.classification;
+package br.ufba.dcc.mestrado.computacao.recommender.classification;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;

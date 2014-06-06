@@ -1,4 +1,4 @@
-package br.ufba.dcc.mestrado.computacao.recommender.mahout.impl;
+package br.ufba.dcc.mestrado.computacao.recommender.impl;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -41,9 +41,9 @@ import org.apache.mahout.cf.taste.recommender.Recommender;
 import org.apache.mahout.common.LongPair;
 
 import br.ufba.dcc.mestrado.computacao.exception.NotSupportedException;
-import br.ufba.dcc.mestrado.computacao.recommender.mahout.MultiCriteriaRecommender;
-import br.ufba.dcc.mestrado.computacao.recommender.mahout.PreferenceAggregatorStrategy;
-import br.ufba.dcc.mestrado.computacao.recommender.mahout.aggregator.AveragePreferenceAggregatorStrategy;
+import br.ufba.dcc.mestrado.computacao.recommender.MultiCriteriaRecommender;
+import br.ufba.dcc.mestrado.computacao.recommender.PreferenceAggregatorStrategy;
+import br.ufba.dcc.mestrado.computacao.recommender.aggregator.AveragePreferenceAggregatorStrategy;
 
 import com.google.common.base.Preconditions;
 import com.google.common.util.concurrent.ThreadFactoryBuilder;
@@ -291,7 +291,7 @@ public class MultiCriteriaRecommenderImpl implements MultiCriteriaRecommender {
 	}
 
 	/* (non-Javadoc)
-	 * @see br.ufba.dcc.mestrado.computacao.recommender.mahout.impl.MultiCriteriaRecommender#refresh(java.util.Collection)
+	 * @see br.ufba.dcc.mestrado.computacao.recommender.impl.MultiCriteriaRecommender#refresh(java.util.Collection)
 	 */
 	@Override
 	public void refresh(Collection<Refreshable> alreadyRefreshed) {
@@ -299,7 +299,7 @@ public class MultiCriteriaRecommenderImpl implements MultiCriteriaRecommender {
 	}
 		
 	/* (non-Javadoc)
-	 * @see br.ufba.dcc.mestrado.computacao.recommender.mahout.impl.MultiCriteriaRecommender#recommend(long, int)
+	 * @see br.ufba.dcc.mestrado.computacao.recommender.impl.MultiCriteriaRecommender#recommend(long, int)
 	 */
 	@Override
 	public List<RecommendedItem> recommend(long userID, int howMany) throws TasteException {
@@ -307,7 +307,7 @@ public class MultiCriteriaRecommenderImpl implements MultiCriteriaRecommender {
 	}
 
 	/* (non-Javadoc)
-	 * @see br.ufba.dcc.mestrado.computacao.recommender.mahout.impl.MultiCriteriaRecommender#recommend(long, int, org.apache.mahout.cf.taste.recommender.IDRescorer)
+	 * @see br.ufba.dcc.mestrado.computacao.recommender.impl.MultiCriteriaRecommender#recommend(long, int, org.apache.mahout.cf.taste.recommender.IDRescorer)
 	 */
 	@Override
 	public List<RecommendedItem> recommend(long userID, int howMany, IDRescorer rescorer) throws TasteException {
@@ -391,7 +391,7 @@ public class MultiCriteriaRecommenderImpl implements MultiCriteriaRecommender {
 	}
 	
 	/* (non-Javadoc)
-	 * @see br.ufba.dcc.mestrado.computacao.recommender.mahout.impl.MultiCriteriaRecommender#estimatePreference(long, long)
+	 * @see br.ufba.dcc.mestrado.computacao.recommender.impl.MultiCriteriaRecommender#estimatePreference(long, long)
 	 */
 	@Override
 	public float estimatePreference(long userID, long itemID) throws TasteException {		
@@ -415,7 +415,7 @@ public class MultiCriteriaRecommenderImpl implements MultiCriteriaRecommender {
 	}
 	
 	/* (non-Javadoc)
-	 * @see br.ufba.dcc.mestrado.computacao.recommender.mahout.impl.MultiCriteriaRecommender#justifyPreferenceValue(long, long)
+	 * @see br.ufba.dcc.mestrado.computacao.recommender.impl.MultiCriteriaRecommender#justifyPreferenceValue(long, long)
 	 */
 	@Override
 	public FastByIDMap<Float> justifyPreferenceValue(long userID, long itemID) throws TasteException {
@@ -466,7 +466,7 @@ public class MultiCriteriaRecommenderImpl implements MultiCriteriaRecommender {
 	}
 
 	/* (non-Javadoc)
-	 * @see br.ufba.dcc.mestrado.computacao.recommender.mahout.impl.MultiCriteriaRecommender#setPreference(long, long, float)
+	 * @see br.ufba.dcc.mestrado.computacao.recommender.impl.MultiCriteriaRecommender#setPreference(long, long, float)
 	 */
 	@Override
 	public void setPreference(long userID, long itemID, float value) throws TasteException {
@@ -474,7 +474,7 @@ public class MultiCriteriaRecommenderImpl implements MultiCriteriaRecommender {
 	}
 
 	/* (non-Javadoc)
-	 * @see br.ufba.dcc.mestrado.computacao.recommender.mahout.impl.MultiCriteriaRecommender#removePreference(long, long)
+	 * @see br.ufba.dcc.mestrado.computacao.recommender.impl.MultiCriteriaRecommender#removePreference(long, long)
 	 */
 	@Override
 	public void removePreference(long userID, long itemID) throws TasteException {
@@ -523,7 +523,7 @@ public class MultiCriteriaRecommenderImpl implements MultiCriteriaRecommender {
 	
 
 	/* (non-Javadoc)
-	 * @see br.ufba.dcc.mestrado.computacao.recommender.mahout.impl.MultiCriteriaRecommender#getDataModel()
+	 * @see br.ufba.dcc.mestrado.computacao.recommender.impl.MultiCriteriaRecommender#getDataModel()
 	 */
 	@Override
 	public DataModel getDataModel() {
@@ -582,7 +582,7 @@ public class MultiCriteriaRecommenderImpl implements MultiCriteriaRecommender {
 	}
 	
 	/* (non-Javadoc)
-	 * @see br.ufba.dcc.mestrado.computacao.recommender.mahout.impl.MultiCriteriaRecommender#clear(long)
+	 * @see br.ufba.dcc.mestrado.computacao.recommender.impl.MultiCriteriaRecommender#clear(long)
 	 */
 	@Override
 	public void clear(final long userID) {
@@ -598,7 +598,7 @@ public class MultiCriteriaRecommenderImpl implements MultiCriteriaRecommender {
 	}
 	
 	/* (non-Javadoc)
-	 * @see br.ufba.dcc.mestrado.computacao.recommender.mahout.impl.MultiCriteriaRecommender#clear()
+	 * @see br.ufba.dcc.mestrado.computacao.recommender.impl.MultiCriteriaRecommender#clear()
 	 */
 	@Override
 	public void clear() {

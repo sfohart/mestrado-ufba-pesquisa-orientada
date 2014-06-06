@@ -1,4 +1,4 @@
-package br.ufba.dcc.mestrado.computacao.recommender.mahout.impl;
+package br.ufba.dcc.mestrado.computacao.recommender.impl;
 
 import java.util.Map;
 
@@ -7,7 +7,7 @@ import org.apache.mahout.cf.taste.impl.model.GenericDataModel;
 import org.apache.mahout.cf.taste.model.DataModel;
 import org.apache.mahout.cf.taste.model.PreferenceArray;
 
-import br.ufba.dcc.mestrado.computacao.recommender.mahout.MultiCriteriaDataModelBuilder;
+import br.ufba.dcc.mestrado.computacao.recommender.MultiCriteriaDataModelBuilder;
 
 public class DefaultMultiCriteriaDataModelBuilder implements MultiCriteriaDataModelBuilder {
 

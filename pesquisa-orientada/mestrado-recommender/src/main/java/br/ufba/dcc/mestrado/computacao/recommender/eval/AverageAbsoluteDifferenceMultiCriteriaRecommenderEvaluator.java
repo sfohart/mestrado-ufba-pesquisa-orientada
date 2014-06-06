@@ -1,17 +1,17 @@
-package br.ufba.dcc.mestrado.computacao.recommender.mahout.eval;
+package br.ufba.dcc.mestrado.computacao.recommender.eval;
 
 import org.apache.mahout.cf.taste.impl.common.FullRunningAverage;
 import org.apache.mahout.cf.taste.impl.common.RunningAverage;
 import org.apache.mahout.cf.taste.model.Preference;
 
-import br.ufba.dcc.mestrado.computacao.recommender.mahout.PreferenceAggregatorStrategy;
+import br.ufba.dcc.mestrado.computacao.recommender.PreferenceAggregatorStrategy;
 
-public class RMSMultiCriteriaRecommenderEvaluator extends
+public class AverageAbsoluteDifferenceMultiCriteriaRecommenderEvaluator extends
 		AbstractDifferenceMultiCriteriaRecommenderEvaluator {
 
 	private RunningAverage average;
 	
-	public RMSMultiCriteriaRecommenderEvaluator(PreferenceAggregatorStrategy preferenceAggregatorStrategy) {
+	public AverageAbsoluteDifferenceMultiCriteriaRecommenderEvaluator(PreferenceAggregatorStrategy preferenceAggregatorStrategy) {
 		super(preferenceAggregatorStrategy);
 		this.average = new FullRunningAverage(); 
 	}
@@ -24,13 +24,12 @@ public class RMSMultiCriteriaRecommenderEvaluator extends
 	@Override
 	protected void processOneEstimate(float estimatedPreference,
 			Preference realPref) {
-		double diff = realPref.getValue() - estimatedPreference;
-	    this.average.addDatum(diff * diff);
+		this.average.addDatum(Math.abs(realPref.getValue() - estimatedPreference));
 	}
 
 	@Override
 	protected double computeFinalEvaluation() {
-		return Math.sqrt(average.getAverage());
+		return this.average.getAverage();
 	}
 
 }
