@@ -1,4 +1,4 @@
-package br.ufba.dcc.mestrado.computacao.recommender.classification;
+package br.ufba.dcc.mestrado.computacao.recommender.classification.weka;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -11,7 +11,6 @@ import org.apache.commons.lang3.tuple.ImmutablePair;
 
 import weka.classifiers.Classifier;
 import weka.classifiers.Evaluation;
-import weka.classifiers.meta.FilteredClassifier;
 import weka.core.Attribute;
 import weka.core.FastVector;
 import weka.core.Instance;
@@ -21,6 +20,7 @@ import weka.filters.Filter;
 import weka.filters.unsupervised.attribute.NumericToNominal;
 import br.ufba.dcc.mestrado.computacao.entities.ohloh.recommender.criterium.RecommenderCriteriumEntity;
 import br.ufba.dcc.mestrado.computacao.entities.ohloh.recommender.preference.PreferenceEntity;
+import br.ufba.dcc.mestrado.computacao.recommender.classification.AbstractModelTrainer;
 import br.ufba.dcc.mestrado.computacao.service.core.base.OverallRatingService;
 import br.ufba.dcc.mestrado.computacao.service.core.base.RatingByCriteriumService;
 import br.ufba.dcc.mestrado.computacao.service.core.base.RecommenderCriteriumService;

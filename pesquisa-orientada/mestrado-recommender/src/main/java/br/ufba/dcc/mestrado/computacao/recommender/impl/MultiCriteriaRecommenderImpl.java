@@ -57,14 +57,24 @@ public class MultiCriteriaRecommenderImpl implements MultiCriteriaRecommender {
 	
 	private static Logger logger = Logger.getLogger(MultiCriteriaRecommenderImpl.class.getName());
 	
+	/*
+	 * Mapa cujas chaves são critérios de recomendação, e as chaves são
+	 * recomendadores.
+	 */
 	private Map<Long,Recommender> recommenderMap;	
+	
+	/*
+	 * Função de agregação para as estimativas de preferência feitas para cada critério de avaliação
+	 */
 	private PreferenceAggregatorStrategy preferenceAggregatorStrategy;
 	
 	private Cache<LongPair,Float> estimatedPreferenceCache;
+	
 	private Cache<Long,Recommendations> recommendationCache;
 	
 	private Integer maxHowMany;
 	private IDRescorer currentRescorer;
+	
 	
 	private Retriever<Long, Recommendations> recommendationsRetriever;
 	private RefreshHelper refreshHelper;
@@ -79,10 +89,12 @@ public class MultiCriteriaRecommenderImpl implements MultiCriteriaRecommender {
 	public MultiCriteriaRecommenderImpl(
 			FastByIDMap<DataModel> dataModelMap,
 			FastByIDMap<RecommenderBuilder> recommenderBuilderMap) throws TasteException {
+		
 		this   (MultiCriteriaRecommenderImpl.getDefaultCandidateItemsStrategy(),
 				dataModelMap,
 				recommenderBuilderMap,
-				new AveragePreferenceAggregatorStrategy());		
+				new AveragePreferenceAggregatorStrategy());
+		
 	}
 	
 	public PreferenceAggregatorStrategy getPreferenceAggregatorStrategy() {
@@ -98,6 +110,7 @@ public class MultiCriteriaRecommenderImpl implements MultiCriteriaRecommender {
 	public MultiCriteriaRecommenderImpl(
 			FastByIDMap<DataModel> dataModelMap,
 			RecommenderBuilder recommenderBuilder) throws TasteException {
+		
 		this   (MultiCriteriaRecommenderImpl.getDefaultCandidateItemsStrategy(),
 				dataModelMap,
 				recommenderBuilder,
@@ -114,6 +127,7 @@ public class MultiCriteriaRecommenderImpl implements MultiCriteriaRecommender {
 			CandidateItemsStrategy candidateItemsStrategy,			
 			FastByIDMap<DataModel> dataModelMap,
 			FastByIDMap<RecommenderBuilder> recommenderBuilderMap) throws TasteException {
+		
 		this   (candidateItemsStrategy,				
 				dataModelMap,
 				recommenderBuilderMap,
@@ -131,6 +145,7 @@ public class MultiCriteriaRecommenderImpl implements MultiCriteriaRecommender {
 			CandidateItemsStrategy candidateItemsStrategy,			
 			FastByIDMap<DataModel> dataModelMap,
 			RecommenderBuilder recommenderBuilder) throws TasteException {
+		
 		this   (candidateItemsStrategy,				
 				dataModelMap,
 				recommenderBuilder,
@@ -152,7 +167,6 @@ public class MultiCriteriaRecommenderImpl implements MultiCriteriaRecommender {
 			PreferenceAggregatorStrategy preferenceAggregatorStrategy) throws TasteException {
 		
 		this.candidateItemsStrategy = candidateItemsStrategy;
-		
 		
 		this.preferenceAggregatorStrategy = preferenceAggregatorStrategy;
 		this.maxHowMany = 1;
@@ -176,7 +190,6 @@ public class MultiCriteriaRecommenderImpl implements MultiCriteriaRecommender {
 			PreferenceAggregatorStrategy preferenceAggregatorStrategy) throws TasteException {
 		
 		this.candidateItemsStrategy = candidateItemsStrategy;
-		
 		
 		this.preferenceAggregatorStrategy = preferenceAggregatorStrategy;
 		this.maxHowMany = 1;
@@ -231,15 +244,20 @@ public class MultiCriteriaRecommenderImpl implements MultiCriteriaRecommender {
 	
 	/**
 	 * 
-	 * @param dataModelMap
-	 * @param recommenderBuilder
+	 * Cria um recomendador para cada critério de avaliação. Todos os recomendadores criados
+	 * serão do mesmo tipo, criados através do recommenderBuilder.
+	 * 
+	 * @param dataModelMap Mapa onde as chaves são os critérios de avaliação e os valores são objetos do tipo DataModel
+	 * @param recommenderBuilder Builder para os recomendadores. 
 	 * @throws TasteException
 	 */
 	protected void initializeRecommenders(
 			FastByIDMap<DataModel> dataModelMap,
 			RecommenderBuilder recommenderBuilder)
 			throws TasteException {
+		
 		this.recommenderMap = new HashMap<>();
+		
 		for (Map.Entry<Long,DataModel> entry : dataModelMap.entrySet()) {
 			Recommender recommender = recommenderBuilder.buildRecommender(entry.getValue());
 			recommenderMap.put(entry.getKey(), recommender);
@@ -247,15 +265,19 @@ public class MultiCriteriaRecommenderImpl implements MultiCriteriaRecommender {
 	}
 
 	/**
+	 * Cria um recomendador para cada critério de avaliação. Assume um RecommenderBuilder para cada
+	 * critério de avaliação. Assim, pode-se criar um recomendadores de tipos distintos com base nos
+	 * seus respectivos critérios de avaliação.
 	 * 
-	 * @param dataModelMap
-	 * @param recommenderBuilderMap
+	 * @param dataModelMap Mapa onde as chaves são os critérios de avaliação e os valores são objetos do tipo DataModel
+	 * @param recommenderBuilderMap Mapa onde as chaves são os critérios de avaliação e os valores são objetos do tipo RecommenderBuilder
 	 * @throws TasteException
 	 */
 	protected void initializeRecommenders(
 			FastByIDMap<DataModel> dataModelMap,
 			FastByIDMap<RecommenderBuilder> recommenderBuilderMap)
 			throws TasteException {
+		
 		this.recommenderMap = new HashMap<>();
 		for (Map.Entry<Long,DataModel> entry : dataModelMap.entrySet()) {
 			RecommenderBuilder recommenderBuilder = recommenderBuilderMap.get(entry.getKey());
@@ -342,6 +364,7 @@ public class MultiCriteriaRecommenderImpl implements MultiCriteriaRecommender {
 	}
 	
 	/**
+	 * Realiza a recomendação de fato.
 	 * 
 	 * @param userID
 	 * @param howMany
@@ -368,6 +391,7 @@ public class MultiCriteriaRecommenderImpl implements MultiCriteriaRecommender {
 	}
 	
 	/**
+	 * Retorna todos os itens candidatos à recomendação, do ponto de vista de cada critério de avaliação.
 	 * 
 	 * @param userID
 	 * @return
@@ -399,6 +423,8 @@ public class MultiCriteriaRecommenderImpl implements MultiCriteriaRecommender {
 	}
 		
 	/**
+	 * Realiza a estimativa de avaliação para um dado item e usuário. 
+	 * Deve levar em consideração as avaliações parciais feitas para cada critério.
 	 * 
 	 * @param userID
 	 * @param itemID
@@ -528,12 +554,14 @@ public class MultiCriteriaRecommenderImpl implements MultiCriteriaRecommender {
 	@Override
 	public DataModel getDataModel() {
 		if (overallDataModel == null) {			
-			//throw new NotSupportedException();
+			
 			Map<Long, Map<Long, Preference>> userDataMap = new HashMap<>();
+			
 			for (Map.Entry<Long, Recommender> entry : recommenderMap.entrySet()) {
 				try {
 					FastByIDMap<PreferenceArray> userData = GenericDataModel.toDataMap(entry.getValue().getDataModel());
 					LongPrimitiveIterator keyIterator = userData.keySetIterator();
+					
 					while (keyIterator.hasNext()) {
 						Long key = keyIterator.next();
 						PreferenceArray preferenceArray = userData.get(key);
@@ -607,6 +635,7 @@ public class MultiCriteriaRecommenderImpl implements MultiCriteriaRecommender {
 	}
 	
 	/**
+	 * Utilizado para resgatar as recomendações feitas para um dado usuário
 	 * 
 	 * @author leandro.ferreira
 	 *
@@ -675,6 +704,8 @@ public class MultiCriteriaRecommenderImpl implements MultiCriteriaRecommender {
 	}
 	
 	/**
+	 * Algoritmo para a seleção dos top K itens durante a fase de recomendação.
+	 * Armazena as estimativas de avaliação realizadas para cada usuário e item em um cache.
 	 * 
 	 * @author leandro.ferreira
 	 *
@@ -693,10 +724,23 @@ public class MultiCriteriaRecommenderImpl implements MultiCriteriaRecommender {
 		}		
 	}
 	
+	/**
+	 * Realiza a estimativa de avaliação para um dado item e usuário.
+	 * Implementado de forma que a execução da estimativa não interrompa a execução de outras tarefas,
+	 * dando um caráter paralelo à esse processamento
+	 * 
+	 * @author sfohart
+	 *
+	 */
 	protected final class EstimatorCallable implements Callable<Float> {
 
+		//recomendador utilizado para realizar a estimativa de avaliação
 		private Recommender recommender;
+		
+		//ID do usuário
 		private Long userID;
+		
+		//ID do item
 		private Long itemID;
 
 		EstimatorCallable(Recommender recommender, Long userID, Long itemID) {

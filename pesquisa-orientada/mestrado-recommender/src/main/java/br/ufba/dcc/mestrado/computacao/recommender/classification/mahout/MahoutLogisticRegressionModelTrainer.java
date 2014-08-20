@@ -1,4 +1,4 @@
-package br.ufba.dcc.mestrado.computacao.recommender.classification;
+package br.ufba.dcc.mestrado.computacao.recommender.classification.mahout;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -25,6 +25,7 @@ import org.springframework.stereotype.Component;
 
 import br.ufba.dcc.mestrado.computacao.entities.ohloh.recommender.criterium.RecommenderCriteriumEntity;
 import br.ufba.dcc.mestrado.computacao.entities.ohloh.recommender.preference.PreferenceEntity;
+import br.ufba.dcc.mestrado.computacao.recommender.classification.AbstractModelTrainer;
 import br.ufba.dcc.mestrado.computacao.service.core.base.OverallRatingService;
 import br.ufba.dcc.mestrado.computacao.service.core.base.RatingByCriteriumService;
 import br.ufba.dcc.mestrado.computacao.service.core.base.RecommenderCriteriumService;

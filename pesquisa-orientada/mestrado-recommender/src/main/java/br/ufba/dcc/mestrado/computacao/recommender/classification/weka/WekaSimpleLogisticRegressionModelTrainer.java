@@ -1,4 +1,4 @@
-package br.ufba.dcc.mestrado.computacao.recommender.classification;
+package br.ufba.dcc.mestrado.computacao.recommender.classification.weka;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
