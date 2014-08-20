@@ -54,11 +54,14 @@ public class IndexerRunner {
 	public static void main(String[] args) {
 		ApplicationContext context = new AnnotationConfigApplicationContext(
 				CrawlerAppConfig.class);
+		
+		((AnnotationConfigApplicationContext) context).close();
 
 		IndexerRunner main = context.getBean(IndexerRunner.class);
 
 		if (main != null) {
 			main.run();
+			System.exit(0);
 		}
 	}
 
