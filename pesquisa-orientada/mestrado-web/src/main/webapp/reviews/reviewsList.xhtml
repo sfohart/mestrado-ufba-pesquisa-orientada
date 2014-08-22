@@ -146,8 +146,8 @@
 								
 								<ul class="timeline">
 								
-									<ui:repeat var="preferenceReview" id="reviewsIterator" value="#{reviewListMB.reviewList}" size="#{fn:length(reviewListMB.reviewList)}" varStatus="status"  >
-										<ui:param name="reviewPositiva" value="#{preferenceReview.preference.value > 3 ? true : false}" />
+									<ui:repeat var="preference" id="reviewsIterator" value="#{reviewListMB.preferenceList}" size="#{fn:length(reviewListMB.preferenceList)}" varStatus="status"  >
+										<ui:param name="reviewPositiva" value="#{preference.value > 3 ? true : false}" />
 										<li class="#{reviewPositiva ? '' : 'timeline-inverted'}">
 											<div class="timeline-badge #{reviewPositiva ? 'success' : 'danger'}">
 												
@@ -164,20 +164,20 @@
 												<h:panelGroup layout="block" id="timeline-heading" styleClass="timeline-heading" >
 													<div class="row">
 														<div class="pull-left col-md-3">
-															<h:outputLink value="#{facesContext.externalContext.applicationContextPath}/account/account.jsf?accountId=#{preferenceReview.preference.user.id}">				
+															<h:outputLink value="#{facesContext.externalContext.applicationContextPath}/account/account.jsf?accountId=#{preference.user.id}">				
 																<ui:include src="/account/accountName.xhtml"  >
-																	<ui:param name="user" value="#{preferenceReview.preference.user}"  />
+																	<ui:param name="user" value="#{preference.user}"  />
 																</ui:include>
 															</h:outputLink>
 															disse:
-															<h:panelGroup layout="block" rendered="#{ (preferenceReview.preference.user.encodedEmail eq null) or (preferenceReview.preference.user.encodedEmail eq '') }">
-																<h:outputLink value="#{facesContext.externalContext.applicationContextPath}/account/account.jsf?accountId=#{preferenceReview.preference.user.id}">
+															<h:panelGroup layout="block" rendered="#{ (preference.user.encodedEmail eq null) or (preference.user.encodedEmail eq '') }">
+																<h:outputLink value="#{facesContext.externalContext.applicationContextPath}/account/account.jsf?accountId=#{preference.user.id}">
 																	<h:graphicImage styleClass="media-object img-thumbnail" height="64" width="64" library="default" name="img/no_logo.png" />
 																</h:outputLink>
 															</h:panelGroup>
-															<h:panelGroup layout="block" rendered="#{ (preferenceReview.preference.user.encodedEmail != null) and (preferenceReview.preference.user.encodedEmail != '') }">
-																<h:outputLink value="#{facesContext.externalContext.applicationContextPath}/account/account.jsf?accountId=#{preferenceReview.preference.user.id}">
-																	<h:graphicImage styleClass="media-object img-thumbnail" url="http://www.gravatar.com/avatar/#{preferenceReview.preference.user.encodedEmail}.png?s=64&amp;d=mm&amp;r=g" />
+															<h:panelGroup layout="block" rendered="#{ (preference.user.encodedEmail != null) and (preference.user.encodedEmail != '') }">
+																<h:outputLink value="#{facesContext.externalContext.applicationContextPath}/account/account.jsf?accountId=#{preference.user.id}">
+																	<h:graphicImage styleClass="media-object img-thumbnail" url="http://www.gravatar.com/avatar/#{preference.user.encodedEmail}.png?s=64&amp;d=mm&amp;r=g" />
 																</h:outputLink>
 															</h:panelGroup>
 														</div>															
@@ -185,14 +185,14 @@
 															<h4 style="margin-top: 0px; margin-bottom: 10px">
 																<h:outputLink
 																	value="#{facesContext.externalContext.applicationContextPath}/detail/projectDetail.jsf">
-																	<f:param name="projectId" value="#{preferenceReview.preference.project.id}" /> 
-																	<h:outputText value="#{preferenceReview.preference.project.name}" />
+																	<f:param name="projectId" value="#{preference.project.id}" /> 
+																	<h:outputText value="#{preference.project.name}" />
 																</h:outputLink>
 															</h4>
-															<h:outputText value="#{preferenceReview.title}" />  
+															<h:outputText value="#{preference.preferenceReview.title}" />  
 															<!-- data em que foi escrita -->
 															<div>
-																<span class="small soft italic" title="#{preferenceReview.preference.registeredAt}">
+																<span class="small soft italic" title="#{preference.registeredAt}">
 																	<h:outputText value="#{preference.registeredAt}">
 																		<f:convertDateTime pattern="'escrito no dia' dd/MM/yyyy 'às' HH:mm:ss" />
 																	</h:outputText>
@@ -202,15 +202,15 @@
 																<!-- Estrelas -->
 																<div class="rateit" data-rateit-readonly="true"
 																		data-rateit-min="0" data-rateit-max="5"
-																		data-rateit-value="#{preferenceReview.preference.value}" data-rateit-ispreset="true"  />
+																		data-rateit-value="#{preference.value}" data-rateit-ispreset="true"  />
 															
 																<!-- legenda das estrelas -->
 																<h:panelGroup styleClass="soft small" rendered="#{preference.value != null and preference.value > 0}">
-																	(<h:outputText value="#{preferenceReview.preference.value}" >
+																	(<h:outputText value="#{preference.value}" >
 																		<f:convertNumber maxFractionDigits="2" maxIntegerDigits="2" pattern="#0.00" />
 																	</h:outputText> / 5)
 																</h:panelGroup>
-																<h:panelGroup styleClass="soft small" rendered="#{preferenceReview.preference.value == null or preference.value == 0}">
+																<h:panelGroup styleClass="soft small" rendered="#{preference.value == null or preference.value == 0}">
 																	(0 / 5)
 																</h:panelGroup>																	
 															</div>
@@ -223,13 +223,13 @@
 												<h:panelGroup layout="block" id="timeline-body" styleClass="timeline-body" >
 													<!-- descrição da review -->	
 													<p>
-														<h:outputText value="#{preferenceReview.description}" />
+														<h:outputText value="#{preference.preferenceReview.description}" />
 													</p>
 													
 													<ui:include src="/reviews/reviewByCriterium.xhtml">
-														<ui:param name="preference" value="#{preferenceReview.preference}" />
+														<ui:param name="preference" value="#{preference}" />
 														<ui:param name="criteriumInPopup" value="true" />
-														<ui:param name="reviewId" value="#{preferenceReview.preference.id}"  />
+														<ui:param name="reviewId" value="#{preference.preferenceReview.id}"  />
 													</ui:include>
 												</h:panelGroup>
 												
@@ -240,37 +240,37 @@
 															<h:outputText 
 																id="usefulCount"
 																style="margin-left: 5px; margin-right: 10px"
-																value="#{preferenceReview.usefulCount}" />
+																value="#{preference.preferenceReview.usefulCount}" />
 														
 															<span class="glyphicon glyphicon-thumbs-down" /> 
 															<h:outputText 
 																id="uselessCount"
 																style="margin-left: 5px; margin-right: 10px"
-																value="#{preferenceReview.uselessCount}" />
+																value="#{preference.preferenceReview.uselessCount}" />
 														</h:panelGroup>
 														
 														<h:panelGroup layout="block" styleClass="small soft col-md-9 pull-right"    rendered="#{loginMB.loggedUser != null}">															
 															<h:commandLink id="voteUseful" style="text-decoration: none; margin-right: 10px" actionListener="#{reviewListMB.watchLikeReview}">
 																<f:ajax execute="@all" render="@form"  />
-																<f:attribute name="preference" value="#{preferenceReview.preference}"  />
+																<f:attribute name="preference" value="#{preference}"  />
 																<span class="glyphicon glyphicon-thumbs-up" /> 
 																<h:outputText 
 																	style="margin-left: 5px; margin-right: 10px"
-																	value="Achei útil" rendered="#{not preferenceReview.usefulList.contains(loginMB.loggedUser)}" />
+																	value="Achei útil" rendered="#{not preference.preferenceReview.usefulList.contains(loginMB.loggedUser)}" />
 																<h:outputText 
 																	style="margin-left: 5px; margin-right: 10px"
-																	value="Desfazer achei útil" rendered="#{preferenceReview.usefulList.contains(loginMB.loggedUser)}" />
+																	value="Desfazer achei útil" rendered="#{preference.preferenceReview.usefulList.contains(loginMB.loggedUser)}" />
 															</h:commandLink>
 															<h:commandLink id="voteUseless" style="text-decoration: none; margin-right: 10px" actionListener="#{reviewListMB.watchDislikeReview}" >
 																<f:ajax execute="@all" render="@form"  />
-																<f:attribute name="preference" value="#{preferenceReview.preference}" />
+																<f:attribute name="preference" value="#{preference}" />
 																<span class="glyphicon glyphicon-thumbs-down" /> 
 																<h:outputText 
 																	style="margin-left: 5px; margin-right: 10px"
-																	value="Não achei útil" rendered="#{not preferenceReview.uselessList.contains(loginMB.loggedUser)}" />
+																	value="Não achei útil" rendered="#{not preference.preferenceReview.uselessList.contains(loginMB.loggedUser)}" />
 																<h:outputText 
 																	style="margin-left: 5px; margin-right: 10px"
-																	value="Desfazer não achei útil" rendered="#{preferenceReview.uselessList.contains(loginMB.loggedUser)}" />
+																	value="Desfazer não achei útil" rendered="#{preference.preferenceReview.uselessList.contains(loginMB.loggedUser)}" />
 															</h:commandLink>
 														</h:panelGroup>
 													</h:panelGroup>

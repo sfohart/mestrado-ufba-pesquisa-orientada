@@ -40,12 +40,12 @@ public class OverallRatingRepositoryImpl
 	public static final String BEAN_NAME = "overallPreferenceRepository";
 
 	@Override
-	public Map<ImmutablePair<Long, Long>, Double> findAllLastOverallPreference() {		
-		return findAllLastOverallPreferenceByItem(null);
+	public Map<ImmutablePair<Long, Long>, Double> findAllLastOverallPreferenceValue() {		
+		return findAllLastOverallPreferenceValueByItem(null);
 	}
 
 	@Override
-	public Map<ImmutablePair<Long, Long>, Double> findAllLastOverallPreferenceByItem(
+	public Map<ImmutablePair<Long, Long>, Double> findAllLastOverallPreferenceValueByItem(
 			Long itemId) {
 		
 		CriteriaBuilder criteriaBuilder = getEntityManager().getCriteriaBuilder();
@@ -101,6 +101,103 @@ public class OverallRatingRepositoryImpl
 		
 	}
 
+	
+	@Override
+	public List<PreferenceEntity> findAllLastPreferenceByProject(
+			Long projectId,
+			Integer startAt, 
+			Integer offset,
+			boolean orderByRegisteredAt,
+			boolean orderByReviewRanking) {
+		return findAllLastPreference(null, projectId, startAt, offset, orderByRegisteredAt, orderByReviewRanking);
+	}
+	
+	@Override
+	public List<PreferenceEntity> findAllLastPreferenceByUser(
+			Long userId,
+			Integer startAt, 
+			Integer offset,
+			boolean orderByRegisteredAt,
+			boolean orderByReviewRanking) {
+		return findAllLastPreference(userId, null, startAt, offset, orderByRegisteredAt, orderByReviewRanking);
+	}
+	
+	private List<PreferenceEntity> findAllLastPreference(
+			Long userId,
+			Long projectId,
+			Integer startAt, 
+			Integer offset,
+			boolean orderByRegisteredAt,
+			boolean orderByReviewRanking) {
+		
+		List<PreferenceEntity> preferenceList = null;
+		
+		if (userId != null || projectId != null) {
+			
+			CriteriaBuilder criteriaBuilder = getEntityManager().getCriteriaBuilder();
+			CriteriaQuery<PreferenceEntity> preferenceQuery = criteriaBuilder.createQuery(getEntityClass());
+			
+			Root<PreferenceEntity> root = preferenceQuery.from(getEntityClass());
+			root.fetch("preferenceEntryList", JoinType.INNER);
+			root.fetch("preferenceReview", JoinType.LEFT);			
+			
+			preferenceQuery = preferenceQuery.select(root);			
+			
+			List<Predicate> predicateList = new ArrayList<Predicate>();
+			
+			if (userId != null) {
+				Predicate userPredicate = criteriaBuilder.equal(root.get("userId"), userId);
+				predicateList.add(userPredicate);
+			}
+			
+			if (projectId != null) {
+				Predicate projectPredicate = criteriaBuilder.equal(root.get("projectId"), projectId);
+				predicateList.add(projectPredicate);
+			}
+			
+			/*
+			 * Criando subquery para trazer os últimos registros de cada usuario/projeto
+			 */
+			Subquery<Timestamp> subquery = preferenceQuery.subquery(Timestamp.class);
+			
+			Root<PreferenceEntity> p2 = subquery.from(getEntityClass());
+			Expression<Timestamp> greatestRegisteredAt = p2.get("registeredAt");
+			
+			subquery.select(criteriaBuilder.greatest((greatestRegisteredAt)));
+			
+			List<Predicate> subqueryPredicateList = new ArrayList<>();
+			subqueryPredicateList.add(criteriaBuilder.equal(root.get("userId"), p2.get("userId")));
+			subqueryPredicateList.add(criteriaBuilder.equal(root.get("projectId"), p2.get("projectId")));
+			
+			subquery.where(subqueryPredicateList.toArray(new Predicate[0]));
+			
+			Predicate registeredAtPredicate = criteriaBuilder.equal(root.get("registeredAt"), subquery);
+			predicateList.add(registeredAtPredicate);
+			
+			
+			//aplicando filtros
+			preferenceQuery = preferenceQuery.where(predicateList.toArray(new Predicate[0]));
+			
+			
+			TypedQuery<PreferenceEntity> typedQuery = getEntityManager().createQuery(preferenceQuery);
+			
+			if (startAt != null) {
+				typedQuery.setFirstResult(startAt);
+			}
+			
+			if (offset != null) {
+				typedQuery.setMaxResults(offset);
+			}
+			
+			preferenceList = typedQuery.getResultList();
+			
+		
+		}
+		
+		return preferenceList;
+		
+	}
+	
 	@Override
 	public Long countAllLast() {
 		return countAllLastByProject(null);
@@ -207,7 +304,7 @@ public class OverallRatingRepositoryImpl
 		
 		Root<PreferenceEntity> root = tupleQuery.from(PreferenceEntity.class);
 		Join<PreferenceEntity, OhLohProjectEntity> projectJoin = root.join("project", JoinType.INNER);
-		Join<PreferenceEntity, PreferenceReviewEntity> reviewJoin = root.join("preferenceReview", JoinType.INNER);
+		Join<PreferenceEntity, PreferenceReviewEntity> reviewJoin = root.join("preferenceReview", JoinType.LEFT);
 		
 		Expression<Long> reviewCount = criteriaBuilder.count(reviewJoin);
 		
@@ -276,8 +373,8 @@ public class OverallRatingRepositoryImpl
 		Root<PreferenceEntity> root = criteriaQuery.from(getEntityClass());
 		CriteriaQuery<PreferenceEntity> select = criteriaQuery.select(root);
 
-		root.fetch("preferenceReview", JoinType.LEFT);
-		root.fetch("preferenceEntryList", JoinType.LEFT);
+		root.join("preferenceReview", JoinType.LEFT);
+		root.join("preferenceEntryList", JoinType.LEFT);
 
 		List<Predicate> predicateList = new ArrayList<>();
 

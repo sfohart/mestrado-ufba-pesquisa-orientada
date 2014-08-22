@@ -13,10 +13,12 @@ import javax.faces.event.ActionEvent;
 import javax.faces.event.ComponentSystemEvent;
 
 import br.ufba.dcc.mestrado.computacao.entities.ohloh.core.project.OhLohProjectEntity;
+import br.ufba.dcc.mestrado.computacao.entities.ohloh.recommender.preference.PreferenceEntity;
 import br.ufba.dcc.mestrado.computacao.entities.ohloh.recommender.preference.PreferenceReviewEntity;
 import br.ufba.dcc.mestrado.computacao.entities.ohloh.recommender.user.UserEntity;
 import br.ufba.dcc.mestrado.computacao.service.base.ProjectService;
 import br.ufba.dcc.mestrado.computacao.service.basic.RepositoryBasedUserDetailsService;
+import br.ufba.dcc.mestrado.computacao.service.core.base.OverallRatingService;
 import br.ufba.dcc.mestrado.computacao.service.core.base.PreferenceReviewService;
 import br.ufba.dcc.mestrado.computacao.service.core.base.UserService;
 
@@ -55,6 +57,9 @@ public class ProjectReviewListManagedBean extends AbstractReviewVotingManagedBea
 	@ManagedProperty("#{preferenceReviewService}")
 	private PreferenceReviewService preferenceReviewService;
 	
+	@ManagedProperty("#{overallRatingService}")
+	private OverallRatingService overallRatingService;
+	
 	@ManagedProperty("#{projectService}")
 	private ProjectService projectService;
 	
@@ -71,7 +76,7 @@ public class ProjectReviewListManagedBean extends AbstractReviewVotingManagedBea
 	private Integer offset;
 	private Integer totalReviews;
 	
-	private List<PreferenceReviewEntity> reviewList;
+	private List<PreferenceEntity> preferenceList;
 		
 	public ProjectReviewListManagedBean() {
 		this.project = new OhLohProjectEntity();
@@ -155,6 +160,14 @@ public class ProjectReviewListManagedBean extends AbstractReviewVotingManagedBea
 		this.userService = userService;
 	}
 	
+	public OverallRatingService getOverallRatingService() {
+		return overallRatingService;
+	}
+
+	public void setOverallRatingService(OverallRatingService overallRatingService) {
+		this.overallRatingService = overallRatingService;
+	}
+
 	public boolean isOrderByRegisteredAt() {
 		return orderByRegisteredAt;
 	}
@@ -170,32 +183,32 @@ public class ProjectReviewListManagedBean extends AbstractReviewVotingManagedBea
 	public void setOrderByReviewRanking(boolean orderByReviewRanking) {
 		this.orderByReviewRanking = orderByReviewRanking;
 	}
+	
+	public List<PreferenceEntity> getPreferenceList() {
+		return preferenceList;
+	}
 
-	public List<PreferenceReviewEntity> getReviewList() {
-		return this.reviewList;
+	public void setPreferenceList(List<PreferenceEntity> preferenceList) {
+		this.preferenceList = preferenceList;
 	}
-	
-	public void setReviewList(List<PreferenceReviewEntity> reviewList) {
-		this.reviewList = reviewList;
-	}
-	
+
 	protected void searchReviews() {
 		final boolean validProject = (getProject() != null && getProject().getId() != null);
 		final boolean validUser = (getUser() != null && getUser().getId() != null);
 		
 		if (validProject || validUser) {
 			
-			List<PreferenceReviewEntity> data = null;
+			List<PreferenceEntity> data = null;
 					
 			if (validProject) {
-				data = getPreferenceReviewService().findAllLastReviewsByProject(
+				data = getOverallRatingService().findAllLastPreferenceByProject(
 						getProject().getId(), 
 						startPosition, 
 						offset,
 						isOrderByRegisteredAt(),
 						isOrderByReviewRanking());
 			} else if (validUser) {
-				data = getPreferenceReviewService().findAllLastReviewsByUser(
+				data = getOverallRatingService().findAllLastPreferenceByUser(
 						getUser().getId(), 
 						startPosition, 
 						offset,
@@ -204,12 +217,12 @@ public class ProjectReviewListManagedBean extends AbstractReviewVotingManagedBea
 			}
 			
 			if (data != null) {
-				for (PreferenceReviewEntity preference : data) {
-					if (getReviewList().contains(preference)) {
-						getReviewList().remove(preference);
+				for (PreferenceEntity preference : data) {
+					if (getPreferenceList().contains(preference)) {
+						getPreferenceList().remove(preference);
 					}
 					
-					getReviewList().add(preference);
+					getPreferenceList().add(preference);
 				}
 			}
 
@@ -220,8 +233,8 @@ public class ProjectReviewListManagedBean extends AbstractReviewVotingManagedBea
 			}		
 			
 			//Se não houver mais o que carregar, atualize logo o startPosition, pro botão do scroll não aparecer a toa
-			if (reviewList != null && reviewList.size() >= totalReviews) {
-				startPosition = reviewList.size();
+			if (preferenceList != null && preferenceList.size() >= totalReviews) {
+				startPosition = preferenceList.size();
 			}
 			
 		} else {
@@ -237,8 +250,8 @@ public class ProjectReviewListManagedBean extends AbstractReviewVotingManagedBea
 	}
 	
 	public void moreReviews(ActionEvent event) {
-		if (reviewList != null) {
-			startPosition = reviewList.size();
+		if (preferenceList != null) {
+			startPosition = preferenceList.size();
 		}
 	
 		searchReviews();
@@ -249,8 +262,8 @@ public class ProjectReviewListManagedBean extends AbstractReviewVotingManagedBea
 	}
 	
 	public void initList(ComponentSystemEvent event) {		
-		if (this.reviewList == null) {
-			this.reviewList = new ArrayList<PreferenceReviewEntity>();
+		if (this.preferenceList == null) {
+			this.preferenceList = new ArrayList<PreferenceEntity>();
 			this.startPosition = 0;
 			this.offset = 10;
 			this.totalReviews = 0;
@@ -273,25 +286,25 @@ public class ProjectReviewListManagedBean extends AbstractReviewVotingManagedBea
 		}
 	}
 	
-	protected void updatePreferenceInList(PreferenceReviewEntity preference) {
+	protected void updatePreferenceReviewInList(PreferenceReviewEntity review) {
 		//atualizando preferência
 		
-		Integer index = getReviewList().indexOf(preference);
+		Integer index = getPreferenceList().indexOf(review.getPreference());
 		if (index >= 0) {
-			getReviewList().set(index, preference);
+			getPreferenceList().set(index, review.getPreference());
 		}
 	}
 	
 	public void watchLikeReview(ActionEvent event) {
-		PreferenceReviewEntity preference = super.addUsefulVoteToReview(event);
+		PreferenceReviewEntity review = super.addUsefulVoteToReview(event);
 		
-		updatePreferenceInList(preference);
+		updatePreferenceReviewInList(review);
 	}
 	
 	public void watchDislikeReview(ActionEvent event) {
-		PreferenceReviewEntity preference = super.addUselessVoteToReview(event);
+		PreferenceReviewEntity review = super.addUselessVoteToReview(event);
 		
-		updatePreferenceInList(preference);
+		updatePreferenceReviewInList(review);
 	}
 
 }

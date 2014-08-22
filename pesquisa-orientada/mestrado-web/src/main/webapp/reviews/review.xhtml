@@ -20,7 +20,7 @@
 					<ui:param name="user" value="#{preference.user}"  />
 				</ui:include>
 			</h:outputLink>
-			disse:
+			
 			<h:panelGroup layout="block" rendered="#{ (preference.user.encodedEmail eq null) or (preference.user.encodedEmail eq '') }">
 				<h:outputLink value="#{facesContext.externalContext.applicationContextPath}/account/account.jsf?accountId=#{preference.user.id}">
 					<h:graphicImage styleClass="media-object img-thumbnail" height="64" width="64" library="default" name="img/no_logo.png" />
@@ -55,7 +55,7 @@
 		<div class="media-body">
 			<!-- Titulo da Review -->
 			<h4 class="media-heading">
-				<h:outputText value="#{preference.preferenceReview.title}" />      													
+				<h:outputText value="#{preference.preferenceReview.title}" rendered="#{preference.preferenceReview != null}" />      													
 			</h4>
 			<!-- Nota da review -->
 			<div>
@@ -102,7 +102,7 @@
 			
 			<!-- descrição da review -->
 			<div style="clear: both; padding-top: 10px">
-				<h:outputText value="#{preference.preferenceReview.description}" />
+				<h:outputText value="#{preference.preferenceReview.description}" rendered="#{preference.preferenceReview != null}" />
 			</div>
 			
 			<p class="soft small">

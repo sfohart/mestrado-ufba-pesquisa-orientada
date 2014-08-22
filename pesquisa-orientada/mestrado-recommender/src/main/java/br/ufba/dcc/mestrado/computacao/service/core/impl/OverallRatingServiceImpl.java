@@ -117,16 +117,42 @@ public class OverallRatingServiceImpl
 
 	@Override
 	@Transactional(readOnly = true)
-	public Map<ImmutablePair<Long, Long>, Double> findAllLastOverallPreference() {
-		return ((OverallRatingRepository) getRepository()).findAllLastOverallPreference();
+	public Map<ImmutablePair<Long, Long>, Double> findAllLastOverallPreferenceValue() {
+		return ((OverallRatingRepository) getRepository()).findAllLastOverallPreferenceValue();
 	}
 
 	@Override
 	@Transactional(readOnly = true)
-	public Map<ImmutablePair<Long, Long>, Double> findAllLastOverallPreferenceByItem(
+	public Map<ImmutablePair<Long, Long>, Double> findAllLastOverallPreferenceValueByItem(
 			Long itemId) {
-		return ((OverallRatingRepository) getRepository()).findAllLastOverallPreferenceByItem(itemId);
+		return ((OverallRatingRepository) getRepository()).findAllLastOverallPreferenceValueByItem(itemId);
 	}
+	
+	
+
+	@Override
+	@Transactional(readOnly = true)
+	public List<PreferenceEntity> findAllLastPreferenceByProject(
+			Long projectId,
+			Integer startAt, 
+			Integer offset,
+			boolean orderByRegisteredAt,
+			boolean orderByReviewRanking) {
+		return ((OverallRatingRepository) getRepository()).findAllLastPreferenceByProject(projectId, startAt, offset, orderByRegisteredAt, orderByReviewRanking);
+	}
+
+	@Override
+	@Transactional(readOnly = true)
+	public List<PreferenceEntity> findAllLastPreferenceByUser(
+			Long userId,
+			Integer startAt, 
+			Integer offset,
+			boolean orderByRegisteredAt,
+			boolean orderByReviewRanking) {
+		return ((OverallRatingRepository) getRepository()).findAllLastPreferenceByUser(userId, startAt, offset, orderByRegisteredAt, orderByReviewRanking);
+	}
+	
+	
 
 	@Override
 	@Transactional(readOnly = true)

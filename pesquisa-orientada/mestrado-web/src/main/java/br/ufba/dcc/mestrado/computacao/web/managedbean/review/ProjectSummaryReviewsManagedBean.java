@@ -180,7 +180,7 @@ public class ProjectSummaryReviewsManagedBean extends AbstractReviewVotingManage
 					}
 					
 					if (userEntity != null) {
-						this.currentUserPreference = getOverallRatingService().findLastOverallPreferenceByUserAndItem(getProject().getId(), userEntity.getId());
+						this.currentUserPreference = getOverallRatingService().findLastOverallPreferenceByUserAndItem(userEntity.getId(), getProject().getId());
 						this.mostHelpfulReviewList.remove(currentUserPreference);
 						this.mostRecentReviewList.remove(currentUserPreference);
 					}

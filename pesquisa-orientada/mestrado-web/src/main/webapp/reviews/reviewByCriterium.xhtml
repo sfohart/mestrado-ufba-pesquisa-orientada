@@ -11,7 +11,7 @@
 	
 	<h:panelGroup layout="block" rendered="#{criteriumInPopup}"   >
 	
-		<ui:param name="modalId" value="#{ popupId eq null ? 'popupCriteria'.concat(reviewId) : ''.concat(popupId).concat(reviewId) }"  />
+		<ui:param name="modalId" value="#{ popupId eq null ? 'popupCriteria'.concat(preference.id) : ''.concat(popupId).concat(preference.id) }"  />
 		<ui:param name="dataTarget" value="#{'.'.concat(modalId)}" />
 		
 		<a class="btn btn-primary btn-sm" data-toggle="modal" data-target="#{dataTarget}">

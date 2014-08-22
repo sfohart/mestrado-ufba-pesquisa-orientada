@@ -4,9 +4,11 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang3.tuple.ImmutablePair;
+import org.springframework.transaction.annotation.Transactional;
 
 import br.ufba.dcc.mestrado.computacao.entities.ohloh.core.project.OhLohProjectEntity;
 import br.ufba.dcc.mestrado.computacao.entities.ohloh.recommender.preference.PreferenceEntity;
+import br.ufba.dcc.mestrado.computacao.repository.base.OverallRatingRepository;
 import br.ufba.dcc.mestrado.computacao.service.base.BaseService;
 
 public interface OverallRatingService extends BaseService<Long, PreferenceEntity> {
@@ -29,14 +31,14 @@ public interface OverallRatingService extends BaseService<Long, PreferenceEntity
 	 * 
 	 * @return
 	 */
-	Map<ImmutablePair<Long, Long>, Double> findAllLastOverallPreference();
+	Map<ImmutablePair<Long, Long>, Double> findAllLastOverallPreferenceValue();
 	
 	/**
 	 * 
 	 * @param itemId
 	 * @return
 	 */
-	Map<ImmutablePair<Long, Long>, Double> findAllLastOverallPreferenceByItem(Long itemId);
+	Map<ImmutablePair<Long, Long>, Double> findAllLastOverallPreferenceValueByItem(Long itemId);
 	
 	/**
 	 * 
@@ -69,5 +71,33 @@ public interface OverallRatingService extends BaseService<Long, PreferenceEntity
 	List<ImmutablePair<OhLohProjectEntity, Long>> findRatingCountByProject(
 			Integer startAt, 
 			Integer offset);
+
+	/**
+	 * 
+	 * @param userId
+	 * @param startAt
+	 * @param offset
+	 * @return
+	 */
+	List<PreferenceEntity> findAllLastPreferenceByUser(
+			Long userId,
+			Integer startAt, 
+			Integer offset,
+			boolean orderByRegisteredAt,
+			boolean orderByReviewRanking);
+
+	/**
+	 * 
+	 * @param projectId
+	 * @param startAt
+	 * @param offset
+	 * @return
+	 */
+	List<PreferenceEntity> findAllLastPreferenceByProject(
+			Long projectId,
+			Integer startAt, 
+			Integer offset,
+			boolean orderByRegisteredAt,
+			boolean orderByReviewRanking);
 
 }

@@ -21,14 +21,14 @@ public interface OverallRatingRepository extends BaseRepository<Long, Preference
 	 * 
 	 * @return
 	 */
-	Map<ImmutablePair<Long, Long>, Double> findAllLastOverallPreference();
+	Map<ImmutablePair<Long, Long>, Double> findAllLastOverallPreferenceValue();
 	
 	/**
 	 * 
 	 * @param itemId
 	 * @return
 	 */
-	Map<ImmutablePair<Long, Long>, Double> findAllLastOverallPreferenceByItem(Long itemId);
+	Map<ImmutablePair<Long, Long>, Double> findAllLastOverallPreferenceValueByItem(Long itemId);
 	
 	/**
 	 * 
@@ -62,4 +62,32 @@ public interface OverallRatingRepository extends BaseRepository<Long, Preference
 	List<ImmutablePair<OhLohProjectEntity, Long>> findRatingCountByProject(
 			Integer startAt, 
 			Integer offset);
+
+	/**
+	 * 
+	 * @param projectId
+	 * @param startAt
+	 * @param offset
+	 * @return
+	 */
+	List<PreferenceEntity> findAllLastPreferenceByProject(
+			Long projectId,
+			Integer startAt, 
+			Integer offset,
+			boolean orderByRegisteredAt,
+			boolean orderByReviewRanking);
+
+	/**
+	 * 
+	 * @param userId
+	 * @param startAt
+	 * @param offset
+	 * @return
+	 */
+	List<PreferenceEntity> findAllLastPreferenceByUser(
+			Long userId,
+			Integer startAt, 
+			Integer offset,
+			boolean orderByRegisteredAt,
+			boolean orderByReviewRanking);
 }
