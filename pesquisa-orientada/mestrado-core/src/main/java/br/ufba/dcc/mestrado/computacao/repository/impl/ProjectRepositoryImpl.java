@@ -224,7 +224,7 @@ public class ProjectRepositoryImpl
 		
 		FullTextQuery fullTextQuery =  fullTextEntityManager.createFullTextQuery(booleanQuery, getEntityClass());
 		
-		configureRelevanceSort(fullTextQuery);
+		//configureRelevanceSort(fullTextQuery);
 		
 		return fullTextQuery;
 	}

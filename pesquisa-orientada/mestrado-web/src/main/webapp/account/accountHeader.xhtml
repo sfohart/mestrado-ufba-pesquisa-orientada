@@ -33,7 +33,7 @@
 			<h:panelGroup layout="block" rendered="#{socialButtonsRendered}">
 				<ul class="nav nav-pills">
 					<li>
-						<h:outputLink value="http://www.facebook.com/#{account.facebookAccount}" rendered="#{not empty account.facebookAccount}">
+						<h:outputLink value="#{account.facebookAccount}" rendered="#{not empty account.facebookAccount}">
 							<h:panelGroup styleClass="fa fa-facebook" style="color: #3b5998; font-size: 1.5em;"/>
 						</h:outputLink>
 						
@@ -41,7 +41,7 @@
 							rendered="#{empty account.facebookAccount}"/>
 					</li>
 					<li>								
-						<h:outputLink value="http://www.twitter.com/#{account.twitterAccount}" rendered="#{not empty account.twitterAccount}">
+						<h:outputLink value="#{account.twitterAccount}" rendered="#{not empty account.twitterAccount}">
 							<h:panelGroup styleClass="fa fa-twitter" style="color: #00a0d1; font-size: 1.5em;"  />
 						</h:outputLink>
 							
