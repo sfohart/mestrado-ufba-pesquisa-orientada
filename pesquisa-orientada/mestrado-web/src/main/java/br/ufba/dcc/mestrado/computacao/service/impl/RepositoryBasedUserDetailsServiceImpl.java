@@ -25,6 +25,11 @@ import br.ufba.dcc.mestrado.computacao.service.core.base.UserService;
 @Transactional(readOnly = true)
 public class RepositoryBasedUserDetailsServiceImpl implements RepositoryBasedUserDetailsService {
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 8377919960510633469L;
+
 	@Autowired
 	private UserService userService;
 	
