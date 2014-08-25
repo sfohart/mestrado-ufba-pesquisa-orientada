@@ -6,6 +6,7 @@ import java.util.HashSet;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.event.ActionEvent;
 
+import br.ufba.dcc.mestrado.computacao.entities.ohloh.recommender.preference.PreferenceEntity;
 import br.ufba.dcc.mestrado.computacao.entities.ohloh.recommender.preference.PreferenceReviewEntity;
 import br.ufba.dcc.mestrado.computacao.entities.ohloh.recommender.user.UserEntity;
 import br.ufba.dcc.mestrado.computacao.service.basic.RepositoryBasedUserDetailsService;
@@ -44,12 +45,14 @@ public abstract class AbstractReviewVotingManagedBean implements Serializable {
 	}
 
 	protected PreferenceReviewEntity addUsefulVoteToReview(ActionEvent event) {
-		PreferenceReviewEntity preferenceReview = (PreferenceReviewEntity)
+		PreferenceEntity preference = (PreferenceEntity)
 				event.getComponent().getAttributes().get("preference");
 		
-		if (preferenceReview != null && preferenceReview.getId() != null) {
+		PreferenceReviewEntity preferenceReview = null;
+		
+		if (preference != null && preference.getPreferenceReview() != null && preference.getPreferenceReview().getId() != null) {
 			
-			preferenceReview = getPreferenceReviewService().findById(preferenceReview.getId());
+			preferenceReview = getPreferenceReviewService().findById(preference.getPreferenceReview().getId());
 			
 			if (preferenceReview != null ) {
 				UserEntity user = getUserDetailsService().loadFullLoggedUser();
@@ -63,6 +66,8 @@ public abstract class AbstractReviewVotingManagedBean implements Serializable {
 				} else {
 					preferenceReview.getUsefulList().remove(user);
 				}
+				
+				preferenceReview.setUsefulCount(Long.valueOf(preferenceReview.getUsefulList().size()));
 				
 				try {
 					getPreferenceReviewService().save(preferenceReview);
@@ -78,31 +83,33 @@ public abstract class AbstractReviewVotingManagedBean implements Serializable {
 	}
 	
 	protected PreferenceReviewEntity addUselessVoteToReview(ActionEvent event) {
-		PreferenceReviewEntity preferenceReview = (PreferenceReviewEntity)
+		PreferenceEntity preference = (PreferenceEntity)
 				event.getComponent().getAttributes().get("preference");
 		
-		if (preferenceReview != null && preferenceReview.getId() != null) {
+		PreferenceReviewEntity preferenceReview = null;
+		
+		if (preference != null && preference.getPreferenceReview() != null && preference.getPreferenceReview().getId() != null) {
 			
-			preferenceReview = getPreferenceReviewService().findById(preferenceReview.getId());
+			preferenceReview = getPreferenceReviewService().findById(preference.getPreferenceReview().getId());
 			
-			if (preferenceReview != null) {
+			if (preferenceReview != null ) {
 				UserEntity user = getUserDetailsService().loadFullLoggedUser();
 				
-				if (preferenceReview.getUselessList() == null) {
-					preferenceReview.setUselessList(new HashSet<UserEntity>());
+				if (preferenceReview.getUsefulList() == null) {
+					preferenceReview.setUsefulList(new HashSet<UserEntity>());
 				}
 				
 				if (! isDulicatedVoteMessage(event, preferenceReview)) {
-					preferenceReview.getUselessList().add(user);
+					preferenceReview.getUselessList().add(user);					
 				} else {
 					preferenceReview.getUselessList().remove(user);
 				}
 				
+				preferenceReview.setUselessCount(Long.valueOf(preferenceReview.getUselessList().size()));
 				
 				try {
 					getPreferenceReviewService().save(preferenceReview);
 					preferenceReview = getPreferenceReviewService().findById(preferenceReview.getId());
-					
 					return preferenceReview;
 				} catch (Exception e) {
 					e.printStackTrace();

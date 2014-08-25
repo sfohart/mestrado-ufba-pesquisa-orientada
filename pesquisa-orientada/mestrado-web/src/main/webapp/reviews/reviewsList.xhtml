@@ -233,7 +233,7 @@
 													</ui:include>
 												</h:panelGroup>
 												
-												<h:panelGroup layout="block" id="timeline-footer" styleClass="timeline-footer" >
+												<h:panelGroup layout="block" id="timeline-footer" styleClass="timeline-footer" rendered="#{preference.preferenceReview.id != null}" >
 													<h:panelGroup layout="block" styleClass="row">
 														<h:panelGroup id="helpfulCounter" layout="block" styleClass="small soft col-md-3 pull-left" >
 															<span class="glyphicon glyphicon-thumbs-up" /> 
@@ -252,7 +252,7 @@
 														<h:panelGroup layout="block" styleClass="small soft col-md-9 pull-right"    rendered="#{loginMB.loggedUser != null}">															
 															<h:commandLink id="voteUseful" style="text-decoration: none; margin-right: 10px" actionListener="#{reviewListMB.watchLikeReview}">
 																<f:ajax execute="@all" render="@form"  />
-																<f:attribute name="preference" value="#{preference}"  />
+																<f:attribute name="preference" value="#{preference.preferenceReview}"  />
 																<span class="glyphicon glyphicon-thumbs-up" /> 
 																<h:outputText 
 																	style="margin-left: 5px; margin-right: 10px"
@@ -263,7 +263,7 @@
 															</h:commandLink>
 															<h:commandLink id="voteUseless" style="text-decoration: none; margin-right: 10px" actionListener="#{reviewListMB.watchDislikeReview}" >
 																<f:ajax execute="@all" render="@form"  />
-																<f:attribute name="preference" value="#{preference}" />
+																<f:attribute name="preference" value="#{preference.preferenceReview}" />
 																<span class="glyphicon glyphicon-thumbs-down" /> 
 																<h:outputText 
 																	style="margin-left: 5px; margin-right: 10px"

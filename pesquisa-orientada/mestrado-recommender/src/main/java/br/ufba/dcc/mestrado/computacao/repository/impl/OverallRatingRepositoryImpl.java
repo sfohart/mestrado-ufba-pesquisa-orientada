@@ -304,17 +304,17 @@ public class OverallRatingRepositoryImpl
 		
 		Root<PreferenceEntity> root = tupleQuery.from(PreferenceEntity.class);
 		Join<PreferenceEntity, OhLohProjectEntity> projectJoin = root.join("project", JoinType.INNER);
-		Join<PreferenceEntity, PreferenceReviewEntity> reviewJoin = root.join("preferenceReview", JoinType.LEFT);
 		
-		Expression<Long> reviewCount = criteriaBuilder.count(reviewJoin);
+		
+		Expression<Long> ratingCount = criteriaBuilder.count(root);
 		
 		tupleQuery = tupleQuery
-			.multiselect(projectJoin, reviewCount)
+			.multiselect(projectJoin, ratingCount)
 			.groupBy(
 					projectJoin.get("id")
 				)
-			.having(criteriaBuilder.gt(reviewCount, 0))
-			.orderBy(criteriaBuilder.desc(reviewCount));
+			.having(criteriaBuilder.gt(ratingCount, 0))
+			.orderBy(criteriaBuilder.desc(ratingCount));
 		
 		
 		//pegando apenas as opiniões mais atuais
@@ -333,7 +333,7 @@ public class OverallRatingRepositoryImpl
 		tupleQuery = tupleQuery.where(registeredAtPredicate);
 		
 		//ordenando pelos que possuem mais reviews
-		tupleQuery = tupleQuery.orderBy(criteriaBuilder.desc(reviewCount));
+		tupleQuery = tupleQuery.orderBy(criteriaBuilder.desc(ratingCount));
 				
 		TypedQuery<Tuple> tupleTypedQuery = getEntityManager().createQuery(tupleQuery);
 		

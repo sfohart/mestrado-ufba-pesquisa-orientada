@@ -168,9 +168,9 @@ public class PreferenceReviewRepositoryImpl
 			Root<PreferenceReviewEntity> root = reviewQuery.from(getEntityClass());
 			
 			Join<PreferenceReviewEntity, PreferenceEntity> preferenceJoin = root.join("preference", JoinType.INNER);
-			root.fetch("preference", JoinType.INNER);			
-			root.fetch("uselessList", JoinType.LEFT);
-			root.fetch("usefulList", JoinType.LEFT);
+			root.join("preference", JoinType.INNER);			
+			root.join("uselessList", JoinType.LEFT);
+			root.join("usefulList", JoinType.LEFT);
 						
 			reviewQuery = reviewQuery.select(root);
 						
