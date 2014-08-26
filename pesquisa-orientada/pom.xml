@@ -55,12 +55,12 @@
 
 	<properties>
 		<project.build.sourceEncoding>cp1252</project.build.sourceEncoding>
-		<spring.version>4.0.3.RELEASE</spring.version>
+		<spring.version>4.0.6.RELEASE</spring.version>
 		
 		<java.version>1.7</java.version>
 		<jsp-api.version>2.2</jsp-api.version>
 
-		<jersey.version>2.7</jersey.version>
+		<jersey.version>2.11</jersey.version>
 		<joda-time.version>2.3</joda-time.version>
 		<junit.version>4.11</junit.version>
 
@@ -70,11 +70,11 @@
 
 		<hadoop-core.version>1.2.1</hadoop-core.version>
 
-		<hibernate.version>4.3.5.Final</hibernate.version>
-		<hibernate-search.version>4.5.0.Final</hibernate-search.version>
+		<hibernate.version>4.3.6.Final</hibernate.version>
+		<hibernate-search.version>4.5.1.Final</hibernate-search.version>
 		<postgresql.version>9.3-1101-jdbc4</postgresql.version>
 		<hibernate-jpa-2.1-api.version>1.0.0.Final</hibernate-jpa-2.1-api.version>
-		<commons-lang3.version>3.1</commons-lang3.version>
+		<commons-lang3.version>3.3.2</commons-lang3.version>
 	</properties>
 
 	<profiles>
@@ -86,7 +86,7 @@
 			<!-- By default that is to put the resulting archive into the 'webapps' 
 				folder. -->
 			<!-- http://maven.apache.org/guides/mini/guide-building-for-different-environments.html -->
-			<id>openshift</id>
+			<id>digitalocean</id>
 			<build>
 				<finalName>jbossews</finalName>
 				<plugins>
@@ -94,7 +94,7 @@
 						<artifactId>maven-war-plugin</artifactId>
 						<version>2.4</version>
 						<configuration>
-							<outputDirectory>webapps</outputDirectory>
+							<outputDirectory>/var/lib/tomcat7/mestrado</outputDirectory>
 							<failOnMissingWebXml>false</failOnMissingWebXml>
 							<warName>ROOT</warName>
 						</configuration>
