@@ -1,7 +1,5 @@
 package br.ufba.dcc.mestrado.computacao.search;
 
-import java.sql.Timestamp;
-import java.text.SimpleDateFormat;
 import java.util.concurrent.ExecutionException;
 import java.util.logging.Logger;
 
@@ -38,7 +36,7 @@ public class IndexerRunner {
 			
 			Duration duration = new Duration(startAt, endAt);
 			
-			LocalDateTime localDateTime = new LocalDateTime(duration);
+			LocalDateTime localDateTime = new LocalDateTime(duration.getMillis());
 			
 			logger.info("Tempo de duração: " + localDateTime.toString());
 			

@@ -1,5 +1,6 @@
 package br.ufba.dcc.mestrado.computacao.entities.ohloh.core.analysis;
 
+import java.util.LinkedList;
 import java.util.List;
 
 import javax.persistence.CascadeType;
@@ -42,9 +43,13 @@ public class OhLohAnalysisLanguagesEntity implements BaseEntity<Long> {
 	@Column(name="graph_url")
 	private String graphURL;
 	
-	@OneToMany(mappedBy="analysisLanguages", cascade=CascadeType.ALL, fetch=FetchType.EAGER)
+	@OneToMany(mappedBy="analysisLanguages", cascade=CascadeType.ALL)
 	@IndexedEmbedded
 	private List<OhLohAnalysisLanguageEntity> content;
+	
+	public OhLohAnalysisLanguagesEntity() {
+		this.content = new LinkedList<OhLohAnalysisLanguageEntity>();
+	}
 
 	public Long getId() {
 		return id;

@@ -1,6 +1,7 @@
 package br.ufba.dcc.mestrado.computacao.entities.ohloh.core.analysis;
 
 import java.sql.Timestamp;
+import java.util.LinkedList;
 import java.util.List;
 
 import javax.persistence.CascadeType;
@@ -76,7 +77,7 @@ public class OhLohAnalysisEntity implements BaseEntity<Long> {
 	@OneToMany(mappedBy = "analysis", cascade=CascadeType.ALL)
 	private List<OhLohFactoidEntity> factoids;
 
-	@ManyToOne(cascade = CascadeType.ALL, fetch=FetchType.EAGER)	
+	@ManyToOne(cascade = CascadeType.ALL)	
 	@JoinColumn(name = "analysis_languages_id", referencedColumnName = "id")
 	@IndexedEmbedded
 	private OhLohAnalysisLanguagesEntity analysisLanguages;
@@ -90,6 +91,10 @@ public class OhLohAnalysisEntity implements BaseEntity<Long> {
 	
 	@Column(name = "twelve_month_commit_count")	
 	private Long twelveMonthCommitCount;
+	
+	public OhLohAnalysisEntity() {
+		this.factoids = new LinkedList<OhLohFactoidEntity>();
+	}
 
 	public Long getId() {
 		return id;
