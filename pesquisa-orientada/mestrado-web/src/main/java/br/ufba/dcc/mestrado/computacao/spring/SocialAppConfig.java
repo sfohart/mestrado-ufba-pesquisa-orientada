@@ -2,6 +2,7 @@ package br.ufba.dcc.mestrado.computacao.spring;
 
 import javax.sql.DataSource;
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -14,6 +15,7 @@ import org.springframework.social.connect.UsersConnectionRepository;
 import org.springframework.social.connect.jdbc.JdbcUsersConnectionRepository;
 import org.springframework.social.connect.support.ConnectionFactoryRegistry;
 import org.springframework.social.connect.web.ProviderSignInController;
+import org.springframework.social.connect.web.SignInAdapter;
 import org.springframework.social.facebook.connect.FacebookConnectionFactory;
 import org.springframework.web.filter.HiddenHttpMethodFilter;
 
@@ -77,13 +79,26 @@ public class SocialAppConfig {
     }
 	
     @Bean
-    public ProviderSignInController providerSignInController() {
+    public ProviderSignInController providerSignInController() throws Exception {
+    	SignInAdapter signInAdapter = new SpringSecuritySignInAdapterImpl();
+    	
     	ProviderSignInController controller = new ProviderSignInController(
         		connectionFactoryLocator(), 
         		usersConnectionRepository(), 
-        		new SpringSecuritySignInAdapterImpl());
+        		signInAdapter);
     	
-    	controller.setApplicationUrl(environment.getProperty("application.url"));
+    	if (controller != null) {
+    		controller.afterPropertiesSet();
+    		
+    		String applicationURL = environment.getProperty("application.url");
+    		
+    		if (! StringUtils.isEmpty(applicationURL)) {
+        		controller.setApplicationUrl(applicationURL);
+        	}
+    	}
+    	
+    	
+    	
     	
     	return controller;
     }
