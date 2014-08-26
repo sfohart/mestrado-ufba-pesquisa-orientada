@@ -111,6 +111,7 @@ public class ProjectDetailManageBean extends ProjectManagedBean {
 			if (getProject().getAnalysis() != null) {
 				this.factoidList = getProject().getAnalysis().getFactoids();
 				this.analysisLanguages = getProject().getAnalysis().getAnalysisLanguages();
+				this.analysisLanguages.getContent();
 			}
 			
 			this.enlistmentCount = getEnlistmentService().countAllByProject(getProject());
@@ -129,6 +130,10 @@ public class ProjectDetailManageBean extends ProjectManagedBean {
 			UserEntity currentUser = getUserDetailsService().loadFullLoggedUser();
 			
 			this.averagePreference = getOverallRatingService().averagePreferenceByItem(getProject().getId());
+			if (this.averagePreference != null) {
+				this.averagePreference.setProject(getProject());
+			}
+			
 			if (currentUser != null) {
 				this.userPreference = getOverallRatingService().findLastOverallPreferenceByUserAndItem(getProject().getId(), currentUser.getId());
 			}

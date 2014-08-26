@@ -1,12 +1,12 @@
 package br.ufba.dcc.mestrado.computacao.entities.ohloh.core.project;
 
 import java.sql.Timestamp;
+import java.util.LinkedList;
 import java.util.List;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
@@ -99,7 +99,7 @@ public class OhLohProjectEntity implements BaseEntity<Long> {
 	@Column(name = "analysis_id", insertable = false, updatable = false)
 	private Long analysisId;
 
-	@ManyToOne(cascade=CascadeType.ALL, fetch=FetchType.EAGER, targetEntity=OhLohAnalysisEntity.class)
+	@ManyToOne(cascade=CascadeType.ALL, targetEntity=OhLohAnalysisEntity.class)
 	@JoinColumn(name = "analysis_id", referencedColumnName = "id")
 	@IndexedEmbedded
 	private OhLohAnalysisEntity analysis;
@@ -127,6 +127,13 @@ public class OhLohProjectEntity implements BaseEntity<Long> {
 	@OneToMany(cascade=CascadeType.ALL, mappedBy="project")	
 	@IndexedEmbedded
 	private List<OhLohLinkEntity> links;
+	
+	
+	public OhLohProjectEntity() {
+		this.links = new LinkedList<OhLohLinkEntity>();
+		this.tags = new LinkedList<OhLohTagEntity>();
+		this.licenses = new LinkedList<OhLohLicenseEntity>();
+	}
 
 	public List<OhLohLinkEntity> getLinks() {
 		return links;

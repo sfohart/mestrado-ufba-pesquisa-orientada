@@ -36,7 +36,7 @@ public class OhLohEnlistmentEntity implements BaseEntity<Long> {
 	@Column(name = "repository_id", insertable = false, updatable = false)
 	private Long repositoryId;
 
-	@ManyToOne(cascade=CascadeType.ALL, fetch=FetchType.EAGER)
+	@ManyToOne(cascade=CascadeType.ALL)
 	@JoinColumn(name = "repository_id", referencedColumnName = "id")
 	private OhLohRepositoryEntity repository;
 

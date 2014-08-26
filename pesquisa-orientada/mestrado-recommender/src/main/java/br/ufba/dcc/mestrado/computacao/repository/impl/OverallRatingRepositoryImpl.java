@@ -141,7 +141,8 @@ public class OverallRatingRepositoryImpl
 			root.fetch("preferenceEntryList", JoinType.INNER);
 			root.fetch("preferenceReview", JoinType.LEFT);			
 			
-			preferenceQuery = preferenceQuery.select(root);			
+			preferenceQuery = preferenceQuery;	
+			preferenceQuery.distinct(true);
 			
 			List<Predicate> predicateList = new ArrayList<Predicate>();
 			
@@ -163,13 +164,13 @@ public class OverallRatingRepositoryImpl
 			Root<PreferenceEntity> p2 = subquery.from(getEntityClass());
 			Expression<Timestamp> greatestRegisteredAt = p2.get("registeredAt");
 			
-			subquery.select(criteriaBuilder.greatest((greatestRegisteredAt)));
+			subquery = subquery.select(criteriaBuilder.greatest((greatestRegisteredAt)));
 			
 			List<Predicate> subqueryPredicateList = new ArrayList<>();
 			subqueryPredicateList.add(criteriaBuilder.equal(root.get("userId"), p2.get("userId")));
 			subqueryPredicateList.add(criteriaBuilder.equal(root.get("projectId"), p2.get("projectId")));
 			
-			subquery.where(subqueryPredicateList.toArray(new Predicate[0]));
+			subquery = subquery.where(subqueryPredicateList.toArray(new Predicate[0]));
 			
 			Predicate registeredAtPredicate = criteriaBuilder.equal(root.get("registeredAt"), subquery);
 			predicateList.add(registeredAtPredicate);
@@ -416,7 +417,6 @@ public class OverallRatingRepositoryImpl
 		try {
 			preference = query.getSingleResult();
 		} catch (NoResultException | NonUniqueResultException ex) {
-			ex.printStackTrace();
 		}
 
 		return preference;	

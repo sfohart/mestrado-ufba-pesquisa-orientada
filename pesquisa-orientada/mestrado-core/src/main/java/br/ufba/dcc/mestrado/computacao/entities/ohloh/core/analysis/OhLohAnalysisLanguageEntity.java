@@ -110,4 +110,58 @@ public class OhLohAnalysisLanguageEntity implements BaseEntity<Long> {
 		this.language = language;
 	}
 
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((color == null) ? 0 : color.hashCode());
+		result = prime * result
+				+ ((entryContent == null) ? 0 : entryContent.hashCode());
+		result = prime * result + ((id == null) ? 0 : id.hashCode());
+		result = prime * result
+				+ ((languageId == null) ? 0 : languageId.hashCode());
+		result = prime * result
+				+ ((percentage == null) ? 0 : percentage.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		OhLohAnalysisLanguageEntity other = (OhLohAnalysisLanguageEntity) obj;
+		if (color == null) {
+			if (other.color != null)
+				return false;
+		} else if (!color.equals(other.color))
+			return false;
+		if (entryContent == null) {
+			if (other.entryContent != null)
+				return false;
+		} else if (!entryContent.equals(other.entryContent))
+			return false;
+		if (id == null) {
+			if (other.id != null)
+				return false;
+		} else if (!id.equals(other.id))
+			return false;
+		if (languageId == null) {
+			if (other.languageId != null)
+				return false;
+		} else if (!languageId.equals(other.languageId))
+			return false;
+		if (percentage == null) {
+			if (other.percentage != null)
+				return false;
+		} else if (!percentage.equals(other.percentage))
+			return false;
+		return true;
+	}
+	
+	
+
 }

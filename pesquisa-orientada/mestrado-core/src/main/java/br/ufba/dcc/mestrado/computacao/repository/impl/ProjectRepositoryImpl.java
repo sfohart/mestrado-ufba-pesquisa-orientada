@@ -5,9 +5,11 @@ import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
 
+import javax.persistence.PersistenceUnitUtil;
 import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Join;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 
@@ -31,6 +33,8 @@ import org.hibernate.search.query.facet.FacetSortOrder;
 import org.hibernate.search.query.facet.FacetingRequest;
 import org.springframework.stereotype.Repository;
 
+import br.ufba.dcc.mestrado.computacao.entities.ohloh.core.analysis.OhLohAnalysisEntity;
+import br.ufba.dcc.mestrado.computacao.entities.ohloh.core.analysis.OhLohAnalysisLanguagesEntity;
 import br.ufba.dcc.mestrado.computacao.entities.ohloh.core.project.OhLohProjectEntity;
 import br.ufba.dcc.mestrado.computacao.entities.ohloh.core.project.OhLohTagEntity;
 import br.ufba.dcc.mestrado.computacao.repository.base.ProjectRepository;
@@ -54,39 +58,52 @@ public class ProjectRepositoryImpl
 	}
 
 	@Override	
-	public OhLohProjectEntity findById(Long id) {		
-		OhLohProjectEntity result = super.findById(id);
+	public OhLohProjectEntity findById(Long id) {	
 		
+		OhLohProjectEntity result = getEntityManager().find(getEntityClass(), id);
+		
+		PersistenceUnitUtil unitUtil = getEntityManager().getEntityManagerFactory().getPersistenceUnitUtil();
+		if (unitUtil.isLoaded(result)) {
+			initializeProject(result);
+		}
+		
+		return result;
+		
+		
+		/*
+		
+		return result;*/
+	}
+	
+	private void initializeProject(OhLohProjectEntity result) {
 		if (result != null) {
 			
 			if (result.getLicenses() != null) {
-				result.getLicenses().size();
+				result.getLicenses().iterator().hasNext();
 			}
 			
 			if (result.getTags() != null) {
-				result.getTags().size();
+				result.getTags().iterator().hasNext();
 			}
 			
 			if (result.getLinks() != null) {
-				result.getLinks().size();
+				result.getLinks().iterator().hasNext();
 			}
 			
 			if (result.getAnalysis() != null) {
 				if (result.getAnalysis().getFactoids() != null) {
-					result.getAnalysis().getFactoids().size();
+					result.getAnalysis().getFactoids().iterator().hasNext();
 				}
 				
 				if (result.getAnalysis().getAnalysisLanguages() != null) {
-					result.getAnalysis().getAnalysisLanguages().getContent();
-				}
-				
-			}
-			
-		}
-		
-		return result;
+					if (result.getAnalysis().getAnalysisLanguages().getContent() != null) {
+						result.getAnalysis().getAnalysisLanguages().getContent().iterator().hasNext();
+					}
+				}				
+			}			
+		}		
 	}
-	
+
 	@Override
 	public OhLohProjectEntity findByName(String name) {
 		CriteriaBuilder criteriaBuilder = getEntityManager().getCriteriaBuilder();
