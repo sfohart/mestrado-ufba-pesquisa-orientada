@@ -97,7 +97,7 @@ public class ProjectCompareManagedBean extends ProjectManagedBean {
 						PreferenceEntity averagePreference = getOverallRatingService().averagePreferenceByItem(projectId);
 						this.averagePreferenceMap.put(projectId, averagePreference);
 						
-						Long preferenceCount = getOverallRatingService().countAllLastByProject(projectId);
+						Long preferenceCount = getOverallRatingService().countAllLastPreferenceByProject(projectId);
 						this.preferenceCountMap.put(projectId, preferenceCount);
 					}
 				}

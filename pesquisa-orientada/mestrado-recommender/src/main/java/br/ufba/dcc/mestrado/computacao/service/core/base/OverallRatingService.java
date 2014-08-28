@@ -60,7 +60,15 @@ public interface OverallRatingService extends BaseService<Long, PreferenceEntity
 	 * @param projectId
 	 * @return
 	 */
-	Long countAllLastByProject(Long projectId);
+	Long countAllLastPreferenceByProject(Long projectId);
+	
+	
+	/**
+	 * 
+	 * @param userId
+	 * @return
+	 */
+	Long countAllLastPreferenceByUser(Long userId);
 	
 	/**
 	 * 

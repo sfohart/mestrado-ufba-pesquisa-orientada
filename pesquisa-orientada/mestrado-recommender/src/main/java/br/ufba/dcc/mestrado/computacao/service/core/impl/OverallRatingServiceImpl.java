@@ -162,8 +162,14 @@ public class OverallRatingServiceImpl
 	
 	@Override
 	@Transactional(readOnly = true)
-	public Long countAllLastByProject(Long projectId) {
-		return ((OverallRatingRepository) getRepository()).countAllLastByProject(projectId);
+	public Long countAllLastPreferenceByProject(Long projectId) {
+		return ((OverallRatingRepository) getRepository()).countAllLastPreferenceByProject(projectId);
+	}
+	
+	@Override
+	@Transactional(readOnly = true)
+	public Long countAllLastPreferenceByUser(Long userId) {
+		return ((OverallRatingRepository) getRepository()).countAllLastPreferenceByUser(userId);
 	}
 
 	@Override
