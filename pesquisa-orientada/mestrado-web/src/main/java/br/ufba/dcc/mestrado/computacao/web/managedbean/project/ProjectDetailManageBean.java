@@ -124,7 +124,7 @@ public class ProjectDetailManageBean extends ProjectManagedBean {
 				this.linkList = getLinkService().findByProject(getProject());
 			}
 			
-			this.overallPreferenceCount = getOverallRatingService().countAllLastByProject(getProject().getId());
+			this.overallPreferenceCount = getOverallRatingService().countAllLastPreferenceByProject(getProject().getId());
 			
 			//calculando valores médios de preferência
 			UserEntity currentUser = getUserDetailsService().loadFullLoggedUser();

@@ -53,7 +53,17 @@ public interface OverallRatingRepository extends BaseRepository<Long, Preference
 	 * @param projectId
 	 * @return
 	 */
-	Long countAllLastByProject(Long projectId);
+	Long countAllLastPreferenceByProject(Long projectId);
+	
+	
+	/**
+	 * Conta quantas avaliações existem para um dado projeto. Caso um usuário tenha avaliado o mesmo
+	 * projeto mais de uma vez, conta apenas a avaliação mais recente
+	 * 
+	 * @param userId
+	 * @return
+	 */
+	Long countAllLastPreferenceByUser(Long userId);
 	
 	/**
 	 * 
@@ -90,4 +100,6 @@ public interface OverallRatingRepository extends BaseRepository<Long, Preference
 			Integer offset,
 			boolean orderByRegisteredAt,
 			boolean orderByReviewRanking);
+
+	
 }

@@ -24,7 +24,6 @@ import org.springframework.stereotype.Repository;
 
 import br.ufba.dcc.mestrado.computacao.entities.ohloh.core.project.OhLohProjectEntity;
 import br.ufba.dcc.mestrado.computacao.entities.ohloh.recommender.preference.PreferenceEntity;
-import br.ufba.dcc.mestrado.computacao.entities.ohloh.recommender.preference.PreferenceReviewEntity;
 import br.ufba.dcc.mestrado.computacao.repository.base.OverallRatingRepository;
 
 @Repository(OverallRatingRepositoryImpl.BEAN_NAME)
@@ -201,11 +200,29 @@ public class OverallRatingRepositoryImpl
 	
 	@Override
 	public Long countAllLast() {
-		return countAllLastByProject(null);
+		return countAllLastPreferenceByProject(null);
 	}
 	
 	@Override
-	public Long  countAllLastByProject(Long projectId) {
+	public Long  countAllLastPreferenceByProject(Long projectId) {
+		//obtendo quantidade de registros
+		Long countResult = countAllLast(projectId, null);
+		
+		return countResult;
+	}
+	
+	@Override
+	public Long  countAllLastPreferenceByUser(Long userId) {
+		//obtendo quantidade de registros
+		Long countResult = countAllLast(userId, null);
+		
+		return countResult;
+	}
+	
+	private Long countAllLast(
+			Long projectId,
+			Long userId) {
+		
 		CriteriaBuilder criteriaBuilder = getEntityManager().getCriteriaBuilder();
 		
 		CriteriaQuery<Long> countQuery = criteriaBuilder.createQuery(Long.class);
@@ -219,6 +236,9 @@ public class OverallRatingRepositoryImpl
 		if (projectId != null) {
 			Predicate projectPredicate = criteriaBuilder.equal(root.get("projectId"), projectId);
 			predicateList.add(projectPredicate);
+		} else if (userId != null) {
+			Predicate userPredicate = criteriaBuilder.equal(root.get("userId"), userId);
+			predicateList.add(userPredicate);
 		}
 
 		
@@ -248,6 +268,7 @@ public class OverallRatingRepositoryImpl
 		Long countResult = getEntityManager().createQuery(countQuery).getSingleResult();
 		
 		return countResult;
+		
 	}
 
 	@Override

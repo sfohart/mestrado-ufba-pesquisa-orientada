@@ -227,9 +227,9 @@ public class ProjectReviewListManagedBean extends AbstractReviewVotingManagedBea
 			}
 
 			if (validProject) {
-				this.totalReviews = getPreferenceReviewService().countAllLastReviewsByProject(getProject().getId()).intValue();				
+				this.totalReviews = getOverallRatingService().countAllLastPreferenceByProject(getProject().getId()).intValue();				
 			} else if (validUser) {
-				this.totalReviews = getPreferenceReviewService().countAllLastReviewsByUser(getUser().getId()).intValue();
+				this.totalReviews = getOverallRatingService().countAllLastPreferenceByUser(getUser().getId()).intValue();
 			}		
 			
 			//Se não houver mais o que carregar, atualize logo o startPosition, pro botão do scroll não aparecer a toa

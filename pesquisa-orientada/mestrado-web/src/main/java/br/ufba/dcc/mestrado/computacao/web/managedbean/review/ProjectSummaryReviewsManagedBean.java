@@ -162,7 +162,7 @@ public class ProjectSummaryReviewsManagedBean extends AbstractReviewVotingManage
 		if (getProject() != null && getProject().getId() != null) {
 			this.project = getProjectService().findById(getProject().getId());
 			
-			this.overallPreferenceCount = getOverallRatingService().countAllLastByProject(getProject().getId());
+			this.overallPreferenceCount = getOverallRatingService().countAllLastPreferenceByProject(getProject().getId());
 			this.reviewsCount = getPreferenceReviewService().countAllLastReviewsByProject(getProject().getId());
 			
 			findTopFiveReviews();
