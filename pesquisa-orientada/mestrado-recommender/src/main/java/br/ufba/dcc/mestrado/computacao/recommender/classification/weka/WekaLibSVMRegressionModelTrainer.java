@@ -5,17 +5,17 @@ import org.springframework.context.annotation.AnnotationConfigApplicationContext
 import org.springframework.stereotype.Component;
 
 import weka.classifiers.Classifier;
-import weka.classifiers.functions.SimpleLogistic;
+import weka.classifiers.functions.LibSVM;
 import br.ufba.dcc.mestrado.computacao.service.core.base.OverallRatingService;
 import br.ufba.dcc.mestrado.computacao.service.core.base.RatingByCriteriumService;
 import br.ufba.dcc.mestrado.computacao.service.core.base.RecommenderCriteriumService;
 import br.ufba.dcc.mestrado.computacao.spring.RecommenderAppConfig;
 
 @Component
-public class WekaSimpleLogisticRegressionModelTrainer extends AbstractWekaModelTrainer {
+public class WekaLibSVMRegressionModelTrainer extends AbstractWekaModelTrainer {
 	
 	@Autowired
-	public WekaSimpleLogisticRegressionModelTrainer(
+	public WekaLibSVMRegressionModelTrainer(
 			RatingByCriteriumService ratingByCriteriumService,
 			RecommenderCriteriumService recommenderCriteriumService,
 			OverallRatingService overallRatingService) {
@@ -26,19 +26,21 @@ public class WekaSimpleLogisticRegressionModelTrainer extends AbstractWekaModelT
 
 	@Override
 	protected Classifier initializeClassifier() throws Exception {
-		Classifier simpleLogistic = new SimpleLogistic();
 		
-		String[] options = "-I 0 -M 500 -H 50 -W 0.0".split(" ");
+		Classifier libSVMFunction = new LibSVM();
+		String[] options = "-S 0 -K 2 -D 3 -G 0.0 -R 0.0 -N 0.5 -M 40.0 -C 1.0 -E 0.001 -P 0.1 -seed 1".split(" ");
+		//String[] options = "-S 3 -K 2 -D 3 -G 0.1363134665831572 -R 0.0 -N 0.5 -M 40.0 -C 1.0 -E 0.001 -P 0.1 -seed 1".split(" ");
+				
+		libSVMFunction.setOptions(options);
 		
-		simpleLogistic.setOptions(options);
-		
-		return simpleLogistic;
+		return libSVMFunction;
 	}
-		
+
+	
 	public static void main(String[] args) throws Exception {		
 		AnnotationConfigApplicationContext context = new AnnotationConfigApplicationContext(RecommenderAppConfig.class);
 
-		WekaSimpleLogisticRegressionModelTrainer main = context.getBean(WekaSimpleLogisticRegressionModelTrainer.class);
+		WekaLibSVMRegressionModelTrainer main = context.getBean(WekaLibSVMRegressionModelTrainer.class);
 
 		if (main != null) {
 			main.train();
@@ -46,5 +48,4 @@ public class WekaSimpleLogisticRegressionModelTrainer extends AbstractWekaModelT
 			System.exit(0);
 		}
 	}
-
 }

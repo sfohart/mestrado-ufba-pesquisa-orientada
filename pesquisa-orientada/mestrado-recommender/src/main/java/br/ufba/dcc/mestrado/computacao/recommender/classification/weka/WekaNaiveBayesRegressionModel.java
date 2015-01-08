@@ -5,17 +5,17 @@ import org.springframework.context.annotation.AnnotationConfigApplicationContext
 import org.springframework.stereotype.Component;
 
 import weka.classifiers.Classifier;
-import weka.classifiers.functions.SimpleLogistic;
+import weka.classifiers.bayes.NaiveBayes;
 import br.ufba.dcc.mestrado.computacao.service.core.base.OverallRatingService;
 import br.ufba.dcc.mestrado.computacao.service.core.base.RatingByCriteriumService;
 import br.ufba.dcc.mestrado.computacao.service.core.base.RecommenderCriteriumService;
 import br.ufba.dcc.mestrado.computacao.spring.RecommenderAppConfig;
 
 @Component
-public class WekaSimpleLogisticRegressionModelTrainer extends AbstractWekaModelTrainer {
-	
+public class WekaNaiveBayesRegressionModel extends AbstractWekaModelTrainer {
+
 	@Autowired
-	public WekaSimpleLogisticRegressionModelTrainer(
+	public WekaNaiveBayesRegressionModel(
 			RatingByCriteriumService ratingByCriteriumService,
 			RecommenderCriteriumService recommenderCriteriumService,
 			OverallRatingService overallRatingService) {
@@ -23,22 +23,17 @@ public class WekaSimpleLogisticRegressionModelTrainer extends AbstractWekaModelT
 		super(ratingByCriteriumService, recommenderCriteriumService, overallRatingService);
 		this.setUseNumericToNominalFilter(true);
 	}
-
+	
 	@Override
 	protected Classifier initializeClassifier() throws Exception {
-		Classifier simpleLogistic = new SimpleLogistic();
-		
-		String[] options = "-I 0 -M 500 -H 50 -W 0.0".split(" ");
-		
-		simpleLogistic.setOptions(options);
-		
-		return simpleLogistic;
+		Classifier naiveBayes = new NaiveBayes();
+		return naiveBayes;
 	}
-		
+	
 	public static void main(String[] args) throws Exception {		
 		AnnotationConfigApplicationContext context = new AnnotationConfigApplicationContext(RecommenderAppConfig.class);
 
-		WekaSimpleLogisticRegressionModelTrainer main = context.getBean(WekaSimpleLogisticRegressionModelTrainer.class);
+		WekaNaiveBayesRegressionModel main = context.getBean(WekaNaiveBayesRegressionModel.class);
 
 		if (main != null) {
 			main.train();
@@ -47,4 +42,8 @@ public class WekaSimpleLogisticRegressionModelTrainer extends AbstractWekaModelT
 		}
 	}
 
+
+
+	
+	
 }

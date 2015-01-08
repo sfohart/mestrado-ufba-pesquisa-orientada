@@ -2,6 +2,8 @@ package br.ufba.dcc.mestrado.computacao.recommender.classification.weka;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -28,6 +30,8 @@ import br.ufba.dcc.mestrado.computacao.service.core.base.RecommenderCriteriumSer
 public abstract class AbstractWekaModelTrainer extends AbstractModelTrainer {
 
 	private Classifier classifier;
+	private boolean useNumericToNominalFilter;
+	
 	
 	public AbstractWekaModelTrainer(
 			RatingByCriteriumService ratingByCriteriumService,
@@ -47,6 +51,15 @@ public abstract class AbstractWekaModelTrainer extends AbstractModelTrainer {
 		this.classifier = classifier;
 	}
 
+	
+	protected boolean isUseNumericToNominalFilter() {
+		return useNumericToNominalFilter;
+	}
+
+	protected void setUseNumericToNominalFilter(boolean useNumericToNominalFilter) {
+		this.useNumericToNominalFilter = useNumericToNominalFilter;
+	}
+
 	protected Instances createDataSet() throws Exception {
 		
 		FastVector attributeList = new FastVector();
@@ -63,6 +76,17 @@ public abstract class AbstractWekaModelTrainer extends AbstractModelTrainer {
 		Map<RecommenderCriteriumEntity, Attribute> criteriumAttributeMap = new LinkedHashMap<>();
 		
 		List<RecommenderCriteriumEntity> criteriumList = recommenderCriteriumService.findAll();
+		
+		Collections.sort(criteriumList, new Comparator<RecommenderCriteriumEntity>() {
+
+			@Override
+			public int compare(RecommenderCriteriumEntity criterium,
+					RecommenderCriteriumEntity other) {
+				
+				return criterium.getId().compareTo(other.getId());
+			}
+		});
+		
 		for (RecommenderCriteriumEntity criterium : criteriumList) {
 			Attribute criteriumAttribute = new Attribute(
 					String.format("criterium%d", criterium.getId())
@@ -124,7 +148,7 @@ public abstract class AbstractWekaModelTrainer extends AbstractModelTrainer {
 		return dataset;
 	}
 	
-	protected Filter configureFilter(Instances dataset) throws Exception {
+	protected Filter configureNumericToNominalFilter(Instances dataset) throws Exception {
 		//a avaliação geral do usuário para o item deve ser um atributo nominal para usar os algoritmos de classificação
 		NumericToNominal attributeFilter = new NumericToNominal();
 		
@@ -146,8 +170,10 @@ public abstract class AbstractWekaModelTrainer extends AbstractModelTrainer {
 		
 				
 		//a avaliação geral do usuário para o item deve ser um atributo nominal para usar os algoritmos de classificação
-		Filter filter = configureFilter(dataset);		
-		dataset = Filter.useFilter(dataset, filter);
+		if (isUseNumericToNominalFilter()) {
+			Filter filter = configureNumericToNominalFilter(dataset);		
+			dataset = Filter.useFilter(dataset, filter);
+		}
 		
 		setClassifier(initializeClassifier());
 		
@@ -173,14 +199,28 @@ public abstract class AbstractWekaModelTrainer extends AbstractModelTrainer {
 		
 		evaluation.crossValidateModel(getClassifier(), dataset, numFolds, random);
 		
-		String summary = evaluation.toSummaryString();		
+		String summary = evaluation.toSummaryString(true);
+		
+		double coveragePercent = evaluation.correct() / (evaluation.correct() + evaluation.incorrect() );
+		String coverage = String.format("Coverage of cases (0.95 level): %f %%", coveragePercent * 100);
+		
+		summary += "\n\n" + coverage + "\n\n";
+		
 		System.out.println(summary);
 		
-		String details = evaluation.toClassDetailsString();
-		System.out.println(details);
+		if (isUseNumericToNominalFilter()){
+			String details = evaluation.toClassDetailsString();
+			System.out.println(details);
+		}
 		
-		String confusionMatrix = evaluation.toMatrixString();
-		System.out.println(confusionMatrix);
+		
+		
+		
+		
+		if (isUseNumericToNominalFilter()){
+			String confusionMatrix = evaluation.toMatrixString();
+			System.out.println(confusionMatrix);
+		}
 	}
 
 	@Override
