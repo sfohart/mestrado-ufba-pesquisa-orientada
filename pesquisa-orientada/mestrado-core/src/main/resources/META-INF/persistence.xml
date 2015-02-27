@@ -19,6 +19,7 @@
 		<class>br.ufba.dcc.mestrado.computacao.entities.ohloh.core.project.OhLohLinkEntity</class>
 		<class>br.ufba.dcc.mestrado.computacao.entities.ohloh.core.project.OhLohProjectEntity</class>
 		<class>br.ufba.dcc.mestrado.computacao.entities.ohloh.core.project.OhLohTagEntity</class>
+		<class>br.ufba.dcc.mestrado.computacao.entities.ohloh.core.project.OhLohProjectActivityIndexEntity</class>
 		<class>br.ufba.dcc.mestrado.computacao.entities.ohloh.core.sizefact.OhLohSizeFactEntity</class>
 		<class>br.ufba.dcc.mestrado.computacao.entities.ohloh.core.stack.OhLohStackEntity</class>
 		<class>br.ufba.dcc.mestrado.computacao.entities.ohloh.core.stack.OhLohStackEntryEntity</class>
@@ -30,7 +31,11 @@
 		<class>br.ufba.dcc.mestrado.computacao.entities.ohloh.recommender.preference.PreferenceEntryEntity</class>
 		<class>br.ufba.dcc.mestrado.computacao.entities.ohloh.recommender.preference.PreferenceReviewEntity</class>
 		<class>br.ufba.dcc.mestrado.computacao.entities.ohloh.recommender.user.UserEntity</class>
-		
+		<class>br.ufba.dcc.mestrado.computacao.entities.ohloh.crawler.OhLohCrawlerEnlistmentEntity</class>
+		<class>br.ufba.dcc.mestrado.computacao.entities.ohloh.crawler.OhLohCrawlerLanguageEntity</class>
+		<class>br.ufba.dcc.mestrado.computacao.entities.ohloh.crawler.OhLohCrawlerLicenseEntity</class>
+		<class>br.ufba.dcc.mestrado.computacao.entities.ohloh.crawler.OhLohCrawlerProjectEntity</class>
+		<class>br.ufba.dcc.mestrado.computacao.entities.ohloh.crawler.OhLohCrawlerStackEntity</class>
 		<!-- Recommender -->
 		
 		

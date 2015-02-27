@@ -16,6 +16,7 @@ import org.springframework.transaction.annotation.Transactional;
 import br.ufba.dcc.mestrado.computacao.entities.ohloh.core.analysis.OhLohAnalysisEntity;
 import br.ufba.dcc.mestrado.computacao.entities.ohloh.core.project.OhLohLicenseEntity;
 import br.ufba.dcc.mestrado.computacao.entities.ohloh.core.project.OhLohLinkEntity;
+import br.ufba.dcc.mestrado.computacao.entities.ohloh.core.project.OhLohProjectActivityIndexEntity;
 import br.ufba.dcc.mestrado.computacao.entities.ohloh.core.project.OhLohProjectEntity;
 import br.ufba.dcc.mestrado.computacao.entities.ohloh.core.project.OhLohTagEntity;
 import br.ufba.dcc.mestrado.computacao.ohloh.data.analysis.OhLohAnalysisDTO;
@@ -28,6 +29,7 @@ import br.ufba.dcc.mestrado.computacao.repository.base.TagRepository;
 import br.ufba.dcc.mestrado.computacao.repository.impl.ProjectRepositoryImpl;
 import br.ufba.dcc.mestrado.computacao.service.base.OhLohAnalysisService;
 import br.ufba.dcc.mestrado.computacao.service.base.OhLohProjectService;
+import br.ufba.dcc.mestrado.computacao.service.base.ProjectActivityIndexService;
 
 @Service(OhLohProjectServiceImpl.BEAN_NAME)
 public class OhLohProjectServiceImpl extends DefaultOhLohServiceImpl<OhLohProjectDTO, Long, OhLohProjectEntity>
@@ -59,6 +61,9 @@ public class OhLohProjectServiceImpl extends DefaultOhLohServiceImpl<OhLohProjec
 	@Autowired
 	private OhLohRestfulClient restfulClient;
 	
+	@Autowired
+	private ProjectActivityIndexService projectActivityIndexService;
+	
 	
 	public Map<String, List<OhLohLinkEntity>> buildLinkMapByCategory(OhLohProjectEntity project) {
 		Map<String, List<OhLohLinkEntity>> linkMap = null;
@@ -87,9 +92,9 @@ public class OhLohProjectServiceImpl extends DefaultOhLohServiceImpl<OhLohProjec
 		super.validateEntity(entity);
 		
 		
-		reloadTagsFromDatabase(entity);
-		
+		reloadTagsFromDatabase(entity);		
 		reloadLicensesFromDatabase(entity);
+		reloadProjectActivityIndexFromDatabase(entity);
 
 		if (entity.getLinks() != null) {
 			for (OhLohLinkEntity link : entity.getLinks()) {
@@ -114,6 +119,17 @@ public class OhLohProjectServiceImpl extends DefaultOhLohServiceImpl<OhLohProjec
 			}
 		}
 		
+	}
+	
+	@Override
+	@Transactional
+	public void reloadProjectActivityIndexFromDatabase(OhLohProjectEntity entity) throws Exception{
+		if (entity != null && entity.getProjectActivityIndex() != null) {
+			OhLohProjectActivityIndexEntity projectActivityIndex = projectActivityIndexService.findByValue(entity.getProjectActivityIndex().getValue());
+			if (projectActivityIndex != null) {
+				entity.setProjectActivityIndex(projectActivityIndex);
+			}
+		}
 	}
 
 	@Override

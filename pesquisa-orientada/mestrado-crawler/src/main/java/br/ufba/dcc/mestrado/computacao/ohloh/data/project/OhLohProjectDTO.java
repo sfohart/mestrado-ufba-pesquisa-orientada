@@ -90,6 +90,11 @@ public class OhLohProjectDTO implements OhLohResultDTO {
 
 	@XStreamAlias("tags")	
 	private List<OhLohTagDTO> tags;
+	
+	@XStreamAlias("project_activity_index")
+	private OhLohProjectActivityIndexDTO projectActivityIndex;
+	
+	
 
 	public String getName() {
 		return name;
@@ -259,4 +264,13 @@ public class OhLohProjectDTO implements OhLohResultDTO {
 		this.links = links;
 	}
 
+	public OhLohProjectActivityIndexDTO getProjectActivityIndex() {
+		return projectActivityIndex;
+	}
+
+	public void setProjectActivityIndex(
+			OhLohProjectActivityIndexDTO projectActivityIndex) {
+		this.projectActivityIndex = projectActivityIndex;
+	}
+	
 }

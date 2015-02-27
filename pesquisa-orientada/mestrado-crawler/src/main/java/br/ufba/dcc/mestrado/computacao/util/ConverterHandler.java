@@ -21,6 +21,7 @@ import br.ufba.dcc.mestrado.computacao.entities.ohloh.core.analysis.OhLohAnalysi
 import br.ufba.dcc.mestrado.computacao.entities.ohloh.core.enlistment.OhLohEnlistmentEntity;
 import br.ufba.dcc.mestrado.computacao.entities.ohloh.core.enlistment.OhLohRepositoryEntity;
 import br.ufba.dcc.mestrado.computacao.entities.ohloh.core.kudoskore.OhLohKudoScoreEntity;
+import br.ufba.dcc.mestrado.computacao.entities.ohloh.core.project.OhLohProjectActivityIndexEntity;
 import br.ufba.dcc.mestrado.computacao.entities.ohloh.core.project.OhLohProjectEntity;
 import br.ufba.dcc.mestrado.computacao.entities.ohloh.core.stack.OhLohStackEntity;
 import br.ufba.dcc.mestrado.computacao.ohloh.data.OhLohResultDTO;
@@ -30,6 +31,7 @@ import br.ufba.dcc.mestrado.computacao.ohloh.data.analysis.OhLohAnalysisLanguage
 import br.ufba.dcc.mestrado.computacao.ohloh.data.enlistment.OhLohEnlistmentDTO;
 import br.ufba.dcc.mestrado.computacao.ohloh.data.enlistment.OhLohRepositoryDTO;
 import br.ufba.dcc.mestrado.computacao.ohloh.data.kudoskore.OhLohKudoScoreDTO;
+import br.ufba.dcc.mestrado.computacao.ohloh.data.project.OhLohProjectActivityIndexDTO;
 import br.ufba.dcc.mestrado.computacao.ohloh.data.project.OhLohProjectDTO;
 import br.ufba.dcc.mestrado.computacao.ohloh.data.stack.OhLohStackDTO;
 
@@ -53,6 +55,7 @@ public class ConverterHandler<DTO extends OhLohResultDTO, ID extends Number, E e
 		ConvertUtils.register(new OhLohDTO2EntityConverter<>(OhLohEnlistmentDTO.class, OhLohEnlistmentEntity.class), OhLohEnlistmentEntity.class);
 		ConvertUtils.register(new OhLohDTO2EntityConverter<>(OhLohRepositoryDTO.class, OhLohRepositoryEntity.class), OhLohRepositoryEntity.class);
 		ConvertUtils.register(new OhLohDTO2EntityConverter<>(OhLohProjectDTO.class, OhLohProjectEntity.class), OhLohProjectEntity.class);
+		ConvertUtils.register(new OhLohDTO2EntityConverter<>(OhLohProjectActivityIndexDTO.class, OhLohProjectActivityIndexEntity.class), OhLohProjectActivityIndexEntity.class);
 		ConvertUtils.register(new SqlTimestampConverter(null), Timestamp.class);
 	}
 	

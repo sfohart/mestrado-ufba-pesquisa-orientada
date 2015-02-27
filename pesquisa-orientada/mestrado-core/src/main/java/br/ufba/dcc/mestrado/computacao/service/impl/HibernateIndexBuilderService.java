@@ -16,10 +16,10 @@ import org.springframework.stereotype.Component;
 import br.ufba.dcc.mestrado.computacao.entities.ohloh.core.project.OhLohProjectEntity;
 import br.ufba.dcc.mestrado.computacao.service.base.IndexBuilderService;
 
-@Component(HibernateSearchIndexer.BEAN_NAME)
-public class HibernateSearchIndexer implements IndexBuilderService {
+@Component(HibernateIndexBuilderService.BEAN_NAME)
+public class HibernateIndexBuilderService implements IndexBuilderService {
 	
-	public static final String BEAN_NAME = "hibernateSearchIndexer";
+	public static final String BEAN_NAME = "hibernateIndexBuilderService";
 	
 	@PersistenceContext
 	private EntityManager entityManager;

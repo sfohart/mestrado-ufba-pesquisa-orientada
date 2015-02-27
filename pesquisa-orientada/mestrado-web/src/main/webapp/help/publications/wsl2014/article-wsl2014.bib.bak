@@ -1,0 +1,15 @@
+% This file was created with JabRef 2.9.2.
+% Encoding: Cp1252
+
+@INPROCEEDINGS{,
+  author = {Leandro Soriano Ferreira, Roberto Almeida Bittencourt, Christina
+	von Flach Garcia Chavez},
+  title = {Sfohart: Um Sistema de Recomendação Multicritério para Adoção de
+	Software Livre},
+  booktitle = {Workshop Internacional de Software Livre (FISL)},
+  year = {2014},
+  address = {Porto Alegre, Rio Grande do Sul - Brasil},
+  owner = {leandro.ferreira},
+  timestamp = {2015.02.27}
+}
+

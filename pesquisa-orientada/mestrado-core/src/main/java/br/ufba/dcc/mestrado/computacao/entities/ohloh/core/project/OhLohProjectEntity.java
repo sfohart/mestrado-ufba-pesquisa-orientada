@@ -61,7 +61,7 @@ public class OhLohProjectEntity implements BaseEntity<Long> {
 	private Timestamp updatedAt;
 
 	@Field(index = Index.YES, analyze = Analyze.YES, store = Store.NO, termVector = TermVector.YES)
-	@Column(name = "description")
+	@Column(name = "description", length=10000)
 	private String description;
 
 	@Column(name = "homepage_url")
@@ -128,6 +128,9 @@ public class OhLohProjectEntity implements BaseEntity<Long> {
 	@IndexedEmbedded
 	private List<OhLohLinkEntity> links;
 	
+	@ManyToOne(cascade = CascadeType.ALL)
+	@JoinColumn(name = "project_activity_index_id", referencedColumnName = "id")
+	private OhLohProjectActivityIndexEntity projectActivityIndex;
 	
 	public OhLohProjectEntity() {
 		this.links = new LinkedList<OhLohLinkEntity>();
@@ -302,7 +305,16 @@ public class OhLohProjectEntity implements BaseEntity<Long> {
 	public void setTags(List<OhLohTagEntity> tags) {
 		this.tags = tags;
 	}
-	
+		
+	public OhLohProjectActivityIndexEntity getProjectActivityIndex() {
+		return projectActivityIndex;
+	}
+
+	public void setProjectActivityIndex(
+			OhLohProjectActivityIndexEntity projectActivityIndex) {
+		this.projectActivityIndex = projectActivityIndex;
+	}
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;

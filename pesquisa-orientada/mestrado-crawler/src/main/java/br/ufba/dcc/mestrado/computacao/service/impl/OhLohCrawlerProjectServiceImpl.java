@@ -4,7 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
-import br.ufba.dcc.mestrado.computacao.ohloh.entities.OhLohCrawlerProjectEntity;
+import br.ufba.dcc.mestrado.computacao.entities.ohloh.crawler.OhLohCrawlerProjectEntity;
 import br.ufba.dcc.mestrado.computacao.repository.base.OhLohCrawlerProjectRepository;
 import br.ufba.dcc.mestrado.computacao.repository.impl.OhLohCrawlerProjectRepositoryImpl;
 import br.ufba.dcc.mestrado.computacao.service.base.OhLohCrawlerProjectService;

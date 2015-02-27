@@ -1,4 +1,4 @@
-package br.ufba.dcc.mestrado.computacao.ohloh.entities;
+package br.ufba.dcc.mestrado.computacao.entities.ohloh.crawler;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -10,15 +10,15 @@ import javax.persistence.Table;
 import br.ufba.dcc.mestrado.computacao.entities.BaseEntity;
 
 @Entity
-@Table(name = OhLohCrawlerLanguageEntity.NODE_NAME)
-public class OhLohCrawlerLanguageEntity  implements BaseEntity<Long> {
+@Table(name = OhLohCrawlerLicenseEntity.NODE_NAME)
+public class OhLohCrawlerLicenseEntity  implements BaseEntity<Long> {
 
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = -4564980589922044448L;
 	
-	public final static String NODE_NAME = "crawler_language";
+	public final static String NODE_NAME = "crawler_license";
 	
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)

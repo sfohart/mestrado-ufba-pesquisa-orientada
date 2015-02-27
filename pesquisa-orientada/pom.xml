@@ -60,7 +60,7 @@
 		<java.version>1.7</java.version>
 		<jsp-api.version>2.2</jsp-api.version>
 
-		<jersey.version>2.11</jersey.version>
+		<jersey.version>2.16</jersey.version>
 		<joda-time.version>2.3</joda-time.version>
 		<junit.version>4.11</junit.version>
 
@@ -72,7 +72,7 @@
 
 		<hibernate.version>4.3.6.Final</hibernate.version>
 		<hibernate-search.version>4.5.1.Final</hibernate-search.version>
-		<postgresql.version>9.3-1101-jdbc4</postgresql.version>
+		<postgresql.version>9.3-1102-jdbc4</postgresql.version>
 		<hibernate-jpa-2.1-api.version>1.0.0.Final</hibernate-jpa-2.1-api.version>
 		<commons-lang3.version>3.3.2</commons-lang3.version>
 	</properties>

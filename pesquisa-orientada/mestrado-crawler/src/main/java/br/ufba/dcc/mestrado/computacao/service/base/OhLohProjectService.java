@@ -18,6 +18,7 @@ public interface OhLohProjectService extends DefaultOhLohService<OhLohProjectDTO
 	void reloadTagsFromDatabase(OhLohProjectEntity entity) throws Exception;
 	void reloadLicensesFromDatabase(OhLohProjectEntity entity) throws Exception;
 	void reloadAnalysisFromDatabase(OhLohProjectEntity entity) throws Exception;
+	public void reloadProjectActivityIndexFromDatabase(OhLohProjectEntity entity) throws Exception;
 	
 	Map<String, List<OhLohLinkEntity>> buildLinkMapByCategory(OhLohProjectEntity project);
 }
