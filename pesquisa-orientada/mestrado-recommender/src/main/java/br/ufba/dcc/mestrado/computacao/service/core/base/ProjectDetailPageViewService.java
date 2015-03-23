@@ -4,9 +4,9 @@ import java.util.List;
 
 import org.apache.commons.lang3.tuple.ImmutablePair;
 
-import br.ufba.dcc.mestrado.computacao.entities.ohloh.core.project.OpenHubProjectEntity;
-import br.ufba.dcc.mestrado.computacao.entities.ohloh.recommender.pageview.ProjectDetailPageViewEntity;
-import br.ufba.dcc.mestrado.computacao.entities.ohloh.recommender.user.UserEntity;
+import br.ufba.dcc.mestrado.computacao.entities.openhub.core.project.OpenHubProjectEntity;
+import br.ufba.dcc.mestrado.computacao.entities.openhub.recommender.pageview.ProjectDetailPageViewEntity;
+import br.ufba.dcc.mestrado.computacao.entities.openhub.recommender.user.UserEntity;
 import br.ufba.dcc.mestrado.computacao.service.base.BaseService;
 
 public interface ProjectDetailPageViewService extends BaseService<Long, ProjectDetailPageViewEntity> {

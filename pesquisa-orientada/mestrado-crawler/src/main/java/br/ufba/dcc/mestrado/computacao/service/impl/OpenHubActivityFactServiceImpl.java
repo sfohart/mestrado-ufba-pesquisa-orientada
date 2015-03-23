@@ -6,8 +6,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
-import br.ufba.dcc.mestrado.computacao.entities.ohloh.core.activityfact.OpenHubActivityFactEntity;
-import br.ufba.dcc.mestrado.computacao.entities.ohloh.core.project.OpenHubProjectEntity;
+import br.ufba.dcc.mestrado.computacao.entities.openhub.core.activityfact.OpenHubActivityFactEntity;
+import br.ufba.dcc.mestrado.computacao.entities.openhub.core.project.OpenHubProjectEntity;
 import br.ufba.dcc.mestrado.computacao.openhub.data.activityfact.OpenHubActivityFactDTO;
 import br.ufba.dcc.mestrado.computacao.repository.base.ActivityFactRepository;
 import br.ufba.dcc.mestrado.computacao.repository.impl.ActivityFactRepositoryImpl;

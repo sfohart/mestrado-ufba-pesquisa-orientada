@@ -6,7 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
-import br.ufba.dcc.mestrado.computacao.entities.ohloh.core.stack.OpenHubStackEntity;
+import br.ufba.dcc.mestrado.computacao.entities.openhub.core.stack.OpenHubStackEntity;
 import br.ufba.dcc.mestrado.computacao.repository.base.StackRepository;
 import br.ufba.dcc.mestrado.computacao.repository.impl.StackRepositoryImpl;
 import br.ufba.dcc.mestrado.computacao.service.base.ProjectService;

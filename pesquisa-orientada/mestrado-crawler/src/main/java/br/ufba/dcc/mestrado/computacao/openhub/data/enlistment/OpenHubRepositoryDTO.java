@@ -2,7 +2,7 @@ package br.ufba.dcc.mestrado.computacao.openhub.data.enlistment;
 
 import java.sql.Timestamp;
 
-import br.ufba.dcc.mestrado.computacao.entities.ohloh.core.enlistment.OpenHubRepositoryTypeEnum;
+import br.ufba.dcc.mestrado.computacao.entities.openhub.core.enlistment.OpenHubRepositoryTypeEnum;
 import br.ufba.dcc.mestrado.computacao.openhub.data.OpenHubResultDTO;
 import br.ufba.dcc.mestrado.computacao.xstream.converters.NullableISO8601SqlTimestampXStreamConverter;
 import br.ufba.dcc.mestrado.computacao.xstream.converters.NullableLongXStreamConverter;

@@ -1,5 +1,6 @@
 package br.ufba.dcc.mestrado.computacao.service.impl;
 
+import java.io.Serializable;
 import java.util.List;
 
 import org.springframework.transaction.annotation.Transactional;
@@ -8,7 +9,7 @@ import br.ufba.dcc.mestrado.computacao.entities.BaseEntity;
 import br.ufba.dcc.mestrado.computacao.repository.base.BaseRepository;
 import br.ufba.dcc.mestrado.computacao.service.base.BaseService;
 
-public abstract class BaseServiceImpl<ID extends Number, E extends BaseEntity<ID>>
+public abstract class BaseServiceImpl<ID extends Serializable, E extends BaseEntity<ID>>
 		implements BaseService<ID, E> {
 
 	/**

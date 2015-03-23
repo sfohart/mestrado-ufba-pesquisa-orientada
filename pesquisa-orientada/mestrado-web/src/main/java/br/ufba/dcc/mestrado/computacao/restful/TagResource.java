@@ -15,7 +15,7 @@ import org.glassfish.jersey.server.JSONP;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import br.ufba.dcc.mestrado.computacao.entities.ohloh.core.project.OpenHubTagEntity;
+import br.ufba.dcc.mestrado.computacao.entities.openhub.core.project.OpenHubTagEntity;
 import br.ufba.dcc.mestrado.computacao.service.base.TagService;
 
 @Component

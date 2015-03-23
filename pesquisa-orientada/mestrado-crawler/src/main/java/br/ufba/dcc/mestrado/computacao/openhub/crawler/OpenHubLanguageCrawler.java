@@ -6,7 +6,7 @@ import java.util.logging.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import br.ufba.dcc.mestrado.computacao.entities.ohloh.crawler.OpenHubCrawlerLanguageEntity;
+import br.ufba.dcc.mestrado.computacao.entities.openhub.crawler.OpenHubCrawlerLanguageEntity;
 import br.ufba.dcc.mestrado.computacao.openhub.data.language.OpenHubLanguageDTO;
 import br.ufba.dcc.mestrado.computacao.openhub.data.language.OpenHubLanguageResult;
 import br.ufba.dcc.mestrado.computacao.openhub.restful.client.OpenHubRestfulClientImpl;

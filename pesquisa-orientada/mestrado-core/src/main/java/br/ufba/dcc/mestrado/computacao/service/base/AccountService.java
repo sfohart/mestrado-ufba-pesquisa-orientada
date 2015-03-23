@@ -2,7 +2,7 @@ package br.ufba.dcc.mestrado.computacao.service.base;
 
 import java.util.List;
 
-import br.ufba.dcc.mestrado.computacao.entities.ohloh.core.account.OpenHubAccountEntity;
+import br.ufba.dcc.mestrado.computacao.entities.openhub.core.account.OpenHubAccountEntity;
 
 public interface AccountService extends BaseService<Long, OpenHubAccountEntity>{
 

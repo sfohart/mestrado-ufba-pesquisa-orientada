@@ -10,8 +10,8 @@ import javax.persistence.criteria.Root;
 
 import org.springframework.stereotype.Repository;
 
-import br.ufba.dcc.mestrado.computacao.entities.ohloh.core.project.OpenHubProjectActivityIndexEntity;
-import br.ufba.dcc.mestrado.computacao.entities.ohloh.core.project.OpenHubTagEntity;
+import br.ufba.dcc.mestrado.computacao.entities.openhub.core.project.OpenHubProjectActivityIndexEntity;
+import br.ufba.dcc.mestrado.computacao.entities.openhub.core.project.OpenHubTagEntity;
 import br.ufba.dcc.mestrado.computacao.repository.base.ProjectActivityIndexRepository;
 
 @Repository(ProjectActivityIndexRepositoryImpl.BEAN_NAME)

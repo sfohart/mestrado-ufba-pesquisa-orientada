@@ -4,7 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
-import br.ufba.dcc.mestrado.computacao.entities.ohloh.recommender.criterium.RecommenderCriteriumEntity;
+import br.ufba.dcc.mestrado.computacao.entities.openhub.recommender.criterium.RecommenderCriteriumEntity;
 import br.ufba.dcc.mestrado.computacao.repository.base.RecommenderCriteriumRepository;
 import br.ufba.dcc.mestrado.computacao.service.core.base.RecommenderCriteriumService;
 import br.ufba.dcc.mestrado.computacao.service.impl.BaseServiceImpl;

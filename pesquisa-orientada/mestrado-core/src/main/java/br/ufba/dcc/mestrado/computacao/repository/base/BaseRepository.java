@@ -5,7 +5,7 @@ import java.util.List;
 
 import br.ufba.dcc.mestrado.computacao.entities.BaseEntity;
 
-public interface BaseRepository<ID extends Number, E extends BaseEntity<ID>> extends Serializable {
+public interface BaseRepository<ID extends Serializable, E extends BaseEntity<ID>> extends Serializable {
 
 	public Long countAll();
 	public List<E> findAll();	

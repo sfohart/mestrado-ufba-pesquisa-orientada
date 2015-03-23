@@ -3,7 +3,7 @@ package br.ufba.dcc.mestrado.computacao.service.core.base;
 import java.io.Serializable;
 import java.util.List;
 
-import br.ufba.dcc.mestrado.computacao.entities.ohloh.core.project.OpenHubProjectEntity;
+import br.ufba.dcc.mestrado.computacao.entities.openhub.core.project.OpenHubProjectEntity;
 
 public interface BaseColaborativeFilteringService extends Serializable {
 	

@@ -1,6 +1,6 @@
 package br.ufba.dcc.mestrado.computacao.repository.base;
 
-import br.ufba.dcc.mestrado.computacao.entities.ohloh.crawler.OpenHubCrawlerLanguageEntity;
+import br.ufba.dcc.mestrado.computacao.entities.openhub.crawler.OpenHubCrawlerLanguageEntity;
 
 public interface OpenHubCrawlerLanguageRepository extends BaseRepository<Long, OpenHubCrawlerLanguageEntity>{
 	

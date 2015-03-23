@@ -33,10 +33,10 @@ import org.hibernate.search.query.facet.FacetSortOrder;
 import org.hibernate.search.query.facet.FacetingRequest;
 import org.springframework.stereotype.Repository;
 
-import br.ufba.dcc.mestrado.computacao.entities.ohloh.core.analysis.OpenHubAnalysisEntity;
-import br.ufba.dcc.mestrado.computacao.entities.ohloh.core.analysis.OpenHubAnalysisLanguagesEntity;
-import br.ufba.dcc.mestrado.computacao.entities.ohloh.core.project.OpenHubProjectEntity;
-import br.ufba.dcc.mestrado.computacao.entities.ohloh.core.project.OpenHubTagEntity;
+import br.ufba.dcc.mestrado.computacao.entities.openhub.core.analysis.OpenHubAnalysisEntity;
+import br.ufba.dcc.mestrado.computacao.entities.openhub.core.analysis.OpenHubAnalysisLanguagesEntity;
+import br.ufba.dcc.mestrado.computacao.entities.openhub.core.project.OpenHubProjectEntity;
+import br.ufba.dcc.mestrado.computacao.entities.openhub.core.project.OpenHubTagEntity;
 import br.ufba.dcc.mestrado.computacao.repository.base.ProjectRepository;
 import br.ufba.dcc.mestrado.computacao.search.SearchFacetsEnum;
 import br.ufba.dcc.mestrado.computacao.search.SearchFieldsEnum;

@@ -5,7 +5,7 @@ import javax.persistence.TypedQuery;
 
 import org.springframework.stereotype.Repository;
 
-import br.ufba.dcc.mestrado.computacao.entities.ohloh.crawler.OpenHubCrawlerEnlistmentEntity;
+import br.ufba.dcc.mestrado.computacao.entities.openhub.crawler.OpenHubCrawlerEnlistmentEntity;
 import br.ufba.dcc.mestrado.computacao.repository.base.OpenHubCrawlerEnlistmentRepository;
 
 @Repository(OpenHubCrawlerEnlistmentRepositoryImpl.BEAN_NAME)

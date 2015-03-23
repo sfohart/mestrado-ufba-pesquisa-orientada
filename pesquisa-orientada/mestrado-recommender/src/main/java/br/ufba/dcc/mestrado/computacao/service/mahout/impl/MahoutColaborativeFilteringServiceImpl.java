@@ -24,11 +24,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import br.ufba.dcc.mestrado.computacao.entities.ohloh.core.project.OpenHubProjectEntity;
-import br.ufba.dcc.mestrado.computacao.entities.ohloh.core.project.OpenHubTagEntity;
-import br.ufba.dcc.mestrado.computacao.entities.ohloh.recommender.user.UserEntity;
+import br.ufba.dcc.mestrado.computacao.entities.openhub.core.project.OpenHubProjectEntity;
+import br.ufba.dcc.mestrado.computacao.entities.openhub.core.project.OpenHubTagEntity;
+import br.ufba.dcc.mestrado.computacao.entities.openhub.recommender.user.UserEntity;
 import br.ufba.dcc.mestrado.computacao.service.base.ProjectService;
-import br.ufba.dcc.mestrado.computacao.service.core.base.UserService;
+import br.ufba.dcc.mestrado.computacao.service.base.UserService;
 import br.ufba.dcc.mestrado.computacao.service.core.impl.BaseColaborativeFilteringServiceImpl;
 import br.ufba.dcc.mestrado.computacao.service.mahout.base.MahoutColaborativeFilteringService;
 import br.ufba.dcc.mestrado.computacao.service.mahout.base.MahoutDataModelService;

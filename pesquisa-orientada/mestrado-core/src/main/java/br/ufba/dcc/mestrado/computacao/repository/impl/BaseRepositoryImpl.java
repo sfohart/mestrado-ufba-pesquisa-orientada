@@ -1,5 +1,6 @@
 package br.ufba.dcc.mestrado.computacao.repository.impl;
 
+import java.io.Serializable;
 import java.util.List;
 import java.util.logging.Logger;
 
@@ -13,7 +14,7 @@ import javax.persistence.criteria.Root;
 import br.ufba.dcc.mestrado.computacao.entities.BaseEntity;
 import br.ufba.dcc.mestrado.computacao.repository.base.BaseRepository;
 
-public class BaseRepositoryImpl<ID extends Number, E extends BaseEntity<ID>>
+public class BaseRepositoryImpl<ID extends Serializable, E extends BaseEntity<ID>>
 	implements BaseRepository<ID, E> {
 	
 	private static Logger logger = Logger.getLogger(BaseRepositoryImpl.class.getName());

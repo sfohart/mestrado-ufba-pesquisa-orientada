@@ -2,7 +2,7 @@ package br.ufba.dcc.mestrado.computacao.dto.pageview;
 
 import java.io.Serializable;
 
-import br.ufba.dcc.mestrado.computacao.entities.ohloh.core.project.OpenHubProjectEntity;
+import br.ufba.dcc.mestrado.computacao.entities.openhub.core.project.OpenHubProjectEntity;
 
 public class ProjectDetailPageViewInfo implements Serializable {
 

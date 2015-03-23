@@ -16,8 +16,8 @@ import javax.persistence.criteria.Subquery;
 
 import org.springframework.stereotype.Repository;
 
-import br.ufba.dcc.mestrado.computacao.entities.ohloh.recommender.preference.PreferenceEntity;
-import br.ufba.dcc.mestrado.computacao.entities.ohloh.recommender.preference.PreferenceReviewEntity;
+import br.ufba.dcc.mestrado.computacao.entities.openhub.recommender.preference.PreferenceEntity;
+import br.ufba.dcc.mestrado.computacao.entities.openhub.recommender.preference.PreferenceReviewEntity;
 import br.ufba.dcc.mestrado.computacao.repository.base.PreferenceReviewRepository;
 
 @Repository(PreferenceReviewRepositoryImpl.BEAN_NAME)

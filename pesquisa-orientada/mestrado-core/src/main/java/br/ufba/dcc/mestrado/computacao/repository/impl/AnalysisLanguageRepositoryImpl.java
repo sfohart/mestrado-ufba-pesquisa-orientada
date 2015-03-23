@@ -2,7 +2,7 @@ package br.ufba.dcc.mestrado.computacao.repository.impl;
 
 import org.springframework.stereotype.Repository;
 
-import br.ufba.dcc.mestrado.computacao.entities.ohloh.core.analysis.OpenHubAnalysisLanguageEntity;
+import br.ufba.dcc.mestrado.computacao.entities.openhub.core.analysis.OpenHubAnalysisLanguageEntity;
 import br.ufba.dcc.mestrado.computacao.repository.base.AnalysisLanguageRepository;
 
 @Repository(AnalysisLanguageRepositoryImpl.BEAN_NAME)

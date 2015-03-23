@@ -29,9 +29,9 @@ import org.springframework.social.oauth2.GrantType;
 import org.springframework.social.oauth2.OAuth2Operations;
 import org.springframework.social.oauth2.OAuth2Parameters;
 
-import br.ufba.dcc.mestrado.computacao.entities.ohloh.recommender.user.UserEntity;
+import br.ufba.dcc.mestrado.computacao.entities.openhub.recommender.user.UserEntity;
+import br.ufba.dcc.mestrado.computacao.service.base.UserService;
 import br.ufba.dcc.mestrado.computacao.service.basic.RepositoryBasedUserDetailsService;
-import br.ufba.dcc.mestrado.computacao.service.core.base.UserService;
 import br.ufba.dcc.mestrado.computacao.social.permissions.EmailFacebookPermissions;
 import br.ufba.dcc.mestrado.computacao.social.permissions.ExtendedPublishFacebookPermissions;
 import br.ufba.dcc.mestrado.computacao.social.permissions.ExtendedReadFacebookPermissions;
