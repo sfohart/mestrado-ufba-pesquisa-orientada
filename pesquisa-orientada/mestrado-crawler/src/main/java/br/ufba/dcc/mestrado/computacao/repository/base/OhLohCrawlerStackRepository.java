@@ -1,9 +1,0 @@
-package br.ufba.dcc.mestrado.computacao.repository.base;
-
-import br.ufba.dcc.mestrado.computacao.entities.ohloh.crawler.OhLohCrawlerStackEntity;
-
-public interface OhLohCrawlerStackRepository extends BaseRepository<Long, OhLohCrawlerStackEntity>{
-	
-	public OhLohCrawlerStackEntity findCrawlerConfig();
-	
-}

@@ -8,7 +8,7 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.faces.event.ActionEvent;
 
-import br.ufba.dcc.mestrado.computacao.entities.ohloh.core.project.OhLohTagEntity;
+import br.ufba.dcc.mestrado.computacao.entities.ohloh.core.project.OpenHubTagEntity;
 
 import com.ocpsoft.pretty.faces.annotation.URLMapping;
 import com.ocpsoft.pretty.faces.annotation.URLMappings;
@@ -45,13 +45,13 @@ public class AccountInterestTagsManagedBean extends AccountManagedBean {
 	}
 	
 	public void addInterestTags(ActionEvent event) {
-		Set<OhLohTagEntity> allTags = new HashSet<>();
+		Set<OpenHubTagEntity> allTags = new HashSet<>();
 		allTags.addAll(getAccount().getInterestTags());
 		
 		if (selectedInterestTags != null && ! "".equals(selectedInterestTags)) {
 			String[] arraySelectedTags = selectedInterestTags.split(",");
 			for (String selectedTag : arraySelectedTags) {
-				OhLohTagEntity tag = getTagService().findByName(selectedTag);
+				OpenHubTagEntity tag = getTagService().findByName(selectedTag);
 				allTags.add(tag);
 			}
 		}
@@ -74,7 +74,7 @@ public class AccountInterestTagsManagedBean extends AccountManagedBean {
 	}
 	
 	public void removeInterestTags(ActionEvent event) {
-		OhLohTagEntity tag = (OhLohTagEntity)
+		OpenHubTagEntity tag = (OpenHubTagEntity)
 				event.getComponent().getAttributes().get("tag");
 		
 		if (getAccount().getInterestTags() != null) {

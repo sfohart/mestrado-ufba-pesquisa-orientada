@@ -2,12 +2,12 @@ package br.ufba.dcc.mestrado.computacao.repository.base;
 
 import java.util.List;
 
-import br.ufba.dcc.mestrado.computacao.entities.ohloh.core.project.OhLohTagEntity;
+import br.ufba.dcc.mestrado.computacao.entities.ohloh.core.project.OpenHubTagEntity;
 
-public interface TagRepository extends BaseRepository<Long, OhLohTagEntity>{
+public interface TagRepository extends BaseRepository<Long, OpenHubTagEntity>{
 
-	public OhLohTagEntity findByName(String name);
+	public OpenHubTagEntity findByName(String name);
 
-	public List<OhLohTagEntity> findTagListByName(String name);
+	public List<OpenHubTagEntity> findTagListByName(String name);
 	
 }

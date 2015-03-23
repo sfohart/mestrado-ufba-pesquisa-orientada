@@ -13,7 +13,7 @@ import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 import javax.faces.event.ComponentSystemEvent;
 
-import br.ufba.dcc.mestrado.computacao.entities.ohloh.core.project.OhLohProjectEntity;
+import br.ufba.dcc.mestrado.computacao.entities.ohloh.core.project.OpenHubProjectEntity;
 import br.ufba.dcc.mestrado.computacao.entities.ohloh.recommender.preference.PreferenceEntity;
 import br.ufba.dcc.mestrado.computacao.service.core.base.OverallRatingService;
 
@@ -30,7 +30,7 @@ public class ProjectCompareManagedBean extends ProjectManagedBean {
 	@ManagedProperty("#{overallRatingService}")
 	private OverallRatingService overallRatingService;
 	
-	private List<OhLohProjectEntity> projectList;
+	private List<OpenHubProjectEntity> projectList;
 	
 	private Map<Long, PreferenceEntity> averagePreferenceMap;
 	
@@ -48,7 +48,7 @@ public class ProjectCompareManagedBean extends ProjectManagedBean {
 		this.overallRatingService = overallRatingService;
 	}
 
-	public List<OhLohProjectEntity> getProjectList() {
+	public List<OpenHubProjectEntity> getProjectList() {
 		return projectList;
 	}
 	
@@ -91,7 +91,7 @@ public class ProjectCompareManagedBean extends ProjectManagedBean {
 					Long projectId = Long.valueOf(projectIdParam);
 					
 					if (projectId != null) {
-						OhLohProjectEntity project = getProjectService().findById(projectId);
+						OpenHubProjectEntity project = getProjectService().findById(projectId);
 						this.projectList.add(project);
 						
 						PreferenceEntity averagePreference = getOverallRatingService().averagePreferenceByItem(projectId);

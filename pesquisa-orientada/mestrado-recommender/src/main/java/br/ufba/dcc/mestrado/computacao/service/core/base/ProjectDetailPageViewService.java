@@ -4,7 +4,7 @@ import java.util.List;
 
 import org.apache.commons.lang3.tuple.ImmutablePair;
 
-import br.ufba.dcc.mestrado.computacao.entities.ohloh.core.project.OhLohProjectEntity;
+import br.ufba.dcc.mestrado.computacao.entities.ohloh.core.project.OpenHubProjectEntity;
 import br.ufba.dcc.mestrado.computacao.entities.ohloh.recommender.pageview.ProjectDetailPageViewEntity;
 import br.ufba.dcc.mestrado.computacao.entities.ohloh.recommender.user.UserEntity;
 import br.ufba.dcc.mestrado.computacao.service.base.BaseService;
@@ -16,7 +16,7 @@ public interface ProjectDetailPageViewService extends BaseService<Long, ProjectD
 	 * @return 	uma lista de pares do tipo (userId,itemId), 
 	 * 			onde userId é o id do usuário, e itemId é o id do projeto que o usuário visualizou  
 	 */
-	List<ImmutablePair<UserEntity, OhLohProjectEntity>> findAllProjectDetailViews();
+	List<ImmutablePair<UserEntity, OpenHubProjectEntity>> findAllProjectDetailViews();
 	
 	
 	/**
@@ -24,7 +24,7 @@ public interface ProjectDetailPageViewService extends BaseService<Long, ProjectD
 	 * @return 	uma lista de pares do tipo (userId,itemId), 
 	 * 			onde userId é o id do usuário, e itemId é o id do projeto que o usuário visualizou  
 	 */
-	List<ImmutablePair<UserEntity, OhLohProjectEntity>> findAllProjectDetailViews(
+	List<ImmutablePair<UserEntity, OpenHubProjectEntity>> findAllProjectDetailViews(
 			Integer startAt, 
 			Integer offset);
 	
@@ -35,7 +35,7 @@ public interface ProjectDetailPageViewService extends BaseService<Long, ProjectD
 	 * @param offset
 	 * @return
 	 */
-	List<OhLohProjectEntity> findAllProjectRecentlyViewed(
+	List<OpenHubProjectEntity> findAllProjectRecentlyViewed(
 			UserEntity user,
 			Integer startAt, 
 			Integer offset);
@@ -44,13 +44,13 @@ public interface ProjectDetailPageViewService extends BaseService<Long, ProjectD
 	 * 
 	 * @return
 	 */
-	List<ImmutablePair<OhLohProjectEntity, Long>> findAllProjectDetailViewsCount();
+	List<ImmutablePair<OpenHubProjectEntity, Long>> findAllProjectDetailViewsCount();
 	
 	/**
 	 * 
 	 * @return
 	 */
-	List<ImmutablePair<OhLohProjectEntity, Long>> findAllProjectDetailViewsCount(
+	List<ImmutablePair<OpenHubProjectEntity, Long>> findAllProjectDetailViewsCount(
 			Integer startAt, 
 			Integer offset);
 	

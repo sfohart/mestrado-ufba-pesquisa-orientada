@@ -10,10 +10,10 @@ import javax.faces.context.FacesContext;
 import javax.faces.event.ComponentSystemEvent;
 import javax.servlet.http.HttpServletRequest;
 
-import br.ufba.dcc.mestrado.computacao.entities.ohloh.core.analysis.OhLohAnalysisLanguagesEntity;
-import br.ufba.dcc.mestrado.computacao.entities.ohloh.core.enlistment.OhLohEnlistmentEntity;
-import br.ufba.dcc.mestrado.computacao.entities.ohloh.core.factoid.OhLohFactoidEntity;
-import br.ufba.dcc.mestrado.computacao.entities.ohloh.core.project.OhLohLinkEntity;
+import br.ufba.dcc.mestrado.computacao.entities.ohloh.core.analysis.OpenHubAnalysisLanguagesEntity;
+import br.ufba.dcc.mestrado.computacao.entities.ohloh.core.enlistment.OpenHubEnlistmentEntity;
+import br.ufba.dcc.mestrado.computacao.entities.ohloh.core.factoid.OpenHubFactoidEntity;
+import br.ufba.dcc.mestrado.computacao.entities.ohloh.core.project.OpenHubLinkEntity;
 import br.ufba.dcc.mestrado.computacao.entities.ohloh.recommender.pageview.ProjectDetailPageViewEntity;
 import br.ufba.dcc.mestrado.computacao.entities.ohloh.recommender.preference.PreferenceEntity;
 import br.ufba.dcc.mestrado.computacao.entities.ohloh.recommender.user.UserEntity;
@@ -61,13 +61,13 @@ public class ProjectDetailManageBean extends ProjectManagedBean {
 	private ProjectDetailPageViewService pageViewService;
 	
 	
-	private List<OhLohFactoidEntity> factoidList;
-	private OhLohAnalysisLanguagesEntity analysisLanguages;
+	private List<OpenHubFactoidEntity> factoidList;
+	private OpenHubAnalysisLanguagesEntity analysisLanguages;
 		
-	private List<OhLohEnlistmentEntity> enlistmentList;
+	private List<OpenHubEnlistmentEntity> enlistmentList;
 	private Long enlistmentCount;
 	
-	private List<OhLohLinkEntity> linkList;
+	private List<OpenHubLinkEntity> linkList;
 	private Long linkCount;
 	
 	private Long overallPreferenceCount;
@@ -198,11 +198,11 @@ public class ProjectDetailManageBean extends ProjectManagedBean {
 		this.pageViewService = pageViewService;
 	}
 
-	public List<OhLohEnlistmentEntity> getEnlistmentList() {
+	public List<OpenHubEnlistmentEntity> getEnlistmentList() {
 		return enlistmentList;
 	}
 	
-	public List<OhLohLinkEntity> getLinkList() {
+	public List<OpenHubLinkEntity> getLinkList() {
 		return linkList;
 	}
 	
@@ -218,11 +218,11 @@ public class ProjectDetailManageBean extends ProjectManagedBean {
 		return projectDescritionParagraphs;
 	}
 	
-	public List<OhLohFactoidEntity> getFactoidList() {
+	public List<OpenHubFactoidEntity> getFactoidList() {
 		return factoidList;
 	}
 	
-	public OhLohAnalysisLanguagesEntity getAnalysisLanguages() {
+	public OpenHubAnalysisLanguagesEntity getAnalysisLanguages() {
 		return analysisLanguages;
 	}
 	

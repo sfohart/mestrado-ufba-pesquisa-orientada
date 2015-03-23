@@ -6,7 +6,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
-import br.ufba.dcc.mestrado.computacao.entities.ohloh.core.project.OhLohProjectEntity;
+import br.ufba.dcc.mestrado.computacao.entities.ohloh.core.project.OpenHubProjectEntity;
 
 
 @Entity
@@ -26,7 +26,7 @@ public class ProjectDetailPageViewEntity extends PageViewEntity {
 
 	@ManyToOne(optional=false)
 	@JoinColumn(name = "project_id", referencedColumnName = "id")
-	private OhLohProjectEntity project;
+	private OpenHubProjectEntity project;
 
 	public Long getProjectId() {
 		return projectId;
@@ -36,11 +36,11 @@ public class ProjectDetailPageViewEntity extends PageViewEntity {
 		this.projectId = projectId;
 	}
 
-	public OhLohProjectEntity getProject() {
+	public OpenHubProjectEntity getProject() {
 		return project;
 	}
 
-	public void setProject(OhLohProjectEntity project) {
+	public void setProject(OpenHubProjectEntity project) {
 		this.project = project;
 	}
 	

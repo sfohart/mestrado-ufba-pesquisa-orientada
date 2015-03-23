@@ -13,7 +13,7 @@ import org.hibernate.search.jpa.FullTextEntityManager;
 import org.hibernate.search.jpa.Search;
 import org.springframework.stereotype.Component;
 
-import br.ufba.dcc.mestrado.computacao.entities.ohloh.core.project.OhLohProjectEntity;
+import br.ufba.dcc.mestrado.computacao.entities.ohloh.core.project.OpenHubProjectEntity;
 import br.ufba.dcc.mestrado.computacao.service.base.IndexBuilderService;
 
 @Component(HibernateIndexBuilderService.BEAN_NAME)
@@ -36,7 +36,7 @@ public class HibernateIndexBuilderService implements IndexBuilderService {
 	public void buildIndex() throws InterruptedException, ExecutionException {
 		FullTextEntityManager fullTextEntityManager = Search.getFullTextEntityManager(getEntityManager());
 		MassIndexer massIndexer = fullTextEntityManager.createIndexer(
-				OhLohProjectEntity.class
+				OpenHubProjectEntity.class
 				);
 		
 		

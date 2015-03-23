@@ -5,7 +5,7 @@ import java.util.Map;
 
 import org.apache.commons.lang3.tuple.ImmutablePair;
 
-import br.ufba.dcc.mestrado.computacao.entities.ohloh.core.project.OhLohProjectEntity;
+import br.ufba.dcc.mestrado.computacao.entities.ohloh.core.project.OpenHubProjectEntity;
 import br.ufba.dcc.mestrado.computacao.entities.ohloh.recommender.preference.PreferenceEntity;
 
 public interface OverallRatingRepository extends BaseRepository<Long, PreferenceEntity>{
@@ -69,7 +69,7 @@ public interface OverallRatingRepository extends BaseRepository<Long, Preference
 	 * 
 	 * @return
 	 */
-	List<ImmutablePair<OhLohProjectEntity, Long>> findRatingCountByProject(
+	List<ImmutablePair<OpenHubProjectEntity, Long>> findRatingCountByProject(
 			Integer startAt, 
 			Integer offset);
 

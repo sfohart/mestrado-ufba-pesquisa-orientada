@@ -12,7 +12,7 @@ import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
 import javax.faces.event.ComponentSystemEvent;
 
-import br.ufba.dcc.mestrado.computacao.entities.ohloh.core.project.OhLohProjectEntity;
+import br.ufba.dcc.mestrado.computacao.entities.ohloh.core.project.OpenHubProjectEntity;
 import br.ufba.dcc.mestrado.computacao.entities.ohloh.recommender.preference.PreferenceEntity;
 import br.ufba.dcc.mestrado.computacao.entities.ohloh.recommender.preference.PreferenceReviewEntity;
 import br.ufba.dcc.mestrado.computacao.entities.ohloh.recommender.user.UserEntity;
@@ -47,7 +47,7 @@ public class ProjectReviewListManagedBean extends AbstractReviewVotingManagedBea
 	 */
 	private static final long serialVersionUID = 6210634487899266367L;
 	
-	private OhLohProjectEntity project;
+	private OpenHubProjectEntity project;
 	
 	private UserEntity user;
 	
@@ -79,7 +79,7 @@ public class ProjectReviewListManagedBean extends AbstractReviewVotingManagedBea
 	private List<PreferenceEntity> preferenceList;
 		
 	public ProjectReviewListManagedBean() {
-		this.project = new OhLohProjectEntity();
+		this.project = new OpenHubProjectEntity();
 		this.user = new UserEntity();
 		
 		this.orderByRegisteredAt = false;
@@ -110,11 +110,11 @@ public class ProjectReviewListManagedBean extends AbstractReviewVotingManagedBea
 		this.totalReviews = totalReviews;
 	}
 	
-	public OhLohProjectEntity getProject() {
+	public OpenHubProjectEntity getProject() {
 		return project;
 	}
 	
-	public void setProject(OhLohProjectEntity project) {
+	public void setProject(OpenHubProjectEntity project) {
 		this.project = project;
 	}
 	

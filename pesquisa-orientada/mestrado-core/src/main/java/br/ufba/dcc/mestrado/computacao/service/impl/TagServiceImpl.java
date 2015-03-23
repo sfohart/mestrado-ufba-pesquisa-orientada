@@ -6,13 +6,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
-import br.ufba.dcc.mestrado.computacao.entities.ohloh.core.project.OhLohTagEntity;
+import br.ufba.dcc.mestrado.computacao.entities.ohloh.core.project.OpenHubTagEntity;
 import br.ufba.dcc.mestrado.computacao.repository.base.TagRepository;
 import br.ufba.dcc.mestrado.computacao.repository.impl.TagRepositoryImpl;
 import br.ufba.dcc.mestrado.computacao.service.base.TagService;
 
 @Service(TagServiceImpl.BEAN_NAME)
-public class TagServiceImpl extends BaseServiceImpl<Long, OhLohTagEntity>
+public class TagServiceImpl extends BaseServiceImpl<Long, OpenHubTagEntity>
 		implements TagService {
 	
 	/**
@@ -25,17 +25,17 @@ public class TagServiceImpl extends BaseServiceImpl<Long, OhLohTagEntity>
 
 	@Autowired
 	public TagServiceImpl(@Qualifier(TagRepositoryImpl.BEAN_NAME) TagRepository repository) {
-		super(repository, OhLohTagEntity.class);
+		super(repository, OpenHubTagEntity.class);
 	}
 
 
 	@Override
-	public List<OhLohTagEntity> findTagListByName(String name) {
+	public List<OpenHubTagEntity> findTagListByName(String name) {
 		return ((TagRepository) getRepository()).findTagListByName(name);
 	}
 	
 	@Override
-	public OhLohTagEntity findByName(String name) {
+	public OpenHubTagEntity findByName(String name) {
 		return ((TagRepository) getRepository()).findByName(name);
 	}
 

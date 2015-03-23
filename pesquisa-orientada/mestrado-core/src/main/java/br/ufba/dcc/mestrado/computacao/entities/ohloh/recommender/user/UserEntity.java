@@ -28,8 +28,8 @@ import javax.persistence.UniqueConstraint;
 import org.apache.commons.codec.binary.Hex;
 
 import br.ufba.dcc.mestrado.computacao.entities.BaseEntity;
-import br.ufba.dcc.mestrado.computacao.entities.ohloh.core.account.OhLohAccountEntity;
-import br.ufba.dcc.mestrado.computacao.entities.ohloh.core.project.OhLohTagEntity;
+import br.ufba.dcc.mestrado.computacao.entities.ohloh.core.account.OpenHubAccountEntity;
+import br.ufba.dcc.mestrado.computacao.entities.ohloh.core.project.OpenHubTagEntity;
 
 @Entity
 @Table(
@@ -52,7 +52,7 @@ public class UserEntity implements BaseEntity<Long>{
 	
 	@ManyToOne
 	@JoinColumn(name="ohloh_account_id", referencedColumnName="id")
-	private OhLohAccountEntity ohLohAccount;
+	private OpenHubAccountEntity ohLohAccount;
 		
 	private String login;
 	
@@ -102,7 +102,7 @@ public class UserEntity implements BaseEntity<Long>{
 			inverseJoinColumns=@JoinColumn(name = "tag_id", referencedColumnName="id"),
 			uniqueConstraints=@UniqueConstraint(columnNames={"user_id","tag_id"})
 			)
-	private List<OhLohTagEntity> interestTags;
+	private List<OpenHubTagEntity> interestTags;
 	
 	public Long getId() {
 		return id;
@@ -112,11 +112,11 @@ public class UserEntity implements BaseEntity<Long>{
 		this.id = id;
 	}
 
-	public OhLohAccountEntity getOhLohAccount() {
+	public OpenHubAccountEntity getOhLohAccount() {
 		return ohLohAccount;
 	}
 
-	public void setOhLohAccount(OhLohAccountEntity ohLohAccount) {
+	public void setOhLohAccount(OpenHubAccountEntity ohLohAccount) {
 		this.ohLohAccount = ohLohAccount;
 	}
 
@@ -267,11 +267,11 @@ public class UserEntity implements BaseEntity<Long>{
 		return encoded;
 	}
 	
-	public List<OhLohTagEntity> getInterestTags() {
+	public List<OpenHubTagEntity> getInterestTags() {
 		return this.interestTags;
 	}
 	
-	public void setInterestTags(List<OhLohTagEntity> interestTags) {
+	public void setInterestTags(List<OpenHubTagEntity> interestTags) {
 		this.interestTags = interestTags;
 	}
 	

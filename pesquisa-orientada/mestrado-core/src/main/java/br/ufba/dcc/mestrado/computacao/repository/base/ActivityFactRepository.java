@@ -2,23 +2,23 @@ package br.ufba.dcc.mestrado.computacao.repository.base;
 
 import java.util.List;
 
-import br.ufba.dcc.mestrado.computacao.entities.ohloh.core.activityfact.OhLohActivityFactEntity;
-import br.ufba.dcc.mestrado.computacao.entities.ohloh.core.project.OhLohProjectEntity;
+import br.ufba.dcc.mestrado.computacao.entities.ohloh.core.activityfact.OpenHubActivityFactEntity;
+import br.ufba.dcc.mestrado.computacao.entities.ohloh.core.project.OpenHubProjectEntity;
 
-public interface ActivityFactRepository extends BaseRepository<Long, OhLohActivityFactEntity>{
+public interface ActivityFactRepository extends BaseRepository<Long, OpenHubActivityFactEntity>{
 
 	/**
 	 * 
 	 * @param project
 	 * @return
 	 */
-	Long countAllByProject(OhLohProjectEntity project);
+	Long countAllByProject(OpenHubProjectEntity project);
 	
 	/**
 	 * 
 	 * @param project
 	 * @return
 	 */
-	List<OhLohActivityFactEntity> findByProject(OhLohProjectEntity project);
+	List<OpenHubActivityFactEntity> findByProject(OpenHubProjectEntity project);
 	
 }

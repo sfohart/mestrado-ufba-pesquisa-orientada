@@ -3,16 +3,16 @@ package br.ufba.dcc.mestrado.computacao.service.base;
 import java.util.List;
 import java.util.Map;
 
-import br.ufba.dcc.mestrado.computacao.entities.ohloh.core.project.OhLohLinkEntity;
-import br.ufba.dcc.mestrado.computacao.entities.ohloh.core.project.OhLohProjectEntity;
+import br.ufba.dcc.mestrado.computacao.entities.ohloh.core.project.OpenHubLinkEntity;
+import br.ufba.dcc.mestrado.computacao.entities.ohloh.core.project.OpenHubProjectEntity;
 
-public interface ProjectService extends BaseService<Long, OhLohProjectEntity>{
+public interface ProjectService extends BaseService<Long, OpenHubProjectEntity>{
 
 	Long countAll();
 	
-	OhLohProjectEntity findById(Long id);
+	OpenHubProjectEntity findById(Long id);
 	
-	List<OhLohProjectEntity> findAll(Integer startAt, Integer offset);
+	List<OpenHubProjectEntity> findAll(Integer startAt, Integer offset);
 
-	Map<String, List<OhLohLinkEntity>> buildLinkMapByCategory(OhLohProjectEntity project);
+	Map<String, List<OpenHubLinkEntity>> buildLinkMapByCategory(OpenHubProjectEntity project);
 }

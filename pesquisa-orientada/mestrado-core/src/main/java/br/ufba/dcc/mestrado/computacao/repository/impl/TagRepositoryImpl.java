@@ -13,11 +13,11 @@ import javax.persistence.criteria.Root;
 
 import org.springframework.stereotype.Repository;
 
-import br.ufba.dcc.mestrado.computacao.entities.ohloh.core.project.OhLohTagEntity;
+import br.ufba.dcc.mestrado.computacao.entities.ohloh.core.project.OpenHubTagEntity;
 import br.ufba.dcc.mestrado.computacao.repository.base.TagRepository;
 
 @Repository(TagRepositoryImpl.BEAN_NAME)
-public class TagRepositoryImpl extends BaseRepositoryImpl<Long, OhLohTagEntity>
+public class TagRepositoryImpl extends BaseRepositoryImpl<Long, OpenHubTagEntity>
 		implements TagRepository {
 	
 	public static final String BEAN_NAME =  "tagRepository";
@@ -28,47 +28,47 @@ public class TagRepositoryImpl extends BaseRepositoryImpl<Long, OhLohTagEntity>
 	private static final long serialVersionUID = 7801826722021443632L;
 
 	public TagRepositoryImpl() {
-		super(OhLohTagEntity.class);
+		super(OpenHubTagEntity.class);
 	}
 
 	@Override
-	public List<OhLohTagEntity> findTagListByName(String name) {
+	public List<OpenHubTagEntity> findTagListByName(String name) {
 		CriteriaBuilder criteriaBuilder = getEntityManager()
 				.getCriteriaBuilder();
-		CriteriaQuery<OhLohTagEntity> criteriaQuery = criteriaBuilder
+		CriteriaQuery<OpenHubTagEntity> criteriaQuery = criteriaBuilder
 				.createQuery(getEntityClass());
 
-		Root<OhLohTagEntity> root = criteriaQuery.from(getEntityClass());
-		CriteriaQuery<OhLohTagEntity> select = criteriaQuery.select(root);
+		Root<OpenHubTagEntity> root = criteriaQuery.from(getEntityClass());
+		CriteriaQuery<OpenHubTagEntity> select = criteriaQuery.select(root);
 		
 		Path<String> namePath = root.<String>get("name");
 		
 		Predicate namePredicate = criteriaBuilder.like(namePath, name + "%");
 		select.where(namePredicate);
 		
-		TypedQuery<OhLohTagEntity> query = getEntityManager().createQuery(
+		TypedQuery<OpenHubTagEntity> query = getEntityManager().createQuery(
 				criteriaQuery);
 		
 		return query.getResultList();
 	}
 	
 	@Override
-	public OhLohTagEntity findByName(String name) {
+	public OpenHubTagEntity findByName(String name) {
 		CriteriaBuilder criteriaBuilder = getEntityManager()
 				.getCriteriaBuilder();
-		CriteriaQuery<OhLohTagEntity> criteriaQuery = criteriaBuilder
+		CriteriaQuery<OpenHubTagEntity> criteriaQuery = criteriaBuilder
 				.createQuery(getEntityClass());
 
-		Root<OhLohTagEntity> root = criteriaQuery.from(getEntityClass());
-		CriteriaQuery<OhLohTagEntity> select = criteriaQuery.select(root);
+		Root<OpenHubTagEntity> root = criteriaQuery.from(getEntityClass());
+		CriteriaQuery<OpenHubTagEntity> select = criteriaQuery.select(root);
 
 		Predicate namePredicate = criteriaBuilder.equal(root.get("name"), name);
 		select.where(namePredicate);
 
-		TypedQuery<OhLohTagEntity> query = getEntityManager().createQuery(
+		TypedQuery<OpenHubTagEntity> query = getEntityManager().createQuery(
 				criteriaQuery);
 
-		OhLohTagEntity result = null;
+		OpenHubTagEntity result = null;
 
 		try {
 			result = query.getSingleResult();

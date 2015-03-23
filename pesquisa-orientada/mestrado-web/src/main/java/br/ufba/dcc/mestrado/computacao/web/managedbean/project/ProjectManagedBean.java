@@ -7,7 +7,7 @@ import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
 import javax.faces.event.ComponentSystemEvent;
 
-import br.ufba.dcc.mestrado.computacao.entities.ohloh.core.project.OhLohProjectEntity;
+import br.ufba.dcc.mestrado.computacao.entities.ohloh.core.project.OpenHubProjectEntity;
 import br.ufba.dcc.mestrado.computacao.service.base.ProjectService;
 
 @ManagedBean(name="projectMB")
@@ -23,10 +23,10 @@ public class ProjectManagedBean implements Serializable {
 	@ManagedProperty("#{projectService}")
 	private ProjectService projectService;
 	
-	private OhLohProjectEntity project;
+	private OpenHubProjectEntity project;
 
 	public ProjectManagedBean() {
-		this.project = new OhLohProjectEntity();
+		this.project = new OpenHubProjectEntity();
 	}
 	
 	public ProjectService getProjectService() {
@@ -37,17 +37,17 @@ public class ProjectManagedBean implements Serializable {
 		this.projectService = projectService;
 	}
 
-	public OhLohProjectEntity getProject() {
+	public OpenHubProjectEntity getProject() {
 		return project;
 	}
 
-	public void setProject(OhLohProjectEntity project) {
+	public void setProject(OpenHubProjectEntity project) {
 		this.project = project;
 	}
 	
 	public void init(ComponentSystemEvent event) {
 		if (getProject() != null && getProject().getId() != null) {
-			OhLohProjectEntity project = getProjectService().findById(getProject().getId());
+			OpenHubProjectEntity project = getProjectService().findById(getProject().getId());
 			setProject(project);
 		}
 	}

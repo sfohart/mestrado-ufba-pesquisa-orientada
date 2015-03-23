@@ -10,13 +10,13 @@ import javax.persistence.criteria.Root;
 
 import org.springframework.stereotype.Repository;
 
-import br.ufba.dcc.mestrado.computacao.entities.ohloh.core.project.OhLohProjectActivityIndexEntity;
-import br.ufba.dcc.mestrado.computacao.entities.ohloh.core.project.OhLohTagEntity;
+import br.ufba.dcc.mestrado.computacao.entities.ohloh.core.project.OpenHubProjectActivityIndexEntity;
+import br.ufba.dcc.mestrado.computacao.entities.ohloh.core.project.OpenHubTagEntity;
 import br.ufba.dcc.mestrado.computacao.repository.base.ProjectActivityIndexRepository;
 
 @Repository(ProjectActivityIndexRepositoryImpl.BEAN_NAME)
 public class ProjectActivityIndexRepositoryImpl
-		extends BaseRepositoryImpl<Long, OhLohProjectActivityIndexEntity>
+		extends BaseRepositoryImpl<Long, OpenHubProjectActivityIndexEntity>
 		implements ProjectActivityIndexRepository {
 	
 	/**
@@ -27,26 +27,26 @@ public class ProjectActivityIndexRepositoryImpl
 	public static final String BEAN_NAME =  "projectActivityIndexRepository";
 	
 	public ProjectActivityIndexRepositoryImpl() {
-		super(OhLohProjectActivityIndexEntity.class);
+		super(OpenHubProjectActivityIndexEntity.class);
 	}
 
 	@Override
-	public OhLohProjectActivityIndexEntity findByValue(Long value) {
+	public OpenHubProjectActivityIndexEntity findByValue(Long value) {
 		CriteriaBuilder criteriaBuilder = getEntityManager()
 				.getCriteriaBuilder();
-		CriteriaQuery<OhLohProjectActivityIndexEntity> criteriaQuery = criteriaBuilder
+		CriteriaQuery<OpenHubProjectActivityIndexEntity> criteriaQuery = criteriaBuilder
 				.createQuery(getEntityClass());
 
-		Root<OhLohProjectActivityIndexEntity> root = criteriaQuery.from(getEntityClass());
-		CriteriaQuery<OhLohProjectActivityIndexEntity> select = criteriaQuery.select(root);
+		Root<OpenHubProjectActivityIndexEntity> root = criteriaQuery.from(getEntityClass());
+		CriteriaQuery<OpenHubProjectActivityIndexEntity> select = criteriaQuery.select(root);
 
 		Predicate namePredicate = criteriaBuilder.equal(root.get("value"), value);
 		select.where(namePredicate);
 
-		TypedQuery<OhLohProjectActivityIndexEntity> query = getEntityManager().createQuery(
+		TypedQuery<OpenHubProjectActivityIndexEntity> query = getEntityManager().createQuery(
 				criteriaQuery);
 
-		OhLohProjectActivityIndexEntity result = null;
+		OpenHubProjectActivityIndexEntity result = null;
 
 		try {
 			result = query.getSingleResult();

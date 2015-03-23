@@ -1,10 +1,10 @@
 package br.ufba.dcc.mestrado.computacao.repository.base;
 
-import br.ufba.dcc.mestrado.computacao.entities.ohloh.core.project.OhLohProjectActivityIndexEntity;
+import br.ufba.dcc.mestrado.computacao.entities.ohloh.core.project.OpenHubProjectActivityIndexEntity;
 
-public interface ProjectActivityIndexRepository extends BaseRepository<Long, OhLohProjectActivityIndexEntity>{
+public interface ProjectActivityIndexRepository extends BaseRepository<Long, OpenHubProjectActivityIndexEntity>{
 
-	public OhLohProjectActivityIndexEntity findByValue(Long value);
+	public OpenHubProjectActivityIndexEntity findByValue(Long value);
 	
 	
 }

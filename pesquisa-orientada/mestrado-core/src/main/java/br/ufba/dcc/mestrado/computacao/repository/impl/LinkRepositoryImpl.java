@@ -12,12 +12,12 @@ import javax.persistence.criteria.Root;
 
 import org.springframework.stereotype.Repository;
 
-import br.ufba.dcc.mestrado.computacao.entities.ohloh.core.project.OhLohLinkEntity;
-import br.ufba.dcc.mestrado.computacao.entities.ohloh.core.project.OhLohProjectEntity;
+import br.ufba.dcc.mestrado.computacao.entities.ohloh.core.project.OpenHubLinkEntity;
+import br.ufba.dcc.mestrado.computacao.entities.ohloh.core.project.OpenHubProjectEntity;
 import br.ufba.dcc.mestrado.computacao.repository.base.LinkRepository;
 
 @Repository(LinkRepositoryImpl.BEAN_NAME)
-public class LinkRepositoryImpl extends BaseRepositoryImpl<Long, OhLohLinkEntity>
+public class LinkRepositoryImpl extends BaseRepositoryImpl<Long, OpenHubLinkEntity>
 		implements LinkRepository {
 	
 	public static final String BEAN_NAME =  "linkRepository";
@@ -28,15 +28,15 @@ public class LinkRepositoryImpl extends BaseRepositoryImpl<Long, OhLohLinkEntity
 	private static final long serialVersionUID = 7801826722021443632L;
 
 	public LinkRepositoryImpl() {
-		super(OhLohLinkEntity.class);
+		super(OpenHubLinkEntity.class);
 	}
 	
 	@Override
-	public Long countAllByProject(OhLohProjectEntity project) {
+	public Long countAllByProject(OpenHubProjectEntity project) {
 		CriteriaBuilder criteriaBuilder = getEntityManager().getCriteriaBuilder();
 		CriteriaQuery<Long> criteriaQuery = criteriaBuilder.createQuery(Long.class);
 		
-		Root<OhLohLinkEntity> root = criteriaQuery.from(getEntityClass());
+		Root<OpenHubLinkEntity> root = criteriaQuery.from(getEntityClass());
 		criteriaQuery = criteriaQuery.select(criteriaBuilder.count(root));
 		
 		
@@ -47,22 +47,22 @@ public class LinkRepositoryImpl extends BaseRepositoryImpl<Long, OhLohLinkEntity
 	}
 	
 	@Override
-	public List<OhLohLinkEntity> findByProject(OhLohProjectEntity project) {
+	public List<OpenHubLinkEntity> findByProject(OpenHubProjectEntity project) {
 		CriteriaBuilder criteriaBuilder = getEntityManager()
 				.getCriteriaBuilder();
-		CriteriaQuery<OhLohLinkEntity> criteriaQuery = criteriaBuilder
+		CriteriaQuery<OpenHubLinkEntity> criteriaQuery = criteriaBuilder
 				.createQuery(getEntityClass());
 
-		Root<OhLohLinkEntity> root = criteriaQuery.from(getEntityClass());
+		Root<OpenHubLinkEntity> root = criteriaQuery.from(getEntityClass());
 		criteriaQuery = criteriaQuery.select(root);
 
 		Predicate namePredicate = criteriaBuilder.equal(root.get("projectId"), project.getId());
 		criteriaQuery = criteriaQuery.where(namePredicate);
 
-		TypedQuery<OhLohLinkEntity> query = getEntityManager().createQuery(
+		TypedQuery<OpenHubLinkEntity> query = getEntityManager().createQuery(
 				criteriaQuery);
 
-		List<OhLohLinkEntity> result = null;
+		List<OpenHubLinkEntity> result = null;
 
 		try {
 			result = query.getResultList();

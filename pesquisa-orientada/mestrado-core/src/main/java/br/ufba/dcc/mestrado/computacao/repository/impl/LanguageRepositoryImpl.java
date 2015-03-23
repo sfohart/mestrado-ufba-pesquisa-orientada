@@ -10,11 +10,11 @@ import javax.persistence.criteria.Root;
 
 import org.springframework.stereotype.Repository;
 
-import br.ufba.dcc.mestrado.computacao.entities.ohloh.core.language.OhLohLanguageEntity;
+import br.ufba.dcc.mestrado.computacao.entities.ohloh.core.language.OpenHubLanguageEntity;
 import br.ufba.dcc.mestrado.computacao.repository.base.LanguageRepository;
 
 @Repository(LanguageRepositoryImpl.BEAN_NAME)
-public class LanguageRepositoryImpl extends BaseRepositoryImpl<Long, OhLohLanguageEntity>
+public class LanguageRepositoryImpl extends BaseRepositoryImpl<Long, OpenHubLanguageEntity>
 		implements LanguageRepository {
 
 	/**
@@ -25,26 +25,26 @@ public class LanguageRepositoryImpl extends BaseRepositoryImpl<Long, OhLohLangua
 	public static final String BEAN_NAME =  "languageRepository";
 
 	public LanguageRepositoryImpl() {
-		super(OhLohLanguageEntity.class);
+		super(OpenHubLanguageEntity.class);
 	}
 
 	@Override
-	public OhLohLanguageEntity findByName(String name) {
+	public OpenHubLanguageEntity findByName(String name) {
 		CriteriaBuilder criteriaBuilder = getEntityManager()
 				.getCriteriaBuilder();
-		CriteriaQuery<OhLohLanguageEntity> criteriaQuery = criteriaBuilder
+		CriteriaQuery<OpenHubLanguageEntity> criteriaQuery = criteriaBuilder
 				.createQuery(getEntityClass());
 
-		Root<OhLohLanguageEntity> root = criteriaQuery.from(getEntityClass());
-		CriteriaQuery<OhLohLanguageEntity> select = criteriaQuery.select(root);
+		Root<OpenHubLanguageEntity> root = criteriaQuery.from(getEntityClass());
+		CriteriaQuery<OpenHubLanguageEntity> select = criteriaQuery.select(root);
 
 		Predicate namePredicate = criteriaBuilder.equal(root.get("name"), name);
 		select.where(namePredicate);
 
-		TypedQuery<OhLohLanguageEntity> query = getEntityManager().createQuery(
+		TypedQuery<OpenHubLanguageEntity> query = getEntityManager().createQuery(
 				criteriaQuery);
 
-		OhLohLanguageEntity result = null;
+		OpenHubLanguageEntity result = null;
 
 		try {
 			result = query.getSingleResult();

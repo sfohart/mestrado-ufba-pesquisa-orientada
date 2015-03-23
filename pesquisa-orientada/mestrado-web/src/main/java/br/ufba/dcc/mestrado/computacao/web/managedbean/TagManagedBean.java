@@ -10,7 +10,7 @@ import javax.faces.bean.ViewScoped;
 import javax.faces.event.ActionEvent;
 import javax.faces.event.ComponentSystemEvent;
 
-import br.ufba.dcc.mestrado.computacao.entities.ohloh.core.project.OhLohTagEntity;
+import br.ufba.dcc.mestrado.computacao.entities.ohloh.core.project.OpenHubTagEntity;
 import br.ufba.dcc.mestrado.computacao.service.base.TagService;
 
 @ManagedBean(name="tagMB")
@@ -25,7 +25,7 @@ public class TagManagedBean implements Serializable {
 	@ManagedProperty("#{tagService}")
 	private TagService tagService;
 	
-	private List<OhLohTagEntity> tagList;
+	private List<OpenHubTagEntity> tagList;
 	
 	private Integer startPosition;
 	private Integer offset;
@@ -36,11 +36,11 @@ public class TagManagedBean implements Serializable {
 	
 	
 	
-	public List<OhLohTagEntity> getTagList() {
+	public List<OpenHubTagEntity> getTagList() {
 		return this.tagList;
 	}
 	
-	public void setTagList(List<OhLohTagEntity> tagList) {
+	public void setTagList(List<OpenHubTagEntity> tagList) {
 		this.tagList = tagList;
 	}
 	
@@ -78,7 +78,7 @@ public class TagManagedBean implements Serializable {
 	
 	public void initList(ComponentSystemEvent event) {
 		if (tagList == null) {
-			this.tagList = new ArrayList<OhLohTagEntity>();
+			this.tagList = new ArrayList<OpenHubTagEntity>();
 			this.startPosition = 0;
 			this.offset = 10;
 			this.totalTags = 0;
@@ -106,14 +106,14 @@ public class TagManagedBean implements Serializable {
 	}
 	
 	protected void searchTags() {
-		List<OhLohTagEntity> data = getTagService().findAll(startPosition, offset);
+		List<OpenHubTagEntity> data = getTagService().findAll(startPosition, offset);
 		
 		if (getTagList() == null) {
-			setTagList(new ArrayList<OhLohTagEntity>());
+			setTagList(new ArrayList<OpenHubTagEntity>());
 		}
 		
 		if (data != null) {
-			for (OhLohTagEntity tag : data) {
+			for (OpenHubTagEntity tag : data) {
 				if (getTagList().contains(tag)) {
 					getTagList().remove(tag);
 				}

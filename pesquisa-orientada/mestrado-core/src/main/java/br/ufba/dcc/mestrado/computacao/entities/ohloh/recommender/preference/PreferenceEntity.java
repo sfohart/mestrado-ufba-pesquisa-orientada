@@ -16,7 +16,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import br.ufba.dcc.mestrado.computacao.entities.BaseEntity;
-import br.ufba.dcc.mestrado.computacao.entities.ohloh.core.project.OhLohProjectEntity;
+import br.ufba.dcc.mestrado.computacao.entities.ohloh.core.project.OpenHubProjectEntity;
 import br.ufba.dcc.mestrado.computacao.entities.ohloh.recommender.user.UserEntity;
 
 @Entity
@@ -46,7 +46,7 @@ public class PreferenceEntity implements BaseEntity<Long> {
 
 	@ManyToOne
 	@JoinColumn(name = "project_id", referencedColumnName = "id")
-	private OhLohProjectEntity project;
+	private OpenHubProjectEntity project;
 	
 	@Column(name = "value_preference")
 	private Double value;
@@ -93,11 +93,11 @@ public class PreferenceEntity implements BaseEntity<Long> {
 		this.projectId = projectId;
 	}
 
-	public OhLohProjectEntity getProject() {
+	public OpenHubProjectEntity getProject() {
 		return project;
 	}
 
-	public void setProject(OhLohProjectEntity project) {
+	public void setProject(OpenHubProjectEntity project) {
 		this.project = project;
 	}
 

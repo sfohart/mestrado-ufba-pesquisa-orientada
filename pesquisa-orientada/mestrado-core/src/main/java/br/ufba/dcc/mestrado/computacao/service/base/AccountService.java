@@ -2,16 +2,16 @@ package br.ufba.dcc.mestrado.computacao.service.base;
 
 import java.util.List;
 
-import br.ufba.dcc.mestrado.computacao.entities.ohloh.core.account.OhLohAccountEntity;
+import br.ufba.dcc.mestrado.computacao.entities.ohloh.core.account.OpenHubAccountEntity;
 
-public interface AccountService extends BaseService<Long, OhLohAccountEntity>{
+public interface AccountService extends BaseService<Long, OpenHubAccountEntity>{
 
 	Long countAll();
 	
-	OhLohAccountEntity findById(Long id);
+	OpenHubAccountEntity findById(Long id);
 	
-	List<OhLohAccountEntity> findAll(Integer startAt, Integer offset);
+	List<OpenHubAccountEntity> findAll(Integer startAt, Integer offset);
 	
-	OhLohAccountEntity findByLogin(String login);
+	OpenHubAccountEntity findByLogin(String login);
 	
 }

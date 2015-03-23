@@ -7,7 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
-import br.ufba.dcc.mestrado.computacao.entities.ohloh.core.project.OhLohProjectEntity;
+import br.ufba.dcc.mestrado.computacao.entities.ohloh.core.project.OpenHubProjectEntity;
 import br.ufba.dcc.mestrado.computacao.entities.ohloh.recommender.pageview.ProjectDetailPageViewEntity;
 import br.ufba.dcc.mestrado.computacao.entities.ohloh.recommender.user.UserEntity;
 import br.ufba.dcc.mestrado.computacao.repository.base.ProjectDetailPageViewRepository;
@@ -37,18 +37,18 @@ public class ProjectDetailPageViewServiceImpl
 
 
 	@Override
-	public List<ImmutablePair<UserEntity, OhLohProjectEntity>> findAllProjectDetailViews() {
+	public List<ImmutablePair<UserEntity, OpenHubProjectEntity>> findAllProjectDetailViews() {
 		return ((ProjectDetailPageViewRepository) getRepository()).findAllProjectDetailViews();
 	}
 	
 	@Override
-	public List<ImmutablePair<UserEntity, OhLohProjectEntity>> findAllProjectDetailViews(Integer startAt, Integer offset) {
+	public List<ImmutablePair<UserEntity, OpenHubProjectEntity>> findAllProjectDetailViews(Integer startAt, Integer offset) {
 		return ((ProjectDetailPageViewRepository) getRepository()).findAllProjectDetailViews(startAt, offset);
 	}
 
 
 	@Override
-	public List<OhLohProjectEntity> findAllProjectRecentlyViewed(
+	public List<OpenHubProjectEntity> findAllProjectRecentlyViewed(
 			UserEntity user, Integer startAt, Integer offset) {
 		
 		return ((ProjectDetailPageViewRepository) getRepository())
@@ -57,13 +57,13 @@ public class ProjectDetailPageViewServiceImpl
 
 
 	@Override
-	public List<ImmutablePair<OhLohProjectEntity, Long>> findAllProjectDetailViewsCount() {
+	public List<ImmutablePair<OpenHubProjectEntity, Long>> findAllProjectDetailViewsCount() {
 		return ((ProjectDetailPageViewRepository) getRepository()).findAllProjectDetailViewsCount();
 	}
 
 
 	@Override
-	public List<ImmutablePair<OhLohProjectEntity, Long>> findAllProjectDetailViewsCount(Integer startAt, Integer offset) {
+	public List<ImmutablePair<OpenHubProjectEntity, Long>> findAllProjectDetailViewsCount(Integer startAt, Integer offset) {
 		return ((ProjectDetailPageViewRepository) getRepository()).findAllProjectDetailViewsCount(startAt, offset);
 	}
 

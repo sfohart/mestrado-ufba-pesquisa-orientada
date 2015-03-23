@@ -3,7 +3,7 @@ package br.ufba.dcc.mestrado.computacao.service.core.base;
 import java.io.Serializable;
 import java.util.List;
 
-import br.ufba.dcc.mestrado.computacao.entities.ohloh.core.project.OhLohProjectEntity;
+import br.ufba.dcc.mestrado.computacao.entities.ohloh.core.project.OpenHubProjectEntity;
 
 public interface BaseColaborativeFilteringService extends Serializable {
 	
@@ -13,7 +13,7 @@ public interface BaseColaborativeFilteringService extends Serializable {
 	 * @param howManyItems
 	 * @return
 	 */
-	List<OhLohProjectEntity> recommendViewedProjectsByUser(Long userId, Integer howManyItems);
+	List<OpenHubProjectEntity> recommendViewedProjectsByUser(Long userId, Integer howManyItems);
 	
 	/**
 	 * 
@@ -22,7 +22,7 @@ public interface BaseColaborativeFilteringService extends Serializable {
 	 * @param filterInterestTags
 	 * @return
 	 */
-	List<OhLohProjectEntity> recommendViewedProjectsByUser(Long userId, Integer howManyItems, boolean filterInterestTags);
+	List<OpenHubProjectEntity> recommendViewedProjectsByUser(Long userId, Integer howManyItems, boolean filterInterestTags);
 	
 	/**
 	 * 
@@ -30,7 +30,7 @@ public interface BaseColaborativeFilteringService extends Serializable {
 	 * @param howManyItems
 	 * @return
 	 */
-	List<OhLohProjectEntity> recommendRatingProjectsByUser(Long userId, Integer howManyItems);
+	List<OpenHubProjectEntity> recommendRatingProjectsByUser(Long userId, Integer howManyItems);
 	
 	/**
 	 * 
@@ -39,7 +39,7 @@ public interface BaseColaborativeFilteringService extends Serializable {
 	 * @param filterInterestTags
 	 * @return
 	 */
-	List<OhLohProjectEntity> recommendRatingProjectsByUser(Long userId, Integer howManyItems, boolean filterInterestTags);
+	List<OpenHubProjectEntity> recommendRatingProjectsByUser(Long userId, Integer howManyItems, boolean filterInterestTags);
 	
 	/**
 	 * 
@@ -47,6 +47,6 @@ public interface BaseColaborativeFilteringService extends Serializable {
 	 * @param howManyItems
 	 * @return
 	 */
-	List<OhLohProjectEntity> recommendViewedProjectsByItem(Long itemId, Integer howManyItems);
+	List<OpenHubProjectEntity> recommendViewedProjectsByItem(Long itemId, Integer howManyItems);
 
 }

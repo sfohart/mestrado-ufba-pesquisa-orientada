@@ -11,7 +11,7 @@ import javax.faces.event.ComponentSystemEvent;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 
-import br.ufba.dcc.mestrado.computacao.entities.ohloh.core.project.OhLohProjectEntity;
+import br.ufba.dcc.mestrado.computacao.entities.ohloh.core.project.OpenHubProjectEntity;
 import br.ufba.dcc.mestrado.computacao.entities.ohloh.recommender.preference.PreferenceEntity;
 import br.ufba.dcc.mestrado.computacao.entities.ohloh.recommender.preference.PreferenceReviewEntity;
 import br.ufba.dcc.mestrado.computacao.entities.ohloh.recommender.user.UserEntity;
@@ -39,7 +39,7 @@ public class ProjectSummaryReviewsManagedBean extends AbstractReviewVotingManage
 	 */
 	private static final long serialVersionUID = -8863511598108591199L;
 	
-	private OhLohProjectEntity project;
+	private OpenHubProjectEntity project;
 	
 	@ManagedProperty("#{projectService}")
 	private ProjectService projectService;
@@ -68,15 +68,15 @@ public class ProjectSummaryReviewsManagedBean extends AbstractReviewVotingManage
 	
 	
 	public ProjectSummaryReviewsManagedBean() {
-		this.project = new OhLohProjectEntity();
+		this.project = new OpenHubProjectEntity();
 		this.averagePreference = new PreferenceEntity();
 	}
 	
-	public OhLohProjectEntity getProject() {
+	public OpenHubProjectEntity getProject() {
 		return project;
 	}
 	
-	public void setProject(OhLohProjectEntity project) {
+	public void setProject(OpenHubProjectEntity project) {
 		this.project = project;
 	}
 	

@@ -12,12 +12,12 @@ import javax.persistence.criteria.Root;
 
 import org.springframework.stereotype.Repository;
 
-import br.ufba.dcc.mestrado.computacao.entities.ohloh.core.enlistment.OhLohEnlistmentEntity;
-import br.ufba.dcc.mestrado.computacao.entities.ohloh.core.project.OhLohProjectEntity;
+import br.ufba.dcc.mestrado.computacao.entities.ohloh.core.enlistment.OpenHubEnlistmentEntity;
+import br.ufba.dcc.mestrado.computacao.entities.ohloh.core.project.OpenHubProjectEntity;
 import br.ufba.dcc.mestrado.computacao.repository.base.EnlistmentRepository;
 
 @Repository(EnlistmentRepositoryImpl.BEAN_NAME)
-public class EnlistmentRepositoryImpl extends BaseRepositoryImpl<Long, OhLohEnlistmentEntity>
+public class EnlistmentRepositoryImpl extends BaseRepositoryImpl<Long, OpenHubEnlistmentEntity>
 		implements EnlistmentRepository {
 	
 	public static final String BEAN_NAME =  "enlistmentRepository";
@@ -28,15 +28,15 @@ public class EnlistmentRepositoryImpl extends BaseRepositoryImpl<Long, OhLohEnli
 	private static final long serialVersionUID = 7801826722021443632L;
 
 	public EnlistmentRepositoryImpl() {
-		super(OhLohEnlistmentEntity.class);
+		super(OpenHubEnlistmentEntity.class);
 	}
 	
 	@Override
-	public Long countAllByProject(OhLohProjectEntity project) {
+	public Long countAllByProject(OpenHubProjectEntity project) {
 		CriteriaBuilder criteriaBuilder = getEntityManager().getCriteriaBuilder();
 		CriteriaQuery<Long> criteriaQuery = criteriaBuilder.createQuery(Long.class);
 		
-		Root<OhLohEnlistmentEntity> root = criteriaQuery.from(getEntityClass());
+		Root<OpenHubEnlistmentEntity> root = criteriaQuery.from(getEntityClass());
 		CriteriaQuery<Long> select = criteriaQuery.select(criteriaBuilder.count(root));
 		
 		
@@ -47,22 +47,22 @@ public class EnlistmentRepositoryImpl extends BaseRepositoryImpl<Long, OhLohEnli
 	}
 	
 	@Override
-	public List<OhLohEnlistmentEntity> findByProject(OhLohProjectEntity project) {
+	public List<OpenHubEnlistmentEntity> findByProject(OpenHubProjectEntity project) {
 		CriteriaBuilder criteriaBuilder = getEntityManager()
 				.getCriteriaBuilder();
-		CriteriaQuery<OhLohEnlistmentEntity> criteriaQuery = criteriaBuilder
+		CriteriaQuery<OpenHubEnlistmentEntity> criteriaQuery = criteriaBuilder
 				.createQuery(getEntityClass());
 
-		Root<OhLohEnlistmentEntity> root = criteriaQuery.from(getEntityClass());
-		CriteriaQuery<OhLohEnlistmentEntity> select = criteriaQuery.select(root);
+		Root<OpenHubEnlistmentEntity> root = criteriaQuery.from(getEntityClass());
+		CriteriaQuery<OpenHubEnlistmentEntity> select = criteriaQuery.select(root);
 
 		Predicate namePredicate = criteriaBuilder.equal(root.get("projectId"), project.getId());
 		select.where(namePredicate);
 
-		TypedQuery<OhLohEnlistmentEntity> query = getEntityManager().createQuery(
+		TypedQuery<OpenHubEnlistmentEntity> query = getEntityManager().createQuery(
 				criteriaQuery);
 
-		List<OhLohEnlistmentEntity> result = null;
+		List<OpenHubEnlistmentEntity> result = null;
 
 		try {
 			result = query.getResultList();

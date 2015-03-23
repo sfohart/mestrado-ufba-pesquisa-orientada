@@ -1,9 +1,9 @@
 package br.ufba.dcc.mestrado.computacao.service.base;
 
-import br.ufba.dcc.mestrado.computacao.entities.ohloh.core.project.OhLohProjectActivityIndexEntity;
+import br.ufba.dcc.mestrado.computacao.entities.ohloh.core.project.OpenHubProjectActivityIndexEntity;
 
-public interface ProjectActivityIndexService extends BaseService<Long, OhLohProjectActivityIndexEntity>{
+public interface ProjectActivityIndexService extends BaseService<Long, OpenHubProjectActivityIndexEntity>{
 	
-	public OhLohProjectActivityIndexEntity findByValue(Long value);
+	public OpenHubProjectActivityIndexEntity findByValue(Long value);
 	
 }

@@ -15,7 +15,7 @@ import org.glassfish.jersey.server.JSONP;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import br.ufba.dcc.mestrado.computacao.entities.ohloh.core.project.OhLohTagEntity;
+import br.ufba.dcc.mestrado.computacao.entities.ohloh.core.project.OpenHubTagEntity;
 import br.ufba.dcc.mestrado.computacao.service.base.TagService;
 
 @Component
@@ -43,13 +43,13 @@ public class TagResource implements Serializable {
 	@JSONP
 	@Produces("application/json")
 	public String produceTagList(@PathParam("query") String query) throws JSONException {
-		List<OhLohTagEntity> result = getTagService().findTagListByName(query);
+		List<OpenHubTagEntity> result = getTagService().findTagListByName(query);
 		
 		JSONObject jsonObject = new JSONObject();
 		if (result != null) {
 			JSONArray jsonArray = new JSONArray();
 			
-			for (OhLohTagEntity tag : result) {
+			for (OpenHubTagEntity tag : result) {
 				JSONObject jsonTag = new JSONObject();
 				jsonTag.put("id", tag.getId());
 				jsonTag.put("name", tag.getName());

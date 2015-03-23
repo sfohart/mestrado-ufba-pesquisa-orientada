@@ -2,11 +2,11 @@ package br.ufba.dcc.mestrado.computacao.repository.impl;
 
 import org.springframework.stereotype.Repository;
 
-import br.ufba.dcc.mestrado.computacao.entities.ohloh.core.analysis.OhLohAnalysisEntity;
+import br.ufba.dcc.mestrado.computacao.entities.ohloh.core.analysis.OpenHubAnalysisEntity;
 import br.ufba.dcc.mestrado.computacao.repository.base.AnalysisRepository;
 
 @Repository(AnalysisRepositoryImpl.BEAN_NAME)
-public class AnalysisRepositoryImpl extends BaseRepositoryImpl<Long, OhLohAnalysisEntity>
+public class AnalysisRepositoryImpl extends BaseRepositoryImpl<Long, OpenHubAnalysisEntity>
 		implements AnalysisRepository {
 
 	/**
@@ -17,13 +17,13 @@ public class AnalysisRepositoryImpl extends BaseRepositoryImpl<Long, OhLohAnalys
 	public static final String BEAN_NAME =  "analysisRepository";
 
 	public AnalysisRepositoryImpl() {
-		super(OhLohAnalysisEntity.class);
+		super(OpenHubAnalysisEntity.class);
 	}
 	
 	@Override
-	public OhLohAnalysisEntity findById(Long id) {
+	public OpenHubAnalysisEntity findById(Long id) {
 		// TODO Auto-generated method stub
-		OhLohAnalysisEntity result = super.findById(id);
+		OpenHubAnalysisEntity result = super.findById(id);
 		if (result != null) {
 			if (result.getAnalysisLanguages() != null) {
 				result.getAnalysisLanguages().getContent();

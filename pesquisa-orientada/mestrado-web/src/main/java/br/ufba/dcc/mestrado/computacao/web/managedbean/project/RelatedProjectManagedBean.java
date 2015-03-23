@@ -8,7 +8,7 @@ import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
 import javax.faces.event.ComponentSystemEvent;
 
-import br.ufba.dcc.mestrado.computacao.entities.ohloh.core.project.OhLohProjectEntity;
+import br.ufba.dcc.mestrado.computacao.entities.ohloh.core.project.OpenHubProjectEntity;
 import br.ufba.dcc.mestrado.computacao.service.base.SearchService;
 
 import com.ocpsoft.pretty.faces.annotation.URLMapping;
@@ -37,7 +37,7 @@ public class RelatedProjectManagedBean extends ProjectManagedBean {
 	@ManagedProperty("#{searchService}")
 	private SearchService searchService;
 
-	private List<OhLohProjectEntity> relatedProjectEntities;
+	private List<OpenHubProjectEntity> relatedProjectEntities;
 
 	private Integer maxResults;
 
@@ -87,12 +87,12 @@ public class RelatedProjectManagedBean extends ProjectManagedBean {
 	}
 
 
-	public List<OhLohProjectEntity> getRelatedProjectEntities() {
+	public List<OpenHubProjectEntity> getRelatedProjectEntities() {
 		return relatedProjectEntities;
 	}
 
 	public void setRelatedProjectEntities(
-			List<OhLohProjectEntity> relatedProjectEntities) {
+			List<OpenHubProjectEntity> relatedProjectEntities) {
 		this.relatedProjectEntities = relatedProjectEntities;
 	}
 

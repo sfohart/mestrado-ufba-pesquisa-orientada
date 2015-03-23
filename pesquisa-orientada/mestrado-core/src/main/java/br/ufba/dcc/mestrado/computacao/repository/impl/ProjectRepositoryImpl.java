@@ -33,17 +33,17 @@ import org.hibernate.search.query.facet.FacetSortOrder;
 import org.hibernate.search.query.facet.FacetingRequest;
 import org.springframework.stereotype.Repository;
 
-import br.ufba.dcc.mestrado.computacao.entities.ohloh.core.analysis.OhLohAnalysisEntity;
-import br.ufba.dcc.mestrado.computacao.entities.ohloh.core.analysis.OhLohAnalysisLanguagesEntity;
-import br.ufba.dcc.mestrado.computacao.entities.ohloh.core.project.OhLohProjectEntity;
-import br.ufba.dcc.mestrado.computacao.entities.ohloh.core.project.OhLohTagEntity;
+import br.ufba.dcc.mestrado.computacao.entities.ohloh.core.analysis.OpenHubAnalysisEntity;
+import br.ufba.dcc.mestrado.computacao.entities.ohloh.core.analysis.OpenHubAnalysisLanguagesEntity;
+import br.ufba.dcc.mestrado.computacao.entities.ohloh.core.project.OpenHubProjectEntity;
+import br.ufba.dcc.mestrado.computacao.entities.ohloh.core.project.OpenHubTagEntity;
 import br.ufba.dcc.mestrado.computacao.repository.base.ProjectRepository;
 import br.ufba.dcc.mestrado.computacao.search.SearchFacetsEnum;
 import br.ufba.dcc.mestrado.computacao.search.SearchFieldsEnum;
 
 @Repository(ProjectRepositoryImpl.BEAN_NAME)
 public class ProjectRepositoryImpl 
-		extends BaseRepositoryImpl<Long, OhLohProjectEntity>
+		extends BaseRepositoryImpl<Long, OpenHubProjectEntity>
 		implements ProjectRepository {
 
 	/**
@@ -54,13 +54,13 @@ public class ProjectRepositoryImpl
 	public static final String BEAN_NAME =  "projectRepository";
 
 	public ProjectRepositoryImpl() {
-		super(OhLohProjectEntity.class);
+		super(OpenHubProjectEntity.class);
 	}
 
 	@Override	
-	public OhLohProjectEntity findById(Long id) {	
+	public OpenHubProjectEntity findById(Long id) {	
 		
-		OhLohProjectEntity result = getEntityManager().find(getEntityClass(), id);
+		OpenHubProjectEntity result = getEntityManager().find(getEntityClass(), id);
 		
 		PersistenceUnitUtil unitUtil = getEntityManager().getEntityManagerFactory().getPersistenceUnitUtil();
 		if (unitUtil.isLoaded(result)) {
@@ -75,7 +75,7 @@ public class ProjectRepositoryImpl
 		return result;*/
 	}
 	
-	private void initializeProject(OhLohProjectEntity result) {
+	private void initializeProject(OpenHubProjectEntity result) {
 		if (result != null) {
 			
 			if (result.getLicenses() != null) {
@@ -105,19 +105,19 @@ public class ProjectRepositoryImpl
 	}
 
 	@Override
-	public OhLohProjectEntity findByName(String name) {
+	public OpenHubProjectEntity findByName(String name) {
 		CriteriaBuilder criteriaBuilder = getEntityManager().getCriteriaBuilder();
-		CriteriaQuery<OhLohProjectEntity> criteriaQuery = criteriaBuilder.createQuery(getEntityClass());
+		CriteriaQuery<OpenHubProjectEntity> criteriaQuery = criteriaBuilder.createQuery(getEntityClass());
 		
-		Root<OhLohProjectEntity> root = criteriaQuery.from(getEntityClass());
+		Root<OpenHubProjectEntity> root = criteriaQuery.from(getEntityClass());
 		criteriaQuery.select(root);
 		
 		Predicate predicate = criteriaBuilder.equal(root.get("name"), name);
 		criteriaQuery.where(predicate);
 		
-		TypedQuery<OhLohProjectEntity> query = getEntityManager().createQuery(criteriaQuery);
+		TypedQuery<OpenHubProjectEntity> query = getEntityManager().createQuery(criteriaQuery);
 		
-		OhLohProjectEntity projectEntity = query.getSingleResult();
+		OpenHubProjectEntity projectEntity = query.getSingleResult();
 		
 		return projectEntity;
 	}
@@ -127,7 +127,7 @@ public class ProjectRepositoryImpl
 		QueryBuilder queryBuilder = fullTextEntityManager
 				.getSearchFactory()
 				.buildQueryBuilder()
-				.forEntity(OhLohProjectEntity.class)
+				.forEntity(OpenHubProjectEntity.class)
 				.get();
 		
 		FacetingRequest facetingRequest = queryBuilder
@@ -171,7 +171,7 @@ public class ProjectRepositoryImpl
 			
 			fullTextQuery = fullTextEntityManager.createFullTextQuery(
 					luceneQuery, 
-					OhLohProjectEntity.class);
+					OpenHubProjectEntity.class);
 						
 			configureRelevanceSort(fullTextQuery);
 			
@@ -206,7 +206,7 @@ public class ProjectRepositoryImpl
 	 * @returns Um objeto FullTextQuery contendo a lógica necessária para se encontrar projetos semelhantes
 	 */
 	@Override
-	public FullTextQuery findRelatedProjects(OhLohProjectEntity project) throws IOException {
+	public FullTextQuery findRelatedProjects(OpenHubProjectEntity project) throws IOException {
 		
 		FullTextEntityManager fullTextEntityManager = Search.getFullTextEntityManager(getEntityManager());
 		BooleanQuery booleanQuery = new BooleanQuery();
@@ -226,7 +226,7 @@ public class ProjectRepositoryImpl
 				BooleanClause.Occur.MUST_NOT);
 		
 		if (project.getTags() != null) {
-			for (OhLohTagEntity tag : project.getTags()) {
+			for (OpenHubTagEntity tag : project.getTags()) {
 				TermQuery termQuery = new TermQuery(
 						new Term(
 								SearchFieldsEnum.tagName.fieldName(), 

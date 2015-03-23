@@ -13,29 +13,29 @@ import org.apache.commons.beanutils.BeanUtils;
 import org.apache.commons.beanutils.ConvertUtils;
 import org.apache.commons.beanutils.converters.SqlTimestampConverter;
 
-import br.ufba.dcc.mestrado.computacao.beanutils.converters.OhLohDTO2EntityConverter;
+import br.ufba.dcc.mestrado.computacao.beanutils.converters.OpenHubDTO2EntityConverter;
 import br.ufba.dcc.mestrado.computacao.entities.BaseEntity;
-import br.ufba.dcc.mestrado.computacao.entities.ohloh.core.account.OhLohAccountEntity;
-import br.ufba.dcc.mestrado.computacao.entities.ohloh.core.analysis.OhLohAnalysisEntity;
-import br.ufba.dcc.mestrado.computacao.entities.ohloh.core.analysis.OhLohAnalysisLanguagesEntity;
-import br.ufba.dcc.mestrado.computacao.entities.ohloh.core.enlistment.OhLohEnlistmentEntity;
-import br.ufba.dcc.mestrado.computacao.entities.ohloh.core.enlistment.OhLohRepositoryEntity;
-import br.ufba.dcc.mestrado.computacao.entities.ohloh.core.kudoskore.OhLohKudoScoreEntity;
-import br.ufba.dcc.mestrado.computacao.entities.ohloh.core.project.OhLohProjectActivityIndexEntity;
-import br.ufba.dcc.mestrado.computacao.entities.ohloh.core.project.OhLohProjectEntity;
-import br.ufba.dcc.mestrado.computacao.entities.ohloh.core.stack.OhLohStackEntity;
-import br.ufba.dcc.mestrado.computacao.ohloh.data.OhLohResultDTO;
-import br.ufba.dcc.mestrado.computacao.ohloh.data.account.OhLohAccountDTO;
-import br.ufba.dcc.mestrado.computacao.ohloh.data.analysis.OhLohAnalysisDTO;
-import br.ufba.dcc.mestrado.computacao.ohloh.data.analysis.OhLohAnalysisLanguagesDTO;
-import br.ufba.dcc.mestrado.computacao.ohloh.data.enlistment.OhLohEnlistmentDTO;
-import br.ufba.dcc.mestrado.computacao.ohloh.data.enlistment.OhLohRepositoryDTO;
-import br.ufba.dcc.mestrado.computacao.ohloh.data.kudoskore.OhLohKudoScoreDTO;
-import br.ufba.dcc.mestrado.computacao.ohloh.data.project.OhLohProjectActivityIndexDTO;
-import br.ufba.dcc.mestrado.computacao.ohloh.data.project.OhLohProjectDTO;
-import br.ufba.dcc.mestrado.computacao.ohloh.data.stack.OhLohStackDTO;
+import br.ufba.dcc.mestrado.computacao.entities.ohloh.core.account.OpenHubAccountEntity;
+import br.ufba.dcc.mestrado.computacao.entities.ohloh.core.analysis.OpenHubAnalysisEntity;
+import br.ufba.dcc.mestrado.computacao.entities.ohloh.core.analysis.OpenHubAnalysisLanguagesEntity;
+import br.ufba.dcc.mestrado.computacao.entities.ohloh.core.enlistment.OpenHubEnlistmentEntity;
+import br.ufba.dcc.mestrado.computacao.entities.ohloh.core.enlistment.OpenHubRepositoryEntity;
+import br.ufba.dcc.mestrado.computacao.entities.ohloh.core.kudoskore.OpenHubKudoScoreEntity;
+import br.ufba.dcc.mestrado.computacao.entities.ohloh.core.project.OpenHubProjectActivityIndexEntity;
+import br.ufba.dcc.mestrado.computacao.entities.ohloh.core.project.OpenHubProjectEntity;
+import br.ufba.dcc.mestrado.computacao.entities.ohloh.core.stack.OpenHubStackEntity;
+import br.ufba.dcc.mestrado.computacao.openhub.data.OpenHubResultDTO;
+import br.ufba.dcc.mestrado.computacao.openhub.data.account.OpenHubAccountDTO;
+import br.ufba.dcc.mestrado.computacao.openhub.data.analysis.OpenHubAnalysisDTO;
+import br.ufba.dcc.mestrado.computacao.openhub.data.analysis.OpenHubAnalysisLanguagesDTO;
+import br.ufba.dcc.mestrado.computacao.openhub.data.enlistment.OpenHubEnlistmentDTO;
+import br.ufba.dcc.mestrado.computacao.openhub.data.enlistment.OpenHubRepositoryDTO;
+import br.ufba.dcc.mestrado.computacao.openhub.data.kudoskore.OpenHubKudoScoreDTO;
+import br.ufba.dcc.mestrado.computacao.openhub.data.project.OpenHubProjectActivityIndexDTO;
+import br.ufba.dcc.mestrado.computacao.openhub.data.project.OpenHubProjectDTO;
+import br.ufba.dcc.mestrado.computacao.openhub.data.stack.OpenHubStackDTO;
 
-public class ConverterHandler<DTO extends OhLohResultDTO, ID extends Number, E extends BaseEntity<ID>> 
+public class ConverterHandler<DTO extends OpenHubResultDTO, ID extends Number, E extends BaseEntity<ID>> 
 		implements Serializable {
 	
 	/**
@@ -47,15 +47,15 @@ public class ConverterHandler<DTO extends OhLohResultDTO, ID extends Number, E e
 	private Class<E> entityClass;
 
 	static {
-		ConvertUtils.register(new OhLohDTO2EntityConverter<>(OhLohAnalysisLanguagesDTO.class, OhLohAnalysisLanguagesEntity.class), OhLohAnalysisLanguagesEntity.class);
-		ConvertUtils.register(new OhLohDTO2EntityConverter<>(OhLohAnalysisDTO.class, OhLohAnalysisEntity.class), OhLohAnalysisEntity.class);
-		ConvertUtils.register(new OhLohDTO2EntityConverter<>(OhLohKudoScoreDTO.class, OhLohKudoScoreEntity.class), OhLohKudoScoreEntity.class);
-		ConvertUtils.register(new OhLohDTO2EntityConverter<>(OhLohStackDTO.class, OhLohStackEntity.class), OhLohStackEntity.class);
-		ConvertUtils.register(new OhLohDTO2EntityConverter<>(OhLohAccountDTO.class, OhLohAccountEntity.class), OhLohAccountEntity.class);
-		ConvertUtils.register(new OhLohDTO2EntityConverter<>(OhLohEnlistmentDTO.class, OhLohEnlistmentEntity.class), OhLohEnlistmentEntity.class);
-		ConvertUtils.register(new OhLohDTO2EntityConverter<>(OhLohRepositoryDTO.class, OhLohRepositoryEntity.class), OhLohRepositoryEntity.class);
-		ConvertUtils.register(new OhLohDTO2EntityConverter<>(OhLohProjectDTO.class, OhLohProjectEntity.class), OhLohProjectEntity.class);
-		ConvertUtils.register(new OhLohDTO2EntityConverter<>(OhLohProjectActivityIndexDTO.class, OhLohProjectActivityIndexEntity.class), OhLohProjectActivityIndexEntity.class);
+		ConvertUtils.register(new OpenHubDTO2EntityConverter<>(OpenHubAnalysisLanguagesDTO.class, OpenHubAnalysisLanguagesEntity.class), OpenHubAnalysisLanguagesEntity.class);
+		ConvertUtils.register(new OpenHubDTO2EntityConverter<>(OpenHubAnalysisDTO.class, OpenHubAnalysisEntity.class), OpenHubAnalysisEntity.class);
+		ConvertUtils.register(new OpenHubDTO2EntityConverter<>(OpenHubKudoScoreDTO.class, OpenHubKudoScoreEntity.class), OpenHubKudoScoreEntity.class);
+		ConvertUtils.register(new OpenHubDTO2EntityConverter<>(OpenHubStackDTO.class, OpenHubStackEntity.class), OpenHubStackEntity.class);
+		ConvertUtils.register(new OpenHubDTO2EntityConverter<>(OpenHubAccountDTO.class, OpenHubAccountEntity.class), OpenHubAccountEntity.class);
+		ConvertUtils.register(new OpenHubDTO2EntityConverter<>(OpenHubEnlistmentDTO.class, OpenHubEnlistmentEntity.class), OpenHubEnlistmentEntity.class);
+		ConvertUtils.register(new OpenHubDTO2EntityConverter<>(OpenHubRepositoryDTO.class, OpenHubRepositoryEntity.class), OpenHubRepositoryEntity.class);
+		ConvertUtils.register(new OpenHubDTO2EntityConverter<>(OpenHubProjectDTO.class, OpenHubProjectEntity.class), OpenHubProjectEntity.class);
+		ConvertUtils.register(new OpenHubDTO2EntityConverter<>(OpenHubProjectActivityIndexDTO.class, OpenHubProjectActivityIndexEntity.class), OpenHubProjectActivityIndexEntity.class);
 		ConvertUtils.register(new SqlTimestampConverter(null), Timestamp.class);
 	}
 	
@@ -96,7 +96,7 @@ public class ConverterHandler<DTO extends OhLohResultDTO, ID extends Number, E e
 								(Class<?>) itemDestParameterizedType.getRawType());
 						setDestMethod.invoke(destValue, field.getType().cast(destCollection));
 					}
-				} else if (OhLohResultDTO.class.isAssignableFrom(field.getType())) {			
+				} else if (OpenHubResultDTO.class.isAssignableFrom(field.getType())) {			
 					Method getMethod = originClass.getDeclaredMethod(getMethodName);
 						
 					if (getMethod.invoke(origValue) != null) {
@@ -189,7 +189,7 @@ public class ConverterHandler<DTO extends OhLohResultDTO, ID extends Number, E e
 							);
 					setDestMethod.invoke(entity, field.getType().cast(destCollection));
 				}
-			} else if (OhLohResultDTO.class.isAssignableFrom(field.getType())) {
+			} else if (OpenHubResultDTO.class.isAssignableFrom(field.getType())) {
 				Method getMethod = dtoClass.getDeclaredMethod(getMethodName);
 				if (getMethod.invoke(dto) != null) {
 					

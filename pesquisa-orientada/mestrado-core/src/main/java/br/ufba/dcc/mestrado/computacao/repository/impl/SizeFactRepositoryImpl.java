@@ -12,12 +12,12 @@ import javax.persistence.criteria.Root;
 
 import org.springframework.stereotype.Repository;
 
-import br.ufba.dcc.mestrado.computacao.entities.ohloh.core.project.OhLohProjectEntity;
-import br.ufba.dcc.mestrado.computacao.entities.ohloh.core.sizefact.OhLohSizeFactEntity;
+import br.ufba.dcc.mestrado.computacao.entities.ohloh.core.project.OpenHubProjectEntity;
+import br.ufba.dcc.mestrado.computacao.entities.ohloh.core.sizefact.OpenHubSizeFactEntity;
 import br.ufba.dcc.mestrado.computacao.repository.base.SizeFactRepository;
 
 @Repository(SizeFactRepositoryImpl.BEAN_NAME)
-public class SizeFactRepositoryImpl extends BaseRepositoryImpl<Long, OhLohSizeFactEntity>
+public class SizeFactRepositoryImpl extends BaseRepositoryImpl<Long, OpenHubSizeFactEntity>
 		implements SizeFactRepository {
 	
 	public static final String BEAN_NAME =  "sizeFactRepository";
@@ -28,18 +28,18 @@ public class SizeFactRepositoryImpl extends BaseRepositoryImpl<Long, OhLohSizeFa
 	private static final long serialVersionUID = 7801826722021443632L;
 
 	public SizeFactRepositoryImpl() {
-		super(OhLohSizeFactEntity.class);
+		super(OpenHubSizeFactEntity.class);
 	}
 	
 
 	@Override
-	public Long countAllByProject(OhLohProjectEntity project) {
+	public Long countAllByProject(OpenHubProjectEntity project) {
 		CriteriaBuilder criteriaBuilder = getEntityManager().getCriteriaBuilder();
 		CriteriaQuery<Long> criteriaQuery = criteriaBuilder.createQuery(Long.class);
 		
 		CriteriaQuery<Long> select = criteriaQuery.select(criteriaBuilder.count(criteriaQuery.from(getEntityClass())));
 		
-		Root<OhLohSizeFactEntity> root = criteriaQuery.from(getEntityClass());
+		Root<OpenHubSizeFactEntity> root = criteriaQuery.from(getEntityClass());
 		
 		Predicate namePredicate = criteriaBuilder.equal(root.get("projectId"), project.getId());
 		select.where(namePredicate);
@@ -48,22 +48,22 @@ public class SizeFactRepositoryImpl extends BaseRepositoryImpl<Long, OhLohSizeFa
 	}
 	
 	@Override
-	public List<OhLohSizeFactEntity> findByProject(OhLohProjectEntity project) {
+	public List<OpenHubSizeFactEntity> findByProject(OpenHubProjectEntity project) {
 		CriteriaBuilder criteriaBuilder = getEntityManager()
 				.getCriteriaBuilder();
-		CriteriaQuery<OhLohSizeFactEntity> criteriaQuery = criteriaBuilder
+		CriteriaQuery<OpenHubSizeFactEntity> criteriaQuery = criteriaBuilder
 				.createQuery(getEntityClass());
 
-		Root<OhLohSizeFactEntity> root = criteriaQuery.from(getEntityClass());
-		CriteriaQuery<OhLohSizeFactEntity> select = criteriaQuery.select(root);
+		Root<OpenHubSizeFactEntity> root = criteriaQuery.from(getEntityClass());
+		CriteriaQuery<OpenHubSizeFactEntity> select = criteriaQuery.select(root);
 
 		Predicate namePredicate = criteriaBuilder.equal(root.get("projectId"), project.getId());
 		select.where(namePredicate);
 
-		TypedQuery<OhLohSizeFactEntity> query = getEntityManager().createQuery(
+		TypedQuery<OpenHubSizeFactEntity> query = getEntityManager().createQuery(
 				criteriaQuery);
 
-		List<OhLohSizeFactEntity> result = null;
+		List<OpenHubSizeFactEntity> result = null;
 
 		try {
 			result = query.getResultList();

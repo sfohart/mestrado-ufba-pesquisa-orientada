@@ -24,8 +24,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import br.ufba.dcc.mestrado.computacao.entities.ohloh.core.project.OhLohProjectEntity;
-import br.ufba.dcc.mestrado.computacao.entities.ohloh.core.project.OhLohTagEntity;
+import br.ufba.dcc.mestrado.computacao.entities.ohloh.core.project.OpenHubProjectEntity;
+import br.ufba.dcc.mestrado.computacao.entities.ohloh.core.project.OpenHubTagEntity;
 import br.ufba.dcc.mestrado.computacao.entities.ohloh.recommender.user.UserEntity;
 import br.ufba.dcc.mestrado.computacao.service.base.ProjectService;
 import br.ufba.dcc.mestrado.computacao.service.core.base.UserService;
@@ -81,19 +81,19 @@ public class MahoutColaborativeFilteringServiceImpl
 
 	@Override
 	@Transactional(readOnly = true)
-	protected List<OhLohProjectEntity> recommendViewedProjectsByUser(
+	protected List<OpenHubProjectEntity> recommendViewedProjectsByUser(
 			Long userId, 
 			Integer howManyItems,
 			boolean filterInterestTags,
-			List<ImmutablePair<UserEntity, OhLohProjectEntity>> pageViewList) {
+			List<ImmutablePair<UserEntity, OpenHubProjectEntity>> pageViewList) {
 		
-		List<OhLohProjectEntity> recommendedProjectList = null;
+		List<OpenHubProjectEntity> recommendedProjectList = null;
 		List<BooleanPreference> preferenceList = null;
 		
 		if (pageViewList != null && ! pageViewList.isEmpty()) {
 			preferenceList = new ArrayList<>();
 			
-			for (ImmutablePair<UserEntity, OhLohProjectEntity> pair : pageViewList) {
+			for (ImmutablePair<UserEntity, OpenHubProjectEntity> pair : pageViewList) {
 				BooleanPreference preference = new BooleanPreference(pair.getLeft().getId(), pair.getRight().getId());
 				preferenceList.add(preference);
 			}
@@ -134,9 +134,9 @@ public class MahoutColaborativeFilteringServiceImpl
 						
 						@Override
 						public boolean isFiltered(long id) {
-							OhLohProjectEntity project = getProjectService().findById(id);
+							OpenHubProjectEntity project = getProjectService().findById(id);
 							if (currentUser.getInterestTags() != null && ! currentUser.getInterestTags().isEmpty()) {
-								for (OhLohTagEntity tag : currentUser.getInterestTags()) {
+								for (OpenHubTagEntity tag : currentUser.getInterestTags()) {
 									if (project.getTags().contains(tag)) {
 										return false;
 									}
@@ -167,7 +167,7 @@ public class MahoutColaborativeFilteringServiceImpl
 	}
 
 	@Override
-	protected List<OhLohProjectEntity> recommendRatingProjectsByUser(
+	protected List<OpenHubProjectEntity> recommendRatingProjectsByUser(
 			Long userId,
 			Integer howManyItems,
 			boolean filterInterestTags,
@@ -178,19 +178,19 @@ public class MahoutColaborativeFilteringServiceImpl
 	
 	@Override
 	@Transactional(readOnly = true)
-	protected List<OhLohProjectEntity> recommendViewedProjectsByItem(
+	protected List<OpenHubProjectEntity> recommendViewedProjectsByItem(
 			Long itemId, 
 			Integer howManyItems,
-			List<ImmutablePair<UserEntity, OhLohProjectEntity>> pageViewList) {
+			List<ImmutablePair<UserEntity, OpenHubProjectEntity>> pageViewList) {
 		
-		List<OhLohProjectEntity> recommendedProjectList = null;
+		List<OpenHubProjectEntity> recommendedProjectList = null;
 		
 		List<BooleanPreference> preferenceList = null;
 		
 		if (pageViewList != null && ! pageViewList.isEmpty()) {
 			preferenceList = new ArrayList<>();
 			
-			for (ImmutablePair<UserEntity, OhLohProjectEntity> pair : pageViewList) {
+			for (ImmutablePair<UserEntity, OpenHubProjectEntity> pair : pageViewList) {
 				BooleanPreference preference = new BooleanPreference(pair.getLeft().getId(), pair.getRight().getId());
 				preferenceList.add(preference);
 			}
@@ -229,15 +229,15 @@ public class MahoutColaborativeFilteringServiceImpl
 		return recommendedProjectList;
 	}
 
-	protected List<OhLohProjectEntity> buildProjectList(List<RecommendedItem> recommendedItemList) {
+	protected List<OpenHubProjectEntity> buildProjectList(List<RecommendedItem> recommendedItemList) {
 		
-		List<OhLohProjectEntity> recommendedProjectList = null;
+		List<OpenHubProjectEntity> recommendedProjectList = null;
 		
 		if (recommendedItemList != null) {
 			recommendedProjectList = new ArrayList<>();
 			
 			for (RecommendedItem recommendedItem : recommendedItemList) {
-				OhLohProjectEntity recommendedProject = getProjectService().findById(recommendedItem.getItemID());
+				OpenHubProjectEntity recommendedProject = getProjectService().findById(recommendedItem.getItemID());
 				recommendedProjectList.add(recommendedProject);
 			}
 		}

@@ -8,7 +8,7 @@ import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
 import javax.faces.event.ComponentSystemEvent;
 
-import br.ufba.dcc.mestrado.computacao.entities.ohloh.core.project.OhLohProjectEntity;
+import br.ufba.dcc.mestrado.computacao.entities.ohloh.core.project.OpenHubProjectEntity;
 import br.ufba.dcc.mestrado.computacao.entities.ohloh.recommender.criterium.RecommenderCriteriumEntity;
 import br.ufba.dcc.mestrado.computacao.entities.ohloh.recommender.preference.PreferenceEntity;
 import br.ufba.dcc.mestrado.computacao.entities.ohloh.recommender.preference.PreferenceEntryEntity;
@@ -39,7 +39,7 @@ public class ProjectNewReviewManagedBean extends AbstractListingManagedBean<Long
 	 */
 	private static final long serialVersionUID = -3583610472886856317L;
 	
-	private OhLohProjectEntity project;
+	private OpenHubProjectEntity project;
 	private UserEntity account;
 	
 	private PreferenceEntity preference;
@@ -57,14 +57,14 @@ public class ProjectNewReviewManagedBean extends AbstractListingManagedBean<Long
 	private RepositoryBasedUserDetailsService userDetailsService;
 	
 	public ProjectNewReviewManagedBean() {
-		this.project = new OhLohProjectEntity();
+		this.project = new OpenHubProjectEntity();
 	}
 	
-	public OhLohProjectEntity getProject() {
+	public OpenHubProjectEntity getProject() {
 		return project;
 	}
 	
-	public void setProject(OhLohProjectEntity project) {
+	public void setProject(OpenHubProjectEntity project) {
 		this.project = project;
 	}
 	
