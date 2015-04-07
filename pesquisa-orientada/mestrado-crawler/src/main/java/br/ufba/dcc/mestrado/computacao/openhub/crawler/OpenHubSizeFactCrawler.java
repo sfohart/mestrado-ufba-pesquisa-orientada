@@ -5,7 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import br.ufba.dcc.mestrado.computacao.entities.ohloh.core.project.OpenHubProjectEntity;
+import br.ufba.dcc.mestrado.computacao.entities.openhub.core.project.OpenHubProjectEntity;
 import br.ufba.dcc.mestrado.computacao.openhub.data.project.OpenHubProjectDTO;
 import br.ufba.dcc.mestrado.computacao.openhub.data.sizefact.OpenHubSizeFactDTO;
 import br.ufba.dcc.mestrado.computacao.openhub.data.sizefact.OpenHubSizeFactResult;

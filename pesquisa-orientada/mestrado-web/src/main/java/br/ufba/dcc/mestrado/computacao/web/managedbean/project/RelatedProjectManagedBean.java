@@ -1,15 +1,23 @@
 package br.ufba.dcc.mestrado.computacao.web.managedbean.project;
 
 import java.io.IOException;
+import java.sql.Timestamp;
 import java.util.List;
 
+import javax.el.MethodExpression;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
 import javax.faces.event.ComponentSystemEvent;
 
-import br.ufba.dcc.mestrado.computacao.entities.ohloh.core.project.OpenHubProjectEntity;
+import br.ufba.dcc.mestrado.computacao.entities.openhub.core.project.OpenHubProjectEntity;
+import br.ufba.dcc.mestrado.computacao.entities.recommender.evaluation.RecommendationEnum;
+import br.ufba.dcc.mestrado.computacao.entities.recommender.evaluation.RecommenderEvaluationEntity;
+import br.ufba.dcc.mestrado.computacao.entities.recommender.user.UserEntity;
+import br.ufba.dcc.mestrado.computacao.service.base.RecommenderEvaluationService;
 import br.ufba.dcc.mestrado.computacao.service.base.SearchService;
+import br.ufba.dcc.mestrado.computacao.service.basic.RepositoryBasedUserDetailsService;
+import br.ufba.dcc.mestrado.computacao.service.core.base.BaseColaborativeFilteringService;
 
 import com.ocpsoft.pretty.faces.annotation.URLMapping;
 import com.ocpsoft.pretty.faces.annotation.URLMappings;
@@ -23,7 +31,7 @@ import com.ocpsoft.pretty.faces.annotation.URLMappings;
 				pattern="/detail/#{ /[0-9]+/ projectId}/relatedProject",
 				viewId="/detail/relatedProjectList.jsf")	
 })
-public class RelatedProjectManagedBean extends ProjectManagedBean {
+public class RelatedProjectManagedBean extends RecommendedProjectManagedBean {
 
 	/**
 	 * 
@@ -36,8 +44,19 @@ public class RelatedProjectManagedBean extends ProjectManagedBean {
 
 	@ManagedProperty("#{searchService}")
 	private SearchService searchService;
+	
+	@ManagedProperty("#{mahoutColaborativeFilteringService}")
+	private BaseColaborativeFilteringService colaborativeFilteringService;
+	
+	@ManagedProperty("#{repositoryBasedUserDetailsService}")
+	private RepositoryBasedUserDetailsService userDetailsService;
+	
+	@ManagedProperty("#{recommenderEvaluationService}")
+	private RecommenderEvaluationService recommenderEvaluationService;
 
-	private List<OpenHubProjectEntity> relatedProjectEntities;
+	private RecommenderEvaluationEntity alsoViewedProjecstRecommendation;
+	
+	private RecommenderEvaluationEntity similarProjectsRecomendation;
 
 	private Integer maxResults;
 
@@ -54,16 +73,84 @@ public class RelatedProjectManagedBean extends ProjectManagedBean {
 		super.init(event);
 		
 		if (getProject() != null && getProject().getId() != null) {
-			findRelatedProjectList();
+			configureContentBasedRecommendation();
+			configureColaborativeFilteringRecommendation();
 		}
+	}
+	
+	protected void saveRecommenderEvaluation(Long selectedProjectId) {
+		RecommenderEvaluationEntity recommenderEvaluationEntity = null;
+		
+		if (similarProjectsRecomendation != null && similarProjectsRecomendation.getRecommendedProjects() != null) {
+			for (OpenHubProjectEntity project : similarProjectsRecomendation.getRecommendedProjects()) {
+				if (project.getId() == selectedProjectId) {
+					recommenderEvaluationEntity = similarProjectsRecomendation;
+					recommenderEvaluationEntity.setSelectedProject(project);
+					break;
+				}
+			}
+		}
+		
+		if (recommenderEvaluationEntity == null
+				&& alsoViewedProjecstRecommendation != null 
+				&& alsoViewedProjecstRecommendation.getRecommendedProjects() != null) {
+			
+			for (OpenHubProjectEntity project : alsoViewedProjecstRecommendation.getRecommendedProjects()) {
+				if (project.getId() == selectedProjectId) {
+					recommenderEvaluationEntity = alsoViewedProjecstRecommendation;
+					recommenderEvaluationEntity.setSelectedProject(project);
+					break;
+				}
+			}			
+		}
+		
+		if (recommenderEvaluationEntity != null) {
+			try {
+				getRecommenderEvaluationService().save(recommenderEvaluationEntity);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+		
+	}
+	
+	@Override
+	public MethodExpression getEvaluationAction() {		
+		return createMethodExpression("#{relatedProjectMB.saveRecommenderEvaluation(selectedProjectId)}", String.class, Long.class);
+	}
+
+	private void configureColaborativeFilteringRecommendation() {
+		alsoViewedProjecstRecommendation = new RecommenderEvaluationEntity();	
+		
+		List<OpenHubProjectEntity> recommendationList = getColaborativeFilteringService().recommendViewedProjectsByItem(getProject().getId(), getMaxResults());
+		UserEntity currentUser = getUserDetailsService().loadFullLoggedUser();
+		Timestamp recommendationDate = new Timestamp(System.currentTimeMillis());
+		
+		alsoViewedProjecstRecommendation.setRecommendationType(RecommendationEnum.COLABORATIVE_FILTERING_RECOMMENDATION);
+		alsoViewedProjecstRecommendation.setRecommendedProjects(recommendationList);
+		alsoViewedProjecstRecommendation.setUser(currentUser);
+		alsoViewedProjecstRecommendation.setRecommendationDate(recommendationDate);	
+		
 	}
 
 	/**
 	 * Utiliza busca por conteúdo pra recomendar projetos similares.
 	 */
-	protected void findRelatedProjectList() {
+	protected void configureContentBasedRecommendation() {
 		try {
-			this.relatedProjectEntities = getSearchService().findRelatedProjects(getProject(), 0, getMaxResults());
+			
+			similarProjectsRecomendation = new RecommenderEvaluationEntity();
+			
+			List <OpenHubProjectEntity> recommendationList = getSearchService().findRelatedProjects(getProject(), 0, getMaxResults());
+			UserEntity currentUser = getUserDetailsService().loadFullLoggedUser();
+			Timestamp recommendationDate = new Timestamp(System.currentTimeMillis());
+			
+			similarProjectsRecomendation.setRecommendationType(RecommendationEnum.CONTENT_BASED_RECOMMENDATION);
+			similarProjectsRecomendation.setRecommendedProjects(recommendationList);
+			similarProjectsRecomendation.setUser(currentUser);
+			similarProjectsRecomendation.setRecommendationDate(recommendationDate);
+			
+			
 		} catch (IOException e1) {
 			e1.printStackTrace();
 		}
@@ -86,14 +173,51 @@ public class RelatedProjectManagedBean extends ProjectManagedBean {
 		this.searchService = searchService;
 	}
 
-
-	public List<OpenHubProjectEntity> getRelatedProjectEntities() {
-		return relatedProjectEntities;
+	public BaseColaborativeFilteringService getColaborativeFilteringService() {
+		return colaborativeFilteringService;
 	}
 
-	public void setRelatedProjectEntities(
-			List<OpenHubProjectEntity> relatedProjectEntities) {
-		this.relatedProjectEntities = relatedProjectEntities;
+	public void setColaborativeFilteringService(
+			BaseColaborativeFilteringService colaborativeFilteringService) {
+		this.colaborativeFilteringService = colaborativeFilteringService;
 	}
+	
+	public RepositoryBasedUserDetailsService getUserDetailsService() {
+		return userDetailsService;
+	}
+
+	public void setUserDetailsService(
+			RepositoryBasedUserDetailsService userDetailsService) {
+		this.userDetailsService = userDetailsService;
+	}
+
+	public RecommenderEvaluationService getRecommenderEvaluationService() {
+		return recommenderEvaluationService;
+	}
+
+	public void setRecommenderEvaluationService(
+			RecommenderEvaluationService recommenderEvaluationService) {
+		this.recommenderEvaluationService = recommenderEvaluationService;
+	}
+
+	public RecommenderEvaluationEntity getAlsoViewedProjecstRecommendation() {
+		return alsoViewedProjecstRecommendation;
+	}
+
+	public void setAlsoViewedProjecstRecommendation(
+			RecommenderEvaluationEntity alsoViewedProjecstRecommendation) {
+		this.alsoViewedProjecstRecommendation = alsoViewedProjecstRecommendation;
+	}
+
+	public RecommenderEvaluationEntity getSimilarProjectsRecomendation() {
+		return similarProjectsRecomendation;
+	}
+
+	public void setSimilarProjectsRecomendation(
+			RecommenderEvaluationEntity similarProjectsRecomendation) {
+		this.similarProjectsRecomendation = similarProjectsRecomendation;
+	}
+	
+	
 
 }

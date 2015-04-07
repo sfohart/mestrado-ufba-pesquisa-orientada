@@ -10,7 +10,7 @@ import javax.persistence.criteria.Root;
 
 import org.springframework.stereotype.Repository;
 
-import br.ufba.dcc.mestrado.computacao.entities.ohloh.core.language.OpenHubLanguageEntity;
+import br.ufba.dcc.mestrado.computacao.entities.openhub.core.language.OpenHubLanguageEntity;
 import br.ufba.dcc.mestrado.computacao.repository.base.LanguageRepository;
 
 @Repository(LanguageRepositoryImpl.BEAN_NAME)

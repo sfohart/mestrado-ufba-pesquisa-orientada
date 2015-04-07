@@ -4,7 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
-import br.ufba.dcc.mestrado.computacao.entities.ohloh.crawler.OpenHubCrawlerEnlistmentEntity;
+import br.ufba.dcc.mestrado.computacao.entities.openhub.crawler.OpenHubCrawlerEnlistmentEntity;
 import br.ufba.dcc.mestrado.computacao.repository.base.OpenHubCrawlerEnlistmentRepository;
 import br.ufba.dcc.mestrado.computacao.repository.impl.OpenHubCrawlerEnlistmentRepositoryImpl;
 import br.ufba.dcc.mestrado.computacao.service.base.OpenHubCrawlerEnlistmentService;

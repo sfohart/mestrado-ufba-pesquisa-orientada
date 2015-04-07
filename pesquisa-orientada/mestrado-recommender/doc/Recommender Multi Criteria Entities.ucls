@@ -36,7 +36,7 @@
       <operations public="false" package="false" protected="false" private="false" static="false"/>    
     </display>  
   </class>  
-  <class id="4" language="java" name="br.ufba.dcc.mestrado.computacao.entities.ohloh.project.OhLohProjectEntity" 
+  <class id="4" language="java" name="br.ufba.dcc.mestrado.computacao.entities.openhub.project.OhLohProjectEntity" 
     project="mestrado-crawler" 
     file="/mestrado-crawler/src/main/java/br/ufba/dcc/mestrado/computacao/entities/ohloh/project/OhLohProjectEntity.java" 
     binary="false" corner="BOTTOM_RIGHT">    
@@ -47,7 +47,7 @@
       <operations public="false" package="false" protected="false" private="false" static="false"/>    
     </display>  
   </class>  
-  <class id="5" language="java" name="br.ufba.dcc.mestrado.computacao.entities.ohloh.account.OhLohAccountEntity" 
+  <class id="5" language="java" name="br.ufba.dcc.mestrado.computacao.entities.openhub.account.OhLohAccountEntity" 
     project="mestrado-crawler" 
     file="/mestrado-crawler/src/main/java/br/ufba/dcc/mestrado/computacao/entities/ohloh/account/OhLohAccountEntity.java" 
     binary="false" corner="BOTTOM_RIGHT">    
@@ -58,7 +58,7 @@
       <operations public="false" package="false" protected="false" private="false" static="false"/>    
     </display>  
   </class>  
-  <class id="6" language="java" name="br.ufba.dcc.mestrado.computacao.entities.ohloh.project.OhLohLicenseEntity" 
+  <class id="6" language="java" name="br.ufba.dcc.mestrado.computacao.entities.openhub.project.OhLohLicenseEntity" 
     project="mestrado-crawler" 
     file="/mestrado-crawler/src/main/java/br/ufba/dcc/mestrado/computacao/entities/ohloh/project/OhLohLicenseEntity.java" 
     binary="false" corner="BOTTOM_RIGHT">    
@@ -69,7 +69,7 @@
       <operations public="false" package="false" protected="false" private="false" static="false"/>    
     </display>  
   </class>  
-  <class id="7" language="java" name="br.ufba.dcc.mestrado.computacao.entities.ohloh.project.OhLohTagEntity" 
+  <class id="7" language="java" name="br.ufba.dcc.mestrado.computacao.entities.openhub.project.OhLohTagEntity" 
     project="mestrado-crawler" 
     file="/mestrado-crawler/src/main/java/br/ufba/dcc/mestrado/computacao/entities/ohloh/project/OhLohTagEntity.java" 
     binary="false" corner="BOTTOM_RIGHT">    

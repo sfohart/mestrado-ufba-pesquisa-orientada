@@ -14,7 +14,6 @@
 		<f:viewParam id="relatedProjectId" name="projectId" value="#{relatedProjectMB.project.id}" required="true" />
 		
 		<f:event listener="#{relatedProjectMB.init}" type="preRenderView"/>
-		<f:event listener="#{alsoViewedProjectMB.init}" type="preRenderView"/>
 		<f:event listener="#{projectDetailMB.init}" type="preRenderView"/>
 	</f:metadata>
 	
@@ -179,7 +178,7 @@
 									</dt>
 									<dd style="margin-bottom: .5em;">
 										<ui:include src="/detail/projectTable.xhtml">
-											<ui:param name="projectList" value="#{relatedProjectMB.relatedProjectEntities}"/>
+											<ui:param name="projectList" value="#{relatedProjectMB.similarProjectsRecomendation.recommendedProjects}"/>
 										</ui:include>
 									</dd>					
 								</dl>
@@ -361,9 +360,9 @@
 					
 					<h:panelGroup layout="block"
 						style="border-top: 1px solid #aaa;" 
-						rendered="#{not empty alsoViewedProjectMB.alsoViewedProjectList}">
+						rendered="#{not empty relatedProjectMB.alsoViewedProjecstRecommendation.recommendedProjects}">
 						<ui:include src="/detail/projectCart.xhtml">
-							<ui:param name="projectCart" value="#{alsoViewedProjectMB.alsoViewedProjectList}"  />
+							<ui:param name="projectCart" value="#{relatedProjectMB.alsoViewedProjecstRecommendation.recommendedProjects}"  />
 							<ui:param name="projectCartTitle" value="Quem se interessou por este projeto também viu:"  />
 						</ui:include>
 					</h:panelGroup>

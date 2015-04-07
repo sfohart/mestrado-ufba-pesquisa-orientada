@@ -2,7 +2,7 @@ package br.ufba.dcc.mestrado.computacao.service.base;
 
 import java.util.List;
 
-import br.ufba.dcc.mestrado.computacao.entities.ohloh.core.project.OpenHubTagEntity;
+import br.ufba.dcc.mestrado.computacao.entities.openhub.core.project.OpenHubTagEntity;
 import br.ufba.dcc.mestrado.computacao.openhub.data.project.OpenHubTagDTO;
 
 public interface OpenHubTagService extends DefaultOpenHubService<OpenHubTagDTO, Long, OpenHubTagEntity>{

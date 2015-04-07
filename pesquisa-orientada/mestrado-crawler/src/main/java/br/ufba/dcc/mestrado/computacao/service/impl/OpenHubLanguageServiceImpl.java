@@ -4,7 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
-import br.ufba.dcc.mestrado.computacao.entities.ohloh.core.language.OpenHubLanguageEntity;
+import br.ufba.dcc.mestrado.computacao.entities.openhub.core.language.OpenHubLanguageEntity;
 import br.ufba.dcc.mestrado.computacao.openhub.data.language.OpenHubLanguageDTO;
 import br.ufba.dcc.mestrado.computacao.repository.base.LanguageRepository;
 import br.ufba.dcc.mestrado.computacao.repository.impl.LanguageRepositoryImpl;
