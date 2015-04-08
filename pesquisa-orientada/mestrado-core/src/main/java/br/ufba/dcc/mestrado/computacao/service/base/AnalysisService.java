@@ -2,14 +2,14 @@ package br.ufba.dcc.mestrado.computacao.service.base;
 
 import java.util.List;
 
-import br.ufba.dcc.mestrado.computacao.entities.ohloh.core.analysis.OhLohAnalysisEntity;
+import br.ufba.dcc.mestrado.computacao.entities.openhub.core.analysis.OpenHubAnalysisEntity;
 
-public interface AnalysisService extends BaseService<Long, OhLohAnalysisEntity>{
+public interface AnalysisService extends BaseService<Long, OpenHubAnalysisEntity>{
 
 	public Long countAll();
 	
-	public OhLohAnalysisEntity findById(Long id);
+	public OpenHubAnalysisEntity findById(Long id);
 	
-	public List<OhLohAnalysisEntity> findAll(Integer startAt, Integer offset);
+	public List<OpenHubAnalysisEntity> findAll(Integer startAt, Integer offset);
 	
 }

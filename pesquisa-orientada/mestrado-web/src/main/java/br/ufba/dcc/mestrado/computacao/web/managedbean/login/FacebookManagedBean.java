@@ -1,3 +1,4 @@
+
 package br.ufba.dcc.mestrado.computacao.web.managedbean.login;
 
 import java.io.IOException;
@@ -29,7 +30,7 @@ import org.springframework.social.oauth2.GrantType;
 import org.springframework.social.oauth2.OAuth2Operations;
 import org.springframework.social.oauth2.OAuth2Parameters;
 
-import br.ufba.dcc.mestrado.computacao.entities.ohloh.recommender.user.UserEntity;
+import br.ufba.dcc.mestrado.computacao.entities.recommender.user.UserEntity;
 import br.ufba.dcc.mestrado.computacao.service.basic.RepositoryBasedUserDetailsService;
 import br.ufba.dcc.mestrado.computacao.service.core.base.UserService;
 import br.ufba.dcc.mestrado.computacao.social.permissions.EmailFacebookPermissions;
@@ -200,3 +201,4 @@ public class FacebookManagedBean implements Serializable {
 	}
 
 }
+

@@ -1,8 +1,9 @@
+
 package br.ufba.dcc.mestrado.computacao.dto.pageview;
 
 import java.io.Serializable;
 
-import br.ufba.dcc.mestrado.computacao.entities.ohloh.core.project.OhLohProjectEntity;
+import br.ufba.dcc.mestrado.computacao.entities.openhub.core.project.OpenHubProjectEntity;
 
 public class ProjectDetailPageViewInfo implements Serializable {
 
@@ -11,14 +12,14 @@ public class ProjectDetailPageViewInfo implements Serializable {
 	 */
 	private static final long serialVersionUID = 377951959478741225L;
 
-	private OhLohProjectEntity project;
+	private OpenHubProjectEntity project;
 	private Long pageViewCount;
 
-	public OhLohProjectEntity getProject() {
+	public OpenHubProjectEntity getProject() {
 		return project;
 	}
 
-	public void setProject(OhLohProjectEntity project) {
+	public void setProject(OpenHubProjectEntity project) {
 		this.project = project;
 	}
 
@@ -31,3 +32,4 @@ public class ProjectDetailPageViewInfo implements Serializable {
 	}
 
 }
+

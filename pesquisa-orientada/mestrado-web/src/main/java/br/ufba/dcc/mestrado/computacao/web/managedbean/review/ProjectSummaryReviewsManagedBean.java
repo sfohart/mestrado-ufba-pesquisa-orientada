@@ -1,3 +1,4 @@
+
 package br.ufba.dcc.mestrado.computacao.web.managedbean.review;
 
 import java.util.List;
@@ -11,10 +12,10 @@ import javax.faces.event.ComponentSystemEvent;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 
-import br.ufba.dcc.mestrado.computacao.entities.ohloh.core.project.OhLohProjectEntity;
-import br.ufba.dcc.mestrado.computacao.entities.ohloh.recommender.preference.PreferenceEntity;
-import br.ufba.dcc.mestrado.computacao.entities.ohloh.recommender.preference.PreferenceReviewEntity;
-import br.ufba.dcc.mestrado.computacao.entities.ohloh.recommender.user.UserEntity;
+import br.ufba.dcc.mestrado.computacao.entities.openhub.core.project.OpenHubProjectEntity;
+import br.ufba.dcc.mestrado.computacao.entities.recommender.preference.PreferenceEntity;
+import br.ufba.dcc.mestrado.computacao.entities.recommender.preference.PreferenceReviewEntity;
+import br.ufba.dcc.mestrado.computacao.entities.recommender.user.UserEntity;
 import br.ufba.dcc.mestrado.computacao.service.base.ProjectService;
 import br.ufba.dcc.mestrado.computacao.service.core.base.OverallRatingService;
 import br.ufba.dcc.mestrado.computacao.service.core.base.PreferenceReviewService;
@@ -39,7 +40,7 @@ public class ProjectSummaryReviewsManagedBean extends AbstractReviewVotingManage
 	 */
 	private static final long serialVersionUID = -8863511598108591199L;
 	
-	private OhLohProjectEntity project;
+	private OpenHubProjectEntity project;
 	
 	@ManagedProperty("#{projectService}")
 	private ProjectService projectService;
@@ -68,15 +69,15 @@ public class ProjectSummaryReviewsManagedBean extends AbstractReviewVotingManage
 	
 	
 	public ProjectSummaryReviewsManagedBean() {
-		this.project = new OhLohProjectEntity();
+		this.project = new OpenHubProjectEntity();
 		this.averagePreference = new PreferenceEntity();
 	}
 	
-	public OhLohProjectEntity getProject() {
+	public OpenHubProjectEntity getProject() {
 		return project;
 	}
 	
-	public void setProject(OhLohProjectEntity project) {
+	public void setProject(OpenHubProjectEntity project) {
 		this.project = project;
 	}
 	
@@ -202,3 +203,4 @@ public class ProjectSummaryReviewsManagedBean extends AbstractReviewVotingManage
 	}
 
 }
+

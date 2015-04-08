@@ -2,18 +2,18 @@ package br.ufba.dcc.mestrado.computacao.service.base;
 
 import java.util.List;
 
-import br.ufba.dcc.mestrado.computacao.entities.ohloh.core.project.OhLohTagEntity;
+import br.ufba.dcc.mestrado.computacao.entities.openhub.core.project.OpenHubTagEntity;
 
-public interface TagService extends BaseService<Long, OhLohTagEntity>{
+public interface TagService extends BaseService<Long, OpenHubTagEntity>{
 
 	public Long countAll();
 	
-	public OhLohTagEntity findById(Long id);
+	public OpenHubTagEntity findById(Long id);
 	
-	public List<OhLohTagEntity> findAll(Integer startAt, Integer offset);
+	public List<OpenHubTagEntity> findAll(Integer startAt, Integer offset);
 	
-	public OhLohTagEntity findByName(String name);
+	public OpenHubTagEntity findByName(String name);
 	
-	public List<OhLohTagEntity> findTagListByName(String name);
+	public List<OpenHubTagEntity> findTagListByName(String name);
 	
 }

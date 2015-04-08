@@ -2,11 +2,11 @@ package br.ufba.dcc.mestrado.computacao.repository.impl;
 
 import org.springframework.stereotype.Repository;
 
-import br.ufba.dcc.mestrado.computacao.entities.ohloh.core.analysis.OhLohAnalysisLanguageEntity;
+import br.ufba.dcc.mestrado.computacao.entities.openhub.core.analysis.OpenHubAnalysisLanguageEntity;
 import br.ufba.dcc.mestrado.computacao.repository.base.AnalysisLanguageRepository;
 
 @Repository(AnalysisLanguageRepositoryImpl.BEAN_NAME)
-public class AnalysisLanguageRepositoryImpl extends BaseRepositoryImpl<Long, OhLohAnalysisLanguageEntity>
+public class AnalysisLanguageRepositoryImpl extends BaseRepositoryImpl<Long, OpenHubAnalysisLanguageEntity>
 		implements AnalysisLanguageRepository {
 
 	/**
@@ -17,7 +17,7 @@ public class AnalysisLanguageRepositoryImpl extends BaseRepositoryImpl<Long, OhL
 	public static final String BEAN_NAME =  "analysisLanguageRepository";
 
 	public AnalysisLanguageRepositoryImpl() {
-		super(OhLohAnalysisLanguageEntity.class);
+		super(OpenHubAnalysisLanguageEntity.class);
 	}
 
 	

@@ -10,11 +10,11 @@ import javax.persistence.criteria.Root;
 
 import org.springframework.stereotype.Repository;
 
-import br.ufba.dcc.mestrado.computacao.entities.ohloh.core.account.OhLohAccountEntity;
+import br.ufba.dcc.mestrado.computacao.entities.openhub.core.account.OpenHubAccountEntity;
 import br.ufba.dcc.mestrado.computacao.repository.base.AccountRepository;
 
 @Repository(AccountRepositoryImpl.BEAN_NAME)
-public class AccountRepositoryImpl extends BaseRepositoryImpl<Long, OhLohAccountEntity>
+public class AccountRepositoryImpl extends BaseRepositoryImpl<Long, OpenHubAccountEntity>
 		implements AccountRepository {
 
 	/**
@@ -25,26 +25,26 @@ public class AccountRepositoryImpl extends BaseRepositoryImpl<Long, OhLohAccount
 	public static final String BEAN_NAME =  "accountRepository";
 
 	public AccountRepositoryImpl() {
-		super(OhLohAccountEntity.class);
+		super(OpenHubAccountEntity.class);
 	}
 	
 	@Override
-	public OhLohAccountEntity findByLogin(String login) {
+	public OpenHubAccountEntity findByLogin(String login) {
 		CriteriaBuilder criteriaBuilder = getEntityManager()
 				.getCriteriaBuilder();
-		CriteriaQuery<OhLohAccountEntity> criteriaQuery = criteriaBuilder
+		CriteriaQuery<OpenHubAccountEntity> criteriaQuery = criteriaBuilder
 				.createQuery(getEntityClass());
 
-		Root<OhLohAccountEntity> root = criteriaQuery.from(getEntityClass());
-		CriteriaQuery<OhLohAccountEntity> select = criteriaQuery.select(root);
+		Root<OpenHubAccountEntity> root = criteriaQuery.from(getEntityClass());
+		CriteriaQuery<OpenHubAccountEntity> select = criteriaQuery.select(root);
 
 		Predicate namePredicate = criteriaBuilder.equal(root.get("login"), login);
 		select.where(namePredicate);
 
-		TypedQuery<OhLohAccountEntity> query = getEntityManager().createQuery(
+		TypedQuery<OpenHubAccountEntity> query = getEntityManager().createQuery(
 				criteriaQuery);
 
-		OhLohAccountEntity result = null;
+		OpenHubAccountEntity result = null;
 
 		try {
 			result = query.getSingleResult();

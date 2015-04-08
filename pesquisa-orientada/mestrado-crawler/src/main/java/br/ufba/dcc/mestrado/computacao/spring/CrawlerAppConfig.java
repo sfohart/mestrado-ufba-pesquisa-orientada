@@ -9,8 +9,8 @@ import org.springframework.context.annotation.PropertySource;
 import org.springframework.context.support.PropertySourcesPlaceholderConfigurer;
 import org.springframework.core.env.Environment;
 
-import br.ufba.dcc.mestrado.computacao.ohloh.crawler.OhLohProjectCrawler;
-import br.ufba.dcc.mestrado.computacao.ohloh.restful.client.OhLohRestfulClient;
+import br.ufba.dcc.mestrado.computacao.openhub.crawler.OpenHubProjectCrawler;
+import br.ufba.dcc.mestrado.computacao.openhub.restful.client.OpenHubRestfulClientImpl;
 import br.ufba.dcc.mestrado.computacao.search.IndexerRunner;
 import br.ufba.dcc.mestrado.computacao.service.CrawlerServiceConfig;
 
@@ -18,8 +18,8 @@ import br.ufba.dcc.mestrado.computacao.service.CrawlerServiceConfig;
 @ComponentScan("br.ufba.dcc.mestrado.computacao")
 @Import(value={CoreAppConfig.class, CrawlerServiceConfig.class})
 @PropertySource(name = "appProperties", value = {
-	"classpath:ohloh-account.properties", 
-	"classpath:ohloh.properties" 
+	"classpath:openhub-account.properties", 
+	"classpath:openhub.properties" 
 })
 public class CrawlerAppConfig {
 	@Autowired

@@ -1,3 +1,4 @@
+
 package br.ufba.dcc.mestrado.computacao.service.core.impl;
 
 import java.util.List;
@@ -7,7 +8,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import br.ufba.dcc.mestrado.computacao.entities.ohloh.recommender.preference.PreferenceReviewEntity;
+import br.ufba.dcc.mestrado.computacao.entities.recommender.preference.PreferenceReviewEntity;
 import br.ufba.dcc.mestrado.computacao.repository.base.PreferenceReviewRepository;
 import br.ufba.dcc.mestrado.computacao.repository.impl.PreferenceReviewRepositoryImpl;
 import br.ufba.dcc.mestrado.computacao.service.core.base.PreferenceReviewService;
@@ -93,3 +94,4 @@ public class PreferenceReviewServiceImpl
 	}
 
 }
+

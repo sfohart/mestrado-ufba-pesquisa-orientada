@@ -2,14 +2,14 @@ package br.ufba.dcc.mestrado.computacao.service.base;
 
 import java.util.List;
 
-import br.ufba.dcc.mestrado.computacao.entities.ohloh.core.stack.OhLohStackEntity;
+import br.ufba.dcc.mestrado.computacao.entities.openhub.core.stack.OpenHubStackEntity;
 
-public interface StackService extends BaseService<Long, OhLohStackEntity>{
+public interface StackService extends BaseService<Long, OpenHubStackEntity>{
 
 	public Long countAll();
 	
-	public OhLohStackEntity findById(Long id);
+	public OpenHubStackEntity findById(Long id);
 	
-	public List<OhLohStackEntity> findAll(Integer startAt, Integer offset);
+	public List<OpenHubStackEntity> findAll(Integer startAt, Integer offset);
 	
 }

@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 <?xml version="1.0" encoding="ISO-8859-1"?>
 <!DOCTYPE html>
 <html 
@@ -298,4 +299,313 @@
 	</h:body>
 	
 	
+=======
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!DOCTYPE html>
+<html 
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:fn="http://java.sun.com/jsp/jstl/functions"
+	xmlns:p="http://xmlns.jcp.org/jsf/passthrough"
+	>
+	
+	<h:body>		
+		<ui:composition template="/layout/mainLayout.xhtml">
+		
+			<ui:define name="titlePage">Em que eu posso lhe ajudar?</ui:define>
+			
+			
+			<ui:define name="content">
+				
+				<section class="container bs-docs-container">
+					<div class="row">
+						<div class="col-md-3">
+							<div class="bs-docs-sidebar affix" role="complementary" data-spy="affix">
+								<ul class="nav bs-docs-sidenav">
+									<li>
+										<a href="#busca-software">Busca por software livre</a>
+										<ul class="nav">
+											<li><a href="#busca-software-name">Buscar por nome</a></li>
+											<li><a href="#busca-software-description">Buscar por descrição</a></li>
+											<li><a href="#busca-software-tags">Buscar por palavras chave</a></li>
+											<li><a href="#busca-software-license">Buscar por licença de uso</a></li>
+										</ul>
+									</li>
+									<li>
+										<a href="#projetos-recomendados">Projetos recomendados</a>
+										<ul class="nav">
+											<li><a href="#projetos-recomendados-listagem">Visualizando projetos recomendados</a></li>
+											<li><a href="#projetos-recomendados-filtro">Filtrando projetos recomendados</a></li>
+										</ul>
+									</li>
+									<li>
+										<a href="#avaliacao-projeto">Avaliação de projetos</a>
+										<ul class="nav">
+											<li><a href="#avaliacao-projeto-novo">Avaliando um projeto</a></li>
+											<li><a href="#avaliacao-projeto-visualizacao-projeto">Visualizando avaliações de um projeto</a></li>
+											<li><a href="#avaliacao-projeto-visualizacao-usuario">Visualizando as suas próprias avaliações</a></li>
+										</ul>
+									</li>
+									<li><a href="#publicacoes">Publicações</a></li>
+								</ul>
+								<a class="back-to-top" href="#wrap">Voltar ao início</a>
+							</div>
+						</div>
+						
+						<h:panelGroup layout="block" styleClass="col-md-9" >
+							
+							<article>
+								<h1 id="busca-software" class="page-header">Busca por software livre</h1>
+								<p>
+									Busca por software livre é uma das principais funções deste site. E para facilitar ainda mais a sua busca, iremos dar algumas dicas que podem ser de grande utilidade.
+								</p>
+								
+								<h:graphicImage styleClass="img-responsive" library="default" name="img/help/inicial.png" style="margin: 0 auto" />
+								
+								<h2 id="busca-software-name">Buscar por nome</h2>
+								<p>
+									Para buscar um software específico, você pode utilizar a expressão abaixo no campo de busca:
+								</p>
+								
+								<pre>name:"nome do software"</pre>
+								
+								<p>Você também pode buscar pelo nome do projeto utilizando uma palavra chave qualquer ao invãs de uma expressão:</p>
+								
+								<pre>name:palavrachave</pre>
+								
+								<p>
+									No resultado da busca irão aparecer, dentre os projetos cadastrados, apenas aqueles cujo nome contiver a expressão entre aspas ou palavra chave informada. Veja abaixo um exemplo:
+								</p>
+								
+								<h:graphicImage styleClass="img-responsive" library="default" name="img/help/busca-por-nome-resultado.png" style="margin: 0 auto" />
+								
+								<h2 id="busca-software-description">Buscar por descrição</h2>
+								<p>
+									Do mesmo modo que foi feito para o nome do projeto, você também pode buscar apenas pela descrição do projeto utilizando comandos semelhantes:									
+								</p>
+								
+								<pre>description:"expressão qualquer a ser buscada na descrição do projeto"</pre>
+								
+								<pre>description:palavrachave</pre>
+								
+								<p>
+									Como resultado, serão exibidos projetos que contiverem na sua descrição a expressão ou palavra chave fornecida. Veja um exemplo abaixo:
+								</p>
+											
+								<h:graphicImage styleClass="img-responsive" library="default" name="img/help/busca-por-descricao-resultado.png" style="margin: 0 auto" />
+								
+								<h2 id="busca-software-tags">Buscar por palavras chave</h2>
+								<p>
+									De modo semelhante, ainda é possível efetuar buscas apenas nas palavras chave associadas ao projeto de software livre, utilizando o comando abaixo:
+								</p>
+								
+								<pre>tags.name:palavrachave</pre>
+								
+								<p>
+									Como resultado, serão exibidos apenas projetos de software livre que contenham a palavra chave associada. É possível que a palavra chave não apareça
+									no resultado da busca (alguns projetos possuem mais de 7 palavras chave associadas). Neste caso, para visualizar todas as palavras chave de um projeto
+									é só acessar a página de detalhe, clicando no nome do projeto.
+								</p>
+								
+								<h:graphicImage styleClass="img-responsive" library="default" name="img/help/busca-por-tags-resultado.png" style="margin: 0 auto" />
+								
+								<h2 id="busca-software-license">Buscar por licença de uso</h2>
+								
+								<p>
+									Ainda há a possibilidade de se efetuar buscas utilizando licenças de uso dos projetos de software livre como critério de filtro, utilizando o comando abaixo:
+								</p>
+								
+								<pre>tags.name:licençaDeUso</pre>
+								
+								<p>
+									Como resultado, serão exibidos apenas os projetos de software livre que possuam a licença de uso especificada. Para verificar a licença de uso, visualize a página de 
+									detalhe do respectivo projeto.
+								</p>
+								
+								<h:graphicImage styleClass="img-responsive" library="default" name="img/help/busca-por-licenca-resultado.png" style="margin: 0 auto" />
+								
+							</article>
+							
+							<article>
+								<h1 id="projetos-recomendados" class="page-header">Projetos Recomendados</h1>
+								<p>
+									Quando um usuário visualiza a página de detalhe de um projeto, nós armazenamos a identificação do usuário, o projeto e o horário em que o projeto foi visualizado. Nós utilizamos
+									estes dados com o único propósito de recomendar projetos de software livre para os outros usuários do site. 									
+								</p>
+								
+								<h2 id="projetos-recomendados-listagem">Visualizando projetos recomendados</h2>
+								<p>
+									Para visualizar projetos recomendados, você deve entrar no site com o seu usuário e senha. Caso você ainda não possua usuário cadastrado, é necessário criá-lo.
+									Você pode fazer isso acessando os botões na parte superior direita da tela.
+								</p>
+								
+								<h:graphicImage styleClass="img-responsive" library="default" name="img/help/entrar-cadastrar.png" style="margin: 0 auto" />
+								
+								<p>
+									Após entrar no site, você pode visualizar uma lista de projetos recomendados próximo ao rodapé da página, como exibido abaixo:
+								</p>
+								
+								<h:graphicImage styleClass="img-responsive" library="default" name="img/help/projetos-recomendados.png" style="margin: 0 auto" />
+								
+								<h2 id="projetos-recomendados-filtro">Filtrando projetos recomendados</h2>
+								<p>
+									Caso você deseje, é possível filtrar as recomendações utilizando as próprias palavras chave associadas aos projetos. Para isso, após entrar no site com o seu usuário e senha,
+									vá até o menu no canto superior direito da tela e clique no seu nome de usuário, e logo após clique em "Configurações".
+								</p>
+								
+								<h:graphicImage styleClass="img-responsive" library="default" name="img/help/menu-usuario.png" style="margin: 0 auto" />
+								
+								<p>
+									Na tela de configurações para o seu usuário, clique em "Tags de Interesse".
+								</p>
+								
+								<h:graphicImage styleClass="img-responsive" library="default" name="img/help/tags-interesse.png" style="margin: 0 auto" />
+								
+								<p>
+									Na tela que aparece, pode-se visualizar as tags (palavras chave) que você já utiliza como filtro. Há um campo texto no qual você pode digitar palavras chave. Ao digitá-las, 
+									o site efetuará uma busca entre as palavras chave cadastradas, para que você selecione aquelas que mais se aproximam do seu interesse. Após ter selecionado todas as palavras chave desejadas, clique em adicionar.
+								</p>
+								
+								<h:graphicImage styleClass="img-responsive" library="default" name="img/help/selecionar-tags-interesse.png" style="margin: 0 auto" />
+								
+								<p>
+									Voltando à página inicial, você pode visualizar os projetos que nós lhe recomendamos, utilizando as palavras chave selecionadas como filtro
+								</p>
+								
+								<h:graphicImage styleClass="img-responsive" library="default" name="img/help/projetos-recomendados-filtrados.png" style="margin: 0 auto" />
+								
+							</article>							
+							
+							<article>
+								<h1 id="avaliacao-projeto" class="page-header">Avaliação de projetos</h1>
+								<p>
+									Você pode (e recomendamos fortemente que o faça) avaliar projetos de software livre que já tenha utilizado em algum momento. 
+									As avaliações dos projetos de software livre feitas por você auxiliam os outros
+									usuários a terem uma noção de quão útil pra eles estes projetos podem ser.
+								</p>
+								
+								<h2 id="avaliacao-projeto-novo">Avaliando um projeto</h2>																		
+								<p>
+									Para avaliar um projeto de software livre em nosso site, primeiro acesse a página de detalhe dele. Lá é possível visualizar alguns dados básicos
+									do projeto que podem ser úteis para uma avaliação mais coerente. A opção para avaliar um projeto está localizada logo abaixo da avaliação da comunidade 
+									para o projeto. 
+								</p>
+								
+								<h:graphicImage styleClass="img-responsive" library="default" name="img/help/opcao-avaliar-projeto.png" style="margin: 20px auto" />
+								
+								<p>
+									Ao clicar nesta opção, uma nova tela disponibilizará uma série de critérios para que você avalie o software. São eles:
+								</p>
+								
+								<ol>
+									<li>Facilidade de entender, testar ou customizar</li>
+									<li>Desempenho/Eficiência</li>
+									<li>Atende às necessidades</li>
+									<li>Facilidade de instalação/configuração</li>
+									<li>Qualidade da documentação</li>
+									<li>Custo Total de Propriedade de Software</li>
+									<li>Relevância/Utilidade</li>
+									<li>Existência de Suporte Externo</li>
+									<li>Curva de aprendizado para a utilização da solução </li>
+									<li>Popularidade</li>
+								</ol>
+								
+								<h:graphicImage styleClass="img-responsive" library="default" name="img/help/nova-avaliacao-projeto-01.png" style="margin: 20px auto" />
+								
+								<p>
+									Caso você não tenha entendido algum destes critérios, você pode clicar no ícone <span class="fa fa-question-circle"></span>, e uma 
+									breve descrição do critério de avaliação lhe será exibida. Clique novamente no ícone <span class="fa fa-question-circle"></span> para
+									que a dica seja fechada.
+								</p>
+								
+								<h:graphicImage styleClass="img-responsive" library="default" name="img/help/nova-avaliacao-projeto-02.png" style="margin: 20px auto" />
+								
+								<p>
+									Você pode escolher entre 1 e 5 estrelas para cada critério. O significado de cada quantidade de estrelas irá aparecer logo abaixo
+									do critério de avaliação, como exemplificado abaixo:
+								</p>
+								
+								<h:graphicImage styleClass="img-responsive" library="default" name="img/help/nova-avaliacao-projeto-03.png" style="margin: 20px auto" />
+								
+								<p>
+									Você pode deixar critérios em branco, caso não saiba como avaliá-lo. Após dar uma nota (ou deixar em branco) para os critérios de 
+									avaliação, dê uma avaliação geral para o software.
+								</p>
+								
+								<h:graphicImage styleClass="img-responsive" library="default" name="img/help/nova-avaliacao-projeto-04.png" style="margin: 20px auto" />
+								
+								<p>
+									Caso você tenha algo mais a dizer sobre o software livre, deixe uma opinião textual. Ela será bastante útil para os demais
+									potenciais usuários. Evite utilizar palavras de baixo calão, xingamentos e afins. Ao término da sua avaliação para o software, clique
+									no botão enviar.
+								</p>
+						
+								<h:graphicImage styleClass="img-responsive" library="default" name="img/help/nova-avaliacao-projeto-05.png" style="margin: 20px auto" />
+								
+				
+								<h2 id="avaliacao-projeto-visualizacao-projeto">Visualizando avaliações de um projeto</h2>
+								<p>
+									Ao entrar na página de detalhes do projeto, você poderá visualizar a média das avaliações dadas pela comunidade de usuários do site.
+									Também é possível visualizar a média das avaliações para cada critério. Caso tenha dúvidas sobre o significado de cada critério,
+									você pode clicar no ícone de ajuda <span class="fa fa-question-circle"></span>, do mesmo modo como na avaliação do projeto.																		
+								</p>
+								
+								
+								<h:graphicImage styleClass="img-responsive" library="default" name="img/help/visualizar-avaliacoes-01.png" style="margin: 20px auto" />
+								
+								<p>
+									Você também pode visualizar as opiniões dos usuários sobre cada projeto, clicando no link <i>Veja outras avaliações</i>.
+								</p>
+								
+								<h:graphicImage styleClass="img-responsive" library="default" name="img/help/opcao-avaliar-projeto-02.png" style="margin: 20px auto" />
+								
+								<p>
+									A página que é apresentada logo a seguir é a mesma que lhe é apresentada após o término da avaliação de um projeto. Na parte superior
+									são exibidos dados básicos sobre a média das avaliações e a quantidade de avaliações. No meio da tela aparecem a média das avaliações 
+									por critério, como na página de detalhe. Logo abaixo, aparece a lista de opiniões deixadas pelos usuários.
+								</p>
+								
+								<h:graphicImage styleClass="img-responsive" library="default" name="img/help/visualizar-avaliacoes-02.png" style="margin: 20px auto" />
+								
+								<p>
+									Clicando nos links <i>Opiniões mais úteis</i> ou <i>Opiniões mais recentes</i>, uma lista das opiniões dos usuários
+									em forma de <i>timeline</i> é exibida. 
+								</p>
+								
+								<h:graphicImage styleClass="img-responsive" library="default" name="img/help/visualizar-avaliacoes-03.png" style="margin: 20px auto" />
+								
+								<h2 id="avaliacao-projeto-visualizacao-usuario">Visualizando as suas próprias avaliações</h2>
+								<p>
+									Para visualizar todas as avaliações que você tenha feito para os projetos cadastrados no site, clique no seu login, na parte superior
+									direita da tela. Escolha a opção <i>Perfil</i>. Na tela que aparece, clique no link <i>Opiniões</i>, na parte inferior direita da tela.
+								</p>
+								
+								<h:graphicImage styleClass="img-responsive" library="default" name="img/help/visualizar-avaliacoes-04.png" style="margin: 20px auto" />
+								
+								<p>
+									Uma listagem das suas opiniões para os projetos será exibida, também em forma de timeline. 
+								</p>
+								
+							</article>
+							<article>
+								<h1 id="publicacoes" class="page-header">Publicações</h1>
+								<h:outputLink value="publications/wsl2014/article-wsl2014.pdf">Sfohart: Um Sistema de Recomendação Multicritério para Adoção de Software Livre</h:outputLink>, 
+								por Leandro Soriano Ferreira, Roberto Almeida Bittencourt, Christina von Flach Garcia Chavez. Artigo publicado na Sessão Técnica do
+								Workshop Internacional de Software Livre, Maio de 2014. <h:outputLink value="publications/wsl2014/article-wsl2014.pdf">Artigo completo (PDF)</h:outputLink> |
+								<h:outputLink value="publications/wsl2014/slides-wsl2014.pdf">Slides (PDF)</h:outputLink> | <h:outputLink value="publications/wsl2014/article-wsl2014.bib">Bibtex</h:outputLink>
+							</article>
+						</h:panelGroup>
+					</div>
+				</section>
+			
+			</ui:define>
+		
+		</ui:composition>
+	</h:body>
+	
+	
+>>>>>>> evaluation
 </html>

@@ -1,6 +1,7 @@
+
 package br.ufba.dcc.mestrado.computacao.service.core.base;
 
-import br.ufba.dcc.mestrado.computacao.entities.ohloh.recommender.user.UserEntity;
+import br.ufba.dcc.mestrado.computacao.entities.recommender.user.UserEntity;
 import br.ufba.dcc.mestrado.computacao.service.base.BaseService;
 
 public interface UserService extends BaseService<Long, UserEntity> {
@@ -20,3 +21,4 @@ public interface UserService extends BaseService<Long, UserEntity> {
 	UserEntity findBySocialLogin(String socialUsername);
 	
 }
+

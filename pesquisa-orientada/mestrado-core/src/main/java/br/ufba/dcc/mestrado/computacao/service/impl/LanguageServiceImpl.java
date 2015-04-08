@@ -4,13 +4,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
-import br.ufba.dcc.mestrado.computacao.entities.ohloh.core.language.OhLohLanguageEntity;
+import br.ufba.dcc.mestrado.computacao.entities.openhub.core.language.OpenHubLanguageEntity;
 import br.ufba.dcc.mestrado.computacao.repository.base.LanguageRepository;
 import br.ufba.dcc.mestrado.computacao.repository.impl.LanguageRepositoryImpl;
 import br.ufba.dcc.mestrado.computacao.service.base.LanguageService;
 
 @Service(LanguageServiceImpl.BEAN_NAME)
-public class LanguageServiceImpl extends BaseServiceImpl<Long, OhLohLanguageEntity>
+public class LanguageServiceImpl extends BaseServiceImpl<Long, OpenHubLanguageEntity>
 		implements LanguageService {
 	
 	/**
@@ -23,7 +23,7 @@ public class LanguageServiceImpl extends BaseServiceImpl<Long, OhLohLanguageEnti
 
 	@Autowired
 	public LanguageServiceImpl(@Qualifier(LanguageRepositoryImpl.BEAN_NAME) LanguageRepository repository) {
-		super(repository, OhLohLanguageEntity.class);
+		super(repository, OpenHubLanguageEntity.class);
 	}
 
 }

@@ -15,7 +15,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
-import br.ufba.dcc.mestrado.computacao.entities.ohloh.core.project.OhLohProjectEntity;
+import br.ufba.dcc.mestrado.computacao.entities.openhub.core.project.OpenHubProjectEntity;
 import br.ufba.dcc.mestrado.computacao.repository.base.ProjectRepository;
 import br.ufba.dcc.mestrado.computacao.search.SearchRequest;
 import br.ufba.dcc.mestrado.computacao.search.SearchResponse;
@@ -87,7 +87,7 @@ public class SearchServiceImpl implements SearchService {
 				
 				Integer totalResults = fullTextQuery.getResultSize();
 				
-				List<OhLohProjectEntity> projectList = fullTextQuery.getResultList();		
+				List<OpenHubProjectEntity> projectList = fullTextQuery.getResultList();		
 				
 				searchResult = new SearchResponse(tagFacets, projectList, totalResults);
 			}
@@ -98,8 +98,8 @@ public class SearchServiceImpl implements SearchService {
 	
 	@Override
 	@Transactional(propagation=Propagation.REQUIRED)
-	public List<OhLohProjectEntity> findRelatedProjects(
-			OhLohProjectEntity project,
+	public List<OpenHubProjectEntity> findRelatedProjects(
+			OpenHubProjectEntity project,
 			Integer firstResult,
 			Integer maxResults) throws IOException {
 		FullTextQuery fullTextQuery = projectRepository.findRelatedProjects(project);
@@ -112,7 +112,7 @@ public class SearchServiceImpl implements SearchService {
 			fullTextQuery.setMaxResults(maxResults);
 		}
 		
-		List<OhLohProjectEntity> resultList = fullTextQuery.getResultList();
+		List<OpenHubProjectEntity> resultList = fullTextQuery.getResultList();
 		
 		return resultList;
 	}

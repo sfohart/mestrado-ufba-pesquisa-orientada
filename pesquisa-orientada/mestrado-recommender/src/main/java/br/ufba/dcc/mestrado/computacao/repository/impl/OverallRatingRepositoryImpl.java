@@ -1,3 +1,4 @@
+
 package br.ufba.dcc.mestrado.computacao.repository.impl;
 
 import java.sql.Timestamp;
@@ -22,8 +23,8 @@ import javax.persistence.criteria.Subquery;
 import org.apache.commons.lang3.tuple.ImmutablePair;
 import org.springframework.stereotype.Repository;
 
-import br.ufba.dcc.mestrado.computacao.entities.ohloh.core.project.OhLohProjectEntity;
-import br.ufba.dcc.mestrado.computacao.entities.ohloh.recommender.preference.PreferenceEntity;
+import br.ufba.dcc.mestrado.computacao.entities.openhub.core.project.OpenHubProjectEntity;
+import br.ufba.dcc.mestrado.computacao.entities.recommender.preference.PreferenceEntity;
 import br.ufba.dcc.mestrado.computacao.repository.base.OverallRatingRepository;
 
 @Repository(OverallRatingRepositoryImpl.BEAN_NAME)
@@ -314,18 +315,18 @@ public class OverallRatingRepositoryImpl
 	}
 
 	@Override
-	public List<ImmutablePair<OhLohProjectEntity, Long>> findRatingCountByProject(
+	public List<ImmutablePair<OpenHubProjectEntity, Long>> findRatingCountByProject(
 			Integer startAt, 
 			Integer offset) {
 		
 		
-		List<ImmutablePair<OhLohProjectEntity, Long>> resultList = null;
+		List<ImmutablePair<OpenHubProjectEntity, Long>> resultList = null;
 		
 		CriteriaBuilder criteriaBuilder = getEntityManager().getCriteriaBuilder();
 		CriteriaQuery<Tuple> tupleQuery = criteriaBuilder.createTupleQuery();
 		
 		Root<PreferenceEntity> root = tupleQuery.from(PreferenceEntity.class);
-		Join<PreferenceEntity, OhLohProjectEntity> projectJoin = root.join("project", JoinType.INNER);
+		Join<PreferenceEntity, OpenHubProjectEntity> projectJoin = root.join("project", JoinType.INNER);
 		
 		
 		Expression<Long> ratingCount = criteriaBuilder.count(root);
@@ -373,8 +374,8 @@ public class OverallRatingRepositoryImpl
 			resultList = new ArrayList<>();
 			
 			for (Tuple tuple : tupleList) {
-				ImmutablePair<OhLohProjectEntity, Long> pair = new ImmutablePair<OhLohProjectEntity, Long>(
-						tuple.get(0, OhLohProjectEntity.class), 
+				ImmutablePair<OpenHubProjectEntity, Long> pair = new ImmutablePair<OpenHubProjectEntity, Long>(
+						tuple.get(0, OpenHubProjectEntity.class), 
 						tuple.get(1, Long.class));
 				
 				resultList.add(pair);
@@ -444,3 +445,4 @@ public class OverallRatingRepositoryImpl
 	}
 
 }
+

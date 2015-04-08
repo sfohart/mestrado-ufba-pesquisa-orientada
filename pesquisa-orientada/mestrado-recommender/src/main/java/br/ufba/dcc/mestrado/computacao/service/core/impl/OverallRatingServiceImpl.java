@@ -1,3 +1,4 @@
+
 package br.ufba.dcc.mestrado.computacao.service.core.impl;
 
 import java.sql.Timestamp;
@@ -12,10 +13,10 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import br.ufba.dcc.mestrado.computacao.entities.ohloh.core.project.OhLohProjectEntity;
-import br.ufba.dcc.mestrado.computacao.entities.ohloh.recommender.criterium.RecommenderCriteriumEntity;
-import br.ufba.dcc.mestrado.computacao.entities.ohloh.recommender.preference.PreferenceEntity;
-import br.ufba.dcc.mestrado.computacao.entities.ohloh.recommender.preference.PreferenceEntryEntity;
+import br.ufba.dcc.mestrado.computacao.entities.openhub.core.project.OpenHubProjectEntity;
+import br.ufba.dcc.mestrado.computacao.entities.recommender.criterium.RecommenderCriteriumEntity;
+import br.ufba.dcc.mestrado.computacao.entities.recommender.preference.PreferenceEntity;
+import br.ufba.dcc.mestrado.computacao.entities.recommender.preference.PreferenceEntryEntity;
 import br.ufba.dcc.mestrado.computacao.repository.base.BaseRepository;
 import br.ufba.dcc.mestrado.computacao.repository.base.OverallRatingRepository;
 import br.ufba.dcc.mestrado.computacao.repository.impl.OverallRatingRepositoryImpl;
@@ -88,7 +89,7 @@ public class OverallRatingServiceImpl
 	public PreferenceEntity averagePreferenceByItem(Long itemId) {
 		List<RecommenderCriteriumEntity> criteriaList = getRecommenderCriteriumService().findAll();
 		
-		OhLohProjectEntity project = getProjectService().findById(itemId);
+		OpenHubProjectEntity project = getProjectService().findById(itemId);
 		Double averageOverallRating = averageRatingByItem(itemId);
 		
 		PreferenceEntity averagePreference = new PreferenceEntity();
@@ -174,7 +175,7 @@ public class OverallRatingServiceImpl
 
 	@Override
 	@Transactional(readOnly = true)
-	public List<ImmutablePair<OhLohProjectEntity, Long>> findRatingCountByProject(
+	public List<ImmutablePair<OpenHubProjectEntity, Long>> findRatingCountByProject(
 			Integer startAt, 
 			Integer offset) {
 		return ((OverallRatingRepository) getRepository()).findRatingCountByProject(startAt, offset);
@@ -249,3 +250,4 @@ public class OverallRatingServiceImpl
 	}
 
 }
+

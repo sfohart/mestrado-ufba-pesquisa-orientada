@@ -1,3 +1,4 @@
+
 package br.ufba.dcc.mestrado.computacao.web.managedbean.project;
 
 import java.util.ArrayList;
@@ -8,7 +9,7 @@ import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
 import javax.faces.event.ComponentSystemEvent;
 
-import br.ufba.dcc.mestrado.computacao.entities.ohloh.core.project.OhLohProjectEntity;
+import br.ufba.dcc.mestrado.computacao.entities.openhub.core.project.OpenHubProjectEntity;
 import br.ufba.dcc.mestrado.computacao.service.core.base.BaseColaborativeFilteringService;
 
 @ManagedBean(name="alsoViewedProjectMB")
@@ -29,7 +30,7 @@ public class AlsoViewedProjectManagedBean extends ProjectManagedBean {
 	@ManagedProperty("#{mahoutColaborativeFilteringService}")
 	private BaseColaborativeFilteringService colaborativeFilteringService;
 	
-	private List<OhLohProjectEntity> alsoViewedProjectList;
+	private List<OpenHubProjectEntity> alsoViewedProjectList;
 	
 	public AlsoViewedProjectManagedBean() {
 		super();
@@ -79,13 +80,14 @@ public class AlsoViewedProjectManagedBean extends ProjectManagedBean {
 	}
 
 	
-	public List<OhLohProjectEntity> getAlsoViewedProjectList() {
+	public List<OpenHubProjectEntity> getAlsoViewedProjectList() {
 		return alsoViewedProjectList;
 	}
 
 	public void setAlsoViewedProjectList(
-			List<OhLohProjectEntity> alsoViewedProjectList) {
+			List<OpenHubProjectEntity> alsoViewedProjectList) {
 		this.alsoViewedProjectList = alsoViewedProjectList;
 	}
 
 }
+

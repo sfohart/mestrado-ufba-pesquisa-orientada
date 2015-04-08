@@ -2,13 +2,13 @@ package br.ufba.dcc.mestrado.computacao.repository.base;
 
 import java.util.List;
 
-import br.ufba.dcc.mestrado.computacao.entities.ohloh.core.project.OhLohLinkEntity;
-import br.ufba.dcc.mestrado.computacao.entities.ohloh.core.project.OhLohProjectEntity;
+import br.ufba.dcc.mestrado.computacao.entities.openhub.core.project.OpenHubLinkEntity;
+import br.ufba.dcc.mestrado.computacao.entities.openhub.core.project.OpenHubProjectEntity;
 
-public interface LinkRepository extends BaseRepository<Long, OhLohLinkEntity>{
+public interface LinkRepository extends BaseRepository<Long, OpenHubLinkEntity>{
 	
-	List<OhLohLinkEntity> findByProject(OhLohProjectEntity project);
+	List<OpenHubLinkEntity> findByProject(OpenHubProjectEntity project);
 	
-	Long countAllByProject(OhLohProjectEntity project);
+	Long countAllByProject(OpenHubProjectEntity project);
 	
 }

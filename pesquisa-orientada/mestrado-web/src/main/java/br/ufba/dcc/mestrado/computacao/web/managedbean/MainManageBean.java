@@ -12,7 +12,7 @@ import javax.faces.event.ComponentSystemEvent;
 
 import org.hibernate.search.query.facet.Facet;
 
-import br.ufba.dcc.mestrado.computacao.entities.ohloh.core.project.OhLohProjectEntity;
+import br.ufba.dcc.mestrado.computacao.entities.openhub.core.project.OpenHubProjectEntity;
 import br.ufba.dcc.mestrado.computacao.search.SearchRequest;
 import br.ufba.dcc.mestrado.computacao.search.SearchResponse;
 import br.ufba.dcc.mestrado.computacao.service.base.ProjectService;
@@ -27,7 +27,7 @@ import br.ufba.dcc.mestrado.computacao.web.pagination.PageList;
  */
 @ManagedBean(name="mainMB")
 @ViewScoped
-public class MainManageBean extends AbstractListingManagedBean<Long, OhLohProjectEntity> {
+public class MainManageBean extends AbstractListingManagedBean<Long, OpenHubProjectEntity> {
 
 	/**
 	 * 
@@ -79,7 +79,7 @@ public class MainManageBean extends AbstractListingManagedBean<Long, OhLohProjec
 	}
 	
 	@Override
-	protected OhLohProjectEntity findSelectedEntityById(Long id) {
+	protected OpenHubProjectEntity findSelectedEntityById(Long id) {
 		return getProjectService().findById(id);
 	}
 	
@@ -88,7 +88,7 @@ public class MainManageBean extends AbstractListingManagedBean<Long, OhLohProjec
 				&& getSearchRequest().getQuery() != null
 				&& ! "".equals(getSearchRequest().getQuery())) {
 			
-			this.dataModel = new LazyLoadingDataModel<Long, OhLohProjectEntity>() {
+			this.dataModel = new LazyLoadingDataModel<Long, OpenHubProjectEntity>() {
 
 				/**
 				 * 
@@ -106,7 +106,7 @@ public class MainManageBean extends AbstractListingManagedBean<Long, OhLohProjec
 					PageList pageList = null;
 					
 					if (searchResponse != null) {
-						List<OhLohProjectEntity> data = searchResponse.getProjectList();
+						List<OpenHubProjectEntity> data = searchResponse.getProjectList();
 						this.setWrappedData(data);
 						
 						getSearchRequest().getDeselectedFacets().clear();

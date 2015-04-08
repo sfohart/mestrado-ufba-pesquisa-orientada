@@ -13,12 +13,18 @@
 	<properties>
 		<commons-collections.version>3.2.1</commons-collections.version>
 		<beanutils-version>1.8.3</beanutils-version>
-		<xstream.version>1.4.3</xstream.version>
-		<restfulie.version>1.0.1</restfulie.version>		
+		<xstream.version>1.4.8</xstream.version>
+		<restfulie.version>1.0.1</restfulie.version>
+
 	</properties>
 
 	<dependencies>
-	
+
+		<dependency>
+			<groupId>org.glassfish.jersey.core</groupId>
+			<artifactId>jersey-client</artifactId>
+		</dependency>
+
 		<!-- RESTfulie -->
 		<dependency>
 			<groupId>br.com.caelum</groupId>
@@ -31,14 +37,14 @@
 				</exclusion>
 			</exclusions>
 		</dependency>
-	
-		<!-- XSTREAM -->		
+
+		<!-- XSTREAM -->
 		<dependency>
 			<groupId>com.thoughtworks.xstream</groupId>
 			<artifactId>xstream</artifactId>
 			<version>${xstream.version}</version>
 		</dependency>
-	
+
 		<!-- APACHE COMMONS -->
 		<dependency>
 			<groupId>commons-beanutils</groupId>
@@ -57,14 +63,14 @@
 			<artifactId>commons-collections</artifactId>
 			<version>${commons-collections.version}</version>
 		</dependency>
-		
+
 		<!-- Mestrado Crawler -->
 		<dependency>
 			<groupId>br.ufba.dcc.mestrado.computacao</groupId>
 			<artifactId>mestrado-core</artifactId>
 			<version>${project.version}</version>
 		</dependency>
-		
+
 		<!-- Apache Commons Lang -->
 		<dependency>
 			<groupId>org.apache.commons</groupId>

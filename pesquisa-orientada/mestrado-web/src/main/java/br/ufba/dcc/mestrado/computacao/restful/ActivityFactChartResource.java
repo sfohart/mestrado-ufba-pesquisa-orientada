@@ -17,8 +17,8 @@ import org.glassfish.jersey.server.JSONP;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import br.ufba.dcc.mestrado.computacao.entities.ohloh.core.activityfact.OhLohActivityFactEntity;
-import br.ufba.dcc.mestrado.computacao.entities.ohloh.core.project.OhLohProjectEntity;
+import br.ufba.dcc.mestrado.computacao.entities.openhub.core.activityfact.OpenHubActivityFactEntity;
+import br.ufba.dcc.mestrado.computacao.entities.openhub.core.project.OpenHubProjectEntity;
 import br.ufba.dcc.mestrado.computacao.service.base.ActivityFactService;
 
 /**
@@ -52,13 +52,13 @@ public class ActivityFactChartResource implements Serializable {
 	 * @param projectIdParam
 	 * @return
 	 */
-	protected List<OhLohActivityFactEntity> findAllActivityFactsByProject(String projectIdParam) {
-		List<OhLohActivityFactEntity> activityFactList = null;
+	protected List<OpenHubActivityFactEntity> findAllActivityFactsByProject(String projectIdParam) {
+		List<OpenHubActivityFactEntity> activityFactList = null;
 		if (! StringUtils.isEmpty(projectIdParam)) {
 			Long projectId = Long.valueOf(projectIdParam);
 			
 			if (projectId != null) {
-				OhLohProjectEntity project = new OhLohProjectEntity();
+				OpenHubProjectEntity project = new OpenHubProjectEntity();
 				project.setId(projectId);
 				
 				activityFactList = getActivityFactService().findByProject(project);
@@ -79,8 +79,8 @@ public class ActivityFactChartResource implements Serializable {
 	@Produces("application/json")
 	public String produceCodeChartData(
 			@PathParam("projectId") String projectIdParam) throws JSONException {
-		List<OhLohActivityFactEntity> activityFactList = findAllActivityFactsByProject(projectIdParam);
-		OhLohActivityFactEntity first = null;
+		List<OpenHubActivityFactEntity> activityFactList = findAllActivityFactsByProject(projectIdParam);
+		OpenHubActivityFactEntity first = null;
 		
 		List<Long> codeList = new ArrayList<>();
 		Long totalCode = 0L;
@@ -93,7 +93,7 @@ public class ActivityFactChartResource implements Serializable {
 		if (activityFactList != null && ! activityFactList.isEmpty()) {
 			first = activityFactList.get(0);
 			
-			for (OhLohActivityFactEntity activityFact : activityFactList) {				
+			for (OpenHubActivityFactEntity activityFact : activityFactList) {				
 				totalCode += activityFact.getCodeAdded() - activityFact.getCodeRemoved();
 				codeList.add(totalCode);
 				
@@ -129,13 +129,13 @@ public class ActivityFactChartResource implements Serializable {
 	public String produceCommitsChartData(
 			@PathParam("projectId") String projectIdParam) throws JSONException {
 		
-		List<OhLohActivityFactEntity> activityFactList = findAllActivityFactsByProject(projectIdParam);
-		OhLohActivityFactEntity first = null;
+		List<OpenHubActivityFactEntity> activityFactList = findAllActivityFactsByProject(projectIdParam);
+		OpenHubActivityFactEntity first = null;
 		
 		List<Long> commitsList = new ArrayList<>();
 		if (activityFactList != null && ! activityFactList.isEmpty()) {
 			first = activityFactList.get(0);
-			for (OhLohActivityFactEntity activityFact : activityFactList) {
+			for (OpenHubActivityFactEntity activityFact : activityFactList) {
 				commitsList.add(activityFact.getCommits());
 			}
 		}
@@ -155,13 +155,13 @@ public class ActivityFactChartResource implements Serializable {
 	@Produces("application/json")
 	public String produceContributorsChartData(
 			@PathParam("projectId") String projectIdParam) throws JSONException {
-		List<OhLohActivityFactEntity> activityFactList = findAllActivityFactsByProject(projectIdParam);
-		OhLohActivityFactEntity first = null;
+		List<OpenHubActivityFactEntity> activityFactList = findAllActivityFactsByProject(projectIdParam);
+		OpenHubActivityFactEntity first = null;
 		
 		List<Long> contributorsList = new ArrayList<>();
 		if (activityFactList != null && ! activityFactList.isEmpty()) {
 			first = activityFactList.get(0);
-			for (OhLohActivityFactEntity activityFact : activityFactList) {
+			for (OpenHubActivityFactEntity activityFact : activityFactList) {
 				contributorsList.add(activityFact.getContributors());
 			}
 		}

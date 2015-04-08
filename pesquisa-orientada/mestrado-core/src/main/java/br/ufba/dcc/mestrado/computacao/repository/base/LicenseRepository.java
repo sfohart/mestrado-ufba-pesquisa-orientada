@@ -1,9 +1,9 @@
 package br.ufba.dcc.mestrado.computacao.repository.base;
 
-import br.ufba.dcc.mestrado.computacao.entities.ohloh.core.project.OhLohLicenseEntity;
+import br.ufba.dcc.mestrado.computacao.entities.openhub.core.project.OpenHubLicenseEntity;
 
-public interface LicenseRepository extends BaseRepository<Long, OhLohLicenseEntity>{
+public interface LicenseRepository extends BaseRepository<Long, OpenHubLicenseEntity>{
 
-	public OhLohLicenseEntity findByName(String name);
+	public OpenHubLicenseEntity findByName(String name);
 	
 }

@@ -13,8 +13,8 @@ import org.apache.commons.lang3.tuple.ImmutablePair;
 
 import br.ufba.dcc.mestrado.computacao.dto.pageview.ProjectDetailPageViewInfo;
 import br.ufba.dcc.mestrado.computacao.dto.pageview.ProjectReviewsInfo;
-import br.ufba.dcc.mestrado.computacao.entities.ohloh.core.project.OhLohProjectEntity;
-import br.ufba.dcc.mestrado.computacao.entities.ohloh.recommender.user.UserEntity;
+import br.ufba.dcc.mestrado.computacao.entities.openhub.core.project.OpenHubProjectEntity;
+import br.ufba.dcc.mestrado.computacao.entities.recommender.user.UserEntity;
 import br.ufba.dcc.mestrado.computacao.service.base.ProjectService;
 import br.ufba.dcc.mestrado.computacao.service.basic.RepositoryBasedUserDetailsService;
 import br.ufba.dcc.mestrado.computacao.service.core.base.BaseColaborativeFilteringService;
@@ -56,8 +56,8 @@ public class IndexManagedBean implements Serializable {
 	private List<ProjectReviewsInfo> topTenReviewedProjectList;
 	private List<ProjectDetailPageViewInfo> topTenViewedProjectList;
 	
-	private List<OhLohProjectEntity> projectViewedList;
-	private List<OhLohProjectEntity> recommendedProjectList;
+	private List<OpenHubProjectEntity> projectViewedList;
+	private List<OpenHubProjectEntity> recommendedProjectList;
 	
 	private ProjectReviewsInfo mostReviewedProjectPreferenceInfo;
 	private ProjectDetailPageViewInfo mostViewedProjectDetailInfo;
@@ -85,11 +85,11 @@ public class IndexManagedBean implements Serializable {
 
 	protected void findTopTenViewedProjectList() {
 		
-		List<ImmutablePair<OhLohProjectEntity, Long>> viewedProjectData = getPageViewService().findAllProjectDetailViewsCount(0, 10);
+		List<ImmutablePair<OpenHubProjectEntity, Long>> viewedProjectData = getPageViewService().findAllProjectDetailViewsCount(0, 10);
 		this.topTenViewedProjectList = new ArrayList<>();
 		
 		if (viewedProjectData != null && ! viewedProjectData.isEmpty()) {
-			for (ImmutablePair<OhLohProjectEntity, Long> pair : viewedProjectData) {
+			for (ImmutablePair<OpenHubProjectEntity, Long> pair : viewedProjectData) {
 				ProjectDetailPageViewInfo info = new ProjectDetailPageViewInfo();
 				info.setProject(pair.getLeft());
 				info.setPageViewCount(pair.getRight());
@@ -100,12 +100,12 @@ public class IndexManagedBean implements Serializable {
 	}
 
 	protected void findTopTenReviewedProjectList() {
-		List<ImmutablePair<OhLohProjectEntity, Long>> reviewedProjectData = getOverallRatingService().findRatingCountByProject(0, 10);
+		List<ImmutablePair<OpenHubProjectEntity, Long>> reviewedProjectData = getOverallRatingService().findRatingCountByProject(0, 10);
 		
 		this.topTenReviewedProjectList = new ArrayList<>();
 		
 		if (reviewedProjectData != null && ! reviewedProjectData.isEmpty()) {
-			for (ImmutablePair<OhLohProjectEntity, Long> pair : reviewedProjectData) {
+			for (ImmutablePair<OpenHubProjectEntity, Long> pair : reviewedProjectData) {
 				ProjectReviewsInfo info = new ProjectReviewsInfo();
 				
 				info.setProject(pair.getLeft());
@@ -228,11 +228,11 @@ public class IndexManagedBean implements Serializable {
 		return mostViewedProjectDetailInfo;
 	}
 
-	public List<OhLohProjectEntity> getProjectViewedList() {
+	public List<OpenHubProjectEntity> getProjectViewedList() {
 		return projectViewedList;
 	}
 	
-	public List<OhLohProjectEntity> getRecommendedProjectList() {
+	public List<OpenHubProjectEntity> getRecommendedProjectList() {
 		return recommendedProjectList;
 	}
 }

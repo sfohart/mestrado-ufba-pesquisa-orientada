@@ -6,15 +6,15 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
-import br.ufba.dcc.mestrado.computacao.entities.ohloh.core.activityfact.OhLohActivityFactEntity;
-import br.ufba.dcc.mestrado.computacao.entities.ohloh.core.project.OhLohProjectEntity;
+import br.ufba.dcc.mestrado.computacao.entities.openhub.core.activityfact.OpenHubActivityFactEntity;
+import br.ufba.dcc.mestrado.computacao.entities.openhub.core.project.OpenHubProjectEntity;
 import br.ufba.dcc.mestrado.computacao.repository.base.ActivityFactRepository;
 import br.ufba.dcc.mestrado.computacao.repository.impl.ActivityFactRepositoryImpl;
 import br.ufba.dcc.mestrado.computacao.service.base.ActivityFactService;
 
 @Service(ActivityFactServiceImpl.BEAN_NAME)
 public class ActivityFactServiceImpl 
-		extends BaseServiceImpl<Long, OhLohActivityFactEntity> 
+		extends BaseServiceImpl<Long, OpenHubActivityFactEntity> 
 		implements ActivityFactService {
 	
 	/**
@@ -26,16 +26,16 @@ public class ActivityFactServiceImpl
 	
 	@Autowired
 	public ActivityFactServiceImpl(@Qualifier(ActivityFactRepositoryImpl.BEAN_NAME) ActivityFactRepository repository) {
-		super(repository, OhLohActivityFactEntity.class);
+		super(repository, OpenHubActivityFactEntity.class);
 	}
 
 	@Override
-	public Long countAllByProject(OhLohProjectEntity project) {
+	public Long countAllByProject(OpenHubProjectEntity project) {
 		return ((ActivityFactRepository) getRepository()).countAllByProject(project);
 	}
 
 	@Override
-	public List<OhLohActivityFactEntity> findByProject(OhLohProjectEntity project) {
+	public List<OpenHubActivityFactEntity> findByProject(OpenHubProjectEntity project) {
 		return ((ActivityFactRepository) getRepository()).findByProject(project);
 	}
 	

@@ -2,10 +2,10 @@ package br.ufba.dcc.mestrado.computacao.service.base;
 
 import java.util.List;
 
-import br.ufba.dcc.mestrado.computacao.entities.ohloh.core.activityfact.OhLohActivityFactEntity;
-import br.ufba.dcc.mestrado.computacao.entities.ohloh.core.project.OhLohProjectEntity;
+import br.ufba.dcc.mestrado.computacao.entities.openhub.core.activityfact.OpenHubActivityFactEntity;
+import br.ufba.dcc.mestrado.computacao.entities.openhub.core.project.OpenHubProjectEntity;
 
-public interface ActivityFactService extends BaseService<Long, OhLohActivityFactEntity>{
+public interface ActivityFactService extends BaseService<Long, OpenHubActivityFactEntity>{
 
 	
 	/**
@@ -13,13 +13,13 @@ public interface ActivityFactService extends BaseService<Long, OhLohActivityFact
 	 * @param project
 	 * @return
 	 */
-	Long countAllByProject(OhLohProjectEntity project);
+	Long countAllByProject(OpenHubProjectEntity project);
 	
 	/**
 	 * 
 	 * @param project
 	 * @return
 	 */
-	List<OhLohActivityFactEntity> findByProject(OhLohProjectEntity project);
+	List<OpenHubActivityFactEntity> findByProject(OpenHubProjectEntity project);
 	
 }

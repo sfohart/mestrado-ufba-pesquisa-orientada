@@ -2,12 +2,12 @@ package br.ufba.dcc.mestrado.computacao.repository.impl;
 
 import org.springframework.stereotype.Repository;
 
-import br.ufba.dcc.mestrado.computacao.entities.ohloh.core.stack.OhLohStackEntity;
+import br.ufba.dcc.mestrado.computacao.entities.openhub.core.stack.OpenHubStackEntity;
 import br.ufba.dcc.mestrado.computacao.repository.base.StackRepository;
 
 @Repository(StackRepositoryImpl.BEAN_NAME)
 public class StackRepositoryImpl extends
-		BaseRepositoryImpl<Long, OhLohStackEntity> implements StackRepository {
+		BaseRepositoryImpl<Long, OpenHubStackEntity> implements StackRepository {
 
 	public static final String BEAN_NAME =  "stackRepository";
 	
@@ -17,7 +17,7 @@ public class StackRepositoryImpl extends
 	private static final long serialVersionUID = 7801826722021443632L;
 
 	public StackRepositoryImpl() {
-		super(OhLohStackEntity.class);
+		super(OpenHubStackEntity.class);
 	}
 
 }

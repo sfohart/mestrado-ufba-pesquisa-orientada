@@ -1,3 +1,4 @@
+
 package br.ufba.dcc.mestrado.computacao.web.managedbean.account;
 
 import java.util.ResourceBundle;
@@ -8,7 +9,7 @@ import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 import javax.faces.event.ComponentSystemEvent;
 
-import br.ufba.dcc.mestrado.computacao.entities.ohloh.recommender.user.UserEntity;
+import br.ufba.dcc.mestrado.computacao.entities.recommender.user.UserEntity;
 
 import com.ocpsoft.pretty.faces.annotation.URLMapping;
 import com.ocpsoft.pretty.faces.annotation.URLMappings;
@@ -54,3 +55,4 @@ public class AccountSettingsManagedBean extends AccountManagedBean {
 
 
 }
+

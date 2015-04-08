@@ -1,3 +1,4 @@
+
 package br.ufba.dcc.mestrado.computacao.repository.impl;
 
 import java.sql.Timestamp;
@@ -19,9 +20,9 @@ import javax.persistence.criteria.Subquery;
 import org.apache.commons.lang3.tuple.ImmutablePair;
 import org.springframework.stereotype.Repository;
 
-import br.ufba.dcc.mestrado.computacao.entities.ohloh.core.project.OhLohProjectEntity;
-import br.ufba.dcc.mestrado.computacao.entities.ohloh.recommender.pageview.ProjectDetailPageViewEntity;
-import br.ufba.dcc.mestrado.computacao.entities.ohloh.recommender.user.UserEntity;
+import br.ufba.dcc.mestrado.computacao.entities.openhub.core.project.OpenHubProjectEntity;
+import br.ufba.dcc.mestrado.computacao.entities.recommender.pageview.ProjectDetailPageViewEntity;
+import br.ufba.dcc.mestrado.computacao.entities.recommender.user.UserEntity;
 import br.ufba.dcc.mestrado.computacao.repository.base.ProjectDetailPageViewRepository;
 
 @Repository(ProjectDetailPageViewRepositoryImpl.BEAN_NAME)
@@ -44,12 +45,12 @@ public class ProjectDetailPageViewRepositoryImpl
 	
 
 	@Override
-	public List<ImmutablePair<UserEntity, OhLohProjectEntity>> findAllProjectDetailViews() {
+	public List<ImmutablePair<UserEntity, OpenHubProjectEntity>> findAllProjectDetailViews() {
 		return findAllProjectDetailViews(null,null);
 	}
 	
 	@Override
-	public List<ImmutablePair<UserEntity, OhLohProjectEntity>> findAllProjectDetailViews(
+	public List<ImmutablePair<UserEntity, OpenHubProjectEntity>> findAllProjectDetailViews(
 			Integer startAt, 
 			Integer offset) {
 		CriteriaBuilder criteriaBuilder = getEntityManager().getCriteriaBuilder();
@@ -57,7 +58,7 @@ public class ProjectDetailPageViewRepositoryImpl
 		
 		Root<ProjectDetailPageViewEntity> root = tupleQuery.from(getEntityClass());
 		
-		Path<OhLohProjectEntity> projectPath = root.get("project");
+		Path<OpenHubProjectEntity> projectPath = root.get("project");
 		Path<UserEntity> userPath = root.get("user");
 		
 		tupleQuery.multiselect(
@@ -83,15 +84,15 @@ public class ProjectDetailPageViewRepositoryImpl
 		
 		List<Tuple> tupleList = tupleTypedQuery.getResultList();
 		
-		List<ImmutablePair<UserEntity, OhLohProjectEntity>> pageViewList = null; 
+		List<ImmutablePair<UserEntity, OpenHubProjectEntity>> pageViewList = null; 
 		
 		if (tupleList != null) {
 			pageViewList = new ArrayList<>();
 			
 			for (Tuple tuple : tupleList) {
-				ImmutablePair<UserEntity, OhLohProjectEntity> userItemPair = new ImmutablePair<UserEntity, OhLohProjectEntity>(
+				ImmutablePair<UserEntity, OpenHubProjectEntity> userItemPair = new ImmutablePair<UserEntity, OpenHubProjectEntity>(
 						tuple.get(0, UserEntity.class),
-						tuple.get(1, OhLohProjectEntity.class) 
+						tuple.get(1, OpenHubProjectEntity.class) 
 						);
 				
 				pageViewList.add(userItemPair);
@@ -101,20 +102,20 @@ public class ProjectDetailPageViewRepositoryImpl
 		return pageViewList;
 	}
 	
-	public List<OhLohProjectEntity> findAllProjectRecentlyViewed(
+	public List<OpenHubProjectEntity> findAllProjectRecentlyViewed(
 			UserEntity user,
 			Integer startAt, 
 			Integer offset) {
 		
-		List<OhLohProjectEntity> result = null;
+		List<OpenHubProjectEntity> result = null;
 		
 		if (user != null) {
 			
 			CriteriaBuilder criteriaBuilder = getEntityManager().getCriteriaBuilder();
-			CriteriaQuery<OhLohProjectEntity> criteriaQuery = criteriaBuilder.createQuery(OhLohProjectEntity.class);
+			CriteriaQuery<OpenHubProjectEntity> criteriaQuery = criteriaBuilder.createQuery(OpenHubProjectEntity.class);
 			
 			Root<ProjectDetailPageViewEntity> root = criteriaQuery.from(getEntityClass());
-			Join<ProjectDetailPageViewEntity, OhLohProjectEntity> projectJoin = root.join("project", JoinType.INNER);
+			Join<ProjectDetailPageViewEntity, OpenHubProjectEntity> projectJoin = root.join("project", JoinType.INNER);
 			
 			criteriaQuery.select(projectJoin);
 						
@@ -149,7 +150,7 @@ public class ProjectDetailPageViewRepositoryImpl
 			
 			criteriaQuery.where(predicateQueryList.toArray(new Predicate[0]));
 			
-			TypedQuery<OhLohProjectEntity> typedQuery = getEntityManager().createQuery(criteriaQuery);
+			TypedQuery<OpenHubProjectEntity> typedQuery = getEntityManager().createQuery(criteriaQuery);
 			
 			if (offset != null) {
 				typedQuery.setMaxResults(offset);
@@ -167,18 +168,18 @@ public class ProjectDetailPageViewRepositoryImpl
 	}
 
 	@Override
-	public List<ImmutablePair<OhLohProjectEntity, Long>> findAllProjectDetailViewsCount() {
+	public List<ImmutablePair<OpenHubProjectEntity, Long>> findAllProjectDetailViewsCount() {
 		return findAllProjectDetailViewsCount(null,null);
 	}
 
 	@Override
-	public List<ImmutablePair<OhLohProjectEntity, Long>> findAllProjectDetailViewsCount(
+	public List<ImmutablePair<OpenHubProjectEntity, Long>> findAllProjectDetailViewsCount(
 			Integer startAt, Integer offset) {
 		CriteriaBuilder criteriaBuilder = getEntityManager().getCriteriaBuilder();
 		CriteriaQuery<Tuple> tupleQuery = criteriaBuilder.createTupleQuery();
 
 		Root<ProjectDetailPageViewEntity> root = tupleQuery.from(ProjectDetailPageViewEntity.class);
-		Join<ProjectDetailPageViewEntity, OhLohProjectEntity> projectJoin = root.join("project", JoinType.INNER);
+		Join<ProjectDetailPageViewEntity, OpenHubProjectEntity> projectJoin = root.join("project", JoinType.INNER);
 
 		Expression<Long> pageViewCount = criteriaBuilder.count(root.get("id"));
 
@@ -207,12 +208,12 @@ public class ProjectDetailPageViewRepositoryImpl
 
 		List<Tuple> tupleList = tupleTypedQuery.getResultList();
 		
-		List<ImmutablePair<OhLohProjectEntity, Long>> resultList = null;
+		List<ImmutablePair<OpenHubProjectEntity, Long>> resultList = null;
 		if (tupleList != null && ! tupleList.isEmpty()) {
 			resultList = new ArrayList<>();
 			for (Tuple tuple : tupleList) {
-				ImmutablePair<OhLohProjectEntity, Long> pair = new ImmutablePair<OhLohProjectEntity, Long>(
-						tuple.get(0, OhLohProjectEntity.class), 
+				ImmutablePair<OpenHubProjectEntity, Long> pair = new ImmutablePair<OpenHubProjectEntity, Long>(
+						tuple.get(0, OpenHubProjectEntity.class), 
 						tuple.get(1, Long.class));
 				
 				resultList.add(pair);
@@ -225,3 +226,4 @@ public class ProjectDetailPageViewRepositoryImpl
 	
 
 }
+

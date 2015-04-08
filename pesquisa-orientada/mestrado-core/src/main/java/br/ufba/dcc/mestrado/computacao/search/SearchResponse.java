@@ -5,7 +5,7 @@ import java.util.List;
 
 import org.hibernate.search.query.facet.Facet;
 
-import br.ufba.dcc.mestrado.computacao.entities.ohloh.core.project.OhLohProjectEntity;
+import br.ufba.dcc.mestrado.computacao.entities.openhub.core.project.OpenHubProjectEntity;
 
 public class SearchResponse implements Serializable {
 	
@@ -17,11 +17,11 @@ public class SearchResponse implements Serializable {
 	private Integer totalResults;
 	
 	private List<Facet> tagFacetsList;
-	private List<OhLohProjectEntity> projectList;
+	private List<OpenHubProjectEntity> projectList;
 	
 	public SearchResponse(
 			List<Facet> tagFacetsList,
-			List<OhLohProjectEntity> projectList,
+			List<OpenHubProjectEntity> projectList,
 			Integer totalResults) {
 		super();
 		this.tagFacetsList = tagFacetsList;
@@ -33,7 +33,7 @@ public class SearchResponse implements Serializable {
 		return tagFacetsList;
 	}
 	
-	public List<OhLohProjectEntity> getProjectList() {
+	public List<OpenHubProjectEntity> getProjectList() {
 		return projectList;
 	}
 	

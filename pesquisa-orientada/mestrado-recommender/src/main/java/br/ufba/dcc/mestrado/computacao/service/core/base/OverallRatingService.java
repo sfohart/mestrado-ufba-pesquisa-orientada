@@ -1,3 +1,4 @@
+
 package br.ufba.dcc.mestrado.computacao.service.core.base;
 
 import java.util.List;
@@ -6,8 +7,8 @@ import java.util.Map;
 import org.apache.commons.lang3.tuple.ImmutablePair;
 import org.springframework.transaction.annotation.Transactional;
 
-import br.ufba.dcc.mestrado.computacao.entities.ohloh.core.project.OhLohProjectEntity;
-import br.ufba.dcc.mestrado.computacao.entities.ohloh.recommender.preference.PreferenceEntity;
+import br.ufba.dcc.mestrado.computacao.entities.openhub.core.project.OpenHubProjectEntity;
+import br.ufba.dcc.mestrado.computacao.entities.recommender.preference.PreferenceEntity;
 import br.ufba.dcc.mestrado.computacao.repository.base.OverallRatingRepository;
 import br.ufba.dcc.mestrado.computacao.service.base.BaseService;
 
@@ -76,7 +77,7 @@ public interface OverallRatingService extends BaseService<Long, PreferenceEntity
 	 * @param offset
 	 * @return
 	 */
-	List<ImmutablePair<OhLohProjectEntity, Long>> findRatingCountByProject(
+	List<ImmutablePair<OpenHubProjectEntity, Long>> findRatingCountByProject(
 			Integer startAt, 
 			Integer offset);
 
@@ -109,3 +110,4 @@ public interface OverallRatingService extends BaseService<Long, PreferenceEntity
 			boolean orderByReviewRanking);
 
 }
+

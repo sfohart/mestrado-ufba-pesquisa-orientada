@@ -2,13 +2,13 @@ package br.ufba.dcc.mestrado.computacao.service.base;
 
 import java.util.List;
 
-import br.ufba.dcc.mestrado.computacao.entities.ohloh.core.enlistment.OhLohEnlistmentEntity;
-import br.ufba.dcc.mestrado.computacao.entities.ohloh.core.project.OhLohProjectEntity;
+import br.ufba.dcc.mestrado.computacao.entities.openhub.core.enlistment.OpenHubEnlistmentEntity;
+import br.ufba.dcc.mestrado.computacao.entities.openhub.core.project.OpenHubProjectEntity;
 
-public interface EnlistmentService extends BaseService<Long, OhLohEnlistmentEntity>{
+public interface EnlistmentService extends BaseService<Long, OpenHubEnlistmentEntity>{
 
-	List<OhLohEnlistmentEntity> findByProject(OhLohProjectEntity project);
+	List<OpenHubEnlistmentEntity> findByProject(OpenHubProjectEntity project);
 	
-	Long countAllByProject(OhLohProjectEntity project);
+	Long countAllByProject(OpenHubProjectEntity project);
 	
 }

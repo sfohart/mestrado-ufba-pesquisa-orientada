@@ -1,3 +1,4 @@
+
 package br.ufba.dcc.mestrado.computacao.web.managedbean.login;
 
 import java.io.IOException;
@@ -20,7 +21,7 @@ import javax.servlet.ServletResponse;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.web.WebAttributes;
 
-import br.ufba.dcc.mestrado.computacao.entities.ohloh.recommender.user.UserEntity;
+import br.ufba.dcc.mestrado.computacao.entities.recommender.user.UserEntity;
 import br.ufba.dcc.mestrado.computacao.service.basic.RepositoryBasedUserDetailsService;
 import br.ufba.dcc.mestrado.computacao.service.core.base.UserService;
 
@@ -137,3 +138,4 @@ public class StandardLoginManagedBean implements Serializable {
 	
 
 }
+

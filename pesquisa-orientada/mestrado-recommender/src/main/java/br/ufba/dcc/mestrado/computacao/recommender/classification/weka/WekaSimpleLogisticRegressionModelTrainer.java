@@ -21,25 +21,14 @@ public class WekaSimpleLogisticRegressionModelTrainer extends AbstractWekaModelT
 			OverallRatingService overallRatingService) {
 		
 		super(ratingByCriteriumService, recommenderCriteriumService, overallRatingService);
+		this.setUseNumericToNominalFilter(true);
 	}
 
 	@Override
 	protected Classifier initializeClassifier() throws Exception {
 		Classifier simpleLogistic = new SimpleLogistic();
 		
-		String[] options = new String[8];
-		
-		options[0] = "-I";
-		options[1] = "0";
-		
-		options[2] = "-M";
-		options[3] = "500";
-		
-		options[4] = "-H";
-		options[5] = "50";
-		
-		options[6] = "-W";
-		options[7] = "-0.0";
+		String[] options = "-I 0 -M 500 -H 50 -W 0.0".split(" ");
 		
 		simpleLogistic.setOptions(options);
 		
@@ -58,8 +47,5 @@ public class WekaSimpleLogisticRegressionModelTrainer extends AbstractWekaModelT
 		}
 	}
 
-	
-
-	
-
 }
+

@@ -10,11 +10,11 @@ import javax.persistence.criteria.Root;
 
 import org.springframework.stereotype.Repository;
 
-import br.ufba.dcc.mestrado.computacao.entities.ohloh.core.project.OhLohLicenseEntity;
+import br.ufba.dcc.mestrado.computacao.entities.openhub.core.project.OpenHubLicenseEntity;
 import br.ufba.dcc.mestrado.computacao.repository.base.LicenseRepository;
 
 @Repository(LicenseRepositoryImpl.BEAN_NAME)
-public class LicenseRepositoryImpl extends BaseRepositoryImpl<Long, OhLohLicenseEntity>
+public class LicenseRepositoryImpl extends BaseRepositoryImpl<Long, OpenHubLicenseEntity>
 		implements LicenseRepository {
 
 	/**
@@ -25,26 +25,26 @@ public class LicenseRepositoryImpl extends BaseRepositoryImpl<Long, OhLohLicense
 	public static final String BEAN_NAME =  "licenseRepository";
 
 	public LicenseRepositoryImpl() {
-		super(OhLohLicenseEntity.class);
+		super(OpenHubLicenseEntity.class);
 	}
 
 	@Override
-	public OhLohLicenseEntity findByName(String name) {
+	public OpenHubLicenseEntity findByName(String name) {
 		CriteriaBuilder criteriaBuilder = getEntityManager()
 				.getCriteriaBuilder();
-		CriteriaQuery<OhLohLicenseEntity> criteriaQuery = criteriaBuilder
+		CriteriaQuery<OpenHubLicenseEntity> criteriaQuery = criteriaBuilder
 				.createQuery(getEntityClass());
 
-		Root<OhLohLicenseEntity> root = criteriaQuery.from(getEntityClass());
-		CriteriaQuery<OhLohLicenseEntity> select = criteriaQuery.select(root);
+		Root<OpenHubLicenseEntity> root = criteriaQuery.from(getEntityClass());
+		CriteriaQuery<OpenHubLicenseEntity> select = criteriaQuery.select(root);
 
 		Predicate namePredicate = criteriaBuilder.equal(root.get("name"), name);
 		select.where(namePredicate);
 
-		TypedQuery<OhLohLicenseEntity> query = getEntityManager().createQuery(
+		TypedQuery<OpenHubLicenseEntity> query = getEntityManager().createQuery(
 				criteriaQuery);
 
-		OhLohLicenseEntity result = null;
+		OpenHubLicenseEntity result = null;
 
 		try {
 			result = query.getSingleResult();

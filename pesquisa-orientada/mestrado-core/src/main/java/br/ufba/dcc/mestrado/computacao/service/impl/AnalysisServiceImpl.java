@@ -6,13 +6,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
-import br.ufba.dcc.mestrado.computacao.entities.ohloh.core.analysis.OhLohAnalysisEntity;
+import br.ufba.dcc.mestrado.computacao.entities.openhub.core.analysis.OpenHubAnalysisEntity;
 import br.ufba.dcc.mestrado.computacao.repository.base.AnalysisRepository;
 import br.ufba.dcc.mestrado.computacao.repository.impl.AnalysisRepositoryImpl;
 import br.ufba.dcc.mestrado.computacao.service.base.AnalysisService;
 
 @Service(AnalysisServiceImpl.BEAN_NAME)
-public class AnalysisServiceImpl extends BaseServiceImpl<Long, OhLohAnalysisEntity>
+public class AnalysisServiceImpl extends BaseServiceImpl<Long, OpenHubAnalysisEntity>
 		implements AnalysisService {
 
 	/**
@@ -26,7 +26,7 @@ public class AnalysisServiceImpl extends BaseServiceImpl<Long, OhLohAnalysisEnti
 	
 	@Autowired
 	public AnalysisServiceImpl(@Qualifier(AnalysisRepositoryImpl.BEAN_NAME) AnalysisRepository repository) {
-		super(repository,  OhLohAnalysisEntity.class);
+		super(repository,  OpenHubAnalysisEntity.class);
 	}
 
 }

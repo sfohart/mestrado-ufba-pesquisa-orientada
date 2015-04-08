@@ -1,3 +1,4 @@
+
 package br.ufba.dcc.mestrado.computacao.service.core.impl;
 
 import java.util.List;
@@ -8,9 +9,9 @@ import org.apache.commons.lang3.tuple.ImmutablePair;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 
-import br.ufba.dcc.mestrado.computacao.entities.ohloh.core.project.OhLohProjectEntity;
-import br.ufba.dcc.mestrado.computacao.entities.ohloh.recommender.criterium.RecommenderCriteriumEntity;
-import br.ufba.dcc.mestrado.computacao.entities.ohloh.recommender.user.UserEntity;
+import br.ufba.dcc.mestrado.computacao.entities.openhub.core.project.OpenHubProjectEntity;
+import br.ufba.dcc.mestrado.computacao.entities.recommender.criterium.RecommenderCriteriumEntity;
+import br.ufba.dcc.mestrado.computacao.entities.recommender.user.UserEntity;
 import br.ufba.dcc.mestrado.computacao.repository.base.ProjectDetailPageViewRepository;
 import br.ufba.dcc.mestrado.computacao.repository.base.RatingByCriteriumRepository;
 import br.ufba.dcc.mestrado.computacao.repository.base.RecommenderCriteriumRepository;
@@ -81,7 +82,7 @@ public abstract class BaseColaborativeFilteringServiceImpl implements
 	
 	@Override
 	@Transactional(readOnly = true)
-	public List<OhLohProjectEntity> recommendViewedProjectsByUser(
+	public List<OpenHubProjectEntity> recommendViewedProjectsByUser(
 			Long userId, 
 			Integer howManyItems) {
 		return recommendViewedProjectsByUser(userId, howManyItems, false);
@@ -89,46 +90,46 @@ public abstract class BaseColaborativeFilteringServiceImpl implements
 	
 	@Override
 	@Transactional(readOnly = true)
-	public List<OhLohProjectEntity> recommendViewedProjectsByUser(
+	public List<OpenHubProjectEntity> recommendViewedProjectsByUser(
 			Long userId, 
 			Integer howManyItems,
 			boolean filterInterestTags) {
 		
-		final List<ImmutablePair<UserEntity, OhLohProjectEntity>> pageViewList = getProjectDetailPageViewRepository().findAllProjectDetailViews();
+		final List<ImmutablePair<UserEntity, OpenHubProjectEntity>> pageViewList = getProjectDetailPageViewRepository().findAllProjectDetailViews();
 		return recommendViewedProjectsByUser(userId, howManyItems, filterInterestTags, pageViewList);
 	}
 	
 	@Override
 	@Transactional(readOnly = true)
-	public List<OhLohProjectEntity> recommendViewedProjectsByItem(
+	public List<OpenHubProjectEntity> recommendViewedProjectsByItem(
 			Long itemId, 
 			Integer howManyItems) {
-		final List<ImmutablePair<UserEntity, OhLohProjectEntity>> pageViewList = getProjectDetailPageViewRepository().findAllProjectDetailViews();
+		final List<ImmutablePair<UserEntity, OpenHubProjectEntity>> pageViewList = getProjectDetailPageViewRepository().findAllProjectDetailViews();
 		return recommendViewedProjectsByItem(itemId, howManyItems, pageViewList);
 	}
 	
 	@Transactional(readOnly = true)
-	protected abstract List<OhLohProjectEntity> recommendViewedProjectsByItem(
+	protected abstract List<OpenHubProjectEntity> recommendViewedProjectsByItem(
 			Long itemId,
 			Integer howManyItems,			
-			List<ImmutablePair<UserEntity, OhLohProjectEntity>> pageViewList);
+			List<ImmutablePair<UserEntity, OpenHubProjectEntity>> pageViewList);
 
 	@Transactional(readOnly = true)
-	protected abstract List<OhLohProjectEntity> recommendViewedProjectsByUser(
+	protected abstract List<OpenHubProjectEntity> recommendViewedProjectsByUser(
 			Long userId,
 			Integer howManyItems,
 			boolean filterInterestTags,
-			List<ImmutablePair<UserEntity, OhLohProjectEntity>> pageViewList);
+			List<ImmutablePair<UserEntity, OpenHubProjectEntity>> pageViewList);
 
 	@Override
 	@Transactional(readOnly = true)
-	public List<OhLohProjectEntity> recommendRatingProjectsByUser(Long userId, Integer howManyItems) {
+	public List<OpenHubProjectEntity> recommendRatingProjectsByUser(Long userId, Integer howManyItems) {
 		return recommendRatingProjectsByUser(userId,howManyItems,false);
 	}
 	
 	@Override
 	@Transactional(readOnly = true)
-	public List<OhLohProjectEntity> recommendRatingProjectsByUser(Long userId, Integer howManyItems, boolean filterInterestTags) {
+	public List<OpenHubProjectEntity> recommendRatingProjectsByUser(Long userId, Integer howManyItems, boolean filterInterestTags) {
 		
 		final Map<Long, Map<ImmutablePair<Long, Long>, Double>> ratingsMap =
 				findAllRatings();
@@ -137,10 +138,11 @@ public abstract class BaseColaborativeFilteringServiceImpl implements
 	}
 
 	@Transactional(readOnly = true)
-	protected abstract List<OhLohProjectEntity> recommendRatingProjectsByUser(
+	protected abstract List<OpenHubProjectEntity> recommendRatingProjectsByUser(
 			Long userId,
 			Integer howManyItems,
 			boolean filterInterestTags,
 			Map<Long, Map<ImmutablePair<Long, Long>, Double>> ratingsMap);
 
 }
+

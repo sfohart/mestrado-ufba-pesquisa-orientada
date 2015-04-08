@@ -1,3 +1,4 @@
+
 package br.ufba.dcc.mestrado.computacao.web.managedbean.review;
 
 import java.util.ArrayList;
@@ -8,12 +9,12 @@ import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
 import javax.faces.event.ComponentSystemEvent;
 
-import br.ufba.dcc.mestrado.computacao.entities.ohloh.core.project.OhLohProjectEntity;
-import br.ufba.dcc.mestrado.computacao.entities.ohloh.recommender.criterium.RecommenderCriteriumEntity;
-import br.ufba.dcc.mestrado.computacao.entities.ohloh.recommender.preference.PreferenceEntity;
-import br.ufba.dcc.mestrado.computacao.entities.ohloh.recommender.preference.PreferenceEntryEntity;
-import br.ufba.dcc.mestrado.computacao.entities.ohloh.recommender.preference.PreferenceReviewEntity;
-import br.ufba.dcc.mestrado.computacao.entities.ohloh.recommender.user.UserEntity;
+import br.ufba.dcc.mestrado.computacao.entities.openhub.core.project.OpenHubProjectEntity;
+import br.ufba.dcc.mestrado.computacao.entities.recommender.criterium.RecommenderCriteriumEntity;
+import br.ufba.dcc.mestrado.computacao.entities.recommender.preference.PreferenceEntity;
+import br.ufba.dcc.mestrado.computacao.entities.recommender.preference.PreferenceEntryEntity;
+import br.ufba.dcc.mestrado.computacao.entities.recommender.preference.PreferenceReviewEntity;
+import br.ufba.dcc.mestrado.computacao.entities.recommender.user.UserEntity;
 import br.ufba.dcc.mestrado.computacao.service.base.ProjectService;
 import br.ufba.dcc.mestrado.computacao.service.basic.RepositoryBasedUserDetailsService;
 import br.ufba.dcc.mestrado.computacao.service.core.base.OverallRatingService;
@@ -39,7 +40,7 @@ public class ProjectNewReviewManagedBean extends AbstractListingManagedBean<Long
 	 */
 	private static final long serialVersionUID = -3583610472886856317L;
 	
-	private OhLohProjectEntity project;
+	private OpenHubProjectEntity project;
 	private UserEntity account;
 	
 	private PreferenceEntity preference;
@@ -57,14 +58,14 @@ public class ProjectNewReviewManagedBean extends AbstractListingManagedBean<Long
 	private RepositoryBasedUserDetailsService userDetailsService;
 	
 	public ProjectNewReviewManagedBean() {
-		this.project = new OhLohProjectEntity();
+		this.project = new OpenHubProjectEntity();
 	}
 	
-	public OhLohProjectEntity getProject() {
+	public OpenHubProjectEntity getProject() {
 		return project;
 	}
 	
-	public void setProject(OhLohProjectEntity project) {
+	public void setProject(OpenHubProjectEntity project) {
 		this.project = project;
 	}
 	
@@ -173,3 +174,4 @@ public class ProjectNewReviewManagedBean extends AbstractListingManagedBean<Long
 	}
 
 }
+
