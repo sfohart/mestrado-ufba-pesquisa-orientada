@@ -10,8 +10,11 @@
 	
 	<f:metadata>
 			<f:viewParam id="relatedProjectId" name="projectId" value="#{relatedProjectMB.project.id}" required="true"  requiredMessage="#{messages['project.related.error.projectId']}"  />
+			
+						
 			<f:event listener="#{relatedProjectMB.configureTopTenResults}" type="preRenderView"/>			
-			<f:event listener="#{relatedProjectMB.init}" type="preRenderView"/>			
+			<f:event listener="#{relatedProjectMB.enableSimilarProjectsRecommendation}" type="preRenderView"/>			
+			<f:event listener="#{relatedProjectMB.enableAlsoViewedProjectsRecommendation}" type="preRenderView"/>
 	</f:metadata>
 	
 	<h:body>

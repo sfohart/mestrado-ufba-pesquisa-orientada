@@ -13,8 +13,11 @@
 		<f:viewParam id="projectDetailedId" name="projectId" value="#{projectDetailMB.project.id}" required="true"  requiredMessage="#{messages['project.detail.error.projectId']}"  />
 		<f:viewParam id="relatedProjectId" name="projectId" value="#{relatedProjectMB.project.id}" required="true" />
 		
-		<f:event listener="#{relatedProjectMB.init}" type="preRenderView"/>
+		<f:event listener="#{relatedProjectMB.configureTopTenResults}" type="preRenderView"/>			
+		<f:event listener="#{relatedProjectMB.enableSimilarProjectsRecommendation}" type="preRenderView"/>		
 		<f:event listener="#{projectDetailMB.init}" type="preRenderView"/>
+		
+		
 	</f:metadata>
 	
 	<h:body>

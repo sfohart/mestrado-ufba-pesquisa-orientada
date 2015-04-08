@@ -46,7 +46,7 @@
 										<h:outputText value="#{viewedProject.name}"  />
 									</h:commandLink>
 								
-									<h:outputLink value="#{facesContext.externalContext.applicationContextPath}/detail/projectDetail.jsf">
+									<h:outputLink value="#{facesContext.externalContext.applicationContextPath}/detail/projectDetail.jsf" rendered="#{empty bean}">
 										<f:param name="projectId" value="#{viewedProject.id}" />
 										<h:outputText value="#{viewedProject.name}"  />
 									</h:outputLink>

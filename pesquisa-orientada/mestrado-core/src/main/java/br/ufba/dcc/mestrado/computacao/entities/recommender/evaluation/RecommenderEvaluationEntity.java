@@ -49,6 +49,9 @@ public class RecommenderEvaluationEntity implements BaseEntity<Long> {
 	@ManyToOne
 	@JoinColumn(name = "selected_project_id", referencedColumnName = "id")
 	private OpenHubProjectEntity selectedProject;
+	
+	@Column(name = "view_id")
+	private String viewId;
 		
 	@ManyToMany(fetch=FetchType.EAGER)
 	@JoinTable(
@@ -115,6 +118,23 @@ public class RecommenderEvaluationEntity implements BaseEntity<Long> {
 	public void setRecommendationType(RecommendationEnum recommendationType) {
 		this.recommendationType = recommendationType;
 	}
+
+	public Long getUserId() {
+		return userId;
+	}
+
+	public void setUserId(Long userId) {
+		this.userId = userId;
+	}
+
+	public String getViewId() {
+		return viewId;
+	}
+
+	public void setViewId(String viewId) {
+		this.viewId = viewId;
+	}
+	
 	
 	
 }

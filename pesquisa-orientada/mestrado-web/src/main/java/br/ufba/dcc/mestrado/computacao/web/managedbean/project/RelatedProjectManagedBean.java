@@ -57,9 +57,10 @@ public class RelatedProjectManagedBean extends ProjectManagedBean {
 	@ManagedProperty("#{recommenderEvaluationService}")
 	private RecommenderEvaluationService recommenderEvaluationService;
 
-	private RecommenderEvaluationEntity alsoViewedProjecstRecommendation;
-	
+	private RecommenderEvaluationEntity alsoViewedProjecstRecommendation;	
 	private RecommenderEvaluationEntity similarProjectsRecomendation;
+	
+	
 
 	private Integer maxResults;
 
@@ -71,13 +72,20 @@ public class RelatedProjectManagedBean extends ProjectManagedBean {
 	public void configureTopTenResults(ComponentSystemEvent event) {
 		this.maxResults = TOP10_MAX_RESULTS;
 	}
-
-	public void init(ComponentSystemEvent event) {
+	
+	public void enableSimilarProjectsRecommendation(ComponentSystemEvent event) {
 		super.init(event);
 		
 		if (getProject() != null && getProject().getId() != null) {
-			configureContentBasedRecommendation();
-			configureColaborativeFilteringRecommendation();
+			configureSimilarProjectsRecommendation();
+		}
+	}
+
+	public void enableAlsoViewedProjectsRecommendation(ComponentSystemEvent event) {
+		super.init(event);
+		
+		if (getProject() != null && getProject().getId() != null) {
+			configureAlsoViewedProjectsRecommendation();
 		}
 	}
 	
@@ -123,18 +131,21 @@ public class RelatedProjectManagedBean extends ProjectManagedBean {
 		return String.format("/detail/projectDetail.jsf?projectId=%d&faces-redirect=true", selectedProjectId);
 		
 	}
+	
 
-	private void configureColaborativeFilteringRecommendation() {
+	protected void configureAlsoViewedProjectsRecommendation() {
 		alsoViewedProjecstRecommendation = new RecommenderEvaluationEntity();	
 		
 		List<OpenHubProjectEntity> recommendationList = getColaborativeFilteringService().recommendViewedProjectsByItem(getProject().getId(), getMaxResults());
 		UserEntity currentUser = getUserDetailsService().loadFullLoggedUser();
 		Timestamp recommendationDate = new Timestamp(System.currentTimeMillis());
+		String viewId = FacesContext.getCurrentInstance().getViewRoot().getViewId();
 		
 		alsoViewedProjecstRecommendation.setRecommendationType(RecommendationEnum.COLABORATIVE_FILTERING_RECOMMENDATION);
 		alsoViewedProjecstRecommendation.setRecommendedProjects(recommendationList);
 		alsoViewedProjecstRecommendation.setUser(currentUser);
 		alsoViewedProjecstRecommendation.setRecommendationDate(recommendationDate);	
+		alsoViewedProjecstRecommendation.setViewId(viewId);
 		
 		try {
 			alsoViewedProjecstRecommendation = getRecommenderEvaluationService().save(alsoViewedProjecstRecommendation);
@@ -147,7 +158,7 @@ public class RelatedProjectManagedBean extends ProjectManagedBean {
 	/**
 	 * Utiliza busca por conteúdo pra recomendar projetos similares.
 	 */
-	protected void configureContentBasedRecommendation() {
+	protected void configureSimilarProjectsRecommendation() {
 		try {
 			
 			similarProjectsRecomendation = new RecommenderEvaluationEntity();
@@ -155,11 +166,13 @@ public class RelatedProjectManagedBean extends ProjectManagedBean {
 			List <OpenHubProjectEntity> recommendationList = getSearchService().findRelatedProjects(getProject(), 0, getMaxResults());
 			UserEntity currentUser = getUserDetailsService().loadFullLoggedUser();
 			Timestamp recommendationDate = new Timestamp(System.currentTimeMillis());
+			String viewId = FacesContext.getCurrentInstance().getViewRoot().getViewId();
 			
 			similarProjectsRecomendation.setRecommendationType(RecommendationEnum.CONTENT_BASED_RECOMMENDATION);
 			similarProjectsRecomendation.setRecommendedProjects(recommendationList);
 			similarProjectsRecomendation.setUser(currentUser);
 			similarProjectsRecomendation.setRecommendationDate(recommendationDate);
+			similarProjectsRecomendation.setViewId(viewId);
 						
 			try {
 				similarProjectsRecomendation = getRecommenderEvaluationService().save(similarProjectsRecomendation);
@@ -233,7 +246,6 @@ public class RelatedProjectManagedBean extends ProjectManagedBean {
 			RecommenderEvaluationEntity similarProjectsRecomendation) {
 		this.similarProjectsRecomendation = similarProjectsRecomendation;
 	}
-	
-	
 
+	
 }
