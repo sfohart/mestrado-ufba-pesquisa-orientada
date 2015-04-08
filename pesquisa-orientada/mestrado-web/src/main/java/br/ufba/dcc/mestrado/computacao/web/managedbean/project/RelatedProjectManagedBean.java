@@ -8,6 +8,7 @@ import javax.el.MethodExpression;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
+import javax.faces.context.FacesContext;
 import javax.faces.event.ComponentSystemEvent;
 
 import br.ufba.dcc.mestrado.computacao.entities.openhub.core.project.OpenHubProjectEntity;
@@ -31,7 +32,7 @@ import com.ocpsoft.pretty.faces.annotation.URLMappings;
 				pattern="/detail/#{ /[0-9]+/ projectId}/relatedProject",
 				viewId="/detail/relatedProjectList.jsf")	
 })
-public class RelatedProjectManagedBean extends RecommendedProjectManagedBean {
+public class RelatedProjectManagedBean extends ProjectManagedBean {
 
 	/**
 	 * 
@@ -40,6 +41,8 @@ public class RelatedProjectManagedBean extends RecommendedProjectManagedBean {
 	
 	private static final Integer SAMPLE_MAX_RESULTS = 6;
 	private static final Integer TOP10_MAX_RESULTS = 10;
+
+	private static final String SELECTED_PROJECT_PARAM = "selectedProjectId";
 
 
 	@ManagedProperty("#{searchService}")
@@ -78,7 +81,12 @@ public class RelatedProjectManagedBean extends RecommendedProjectManagedBean {
 		}
 	}
 	
-	protected void saveRecommenderEvaluation(Long selectedProjectId) {
+	public String saveRecommenderEvaluation() {
+		
+		FacesContext facesContext = FacesContext.getCurrentInstance();
+		String selectedProjectIdParam = facesContext.getExternalContext().getRequestParameterMap().get(SELECTED_PROJECT_PARAM);
+		Long selectedProjectId = Long.valueOf(selectedProjectIdParam);
+		
 		RecommenderEvaluationEntity recommenderEvaluationEntity = null;
 		
 		if (similarProjectsRecomendation != null && similarProjectsRecomendation.getRecommendedProjects() != null) {
@@ -112,11 +120,8 @@ public class RelatedProjectManagedBean extends RecommendedProjectManagedBean {
 			}
 		}
 		
-	}
-	
-	@Override
-	public MethodExpression getEvaluationAction() {		
-		return createMethodExpression("#{relatedProjectMB.saveRecommenderEvaluation(selectedProjectId)}", String.class, Long.class);
+		return String.format("/detail/projectDetail.jsf?projectId=%d&faces-redirect=true", selectedProjectId);
+		
 	}
 
 	private void configureColaborativeFilteringRecommendation() {
@@ -130,6 +135,12 @@ public class RelatedProjectManagedBean extends RecommendedProjectManagedBean {
 		alsoViewedProjecstRecommendation.setRecommendedProjects(recommendationList);
 		alsoViewedProjecstRecommendation.setUser(currentUser);
 		alsoViewedProjecstRecommendation.setRecommendationDate(recommendationDate);	
+		
+		try {
+			alsoViewedProjecstRecommendation = getRecommenderEvaluationService().save(alsoViewedProjecstRecommendation);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 		
 	}
 
@@ -149,7 +160,12 @@ public class RelatedProjectManagedBean extends RecommendedProjectManagedBean {
 			similarProjectsRecomendation.setRecommendedProjects(recommendationList);
 			similarProjectsRecomendation.setUser(currentUser);
 			similarProjectsRecomendation.setRecommendationDate(recommendationDate);
-			
+						
+			try {
+				similarProjectsRecomendation = getRecommenderEvaluationService().save(similarProjectsRecomendation);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
 			
 		} catch (IOException e1) {
 			e1.printStackTrace();

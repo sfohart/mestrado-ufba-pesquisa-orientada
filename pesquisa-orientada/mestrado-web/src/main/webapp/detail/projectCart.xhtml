@@ -11,59 +11,65 @@
 	>
 	
 	<h:panelGroup layout="block" rendered="#{not empty projectCart}">
-	
-		<h3> <h:outputText value="#{projectCartTitle}" /> </h3>
-		<div class="row">
-			<ul class="media-list">
-				<ui:repeat var="viewedProject" value="#{projectCart}" >
-					<li class="media col-md-4 col-sm-4" style="margin: 10px 0px; min-height: 150px; height: auto;">
-						<h:outputLink styleClass="pull-left"
-							value="#{facesContext.externalContext.applicationContextPath}/detail/projectDetail.jsf">
-							<f:param name="projectId" value="#{viewedProject.id}" />													
+		<h:form>
+			<h3> <h:outputText value="#{projectCartTitle}" /> </h3>
+			<div class="row">
+				<ul class="media-list">
+					<ui:repeat var="viewedProject" value="#{projectCart}" >
+						<li class="media col-md-4 col-sm-4" style="margin: 10px 0px; min-height: 150px; height: auto;">
+							<h:outputLink styleClass="pull-left"
+								value="#{facesContext.externalContext.applicationContextPath}/detail/projectDetail.jsf">
+								<f:param name="projectId" value="#{viewedProject.id}" />													
+								
+								<h:panelGroup layout="block" rendered="#{viewedProject.mediumLogoURL eq 'no_logo.png'}" >
+									<p style="background-color:#EEE; color:#000; border:1px dashed #000;font-size:56px; line-height:64px; width:64px; height:64px;text-align:center; float:left; margin-bottom:0; margin-top:0; margin-right:0px">
+										<h:outputText value="#{fn:toUpperCase(fn:substring(viewedProject.name,0,1))}" /> 
+									</p>
+								</h:panelGroup>
+								
+								<h:graphicImage
+									style="margin-bottom: 10px"
+									rendered="#{viewedProject.mediumLogoURL != 'no_logo.png'}" 
+									styleClass="media-object" height="64" width="64"
+									value="#{viewedProject.mediumLogoURL}" 
+									/>
+								
+								
+							</h:outputLink>
 							
-							<h:panelGroup layout="block" rendered="#{viewedProject.mediumLogoURL eq 'no_logo.png'}" >
-								<p style="background-color:#EEE; color:#000; border:1px dashed #000;font-size:56px; line-height:64px; width:64px; height:64px;text-align:center; float:left; margin-bottom:0; margin-top:0; margin-right:0px">
-									<h:outputText value="#{fn:toUpperCase(fn:substring(viewedProject.name,0,1))}" /> 
+							
+							<div class="media-body" style="min-height: 64px">
+								<h4 class="media-heading">
+								
+									<h:commandLink action="#{bean.saveRecommenderEvaluation}" rendered="#{not empty bean}">
+										<f:param name="selectedProjectId" value="#{viewedProject.id}" />
+										<h:outputText value="#{viewedProject.name}"  />
+									</h:commandLink>
+								
+									<h:outputLink value="#{facesContext.externalContext.applicationContextPath}/detail/projectDetail.jsf">
+										<f:param name="projectId" value="#{viewedProject.id}" />
+										<h:outputText value="#{viewedProject.name}"  />
+									</h:outputLink>
+								</h4>														
+								<p class="truncate">
+									<h:outputText value="#{viewedProject.description}" />
 								</p>
-							</h:panelGroup>
-							
-							<h:graphicImage
-								style="margin-bottom: 10px"
-								rendered="#{viewedProject.mediumLogoURL != 'no_logo.png'}" 
-								styleClass="media-object" height="64" width="64"
-								value="#{viewedProject.mediumLogoURL}" 
-								/>
-							
-							
-						</h:outputLink>
+							</div>
+						</li>
+					</ui:repeat>
+				</ul>
 						
-						
-						<div class="media-body" style="min-height: 64px">
-							<h4 class="media-heading">
-								<h:outputLink value="#{facesContext.externalContext.applicationContextPath}/detail/projectDetail.jsf">
-									<f:param name="projectId" value="#{viewedProject.id}" />
-									<h:outputText value="#{viewedProject.name}"  />
-								</h:outputLink>
-							</h4>														
-							<p class="truncate">
-								<h:outputText value="#{viewedProject.description}" />
-							</p>
-						</div>
-					</li>
-				</ui:repeat>
-			</ul>
-					
-			
-			<!-- leia mais para a descricao do projeto -->
-			<script>
-			    $(function(){
-			        $('.truncate').succinct({
-			            size: 120
-			        });
-			    });
-			</script>
-		</div>
-	
+				
+				<!-- leia mais para a descricao do projeto -->
+				<script>
+				    $(function(){
+				        $('.truncate').succinct({
+				            size: 120
+				        });
+				    });
+				</script>
+			</div>
+		</h:form>
 	</h:panelGroup>
 	
 </ui:composition>

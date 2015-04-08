@@ -10,6 +10,8 @@ public abstract class RecommendedProjectManagedBean extends ProjectManagedBean {
 	 */
 	private static final long serialVersionUID = 4427973769068757558L;
 	
+	protected final static String SELECTED_PROJECT_PARAM = "selectedProjectId";
+	
 	protected MethodExpression createMethodExpression(
 			String expression, Class<?> expectedReturnType, 
 			Class<?>... expectedParameterTypes) {
