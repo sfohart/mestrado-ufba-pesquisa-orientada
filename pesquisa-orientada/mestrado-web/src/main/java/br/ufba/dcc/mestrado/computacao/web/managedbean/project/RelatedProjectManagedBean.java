@@ -11,6 +11,8 @@ import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 import javax.faces.event.ComponentSystemEvent;
 
+import org.apache.commons.lang3.StringUtils;
+
 import br.ufba.dcc.mestrado.computacao.entities.openhub.core.project.OpenHubProjectEntity;
 import br.ufba.dcc.mestrado.computacao.entities.recommender.evaluation.RecommendationEnum;
 import br.ufba.dcc.mestrado.computacao.entities.recommender.evaluation.RecommenderEvaluationEntity;
@@ -93,42 +95,48 @@ public class RelatedProjectManagedBean extends ProjectManagedBean {
 		
 		FacesContext facesContext = FacesContext.getCurrentInstance();
 		String selectedProjectIdParam = facesContext.getExternalContext().getRequestParameterMap().get(SELECTED_PROJECT_PARAM);
-		Long selectedProjectId = Long.valueOf(selectedProjectIdParam);
 		
-		RecommenderEvaluationEntity recommenderEvaluationEntity = null;
-		
-		if (similarProjectsRecomendation != null && similarProjectsRecomendation.getRecommendedProjects() != null) {
-			for (OpenHubProjectEntity project : similarProjectsRecomendation.getRecommendedProjects()) {
-				if (project.getId() == selectedProjectId) {
-					recommenderEvaluationEntity = similarProjectsRecomendation;
-					recommenderEvaluationEntity.setSelectedProject(project);
-					break;
-				}
-			}
-		}
-		
-		if (recommenderEvaluationEntity == null
-				&& alsoViewedProjecstRecommendation != null 
-				&& alsoViewedProjecstRecommendation.getRecommendedProjects() != null) {
+		if (! StringUtils.isEmpty(selectedProjectIdParam)) {		
+			Long selectedProjectId = Long.valueOf(selectedProjectIdParam);
 			
-			for (OpenHubProjectEntity project : alsoViewedProjecstRecommendation.getRecommendedProjects()) {
-				if (project.getId() == selectedProjectId) {
-					recommenderEvaluationEntity = alsoViewedProjecstRecommendation;
-					recommenderEvaluationEntity.setSelectedProject(project);
-					break;
+			RecommenderEvaluationEntity recommenderEvaluationEntity = null;
+			
+			if (similarProjectsRecomendation != null && similarProjectsRecomendation.getRecommendedProjects() != null) {
+				for (OpenHubProjectEntity project : similarProjectsRecomendation.getRecommendedProjects()) {
+					if (project.getId().equals(selectedProjectId)) {
+						recommenderEvaluationEntity = similarProjectsRecomendation;
+						recommenderEvaluationEntity.setSelectedProject(project);
+						break;
+					}
 				}
-			}			
-		}
-		
-		if (recommenderEvaluationEntity != null) {
-			try {
-				getRecommenderEvaluationService().save(recommenderEvaluationEntity);
-			} catch (Exception e) {
-				e.printStackTrace();
 			}
+			
+			if (recommenderEvaluationEntity == null
+					&& alsoViewedProjecstRecommendation != null 
+					&& alsoViewedProjecstRecommendation.getRecommendedProjects() != null) {
+				
+				for (OpenHubProjectEntity project : alsoViewedProjecstRecommendation.getRecommendedProjects()) {
+					if (project.getId().equals(selectedProjectId)) {
+						recommenderEvaluationEntity = alsoViewedProjecstRecommendation;
+						recommenderEvaluationEntity.setSelectedProject(project);
+						break;
+					}
+				}			
+			}
+			
+			if (recommenderEvaluationEntity != null) {
+				try {
+					getRecommenderEvaluationService().save(recommenderEvaluationEntity);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+			
+			
+			return String.format("/detail/projectDetail.jsf?projectId=%d&faces-redirect=true", selectedProjectId);
+		} else {
+			return null;
 		}
-		
-		return String.format("/detail/projectDetail.jsf?projectId=%d&faces-redirect=true", selectedProjectId);
 		
 	}
 	
