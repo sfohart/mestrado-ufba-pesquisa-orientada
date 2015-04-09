@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="ISO-8859-1"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:h="http://java.sun.com/jsf/html"
@@ -13,7 +13,7 @@
 	
 	<h:body>
 		<ui:composition template="/layout/mainLayout.xhtml">
-			<ui:define name="titlePage">Conta de Usuário</ui:define>
+			<ui:define name="titlePage">Conta de UsuÃ¡rio</ui:define>
 			
 			<ui:define name="content">
 				<section class="container">
@@ -23,7 +23,7 @@
 					</ui:include>
 					
 					<div style="border-top: 1px solid #aaa;">
-						<h3>Sumário da Conta</h3>
+						<h3>SumÃ¡rio da Conta</h3>
 					</div>
 					
 					<h:panelGroup id="accountSummary" layout="block" styleClass="row" style="margin-bottom: 20px">
@@ -72,7 +72,7 @@
 								<li>
 									<h:outputLink value="#{facesContext.externalContext.applicationContextPath}/reviews/reviewsList.jsf">
 										<f:param name="userId" value="#{accountMB.account.id}" />
-										Opiniões
+										OpiniÃµes
 									</h:outputLink>
 								</li>
 							</ul>

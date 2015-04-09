@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="ISO-8859-1"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:h="http://java.sun.com/jsf/html"
@@ -41,7 +41,7 @@
 						rendered="#{not empty relatedProjectMB.alsoViewedProjecstRecommendation.recommendedProjects}">
 						<ui:include src="/detail/projectCart.xhtml">
 							<ui:param name="projectCart" value="#{relatedProjectMB.alsoViewedProjecstRecommendation.recommendedProjects}"  />
-							<ui:param name="projectCartTitle" value="Quem se interessou por este projeto também viu:"  />
+							<ui:param name="projectCartTitle" value="Quem se interessou por este projeto tambÃ©m viu:"  />
 							<ui:param name="bean" value="#{relatedProjectMB}" />
 						</ui:include>
 					</h:panelGroup>

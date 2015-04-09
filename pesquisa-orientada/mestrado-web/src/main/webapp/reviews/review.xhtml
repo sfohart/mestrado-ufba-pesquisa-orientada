@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="ISO-8859-1"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE html>
 <ui:composition  
 	xmlns="http://www.w3.org/1999/xhtml"
@@ -84,12 +84,12 @@
 			<div>
 				<span class="small soft italic" title="#{preference.registeredAt}">
 					<h:outputText value="#{preference.registeredAt}">
-						<f:convertDateTime pattern="'escrito no dia' dd/MM/yyyy 'às' HH:mm:ss" />
+						<f:convertDateTime pattern="'escrito no dia' dd/MM/yyyy 'Ã s' HH:mm:ss" />
 					</h:outputText>
 				</span>
 			</div>
 			
-			<!-- notas por critério -->
+			<!-- notas por critÃ©rio -->
 			<h:panelGroup layout="block" style="clear: both; margin-top: 20px"
 					rendered="#{not empty preference.preferenceEntryList}">
 					
@@ -100,7 +100,7 @@
 				</ui:include>
 			</h:panelGroup>
 			
-			<!-- descrição da review -->
+			<!-- descriÃ§Ã£o da review -->
 			<div style="clear: both; padding-top: 10px">
 				<h:outputText value="#{preference.preferenceReview.description}" rendered="#{preference.preferenceReview != null}" />
 			</div>
@@ -130,10 +130,10 @@
 						<span class="glyphicon glyphicon-thumbs-up" /> 
 						<h:outputText 
 							style="margin-left: 5px; margin-right: 10px"
-							value="Achei útil" rendered="#{not preference.preferenceReview.usefulList.contains(loginMB.loggedUser)}" />
+							value="Achei Ãºtil" rendered="#{not preference.preferenceReview.usefulList.contains(loginMB.loggedUser)}" />
 						<h:outputText 
 							style="margin-left: 5px; margin-right: 10px"
-							value="Desfazer achei útil" rendered="#{preference.preferenceReview.usefulList.contains(loginMB.loggedUser)}" />
+							value="Desfazer achei Ãºtil" rendered="#{preference.preferenceReview.usefulList.contains(loginMB.loggedUser)}" />
 					</h:commandLink>
 					<h:commandLink id="voteUseless" style="text-decoration: none; margin-right: 10px" actionListener="#{bean['watchDislikeReview']}" >
 						<f:ajax execute="@all" render="@form :helpfulCounter"  />
@@ -141,10 +141,10 @@
 						<span class="glyphicon glyphicon-thumbs-down" /> 
 						<h:outputText 
 							style="margin-left: 5px; margin-right: 10px"
-							value="Não achei útil" rendered="#{not preference.preferenceReview.uselessList.contains(loginMB.loggedUser)}" />
+							value="NÃ£o achei Ãºtil" rendered="#{not preference.preferenceReview.uselessList.contains(loginMB.loggedUser)}" />
 						<h:outputText 
 							style="margin-left: 5px; margin-right: 10px"
-							value="Desfazer não achei útil" rendered="#{preference.preferenceReview.uselessList.contains(loginMB.loggedUser)}" />
+							value="Desfazer nÃ£o achei Ãºtil" rendered="#{preference.preferenceReview.uselessList.contains(loginMB.loggedUser)}" />
 					</h:commandLink>
 				</h:panelGroup>									
 			</h:panelGroup>			

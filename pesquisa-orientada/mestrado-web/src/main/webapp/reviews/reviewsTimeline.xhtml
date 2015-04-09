@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="ISO-8859-1"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:h="http://java.sun.com/jsf/html"
@@ -65,7 +65,7 @@
 									</div>
 									
 									<div style="border-top: 1px solid #aaa; margin: 20px 0">
-										<h3>Projetos comentados pelo usuário</h3>
+										<h3>Projetos comentados pelo usuÃ¡rio</h3>
 									</div>
 								</h:panelGroup>
 								
@@ -96,7 +96,7 @@
 									</div>
 									
 									<div style="border-top: 1px solid #aaa; margin: 20px 0">
-										<h3>Comentários dos usuários</h3>
+										<h3>ComentÃ¡rios dos usuÃ¡rios</h3>
 									</div>
 								</h:panelGroup>
 								
@@ -104,7 +104,7 @@
 									<!-- Exibindo quantidade de resultados -->
 									<ul class="breadcrumb" style="border-bottom: 1px solid #ddd;">
 										<li>
-											Exibindo página <h:outputText value="#{reviewListMB.pageList.currentPage}" /> de <h:outputText value="#{reviewListMB.pageList.totalPages}" /> 
+											Exibindo pÃ¡gina <h:outputText value="#{reviewListMB.pageList.currentPage}" /> de <h:outputText value="#{reviewListMB.pageList.totalPages}" /> 
 										</li>
 									</ul>
 								</h:panelGroup>							
@@ -152,7 +152,7 @@
 																<div>
 																	<span class="small soft italic" title="#{preference.registeredAt}">
 																		<h:outputText value="#{preference.registeredAt}">
-																			<f:convertDateTime pattern="'escrito no dia' dd/MM/yyyy 'às' HH:mm:ss" />
+																			<f:convertDateTime pattern="'escrito no dia' dd/MM/yyyy 'Ã s' HH:mm:ss" />
 																		</h:outputText>
 																	</span>
 																</div>		
@@ -180,7 +180,7 @@
 				
 													<div class="timeline-body">
 														
-														<!-- descrição da review -->														
+														<!-- descriÃ§Ã£o da review -->														
 														<h:outputText value="#{preference.preferenceReview.description}" />
 														
 													</div>
@@ -191,13 +191,13 @@
 																	<ui:param name="totalVotes" value="#{preference.preferenceReview.usefulCount + preference.preferenceReview.uselessCount}" />
 																	<h:panelGroup layout="block" styleClass="small soft" rendered="#{totalVotes > 0}">
 																		<h:outputText  value="#{fn:length(preference.preferenceReview.usefulList)}" /> 
-																		de <h:outputText value="#{totalVotes}" /> avaliaram esta opinião como útil.
+																		de <h:outputText value="#{totalVotes}" /> avaliaram esta opiniÃ£o como Ãºtil.
 																	</h:panelGroup>
 																</div>	      				
 																<h:panelGroup layout="block" styleClass="col-md-6 pull-right">
 																	<h:panelGroup rendered="#{loginMB.loggedUser != null}">
 																		<span class="soft small italic">
-																			Você achou esta avaliação útil?
+																			VocÃª achou esta avaliaÃ§Ã£o Ãºtil?
 																			<br />
 																			<h:commandLink style="text-decoration: none; margin-right: 10px" >
 																				<f:attribute name="preference" value="#{preference}"  />
@@ -207,7 +207,7 @@
 																			<h:commandLink style="text-decoration: none; margin-right: 10px" >
 																				<f:attribute name="preference" value="#{preference}" />
 																				<f:ajax execute="@all" render="@form" listener="#{reviewListMB.addUselessVoteToReview}"  />
-																				<span class="glyphicon glyphicon-thumbs-down" /> Não
+																				<span class="glyphicon glyphicon-thumbs-down" /> NÃ£o
 																			</h:commandLink>
 																		</span>
 																	</h:panelGroup>
@@ -253,7 +253,7 @@
 																<div>
 																	<span class="small soft italic" title="#{preference.registeredAt}">
 																		<h:outputText value="#{preference.registeredAt}">
-																			<f:convertDateTime pattern="'escrito no dia' dd/MM/yyyy 'às' HH:mm:ss" />
+																			<f:convertDateTime pattern="'escrito no dia' dd/MM/yyyy 'Ã s' HH:mm:ss" />
 																		</h:outputText>
 																	</span>
 																</div>		
@@ -281,7 +281,7 @@
 				
 													<div class="timeline-body">
 														
-														<!-- descrição da review -->														
+														<!-- descriÃ§Ã£o da review -->														
 														<h:outputText value="#{preference.preferenceReview.description}" />
 														
 													</div>
@@ -292,13 +292,13 @@
 																	<ui:param name="totalVotes" value="#{preference.preferenceReview.usefulCount + preference.preferenceReview.uselessCount}" />
 																	<h:panelGroup layout="block" styleClass="small soft" rendered="#{totalVotes > 0}">
 																		<h:outputText  value="#{fn:length(preference.preferenceReview.usefulList)}" /> 
-																		de <h:outputText value="#{totalVotes}" /> avaliaram esta opinião como útil.
+																		de <h:outputText value="#{totalVotes}" /> avaliaram esta opiniÃ£o como Ãºtil.
 																	</h:panelGroup>
 																</div>	      				
 																<h:panelGroup layout="block" styleClass="col-md-6 pull-right">
 																	<h:panelGroup rendered="#{loginMB.loggedUser != null}">
 																		<span class="soft small italic">
-																			Você achou esta avaliação útil?
+																			VocÃª achou esta avaliaÃ§Ã£o Ãºtil?
 																			<br />
 																			<h:commandLink style="text-decoration: none; margin-right: 10px" >
 																				<f:attribute name="preference" value="#{preference}"  />
@@ -308,7 +308,7 @@
 																			<h:commandLink style="text-decoration: none; margin-right: 10px" >
 																				<f:attribute name="preference" value="#{preference}" />
 																				<f:ajax execute="@all" render="@form" listener="#{reviewListMB.addUselessVoteToReview}"  />
-																				<span class="glyphicon glyphicon-thumbs-down" /> Não
+																				<span class="glyphicon glyphicon-thumbs-down" /> NÃ£o
 																			</h:commandLink>
 																		</span>
 																	</h:panelGroup>
@@ -324,7 +324,7 @@
 									</ul>
 								</div>
 								
-								<!-- Paginação -->
+								<!-- PaginaÃ§Ã£o -->
 								<ui:include src="/layout/pagination.xhtml">
 									<ui:param name="searchMethod" value="searchReviews" />
 									<ui:param name="bean" value="#{reviewListMB}"/>

@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="ISO-8859-1"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE html>
 <ui:composition xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:ui="http://java.sun.com/jsf/facelets"
@@ -12,7 +12,7 @@
 			<li class="#{bean.pageList.currentPage eq bean.pageList.firstPage ? 'disabled' : ''}">
 				<h:commandLink actionListener="#{bean[searchMethod]}" disabled="#{bean.pageList.currentPage eq bean.pageList.firstPage}" >
 					<f:param  name="page" value="#{bean.pageList.firstPage}" />
-					«
+					Â«
 				</h:commandLink>
 			</li>
 			
@@ -35,7 +35,7 @@
 			<li class="#{bean.pageList.currentPage eq bean.pageList.nextPage ? 'disabled' : ''}">
 				<h:commandLink actionListener="#{bean[searchMethod]}" disabled="#{bean.pageList.currentPage eq bean.pageList.nextPage}" >
 					<f:param  name="page" value="#{bean.pageList.nextPage}" />
-					próximo
+					prÃ³ximo
 				</h:commandLink>
 			</li>
 			
@@ -43,7 +43,7 @@
 			<li class="#{bean.pageList.currentPage eq bean.pageList.lastPage ? 'disabled' : ''}">
 				<h:commandLink actionListener="#{bean[searchMethod]}" disabled="#{bean.pageList.currentPage eq bean.pageList.lastPage}" >
 					<f:param  name="page" value="#{bean.pageList.lastPage}" />
-					»
+					Â»
 				</h:commandLink>
 			</li>
 		</ul>

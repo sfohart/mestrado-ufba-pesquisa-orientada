@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="ISO-8859-1"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE html>
 <ui:composition 
 	xmlns:h="http://java.sun.com/jsf/html"
@@ -12,16 +12,16 @@
 					<h1>Que software livre utilizar?</h1>
 					<p>				
 						Muita gente desconhece o fato de que existe um software livre para
-						a maioria dos softwares pelos quais pagou. Em muitos casos, esse software pago não
-						atende totalmente as necessidades dos seus usuários. Este é um bom lugar para começar a procurar,
-						já que nossos usuários levam muita coisa em consideração para avaliar
+						a maioria dos softwares pelos quais pagou. Em muitos casos, esse software pago nÃ£o
+						atende totalmente as necessidades dos seus usuÃ¡rios. Este Ã© um bom lugar para comeÃ§ar a procurar,
+						jÃ¡ que nossos usuÃ¡rios levam muita coisa em consideraÃ§Ã£o para avaliar
 						a qualidade de um software. 
 					</p>
 					
 					<p>
 						<a id="tourButton" class="btn btn-lg btn-success" role="button">
 							<span class="fa fa-play" />
-							<b>Faça um Tour</b>
+							<b>FaÃ§a um Tour</b>
 						</a>
 					</p>
 					
@@ -69,8 +69,8 @@
 					path: "#{facesContext.externalContext.applicationContextPath}/",
 					element: "#tourButton",
 					placement: "bottom",
-					title: "Por onde começar?",
-					content: "Confuso sobre como utilizar o nosso site? Nós lhe daremos uma forcinha!"
+					title: "Por onde comeÃ§ar?",
+					content: "Confuso sobre como utilizar o nosso site? NÃ³s lhe daremos uma forcinha!"
 				});
 				
 				initialTour.addStep({
@@ -78,7 +78,7 @@
 					element: "#query",
 					placement: "bottom",
 					title: "Comece buscando por alguma palavra chave...",
-					content: "Tente qualquer palavra ou expressão que remeta ao software ou ao tipo de software que você deseja."
+					content: "Tente qualquer palavra ou expressÃ£o que remeta ao software ou ao tipo de software que vocÃª deseja."
 				});
 				
 				initialTour.addStep({
@@ -86,23 +86,23 @@
 					element: "#topTenReview",
 					placement: "top",					
 					title: "Sempre que tiver algo a falar, fale!",
-					content: "Se você já utilizou algum software, comente sobre ele! A sua opinião vai ajudar a muitos outros usuários."
+					content: "Se vocÃª jÃ¡ utilizou algum software, comente sobre ele! A sua opiniÃ£o vai ajudar a muitos outros usuÃ¡rios."
 				});
 				
 				initialTour.addStep({
 					path: "#{facesContext.externalContext.applicationContextPath}/",
 					element: "#topTenViewed",
 					placement: "top",
-					title: "O que as outas pessoas estão buscando?",
-					content: "Aqui você vê a lista dos softwares mais vistos pelos outros usuários"
+					title: "O que as outas pessoas estÃ£o buscando?",
+					content: "Aqui vocÃª vÃª a lista dos softwares mais vistos pelos outros usuÃ¡rios"
 				});
 				
 				initialTour.addStep({
 					path: "#{facesContext.externalContext.applicationContextPath}/",
 					element: "#contactLink",
 					placement: "top",
-					title: "E para críticas e sugestões...",
-					content: "Envie-nos um email! Sua colaboração vai ajudar o nosso sistema a ficar ainda melhor pra você!"
+					title: "E para crÃ­ticas e sugestÃµes...",
+					content: "Envie-nos um email! Sua colaboraÃ§Ã£o vai ajudar o nosso sistema a ficar ainda melhor pra vocÃª!"
 				});
 				
 				initialTour.addStep({
@@ -118,7 +118,7 @@
 					element: "#helpButtonBar",
 					placement: "bottom",
 					title: "Se precisar de ajuda...",
-					content: "Clique aqui neste link, e você verá uma página com dicas sobre como utilizar o site. Caso ache que as dicas não foram suficientes, não se acanhe em clicar no formulário de contato, no rodapé da página, e nos enviar suas opiniões, dúvidas e críticas."
+					content: "Clique aqui neste link, e vocÃª verÃ¡ uma pÃ¡gina com dicas sobre como utilizar o site. Caso ache que as dicas nÃ£o foram suficientes, nÃ£o se acanhe em clicar no formulÃ¡rio de contato, no rodapÃ© da pÃ¡gina, e nos enviar suas opiniÃµes, dÃºvidas e crÃ­ticas."
 				});
 				
 				initialTour.addStep({
@@ -126,8 +126,8 @@
 					element: "#recommendedProjects",
 					placement: "top",
 					orphan:	true,
-					title: "Projetos recomendados pra você",
-					content: "Comparamos o seu perfil de interesse por software com os perfis de outros usuários. Para os perfis que se assemelham, verificamos quais projetos você ainda não viu e lhe recomendamos."
+					title: "Projetos recomendados pra vocÃª",
+					content: "Comparamos o seu perfil de interesse por software com os perfis de outros usuÃ¡rios. Para os perfis que se assemelham, verificamos quais projetos vocÃª ainda nÃ£o viu e lhe recomendamos."
 				});
 				
 				initialTour.addStep({
@@ -136,7 +136,7 @@
 					placement: "bottom",
 					orphan: true,
 					title: "Pronto!",
-					content: "Agora que você já tem uma idéia básica sobre como isso funciona, mãos à obra!"
+					content: "Agora que vocÃª jÃ¡ tem uma idÃ©ia bÃ¡sica sobre como isso funciona, mÃ£os Ã  obra!"
 				});
 				
 				initialTour.init();

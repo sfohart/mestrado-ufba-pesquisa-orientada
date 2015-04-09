@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="ISO-8859-1"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:h="http://java.sun.com/jsf/html"
@@ -16,7 +16,7 @@
 <h:body>
 	<ui:composition template="/layout/mainLayout.xhtml">
 
-		<ui:define name="titlePage">Nova Avaliação</ui:define>
+		<ui:define name="titlePage">Nova AvaliaÃ§Ã£o</ui:define>
 
 		<ui:define name="content">
 		
@@ -39,7 +39,7 @@
 					<h3>
 						<h:outputLink value="projectReviews.jsf">
 							<f:param name="projectId" value="#{newReviewMB.project.id}" />
-								Avaliações:
+								AvaliaÃ§Ãµes:
 							</h:outputLink>
 						Nova
 					</h3>
@@ -51,21 +51,21 @@
 								<ui:include src="/reviews/reviewCriteriumHelp.xhtml"/>
 								
 								<div class="alert alert-info fade in">									
-									Para não avaliar um determinado critério, simplesmente não dê nota a ele. 
-									Se você deseja avaliar, dê nota ao critério variando entre 1 e 5.
+									Para nÃ£o avaliar um determinado critÃ©rio, simplesmente nÃ£o dÃª nota a ele. 
+									Se vocÃª deseja avaliar, dÃª nota ao critÃ©rio variando entre 1 e 5.
 								</div>
 
 								<div class="panel panel-primary">
 									<div class="panel-heading">
-										<h2 class="panel-title">Critérios de Avaliação:</h2>
+										<h2 class="panel-title">CritÃ©rios de AvaliaÃ§Ã£o:</h2>
 									</div>
 									<div class="panel-body">
 										<!-- TODO: 
-												Lembrar de colocar um popover do bootstrap em cada título de critério de avaliação 
+												Lembrar de colocar um popover do bootstrap em cada tÃ­tulo de critÃ©rio de avaliaÃ§Ã£o 
 											-->
 
 										<fieldset>
-											<legend>Critérios Individuais</legend>
+											<legend>CritÃ©rios Individuais</legend>
 											<ui:repeat var="preferenceEntry"
 												value="#{newReviewMB.preference.preferenceEntryList}"
 												varStatus="status">
@@ -85,10 +85,10 @@
 															<h:selectOneMenu id="preferenceValue"
 																styleClass="listaValoresCriterio#{preferenceEntry.criterium.id}" 
 																value="#{preferenceEntry.value}">
-																<f:selectItem itemValue="" itemLabel="Não quero avaliar" />
+																<f:selectItem itemValue="" itemLabel="NÃ£o quero avaliar" />
 																<f:selectItem itemValue="1" itemLabel="Muito Ruim" />
 																<f:selectItem itemValue="2" itemLabel="Ruim" />
-																<f:selectItem itemValue="3" itemLabel="Razoável" />
+																<f:selectItem itemValue="3" itemLabel="RazoÃ¡vel" />
 																<f:selectItem itemValue="4" itemLabel="Bom" />
 																<f:selectItem itemValue="5" itemLabel="Muito Bom" />
 															</h:selectOneMenu>
@@ -136,7 +136,7 @@
 										</fieldset>
 
 										<fieldset>
-											<legend>Avaliação Geral</legend>
+											<legend>AvaliaÃ§Ã£o Geral</legend>
 											<div class="col-md-12">
 												<div class="row">
 													<div class="form-group #{not averagePreferenceInput.valid ? 'has-error has-feedback' : ''}">
@@ -146,10 +146,10 @@
 															requiredMessage="#{reviewMsg['reviews.new.averagePreference.required.message']}"
 															binding="#{averagePreferenceInput}"
 															value="#{newReviewMB.preference.value}">
-															<f:selectItem itemValue="" itemLabel="Não quero avaliar" />
+															<f:selectItem itemValue="" itemLabel="NÃ£o quero avaliar" />
 															<f:selectItem itemValue="1" itemLabel="Muito Ruim" />
 															<f:selectItem itemValue="2" itemLabel="Ruim" />
-															<f:selectItem itemValue="3" itemLabel="Razoável" />
+															<f:selectItem itemValue="3" itemLabel="RazoÃ¡vel" />
 															<f:selectItem itemValue="4" itemLabel="Bom" />
 															<f:selectItem itemValue="5" itemLabel="Muito Bom" />
 														</h:selectOneMenu>
@@ -208,17 +208,17 @@
 
 								<div class="panel panel-primary">
 									<div class="panel-heading">
-										<h2 class="panel-title">Dê a sua opinião</h2>
+										<h2 class="panel-title">DÃª a sua opiniÃ£o</h2>
 									</div>
 									<div class="panel-body">
 										<div class="form-group">
-											<h:outputLabel for="reviewTitle">Título</h:outputLabel>
+											<h:outputLabel for="reviewTitle">TÃ­tulo</h:outputLabel>
 											<h:inputText id="reviewTitle" styleClass="form-control"
 												value="#{newReviewMB.preference.preferenceReview.title}" />
 										</div>
 
 										<div class="form-group">
-											<h:outputLabel for="reviewDescription">Descrição</h:outputLabel>
+											<h:outputLabel for="reviewDescription">DescriÃ§Ã£o</h:outputLabel>
 											<prime:inputTextarea id="reviewDescription"
 												styleClass="form-control" rows="5" counter="reviewDescriptionCounter" maxlength="255"
 												counterTemplate="#{messages['input.textarea.characters.remmaining']}"

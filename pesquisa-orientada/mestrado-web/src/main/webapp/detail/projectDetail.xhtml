@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="ISO-8859-1"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:h="http://java.sun.com/jsf/html"
@@ -30,7 +30,7 @@
 				<script type="text/javascript">
 					var highchartsOptions = Highcharts.setOptions({
 						lang: {
-							months: ['Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho', 'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro'],
+							months: ['Janeiro', 'Fevereiro', 'MarÃ§o', 'Abril', 'Maio', 'Junho', 'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro'],
 							shortMonths: ['Jan', 'Feb', 'Mar', 'Abr', 'Maio', 'Jun', 'Jul', 'Ago', 'Set', 'Out', 'Nov', 'Dez']
 						}
 					});
@@ -85,14 +85,14 @@
 							<div class="pull-right">
 								<a id="projectDetailTourButton" class="btn  btn-primary" role="button">
 									<span class="fa fa-play" />
-									<b>Faça um Tour</b>
+									<b>FaÃ§a um Tour</b>
 								</a>
 							</div>
 						</div>
 					</h:panelGroup>
 					
 					<div style="border-top: 1px solid #aaa;">
-						<h2>Sumário</h2>
+						<h2>SumÃ¡rio</h2>
 					</div>
 					
 					<h:panelGroup id="projectSummary" layout="block" styleClass="row" style="margin-bottom: 20px">
@@ -117,7 +117,7 @@
 						
 						<div class="col-md-6 col-sm-6">
 							<h:panelGroup id="projectReferences" layout="block" styleClass="well">
-								<h4>Referências</h4>
+								<h4>ReferÃªncias</h4>
 								
 								<dl class="dl-horizontal">
 									<dt><a href="#">Links do Projeto:</a></dt>
@@ -136,7 +136,7 @@
 										
 									</dd>
 									
-									<dt><a href="#">Links para Código:</a></dt>
+									<dt><a href="#">Links para CÃ³digo:</a></dt>
 									<dd style="margin-bottom: .5em;">
 									
 										<h:panelGroup  layout="block" rendered="#{projectDetailMB.linkCount eq 1}">
@@ -157,7 +157,7 @@
 																
 									</dd>
 									
-									<dt><a href="#">Licenças:</a></dt>	
+									<dt><a href="#">LicenÃ§as:</a></dt>	
 									<dd style="margin-bottom: .5em;">
 										<h:panelGroup layout="block" rendered="#{not empty projectDetailMB.project.licenses}">
 											<ui:repeat var="license" value="#{projectDetailMB.project.licenses}">
@@ -169,7 +169,7 @@
 										</h:panelGroup>
 										
 										<h:panelGroup layout="block" rendered="#{empty projectDetailMB.project.licenses}">
-											<h:outputText value="Sem Licenças de Uso" />
+											<h:outputText value="Sem LicenÃ§as de Uso" />
 										</h:panelGroup>																		
 									</dd>
 									
@@ -204,7 +204,7 @@
 									value="#{projectDetailMB.overallPreferenceCount} pessoas avaliaram este projeto" />
 								<h:outputText 
 									rendered="#{projectDetailMB.overallPreferenceCount eq 0}"
-									value="Nenhum usuário avaliou ainda este projeto" /> 
+									value="Nenhum usuÃ¡rio avaliou ainda este projeto" /> 
 								<br />
 								
 								<h:panelGroup id="generalPreference" layout="block"
@@ -232,7 +232,7 @@
 					<h:panelGroup styleClass="row" layout="block" style="margin-bottom: 20px">
 						<div class="col-md-6 col-sm-6">
 							<div class="well" id="averagePreferenceByCriterium">
-								<h4>Avaliação média por Critério</h4>
+								<h4>AvaliaÃ§Ã£o mÃ©dia por CritÃ©rio</h4>
 								
 								<ui:include src="/reviews/reviewByCriterium.xhtml">
 									<ui:param name="preference" value="#{projectDetailMB.averagePreference}" />
@@ -248,7 +248,7 @@
 							<script type="text/javascript">
 								$(document).ready(function() {
 									var contributorsOptions = {
-										title: { text: 'Colaboradores por mês' },
+										title: { text: 'Colaboradores por mÃªs' },
 										plotOptions: {
 											series: {
 												marker: {
@@ -307,13 +307,13 @@
 								<h4>
 									<h:outputLink value="#{facesContext.externalContext.applicationContextPath}/summary/summaryReviews.jsf" >
 										<f:param name="projectId" value="#{projectDetailMB.project.id}" />
-										Veja outras avaliações
+										Veja outras avaliaÃ§Ãµes
 									</h:outputLink>
 								</h4>
 							</div>
 							<div id="newProjectReview">
 								<h:panelGroup  layout="block" rendered="#{projectDetailMB.userPreference != null}">
-									<h4>Sua avaliação:</h4>
+									<h4>Sua avaliaÃ§Ã£o:</h4>
 									<div class="rateit" data-rateit-readonly="true"
 										data-rateit-min="0" data-rateit-max="5"
 										data-rateit-value="#{projectDetailMB.userPreference.value}" data-rateit-ispreset="true"  />
@@ -328,7 +328,7 @@
 										(0 / 5)
 									</h:panelGroup>
 									
-									<!-- notas por critério -->
+									<!-- notas por critÃ©rio -->
 									<h:panelGroup layout="block" style="clear: both; margin-top: 20px"
 											rendered="#{not empty projectDetailMB.userPreference.preferenceEntryList}">
 											
@@ -341,7 +341,7 @@
 									<h4>
 										<h:outputLink value="#{facesContext.externalContext.applicationContextPath}/reviews/newProjectReview.jsf">
 											<f:param name="projectId" value="#{projectDetailMB.project.id}" />
-											Mudou de idéia? Que tal avaliar novamente este projeto?
+											Mudou de idÃ©ia? Que tal avaliar novamente este projeto?
 										</h:outputLink>
 									</h4>
 									
@@ -351,7 +351,7 @@
 									<h4>
 										<h:outputLink value="#{facesContext.externalContext.applicationContextPath}/reviews/newProjectReview.jsf">
 											<f:param name="projectId" value="#{projectDetailMB.project.id}" />
-											Avalie você também este projeto
+											Avalie vocÃª tambÃ©m este projeto
 										</h:outputLink>
 									</h4>
 								</h:panelGroup>
@@ -366,12 +366,12 @@
 						rendered="#{not empty relatedProjectMB.alsoViewedProjecstRecommendation.recommendedProjects}">
 						<ui:include src="/detail/projectCart.xhtml">
 							<ui:param name="projectCart" value="#{relatedProjectMB.alsoViewedProjecstRecommendation.recommendedProjects}"  />
-							<ui:param name="projectCartTitle" value="Quem se interessou por este projeto também viu:"  />
+							<ui:param name="projectCartTitle" value="Quem se interessou por este projeto tambÃ©m viu:"  />
 						</ui:include>
 					</h:panelGroup>
 					
 					<div style="border-top: 1px solid #aaa;">
-						<h2>Sobre o Código Fonte</h2>
+						<h2>Sobre o CÃ³digo Fonte</h2>
 					</div>
 					
 					<h:panelGroup id="nutshelPanel" layout="block" styleClass="row" style="margin-top: 20px">
@@ -387,7 +387,7 @@
 										<div class="indent" style="margin-left: 1em; margin-top: -1.4em;">
 											<h:outputText  value="tem um total de #{projectDetailMB.project.analysis.totalCommitCount} commits
 											feitos por #{projectDetailMB.project.analysis.totalContributorCount} desenvolvedores, representando
-											#{projectDetailMB.project.analysis.totalCodeLines} linhas de código
+											#{projectDetailMB.project.analysis.totalCodeLines} linhas de cÃ³digo
 											" />
 										</div>
 									</li>
@@ -395,7 +395,7 @@
 									<li>
 										...
 										<div class="indent" style="margin-left: 1em; margin-top: -1.4em;">
-											<h:outputText value="é escrito principalmente em #{projectDetailMB.project.analysis.mainLanguageName}"  />
+											<h:outputText value="Ã© escrito principalmente em #{projectDetailMB.project.analysis.mainLanguageName}"  />
 										</div>
 									</li>
 								
@@ -412,7 +412,7 @@
 							</h:panelGroup>
 							
 							<h:panelGroup id="projectNutshelEmpty" layout="block" styleClass="well" rendered="#{empty projectDetailMB.factoidList}"  >
-								<h5>Não há análises para o projeto <h:outputText value="#{projectDetailMB.project.name}" />...</h5>
+								<h5>NÃ£o hÃ¡ anÃ¡lises para o projeto <h:outputText value="#{projectDetailMB.project.name}" />...</h5>
 							</h:panelGroup>
 						</div>
 						
@@ -452,7 +452,7 @@
 							<script type="text/javascript">
 								$(document).ready(function() {
 									var lineCodeOptions = {
-										title: { text: 'Linhas de Código' },
+										title: { text: 'Linhas de CÃ³digo' },
 										plotOptions: {
 											area: {
 												stacking: 'normal'
@@ -493,11 +493,11 @@
 							            
 										series: [
 											{
-												name: 'Código',
+												name: 'CÃ³digo',
 												pointInterval: 30 * 24 * 3600 * 1000
 											},
 											{
-												name: 'Comentários',
+												name: 'ComentÃ¡rios',
 												pointInterval: 30 * 24 * 3600 * 1000
 											},
 											{
@@ -572,7 +572,7 @@
 							<script type="text/javascript">
 								$(document).ready(function() {
 									var commitsOptions = {
-										title: { text: 'Commits por mês' },
+										title: { text: 'Commits por mÃªs' },
 										plotOptions: {
 											series: {
 												marker: {
@@ -629,7 +629,7 @@
 						<div class="col-md-3 acoes">
 							<h4>
 								<span class="fa fa-tachometer"></span>
-								Sumário do Projeto
+								SumÃ¡rio do Projeto
 							</h4>
 							
 							<ul class="nav nav-pills nav-stacked">
@@ -671,7 +671,7 @@
 								<li>
 									<h:outputLink value="#{facesContext.externalContext.applicationContextPath}/reviews/reviewsList.jsf">
 										<f:param name="projectId" value="#{projectDetailMB.project.id}"  />										
-										Opiniões e Avaliações
+										OpiniÃµes e AvaliaÃ§Ãµes
 									</h:outputLink>
 								</li>
 							</ul>
@@ -701,8 +701,8 @@
 						path: "#{facesContext.externalContext.applicationContextPath}/detail/projectDetail.jsf?projectId=#{projectDetailMB.project.id}",
 						element: "#projectDetailTourButton",
 						placement: "bottom",
-						title: "Por onde começar?",
-						content: "Confuso sobre como utilizar o nosso site? Nós lhe daremos uma forcinha!"
+						title: "Por onde comeÃ§ar?",
+						content: "Confuso sobre como utilizar o nosso site? NÃ³s lhe daremos uma forcinha!"
 					});
 					
 					projectDetailTour.addStep({
@@ -710,39 +710,39 @@
 						element: "#projectDescription",
 						placement: "top",
 						title: "Sumpario do projeto",
-						content: "Aqui você verá uma descrição sobre o propósito principal do software."
+						content: "Aqui vocÃª verÃ¡ uma descriÃ§Ã£o sobre o propÃ³sito principal do software."
 					});
 					
 					projectDetailTour.addStep({
 						path: "#{facesContext.externalContext.applicationContextPath}/detail/projectDetail.jsf?projectId=#{projectDetailMB.project.id}",
 						element: "#projectReferences",
 						placement: "top",
-						title: "Referências do projeto",
-						content: "Aqui você verá links para o download do software, para a documentação, principais projetos relacionados, dentre outras informações."
+						title: "ReferÃªncias do projeto",
+						content: "Aqui vocÃª verÃ¡ links para o download do software, para a documentaÃ§Ã£o, principais projetos relacionados, dentre outras informaÃ§Ãµes."
 					});
 					
 					projectDetailTour.addStep({
 						path: "#{facesContext.externalContext.applicationContextPath}/detail/projectDetail.jsf?projectId=#{projectDetailMB.project.id}",
 						element: "#averageOverallPreference",
 						placement: "top",
-						title: "Preferência geral da comunidade",
-						content: "Esta é a média geral das notas dadas por outros usuários a este software."
+						title: "PreferÃªncia geral da comunidade",
+						content: "Esta Ã© a mÃ©dia geral das notas dadas por outros usuÃ¡rios a este software."
 					});
 					
 					projectDetailTour.addStep({
 						path: "#{facesContext.externalContext.applicationContextPath}/detail/projectDetail.jsf?projectId=#{projectDetailMB.project.id}",
 						element: "#averagePreferenceByCriterium",
 						placement: "top",
-						title: "Preferência média por critério",
-						content: "Além da média geral, nós também informamos a média geral para cada critério de avaliação de software."
+						title: "PreferÃªncia mÃ©dia por critÃ©rio",
+						content: "AlÃ©m da mÃ©dia geral, nÃ³s tambÃ©m informamos a mÃ©dia geral para cada critÃ©rio de avaliaÃ§Ã£o de software."
 					});
 					
 					projectDetailTour.addStep({
 						path: "#{facesContext.externalContext.applicationContextPath}/detail/projectDetail.jsf?projectId=#{projectDetailMB.project.id}",
 						element: "#projectNutshel",
 						placement: "top",
-						title: "E sobre o código fonte?",
-						content: "Aqui você verá algumas considerações sobre o código fonte deste projeto: idade do projeto, estatísticas sobre commits, colaboradores, dentre outros."
+						title: "E sobre o cÃ³digo fonte?",
+						content: "Aqui vocÃª verÃ¡ algumas consideraÃ§Ãµes sobre o cÃ³digo fonte deste projeto: idade do projeto, estatÃ­sticas sobre commits, colaboradores, dentre outros."
 					});
 					
 					projectDetailTour.addStep({
@@ -750,7 +750,7 @@
 						element: "#projectLanguages",
 						placement: "top",
 						title: "Interessado em customizar?",
-						content: "Você vai precisar saber quais as linguagens de programação envolvidas na construção deste software."
+						content: "VocÃª vai precisar saber quais as linguagens de programaÃ§Ã£o envolvidas na construÃ§Ã£o deste software."
 					});
 					
 					projectDetailTour.addStep({
@@ -758,8 +758,8 @@
 						element: "#otherProjectReviews",
 						placement: "right",
 						backdrop: true,
-						title: "O que os outros usuários falaram sobre este projeto?",
-						content: "Clicando aqui você verá as opiniões dos outros usuários sobre este projeto. Você também poderá votar nas opiniões destes usuários."
+						title: "O que os outros usuÃ¡rios falaram sobre este projeto?",
+						content: "Clicando aqui vocÃª verÃ¡ as opiniÃµes dos outros usuÃ¡rios sobre este projeto. VocÃª tambÃ©m poderÃ¡ votar nas opiniÃµes destes usuÃ¡rios."
 					});
 					
 					projectDetailTour.addStep({
@@ -768,15 +768,15 @@
 						placement: "right",
 						backdrop: true,
 						title: "Gostaria de avaliar este projeto?",
-						content: "Clique aqui e dê a sua nota para este projeto. Se quiser, escreva a sua opinião sobre ele. Os outros usuários do nosso site agradecem!"
+						content: "Clique aqui e dÃª a sua nota para este projeto. Se quiser, escreva a sua opiniÃ£o sobre ele. Os outros usuÃ¡rios do nosso site agradecem!"
 					});
 					
 					projectDetailTour.addStep({
 						path: "#{facesContext.externalContext.applicationContextPath}/detail/projectDetail.jsf?projectId=#{projectDetailMB.project.id}",
 						element: "#contactLink",
 						placement: "top",
-						title: "E para críticas e sugestões...",
-						content: "Envie-nos um email! Sua colaboração vai ajudar o nosso sistema a ficar ainda melhor pra você!"
+						title: "E para crÃ­ticas e sugestÃµes...",
+						content: "Envie-nos um email! Sua colaboraÃ§Ã£o vai ajudar o nosso sistema a ficar ainda melhor pra vocÃª!"
 					});
 					
 					projectDetailTour.addStep({
@@ -784,7 +784,7 @@
 						element: "#helpButtonBar",
 						placement: "bottom",
 						title: "Se precisar de ajuda...",
-						content: "Clique aqui neste link, e você verá uma página com dicas sobre como utilizar o site. Caso ache que as dicas não foram suficientes, não se acanhe em clicar no formulário de contato, no rodapé da página, e nos enviar suas opiniões, dúvidas e críticas."
+						content: "Clique aqui neste link, e vocÃª verÃ¡ uma pÃ¡gina com dicas sobre como utilizar o site. Caso ache que as dicas nÃ£o foram suficientes, nÃ£o se acanhe em clicar no formulÃ¡rio de contato, no rodapÃ© da pÃ¡gina, e nos enviar suas opiniÃµes, dÃºvidas e crÃ­ticas."
 					});
 					
 					projectDetailTour.addStep({
@@ -793,7 +793,7 @@
 						placement: "bottom",
 						orphan: true,
 						title: "Pronto!",
-						content: "Agora que você já tem uma idéia básica sobre como isso funciona, mãos à obra!"
+						content: "Agora que vocÃª jÃ¡ tem uma idÃ©ia bÃ¡sica sobre como isso funciona, mÃ£os Ã  obra!"
 					});
 					
 					projectDetailTour.init();
