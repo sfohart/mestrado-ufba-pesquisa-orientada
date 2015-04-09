@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="ISO-8859-1"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:h="http://java.sun.com/jsf/html"
@@ -12,7 +12,7 @@
 	
 	<h:body>
 		<ui:composition template="/layout/mainLayout.xhtml">
-			<ui:define name="titlePage">Configurações da Conta</ui:define>
+			<ui:define name="titlePage">ConfiguraÃ§Ãµes da Conta</ui:define>
 			
 			
 			<ui:define name="content">
@@ -26,9 +26,9 @@
 						<h3>
 							<h:outputLink value="#{facesContext.externalContext.applicationContextPath}/account/accountSettings.jsf">
 								<f:param  name="accountId" value="#{accountBasicDataEditMB.account.id}" />
-								Sumário da Conta:
+								SumÃ¡rio da Conta:
 							</h:outputLink>
-							Dados Básicos
+							Dados BÃ¡sicos
 						</h3>
 					</div>
 					
@@ -40,7 +40,7 @@
 							<span class="fa fa-ban"></span>
 							Vai com calma, aeh!
 						</strong>
-						Você não é o usuário desta conta para alterar informações sensíveis como estas...
+						VocÃª nÃ£o Ã© o usuÃ¡rio desta conta para alterar informaÃ§Ãµes sensÃ­veis como estas...
 					</h:panelGroup>
 					
 					<h:panelGroup layout="block" styleClass="col-md-8 col-md-offset-2" 
@@ -48,7 +48,7 @@
 						<div class="well">
 							<h:form>
 								<fieldset>
-									<legend>Informações Pessoais</legend>
+									<legend>InformaÃ§Ãµes Pessoais</legend>
 									<div class="form-group">
 										<h:outputLabel for="firstName" value="Primeiro Nome"/>
 										<h:inputText id="firstName" styleClass="form-control" 
@@ -60,7 +60,7 @@
 											value="#{accountBasicDataEditMB.account.middleName}"/>
 									</div>
 									<div class="form-group">
-										<h:outputLabel for="lastName" value="Último Nome"/>
+										<h:outputLabel for="lastName" value="Ãšltimo Nome"/>
 										<h:inputText id="lastName" styleClass="form-control" 
 											value="#{accountBasicDataEditMB.account.lastName}"/>
 									</div>

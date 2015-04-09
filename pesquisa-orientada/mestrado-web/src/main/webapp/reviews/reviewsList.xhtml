@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="ISO-8859-1"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:h="http://java.sun.com/jsf/html"
@@ -66,7 +66,7 @@
 								<div class="page-header text-center">									
 									<h1 id="timeline">
 										<span class="fa fa-comments" />
-										Projetos comentados pelo usuário
+										Projetos comentados pelo usuÃ¡rio
 									</h1>
 								</div>
 
@@ -101,7 +101,7 @@
 								<div class="page-header text-center">
 									<h1 id="timeline">
 										<span class="fa fa-comments" />
-										Comentários dos usuários
+										ComentÃ¡rios dos usuÃ¡rios
 									</h1>
 								</div>									
 							</h:panelGroup>
@@ -116,10 +116,10 @@
 														<span class="fa fa-thumbs-up fa-3x" />
 													</div>
 													<div class="media-body">
-														<h4 class="media-heading">Comentários Positivos</h4>
+														<h4 class="media-heading">ComentÃ¡rios Positivos</h4>
 														<p>
-															Deste lado, todos os comentários cuja nota geral dada
-															está acima de 3, valor considerado como <kbd>Razoável</kbd>
+															Deste lado, todos os comentÃ¡rios cuja nota geral dada
+															estÃ¡ acima de 3, valor considerado como <kbd>RazoÃ¡vel</kbd>
 														</p>
 													</div>
 												</div>
@@ -132,10 +132,10 @@
 														<span class="fa fa-thumbs-down fa-3x" />
 													</div>
 													<div class="media-body">
-														<h4 class="media-heading">Comentários Negativos</h4>
+														<h4 class="media-heading">ComentÃ¡rios Negativos</h4>
 														<p>
-															Deste lado, todos os comentários cuja nota geral dada
-															é igual ou está abaixo de 3, valor considerado como <kbd>Razoável</kbd>
+															Deste lado, todos os comentÃ¡rios cuja nota geral dada
+															Ã© igual ou estÃ¡ abaixo de 3, valor considerado como <kbd>RazoÃ¡vel</kbd>
 														</p>
 													</div>
 												</div>
@@ -194,7 +194,7 @@
 															<div>
 																<span class="small soft italic" title="#{preference.registeredAt}">
 																	<h:outputText value="#{preference.registeredAt}">
-																		<f:convertDateTime pattern="'escrito no dia' dd/MM/yyyy 'às' HH:mm:ss" />
+																		<f:convertDateTime pattern="'escrito no dia' dd/MM/yyyy 'Ã s' HH:mm:ss" />
 																	</h:outputText>
 																</span>
 															</div>		
@@ -221,7 +221,7 @@
 												</h:panelGroup>
 												
 												<h:panelGroup layout="block" id="timeline-body" styleClass="timeline-body" >
-													<!-- descrição da review -->	
+													<!-- descriÃ§Ã£o da review -->	
 													<p>
 														<h:outputText value="#{preference.preferenceReview.description}" />
 													</p>
@@ -256,10 +256,10 @@
 																<span class="glyphicon glyphicon-thumbs-up" /> 
 																<h:outputText 
 																	style="margin-left: 5px; margin-right: 10px"
-																	value="Achei útil" rendered="#{not preference.preferenceReview.usefulList.contains(loginMB.loggedUser)}" />
+																	value="Achei Ãºtil" rendered="#{not preference.preferenceReview.usefulList.contains(loginMB.loggedUser)}" />
 																<h:outputText 
 																	style="margin-left: 5px; margin-right: 10px"
-																	value="Desfazer achei útil" rendered="#{preference.preferenceReview.usefulList.contains(loginMB.loggedUser)}" />
+																	value="Desfazer achei Ãºtil" rendered="#{preference.preferenceReview.usefulList.contains(loginMB.loggedUser)}" />
 															</h:commandLink>
 															<h:commandLink id="voteUseless" style="text-decoration: none; margin-right: 10px" actionListener="#{reviewListMB.watchDislikeReview}" >
 																<f:ajax execute="@all" render="@form"  />
@@ -267,10 +267,10 @@
 																<span class="glyphicon glyphicon-thumbs-down" /> 
 																<h:outputText 
 																	style="margin-left: 5px; margin-right: 10px"
-																	value="Não achei útil" rendered="#{not preference.preferenceReview.uselessList.contains(loginMB.loggedUser)}" />
+																	value="NÃ£o achei Ãºtil" rendered="#{not preference.preferenceReview.uselessList.contains(loginMB.loggedUser)}" />
 																<h:outputText 
 																	style="margin-left: 5px; margin-right: 10px"
-																	value="Desfazer não achei útil" rendered="#{preference.preferenceReview.uselessList.contains(loginMB.loggedUser)}" />
+																	value="Desfazer nÃ£o achei Ãºtil" rendered="#{preference.preferenceReview.uselessList.contains(loginMB.loggedUser)}" />
 															</h:commandLink>
 														</h:panelGroup>
 													</h:panelGroup>
@@ -292,7 +292,7 @@
 										actionListener="#{reviewListMB.moreReviews}" 
 										rendered="#{reviewListMB.startPosition != reviewListMB.totalReviews}" >	
 										<f:ajax execute="@form" render="@form" onevent="handleMoreReviewsFormEvent" />
-										<span class="ladda-label">Mais Opiniões</span>
+										<span class="ladda-label">Mais OpiniÃµes</span>
 										<span class="ladda-spinner"></span>
 									</h:commandLink>
 								</h:panelGroup>

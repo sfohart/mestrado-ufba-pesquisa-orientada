@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="ISO-8859-1"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:h="http://java.sun.com/jsf/html"
@@ -36,7 +36,7 @@
 					
 						<ui:include src="/detail/projectCart.xhtml">
 							<ui:param name="projectCart" value="#{indexMB.projectViewedList}"  />
-							<ui:param name="projectCartTitle" value="Projetos recentemente vistos por você"  />
+							<ui:param name="projectCartTitle" value="Projetos recentemente vistos por vocÃª"  />
 						</ui:include>
 						
 					</h:panelGroup>
@@ -47,7 +47,7 @@
 						
 						<ui:include src="/detail/projectCart.xhtml">
 							<ui:param name="projectCart" value="#{indexMB.recommendedProjectList}"  />
-							<ui:param name="projectCartTitle" value="Projetos recomendados para você"  />
+							<ui:param name="projectCartTitle" value="Projetos recomendados para vocÃª"  />
 						</ui:include>
 						
 						<h:panelGroup layout="block" rendered="#{not empty loginMB.loggedUser.interestTags}">
@@ -90,8 +90,8 @@
 													<f:param name="projectId" value="#{projectPreferenceInfo.project.id}" />
 													<h:outputText value="#{projectPreferenceInfo.project.name} "  />
 													<br />
-													<h:outputText styleClass="small" value="(#{projectPreferenceInfo.reviewsCount} avaliações)"  rendered="#{projectPreferenceInfo.reviewsCount > 1}" />
-													<h:outputText styleClass="small" value="(#{projectPreferenceInfo.reviewsCount} avaliação)" rendered="#{projectPreferenceInfo.reviewsCount eq 1}"  />
+													<h:outputText styleClass="small" value="(#{projectPreferenceInfo.reviewsCount} avaliaÃ§Ãµes)"  rendered="#{projectPreferenceInfo.reviewsCount > 1}" />
+													<h:outputText styleClass="small" value="(#{projectPreferenceInfo.reviewsCount} avaliaÃ§Ã£o)" rendered="#{projectPreferenceInfo.reviewsCount eq 1}"  />
 												</h:outputLink>
 												<div class="progress progress-striped active" style="height: 10px">
 													<div class="progress-bar progress-bar-success"  p:role="progressbar" 
@@ -135,8 +135,8 @@
 													<f:param name="projectId" value="#{pageViewInfo.project.id}" />
 													<h:outputText value="#{pageViewInfo.project.name} "  />
 													<br />
-													<h:outputText styleClass="small" value="(#{pageViewInfo.pageViewCount} visualizações)"  rendered="#{pageViewInfo.pageViewCount > 1}" />
-													<h:outputText styleClass="small" value="(#{pageViewInfo.pageViewCount} visualização)" rendered="#{pageViewInfo.pageViewCount eq 1}"  />
+													<h:outputText styleClass="small" value="(#{pageViewInfo.pageViewCount} visualizaÃ§Ãµes)"  rendered="#{pageViewInfo.pageViewCount > 1}" />
+													<h:outputText styleClass="small" value="(#{pageViewInfo.pageViewCount} visualizaÃ§Ã£o)" rendered="#{pageViewInfo.pageViewCount eq 1}"  />
 												</h:outputLink>
 												<div class="progress progress-striped active" style="height: 10px">
 													<div class="progress-bar progress-bar-info"  p:role="progressbar" 
@@ -166,26 +166,26 @@
 						<div class="col-md-4">
 							<h4>Busque projetos por palavras chave</h4>
 							<p class="text-justify">
-								Vale quase tudo. O nome do projeto, o tipo, a linguagem de programação em que
+								Vale quase tudo. O nome do projeto, o tipo, a linguagem de programaÃ§Ã£o em que
 								ele foi escrito...
 							</p>					
 						</div>
 						
 						<div class="col-md-4">
-							<h4>Avalie os projetos de software livre que você já conhece</h4>
+							<h4>Avalie os projetos de software livre que vocÃª jÃ¡ conhece</h4>
 							<p class="text-justify">
-								Se você utiliza ou já utilizou um determinado projeto, opine sobre ele! Dê uma nota
-								para cada critério de qualidade relacionado a ele, e, se possível, descreva a sua experiência
-								com o software em questão.
+								Se vocÃª utiliza ou jÃ¡ utilizou um determinado projeto, opine sobre ele! DÃª uma nota
+								para cada critÃ©rio de qualidade relacionado a ele, e, se possÃ­vel, descreva a sua experiÃªncia
+								com o software em questÃ£o.
 							</p>					
 						</div>
 						
 						<div class="col-md-4">
-							<h4>Saiba quais projetos outras pessoas estão utilizando</h4>
+							<h4>Saiba quais projetos outras pessoas estÃ£o utilizando</h4>
 							<p class="text-justify">
-								Dizem que a melhor propaganda é o boca a boca. E em se tratando de gente experiente
-								no assunto, melhor ainda, não é? Aqui você pode ver quais projetos de um determinado
-								tipo são mais utilizados pelos outros usuários.
+								Dizem que a melhor propaganda Ã© o boca a boca. E em se tratando de gente experiente
+								no assunto, melhor ainda, nÃ£o Ã©? Aqui vocÃª pode ver quais projetos de um determinado
+								tipo sÃ£o mais utilizados pelos outros usuÃ¡rios.
 							</p>					
 						</div>
 					</div>

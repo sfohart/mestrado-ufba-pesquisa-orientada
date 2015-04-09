@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="ISO-8859-1"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE html>
 <ui:composition xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:ui="http://java.sun.com/jsf/facelets"
@@ -16,21 +16,21 @@
 			<div class="item active">
 				<div style="height: 150px; width: 100%; background-color: #fff"></div>
 				<div class="carousel-caption"  >
-					<h3>Olha só quantos projetos!</h3>
+					<h3>Olha sÃ³ quantos projetos!</h3>
 					<p>
-						<h:outputText value="Atualmente, indexamos #{indexMB.projectCount} projetos de código aberto." rendered="#{indexMB.projectCount > 1}" />
-						<h:outputText value="Atualmente, indexamos #{indexMB.projectCount} projeto de código aberto." rendered="#{indexMB.projectCount eq 1}" />
+						<h:outputText value="Atualmente, indexamos #{indexMB.projectCount} projetos de cÃ³digo aberto." rendered="#{indexMB.projectCount > 1}" />
+						<h:outputText value="Atualmente, indexamos #{indexMB.projectCount} projeto de cÃ³digo aberto." rendered="#{indexMB.projectCount eq 1}" />
 					</p>
 				</div>
 			</div>
 			<div class="item">
 				<div style="height: 150px; width: 100%; background-color: #fff"></div>
 				<div class="carousel-caption"  >
-					<h3>Veja só o tamanho da nossa comunidade!</h3>
+					<h3>Veja sÃ³ o tamanho da nossa comunidade!</h3>
 					<p>
-						<h:outputText value="Temos #{indexMB.userCount} usuários cadastrados. Que tal se juntar a eles?" rendered="#{indexMB.userCount > 1}" />
-						<h:outputText value="Temos #{indexMB.userCount} usuário cadastrado. Tão solitário, coitado... Junte-se a ele, vai!" rendered="#{indexMB.userCount eq 1}" />
-						<h:outputText value="Nao há usuários cadastrados. Que tal você ser o primeiro?" rendered="#{indexMB.userCount eq 0}" />
+						<h:outputText value="Temos #{indexMB.userCount} usuÃ¡rios cadastrados. Que tal se juntar a eles?" rendered="#{indexMB.userCount > 1}" />
+						<h:outputText value="Temos #{indexMB.userCount} usuÃ¡rio cadastrado. TÃ£o solitÃ¡rio, coitado... Junte-se a ele, vai!" rendered="#{indexMB.userCount eq 1}" />
+						<h:outputText value="Nao hÃ¡ usuÃ¡rios cadastrados. Que tal vocÃª ser o primeiro?" rendered="#{indexMB.userCount eq 0}" />
 					</p>
 				</div>
 			</div>
@@ -41,12 +41,12 @@
 					<h3>Quanto mais gente opinar, melhor!</h3>
 					<p>
 						<h:panelGroup rendered="#{indexMB.preferencesCount > 1}">
-							<h:outputText value="#{indexMB.preferencesCount} opiniões " rendered="#{indexMB.preferencesCount > 1}" />
-							<h:outputText value="levando em consideração #{indexMB.recommenderCriteriumCount} critérios diferentes." rendered="#{indexMB.recommenderCriteriumCount > 1}" />
+							<h:outputText value="#{indexMB.preferencesCount} opiniÃµes " rendered="#{indexMB.preferencesCount > 1}" />
+							<h:outputText value="levando em consideraÃ§Ã£o #{indexMB.recommenderCriteriumCount} critÃ©rios diferentes." rendered="#{indexMB.recommenderCriteriumCount > 1}" />
 						</h:panelGroup>
 						<h:panelGroup rendered="#{indexMB.preferencesCount eq 1}">
-							<h:outputText value="#{indexMB.preferencesCount} opinião " rendered="#{indexMB.preferencesCount eq 1}" />
-							<h:outputText value="levando em consideração #{indexMB.recommenderCriteriumCount} critério." rendered="#{indexMB.recommenderCriteriumCount eq 1}" />
+							<h:outputText value="#{indexMB.preferencesCount} opiniÃ£o " rendered="#{indexMB.preferencesCount eq 1}" />
+							<h:outputText value="levando em consideraÃ§Ã£o #{indexMB.recommenderCriteriumCount} critÃ©rio." rendered="#{indexMB.recommenderCriteriumCount eq 1}" />
 						</h:panelGroup>
 					</p>					
 				</h:panelGroup>
@@ -54,7 +54,7 @@
 				<h:panelGroup layout="block" rendered="#{indexMB.preferencesCount eq 0}" styleClass="carousel-caption">
 					<h3>Quanto mais gente opinar, melhor!</h3>
 					<p>
-						<h:outputText value="Escolha um software que você já utilizou e seja o primeiro a opinar sobre ele!" rendered="#{indexMB.preferencesCount eq 0}" />
+						<h:outputText value="Escolha um software que vocÃª jÃ¡ utilizou e seja o primeiro a opinar sobre ele!" rendered="#{indexMB.preferencesCount eq 0}" />
 					</p>
 				</h:panelGroup>
 			</div>

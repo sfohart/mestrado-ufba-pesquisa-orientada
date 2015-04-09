@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="ISO-8859-1"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE html>
 <ui:composition  
 	xmlns="http://www.w3.org/1999/xhtml"
@@ -15,7 +15,7 @@
 		<ui:param name="dataTarget" value="#{'.'.concat(modalId)}" />
 		
 		<a class="btn btn-primary btn-sm" data-toggle="modal" data-target="#{dataTarget}">
-			Critérios
+			CritÃ©rios
 		</a>
 		
 		<div class="modal fade #{modalId}" tabindex="-1" p:role="dialog" p:aria-labelledby="#{modalId}Label" p:aria-hidden="true">
@@ -24,14 +24,14 @@
 					<div class="modal-header">
 						<button type="button" class="close" data-dismiss="modal" p:aria-hidden="true">&#215;</button>
 	        			<h4 class="modal-title" id="#{modalId}Label">
-	        				Avaliações por Critério do projeto 
+	        				AvaliaÃ§Ãµes por CritÃ©rio do projeto 
 	        			</h4>
 					</div>
 					
 					<div class="modal-body">
 						<h4>Projeto: <h:outputText value="#{preference.project.name}" styleClass="text-muted"/></h4>
 						<h4>
-							Usuário:
+							UsuÃ¡rio:
 							<h:outputText
 								styleClass="text-muted"
 								rendered="#{preference.user.firstName != null and preference.user.login == null}"
@@ -50,7 +50,7 @@
 						</h4>
 						<hr />		
 						
-						<h4>Critérios: </h4>
+						<h4>CritÃ©rios: </h4>
 						
 						
 						<ui:include src="/reviews/reviewCriteriumHelp.xhtml"/>
@@ -94,7 +94,7 @@
 														</h:panelGroup>
 														
 														<h:panelGroup rendered="#{preferenceEntry.notAvailable}">
-															<span class="fa fa-ban"></span> Critério não avaliado
+															<span class="fa fa-ban"></span> CritÃ©rio nÃ£o avaliado
 														</h:panelGroup>
 														
 														
@@ -161,7 +161,7 @@
 								</h:panelGroup>
 								
 								<h:panelGroup rendered="#{preferenceEntry.notAvailable}">
-									<span class="fa fa-ban"></span> Critério não avaliado
+									<span class="fa fa-ban"></span> CritÃ©rio nÃ£o avaliado
 								</h:panelGroup>
 							</h:panelGroup>
 							

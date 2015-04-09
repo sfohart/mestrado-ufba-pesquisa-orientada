@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="ISO-8859-1"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:h="http://java.sun.com/jsf/html"
@@ -83,7 +83,7 @@
 									<!-- Exibindo quantidade de resultados -->
 									<ul class="breadcrumb" style="border-bottom: 1px solid #ddd;">
 										<li>
-											Exibindo página <h:outputText value="#{mainMB.pageList.currentPage}" /> de <h:outputText value="#{mainMB.pageList.totalPages}" /> 
+											Exibindo pÃ¡gina <h:outputText value="#{mainMB.pageList.currentPage}" /> de <h:outputText value="#{mainMB.pageList.totalPages}" /> 
 										</li>
 									</ul>
 								</h:panelGroup>
@@ -167,10 +167,10 @@
 									<section>
 										<ul class="media-list">
 											<li class="media">
-												<h4>Sua busca por <strong><h:outputText value="#{mainMB.searchRequest.query}" /></strong> não trouxe resultados.</h4>
-												<p>Sugestões:</p>
+												<h4>Sua busca por <strong><h:outputText value="#{mainMB.searchRequest.query}" /></strong> nÃ£o trouxe resultados.</h4>
+												<p>SugestÃµes:</p>
 												<ul>
-													<li>Tenha certeza de que as palavras que você digitou estão escritas corretamente</li>
+													<li>Tenha certeza de que as palavras que vocÃª digitou estÃ£o escritas corretamente</li>
 													<li>Tente palavras chave diferentes</li>
 													<li>Tente palavras chave mais gerais</li>
 													<li>Tente uma quantidade menor de palavras</li>
@@ -180,7 +180,7 @@
 									</section>
 								</h:panelGroup>
 								
-								<!-- Paginação -->
+								<!-- PaginaÃ§Ã£o -->
 								<ui:include src="/layout/pagination.xhtml">
 									<ui:param name="searchMethod" value="searchProjects" />
 									<ui:param name="bean" value="#{mainMB}"/>

@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="ISO-8859-1"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:h="http://java.sun.com/jsf/html"
@@ -14,7 +14,7 @@
 	
 	<h:body>
 		<ui:composition template="/layout/mainLayout.xhtml">
-			<ui:define name="titlePage">Conta de Usuário</ui:define>
+			<ui:define name="titlePage">Conta de UsuÃ¡rio</ui:define>
 		
 			<ui:define name="content">
 				<section class="container">
@@ -28,7 +28,7 @@
 						<h3>
 							<h:outputLink value="#{facesContext.externalContext.applicationContextPath}/account/accountSettings.jsf">
 								<f:param  name="accountId" value="#{accountInterestTagsMB.account.id}" />
-								Sumário da Conta:
+								SumÃ¡rio da Conta:
 							</h:outputLink>
 							Tags de Interesse
 						</h3>
@@ -42,7 +42,7 @@
 							<span class="fa fa-ban"></span>
 							Vai com calma, aeh!
 						</strong>
-						Você não é o usuário desta conta para alterar informações sensíveis como estas...
+						VocÃª nÃ£o Ã© o usuÃ¡rio desta conta para alterar informaÃ§Ãµes sensÃ­veis como estas...
 					</h:panelGroup>
 					
 					<h:panelGroup layout="block" rendered="#{accountInterestTagsMB.loggedUser}">
@@ -57,8 +57,8 @@
 												value="#{accountInterestTagsMB.selectedInterestTags}"  />
 											<span class="help-block">											
 												Digite palavras chave correspondentes ao tipo de software do seu interesse. Selecione, dentre as 
-												opções disponíveis, aquela(s) que mais se aproxima(m) daquilo que você procura. As palavras chave que você 
-												selecionar servirão de filtro para os projetos de software livre que iremos lhe recomendar.
+												opÃ§Ãµes disponÃ­veis, aquela(s) que mais se aproxima(m) daquilo que vocÃª procura. As palavras chave que vocÃª 
+												selecionar servirÃ£o de filtro para os projetos de software livre que iremos lhe recomendar.
 											</span>
 											<script type="text/javascript">
 												$('.tag-autocomplete').selectize({
@@ -105,7 +105,7 @@
 								</div>
 								<h:panelGroup id="selectedTags" layout="block" class="col-md-4 pull-right">
 									<fieldset>
-										<legend>Tags já selecionadas</legend>
+										<legend>Tags jÃ¡ selecionadas</legend>
 										<span class="help-block">											
 											Clique no <b>&#215;</b> para excluir uma palavra chave da sua lista de interesses
 										</span>

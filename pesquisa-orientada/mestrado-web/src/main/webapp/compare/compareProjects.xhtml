@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="ISO-8859-1"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:h="http://java.sun.com/jsf/html"
@@ -33,7 +33,7 @@
 					</div>
 					
 					<div id="tablePlaceholder" class="table-responsive" style="margin: 20px 0px; width: 100%; overflow: auto">
-						<!-- Não vou poder usar o h:datatable porque existem linhas com labels diferentes -->
+						<!-- NÃ£o vou poder usar o h:datatable porque existem linhas com labels diferentes -->
 						<table id="comparableProjectsTable" class="table table-striped table-bordered table-hover table-condensed">
 							<thead>
 								<tr>
@@ -70,7 +70,7 @@
 								</tr>								
 							</tfoot>
 							<tbody>
-								<!-- Seção Comunidade  -->
+								<!-- SeÃ§Ã£o Comunidade  -->
 								<tr class="success">
 									<th colspan="#{fn:length(compareMB.projectList) + 1}">
 										<h4>Comunidade</h4>
@@ -78,7 +78,7 @@
 								</tr>
 								<tr>
 									<td>
-										Avaliação média da comunidade:
+										AvaliaÃ§Ã£o mÃ©dia da comunidade:
 									</td>
 									<ui:repeat var="project" value="#{compareMB.projectList}">
 										<td>
@@ -93,14 +93,14 @@
 											</span>
 											<br />
 											<span style="margin-left: 10px" class="soft small">
-												<h:outputText value="Baseado na preferência de #{compareMB.preferenceCountMap[project.id]} usuário(s)" />
+												<h:outputText value="Baseado na preferÃªncia de #{compareMB.preferenceCountMap[project.id]} usuÃ¡rio(s)" />
 											</span>
 										</td>
 									</ui:repeat>
 								</tr>
 								<tr>
 									<td>
-										Avaliação média por critério:
+										AvaliaÃ§Ã£o mÃ©dia por critÃ©rio:
 									</td>
 									<ui:repeat var="project" value="#{compareMB.projectList}">
 										<td>
@@ -127,7 +127,7 @@
 									</ui:repeat>
 								</tr>
 							
-								<!-- Seção de dados gerais -->
+								<!-- SeÃ§Ã£o de dados gerais -->
 								<tr class="success">
 									<th colspan="#{fn:length(compareMB.projectList) + 1}">
 										<h4>Geral</h4>
@@ -135,7 +135,7 @@
 								</tr>
 								<tr>
 									<td>
-										Licença(s):
+										LicenÃ§a(s):
 									</td>
 									<ui:repeat var="project" value="#{compareMB.projectList}">
 										<td>
@@ -162,10 +162,10 @@
 									</ui:repeat>
 								</tr>
 								
-								<!-- Seçção estatística dos últimos 12 meses -->
+								<!-- SeÃ§Ã§Ã£o estatÃ­stica dos Ãºltimos 12 meses -->
 								<tr class="success">
 									<th colspan="#{fn:length(compareMB.projectList) + 1}">
-										<h4>Estatísticas dos últimos 12 meses</h4>
+										<h4>EstatÃ­sticas dos Ãºltimos 12 meses</h4>
 									</th>									
 								</tr>
 								<tr>
@@ -189,10 +189,10 @@
 									</ui:repeat>
 								</tr>
 								
-								<!-- Seção Código Fonte -->
+								<!-- SeÃ§Ã£o CÃ³digo Fonte -->
 								<tr class="success">
 									<th colspan="#{fn:length(compareMB.projectList) + 1}">
-										<h4>Código Fonte</h4>
+										<h4>CÃ³digo Fonte</h4>
 									</th>									
 								</tr>
 								<tr>
@@ -207,7 +207,7 @@
 								</tr>
 								<tr>
 									<td>
-										Linhas de código:
+										Linhas de cÃ³digo:
 									</td>
 									<ui:repeat var="project" value="#{compareMB.projectList}">
 										<td>
