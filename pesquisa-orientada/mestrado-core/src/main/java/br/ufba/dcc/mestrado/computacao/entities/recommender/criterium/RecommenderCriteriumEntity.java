@@ -1,4 +1,4 @@
-package br.ufba.dcc.mestrado.computacao.entities.openhub.recommender.criterium;
+package br.ufba.dcc.mestrado.computacao.entities.recommender.criterium;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -8,7 +8,7 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 import br.ufba.dcc.mestrado.computacao.entities.BaseEntity;
-
+ 
 @Entity
 @Table(name = RecommenderCriteriumEntity.NODE_NAME)
 public class RecommenderCriteriumEntity implements BaseEntity<Long> {

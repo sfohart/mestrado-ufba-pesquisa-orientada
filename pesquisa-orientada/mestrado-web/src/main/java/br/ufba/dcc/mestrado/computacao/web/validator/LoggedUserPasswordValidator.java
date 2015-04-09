@@ -1,3 +1,4 @@
+
 package br.ufba.dcc.mestrado.computacao.web.validator;
 
 import java.util.ResourceBundle;
@@ -13,7 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
-import br.ufba.dcc.mestrado.computacao.entities.openhub.recommender.user.UserEntity;
+import br.ufba.dcc.mestrado.computacao.entities.recommender.user.UserEntity;
 import br.ufba.dcc.mestrado.computacao.service.basic.RepositoryBasedUserDetailsService;
 
 @Component(value = "loggedUserPasswordValidator")
@@ -73,3 +74,4 @@ public class LoggedUserPasswordValidator implements Validator {
 	}
 
 }
+

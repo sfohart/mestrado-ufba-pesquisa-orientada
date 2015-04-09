@@ -1,3 +1,4 @@
+
 package br.ufba.dcc.mestrado.computacao.web.managedbean.project;
 
 import java.io.Serializable;
@@ -53,3 +54,4 @@ public class ProjectManagedBean implements Serializable {
 	}
 
 }
+

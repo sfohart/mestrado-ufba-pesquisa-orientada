@@ -2,7 +2,9 @@ package br.ufba.dcc.mestrado.computacao.repository.base;
 
 import java.util.List;
 
-import br.ufba.dcc.mestrado.computacao.entities.openhub.recommender.preference.PreferenceReviewEntity;
+import br.ufba.dcc.mestrado.computacao.entities.recommender.preference.PreferenceReviewEntity;
+
+
 
 public interface PreferenceReviewRepository extends BaseRepository<Long, PreferenceReviewEntity> {
 	
@@ -72,3 +74,4 @@ public interface PreferenceReviewRepository extends BaseRepository<Long, Prefere
 			boolean orderByReviewRanking);
 
 }
+

@@ -1,3 +1,4 @@
+
 package br.ufba.dcc.mestrado.computacao.service.impl;
 
 import java.sql.Timestamp;
@@ -8,7 +9,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import br.ufba.dcc.mestrado.computacao.entities.openhub.recommender.user.UserEntity;
+import br.ufba.dcc.mestrado.computacao.entities.recommender.user.UserEntity;
 import br.ufba.dcc.mestrado.computacao.repository.base.UserRepository;
 import br.ufba.dcc.mestrado.computacao.service.base.UserService;
 
@@ -62,3 +63,4 @@ public class UserServiceImpl extends BaseServiceImpl<Long, UserEntity>
 		}
 	}
 }
+

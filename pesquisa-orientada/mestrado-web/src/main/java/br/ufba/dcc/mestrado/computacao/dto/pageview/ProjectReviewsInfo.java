@@ -1,3 +1,4 @@
+
 package br.ufba.dcc.mestrado.computacao.dto.pageview;
 
 import java.io.Serializable;
@@ -41,3 +42,4 @@ public class ProjectReviewsInfo implements Serializable {
 	}
 
 }
+

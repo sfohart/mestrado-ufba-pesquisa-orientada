@@ -1,3 +1,4 @@
+
 package br.ufba.dcc.mestrado.computacao.service.core.base;
 
 import java.io.Serializable;
@@ -50,3 +51,4 @@ public interface BaseColaborativeFilteringService extends Serializable {
 	List<OpenHubProjectEntity> recommendViewedProjectsByItem(Long itemId, Integer howManyItems);
 
 }
+

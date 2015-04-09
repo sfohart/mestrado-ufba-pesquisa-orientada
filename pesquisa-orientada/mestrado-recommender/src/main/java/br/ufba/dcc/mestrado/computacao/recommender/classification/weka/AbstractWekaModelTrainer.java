@@ -1,3 +1,4 @@
+
 package br.ufba.dcc.mestrado.computacao.recommender.classification.weka;
 
 import java.io.FileNotFoundException;
@@ -20,8 +21,8 @@ import weka.core.Instances;
 import weka.core.SerializationHelper;
 import weka.filters.Filter;
 import weka.filters.unsupervised.attribute.NumericToNominal;
-import br.ufba.dcc.mestrado.computacao.entities.openhub.recommender.criterium.RecommenderCriteriumEntity;
-import br.ufba.dcc.mestrado.computacao.entities.openhub.recommender.preference.PreferenceEntity;
+import br.ufba.dcc.mestrado.computacao.entities.recommender.criterium.RecommenderCriteriumEntity;
+import br.ufba.dcc.mestrado.computacao.entities.recommender.preference.PreferenceEntity;
 import br.ufba.dcc.mestrado.computacao.recommender.classification.AbstractModelTrainer;
 import br.ufba.dcc.mestrado.computacao.service.core.base.OverallRatingService;
 import br.ufba.dcc.mestrado.computacao.service.core.base.RatingByCriteriumService;
@@ -102,7 +103,7 @@ public abstract class AbstractWekaModelTrainer extends AbstractModelTrainer {
 				
 		if (criteriumList != null) {
 			
-			System.out.println("Criando vetores de entrada com base em " + criteriumList.size() + " criterios de avaliação.");
+			System.out.println("Criando vetores de entrada com base em " + criteriumList.size() + " criterios de avaliaï¿½ï¿½o.");
 			
 			for (RecommenderCriteriumEntity criterium : criteriumList) {
 				Map<ImmutablePair<Long, Long>, Double> criteriumMap = ratingByCriteriumService.findAllLastPreferenceByCriterium(criterium.getId());
@@ -149,7 +150,7 @@ public abstract class AbstractWekaModelTrainer extends AbstractModelTrainer {
 	}
 	
 	protected Filter configureNumericToNominalFilter(Instances dataset) throws Exception {
-		//a avaliação geral do usuário para o item deve ser um atributo nominal para usar os algoritmos de classificação
+		//a avaliaï¿½ï¿½o geral do usuï¿½rio para o item deve ser um atributo nominal para usar os algoritmos de classificaï¿½ï¿½o
 		NumericToNominal attributeFilter = new NumericToNominal();
 		
 		String[] options = new String[2];
@@ -169,7 +170,7 @@ public abstract class AbstractWekaModelTrainer extends AbstractModelTrainer {
 		Instances dataset = createDataSet();
 		
 				
-		//a avaliação geral do usuário para o item deve ser um atributo nominal para usar os algoritmos de classificação
+		//a avaliaï¿½ï¿½o geral do usuï¿½rio para o item deve ser um atributo nominal para usar os algoritmos de classificaï¿½ï¿½o
 		if (isUseNumericToNominalFilter()) {
 			Filter filter = configureNumericToNominalFilter(dataset);		
 			dataset = Filter.useFilter(dataset, filter);
@@ -244,3 +245,4 @@ public abstract class AbstractWekaModelTrainer extends AbstractModelTrainer {
 	
 
 }
+

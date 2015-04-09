@@ -1,3 +1,4 @@
+
 package br.ufba.dcc.mestrado.computacao.web.managedbean.review;
 
 import java.util.ArrayList;
@@ -13,9 +14,9 @@ import javax.faces.event.ActionEvent;
 import javax.faces.event.ComponentSystemEvent;
 
 import br.ufba.dcc.mestrado.computacao.entities.openhub.core.project.OpenHubProjectEntity;
-import br.ufba.dcc.mestrado.computacao.entities.openhub.recommender.preference.PreferenceEntity;
-import br.ufba.dcc.mestrado.computacao.entities.openhub.recommender.preference.PreferenceReviewEntity;
-import br.ufba.dcc.mestrado.computacao.entities.openhub.recommender.user.UserEntity;
+import br.ufba.dcc.mestrado.computacao.entities.recommender.preference.PreferenceEntity;
+import br.ufba.dcc.mestrado.computacao.entities.recommender.preference.PreferenceReviewEntity;
+import br.ufba.dcc.mestrado.computacao.entities.recommender.user.UserEntity;
 import br.ufba.dcc.mestrado.computacao.service.base.ProjectService;
 import br.ufba.dcc.mestrado.computacao.service.base.UserService;
 import br.ufba.dcc.mestrado.computacao.service.basic.RepositoryBasedUserDetailsService;
@@ -308,3 +309,4 @@ public class ProjectReviewListManagedBean extends AbstractReviewVotingManagedBea
 	}
 
 }
+

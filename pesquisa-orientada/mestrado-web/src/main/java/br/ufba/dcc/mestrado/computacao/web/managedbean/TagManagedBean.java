@@ -1,3 +1,4 @@
+
 package br.ufba.dcc.mestrado.computacao.web.managedbean;
 
 import java.io.Serializable;
@@ -127,5 +128,6 @@ public class TagManagedBean implements Serializable {
 			startPosition = getTagList().size();
 		}
 	}
+
 
 }

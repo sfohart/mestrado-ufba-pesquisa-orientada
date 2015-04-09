@@ -1,3 +1,4 @@
+
 package br.ufba.dcc.mestrado.computacao.service.core.impl;
 
 import java.util.List;
@@ -9,8 +10,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 
 import br.ufba.dcc.mestrado.computacao.entities.openhub.core.project.OpenHubProjectEntity;
-import br.ufba.dcc.mestrado.computacao.entities.openhub.recommender.criterium.RecommenderCriteriumEntity;
-import br.ufba.dcc.mestrado.computacao.entities.openhub.recommender.user.UserEntity;
+import br.ufba.dcc.mestrado.computacao.entities.recommender.criterium.RecommenderCriteriumEntity;
+import br.ufba.dcc.mestrado.computacao.entities.recommender.user.UserEntity;
 import br.ufba.dcc.mestrado.computacao.repository.base.ProjectDetailPageViewRepository;
 import br.ufba.dcc.mestrado.computacao.repository.base.RatingByCriteriumRepository;
 import br.ufba.dcc.mestrado.computacao.repository.base.RecommenderCriteriumRepository;
@@ -144,3 +145,4 @@ public abstract class BaseColaborativeFilteringServiceImpl implements
 			Map<Long, Map<ImmutablePair<Long, Long>, Double>> ratingsMap);
 
 }
+

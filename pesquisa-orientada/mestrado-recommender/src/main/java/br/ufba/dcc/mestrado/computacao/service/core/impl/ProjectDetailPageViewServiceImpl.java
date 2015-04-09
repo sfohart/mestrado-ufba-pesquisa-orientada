@@ -1,3 +1,4 @@
+
 package br.ufba.dcc.mestrado.computacao.service.core.impl;
 
 import java.util.List;
@@ -8,8 +9,8 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 import br.ufba.dcc.mestrado.computacao.entities.openhub.core.project.OpenHubProjectEntity;
-import br.ufba.dcc.mestrado.computacao.entities.openhub.recommender.pageview.ProjectDetailPageViewEntity;
-import br.ufba.dcc.mestrado.computacao.entities.openhub.recommender.user.UserEntity;
+import br.ufba.dcc.mestrado.computacao.entities.recommender.pageview.ProjectDetailPageViewEntity;
+import br.ufba.dcc.mestrado.computacao.entities.recommender.user.UserEntity;
 import br.ufba.dcc.mestrado.computacao.repository.base.ProjectDetailPageViewRepository;
 import br.ufba.dcc.mestrado.computacao.repository.impl.ProjectDetailPageViewRepositoryImpl;
 import br.ufba.dcc.mestrado.computacao.service.core.base.ProjectDetailPageViewService;
@@ -69,3 +70,4 @@ public class ProjectDetailPageViewServiceImpl
 
 	
 }
+

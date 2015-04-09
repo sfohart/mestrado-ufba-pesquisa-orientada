@@ -1,3 +1,4 @@
+
 package br.ufba.dcc.mestrado.computacao.service.base;
 
 import java.util.List;
@@ -14,3 +15,4 @@ public interface OpenHubAnalysisService extends DefaultOpenHubService<OpenHubAna
 	public List<OpenHubAnalysisEntity> findAll(Integer startAt, Integer offset);
 	
 }
+

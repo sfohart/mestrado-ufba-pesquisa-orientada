@@ -1,14 +1,13 @@
+
 package br.ufba.dcc.mestrado.computacao.service.core.base;
 
 import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang3.tuple.ImmutablePair;
-import org.springframework.transaction.annotation.Transactional;
 
 import br.ufba.dcc.mestrado.computacao.entities.openhub.core.project.OpenHubProjectEntity;
-import br.ufba.dcc.mestrado.computacao.entities.openhub.recommender.preference.PreferenceEntity;
-import br.ufba.dcc.mestrado.computacao.repository.base.OverallRatingRepository;
+import br.ufba.dcc.mestrado.computacao.entities.recommender.preference.PreferenceEntity;
 import br.ufba.dcc.mestrado.computacao.service.base.BaseService;
 
 public interface OverallRatingService extends BaseService<Long, PreferenceEntity> {
@@ -109,3 +108,4 @@ public interface OverallRatingService extends BaseService<Long, PreferenceEntity
 			boolean orderByReviewRanking);
 
 }
+

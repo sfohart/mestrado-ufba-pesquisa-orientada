@@ -1,4 +1,4 @@
-package br.ufba.dcc.mestrado.computacao.entities.openhub.recommender.preference;
+package br.ufba.dcc.mestrado.computacao.entities.recommender.preference;
 
 import java.sql.Timestamp;
 import java.util.List;
@@ -17,8 +17,8 @@ import javax.persistence.Table;
 
 import br.ufba.dcc.mestrado.computacao.entities.BaseEntity;
 import br.ufba.dcc.mestrado.computacao.entities.openhub.core.project.OpenHubProjectEntity;
-import br.ufba.dcc.mestrado.computacao.entities.openhub.recommender.user.UserEntity;
-
+import br.ufba.dcc.mestrado.computacao.entities.recommender.user.UserEntity;
+ 
 @Entity
 @Table(name = PreferenceEntity.NODE_NAME)
 public class PreferenceEntity implements BaseEntity<Long> {

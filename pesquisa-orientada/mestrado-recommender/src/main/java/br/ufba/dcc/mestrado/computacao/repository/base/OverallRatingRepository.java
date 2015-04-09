@@ -1,3 +1,4 @@
+
 package br.ufba.dcc.mestrado.computacao.repository.base;
 
 import java.util.List;
@@ -6,7 +7,9 @@ import java.util.Map;
 import org.apache.commons.lang3.tuple.ImmutablePair;
 
 import br.ufba.dcc.mestrado.computacao.entities.openhub.core.project.OpenHubProjectEntity;
-import br.ufba.dcc.mestrado.computacao.entities.openhub.recommender.preference.PreferenceEntity;
+import br.ufba.dcc.mestrado.computacao.entities.recommender.preference.PreferenceEntity;
+
+
 
 public interface OverallRatingRepository extends BaseRepository<Long, PreferenceEntity>{
 
@@ -47,8 +50,8 @@ public interface OverallRatingRepository extends BaseRepository<Long, Preference
 	
 	/**
 	 * 
-	 * Conta quantas avaliações existem para um dado projeto. Caso um usuário tenha avaliado o mesmo
-	 * projeto mais de uma vez, conta apenas a avaliação mais recente
+	 * Conta quantas avaliaï¿½ï¿½es existem para um dado projeto. Caso um usuï¿½rio tenha avaliado o mesmo
+	 * projeto mais de uma vez, conta apenas a avaliaï¿½ï¿½o mais recente
 	 * 
 	 * @param projectId
 	 * @return
@@ -57,8 +60,8 @@ public interface OverallRatingRepository extends BaseRepository<Long, Preference
 	
 	
 	/**
-	 * Conta quantas avaliações existem para um dado projeto. Caso um usuário tenha avaliado o mesmo
-	 * projeto mais de uma vez, conta apenas a avaliação mais recente
+	 * Conta quantas avaliaï¿½ï¿½es existem para um dado projeto. Caso um usuï¿½rio tenha avaliado o mesmo
+	 * projeto mais de uma vez, conta apenas a avaliaï¿½ï¿½o mais recente
 	 * 
 	 * @param userId
 	 * @return
@@ -103,3 +106,4 @@ public interface OverallRatingRepository extends BaseRepository<Long, Preference
 
 	
 }
+

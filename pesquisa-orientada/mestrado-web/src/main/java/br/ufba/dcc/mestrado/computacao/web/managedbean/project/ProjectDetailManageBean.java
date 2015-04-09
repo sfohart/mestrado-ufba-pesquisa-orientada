@@ -1,3 +1,4 @@
+
 package br.ufba.dcc.mestrado.computacao.web.managedbean.project;
 
 import java.sql.Timestamp;
@@ -14,9 +15,9 @@ import br.ufba.dcc.mestrado.computacao.entities.openhub.core.analysis.OpenHubAna
 import br.ufba.dcc.mestrado.computacao.entities.openhub.core.enlistment.OpenHubEnlistmentEntity;
 import br.ufba.dcc.mestrado.computacao.entities.openhub.core.factoid.OpenHubFactoidEntity;
 import br.ufba.dcc.mestrado.computacao.entities.openhub.core.project.OpenHubLinkEntity;
-import br.ufba.dcc.mestrado.computacao.entities.openhub.recommender.pageview.ProjectDetailPageViewEntity;
-import br.ufba.dcc.mestrado.computacao.entities.openhub.recommender.preference.PreferenceEntity;
-import br.ufba.dcc.mestrado.computacao.entities.openhub.recommender.user.UserEntity;
+import br.ufba.dcc.mestrado.computacao.entities.recommender.pageview.ProjectDetailPageViewEntity;
+import br.ufba.dcc.mestrado.computacao.entities.recommender.preference.PreferenceEntity;
+import br.ufba.dcc.mestrado.computacao.entities.recommender.user.UserEntity;
 import br.ufba.dcc.mestrado.computacao.service.base.EnlistmentService;
 import br.ufba.dcc.mestrado.computacao.service.base.LinkService;
 import br.ufba.dcc.mestrado.computacao.service.basic.RepositoryBasedUserDetailsService;
@@ -126,7 +127,7 @@ public class ProjectDetailManageBean extends ProjectManagedBean {
 			
 			this.overallPreferenceCount = getOverallRatingService().countAllLastPreferenceByProject(getProject().getId());
 			
-			//calculando valores médios de preferência
+			//calculando valores mï¿½dios de preferï¿½ncia
 			UserEntity currentUser = getUserDetailsService().loadFullLoggedUser();
 			
 			this.averagePreference = getOverallRatingService().averagePreferenceByItem(getProject().getId());
@@ -236,3 +237,4 @@ public class ProjectDetailManageBean extends ProjectManagedBean {
 	
 	
 }
+

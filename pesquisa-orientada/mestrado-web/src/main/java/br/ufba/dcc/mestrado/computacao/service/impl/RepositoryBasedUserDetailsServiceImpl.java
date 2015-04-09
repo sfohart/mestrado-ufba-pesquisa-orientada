@@ -16,11 +16,11 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import br.ufba.dcc.mestrado.computacao.entities.openhub.recommender.user.RoleEnum;
-import br.ufba.dcc.mestrado.computacao.entities.openhub.recommender.user.UserEntity;
+import br.ufba.dcc.mestrado.computacao.entities.recommender.user.RoleEnum;
+import br.ufba.dcc.mestrado.computacao.entities.recommender.user.UserEntity;
 import br.ufba.dcc.mestrado.computacao.service.base.UserService;
 import br.ufba.dcc.mestrado.computacao.service.basic.RepositoryBasedUserDetailsService;
-
+ 
 @Service(RepositoryBasedUserDetailsServiceImpl.BEAN_NAME)
 @Transactional(readOnly = true)
 public class RepositoryBasedUserDetailsServiceImpl implements RepositoryBasedUserDetailsService {
@@ -92,7 +92,7 @@ public class RepositoryBasedUserDetailsServiceImpl implements RepositoryBasedUse
 			
 			return userDetails;
 		} else {
-			throw new UsernameNotFoundException("Este usuário não existe no sistema");
+			throw new UsernameNotFoundException("Este usuï¿½rio nï¿½o existe no sistema");
 		}
 	}
 	

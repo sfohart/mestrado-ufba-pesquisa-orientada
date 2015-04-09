@@ -23,23 +23,24 @@
 		<class>br.ufba.dcc.mestrado.computacao.entities.openhub.core.sizefact.OpenHubSizeFactEntity</class>
 		<class>br.ufba.dcc.mestrado.computacao.entities.openhub.core.stack.OpenHubStackEntity</class>
 		<class>br.ufba.dcc.mestrado.computacao.entities.openhub.core.stack.OpenHubStackEntryEntity</class>
-		<class>br.ufba.dcc.mestrado.computacao.entities.openhub.recommender.criterium.RecommenderCriteriumEntity</class>
-		<class>br.ufba.dcc.mestrado.computacao.entities.openhub.recommender.criterium.UserRecommenderCriteriumEntity</class>
-		<class>br.ufba.dcc.mestrado.computacao.entities.openhub.recommender.pageview.PageViewEntity</class>
-		<class>br.ufba.dcc.mestrado.computacao.entities.openhub.recommender.pageview.ProjectDetailPageViewEntity</class>
-		<class>br.ufba.dcc.mestrado.computacao.entities.openhub.recommender.preference.PreferenceEntity</class>
-		<class>br.ufba.dcc.mestrado.computacao.entities.openhub.recommender.preference.PreferenceEntryEntity</class>
-		<class>br.ufba.dcc.mestrado.computacao.entities.openhub.recommender.preference.PreferenceReviewEntity</class>
-		<class>br.ufba.dcc.mestrado.computacao.entities.openhub.recommender.user.UserEntity</class>
-		<class>br.ufba.dcc.mestrado.computacao.entities.openhub.recommender.user.PasswordChangeRequestEntity</class>
+
+		<class>br.ufba.dcc.mestrado.computacao.entities.recommender.criterium.RecommenderCriteriumEntity</class>
+		<class>br.ufba.dcc.mestrado.computacao.entities.recommender.criterium.UserRecommenderCriteriumEntity</class>
+		<class>br.ufba.dcc.mestrado.computacao.entities.recommender.pageview.PageViewEntity</class>
+		<class>br.ufba.dcc.mestrado.computacao.entities.recommender.pageview.ProjectDetailPageViewEntity</class>
+		<class>br.ufba.dcc.mestrado.computacao.entities.recommender.preference.PreferenceEntity</class>
+		<class>br.ufba.dcc.mestrado.computacao.entities.recommender.preference.PreferenceEntryEntity</class>
+		<class>br.ufba.dcc.mestrado.computacao.entities.recommender.preference.PreferenceReviewEntity</class>
+		<class>br.ufba.dcc.mestrado.computacao.entities.recommender.user.UserEntity</class>
+		<class>br.ufba.dcc.mestrado.computacao.entities.recommender.evaluation.RecommenderEvaluationEntity</class>
+		<class>br.ufba.dcc.mestrado.computacao.entities.recommender.user.PasswordChangeRequestEntity</class>
+
 		<class>br.ufba.dcc.mestrado.computacao.entities.openhub.crawler.OpenHubCrawlerEnlistmentEntity</class>
 		<class>br.ufba.dcc.mestrado.computacao.entities.openhub.crawler.OpenHubCrawlerLanguageEntity</class>
 		<class>br.ufba.dcc.mestrado.computacao.entities.openhub.crawler.OpenHubCrawlerLicenseEntity</class>
 		<class>br.ufba.dcc.mestrado.computacao.entities.openhub.crawler.OpenHubCrawlerProjectEntity</class>
 		<class>br.ufba.dcc.mestrado.computacao.entities.openhub.crawler.OpenHubCrawlerStackEntity</class>
-		<!-- Recommender -->
-		
-		
+
 		
 		<exclude-unlisted-classes>false</exclude-unlisted-classes>
 	</persistence-unit>

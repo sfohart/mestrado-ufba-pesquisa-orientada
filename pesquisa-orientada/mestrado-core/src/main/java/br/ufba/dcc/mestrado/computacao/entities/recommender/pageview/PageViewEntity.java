@@ -1,4 +1,4 @@
-package br.ufba.dcc.mestrado.computacao.entities.openhub.recommender.pageview;
+package br.ufba.dcc.mestrado.computacao.entities.recommender.pageview;
 
 import java.sql.Timestamp;
 
@@ -12,11 +12,11 @@ import javax.persistence.MappedSuperclass;
 import javax.persistence.SequenceGenerator;
 
 import br.ufba.dcc.mestrado.computacao.entities.BaseEntity;
-import br.ufba.dcc.mestrado.computacao.entities.openhub.recommender.user.UserEntity;
+import br.ufba.dcc.mestrado.computacao.entities.recommender.user.UserEntity;
 
 @MappedSuperclass
 public abstract class PageViewEntity implements BaseEntity<Long> {
-	
+	 
 	
 	/**
 	 * 

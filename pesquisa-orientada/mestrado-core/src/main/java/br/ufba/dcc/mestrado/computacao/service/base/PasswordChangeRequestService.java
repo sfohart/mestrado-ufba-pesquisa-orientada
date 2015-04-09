@@ -1,7 +1,7 @@
 package br.ufba.dcc.mestrado.computacao.service.base;
 
-import br.ufba.dcc.mestrado.computacao.entities.openhub.recommender.user.PasswordChangeRequestEntity;
-import br.ufba.dcc.mestrado.computacao.entities.openhub.recommender.user.UserEntity;
+import br.ufba.dcc.mestrado.computacao.entities.recommender.user.PasswordChangeRequestEntity;
+import br.ufba.dcc.mestrado.computacao.entities.recommender.user.UserEntity;
 
 public interface PasswordChangeRequestService extends BaseService<Long, PasswordChangeRequestEntity> {
 	

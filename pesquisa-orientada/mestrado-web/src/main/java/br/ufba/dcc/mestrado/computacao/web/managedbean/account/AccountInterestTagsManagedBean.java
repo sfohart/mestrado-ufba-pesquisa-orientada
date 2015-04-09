@@ -1,3 +1,4 @@
+
 package br.ufba.dcc.mestrado.computacao.web.managedbean.account;
 
 import java.util.Collections;
@@ -91,3 +92,4 @@ public class AccountInterestTagsManagedBean extends AccountManagedBean {
 	}
 
 }
+

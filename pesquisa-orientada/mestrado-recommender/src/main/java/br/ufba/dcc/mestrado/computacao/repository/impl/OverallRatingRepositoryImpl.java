@@ -1,3 +1,4 @@
+
 package br.ufba.dcc.mestrado.computacao.repository.impl;
 
 import java.sql.Timestamp;
@@ -23,8 +24,9 @@ import org.apache.commons.lang3.tuple.ImmutablePair;
 import org.springframework.stereotype.Repository;
 
 import br.ufba.dcc.mestrado.computacao.entities.openhub.core.project.OpenHubProjectEntity;
-import br.ufba.dcc.mestrado.computacao.entities.openhub.recommender.preference.PreferenceEntity;
+import br.ufba.dcc.mestrado.computacao.entities.recommender.preference.PreferenceEntity;
 import br.ufba.dcc.mestrado.computacao.repository.base.OverallRatingRepository;
+
 
 @Repository(OverallRatingRepositoryImpl.BEAN_NAME)
 public class OverallRatingRepositoryImpl
@@ -53,7 +55,7 @@ public class OverallRatingRepositoryImpl
 		
 		Root<PreferenceEntity> root = tupleQuery.from(getEntityClass());
 		
-		//campos da preferência geral
+		//campos da preferï¿½ncia geral
 		Path<Long> accountIdPath = root.get("userId");		
 		Path<Long> projectIdPath = root.get("projectId");
 		Path<Double> valuePath = root.get("value");
@@ -72,7 +74,7 @@ public class OverallRatingRepositoryImpl
 		}
 		
 		/*
-		 * Criando subquery para trazer os últimos registros de cada usuario/projeto
+		 * Criando subquery para trazer os ï¿½ltimos registros de cada usuario/projeto
 		 */
 		Subquery<Timestamp> subquery = tupleQuery.subquery(Timestamp.class);
 		
@@ -156,7 +158,7 @@ public class OverallRatingRepositoryImpl
 			}
 			
 			/*
-			 * Criando subquery para trazer os últimos registros de cada usuario/projeto
+			 * Criando subquery para trazer os ï¿½ltimos registros de cada usuario/projeto
 			 */
 			Subquery<Timestamp> subquery = preferenceQuery.subquery(Timestamp.class);
 			
@@ -243,7 +245,7 @@ public class OverallRatingRepositoryImpl
 
 		
 		/*
-		 * Criando subquery para trazer os últimos registros de cada usuario/projeto
+		 * Criando subquery para trazer os ï¿½ltimos registros de cada usuario/projeto
 		 */
 		Subquery<Timestamp> subquery = countQuery.subquery(Timestamp.class);
 		
@@ -287,7 +289,7 @@ public class OverallRatingRepositoryImpl
 		predicateList.add(projectPredicate);
 		
 		/*
-		 * Criando subquery para trazer os últimos registros de cada usuario/projeto
+		 * Criando subquery para trazer os ï¿½ltimos registros de cada usuario/projeto
 		 */
 		Subquery<Timestamp> subquery = criteriaQuery.subquery(Timestamp.class);
 		
@@ -309,7 +311,7 @@ public class OverallRatingRepositoryImpl
 		//aplicando filtros
 		select.where(predicateList.toArray(new Predicate[0]));
 		
-		//obtendo média dos valores
+		//obtendo mï¿½dia dos valores
 		return getEntityManager().createQuery(criteriaQuery).getSingleResult();
 	}
 
@@ -339,7 +341,7 @@ public class OverallRatingRepositoryImpl
 			.orderBy(criteriaBuilder.desc(ratingCount));
 		
 		
-		//pegando apenas as opiniões mais atuais
+		//pegando apenas as opiniï¿½es mais atuais
 		Subquery<Timestamp> subquery = tupleQuery.subquery(Timestamp.class);
 		
 		Root<PreferenceEntity> preferenceRoot = subquery.from(PreferenceEntity.class);
@@ -412,7 +414,7 @@ public class OverallRatingRepositoryImpl
 
 
 		/*
-		 * Criando subquery para trazer os últimos registros de cada usuario/projeto
+		 * Criando subquery para trazer os ï¿½ltimos registros de cada usuario/projeto
 		 */
 		Subquery<Timestamp> subquery = criteriaQuery.subquery(Timestamp.class);
 
@@ -444,3 +446,4 @@ public class OverallRatingRepositoryImpl
 	}
 
 }
+

@@ -1,3 +1,4 @@
+
 package br.ufba.dcc.mestrado.computacao.web.managedbean.project;
 
 import java.util.ArrayList;
@@ -89,3 +90,4 @@ public class AlsoViewedProjectManagedBean extends ProjectManagedBean {
 	}
 
 }
+

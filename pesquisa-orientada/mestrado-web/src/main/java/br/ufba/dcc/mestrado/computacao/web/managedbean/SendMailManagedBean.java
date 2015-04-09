@@ -1,3 +1,4 @@
+
 package br.ufba.dcc.mestrado.computacao.web.managedbean;
 
 import java.io.IOException;
@@ -22,7 +23,7 @@ import javax.mail.Transport;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 
-import br.ufba.dcc.mestrado.computacao.entities.openhub.recommender.user.UserEntity;
+import br.ufba.dcc.mestrado.computacao.entities.recommender.user.UserEntity;
 import br.ufba.dcc.mestrado.computacao.service.basic.RepositoryBasedUserDetailsService;
 
 @ManagedBean(name="mailMB")
@@ -169,7 +170,7 @@ public class SendMailManagedBean implements Serializable {
 
 			message.setSentDate(new Date());
 			
-			Address[] toUser = InternetAddress // Destinatário(s)
+			Address[] toUser = InternetAddress // Destinatï¿½rio(s)
 					.parse(properties.getProperty("mail.to"));
 			
 			if (getMailOptions().isSendCopy()) {
@@ -199,7 +200,7 @@ public class SendMailManagedBean implements Serializable {
 			
 			Transport.send(message);
 
-			FacesMessage successMessage = new FacesMessage(FacesMessage.SEVERITY_INFO, "Mensagem enviada com sucesso", "Obrigado pela sua contribuição!");
+			FacesMessage successMessage = new FacesMessage(FacesMessage.SEVERITY_INFO, "Mensagem enviada com sucesso", "Obrigado pela sua contribuiï¿½ï¿½o!");
 			FacesContext.getCurrentInstance().addMessage(
 					null, 
 					successMessage
@@ -224,3 +225,4 @@ public class SendMailManagedBean implements Serializable {
 	}
 
 }
+

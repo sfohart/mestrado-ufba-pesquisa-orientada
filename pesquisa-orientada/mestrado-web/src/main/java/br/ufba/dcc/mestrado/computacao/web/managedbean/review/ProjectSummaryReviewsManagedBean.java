@@ -1,3 +1,4 @@
+
 package br.ufba.dcc.mestrado.computacao.web.managedbean.review;
 
 import java.util.List;
@@ -12,9 +13,9 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 
 import br.ufba.dcc.mestrado.computacao.entities.openhub.core.project.OpenHubProjectEntity;
-import br.ufba.dcc.mestrado.computacao.entities.openhub.recommender.preference.PreferenceEntity;
-import br.ufba.dcc.mestrado.computacao.entities.openhub.recommender.preference.PreferenceReviewEntity;
-import br.ufba.dcc.mestrado.computacao.entities.openhub.recommender.user.UserEntity;
+import br.ufba.dcc.mestrado.computacao.entities.recommender.preference.PreferenceEntity;
+import br.ufba.dcc.mestrado.computacao.entities.recommender.preference.PreferenceReviewEntity;
+import br.ufba.dcc.mestrado.computacao.entities.recommender.user.UserEntity;
 import br.ufba.dcc.mestrado.computacao.service.base.ProjectService;
 import br.ufba.dcc.mestrado.computacao.service.base.UserService;
 import br.ufba.dcc.mestrado.computacao.service.core.base.OverallRatingService;
@@ -167,7 +168,7 @@ public class ProjectSummaryReviewsManagedBean extends AbstractReviewVotingManage
 			
 			findTopFiveReviews();
 			
-			//calculando avaliação média do projeto
+			//calculando avaliaï¿½ï¿½o mï¿½dia do projeto
 			this.averagePreference = getOverallRatingService().averagePreferenceByItem(getProject().getId());
 			
 			Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
@@ -202,3 +203,4 @@ public class ProjectSummaryReviewsManagedBean extends AbstractReviewVotingManage
 	}
 
 }
+

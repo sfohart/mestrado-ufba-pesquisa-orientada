@@ -1,4 +1,4 @@
-package br.ufba.dcc.mestrado.computacao.entities.openhub.recommender.preference;
+package br.ufba.dcc.mestrado.computacao.entities.recommender.preference;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -11,8 +11,8 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 import br.ufba.dcc.mestrado.computacao.entities.BaseEntity;
-import br.ufba.dcc.mestrado.computacao.entities.openhub.recommender.criterium.RecommenderCriteriumEntity;
-
+import br.ufba.dcc.mestrado.computacao.entities.recommender.criterium.RecommenderCriteriumEntity;
+ 
 @Entity
 @Table(name = PreferenceEntryEntity.NODE_NAME)
 public class PreferenceEntryEntity implements BaseEntity<Long> {

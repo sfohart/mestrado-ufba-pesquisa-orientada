@@ -48,3 +48,4 @@ public class WekaSimpleLogisticRegressionModelTrainer extends AbstractWekaModelT
 	}
 
 }
+

@@ -1,3 +1,4 @@
+
 package br.ufba.dcc.mestrado.computacao.repository.impl;
 
 import java.util.List;
@@ -8,7 +9,8 @@ import javax.persistence.Tuple;
 
 import org.apache.commons.lang3.tuple.ImmutablePair;
 
-import br.ufba.dcc.mestrado.computacao.entities.openhub.recommender.preference.PreferenceEntity;
+import br.ufba.dcc.mestrado.computacao.entities.recommender.preference.PreferenceEntity;
+
 
 public abstract class AbstractRatingRepositoryImpl extends BaseRepositoryImpl<Long, PreferenceEntity> {
 
@@ -47,3 +49,4 @@ public abstract class AbstractRatingRepositoryImpl extends BaseRepositoryImpl<Lo
 	}
 	
 }
+

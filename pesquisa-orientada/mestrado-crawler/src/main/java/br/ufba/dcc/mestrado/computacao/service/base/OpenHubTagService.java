@@ -1,3 +1,4 @@
+
 package br.ufba.dcc.mestrado.computacao.service.base;
 
 import java.util.List;
@@ -18,3 +19,4 @@ public interface OpenHubTagService extends DefaultOpenHubService<OpenHubTagDTO, 
 	public List<OpenHubTagEntity> findTagListByName(String name);
 	
 }
+

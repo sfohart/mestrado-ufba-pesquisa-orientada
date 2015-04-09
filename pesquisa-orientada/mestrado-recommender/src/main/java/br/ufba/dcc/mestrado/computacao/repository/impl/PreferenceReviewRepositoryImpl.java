@@ -16,8 +16,8 @@ import javax.persistence.criteria.Subquery;
 
 import org.springframework.stereotype.Repository;
 
-import br.ufba.dcc.mestrado.computacao.entities.openhub.recommender.preference.PreferenceEntity;
-import br.ufba.dcc.mestrado.computacao.entities.openhub.recommender.preference.PreferenceReviewEntity;
+import br.ufba.dcc.mestrado.computacao.entities.recommender.preference.PreferenceEntity;
+import br.ufba.dcc.mestrado.computacao.entities.recommender.preference.PreferenceReviewEntity;
 import br.ufba.dcc.mestrado.computacao.repository.base.PreferenceReviewRepository;
 
 @Repository(PreferenceReviewRepositoryImpl.BEAN_NAME)
@@ -58,7 +58,7 @@ public class PreferenceReviewRepositoryImpl
 			predicateList.add(projectPredicate);
 			
 			/*
-			 * Criando subquery para trazer os últimos registros de cada usuario/projeto
+			 * Criando subquery para trazer os ï¿½ltimos registros de cada usuario/projeto
 			 */
 			Subquery<Timestamp> subquery = criteriaQuery.subquery(Timestamp.class);
 			
@@ -108,7 +108,7 @@ public class PreferenceReviewRepositoryImpl
 			predicateList.add(projectPredicate);
 			
 			/*
-			 * Criando subquery para trazer os últimos registros de cada usuario/projeto
+			 * Criando subquery para trazer os ï¿½ltimos registros de cada usuario/projeto
 			 */
 			Subquery<Timestamp> subquery = criteriaQuery.subquery(Timestamp.class);
 			
@@ -210,7 +210,7 @@ public class PreferenceReviewRepositoryImpl
 			}
 			
 			/*
-			 * Criando subquery para trazer os últimos registros de cada usuario/projeto
+			 * Criando subquery para trazer os ï¿½ltimos registros de cada usuario/projeto
 			 */
 			Subquery<Timestamp> subquery = reviewQuery.subquery(Timestamp.class);
 			
@@ -263,3 +263,4 @@ public class PreferenceReviewRepositoryImpl
 	}
 
 }
+

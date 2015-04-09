@@ -1,3 +1,4 @@
+
 package br.ufba.dcc.mestrado.computacao.repository.impl;
 
 import java.sql.Timestamp;
@@ -20,8 +21,8 @@ import javax.persistence.criteria.Subquery;
 import org.apache.commons.lang3.tuple.ImmutablePair;
 import org.springframework.stereotype.Repository;
 
-import br.ufba.dcc.mestrado.computacao.entities.openhub.recommender.preference.PreferenceEntity;
-import br.ufba.dcc.mestrado.computacao.entities.openhub.recommender.preference.PreferenceEntryEntity;
+import br.ufba.dcc.mestrado.computacao.entities.recommender.preference.PreferenceEntity;
+import br.ufba.dcc.mestrado.computacao.entities.recommender.preference.PreferenceEntryEntity;
 import br.ufba.dcc.mestrado.computacao.repository.base.RatingByCriteriumRepository;
 
 @Repository(RatingByCriteriumRepositoryImpl.BEAN_NAME)
@@ -58,11 +59,11 @@ public class RatingByCriteriumRepositoryImpl
 		Root<PreferenceEntity> root = tupleQuery.from(getEntityClass());
 		Join<PreferenceEntity, PreferenceEntryEntity> join = root.join("preferenceEntryList", JoinType.LEFT);
 		
-		//campos da preferência geral
+		//campos da preferï¿½ncia geral
 		Path<Long> accountIdPath = root.get("userId");		
 		Path<Long> projectIdPath = root.get("projectId");
 		
-		//campos de cada critério
+		//campos de cada critï¿½rio
 		Path<Long> criteriumIdPath = join.get("criteriumId");
 		Path<Float> valuePath = join.get("value");
 		
@@ -73,7 +74,7 @@ public class RatingByCriteriumRepositoryImpl
 		
 		List<Predicate> predicateList = new ArrayList<>();
 		
-		//filtrando por critério
+		//filtrando por critï¿½rio
 		Predicate criteriumPredicate = criteriaBuilder.equal(criteriumIdPath, criteriumId);
 		predicateList.add(criteriumPredicate);
 		
@@ -84,7 +85,7 @@ public class RatingByCriteriumRepositoryImpl
 		}		
 		
 		/*
-		 * Criando subquery para trazer os últimos registros de cada usuario/projeto
+		 * Criando subquery para trazer os ï¿½ltimos registros de cada usuario/projeto
 		 */
 		Subquery<Timestamp> subquery = tupleQuery.subquery(Timestamp.class);
 		
@@ -125,12 +126,12 @@ public class RatingByCriteriumRepositoryImpl
 		
 		List<Predicate> predicateList = new ArrayList<>();
 		
-		//filtrando pelo critério
+		//filtrando pelo critï¿½rio
 		Predicate criteriumPredicate = criteriaBuilder.equal(join.get("criteriumId"), criteriumId);
 		predicateList.add(criteriumPredicate);
 		
 		/*
-		 * Criando subquery para trazer os últimos registros de cada usuario/projeto
+		 * Criando subquery para trazer os ï¿½ltimos registros de cada usuario/projeto
 		 */
 		Subquery<Timestamp> subquery = countQuery.subquery(Timestamp.class);
 		
@@ -177,11 +178,11 @@ public class RatingByCriteriumRepositoryImpl
 		Predicate projectPredicate = criteriaBuilder.equal(root.get("projectId"), itemId);
 		predicateList.add(projectPredicate);
 		
-		//filtrando por critério de recomendação
+		//filtrando por critï¿½rio de recomendaï¿½ï¿½o
 		Predicate criteriumPredicate = criteriaBuilder.equal(join.get("criteriumId"), criteriumId);
 		predicateList.add(criteriumPredicate);
 		
-		//puxando apenas as notas válidas
+		//puxando apenas as notas vï¿½lidas
 		Predicate availablePredicate = criteriaBuilder.or(
 				criteriaBuilder.isNull(join.get("notAvailable")),
 				criteriaBuilder.equal(join.get("notAvailable"), Boolean.FALSE));
@@ -189,7 +190,7 @@ public class RatingByCriteriumRepositoryImpl
 		
 		
 		/*
-		 * Criando subquery para trazer os últimos registros de cada usuario/projeto
+		 * Criando subquery para trazer os ï¿½ltimos registros de cada usuario/projeto
 		 */
 		Subquery<Timestamp> subquery = criteriaQuery.subquery(Timestamp.class);
 		
@@ -211,8 +212,9 @@ public class RatingByCriteriumRepositoryImpl
 		//aplicando filtros
 		select.where(predicateList.toArray(new Predicate[0]));
 		
-		//obtendo média dos valores
+		//obtendo mï¿½dia dos valores
 		return getEntityManager().createQuery(criteriaQuery).getSingleResult();
 	}
 
 }
+

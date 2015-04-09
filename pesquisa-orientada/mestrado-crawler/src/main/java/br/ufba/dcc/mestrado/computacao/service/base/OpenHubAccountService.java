@@ -1,3 +1,4 @@
+
 package br.ufba.dcc.mestrado.computacao.service.base;
 
 import java.util.List;
@@ -16,3 +17,4 @@ public interface OpenHubAccountService extends DefaultOpenHubService<OpenHubAcco
 	OpenHubAccountEntity findByLogin(String login);
 	
 }
+

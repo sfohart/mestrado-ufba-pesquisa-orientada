@@ -1,3 +1,4 @@
+
 package br.ufba.dcc.mestrado.computacao.service.core.impl;
 
 import java.sql.Timestamp;
@@ -13,9 +14,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import br.ufba.dcc.mestrado.computacao.entities.openhub.core.project.OpenHubProjectEntity;
-import br.ufba.dcc.mestrado.computacao.entities.openhub.recommender.criterium.RecommenderCriteriumEntity;
-import br.ufba.dcc.mestrado.computacao.entities.openhub.recommender.preference.PreferenceEntity;
-import br.ufba.dcc.mestrado.computacao.entities.openhub.recommender.preference.PreferenceEntryEntity;
+import br.ufba.dcc.mestrado.computacao.entities.recommender.criterium.RecommenderCriteriumEntity;
+import br.ufba.dcc.mestrado.computacao.entities.recommender.preference.PreferenceEntity;
+import br.ufba.dcc.mestrado.computacao.entities.recommender.preference.PreferenceEntryEntity;
 import br.ufba.dcc.mestrado.computacao.repository.base.BaseRepository;
 import br.ufba.dcc.mestrado.computacao.repository.base.OverallRatingRepository;
 import br.ufba.dcc.mestrado.computacao.repository.impl.OverallRatingRepositoryImpl;
@@ -212,7 +213,7 @@ public class OverallRatingServiceImpl
 		if (entity.getPreferenceReview() != null) {
 			
 			if  (entity.getPreferenceReview().getId() == null) {
-				//se a review não tem titulo nem descrição, pra que mantê-la?
+				//se a review nï¿½o tem titulo nem descriï¿½ï¿½o, pra que mantï¿½-la?
 				if (StringUtils.isEmpty(entity.getPreferenceReview().getDescription()) 
 						&& StringUtils.isEmpty(entity.getPreferenceReview().getTitle())) {
 					entity.setPreferenceReview(null);
@@ -249,3 +250,4 @@ public class OverallRatingServiceImpl
 	}
 
 }
+

@@ -1,3 +1,4 @@
+
 package br.ufba.dcc.mestrado.computacao.recommender.classification.mahout;
 
 import java.io.FileInputStream;
@@ -23,8 +24,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.stereotype.Component;
 
-import br.ufba.dcc.mestrado.computacao.entities.openhub.recommender.criterium.RecommenderCriteriumEntity;
-import br.ufba.dcc.mestrado.computacao.entities.openhub.recommender.preference.PreferenceEntity;
+import br.ufba.dcc.mestrado.computacao.entities.recommender.criterium.RecommenderCriteriumEntity;
+import br.ufba.dcc.mestrado.computacao.entities.recommender.preference.PreferenceEntity;
 import br.ufba.dcc.mestrado.computacao.recommender.classification.AbstractModelTrainer;
 import br.ufba.dcc.mestrado.computacao.service.core.base.OverallRatingService;
 import br.ufba.dcc.mestrado.computacao.service.core.base.RatingByCriteriumService;
@@ -168,3 +169,4 @@ public class MahoutLogisticRegressionModelTrainer extends AbstractModelTrainer {
 	}
 
 }
+

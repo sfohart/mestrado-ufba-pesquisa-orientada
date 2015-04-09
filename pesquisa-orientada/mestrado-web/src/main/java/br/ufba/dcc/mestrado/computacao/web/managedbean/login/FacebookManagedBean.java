@@ -1,3 +1,4 @@
+
 package br.ufba.dcc.mestrado.computacao.web.managedbean.login;
 
 import java.io.IOException;
@@ -29,7 +30,7 @@ import org.springframework.social.oauth2.GrantType;
 import org.springframework.social.oauth2.OAuth2Operations;
 import org.springframework.social.oauth2.OAuth2Parameters;
 
-import br.ufba.dcc.mestrado.computacao.entities.openhub.recommender.user.UserEntity;
+import br.ufba.dcc.mestrado.computacao.entities.recommender.user.UserEntity;
 import br.ufba.dcc.mestrado.computacao.service.base.UserService;
 import br.ufba.dcc.mestrado.computacao.service.basic.RepositoryBasedUserDetailsService;
 import br.ufba.dcc.mestrado.computacao.social.permissions.EmailFacebookPermissions;
@@ -146,16 +147,16 @@ public class FacebookManagedBean implements Serializable {
         
         if (! StringUtils.isEmpty(authorizationCode)) {
         	
-        	logger.info("Código de autorização do Facebook recebido");
+        	logger.info("Cï¿½digo de autorizaï¿½ï¿½o do Facebook recebido");
         	
         	FacebookConnectionFactory connectionFactory = (FacebookConnectionFactory) getConnectionFactoryLocator().getConnectionFactory(Facebook.class);
         	
         	
-        	logger.info("Pedindo concessão de acesso ao Facebook");
+        	logger.info("Pedindo concessï¿½o de acesso ao Facebook");
         	
         	AccessGrant accessGrant = connectionFactory.getOAuthOperations().exchangeForAccess(authorizationCode, getApplicationURL(), null);
         	
-        	logger.info("Criando conexão com o Facebook");
+        	logger.info("Criando conexï¿½o com o Facebook");
         	
         	Connection<Facebook> connection = connectionFactory.createConnection(accessGrant);        	
         	Facebook facebook = connection.getApi();
@@ -173,18 +174,18 @@ public class FacebookManagedBean implements Serializable {
         		if (userIds.isEmpty()) {
         			userId = facebookProfile.getUsername();
         			getUserConnectionRepository().createConnectionRepository(userId).addConnection(connection);
-        			logger.info("Armazenando conexão com o Facebook");
+        			logger.info("Armazenando conexï¿½o com o Facebook");
         		} else if (userIds.size() == 1) {
         			userId = userIds.get(0);
         			getUserConnectionRepository().createConnectionRepository(userId).updateConnection(connection);
-        			logger.info("Atualizando conexão com o Facebook");
+        			logger.info("Atualizando conexï¿½o com o Facebook");
         		} else {
         			
         		}
         		
         		if (! StringUtils.isEmpty(userId)) {
         			
-        			logger.info("Logando na aplicação com usuário do Facebook");
+        			logger.info("Logando na aplicaï¿½ï¿½o com usuï¿½rio do Facebook");
         			
         			UserEntity userEntity = getUserService().findBySocialLogin(userId);
         			
@@ -200,3 +201,4 @@ public class FacebookManagedBean implements Serializable {
 	}
 
 }
+

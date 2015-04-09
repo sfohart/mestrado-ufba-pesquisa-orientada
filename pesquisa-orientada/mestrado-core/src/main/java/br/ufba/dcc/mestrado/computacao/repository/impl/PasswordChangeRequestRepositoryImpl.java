@@ -10,28 +10,26 @@ import javax.persistence.criteria.Root;
 
 import org.springframework.stereotype.Repository;
 
-import br.ufba.dcc.mestrado.computacao.entities.openhub.recommender.user.PasswordChangeRequestEntity;
-import br.ufba.dcc.mestrado.computacao.entities.openhub.recommender.user.UserEntity;
+import br.ufba.dcc.mestrado.computacao.entities.recommender.user.PasswordChangeRequestEntity;
 import br.ufba.dcc.mestrado.computacao.repository.base.PasswordChangeRequestRepository;
-
 
 @Repository(PasswordChangeRequestRepositoryImpl.BEAN_NAME)
 public class PasswordChangeRequestRepositoryImpl 
-		extends BaseRepositoryImpl<Long, PasswordChangeRequestEntity>
-		implements PasswordChangeRequestRepository{
-
-
+		extends BaseRepositoryImpl<Long, PasswordChangeRequestEntity> 
+		implements PasswordChangeRequestRepository {
+	
+	
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = -6618869198656250030L;
+	private static final long serialVersionUID = 326796735480833065L;
+	public static final String BEAN_NAME = "passwordChangeRequestRepository";
 	
-	public static final String BEAN_NAME =  "passwordChangeRequestRepositoryImpl";
-		
-	public PasswordChangeRequestRepositoryImpl(Class<PasswordChangeRequestEntity> entityClass) {
-		super(entityClass);
+	public PasswordChangeRequestRepositoryImpl() {
+		super(PasswordChangeRequestEntity.class);
 	}
-
+	
+	
 	@Override
 	public PasswordChangeRequestEntity findByToken(String token) {
 		
@@ -60,4 +58,5 @@ public class PasswordChangeRequestRepositoryImpl
 		return result;
 	}
 	
+
 }

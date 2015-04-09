@@ -1,3 +1,4 @@
+
 package br.ufba.dcc.mestrado.computacao.service.base;
 
 import java.util.List;
@@ -24,3 +25,4 @@ public interface OpenHubActivityFactService extends DefaultOpenHubService<OpenHu
 	List<OpenHubActivityFactEntity> findByProject(OpenHubProjectEntity project);
 	
 }
+

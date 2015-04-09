@@ -1,4 +1,4 @@
-package br.ufba.dcc.mestrado.computacao.entities.openhub.recommender.user;
+package br.ufba.dcc.mestrado.computacao.entities.recommender.user;
 
 import java.io.UnsupportedEncodingException;
 import java.security.MessageDigest;
@@ -30,7 +30,7 @@ import org.apache.commons.codec.binary.Hex;
 import br.ufba.dcc.mestrado.computacao.entities.BaseEntity;
 import br.ufba.dcc.mestrado.computacao.entities.openhub.core.account.OpenHubAccountEntity;
 import br.ufba.dcc.mestrado.computacao.entities.openhub.core.project.OpenHubTagEntity;
-
+ 
 @Entity
 @Table(
 		name=UserEntity.NODE_NAME,

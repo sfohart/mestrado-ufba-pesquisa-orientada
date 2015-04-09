@@ -1,3 +1,4 @@
+
 package br.ufba.dcc.mestrado.computacao.service.base;
 
 import java.io.Serializable;
@@ -20,3 +21,4 @@ public interface BaseOpenHubService <ID extends Number, E extends BaseEntity<ID>
 	public E delete(E entity)  throws Exception;
 	
 }
+

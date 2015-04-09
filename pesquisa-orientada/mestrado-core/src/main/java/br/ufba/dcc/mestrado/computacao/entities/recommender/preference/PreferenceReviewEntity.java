@@ -1,4 +1,4 @@
-package br.ufba.dcc.mestrado.computacao.entities.openhub.recommender.preference;
+package br.ufba.dcc.mestrado.computacao.entities.recommender.preference;
 
 import java.util.Set;
 
@@ -16,8 +16,8 @@ import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 
 import br.ufba.dcc.mestrado.computacao.entities.BaseEntity;
-import br.ufba.dcc.mestrado.computacao.entities.openhub.recommender.user.UserEntity;
-
+import br.ufba.dcc.mestrado.computacao.entities.recommender.user.UserEntity;
+ 
 @Entity
 @Table(name = PreferenceReviewEntity.NODE_NAME)
 public class PreferenceReviewEntity implements BaseEntity<Long> {

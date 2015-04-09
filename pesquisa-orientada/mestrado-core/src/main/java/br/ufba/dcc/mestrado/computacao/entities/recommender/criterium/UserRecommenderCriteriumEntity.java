@@ -1,4 +1,4 @@
-package br.ufba.dcc.mestrado.computacao.entities.openhub.recommender.criterium;
+package br.ufba.dcc.mestrado.computacao.entities.recommender.criterium;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -11,7 +11,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 import br.ufba.dcc.mestrado.computacao.entities.BaseEntity;
-import br.ufba.dcc.mestrado.computacao.entities.openhub.recommender.user.UserEntity;
+import br.ufba.dcc.mestrado.computacao.entities.recommender.user.UserEntity;
 
 @Entity
 @Table(name = UserRecommenderCriteriumEntity.NODE_NAME)
@@ -48,7 +48,7 @@ public class UserRecommenderCriteriumEntity implements BaseEntity<Long> {
 	public Long getId() {
 		return id;
 	}
-
+ 
 	public void setId(Long id) {
 		this.id = id;
 	}

@@ -1,3 +1,4 @@
+
 package br.ufba.dcc.mestrado.computacao.web.managedbean.login;
 
 import java.io.IOException;
@@ -20,7 +21,7 @@ import javax.servlet.ServletResponse;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.web.WebAttributes;
 
-import br.ufba.dcc.mestrado.computacao.entities.openhub.recommender.user.UserEntity;
+import br.ufba.dcc.mestrado.computacao.entities.recommender.user.UserEntity;
 import br.ufba.dcc.mestrado.computacao.service.base.UserService;
 import br.ufba.dcc.mestrado.computacao.service.basic.RepositoryBasedUserDetailsService;
 
@@ -113,8 +114,8 @@ public class StandardLoginManagedBean implements Serializable {
 						null, 
 						new FacesMessage(
 								FacesMessage.SEVERITY_ERROR, 
-								"Usuário ou senha inválidos", 
-								"Usuário ou senha inválidos"));
+								"Usuï¿½rio ou senha invï¿½lidos", 
+								"Usuï¿½rio ou senha invï¿½lidos"));
 			}
 		}
 	}
@@ -137,3 +138,4 @@ public class StandardLoginManagedBean implements Serializable {
 	
 
 }
+

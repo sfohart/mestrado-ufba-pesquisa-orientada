@@ -1,3 +1,4 @@
+
 package br.ufba.dcc.mestrado.computacao.service.mahout.impl;
 
 import java.util.ArrayList;
@@ -26,7 +27,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import br.ufba.dcc.mestrado.computacao.entities.openhub.core.project.OpenHubProjectEntity;
 import br.ufba.dcc.mestrado.computacao.entities.openhub.core.project.OpenHubTagEntity;
-import br.ufba.dcc.mestrado.computacao.entities.openhub.recommender.user.UserEntity;
+import br.ufba.dcc.mestrado.computacao.entities.recommender.user.UserEntity;
 import br.ufba.dcc.mestrado.computacao.service.base.ProjectService;
 import br.ufba.dcc.mestrado.computacao.service.base.UserService;
 import br.ufba.dcc.mestrado.computacao.service.core.impl.BaseColaborativeFilteringServiceImpl;
@@ -173,7 +174,7 @@ public class MahoutColaborativeFilteringServiceImpl
 			boolean filterInterestTags,
 			Map<Long, Map<ImmutablePair<Long, Long>, Double>> ratingsMap) {
 		
-		throw new NotImplementedException("Ainda não implementei o método para recomendar utilizando as avaliações multicritério dos outros usuários");
+		throw new NotImplementedException("Ainda nï¿½o implementei o mï¿½todo para recomendar utilizando as avaliaï¿½ï¿½es multicritï¿½rio dos outros usuï¿½rios");
 	}
 	
 	@Override
@@ -247,3 +248,4 @@ public class MahoutColaborativeFilteringServiceImpl
 	
 
 }
+

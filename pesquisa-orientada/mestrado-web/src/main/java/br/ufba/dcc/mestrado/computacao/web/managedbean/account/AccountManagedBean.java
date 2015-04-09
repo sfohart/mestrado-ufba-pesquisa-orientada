@@ -1,3 +1,4 @@
+
 package br.ufba.dcc.mestrado.computacao.web.managedbean.account;
 
 import java.io.Serializable;
@@ -20,8 +21,8 @@ import org.apache.commons.codec.binary.Hex;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
-import br.ufba.dcc.mestrado.computacao.entities.openhub.recommender.user.RoleEnum;
-import br.ufba.dcc.mestrado.computacao.entities.openhub.recommender.user.UserEntity;
+import br.ufba.dcc.mestrado.computacao.entities.recommender.user.RoleEnum;
+import br.ufba.dcc.mestrado.computacao.entities.recommender.user.UserEntity;
 import br.ufba.dcc.mestrado.computacao.service.base.TagService;
 import br.ufba.dcc.mestrado.computacao.service.base.UserService;
 import br.ufba.dcc.mestrado.computacao.service.basic.RepositoryBasedUserDetailsService;
@@ -213,7 +214,7 @@ public class AccountManagedBean implements Serializable {
 			FacesContext.getCurrentInstance().addMessage(null, message);
 			
 		} catch (Exception e) {
-			FacesMessage message = new FacesMessage("Ocorreu um erro durante esta operação", e.getLocalizedMessage());
+			FacesMessage message = new FacesMessage("Ocorreu um erro durante esta operaï¿½ï¿½o", e.getLocalizedMessage());
 			FacesContext.getCurrentInstance().addMessage(null, message);
 			e.printStackTrace();
 			return "";
@@ -226,3 +227,4 @@ public class AccountManagedBean implements Serializable {
 	
 	
 }
+

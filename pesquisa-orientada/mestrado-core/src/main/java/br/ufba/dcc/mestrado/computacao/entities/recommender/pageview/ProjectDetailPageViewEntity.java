@@ -1,4 +1,4 @@
-package br.ufba.dcc.mestrado.computacao.entities.openhub.recommender.pageview;
+package br.ufba.dcc.mestrado.computacao.entities.recommender.pageview;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -8,7 +8,7 @@ import javax.persistence.Table;
 
 import br.ufba.dcc.mestrado.computacao.entities.openhub.core.project.OpenHubProjectEntity;
 
-
+ 
 @Entity
 @Table(name = ProjectDetailPageViewEntity.NODE_NAME)
 public class ProjectDetailPageViewEntity extends PageViewEntity {

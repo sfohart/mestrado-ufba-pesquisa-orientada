@@ -1,3 +1,4 @@
+
 package br.ufba.dcc.mestrado.computacao.restful;
 
 import java.io.Serializable;
@@ -65,3 +66,4 @@ public class TagResource implements Serializable {
 	}
 
 }
+

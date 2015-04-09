@@ -1,3 +1,4 @@
+
 package br.ufba.dcc.mestrado.computacao.service.base;
 
 import java.io.Serializable;
@@ -15,3 +16,4 @@ public interface DefaultOpenHubService<DTO extends OpenHubResultDTO, ID extends 
 	void validateEntity(E entity) throws Exception;
 	
 }
+

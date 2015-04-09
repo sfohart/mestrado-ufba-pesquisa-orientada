@@ -1,3 +1,4 @@
+
 package br.ufba.dcc.mestrado.computacao.service.impl;
 
 import java.util.List;
@@ -41,3 +42,4 @@ public class OpenHubTagServiceImpl extends DefaultOpenHubServiceImpl<OpenHubTagD
 	}
 
 }
+

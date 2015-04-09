@@ -1,3 +1,4 @@
+
 package br.ufba.dcc.mestrado.computacao.web.managedbean.project;
 
 import java.util.ArrayList;
@@ -14,7 +15,7 @@ import javax.faces.context.FacesContext;
 import javax.faces.event.ComponentSystemEvent;
 
 import br.ufba.dcc.mestrado.computacao.entities.openhub.core.project.OpenHubProjectEntity;
-import br.ufba.dcc.mestrado.computacao.entities.openhub.recommender.preference.PreferenceEntity;
+import br.ufba.dcc.mestrado.computacao.entities.recommender.preference.PreferenceEntity;
 import br.ufba.dcc.mestrado.computacao.service.core.base.OverallRatingService;
 
 @ManagedBean(name = "compareMB")
@@ -107,3 +108,4 @@ public class ProjectCompareManagedBean extends ProjectManagedBean {
 	}
 	
 }
+
