@@ -11,16 +11,24 @@ import org.apache.mahout.cf.taste.common.TasteException;
 import org.apache.mahout.cf.taste.eval.RecommenderBuilder;
 import org.apache.mahout.cf.taste.impl.model.BooleanPreference;
 import org.apache.mahout.cf.taste.impl.model.GenericBooleanPrefDataModel;
+import org.apache.mahout.cf.taste.impl.model.GenericDataModel;
+import org.apache.mahout.cf.taste.impl.model.GenericPreference;
+import org.apache.mahout.cf.taste.impl.neighborhood.ThresholdUserNeighborhood;
 import org.apache.mahout.cf.taste.impl.recommender.AllUnknownItemsCandidateItemsStrategy;
 import org.apache.mahout.cf.taste.impl.recommender.GenericBooleanPrefItemBasedRecommender;
+import org.apache.mahout.cf.taste.impl.recommender.GenericUserBasedRecommender;
+import org.apache.mahout.cf.taste.impl.recommender.RandomRecommender;
 import org.apache.mahout.cf.taste.impl.similarity.LogLikelihoodSimilarity;
 import org.apache.mahout.cf.taste.model.DataModel;
+import org.apache.mahout.cf.taste.model.Preference;
+import org.apache.mahout.cf.taste.neighborhood.UserNeighborhood;
 import org.apache.mahout.cf.taste.recommender.CandidateItemsStrategy;
 import org.apache.mahout.cf.taste.recommender.IDRescorer;
 import org.apache.mahout.cf.taste.recommender.MostSimilarItemsCandidateItemsStrategy;
 import org.apache.mahout.cf.taste.recommender.RecommendedItem;
 import org.apache.mahout.cf.taste.recommender.Recommender;
 import org.apache.mahout.cf.taste.similarity.ItemSimilarity;
+import org.apache.mahout.cf.taste.similarity.UserSimilarity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -80,6 +88,38 @@ public class MahoutColaborativeFilteringServiceImpl
 		this.projectService = projectService;
 	}
 
+	private IDRescorer buildIdRescorer(Long userId) {
+		
+		final UserEntity currentUser = getUserService().findById(userId);
+		
+		IDRescorer idRescorer = new IDRescorer() {
+			
+			@Override
+			public double rescore(long id, double originalScore) {
+				return originalScore;
+			}
+			
+			@Override
+			public boolean isFiltered(long id) {
+				OpenHubProjectEntity project = getProjectService().findById(id);
+				if (currentUser.getInterestTags() != null && ! currentUser.getInterestTags().isEmpty()) {
+					for (OpenHubTagEntity tag : currentUser.getInterestTags()) {
+						if (project.getTags().contains(tag)) {
+							return false;
+						}
+					}
+					
+					return true;
+				} else {
+					return false;
+				}
+			}
+		};
+		
+		return idRescorer;
+		
+	}
+	
 	@Override
 	@Transactional(readOnly = true)
 	protected List<OpenHubProjectEntity> recommendViewedProjectsByUser(
@@ -120,40 +160,15 @@ public class MahoutColaborativeFilteringServiceImpl
 			try {
 				GenericBooleanPrefItemBasedRecommender recommender = (GenericBooleanPrefItemBasedRecommender) recommenderBuilder.buildRecommender(dataModel);
 				
-				final UserEntity currentUser = getUserService().findById(userId);
-				
-				
 				List<RecommendedItem> recommendedItemList  = null;
 				if (filterInterestTags) {
 				
-					IDRescorer idRescorer = new IDRescorer() {
-						
-						@Override
-						public double rescore(long id, double originalScore) {
-							return originalScore;
-						}
-						
-						@Override
-						public boolean isFiltered(long id) {
-							OpenHubProjectEntity project = getProjectService().findById(id);
-							if (currentUser.getInterestTags() != null && ! currentUser.getInterestTags().isEmpty()) {
-								for (OpenHubTagEntity tag : currentUser.getInterestTags()) {
-									if (project.getTags().contains(tag)) {
-										return false;
-									}
-								}
-								
-								return true;
-							} else {
-								return false;
-							}
-						}
-					};
+					IDRescorer idRescorer = buildIdRescorer(userId);
 					
 					//aplicando filtro de tags no recomendador
-					recommendedItemList = recommender.recommend(currentUser.getId(), howManyItems, idRescorer);
+					recommendedItemList = recommender.recommend(userId, howManyItems, idRescorer);
 				} else {
-					recommendedItemList = recommender.recommend(currentUser.getId(), howManyItems);
+					recommendedItemList = recommender.recommend(userId, howManyItems);
 				}
 				
 				recommendedProjectList = buildProjectList(recommendedItemList);
@@ -245,6 +260,145 @@ public class MahoutColaborativeFilteringServiceImpl
 		
 		return recommendedProjectList;
 	}
+
+	@Override
+	protected List<OpenHubProjectEntity> recommendRatingProjectsByUserAndCriterium(
+			Long userId, 
+			Long criteriumId, 
+			Integer howManyItems,
+			boolean filterInterestTags,
+			Map<ImmutablePair<Long, Long>, Double> ratingsMap) {
+		
+		List<OpenHubProjectEntity> recommendedProjectList = null;
+		
+		List<Preference> preferenceList = null;
+		
+		if (ratingsMap != null) {
+			preferenceList = new ArrayList<Preference>();
+			
+			for (ImmutablePair<Long, Long> userItemPair : ratingsMap.keySet()) {
+				
+				Double preferenceValue = ratingsMap.get(userItemPair);
+				
+				Preference preference = new GenericPreference(
+						userItemPair.getLeft(),
+						userItemPair.getRight(),
+						preferenceValue.floatValue()
+						);
+				
+				preferenceList.add(preference);
+			}
+			
+			
+			RecommenderBuilder recommenderBuilder = new RecommenderBuilder() {
+				@Override
+				public Recommender buildRecommender(DataModel dataModel) throws TasteException {
+					
+					UserSimilarity similarity = new LogLikelihoodSimilarity(dataModel);
+					
+					double threshold = 0.5;
+					UserNeighborhood neighborhood = new ThresholdUserNeighborhood(threshold, similarity, dataModel);
+					
+					Recommender recommender = new GenericUserBasedRecommender(dataModel, neighborhood, similarity);
+					
+					return recommender;
+				}
+			};
+			
+			if (preferenceList != null) {
+				final GenericDataModel dataModel = getMahoutDataModelService().buildDataModelByUser(preferenceList);
+				
+				try {
+					GenericUserBasedRecommender recommender = (GenericUserBasedRecommender) recommenderBuilder.buildRecommender(dataModel);
+					
+					List<RecommendedItem> recommendedItemList  = null;
+					if (filterInterestTags) {
+						IDRescorer idRescorer = buildIdRescorer(userId);
+						
+						//aplicando filtro de tags no recomendador
+						recommendedItemList = recommender.recommend(userId, howManyItems, idRescorer);
+					} else {
+						recommendedItemList = recommender.recommend(userId, howManyItems);
+					}
+					
+					recommendedProjectList = buildProjectList(recommendedItemList);
+					
+				} catch (TasteException e) {
+					e.printStackTrace();
+				}
+			}
+			
+		}
+		
+		
+		return recommendedProjectList;
+	}
+
+	@Override
+	protected List<OpenHubProjectEntity> recommendRandomProjectsByUser(
+			Long userId, 
+			Integer howManyItems, 
+			boolean filterInterestTags,
+			Map<ImmutablePair<Long, Long>, Double> ratingsMap) {
+		
+		List<OpenHubProjectEntity> recommendedProjectList = null;
+		
+		List<Preference> preferenceList = null;
+		
+		
+		if (ratingsMap != null) {
+			preferenceList = new ArrayList<Preference>();
+			
+			for (ImmutablePair<Long, Long> userItemPair : ratingsMap.keySet()) {
+				
+				Double preferenceValue = ratingsMap.get(userItemPair);
+				
+				Preference preference = new GenericPreference(
+						userItemPair.getLeft(),
+						userItemPair.getRight(),
+						preferenceValue.floatValue()
+						);
+				
+				preferenceList.add(preference);
+			}
+			
+			RecommenderBuilder recommenderBuilder = new RecommenderBuilder() {
+				@Override
+				public Recommender buildRecommender(DataModel dataModel) throws TasteException {
+					
+					Recommender recommender = new RandomRecommender(dataModel);					
+					return recommender;
+				}
+			};
+			
+			if (preferenceList != null) {
+				final GenericDataModel dataModel = getMahoutDataModelService().buildDataModelByUser(preferenceList);
+				
+				try {
+					GenericUserBasedRecommender recommender = (GenericUserBasedRecommender) recommenderBuilder.buildRecommender(dataModel);
+					
+					List<RecommendedItem> recommendedItemList  = null;
+					if (filterInterestTags) {
+						IDRescorer idRescorer = buildIdRescorer(userId);
+						
+						//aplicando filtro de tags no recomendador
+						recommendedItemList = recommender.recommend(userId, howManyItems, idRescorer);
+					} else {
+						recommendedItemList = recommender.recommend(userId, howManyItems);
+					}
+					
+					recommendedProjectList = buildProjectList(recommendedItemList);
+					
+				} catch (TasteException e) {
+					e.printStackTrace();
+				}
+			}
+		}
+		
+		return recommendedProjectList;
+	}
+
+	
 	
 
 }

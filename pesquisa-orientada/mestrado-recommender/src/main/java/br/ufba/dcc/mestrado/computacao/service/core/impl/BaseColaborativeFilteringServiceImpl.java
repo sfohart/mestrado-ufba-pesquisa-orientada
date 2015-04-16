@@ -12,6 +12,7 @@ import org.springframework.transaction.annotation.Transactional;
 import br.ufba.dcc.mestrado.computacao.entities.openhub.core.project.OpenHubProjectEntity;
 import br.ufba.dcc.mestrado.computacao.entities.recommender.criterium.RecommenderCriteriumEntity;
 import br.ufba.dcc.mestrado.computacao.entities.recommender.user.UserEntity;
+import br.ufba.dcc.mestrado.computacao.repository.base.OverallRatingRepository;
 import br.ufba.dcc.mestrado.computacao.repository.base.ProjectDetailPageViewRepository;
 import br.ufba.dcc.mestrado.computacao.repository.base.RatingByCriteriumRepository;
 import br.ufba.dcc.mestrado.computacao.repository.base.RecommenderCriteriumRepository;
@@ -33,6 +34,9 @@ public abstract class BaseColaborativeFilteringServiceImpl implements
 	
 	@Autowired
 	private RecommenderCriteriumRepository recommenderCriteriumRepository;
+	
+	@Autowired
+	private OverallRatingRepository overallRatingRepository;
 
 	public ProjectDetailPageViewRepository getProjectDetailPageViewRepository() {
 		return projectDetailPageViewRepository;
@@ -60,6 +64,15 @@ public abstract class BaseColaborativeFilteringServiceImpl implements
 			RecommenderCriteriumRepository recommenderCriteriumRepository) {
 		this.recommenderCriteriumRepository = recommenderCriteriumRepository;
 	}
+	
+	public OverallRatingRepository getOverallRatingRepository() {
+		return overallRatingRepository;
+	}
+	
+	public void setOverallRatingRepository(
+			OverallRatingRepository overallRatingRepository) {
+		this.overallRatingRepository = overallRatingRepository;
+	}
 
 	@Transactional(readOnly = true)
 	protected Map<Long, Map<ImmutablePair<Long, Long>, Double>> findAllRatings() {
@@ -78,6 +91,17 @@ public abstract class BaseColaborativeFilteringServiceImpl implements
 		}
 				
 		return ratingMap;
+	}
+	
+	@Transactional(readOnly = true)
+	protected Map<ImmutablePair<Long, Long>, Double> findAllRatingsByCriterium(Long criteriumId) {
+		Map<ImmutablePair<Long, Long>, Double> ratingsByCriterium = null;
+		
+		if (criteriumId != null) {
+			ratingsByCriterium = getRatingByCriteriumRepository().findAllLastPreferenceByCriterium(criteriumId);
+		}
+		
+		return ratingsByCriterium;
 	}
 	
 	@Override
@@ -143,6 +167,45 @@ public abstract class BaseColaborativeFilteringServiceImpl implements
 			Integer howManyItems,
 			boolean filterInterestTags,
 			Map<Long, Map<ImmutablePair<Long, Long>, Double>> ratingsMap);
+	
+	
+	@Transactional(readOnly = true)
+	public List<OpenHubProjectEntity> recommendRatingProjectsByUserAndCriterium(Long userId, Long criteriumId, Integer howManyItems) {
+		return recommendRatingProjectsByUserAndCriterium(userId, criteriumId, howManyItems, false);
+	}
+	
+	@Transactional(readOnly = true)
+	public List<OpenHubProjectEntity> recommendRatingProjectsByUserAndCriterium(Long userId, Long criteriumId, Integer howManyItems, boolean filterInterestTags) {
+		Map<ImmutablePair<Long, Long>, Double> ratingsByCriterium = findAllRatingsByCriterium(criteriumId);
+		
+		return recommendRatingProjectsByUserAndCriterium(userId, criteriumId, howManyItems, filterInterestTags, ratingsByCriterium);
+	}
+	
+	protected abstract List<OpenHubProjectEntity> recommendRatingProjectsByUserAndCriterium(
+			Long userId,
+			Long criteriumId,
+			Integer howManyItems,
+			boolean filterInterestTags,
+			Map<ImmutablePair<Long, Long>, Double> ratingsMap);
+	
+	
+	public List<OpenHubProjectEntity> recommendRandomProjectsByUser(Long userId, Integer howManyItems) {
+		return recommendRandomProjectsByUser(userId, howManyItems, false);
+	}
+	
+	public List<OpenHubProjectEntity> recommendRandomProjectsByUser(Long userId, Integer howManyItems, boolean filterInterestTags) {
+		Map<ImmutablePair<Long, Long>, Double> ratingsMap = getOverallRatingRepository().findAllLastOverallPreferenceValue();
+		
+		return recommendRandomProjectsByUser(userId, howManyItems, filterInterestTags, ratingsMap);
+	}
+	
+	protected abstract List<OpenHubProjectEntity> recommendRandomProjectsByUser(
+			Long userId,
+			Integer howManyItems,
+			boolean filterInterestTags,
+			Map<ImmutablePair<Long, Long>, Double> ratingsMap);
+	
+	
 
 }
 

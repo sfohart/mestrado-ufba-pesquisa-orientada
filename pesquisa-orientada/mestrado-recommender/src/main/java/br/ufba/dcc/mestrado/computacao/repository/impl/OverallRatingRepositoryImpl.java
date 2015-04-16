@@ -141,7 +141,6 @@ public class OverallRatingRepositoryImpl
 			root.fetch("preferenceEntryList", JoinType.INNER);
 			root.fetch("preferenceReview", JoinType.LEFT);			
 			
-			preferenceQuery = preferenceQuery;	
 			preferenceQuery.distinct(true);
 			
 			List<Predicate> predicateList = new ArrayList<Predicate>();

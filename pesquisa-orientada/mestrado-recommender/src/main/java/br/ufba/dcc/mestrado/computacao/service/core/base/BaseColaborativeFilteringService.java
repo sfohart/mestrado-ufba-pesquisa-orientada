@@ -20,6 +20,15 @@ public interface BaseColaborativeFilteringService extends Serializable {
 	 * 
 	 * @param userId
 	 * @param howManyItems
+	 * @return
+	 */
+	List<OpenHubProjectEntity> recommendViewedProjectsByItem(Long itemId, Integer howManyItems);
+	
+	
+	/**
+	 * 
+	 * @param userId
+	 * @param howManyItems
 	 * @param filterInterestTags
 	 * @return
 	 */
@@ -45,10 +54,40 @@ public interface BaseColaborativeFilteringService extends Serializable {
 	/**
 	 * 
 	 * @param userId
+	 * @param criteriumId
 	 * @param howManyItems
 	 * @return
 	 */
-	List<OpenHubProjectEntity> recommendViewedProjectsByItem(Long itemId, Integer howManyItems);
+	List<OpenHubProjectEntity> recommendRatingProjectsByUserAndCriterium(Long userId, Long criteriumId, Integer howManyItems);
+	
+	
+	/**
+	 * 
+	 * @param userId
+	 * @param criteriumId
+	 * @param howManyItems
+	 * @param filterInterestTags
+	 * @return
+	 */
+	List<OpenHubProjectEntity> recommendRatingProjectsByUserAndCriterium(Long userId, Long criteriumId, Integer howManyItems, boolean filterInterestTags);
+	
+	
+	/**
+	 * 
+	 * @param userId
+	 * @param howManyItems
+	 * @return
+	 */
+	List<OpenHubProjectEntity> recommendRandomProjectsByUser(Long userId, Integer howManyItems);
+	
+	/**
+	 * 
+	 * @param userId
+	 * @param howManyItems
+	 * @param filterInterestTags
+	 * @return
+	 */
+	List<OpenHubProjectEntity> recommendRandomProjectsByUser(Long userId, Integer howManyItems, boolean filterInterestTags);
 
 }
 
