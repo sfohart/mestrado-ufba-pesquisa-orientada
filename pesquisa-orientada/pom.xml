@@ -55,12 +55,12 @@
 
 	<properties>
 		<project.build.sourceEncoding>cp1252</project.build.sourceEncoding>
-		<spring.version>4.0.6.RELEASE</spring.version>
-		
-		<java.version>1.7</java.version>
-		<jsp-api.version>2.2</jsp-api.version>
+		<spring.version>4.1.6.RELEASE</spring.version>
 
-		<jersey.version>2.16</jersey.version>
+		<java.version>1.7</java.version>
+		<servlet-api.version>3.0.1</servlet-api.version>
+
+		<jersey.version>2.17</jersey.version>
 		<joda-time.version>2.3</joda-time.version>
 		<junit.version>4.11</junit.version>
 
@@ -74,7 +74,9 @@
 		<hibernate-search.version>4.5.1.Final</hibernate-search.version>
 		<postgresql.version>9.3-1102-jdbc4</postgresql.version>
 		<hibernate-jpa-2.1-api.version>1.0.0.Final</hibernate-jpa-2.1-api.version>
-		<commons-lang3.version>3.3.2</commons-lang3.version>
+		<commons-lang3.version>3.4</commons-lang3.version>
+		<commons-codec.version>1.10</commons-codec.version>
+
 	</properties>
 
 	<profiles>
@@ -131,10 +133,9 @@
 		<dependencies>
 
 			<dependency>
-				<groupId>javax.servlet.jsp</groupId>
-				<artifactId>jsp-api</artifactId>
-				<version>${jsp-api.version}</version>
-				<scope>provided</scope>
+				<groupId>javax.servlet</groupId>
+				<artifactId>javax.servlet-api</artifactId>
+				<version>3.0.1</version>
 			</dependency>
 
 			<!-- Hibernate -->
@@ -186,6 +187,13 @@
 				<groupId>org.apache.commons</groupId>
 				<artifactId>commons-lang3</artifactId>
 				<version>${commons-lang3.version}</version>
+			</dependency>
+
+			<!-- Commons Codec -->
+			<dependency>
+				<groupId>commons-codec</groupId>
+				<artifactId>commons-codec</artifactId>
+				<version>${commons-codec.version}</version>
 			</dependency>
 
 			<!-- Jersey -->
@@ -280,6 +288,11 @@
 			<version>${spring.version}</version>
 		</dependency>
 
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-test</artifactId>
+			<version>${spring.version}</version>
+		</dependency>
 
 
 	</dependencies>
