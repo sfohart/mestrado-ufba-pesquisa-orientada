@@ -13,6 +13,8 @@
 		<mahout.version>0.9</mahout.version>
 		<weka.version>3.6.11</weka.version>
 		<libsvm.version>3.18.1</libsvm.version>
+		<jmetal-version>5.0-Beta-29</jmetal-version>
+		<moeaframework-version>2.4</moeaframework-version>
 	</properties>
 
 	<build>
@@ -34,6 +36,13 @@
 	</build>
 
 	<dependencies>
+
+		<!-- MOEA Framework -->
+		<dependency>
+			<groupId>org.moeaframework</groupId>
+			<artifactId>moeaframework</artifactId>
+			<version>${moeaframework-version}</version>
+		</dependency>
 
 		<!-- Apache Mahout -->
 		<dependency>

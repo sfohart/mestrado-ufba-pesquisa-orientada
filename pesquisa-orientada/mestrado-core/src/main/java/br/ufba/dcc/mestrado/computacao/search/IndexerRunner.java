@@ -27,7 +27,7 @@ public class IndexerRunner {
 	private SearchService searchService;
 
 	public void run() {
-		logger.info("Iniciando (re)criação dos índices do hibernate/lucene");
+		logger.info("Iniciando (re)criaÃ§Ã£o dos Ã­ndices do hibernate/lucene");
 		
 		try {
 			Instant startAt = Instant.now();			
@@ -38,7 +38,7 @@ public class IndexerRunner {
 			
 			LocalDateTime localDateTime = new LocalDateTime(duration.getMillis());
 			
-			logger.info("Tempo de duração: " + localDateTime.toString());
+			logger.info("Tempo de duraÃ§Ã£o: " + localDateTime.toString());
 			
 		} catch (InterruptedException e) {
 			e.printStackTrace();
