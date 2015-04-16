@@ -375,7 +375,7 @@ public class MahoutColaborativeFilteringServiceImpl
 				final GenericDataModel dataModel = getMahoutDataModelService().buildDataModelByUser(preferenceList);
 				
 				try {
-					GenericUserBasedRecommender recommender = (GenericUserBasedRecommender) recommenderBuilder.buildRecommender(dataModel);
+					RandomRecommender recommender = (RandomRecommender) recommenderBuilder.buildRecommender(dataModel);
 					
 					List<RecommendedItem> recommendedItemList  = null;
 					if (filterInterestTags) {

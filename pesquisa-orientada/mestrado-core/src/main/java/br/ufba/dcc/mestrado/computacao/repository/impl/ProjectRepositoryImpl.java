@@ -9,22 +9,21 @@ import javax.persistence.PersistenceUnitUtil;
 import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
-import javax.persistence.criteria.Join;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 
 import org.apache.lucene.analysis.Analyzer;
 import org.apache.lucene.index.IndexReader;
 import org.apache.lucene.index.Term;
-import org.apache.lucene.queryParser.MultiFieldQueryParser;
-import org.apache.lucene.queryParser.ParseException;
+import org.apache.lucene.queryparser.classic.MultiFieldQueryParser;
+import org.apache.lucene.queryparser.classic.ParseException;
 import org.apache.lucene.search.BooleanClause;
 import org.apache.lucene.search.BooleanQuery;
 import org.apache.lucene.search.Sort;
 import org.apache.lucene.search.SortField;
 import org.apache.lucene.search.TermQuery;
 import org.apache.lucene.util.Version;
-import org.hibernate.search.errors.EmptyQueryException;
+import org.hibernate.search.exception.EmptyQueryException;
 import org.hibernate.search.jpa.FullTextEntityManager;
 import org.hibernate.search.jpa.FullTextQuery;
 import org.hibernate.search.jpa.Search;
@@ -33,8 +32,6 @@ import org.hibernate.search.query.facet.FacetSortOrder;
 import org.hibernate.search.query.facet.FacetingRequest;
 import org.springframework.stereotype.Repository;
 
-import br.ufba.dcc.mestrado.computacao.entities.openhub.core.analysis.OpenHubAnalysisEntity;
-import br.ufba.dcc.mestrado.computacao.entities.openhub.core.analysis.OpenHubAnalysisLanguagesEntity;
 import br.ufba.dcc.mestrado.computacao.entities.openhub.core.project.OpenHubProjectEntity;
 import br.ufba.dcc.mestrado.computacao.entities.openhub.core.project.OpenHubTagEntity;
 import br.ufba.dcc.mestrado.computacao.repository.base.ProjectRepository;
@@ -156,11 +153,14 @@ public class ProjectRepositoryImpl
 			SearchFieldsEnum.tagName.fieldName()
 		};
 		
-		org.apache.lucene.queryParser.MultiFieldQueryParser queryParser =
+		MultiFieldQueryParser queryParser = 
+			new MultiFieldQueryParser(searchFields, analyzer);
+		
+		/*org.apache.lucene.queryParser.MultiFieldQueryParser queryParser =
 				new MultiFieldQueryParser(
 						Version.LUCENE_36, 
 						searchFields, 
-						analyzer);
+						analyzer);*/
 		
 		FullTextQuery fullTextQuery = null;
 		
@@ -185,9 +185,9 @@ public class ProjectRepositoryImpl
 
 	private void configureRelevanceSort(FullTextQuery fullTextQuery) {
 		boolean reverse = true;
-		SortField userContSortField = new SortField(SearchFieldsEnum.projectUserCount.fieldName(), SortField.LONG, reverse);
-		SortField ratingContSortField = new SortField(SearchFieldsEnum.projectRatingCount.fieldName(), SortField.LONG, reverse);
-		SortField reviewContSortField = new SortField(SearchFieldsEnum.projectReviewCount.fieldName(), SortField.LONG, reverse);
+		SortField userContSortField = new SortField(SearchFieldsEnum.projectUserCount.fieldName(), SortField.Type.LONG, reverse);
+		SortField ratingContSortField = new SortField(SearchFieldsEnum.projectRatingCount.fieldName(), SortField.Type.LONG, reverse);
+		SortField reviewContSortField = new SortField(SearchFieldsEnum.projectReviewCount.fieldName(), SortField.Type.LONG, reverse);
 		
 		List<SortField> sortFieldList = new LinkedList<>();
 		sortFieldList.addAll(Arrays.asList(Sort.RELEVANCE.getSort()));

@@ -66,12 +66,12 @@
 
 		<!-- Hibenate Search apenas dá suporte a essa versão do Apache Lucene, 
 			embora o Apache Mahout suporte a versão 4.3.0 -->
-		<lucene.version>3.6.2</lucene.version>
+		<lucene.version>4.10.4</lucene.version>
 
 		<hadoop-core.version>1.2.1</hadoop-core.version>
 
-		<hibernate.version>4.3.7.Final</hibernate.version>
-		<hibernate-search.version>4.5.1.Final</hibernate-search.version>
+		<hibernate.version>4.3.8.Final</hibernate.version>
+		<hibernate-search.version>5.1.1.Final</hibernate-search.version>
 		<postgresql.version>9.3-1102-jdbc4</postgresql.version>
 		<hibernate-jpa-2.1-api.version>1.0.0.Final</hibernate-jpa-2.1-api.version>
 		<commons-lang3.version>3.4</commons-lang3.version>
@@ -80,6 +80,7 @@
 	</properties>
 
 	<profiles>
+
 		<profile>
 			<!-- When built in OpenShift the 'openshift' profile will be used wheninvoking 
 				mvn. -->
@@ -166,13 +167,15 @@
 			</dependency>
 			<dependency>
 				<groupId>org.hibernate</groupId>
-				<artifactId>hibernate-search-analyzers</artifactId>
-				<version>${hibernate-search.version}</version>
-			</dependency>
-			<dependency>
-				<groupId>org.hibernate</groupId>
 				<artifactId>hibernate-search-infinispan</artifactId>
 				<version>${hibernate-search.version}</version>
+			</dependency>
+
+			<!-- Lucene QueryParser -->
+			<dependency>
+				<groupId>org.apache.lucene</groupId>
+                <artifactId>lucene-queryparser</artifactId>
+				<version>${lucene.version}</version>
 			</dependency>
 
 			<!-- PostgreSQL -->
