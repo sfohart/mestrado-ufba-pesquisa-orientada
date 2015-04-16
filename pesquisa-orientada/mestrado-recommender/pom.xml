@@ -11,7 +11,8 @@
 
 	<properties>
 		<mahout.version>0.10.0</mahout.version>
-		<weka.version>3.6.11</weka.version>
+		<weka.version>3.6.12</weka.version>
+		<jmetal.version>5.0-Beta-29</jmetal.version>
 		<libsvm.version>3.18.1</libsvm.version>
 	</properties>
 
@@ -97,7 +98,6 @@
 		<dependency>
 			<groupId>commons-codec</groupId>
 			<artifactId>commons-codec</artifactId>
-			<version>1.9</version>
 		</dependency>
 
 		<!-- Weka -->
@@ -111,6 +111,15 @@
 			<artifactId>libsvm</artifactId>
 			<version>${libsvm.version}</version>
 		</dependency>
+
+
+		<!-- JMetal -->
+		<dependency>
+			<groupId>org.uma.jmetal</groupId>
+			<artifactId>jmetal-core</artifactId>
+			<version>${jmetal.version}</version>
+		</dependency>
+		
 	</dependencies>
 
 	<name>Mestrado Recommender</name>
