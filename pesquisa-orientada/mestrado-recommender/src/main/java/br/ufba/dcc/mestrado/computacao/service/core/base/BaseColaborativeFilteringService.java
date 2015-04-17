@@ -4,17 +4,18 @@ package br.ufba.dcc.mestrado.computacao.service.core.base;
 import java.io.Serializable;
 import java.util.List;
 
+import org.apache.mahout.cf.taste.recommender.RecommendedItem;
+
 import br.ufba.dcc.mestrado.computacao.entities.openhub.core.project.OpenHubProjectEntity;
 
 public interface BaseColaborativeFilteringService extends Serializable {
 	
 	/**
 	 * 
-	 * @param userId
-	 * @param howManyItems
+	 * @param recommendedItems
 	 * @return
 	 */
-	List<OpenHubProjectEntity> recommendViewedProjectsByUser(Long userId, Integer howManyItems);
+	List<OpenHubProjectEntity> getRecommendedProjects(List<RecommendedItem> recommendedItems);
 	
 	/**
 	 * 
@@ -22,17 +23,7 @@ public interface BaseColaborativeFilteringService extends Serializable {
 	 * @param howManyItems
 	 * @return
 	 */
-	List<OpenHubProjectEntity> recommendViewedProjectsByItem(Long itemId, Integer howManyItems);
-	
-	
-	/**
-	 * 
-	 * @param userId
-	 * @param howManyItems
-	 * @param filterInterestTags
-	 * @return
-	 */
-	List<OpenHubProjectEntity> recommendViewedProjectsByUser(Long userId, Integer howManyItems, boolean filterInterestTags);
+	List<RecommendedItem> recommendViewedProjectsByUser(Long userId, Integer howManyItems);
 	
 	/**
 	 * 
@@ -40,7 +31,8 @@ public interface BaseColaborativeFilteringService extends Serializable {
 	 * @param howManyItems
 	 * @return
 	 */
-	List<OpenHubProjectEntity> recommendRatingProjectsByUser(Long userId, Integer howManyItems);
+	List<RecommendedItem> recommendViewedProjectsByItem(Long itemId, Integer howManyItems);
+	
 	
 	/**
 	 * 
@@ -49,7 +41,24 @@ public interface BaseColaborativeFilteringService extends Serializable {
 	 * @param filterInterestTags
 	 * @return
 	 */
-	List<OpenHubProjectEntity> recommendRatingProjectsByUser(Long userId, Integer howManyItems, boolean filterInterestTags);
+	List<RecommendedItem> recommendViewedProjectsByUser(Long userId, Integer howManyItems, boolean filterInterestTags);
+	
+	/**
+	 * 
+	 * @param userId
+	 * @param howManyItems
+	 * @return
+	 */
+	List<RecommendedItem> recommendRatingProjectsByUser(Long userId, Integer howManyItems);
+	
+	/**
+	 * 
+	 * @param userId
+	 * @param howManyItems
+	 * @param filterInterestTags
+	 * @return
+	 */
+	List<RecommendedItem> recommendRatingProjectsByUser(Long userId, Integer howManyItems, boolean filterInterestTags);
 	
 	/**
 	 * 
@@ -58,7 +67,7 @@ public interface BaseColaborativeFilteringService extends Serializable {
 	 * @param howManyItems
 	 * @return
 	 */
-	List<OpenHubProjectEntity> recommendRatingProjectsByUserAndCriterium(Long userId, Long criteriumId, Integer howManyItems);
+	List<RecommendedItem> recommendRatingProjectsByUserAndCriterium(Long userId, Long criteriumId, Integer howManyItems);
 	
 	
 	/**
@@ -69,7 +78,7 @@ public interface BaseColaborativeFilteringService extends Serializable {
 	 * @param filterInterestTags
 	 * @return
 	 */
-	List<OpenHubProjectEntity> recommendRatingProjectsByUserAndCriterium(Long userId, Long criteriumId, Integer howManyItems, boolean filterInterestTags);
+	List<RecommendedItem> recommendRatingProjectsByUserAndCriterium(Long userId, Long criteriumId, Integer howManyItems, boolean filterInterestTags);
 	
 	
 	/**
@@ -78,7 +87,7 @@ public interface BaseColaborativeFilteringService extends Serializable {
 	 * @param howManyItems
 	 * @return
 	 */
-	List<OpenHubProjectEntity> recommendRandomProjectsByUser(Long userId, Integer howManyItems);
+	List<RecommendedItem> recommendRandomProjectsByUser(Long userId, Integer howManyItems);
 	
 	/**
 	 * 
@@ -87,7 +96,7 @@ public interface BaseColaborativeFilteringService extends Serializable {
 	 * @param filterInterestTags
 	 * @return
 	 */
-	List<OpenHubProjectEntity> recommendRandomProjectsByUser(Long userId, Integer howManyItems, boolean filterInterestTags);
+	List<RecommendedItem> recommendRandomProjectsByUser(Long userId, Integer howManyItems, boolean filterInterestTags);
 
 }
 

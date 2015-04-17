@@ -1,22 +1,25 @@
 
 package br.ufba.dcc.mestrado.computacao.service.core.impl;
 
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
 
 import org.apache.commons.lang3.tuple.ImmutablePair;
+import org.apache.mahout.cf.taste.recommender.RecommendedItem;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 
 import br.ufba.dcc.mestrado.computacao.entities.openhub.core.project.OpenHubProjectEntity;
 import br.ufba.dcc.mestrado.computacao.entities.recommender.criterium.RecommenderCriteriumEntity;
 import br.ufba.dcc.mestrado.computacao.entities.recommender.user.UserEntity;
-import br.ufba.dcc.mestrado.computacao.repository.base.OverallRatingRepository;
-import br.ufba.dcc.mestrado.computacao.repository.base.ProjectDetailPageViewRepository;
-import br.ufba.dcc.mestrado.computacao.repository.base.RatingByCriteriumRepository;
-import br.ufba.dcc.mestrado.computacao.repository.base.RecommenderCriteriumRepository;
+import br.ufba.dcc.mestrado.computacao.service.base.ProjectService;
 import br.ufba.dcc.mestrado.computacao.service.core.base.BaseColaborativeFilteringService;
+import br.ufba.dcc.mestrado.computacao.service.core.base.OverallRatingService;
+import br.ufba.dcc.mestrado.computacao.service.core.base.ProjectDetailPageViewService;
+import br.ufba.dcc.mestrado.computacao.service.core.base.RatingByCriteriumService;
+import br.ufba.dcc.mestrado.computacao.service.core.base.RecommenderCriteriumService;
 
 public abstract class BaseColaborativeFilteringServiceImpl implements
 		BaseColaborativeFilteringService {
@@ -27,56 +30,43 @@ public abstract class BaseColaborativeFilteringServiceImpl implements
 	private static final long serialVersionUID = -14257855122255993L;
 
 	@Autowired
-	private ProjectDetailPageViewRepository projectDetailPageViewRepository;
+	private ProjectDetailPageViewService projectDetailPageViewService;
 	
 	@Autowired
-	private RatingByCriteriumRepository ratingByCriteriumRepository;
+	private RatingByCriteriumService ratingByCriteriumService;
 	
 	@Autowired
-	private RecommenderCriteriumRepository recommenderCriteriumRepository;
+	private RecommenderCriteriumService recommenderCriteriumService;
 	
 	@Autowired
-	private OverallRatingRepository overallRatingRepository;
-
-	public ProjectDetailPageViewRepository getProjectDetailPageViewRepository() {
-		return projectDetailPageViewRepository;
-	}
-
-	public void setProjectDetailPageViewRepository(
-			ProjectDetailPageViewRepository projectDetailPageViewRepository) {
-		this.projectDetailPageViewRepository = projectDetailPageViewRepository;
-	}
-
-	public RatingByCriteriumRepository getRatingByCriteriumRepository() {
-		return ratingByCriteriumRepository;
-	}
-
-	public void setRatingByCriteriumRepository(
-			RatingByCriteriumRepository ratingByCriteriumRepository) {
-		this.ratingByCriteriumRepository = ratingByCriteriumRepository;
-	}
-
-	public RecommenderCriteriumRepository getRecommenderCriteriumRepository() {
-		return recommenderCriteriumRepository;
-	}
-
-	public void setRecommenderCriteriumRepository(
-			RecommenderCriteriumRepository recommenderCriteriumRepository) {
-		this.recommenderCriteriumRepository = recommenderCriteriumRepository;
-	}
+	private OverallRatingService overallRatingService;
 	
-	public OverallRatingRepository getOverallRatingRepository() {
-		return overallRatingRepository;
+	@Autowired
+	private ProjectService projectService;
+
+	public ProjectDetailPageViewService getProjectDetailPageViewService() {
+		return projectDetailPageViewService;
 	}
-	
-	public void setOverallRatingRepository(
-			OverallRatingRepository overallRatingRepository) {
-		this.overallRatingRepository = overallRatingRepository;
+
+	public RatingByCriteriumService getRatingByCriteriumService() {
+		return ratingByCriteriumService;
+	}
+
+	public RecommenderCriteriumService getRecommenderCriteriumService() {
+		return recommenderCriteriumService;
+	}
+
+	public OverallRatingService getOverallRatingService() {
+		return overallRatingService;
+	}
+
+	public ProjectService getProjectService() {
+		return projectService;
 	}
 
 	@Transactional(readOnly = true)
 	protected Map<Long, Map<ImmutablePair<Long, Long>, Double>> findAllRatings() {
-		List<RecommenderCriteriumEntity> criteriaList = getRecommenderCriteriumRepository().findAll();
+		List<RecommenderCriteriumEntity> criteriaList = getRecommenderCriteriumService().findAll();
 		
 		Map<Long, Map<ImmutablePair<Long, Long>, Double>> ratingMap = null;
 		
@@ -85,7 +75,7 @@ public abstract class BaseColaborativeFilteringServiceImpl implements
 			ratingMap = new TreeMap<Long, Map<ImmutablePair<Long,Long>,Double>>();
 			
 			for (RecommenderCriteriumEntity criterium : criteriaList) {
-				Map<ImmutablePair<Long,Long>,Double> ratingMapByCriterium = getRatingByCriteriumRepository().findAllLastPreferenceByCriterium(criterium.getId());
+				Map<ImmutablePair<Long,Long>,Double> ratingMapByCriterium = getRatingByCriteriumService().findAllLastPreferenceByCriterium(criterium.getId());
 				ratingMap.put(criterium.getId(), ratingMapByCriterium);
 			}
 		}
@@ -98,7 +88,7 @@ public abstract class BaseColaborativeFilteringServiceImpl implements
 		Map<ImmutablePair<Long, Long>, Double> ratingsByCriterium = null;
 		
 		if (criteriumId != null) {
-			ratingsByCriterium = getRatingByCriteriumRepository().findAllLastPreferenceByCriterium(criteriumId);
+			ratingsByCriterium = getRatingByCriteriumService().findAllLastPreferenceByCriterium(criteriumId);
 		}
 		
 		return ratingsByCriterium;
@@ -106,7 +96,7 @@ public abstract class BaseColaborativeFilteringServiceImpl implements
 	
 	@Override
 	@Transactional(readOnly = true)
-	public List<OpenHubProjectEntity> recommendViewedProjectsByUser(
+	public List<RecommendedItem> recommendViewedProjectsByUser(
 			Long userId, 
 			Integer howManyItems) {
 		return recommendViewedProjectsByUser(userId, howManyItems, false);
@@ -114,32 +104,32 @@ public abstract class BaseColaborativeFilteringServiceImpl implements
 	
 	@Override
 	@Transactional(readOnly = true)
-	public List<OpenHubProjectEntity> recommendViewedProjectsByUser(
+	public List<RecommendedItem> recommendViewedProjectsByUser(
 			Long userId, 
 			Integer howManyItems,
 			boolean filterInterestTags) {
 		
-		final List<ImmutablePair<UserEntity, OpenHubProjectEntity>> pageViewList = getProjectDetailPageViewRepository().findAllProjectDetailViews();
+		final List<ImmutablePair<UserEntity, OpenHubProjectEntity>> pageViewList = getProjectDetailPageViewService().findAllProjectDetailViews();
 		return recommendViewedProjectsByUser(userId, howManyItems, filterInterestTags, pageViewList);
 	}
 	
 	@Override
 	@Transactional(readOnly = true)
-	public List<OpenHubProjectEntity> recommendViewedProjectsByItem(
+	public List<RecommendedItem> recommendViewedProjectsByItem(
 			Long itemId, 
 			Integer howManyItems) {
-		final List<ImmutablePair<UserEntity, OpenHubProjectEntity>> pageViewList = getProjectDetailPageViewRepository().findAllProjectDetailViews();
+		final List<ImmutablePair<UserEntity, OpenHubProjectEntity>> pageViewList = getProjectDetailPageViewService().findAllProjectDetailViews();
 		return recommendViewedProjectsByItem(itemId, howManyItems, pageViewList);
 	}
 	
 	@Transactional(readOnly = true)
-	protected abstract List<OpenHubProjectEntity> recommendViewedProjectsByItem(
+	protected abstract List<RecommendedItem> recommendViewedProjectsByItem(
 			Long itemId,
 			Integer howManyItems,			
 			List<ImmutablePair<UserEntity, OpenHubProjectEntity>> pageViewList);
 
 	@Transactional(readOnly = true)
-	protected abstract List<OpenHubProjectEntity> recommendViewedProjectsByUser(
+	protected abstract List<RecommendedItem> recommendViewedProjectsByUser(
 			Long userId,
 			Integer howManyItems,
 			boolean filterInterestTags,
@@ -147,13 +137,13 @@ public abstract class BaseColaborativeFilteringServiceImpl implements
 
 	@Override
 	@Transactional(readOnly = true)
-	public List<OpenHubProjectEntity> recommendRatingProjectsByUser(Long userId, Integer howManyItems) {
+	public List<RecommendedItem> recommendRatingProjectsByUser(Long userId, Integer howManyItems) {
 		return recommendRatingProjectsByUser(userId,howManyItems,false);
 	}
 	
 	@Override
 	@Transactional(readOnly = true)
-	public List<OpenHubProjectEntity> recommendRatingProjectsByUser(Long userId, Integer howManyItems, boolean filterInterestTags) {
+	public List<RecommendedItem> recommendRatingProjectsByUser(Long userId, Integer howManyItems, boolean filterInterestTags) {
 		
 		final Map<Long, Map<ImmutablePair<Long, Long>, Double>> ratingsMap =
 				findAllRatings();
@@ -162,7 +152,7 @@ public abstract class BaseColaborativeFilteringServiceImpl implements
 	}
 
 	@Transactional(readOnly = true)
-	protected abstract List<OpenHubProjectEntity> recommendRatingProjectsByUser(
+	protected abstract List<RecommendedItem> recommendRatingProjectsByUser(
 			Long userId,
 			Integer howManyItems,
 			boolean filterInterestTags,
@@ -170,18 +160,18 @@ public abstract class BaseColaborativeFilteringServiceImpl implements
 	
 	
 	@Transactional(readOnly = true)
-	public List<OpenHubProjectEntity> recommendRatingProjectsByUserAndCriterium(Long userId, Long criteriumId, Integer howManyItems) {
+	public List<RecommendedItem> recommendRatingProjectsByUserAndCriterium(Long userId, Long criteriumId, Integer howManyItems) {
 		return recommendRatingProjectsByUserAndCriterium(userId, criteriumId, howManyItems, false);
 	}
 	
 	@Transactional(readOnly = true)
-	public List<OpenHubProjectEntity> recommendRatingProjectsByUserAndCriterium(Long userId, Long criteriumId, Integer howManyItems, boolean filterInterestTags) {
+	public List<RecommendedItem> recommendRatingProjectsByUserAndCriterium(Long userId, Long criteriumId, Integer howManyItems, boolean filterInterestTags) {
 		Map<ImmutablePair<Long, Long>, Double> ratingsByCriterium = findAllRatingsByCriterium(criteriumId);
 		
 		return recommendRatingProjectsByUserAndCriterium(userId, criteriumId, howManyItems, filterInterestTags, ratingsByCriterium);
 	}
 	
-	protected abstract List<OpenHubProjectEntity> recommendRatingProjectsByUserAndCriterium(
+	protected abstract List<RecommendedItem> recommendRatingProjectsByUserAndCriterium(
 			Long userId,
 			Long criteriumId,
 			Integer howManyItems,
@@ -189,23 +179,39 @@ public abstract class BaseColaborativeFilteringServiceImpl implements
 			Map<ImmutablePair<Long, Long>, Double> ratingsMap);
 	
 	
-	public List<OpenHubProjectEntity> recommendRandomProjectsByUser(Long userId, Integer howManyItems) {
+	public List<RecommendedItem> recommendRandomProjectsByUser(Long userId, Integer howManyItems) {
 		return recommendRandomProjectsByUser(userId, howManyItems, false);
 	}
 	
-	public List<OpenHubProjectEntity> recommendRandomProjectsByUser(Long userId, Integer howManyItems, boolean filterInterestTags) {
-		Map<ImmutablePair<Long, Long>, Double> ratingsMap = getOverallRatingRepository().findAllLastOverallPreferenceValue();
+	public List<RecommendedItem> recommendRandomProjectsByUser(Long userId, Integer howManyItems, boolean filterInterestTags) {
+		Map<ImmutablePair<Long, Long>, Double> ratingsMap = getOverallRatingService().findAllLastOverallPreferenceValue();
 		
 		return recommendRandomProjectsByUser(userId, howManyItems, filterInterestTags, ratingsMap);
 	}
 	
-	protected abstract List<OpenHubProjectEntity> recommendRandomProjectsByUser(
+	protected abstract List<RecommendedItem> recommendRandomProjectsByUser(
 			Long userId,
 			Integer howManyItems,
 			boolean filterInterestTags,
 			Map<ImmutablePair<Long, Long>, Double> ratingsMap);
 	
 	
+	@Transactional(readOnly = true)
+	public List<OpenHubProjectEntity> getRecommendedProjects(List<RecommendedItem> recommendedItems) {
+		List<OpenHubProjectEntity> projectList = null;
+		
+		if (recommendedItems != null) {
+			projectList = new LinkedList<OpenHubProjectEntity>();
+			
+			for (RecommendedItem recommendedItem : recommendedItems) {
+				OpenHubProjectEntity project = getProjectService().findById(recommendedItem.getItemID());
+				projectList.add(project);
+			}
+		}
+		
+		return projectList;
+		
+	}
 
 }
 

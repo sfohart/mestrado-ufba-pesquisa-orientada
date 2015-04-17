@@ -9,6 +9,8 @@ import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
 import javax.faces.event.ComponentSystemEvent;
 
+import org.apache.mahout.cf.taste.recommender.RecommendedItem;
+
 import br.ufba.dcc.mestrado.computacao.entities.openhub.core.project.OpenHubProjectEntity;
 import br.ufba.dcc.mestrado.computacao.service.core.base.BaseColaborativeFilteringService;
 
@@ -65,9 +67,8 @@ public class AlsoViewedProjectManagedBean extends ProjectManagedBean {
 	 */
 	protected void findAlsoViewedProjectList() {
 		//limpa lista atual de projetos recomendados
-		this.alsoViewedProjectList = new ArrayList<>();
-		
-		this.alsoViewedProjectList = getColaborativeFilteringService().recommendViewedProjectsByItem(getProject().getId(), getMaxResults());
+		List<RecommendedItem> recommendedItems = getColaborativeFilteringService().recommendViewedProjectsByItem(getProject().getId(), getMaxResults());
+		this.alsoViewedProjectList = getColaborativeFilteringService().getRecommendedProjects(recommendedItems);
 	}
 
 

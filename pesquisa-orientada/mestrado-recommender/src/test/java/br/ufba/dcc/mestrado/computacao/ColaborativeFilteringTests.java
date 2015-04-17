@@ -4,6 +4,7 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
+import org.apache.mahout.cf.taste.recommender.RecommendedItem;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -14,6 +15,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import br.ufba.dcc.mestrado.computacao.entities.openhub.core.project.OpenHubProjectEntity;
 import br.ufba.dcc.mestrado.computacao.entities.recommender.criterium.RecommenderCriteriumEntity;
+import br.ufba.dcc.mestrado.computacao.service.base.ProjectService;
 import br.ufba.dcc.mestrado.computacao.service.core.base.BaseColaborativeFilteringService;
 import br.ufba.dcc.mestrado.computacao.service.core.base.RecommenderCriteriumService;
 import br.ufba.dcc.mestrado.computacao.service.mahout.impl.MahoutColaborativeFilteringServiceImpl;
@@ -30,46 +32,21 @@ public class ColaborativeFilteringTests {
 	@Autowired
 	private RecommenderCriteriumService criteriumService;
 	
+	@Autowired
+	private ProjectService projectService;
+	
 	public BaseColaborativeFilteringService getColaborativeFilteringService() {
 		return colaborativeFilteringService;
 	}
-	
-	public void setColaborativeFilteringService(
-			BaseColaborativeFilteringService colaborativeFilteringService) {
-		this.colaborativeFilteringService = colaborativeFilteringService;
-	}
-	
+
 	public RecommenderCriteriumService getCriteriumService() {
 		return criteriumService;
 	}
-	
-	public void setCriteriumService(RecommenderCriteriumService criteriumService) {
-		this.criteriumService = criteriumService;
-	}
-	
-	@Test
-	public void testRandomRecommender() {
-		Long userId = 11L;
-		Integer howManyItems = 10;
-		
-		List<OpenHubProjectEntity> recommendations = getColaborativeFilteringService().recommendRandomProjectsByUser(userId, howManyItems);
-		
-		Assert.assertNotNull(recommendations);
-		
-		Collections.sort(recommendations, new Comparator<OpenHubProjectEntity>() {
 
-			@Override
-			public int compare(OpenHubProjectEntity o1, OpenHubProjectEntity o2) {
-				return o1.getName().compareToIgnoreCase(o2.getName());
-			}
-			
-		});
-		
-		for (OpenHubProjectEntity project : recommendations) {
-			System.out.println(String.format("%d - %s", project.getId(), project.getName()));
-		}
+	public ProjectService getProjectService() {
+		return projectService;
 	}
-	
+
 	@Test
 	public void testColaborativeFilteringRecommender() {
 		
@@ -81,7 +58,7 @@ public class ColaborativeFilteringTests {
 		Assert.assertNotNull(criteria);
 		
 		for (RecommenderCriteriumEntity criterium : criteria) {
-			List<OpenHubProjectEntity> recommendations =
+			List<RecommendedItem> recommendations =
 					getColaborativeFilteringService()
 						.recommendRatingProjectsByUserAndCriterium(
 								userId, 
@@ -90,22 +67,14 @@ public class ColaborativeFilteringTests {
 			
 			Assert.assertNotNull(recommendations);
 			
-			Collections.sort(recommendations, new Comparator<OpenHubProjectEntity>() {
-
-				@Override
-				public int compare(OpenHubProjectEntity o1, OpenHubProjectEntity o2) {
-					return o1.getName().compareToIgnoreCase(o2.getName());
-				}
-				
-			});
-			
 			System.out.println(criterium.getName() + " ----------------------------------------------");
-			for (OpenHubProjectEntity project : recommendations) {
-				System.out.println(String.format("%d - %s", project.getId(), project.getName()));
+			for (RecommendedItem recommendedItem : recommendations) {
+				if (recommendedItem != null) {
+					OpenHubProjectEntity project = projectService.findById(recommendedItem.getItemID());
+					System.out.println(String.format("Estimated Preference: %f | Project: \"%s\" (id = %d) ", recommendedItem.getValue(), project.getName(), project.getId()));
+				}
 			}
 		}
-		
-		
 		
 	}
 	

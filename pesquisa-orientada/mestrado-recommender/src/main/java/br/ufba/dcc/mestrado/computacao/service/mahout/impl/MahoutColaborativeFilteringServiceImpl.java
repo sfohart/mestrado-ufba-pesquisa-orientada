@@ -122,13 +122,13 @@ public class MahoutColaborativeFilteringServiceImpl
 	
 	@Override
 	@Transactional(readOnly = true)
-	protected List<OpenHubProjectEntity> recommendViewedProjectsByUser(
+	protected List<RecommendedItem> recommendViewedProjectsByUser(
 			Long userId, 
 			Integer howManyItems,
 			boolean filterInterestTags,
 			List<ImmutablePair<UserEntity, OpenHubProjectEntity>> pageViewList) {
 		
-		List<OpenHubProjectEntity> recommendedProjectList = null;
+		List<RecommendedItem> recommendedItemList  = null;
 		List<BooleanPreference> preferenceList = null;
 		
 		if (pageViewList != null && ! pageViewList.isEmpty()) {
@@ -160,7 +160,7 @@ public class MahoutColaborativeFilteringServiceImpl
 			try {
 				GenericBooleanPrefItemBasedRecommender recommender = (GenericBooleanPrefItemBasedRecommender) recommenderBuilder.buildRecommender(dataModel);
 				
-				List<RecommendedItem> recommendedItemList  = null;
+				
 				if (filterInterestTags) {
 				
 					IDRescorer idRescorer = buildIdRescorer(userId);
@@ -171,19 +171,17 @@ public class MahoutColaborativeFilteringServiceImpl
 					recommendedItemList = recommender.recommend(userId, howManyItems);
 				}
 				
-				recommendedProjectList = buildProjectList(recommendedItemList);
-				
 			} catch (TasteException e) {
 				e.printStackTrace();
 			}
 		}
 		
 		
-		return recommendedProjectList;
+		return recommendedItemList;
 	}
 
 	@Override
-	protected List<OpenHubProjectEntity> recommendRatingProjectsByUser(
+	protected List<RecommendedItem> recommendRatingProjectsByUser(
 			Long userId,
 			Integer howManyItems,
 			boolean filterInterestTags,
@@ -194,12 +192,12 @@ public class MahoutColaborativeFilteringServiceImpl
 	
 	@Override
 	@Transactional(readOnly = true)
-	protected List<OpenHubProjectEntity> recommendViewedProjectsByItem(
+	protected List<RecommendedItem> recommendViewedProjectsByItem(
 			Long itemId, 
 			Integer howManyItems,
 			List<ImmutablePair<UserEntity, OpenHubProjectEntity>> pageViewList) {
 		
-		List<OpenHubProjectEntity> recommendedProjectList = null;
+		List<RecommendedItem> recommendedItemList = null;
 		
 		List<BooleanPreference> preferenceList = null;
 		
@@ -231,10 +229,7 @@ public class MahoutColaborativeFilteringServiceImpl
 			
 			try {
 				GenericBooleanPrefItemBasedRecommender recommender = (GenericBooleanPrefItemBasedRecommender) recommenderBuilder.buildRecommender(dataModel);
-				List<RecommendedItem> recommendedItemList  = recommender.mostSimilarItems(itemId, howManyItems);
-				
-				recommendedProjectList = buildProjectList(recommendedItemList);
-				
+				recommendedItemList  = recommender.mostSimilarItems(itemId, howManyItems);
 			} catch (TasteException e) {
 				e.printStackTrace();
 			}
@@ -242,34 +237,20 @@ public class MahoutColaborativeFilteringServiceImpl
 		
 		
 		
-		return recommendedProjectList;
+		return recommendedItemList;
 	}
 
-	protected List<OpenHubProjectEntity> buildProjectList(List<RecommendedItem> recommendedItemList) {
-		
-		List<OpenHubProjectEntity> recommendedProjectList = null;
-		
-		if (recommendedItemList != null) {
-			recommendedProjectList = new ArrayList<>();
-			
-			for (RecommendedItem recommendedItem : recommendedItemList) {
-				OpenHubProjectEntity recommendedProject = getProjectService().findById(recommendedItem.getItemID());
-				recommendedProjectList.add(recommendedProject);
-			}
-		}
-		
-		return recommendedProjectList;
-	}
+
 
 	@Override
-	protected List<OpenHubProjectEntity> recommendRatingProjectsByUserAndCriterium(
+	protected List<RecommendedItem> recommendRatingProjectsByUserAndCriterium(
 			Long userId, 
 			Long criteriumId, 
 			Integer howManyItems,
 			boolean filterInterestTags,
 			Map<ImmutablePair<Long, Long>, Double> ratingsMap) {
 		
-		List<OpenHubProjectEntity> recommendedProjectList = null;
+		List<RecommendedItem> recommendedItemList  = null;
 		
 		List<Preference> preferenceList = null;
 		
@@ -311,7 +292,7 @@ public class MahoutColaborativeFilteringServiceImpl
 				try {
 					GenericUserBasedRecommender recommender = (GenericUserBasedRecommender) recommenderBuilder.buildRecommender(dataModel);
 					
-					List<RecommendedItem> recommendedItemList  = null;
+					
 					if (filterInterestTags) {
 						IDRescorer idRescorer = buildIdRescorer(userId);
 						
@@ -321,8 +302,6 @@ public class MahoutColaborativeFilteringServiceImpl
 						recommendedItemList = recommender.recommend(userId, howManyItems);
 					}
 					
-					recommendedProjectList = buildProjectList(recommendedItemList);
-					
 				} catch (TasteException e) {
 					e.printStackTrace();
 				}
@@ -331,17 +310,17 @@ public class MahoutColaborativeFilteringServiceImpl
 		}
 		
 		
-		return recommendedProjectList;
+		return recommendedItemList;
 	}
 
 	@Override
-	protected List<OpenHubProjectEntity> recommendRandomProjectsByUser(
+	protected List<RecommendedItem> recommendRandomProjectsByUser(
 			Long userId, 
 			Integer howManyItems, 
 			boolean filterInterestTags,
 			Map<ImmutablePair<Long, Long>, Double> ratingsMap) {
 		
-		List<OpenHubProjectEntity> recommendedProjectList = null;
+		List<RecommendedItem> recommendedItemList  = null;
 		
 		List<Preference> preferenceList = null;
 		
@@ -377,7 +356,7 @@ public class MahoutColaborativeFilteringServiceImpl
 				try {
 					RandomRecommender recommender = (RandomRecommender) recommenderBuilder.buildRecommender(dataModel);
 					
-					List<RecommendedItem> recommendedItemList  = null;
+					
 					if (filterInterestTags) {
 						IDRescorer idRescorer = buildIdRescorer(userId);
 						
@@ -387,15 +366,13 @@ public class MahoutColaborativeFilteringServiceImpl
 						recommendedItemList = recommender.recommend(userId, howManyItems);
 					}
 					
-					recommendedProjectList = buildProjectList(recommendedItemList);
-					
 				} catch (TasteException e) {
 					e.printStackTrace();
 				}
 			}
 		}
 		
-		return recommendedProjectList;
+		return recommendedItemList;
 	}
 
 	

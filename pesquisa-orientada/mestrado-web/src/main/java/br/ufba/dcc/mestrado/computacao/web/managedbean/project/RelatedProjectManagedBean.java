@@ -12,6 +12,7 @@ import javax.faces.context.FacesContext;
 import javax.faces.event.ComponentSystemEvent;
 
 import org.apache.commons.lang3.StringUtils;
+import org.apache.mahout.cf.taste.recommender.RecommendedItem;
 
 import br.ufba.dcc.mestrado.computacao.entities.openhub.core.project.OpenHubProjectEntity;
 import br.ufba.dcc.mestrado.computacao.entities.recommender.evaluation.RecommendationEnum;
@@ -144,7 +145,9 @@ public class RelatedProjectManagedBean extends ProjectManagedBean {
 	protected void configureAlsoViewedProjectsRecommendation() {
 		alsoViewedProjecstRecommendation = new RecommenderEvaluationEntity();	
 		
-		List<OpenHubProjectEntity> recommendationList = getColaborativeFilteringService().recommendViewedProjectsByItem(getProject().getId(), getMaxResults());
+		List<RecommendedItem> recommendedItems = getColaborativeFilteringService().recommendViewedProjectsByItem(getProject().getId(), getMaxResults());
+		List<OpenHubProjectEntity> recommendationList = getColaborativeFilteringService().getRecommendedProjects(recommendedItems);
+		
 		UserEntity currentUser = getUserDetailsService().loadFullLoggedUser();
 		Timestamp recommendationDate = new Timestamp(System.currentTimeMillis());
 		String viewId = FacesContext.getCurrentInstance().getViewRoot().getViewId();

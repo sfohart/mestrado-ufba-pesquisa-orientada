@@ -10,6 +10,7 @@ import javax.faces.bean.ViewScoped;
 import javax.faces.event.ComponentSystemEvent;
 
 import org.apache.commons.lang3.tuple.ImmutablePair;
+import org.apache.mahout.cf.taste.recommender.RecommendedItem;
 
 import br.ufba.dcc.mestrado.computacao.dto.pageview.ProjectDetailPageViewInfo;
 import br.ufba.dcc.mestrado.computacao.dto.pageview.ProjectReviewsInfo;
@@ -132,7 +133,8 @@ public class IndexManagedBean implements Serializable {
 		this.recommendedProjectList = new ArrayList<>();
 		final UserEntity currentUser = getUserDetailsService().loadFullLoggedUser();
 		if (currentUser != null && currentUser.getId() != null) {
-			this.recommendedProjectList = getColaborativeFilteringService().recommendViewedProjectsByUser(currentUser.getId(), 6, true);		
+			List<RecommendedItem> recommendedItems = getColaborativeFilteringService().recommendViewedProjectsByUser(currentUser.getId(), 6, true); 
+			this.recommendedProjectList = getColaborativeFilteringService().getRecommendedProjects(recommendedItems);
 		}
 	}
 
