@@ -119,6 +119,11 @@
 			<artifactId>jmetal-core</artifactId>
 			<version>${jmetal.version}</version>
 		</dependency>
+		<dependency>
+			<groupId>org.uma.jmetal</groupId>
+			<artifactId>jmetal-algorithm</artifactId>
+			<version>${jmetal.version}</version>
+		</dependency>
 		
 	</dependencies>
 
