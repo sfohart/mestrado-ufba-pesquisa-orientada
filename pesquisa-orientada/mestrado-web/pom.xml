@@ -41,7 +41,7 @@
 	<dependencies>
 		<!-- Mestrado -->
 		<dependency>
-			<groupId>br.ufba.dcc.mestrado.computacao</groupId>
+			<groupId>${project.groupId}</groupId>
 			<artifactId>mestrado-recommender</artifactId>
 			<version>${project.version}</version>
 		</dependency>
@@ -187,6 +187,13 @@
 			<groupId>com.sun.mail</groupId>
 			<artifactId>javax.mail</artifactId>
 			<version>${java-mail.version}</version>
+		</dependency>
+
+		<!-- EL-API -->
+		<dependency>
+			<groupId>javax.el</groupId>
+			<artifactId>el-api</artifactId>
+			<version>2.2</version>
 		</dependency>
 
 	</dependencies>

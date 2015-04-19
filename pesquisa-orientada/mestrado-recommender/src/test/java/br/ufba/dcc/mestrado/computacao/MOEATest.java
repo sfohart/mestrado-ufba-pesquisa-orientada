@@ -1,7 +1,5 @@
 package br.ufba.dcc.mestrado.computacao;
 
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.List;
 
 import org.apache.mahout.cf.taste.recommender.RecommendedItem;
@@ -12,7 +10,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.uma.jmetal.algorithm.Algorithm;
-import org.uma.jmetal.solution.Solution;
 import org.uma.jmetal.util.SolutionListUtils;
 import org.uma.jmetal.util.comparator.DominanceComparator;
 

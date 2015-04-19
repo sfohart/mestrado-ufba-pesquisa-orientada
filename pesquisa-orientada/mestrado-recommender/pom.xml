@@ -42,6 +42,17 @@
 			<groupId>org.apache.mahout</groupId>
 			<artifactId>mahout-mr</artifactId>
 			<version>${mahout.version}</version>
+			<!-- Hibernate Search já possui essas dependências numa versão maior -->
+			<exclusions>
+				<exclusion>
+					<groupId>org.apache.lucene</groupId>
+					<artifactId>lucene-core</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>org.apache.lucene</groupId>
+					<artifactId>lucene-analyzers-common</artifactId>
+				</exclusion>
+			</exclusions>
 		</dependency>
 		<dependency>
 			<groupId>org.apache.mahout</groupId>
@@ -56,7 +67,7 @@
 
 		<!-- Mestrado Core -->
 		<dependency>
-			<groupId>br.ufba.dcc.mestrado.computacao</groupId>
+			<groupId>${project.groupId}</groupId>
 			<artifactId>mestrado-core</artifactId>
 			<version>${project.version}</version>
 		</dependency>
@@ -124,7 +135,7 @@
 			<artifactId>jmetal-algorithm</artifactId>
 			<version>${jmetal.version}</version>
 		</dependency>
-		
+
 	</dependencies>
 
 	<name>Mestrado Recommender</name>

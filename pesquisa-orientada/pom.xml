@@ -68,7 +68,7 @@
 			embora o Apache Mahout suporte a versão 4.3.0 -->
 		<lucene.version>4.10.4</lucene.version>
 
-		<hadoop-core.version>1.2.1</hadoop-core.version>
+
 
 		<hibernate.version>4.3.8.Final</hibernate.version>
 		<hibernate-search.version>5.1.1.Final</hibernate-search.version>
@@ -162,7 +162,7 @@
 			<!-- Hibernate Search -->
 			<dependency>
 				<groupId>org.hibernate</groupId>
-				<artifactId>hibernate-search</artifactId>
+				<artifactId>hibernate-search-orm</artifactId>
 				<version>${hibernate-search.version}</version>
 			</dependency>
 			<dependency>
@@ -171,10 +171,20 @@
 				<version>${hibernate-search.version}</version>
 			</dependency>
 
-			<!-- Lucene QueryParser -->
+			<!-- Apache Lucene -->
 			<dependency>
 				<groupId>org.apache.lucene</groupId>
-                <artifactId>lucene-queryparser</artifactId>
+				<artifactId>lucene-queryparser</artifactId>
+				<version>${lucene.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.apache.lucene</groupId>
+				<artifactId>lucene-core</artifactId>
+				<version>${lucene.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.apache.lucene</groupId>
+				<artifactId>lucene-analyzers-common</artifactId>
 				<version>${lucene.version}</version>
 			</dependency>
 
@@ -236,17 +246,7 @@
 				<version>${jersey.version}</version>
 			</dependency>
 
-			<!-- Apache Hadoop -->
-			<dependency>
-				<groupId>org.apache.hadoop</groupId>
-				<artifactId>hadoop-core</artifactId>
-				<version>${hadoop-core.version}</version>
-			</dependency>
-			<dependency>
-				<groupId>org.apache.hadoop</groupId>
-				<artifactId>hadoop-client</artifactId>
-				<version>${hadoop-core.version}</version>
-			</dependency>
+
 		</dependencies>
 	</dependencyManagement>
 
