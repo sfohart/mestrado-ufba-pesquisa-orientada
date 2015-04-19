@@ -64,6 +64,15 @@ public class MOEATest {
 		
 		int indexBestSolution = SolutionListUtils.findIndexOfBestSolution(solutionList, new DominanceComparator());
 		RecommenderSolution bestSolution = solutionList.get(indexBestSolution);
+		
+		double accuracy = recommenderProblem.evaluateAccuracy(bestSolution);
+		double diversity = recommenderProblem.evaluateDiversity(bestSolution);
+		double novelty = recommenderProblem.evaluateNovelty(bestSolution);
+		
+		System.out.println(String.format("Mean Estimated Preference: %f | Diversity: %f | Novelty: %f", 
+				accuracy, 
+				diversity, 
+				novelty));
 
 		for (int index = 0; index < bestSolution.getNumberOfVariables(); index++) {
 			RecommendedItem recommendedItem = bestSolution.getVariableValue(index);

@@ -6,15 +6,12 @@ import java.util.Map;
 
 import org.apache.commons.lang3.tuple.ImmutablePair;
 import org.apache.mahout.cf.taste.common.TasteException;
-import org.apache.mahout.cf.taste.eval.RecommenderBuilder;
 import org.apache.mahout.cf.taste.impl.model.GenericDataModel;
 import org.apache.mahout.cf.taste.impl.model.GenericPreference;
 import org.apache.mahout.cf.taste.impl.recommender.RandomRecommender;
 import org.apache.mahout.cf.taste.impl.similarity.LogLikelihoodSimilarity;
-import org.apache.mahout.cf.taste.model.DataModel;
 import org.apache.mahout.cf.taste.model.Preference;
 import org.apache.mahout.cf.taste.recommender.RecommendedItem;
-import org.apache.mahout.cf.taste.recommender.Recommender;
 import org.apache.mahout.cf.taste.similarity.ItemSimilarity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -23,6 +20,7 @@ import org.uma.jmetal.problem.impl.AbstractGenericProblem;
 
 import br.ufba.dcc.mestrado.computacao.entities.recommender.user.UserEntity;
 import br.ufba.dcc.mestrado.computacao.recommender.jmetal.solution.RecommenderSolution;
+import br.ufba.dcc.mestrado.computacao.recommender.jmetal.util.RecommenderSolutionUtils;
 import br.ufba.dcc.mestrado.computacao.service.core.base.BaseColaborativeFilteringService;
 import br.ufba.dcc.mestrado.computacao.service.core.base.OverallRatingService;
 import br.ufba.dcc.mestrado.computacao.service.mahout.base.MahoutDataModelService;
@@ -48,7 +46,7 @@ public class RecommenderProblem extends AbstractGenericProblem<RecommenderSoluti
 	@Autowired
 	private OverallRatingService overallRatingService;
 	
-	private Recommender recommender;
+	private RandomRecommender randomRecommender;
 	private GenericDataModel dataModel;
 	
 	private List<Long> projectList;
@@ -73,35 +71,19 @@ public class RecommenderProblem extends AbstractGenericProblem<RecommenderSoluti
 	@Override
 	public void evaluate(RecommenderSolution solution) {
 		
-		List<RecommendedItem> recommendedItems = new ArrayList<RecommendedItem>();
-		for (int i = 0; i < solution.getNumberOfVariables(); i++) {
-			if (solution.getVariableValue(i) != null) {
-				recommendedItems.add(solution.getVariableValue(i));
-			}
-		}
-		
-		double accuracy = evaluateAccuracy(recommendedItems);
-		double novelty = evaluateNovelty(recommendedItems);
-		double diversity = evaluationDiversity(recommendedItems);
+		double accuracy = evaluateAccuracy(solution);
+		double novelty = evaluateNovelty(solution);
+		double diversity = evaluateDiversity(solution);
 		
 		solution.setObjective(0, accuracy);
 		solution.setObjective(1, novelty);
 		solution.setObjective(2, diversity);
 	}
+
 	
 	private void buildRecommender() {
-				
-		RecommenderBuilder recommenderBuilder = new RecommenderBuilder() {
-			@Override
-			public Recommender buildRecommender(DataModel dataModel) throws TasteException {
-				
-				Recommender recommender = new RandomRecommender(dataModel);					
-				return recommender;
-			}
-		};
-		
 		try {
-			this.recommender = recommenderBuilder.buildRecommender(getDataModel());
+			this.randomRecommender = new RandomRecommender(getDataModel());
 		} catch (TasteException e) {
 			e.printStackTrace();
 		}
@@ -144,31 +126,40 @@ public class RecommenderProblem extends AbstractGenericProblem<RecommenderSoluti
 	 * @param solution
 	 * @return
 	 */
-	private double evaluationDiversity(List<RecommendedItem> recommendedItems) {
+	public double evaluateDiversity(RecommenderSolution solution) {
 		
-		double intraDiversity = 0;
+		List<RecommendedItem> recommendedItems = RecommenderSolutionUtils.extractRecommendedItems(solution);
+		
+		double intraSimilarity = 0;
 	
 		try {
-			if (itemSimilarity != null) {
-				double similarity = 0;
+			if (itemSimilarity != null &&  recommendedItems != null && ! recommendedItems.isEmpty()) {
+				
+				int size = recommendedItems.size();
+				
+				double sumSimilarity = 0;
 				
 				for (RecommendedItem alpha : recommendedItems) {
 					for (RecommendedItem beta : recommendedItems) {
 						if (alpha != beta) {
-							similarity += itemSimilarity.itemSimilarity(alpha.getItemID(), beta.getItemID());
+							sumSimilarity += itemSimilarity.itemSimilarity(alpha.getItemID(), beta.getItemID());
 						}
 					}
 				}
 				
-				intraDiversity = 1 / recommendedItems.size();
-				intraDiversity /= recommendedItems.size() - 1;
-				intraDiversity *= similarity;
+				intraSimilarity = sumSimilarity / ( size * ( size - 1 ) );
 			}
 		} catch (TasteException e) {
 			e.printStackTrace();
 		}
 		
-		return intraDiversity;
+		/*if (intraSimilarity > 0) {
+			return 1 / intraSimilarity;
+		} else {
+			return 1;
+		}*/
+		
+		return - Math.log((intraSimilarity + 1) / 2);
 	}
 
 	/**
@@ -179,9 +170,11 @@ public class RecommenderProblem extends AbstractGenericProblem<RecommenderSoluti
 	 * @param solution
 	 * @return
 	 */
-	private double evaluateNovelty(List<RecommendedItem> recommendedItems) {
+	public double evaluateNovelty(RecommenderSolution solution) {
 		
-		double novelty = 0;
+		List<RecommendedItem> recommendedItems = RecommenderSolutionUtils.extractRecommendedItems(solution);
+		
+		double popularity = 0;
 		
 		if (dataModel != null) {
 			double sumDegrees = 0;
@@ -189,43 +182,34 @@ public class RecommenderProblem extends AbstractGenericProblem<RecommenderSoluti
 				sumDegrees += dataModel.getNumUsersWithPreferenceFor(recommendedItem.getItemID());
 			}
 			
-			novelty = sumDegrees / (recommendedItems.size() * dataModel.getNumUsers());
+			popularity = sumDegrees / (recommendedItems.size() * dataModel.getNumUsers());
 		}
 		
-		return novelty;
+		
+		/*if (popularity > 0) {
+			return 1 / popularity;
+		} else {
+			return 1;
+		}*/
+		
+		return - Math.log(popularity);
 	}
 
-	private double evaluateAccuracy(List<RecommendedItem> recommendedItems) {
-		int num = 0;
-		double sum = 0;
+	public double evaluateAccuracy(RecommenderSolution solution) {
 		
-		for (int index = 0; index < getNumberOfVariables(); index++) {
-			RecommendedItem item = recommendedItems.get(index);
-			if (item != null) {
-				num++;
+		List<RecommendedItem> recommendedItems = RecommenderSolutionUtils.extractRecommendedItems(solution);
 				
-				try {
-					Float userItemPref = getDataModel().getPreferenceValue(
-							getUser().getId(), 
-							item.getItemID());
-					
-					float realPreference = userItemPref != null ? userItemPref : 0;
-					float estimatedPreference = item.getValue();
-					
-					sum += Math.abs(realPreference - estimatedPreference);
-					
-				} catch (TasteException e) {
-					e.printStackTrace();
-				}
+		double result = 0;
+		
+		if (recommendedItems != null && ! recommendedItems.isEmpty()) {
+			for (RecommendedItem item : recommendedItems) {
+				result += item.getValue();
 			}
+			
+			result /= recommendedItems.size();
 		}
 		
-		double meanAbsoluteError = 0;
-		if (num > 0) {
-			meanAbsoluteError = sum / num;
-		}
-		
-		return meanAbsoluteError;
+		return result;
 	}
 
 	@Override
@@ -280,7 +264,7 @@ public class RecommenderProblem extends AbstractGenericProblem<RecommenderSoluti
 		return dataModel;
 	}
 	
-	public Recommender getRecommender() {
-		return recommender;
+	public RandomRecommender getRandomRecommender() {
+		return randomRecommender;
 	}
 }

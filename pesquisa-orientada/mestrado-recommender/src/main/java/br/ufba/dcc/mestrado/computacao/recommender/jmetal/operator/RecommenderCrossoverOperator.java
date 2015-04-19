@@ -7,11 +7,11 @@ import org.apache.mahout.cf.taste.recommender.RecommendedItem;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.uma.jmetal.operator.CrossoverOperator;
-import org.uma.jmetal.solution.DoubleSolution;
 import org.uma.jmetal.util.JMetalException;
 import org.uma.jmetal.util.pseudorandom.JMetalRandom;
 
 import br.ufba.dcc.mestrado.computacao.recommender.jmetal.solution.RecommenderSolution;
+import br.ufba.dcc.mestrado.computacao.recommender.jmetal.util.RecommenderSolutionUtils;
 
 @Component
 public class RecommenderCrossoverOperator implements
@@ -59,14 +59,18 @@ public class RecommenderCrossoverOperator implements
 				if (randomGenerator.nextDouble() <= 0.5) {
 					RecommendedItem value1 = parent1.getVariableValue(index);
 					RecommendedItem value2 = parent2.getVariableValue(index);
-					
-					offspring.get(0).setVariableValue(index, value2);
-					offspring.get(1).setVariableValue(index, value1);
+
+					if (! RecommenderSolutionUtils.containsRecommendedItem(offspring.get(0), value2) &&
+							! RecommenderSolutionUtils.containsRecommendedItem(offspring.get(1), value1)) {
+						offspring.get(0).setVariableValue(index, value2);
+						offspring.get(1).setVariableValue(index, value1);
+					}
 				}
 			}
 		}
 		
 		return offspring;
 	}
+
 
 }

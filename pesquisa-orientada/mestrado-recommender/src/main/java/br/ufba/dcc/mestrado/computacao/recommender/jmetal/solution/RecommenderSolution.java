@@ -1,11 +1,14 @@
 package br.ufba.dcc.mestrado.computacao.recommender.jmetal.solution;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.mahout.cf.taste.common.TasteException;
+import org.apache.mahout.cf.taste.impl.recommender.GenericRecommendedItem;
 import org.apache.mahout.cf.taste.recommender.RecommendedItem;
 import org.uma.jmetal.solution.impl.AbstractGenericSolution;
 
@@ -25,11 +28,24 @@ public class RecommenderSolution extends
 		Integer howManyRecommendations = problem.getNumberOfVariables();
 		
 		try {
-			List<RecommendedItem> recommendedItems = problem
-					.getRecommender().recommend(
-							problem.getUser().getId(), 
-							howManyRecommendations);
+			Map<Long, Float> recommendedItemMap = new HashMap<Long, Float>();
+			Long userID = problem.getUser().getId();
 			
+			do {
+				RecommendedItem item = problem.getRandomRecommender()
+						.recommend(userID, 1).get(0);
+				
+				if (! recommendedItemMap.containsKey(item.getItemID())) {
+					recommendedItemMap.put(item.getItemID(), item.getValue());
+				}
+			} while (recommendedItemMap.size() < howManyRecommendations);
+			
+			List<RecommendedItem> recommendedItems = new ArrayList<RecommendedItem>();
+			for (Map.Entry<Long, Float> entry : recommendedItemMap.entrySet()) {
+				RecommendedItem item = new GenericRecommendedItem(entry.getKey(), entry.getValue());
+				recommendedItems.add(item);
+			}
+					
 			Collections.sort(recommendedItems, new Comparator<RecommendedItem>() {
 				@Override
 				public int compare(RecommendedItem o1, RecommendedItem o2) {
@@ -53,7 +69,7 @@ public class RecommenderSolution extends
 	}
 	
 	/**
-	 * Construtor de cópia
+	 * Construtor de cï¿½pia
 	 * @param solution
 	 */
 	public RecommenderSolution(RecommenderSolution solution) {
