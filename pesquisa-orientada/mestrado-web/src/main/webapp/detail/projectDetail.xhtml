@@ -13,8 +13,8 @@
 		<f:viewParam id="projectDetailedId" name="projectId" value="#{projectDetailMB.project.id}" required="true"  requiredMessage="#{messages['project.detail.error.projectId']}"  />
 		<f:viewParam id="relatedProjectId" name="projectId" value="#{relatedProjectMB.project.id}" required="true" />
 		
-		<f:event listener="#{relatedProjectMB.configureTopTenResults}" type="preRenderView"/>			
-		<f:event listener="#{relatedProjectMB.enableSimilarProjectsRecommendation}" type="preRenderView"/>		
+		<f:event listener="#{relatedProjectMB.enableSimilarProjectsRecommendation}" type="preRenderView"/>			
+		<f:event listener="#{relatedProjectMB.enableAlsoViewedProjectsRecommendation}" type="preRenderView"/>
 		<f:event listener="#{projectDetailMB.init}" type="preRenderView"/>
 		
 		
@@ -173,17 +173,7 @@
 										</h:panelGroup>																		
 									</dd>
 									
-									<dt>
-										<h:outputLink value="#{facesContext.externalContext.applicationContextPath}/detail/relatedProjectList.jsf">
-											<f:param name="projectId" value="#{relatedProjectMB.project.id}" />
-											Projetos <br /> Relacionados:
-										</h:outputLink>
-									</dt>
-									<dd style="margin-bottom: .5em;">
-										<ui:include src="/detail/projectTable.xhtml">
-											<ui:param name="projectList" value="#{relatedProjectMB.similarProjectsRecomendation.recommendedProjects}"/>
-										</ui:include>
-									</dd>					
+													
 								</dl>
 							</h:panelGroup>
 						</div>
@@ -361,12 +351,26 @@
 						</div>
 					</h:panelGroup>
 					
+					<div style="border-top: 1px solid #aaa; margin: 20px 0">
+						<h2>Projetos Relacionados</h2>
+					</div>
+					
 					<h:panelGroup layout="block"
-						style="border-top: 1px solid #aaa;" 
 						rendered="#{not empty relatedProjectMB.alsoViewedProjecstRecommendation.recommendedProjects}">
 						<ui:include src="/detail/projectCart.xhtml">
 							<ui:param name="projectCart" value="#{relatedProjectMB.alsoViewedProjecstRecommendation.recommendedProjects}"  />
 							<ui:param name="projectCartTitle" value="Quem se interessou por este projeto também viu:"  />
+							<ui:param name="bean" value="#{relatedProjectMB}" />
+						</ui:include>
+					</h:panelGroup>
+					
+					
+					<h:panelGroup layout="block"
+						rendered="#{not empty relatedProjectMB.similarProjectsRecomendation.recommendedProjects}">
+						<ui:include src="/detail/projectCart.xhtml">
+							<ui:param name="projectCart" value="#{relatedProjectMB.similarProjectsRecomendation.recommendedProjects}"  />
+							<ui:param name="projectCartTitle" value="Projetos similares a este:"  />
+							<ui:param name="bean" value="#{relatedProjectMB}" />
 						</ui:include>
 					</h:panelGroup>
 					
