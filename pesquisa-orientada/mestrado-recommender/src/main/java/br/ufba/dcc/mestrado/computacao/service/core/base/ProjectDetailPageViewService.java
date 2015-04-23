@@ -29,6 +29,14 @@ public interface ProjectDetailPageViewService extends BaseService<Long, ProjectD
 			Integer startAt, 
 			Integer offset);
 	
+	
+	/**
+	 * 
+	 * @param user
+	 * @return
+	 */
+	public List<OpenHubProjectEntity> findAllProjectRecentlyViewedByUser(UserEntity user);
+	
 	/**
 	 * 
 	 * @param user
@@ -36,7 +44,7 @@ public interface ProjectDetailPageViewService extends BaseService<Long, ProjectD
 	 * @param offset
 	 * @return
 	 */
-	List<OpenHubProjectEntity> findAllProjectRecentlyViewed(
+	List<OpenHubProjectEntity> findAllProjectRecentlyViewedByUser(
 			UserEntity user,
 			Integer startAt, 
 			Integer offset);
@@ -45,13 +53,13 @@ public interface ProjectDetailPageViewService extends BaseService<Long, ProjectD
 	 * 
 	 * @return
 	 */
-	List<ImmutablePair<OpenHubProjectEntity, Long>> findAllProjectDetailViewsCount();
+	List<ImmutablePair<OpenHubProjectEntity, Long>> groupProjectDetailViewsCount();
 	
 	/**
 	 * 
 	 * @return
 	 */
-	List<ImmutablePair<OpenHubProjectEntity, Long>> findAllProjectDetailViewsCount(
+	List<ImmutablePair<OpenHubProjectEntity, Long>> groupProjectDetailViewsCount(
 			Integer startAt, 
 			Integer offset);
 	

@@ -12,6 +12,8 @@ public interface SearchService extends Serializable {
 
 	SearchResponse findAllProjects(SearchRequest searchRequest);
 
+	List<OpenHubProjectEntity> findRelatedProjects(OpenHubProjectEntity project) throws IOException;
+	
 	List<OpenHubProjectEntity> findRelatedProjects(
 			OpenHubProjectEntity project,
 			Integer firstResult,

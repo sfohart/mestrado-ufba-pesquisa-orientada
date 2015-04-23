@@ -49,23 +49,31 @@ public class ProjectDetailPageViewServiceImpl
 
 
 	@Override
-	public List<OpenHubProjectEntity> findAllProjectRecentlyViewed(
-			UserEntity user, Integer startAt, Integer offset) {
+	public List<OpenHubProjectEntity> findAllProjectRecentlyViewedByUser(UserEntity user) {
+		return findAllProjectRecentlyViewedByUser(user, null, null);
+	}
+			
+	
+	@Override
+	public List<OpenHubProjectEntity> findAllProjectRecentlyViewedByUser(
+			UserEntity user, 
+			Integer startAt, 
+			Integer offset) {
 		
 		return ((ProjectDetailPageViewRepository) getRepository())
-				.findAllProjectRecentlyViewed(user, startAt, offset);
+				.findAllProjectRecentlyViewedByUser(user, startAt, offset);
 	}
 
 
 	@Override
-	public List<ImmutablePair<OpenHubProjectEntity, Long>> findAllProjectDetailViewsCount() {
-		return ((ProjectDetailPageViewRepository) getRepository()).findAllProjectDetailViewsCount();
+	public List<ImmutablePair<OpenHubProjectEntity, Long>> groupProjectDetailViewsCount() {
+		return ((ProjectDetailPageViewRepository) getRepository()).groupProjectDetailViewsCount();
 	}
 
 
 	@Override
-	public List<ImmutablePair<OpenHubProjectEntity, Long>> findAllProjectDetailViewsCount(Integer startAt, Integer offset) {
-		return ((ProjectDetailPageViewRepository) getRepository()).findAllProjectDetailViewsCount(startAt, offset);
+	public List<ImmutablePair<OpenHubProjectEntity, Long>> groupProjectDetailViewsCount(Integer startAt, Integer offset) {
+		return ((ProjectDetailPageViewRepository) getRepository()).groupProjectDetailViewsCount(startAt, offset);
 	}
 
 	

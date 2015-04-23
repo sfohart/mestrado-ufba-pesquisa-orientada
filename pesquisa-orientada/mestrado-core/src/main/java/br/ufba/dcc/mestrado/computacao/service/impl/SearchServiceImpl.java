@@ -96,6 +96,13 @@ public class SearchServiceImpl implements SearchService {
 		return searchResult;
 	}
 	
+	
+	@Override
+	@Transactional(propagation=Propagation.REQUIRED)
+	public List<OpenHubProjectEntity> findRelatedProjects(OpenHubProjectEntity project) throws IOException {
+		return findRelatedProjects(project, null, null);
+	}
+	
 	@Override
 	@Transactional(propagation=Propagation.REQUIRED)
 	public List<OpenHubProjectEntity> findRelatedProjects(

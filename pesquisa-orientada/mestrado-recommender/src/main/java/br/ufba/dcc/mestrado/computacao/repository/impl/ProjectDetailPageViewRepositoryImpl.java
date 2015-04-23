@@ -42,8 +42,6 @@ public class ProjectDetailPageViewRepositoryImpl
 		super(ProjectDetailPageViewEntity.class);
 	}
 	
-	
-
 	@Override
 	public List<ImmutablePair<UserEntity, OpenHubProjectEntity>> findAllProjectDetailViews() {
 		return findAllProjectDetailViews(null,null);
@@ -102,7 +100,7 @@ public class ProjectDetailPageViewRepositoryImpl
 		return pageViewList;
 	}
 	
-	public List<OpenHubProjectEntity> findAllProjectRecentlyViewed(
+	public List<OpenHubProjectEntity> findAllProjectRecentlyViewedByUser(
 			UserEntity user,
 			Integer startAt, 
 			Integer offset) {
@@ -168,12 +166,12 @@ public class ProjectDetailPageViewRepositoryImpl
 	}
 
 	@Override
-	public List<ImmutablePair<OpenHubProjectEntity, Long>> findAllProjectDetailViewsCount() {
-		return findAllProjectDetailViewsCount(null,null);
+	public List<ImmutablePair<OpenHubProjectEntity, Long>> groupProjectDetailViewsCount() {
+		return groupProjectDetailViewsCount(null,null);
 	}
 
 	@Override
-	public List<ImmutablePair<OpenHubProjectEntity, Long>> findAllProjectDetailViewsCount(
+	public List<ImmutablePair<OpenHubProjectEntity, Long>> groupProjectDetailViewsCount(
 			Integer startAt, Integer offset) {
 		CriteriaBuilder criteriaBuilder = getEntityManager().getCriteriaBuilder();
 		CriteriaQuery<Tuple> tupleQuery = criteriaBuilder.createTupleQuery();

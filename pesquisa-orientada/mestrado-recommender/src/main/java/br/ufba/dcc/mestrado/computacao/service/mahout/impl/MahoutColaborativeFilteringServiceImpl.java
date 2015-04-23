@@ -16,6 +16,7 @@ import org.apache.mahout.cf.taste.impl.model.GenericPreference;
 import org.apache.mahout.cf.taste.impl.neighborhood.ThresholdUserNeighborhood;
 import org.apache.mahout.cf.taste.impl.recommender.AllUnknownItemsCandidateItemsStrategy;
 import org.apache.mahout.cf.taste.impl.recommender.GenericBooleanPrefItemBasedRecommender;
+import org.apache.mahout.cf.taste.impl.recommender.GenericBooleanPrefUserBasedRecommender;
 import org.apache.mahout.cf.taste.impl.recommender.GenericUserBasedRecommender;
 import org.apache.mahout.cf.taste.impl.recommender.RandomRecommender;
 import org.apache.mahout.cf.taste.impl.similarity.LogLikelihoodSimilarity;
@@ -34,7 +35,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import br.ufba.dcc.mestrado.computacao.entities.openhub.core.project.OpenHubProjectEntity;
-import br.ufba.dcc.mestrado.computacao.entities.openhub.core.project.OpenHubTagEntity;
 import br.ufba.dcc.mestrado.computacao.entities.recommender.user.UserEntity;
 import br.ufba.dcc.mestrado.computacao.service.base.ProjectService;
 import br.ufba.dcc.mestrado.computacao.service.core.base.UserService;
@@ -63,62 +63,62 @@ public class MahoutColaborativeFilteringServiceImpl
 	@Autowired
 	private ProjectService projectService;
 
-	public MahoutDataModelService getMahoutDataModelService() {
-		return mahoutDataModelService;
-	}
-
-	public void setMahoutDataModelService(
-			MahoutDataModelService mahoutDataModelService) {
-		this.mahoutDataModelService = mahoutDataModelService;
-	}
-
-	public UserService getUserService() {
-		return userService;
-	}
-
-	public void setUserService(UserService userService) {
-		this.userService = userService;
-	}
-	
-	public ProjectService getProjectService() {
-		return projectService;
-	}
-
-	public void setProjectService(ProjectService projectService) {
-		this.projectService = projectService;
-	}
-
-	private IDRescorer buildIdRescorer(Long userId) {
-		
-		final UserEntity currentUser = getUserService().findById(userId);
-		
-		IDRescorer idRescorer = new IDRescorer() {
-			
+	@Override
+	public RecommenderBuilder getUserBasedRecommenderBuilder() {
+		RecommenderBuilder recommenderBuilder = new RecommenderBuilder() {
 			@Override
-			public double rescore(long id, double originalScore) {
-				return originalScore;
-			}
-			
-			@Override
-			public boolean isFiltered(long id) {
-				OpenHubProjectEntity project = getProjectService().findById(id);
-				if (currentUser.getInterestTags() != null && ! currentUser.getInterestTags().isEmpty()) {
-					for (OpenHubTagEntity tag : currentUser.getInterestTags()) {
-						if (project.getTags().contains(tag)) {
-							return false;
-						}
-					}
-					
-					return true;
-				} else {
-					return false;
-				}
+			public Recommender buildRecommender(DataModel dataModel) throws TasteException {
+				
+				UserSimilarity similarity = new LogLikelihoodSimilarity(dataModel);
+				
+				double threshold = 0.5;
+				UserNeighborhood neighborhood = new ThresholdUserNeighborhood(threshold, similarity, dataModel);
+				
+				Recommender recommender = new GenericUserBasedRecommender(dataModel, neighborhood, similarity);
+				
+				return recommender;
 			}
 		};
-		
-		return idRescorer;
-		
+		return recommenderBuilder;
 	}
+	
+	@Override
+	public RecommenderBuilder getBooleanItemBasedRecommenderBuilder() {
+		RecommenderBuilder recommenderBuilder = new RecommenderBuilder() {
+			@Override
+			public Recommender buildRecommender(DataModel dataModel) throws TasteException {
+				
+				ItemSimilarity itemSimilarity = new LogLikelihoodSimilarity(dataModel);
+				
+				CandidateItemsStrategy candidateItemsStrategy = new AllUnknownItemsCandidateItemsStrategy();
+				MostSimilarItemsCandidateItemsStrategy mostSimilarItemsCandidateItemsStrategy = new AllUnknownItemsCandidateItemsStrategy();
+				
+				Recommender recommender = new GenericBooleanPrefItemBasedRecommender(dataModel, itemSimilarity, candidateItemsStrategy, mostSimilarItemsCandidateItemsStrategy);
+				return recommender;
+			}
+		};
+		return recommenderBuilder;
+	}
+	
+	@Override
+	public RecommenderBuilder getBooleanUserBasedRecommenderBuilder() {
+		RecommenderBuilder recommenderBuilder = new RecommenderBuilder() {
+			@Override
+			public Recommender buildRecommender(DataModel dataModel) throws TasteException {
+				
+				UserSimilarity userSimilarity = new LogLikelihoodSimilarity(dataModel);
+				
+				double threshold = 0.5;
+				UserNeighborhood userNeighborhood = new ThresholdUserNeighborhood(threshold, userSimilarity, dataModel);
+				
+				Recommender recommender = new GenericBooleanPrefUserBasedRecommender(dataModel, userNeighborhood, userSimilarity);
+				return recommender;
+			}
+		};
+		return recommenderBuilder;
+	}
+
+	
 	
 	@Override
 	@Transactional(readOnly = true)
@@ -141,24 +141,12 @@ public class MahoutColaborativeFilteringServiceImpl
 		}
 		
 		if (preferenceList != null && ! preferenceList.isEmpty()) {
-			final GenericBooleanPrefDataModel dataModel = getMahoutDataModelService().buildBooleanDataModel(preferenceList);
+			final GenericBooleanPrefDataModel dataModel = mahoutDataModelService.buildBooleanDataModel(preferenceList);
 			
-			RecommenderBuilder recommenderBuilder = new RecommenderBuilder() {
-				@Override
-				public Recommender buildRecommender(DataModel dataModel) throws TasteException {
-					
-					ItemSimilarity itemSimilarity = new LogLikelihoodSimilarity(dataModel);
-					
-					CandidateItemsStrategy candidateItemsStrategy = new AllUnknownItemsCandidateItemsStrategy();
-					MostSimilarItemsCandidateItemsStrategy mostSimilarItemsCandidateItemsStrategy = new AllUnknownItemsCandidateItemsStrategy();
-					
-					Recommender recommender = new GenericBooleanPrefItemBasedRecommender(dataModel, itemSimilarity, candidateItemsStrategy, mostSimilarItemsCandidateItemsStrategy);
-					return recommender;
-				}
-			};
+			RecommenderBuilder recommenderBuilder = getBooleanUserBasedRecommenderBuilder();
 			
 			try {
-				GenericBooleanPrefItemBasedRecommender recommender = (GenericBooleanPrefItemBasedRecommender) recommenderBuilder.buildRecommender(dataModel);
+				GenericBooleanPrefUserBasedRecommender recommender = (GenericBooleanPrefUserBasedRecommender) recommenderBuilder.buildRecommender(dataModel);
 				
 				
 				if (filterInterestTags) {
@@ -179,6 +167,7 @@ public class MahoutColaborativeFilteringServiceImpl
 		
 		return recommendedItemList;
 	}
+
 
 	@Override
 	protected List<RecommendedItem> recommendRatingProjectsByUser(
@@ -210,22 +199,10 @@ public class MahoutColaborativeFilteringServiceImpl
 			}
 		}
 		
-		RecommenderBuilder recommenderBuilder = new RecommenderBuilder() {
-			@Override
-			public Recommender buildRecommender(DataModel dataModel) throws TasteException {
-				
-				ItemSimilarity itemSimilarity = new LogLikelihoodSimilarity(dataModel);
-				
-				CandidateItemsStrategy candidateItemsStrategy = new AllUnknownItemsCandidateItemsStrategy();
-				MostSimilarItemsCandidateItemsStrategy mostSimilarItemsCandidateItemsStrategy = new AllUnknownItemsCandidateItemsStrategy();
-				
-				Recommender recommender = new GenericBooleanPrefItemBasedRecommender(dataModel, itemSimilarity, candidateItemsStrategy, mostSimilarItemsCandidateItemsStrategy);
-				return recommender;
-			}
-		};
+		RecommenderBuilder recommenderBuilder = getBooleanItemBasedRecommenderBuilder();
 		
 		if (preferenceList != null && ! preferenceList.isEmpty()) {
-			final GenericBooleanPrefDataModel dataModel = getMahoutDataModelService().buildBooleanDataModel(preferenceList);
+			final GenericBooleanPrefDataModel dataModel = mahoutDataModelService.buildBooleanDataModel(preferenceList);
 			
 			try {
 				GenericBooleanPrefItemBasedRecommender recommender = (GenericBooleanPrefItemBasedRecommender) recommenderBuilder.buildRecommender(dataModel);
@@ -239,8 +216,6 @@ public class MahoutColaborativeFilteringServiceImpl
 		
 		return recommendedItemList;
 	}
-
-
 
 	@Override
 	protected List<RecommendedItem> recommendRatingProjectsByUserAndCriterium(
@@ -271,23 +246,10 @@ public class MahoutColaborativeFilteringServiceImpl
 			}
 			
 			
-			RecommenderBuilder recommenderBuilder = new RecommenderBuilder() {
-				@Override
-				public Recommender buildRecommender(DataModel dataModel) throws TasteException {
-					
-					UserSimilarity similarity = new LogLikelihoodSimilarity(dataModel);
-					
-					double threshold = 0.5;
-					UserNeighborhood neighborhood = new ThresholdUserNeighborhood(threshold, similarity, dataModel);
-					
-					Recommender recommender = new GenericUserBasedRecommender(dataModel, neighborhood, similarity);
-					
-					return recommender;
-				}
-			};
+			RecommenderBuilder recommenderBuilder = getUserBasedRecommenderBuilder();
 			
 			if (preferenceList != null) {
-				final GenericDataModel dataModel = getMahoutDataModelService().buildDataModelByUser(preferenceList);
+				final GenericDataModel dataModel = mahoutDataModelService.buildDataModelByUser(preferenceList);
 				
 				try {
 					GenericUserBasedRecommender recommender = (GenericUserBasedRecommender) recommenderBuilder.buildRecommender(dataModel);
@@ -312,6 +274,7 @@ public class MahoutColaborativeFilteringServiceImpl
 		
 		return recommendedItemList;
 	}
+
 
 	@Override
 	protected List<RecommendedItem> recommendRandomProjectsByUser(
@@ -351,7 +314,7 @@ public class MahoutColaborativeFilteringServiceImpl
 			};
 			
 			if (preferenceList != null) {
-				final GenericDataModel dataModel = getMahoutDataModelService().buildDataModelByUser(preferenceList);
+				final GenericDataModel dataModel = mahoutDataModelService.buildDataModelByUser(preferenceList);
 				
 				try {
 					RandomRecommender recommender = (RandomRecommender) recommenderBuilder.buildRecommender(dataModel);

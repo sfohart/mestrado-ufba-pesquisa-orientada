@@ -248,6 +248,11 @@ public class OverallRatingServiceImpl
 			Long itemId) {
 		return ((OverallRatingRepository) getRepository()).findLastOverallPreferenceByUserAndItem(userId,itemId);
 	}
+	
+	@Override
+	public List<OpenHubProjectEntity> findAllRatedProjectsByUser(Long userId) {
+		return ((OverallRatingRepository) getRepository()).findAllRatedProjectsByUser(userId);
+	}
 
 }
 

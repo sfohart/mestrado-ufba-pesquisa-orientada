@@ -23,6 +23,7 @@ import br.ufba.dcc.mestrado.computacao.service.core.base.OverallRatingService;
 import br.ufba.dcc.mestrado.computacao.service.core.base.ProjectDetailPageViewService;
 import br.ufba.dcc.mestrado.computacao.service.core.base.RecommenderCriteriumService;
 import br.ufba.dcc.mestrado.computacao.service.core.base.UserService;
+import br.ufba.dcc.mestrado.computacao.service.mahout.base.MultiCriteriaRecommenderService;
 
 @ManagedBean(name="indexMB")
 @ViewScoped
@@ -38,6 +39,9 @@ public class IndexManagedBean implements Serializable {
 	
 	@ManagedProperty("#{mahoutColaborativeFilteringService}")
 	private BaseColaborativeFilteringService colaborativeFilteringService;
+	
+	@ManagedProperty("#{multiCriteriaListBasedRecommenderService}")
+	private MultiCriteriaRecommenderService multiCriteriaRecommenderService;
 	
 	@ManagedProperty("#{userService}")
 	private UserService userService;
@@ -58,7 +62,8 @@ public class IndexManagedBean implements Serializable {
 	private List<ProjectDetailPageViewInfo> topTenViewedProjectList;
 	
 	private List<OpenHubProjectEntity> projectViewedList;
-	private List<OpenHubProjectEntity> recommendedProjectList;
+	private List<OpenHubProjectEntity> colaborativeFilteringRecommendation;
+	private List<OpenHubProjectEntity> multiCriteriaRecommendation;
 	
 	private ProjectReviewsInfo mostReviewedProjectPreferenceInfo;
 	private ProjectDetailPageViewInfo mostViewedProjectDetailInfo;
@@ -81,12 +86,13 @@ public class IndexManagedBean implements Serializable {
 		}
 		
 		findUserRecentlyViewedProjectList();
-		findRecommendedProjectList();
+		findColaborativeFilteringRecommendedProjects();
+		findMultiCriteriaRecommendedProjects();
 	}
 
 	protected void findTopTenViewedProjectList() {
 		
-		List<ImmutablePair<OpenHubProjectEntity, Long>> viewedProjectData = getPageViewService().findAllProjectDetailViewsCount(0, 10);
+		List<ImmutablePair<OpenHubProjectEntity, Long>> viewedProjectData = getPageViewService().groupProjectDetailViewsCount(0, 10);
 		this.topTenViewedProjectList = new ArrayList<>();
 		
 		if (viewedProjectData != null && ! viewedProjectData.isEmpty()) {
@@ -122,22 +128,32 @@ public class IndexManagedBean implements Serializable {
 		UserEntity currentUser = getUserDetailsService().loadFullLoggedUser();
 		
 		if (currentUser != null) {
-			this.projectViewedList = getPageViewService().findAllProjectRecentlyViewed(
+			this.projectViewedList = getPageViewService().findAllProjectRecentlyViewedByUser(
 					getUserDetailsService().loadFullLoggedUser(), 
 					0, 
 					6);
 		}
 	}
 	
-	protected void findRecommendedProjectList() {
-		this.recommendedProjectList = new ArrayList<>();
+	protected void findColaborativeFilteringRecommendedProjects() {
+		this.colaborativeFilteringRecommendation = new ArrayList<>();
 		final UserEntity currentUser = getUserDetailsService().loadFullLoggedUser();
 		if (currentUser != null && currentUser.getId() != null) {
 			List<RecommendedItem> recommendedItems = getColaborativeFilteringService().recommendViewedProjectsByUser(currentUser.getId(), 6, true); 
-			this.recommendedProjectList = getColaborativeFilteringService().getRecommendedProjects(recommendedItems);
+			this.colaborativeFilteringRecommendation = getColaborativeFilteringService().getRecommendedProjects(recommendedItems);
 		}
 	}
 
+	
+	protected void findMultiCriteriaRecommendedProjects() {
+		this.multiCriteriaRecommendation = new ArrayList<>();
+		final UserEntity currentUser = getUserDetailsService().loadFullLoggedUser();
+		if (currentUser != null && currentUser.getId() != null) {
+			List<RecommendedItem> recommendedItems = multiCriteriaRecommenderService.recommendRatingProjectsByUser(currentUser.getId(), 6, true); 
+			this.multiCriteriaRecommendation = multiCriteriaRecommenderService.getRecommendedProjects(recommendedItems);
+		}
+	}
+	
 	public ProjectService getProjectService() {
 		return projectService;
 	}
@@ -234,7 +250,20 @@ public class IndexManagedBean implements Serializable {
 		return projectViewedList;
 	}
 	
-	public List<OpenHubProjectEntity> getRecommendedProjectList() {
-		return recommendedProjectList;
+	public List<OpenHubProjectEntity> getColaborativeFilteringRecommendation() {
+		return colaborativeFilteringRecommendation;
+	}
+	
+	public MultiCriteriaRecommenderService getMultiCriteriaRecommenderService() {
+		return multiCriteriaRecommenderService;
+	}
+
+	public void setMultiCriteriaRecommenderService(
+			MultiCriteriaRecommenderService multiCriteriaRecommenderService) {
+		this.multiCriteriaRecommenderService = multiCriteriaRecommenderService;
+	}
+
+	public List<OpenHubProjectEntity> getMultiCriteriaRecommendation() {
+		return multiCriteriaRecommendation;
 	}
 }

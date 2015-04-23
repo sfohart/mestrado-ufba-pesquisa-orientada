@@ -38,6 +38,50 @@ public class OverallRatingRepositoryImpl
 	private static final long serialVersionUID = 8847818433424402589L;
 	
 	public static final String BEAN_NAME = "overallPreferenceRepository";
+	
+	@Override
+	public List<OpenHubProjectEntity> findAllRatedProjectsByUser(Long userId) {
+		CriteriaBuilder criteriaBuilder = getEntityManager().getCriteriaBuilder();
+		CriteriaQuery<OpenHubProjectEntity> preferenceQuery = criteriaBuilder.createQuery(OpenHubProjectEntity.class);
+		
+		Root<PreferenceEntity> root = preferenceQuery.from(PreferenceEntity.class);
+		Path<OpenHubProjectEntity> projectPath = root.<OpenHubProjectEntity>get("project");
+		
+		CriteriaQuery<OpenHubProjectEntity> projectSelect = preferenceQuery.select(projectPath);
+		
+		List<Predicate> predicateList = new ArrayList<Predicate>();
+		
+		if (userId != null) {
+			Predicate userPredicate = criteriaBuilder.equal(root.get("userId"), userId);
+			predicateList.add(userPredicate);
+		}
+		
+		/*
+		 * Criando subquery para trazer os últimos registros de cada usuario/projeto
+		 */
+		Subquery<Timestamp> subquery = preferenceQuery.subquery(Timestamp.class);
+		
+		Root<PreferenceEntity> p2 = subquery.from(getEntityClass());
+		Expression<Timestamp> greatestRegisteredAt = p2.get("registeredAt");
+		
+		subquery = subquery.select(criteriaBuilder.greatest((greatestRegisteredAt)));
+		
+		List<Predicate> subqueryPredicateList = new ArrayList<>();
+		subqueryPredicateList.add(criteriaBuilder.equal(root.get("userId"), p2.get("userId")));
+		subqueryPredicateList.add(criteriaBuilder.equal(root.get("projectId"), p2.get("projectId")));
+		
+		subquery = subquery.where(subqueryPredicateList.toArray(new Predicate[0]));
+		
+		Predicate registeredAtPredicate = criteriaBuilder.equal(root.get("registeredAt"), subquery);
+		predicateList.add(registeredAtPredicate);
+		
+		
+		//aplicando filtros
+		preferenceQuery = preferenceQuery.where(predicateList.toArray(new Predicate[0]));
+		
+		TypedQuery<OpenHubProjectEntity> typedQuery = getEntityManager().createQuery(projectSelect);
+		return typedQuery.getResultList();
+	}
 
 	@Override
 	public Map<ImmutablePair<Long, Long>, Double> findAllLastOverallPreferenceValue() {		

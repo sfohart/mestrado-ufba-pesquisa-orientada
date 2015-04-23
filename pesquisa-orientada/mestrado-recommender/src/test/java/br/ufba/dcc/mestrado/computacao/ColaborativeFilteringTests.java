@@ -1,7 +1,5 @@
 package br.ufba.dcc.mestrado.computacao;
 
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.List;
 
 import org.apache.mahout.cf.taste.recommender.RecommendedItem;

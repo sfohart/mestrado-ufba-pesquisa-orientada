@@ -21,7 +21,7 @@ public interface ProjectDetailPageViewRepository extends BaseRepository<Long, Pr
 	List<ImmutablePair<UserEntity, OpenHubProjectEntity>> findAllProjectDetailViews(
 			Integer startAt, 
 			Integer offset);
-	
+
 	
 	/**
 	 * 
@@ -30,7 +30,7 @@ public interface ProjectDetailPageViewRepository extends BaseRepository<Long, Pr
 	 * @param offset
 	 * @return
 	 */
-	List<OpenHubProjectEntity> findAllProjectRecentlyViewed(
+	List<OpenHubProjectEntity> findAllProjectRecentlyViewedByUser(
 			UserEntity user,
 			Integer startAt, 
 			Integer offset);
@@ -39,13 +39,13 @@ public interface ProjectDetailPageViewRepository extends BaseRepository<Long, Pr
 	 * 
 	 * @return
 	 */
-	List<ImmutablePair<OpenHubProjectEntity, Long>> findAllProjectDetailViewsCount();
+	List<ImmutablePair<OpenHubProjectEntity, Long>> groupProjectDetailViewsCount();
 	
 	/**
 	 * 
 	 * @return
 	 */
-	List<ImmutablePair<OpenHubProjectEntity, Long>> findAllProjectDetailViewsCount(
+	List<ImmutablePair<OpenHubProjectEntity, Long>> groupProjectDetailViewsCount(
 			Integer startAt, 
 			Integer offset);
 	

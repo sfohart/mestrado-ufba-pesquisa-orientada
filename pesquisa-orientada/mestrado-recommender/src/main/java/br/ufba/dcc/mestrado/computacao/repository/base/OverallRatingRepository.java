@@ -101,6 +101,14 @@ public interface OverallRatingRepository extends BaseRepository<Long, Preference
 			Integer offset,
 			boolean orderByRegisteredAt,
 			boolean orderByReviewRanking);
+	
+	
+	/**
+	 * 
+	 * @param userId
+	 * @return
+	 */
+	List<OpenHubProjectEntity> findAllRatedProjectsByUser(Long userId);
 
 	
 }

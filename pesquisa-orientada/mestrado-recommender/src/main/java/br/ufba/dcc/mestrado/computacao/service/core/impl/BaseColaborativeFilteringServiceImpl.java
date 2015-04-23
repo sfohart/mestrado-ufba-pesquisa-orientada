@@ -1,7 +1,6 @@
 
 package br.ufba.dcc.mestrado.computacao.service.core.impl;
 
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
@@ -14,15 +13,15 @@ import org.springframework.transaction.annotation.Transactional;
 import br.ufba.dcc.mestrado.computacao.entities.openhub.core.project.OpenHubProjectEntity;
 import br.ufba.dcc.mestrado.computacao.entities.recommender.criterium.RecommenderCriteriumEntity;
 import br.ufba.dcc.mestrado.computacao.entities.recommender.user.UserEntity;
-import br.ufba.dcc.mestrado.computacao.service.base.ProjectService;
 import br.ufba.dcc.mestrado.computacao.service.core.base.BaseColaborativeFilteringService;
 import br.ufba.dcc.mestrado.computacao.service.core.base.OverallRatingService;
 import br.ufba.dcc.mestrado.computacao.service.core.base.ProjectDetailPageViewService;
 import br.ufba.dcc.mestrado.computacao.service.core.base.RatingByCriteriumService;
 import br.ufba.dcc.mestrado.computacao.service.core.base.RecommenderCriteriumService;
 
-public abstract class BaseColaborativeFilteringServiceImpl implements
-		BaseColaborativeFilteringService {
+public abstract class BaseColaborativeFilteringServiceImpl
+		extends AbstractRecommenderServiceImpl
+		implements BaseColaborativeFilteringService {
 	
 	/**
 	 * 
@@ -30,43 +29,20 @@ public abstract class BaseColaborativeFilteringServiceImpl implements
 	private static final long serialVersionUID = -14257855122255993L;
 
 	@Autowired
-	private ProjectDetailPageViewService projectDetailPageViewService;
+	protected ProjectDetailPageViewService projectDetailPageViewService;
 	
 	@Autowired
-	private RatingByCriteriumService ratingByCriteriumService;
+	protected RatingByCriteriumService ratingByCriteriumService;
 	
 	@Autowired
-	private RecommenderCriteriumService recommenderCriteriumService;
+	protected RecommenderCriteriumService recommenderCriteriumService;
 	
 	@Autowired
-	private OverallRatingService overallRatingService;
+	protected OverallRatingService overallRatingService;
 	
-	@Autowired
-	private ProjectService projectService;
-
-	public ProjectDetailPageViewService getProjectDetailPageViewService() {
-		return projectDetailPageViewService;
-	}
-
-	public RatingByCriteriumService getRatingByCriteriumService() {
-		return ratingByCriteriumService;
-	}
-
-	public RecommenderCriteriumService getRecommenderCriteriumService() {
-		return recommenderCriteriumService;
-	}
-
-	public OverallRatingService getOverallRatingService() {
-		return overallRatingService;
-	}
-
-	public ProjectService getProjectService() {
-		return projectService;
-	}
-
 	@Transactional(readOnly = true)
 	protected Map<Long, Map<ImmutablePair<Long, Long>, Double>> findAllRatings() {
-		List<RecommenderCriteriumEntity> criteriaList = getRecommenderCriteriumService().findAll();
+		List<RecommenderCriteriumEntity> criteriaList = recommenderCriteriumService.findAll();
 		
 		Map<Long, Map<ImmutablePair<Long, Long>, Double>> ratingMap = null;
 		
@@ -75,7 +51,7 @@ public abstract class BaseColaborativeFilteringServiceImpl implements
 			ratingMap = new TreeMap<Long, Map<ImmutablePair<Long,Long>,Double>>();
 			
 			for (RecommenderCriteriumEntity criterium : criteriaList) {
-				Map<ImmutablePair<Long,Long>,Double> ratingMapByCriterium = getRatingByCriteriumService().findAllLastPreferenceByCriterium(criterium.getId());
+				Map<ImmutablePair<Long,Long>,Double> ratingMapByCriterium = ratingByCriteriumService.findAllLastPreferenceByCriterium(criterium.getId());
 				ratingMap.put(criterium.getId(), ratingMapByCriterium);
 			}
 		}
@@ -88,7 +64,7 @@ public abstract class BaseColaborativeFilteringServiceImpl implements
 		Map<ImmutablePair<Long, Long>, Double> ratingsByCriterium = null;
 		
 		if (criteriumId != null) {
-			ratingsByCriterium = getRatingByCriteriumService().findAllLastPreferenceByCriterium(criteriumId);
+			ratingsByCriterium = ratingByCriteriumService.findAllLastPreferenceByCriterium(criteriumId);
 		}
 		
 		return ratingsByCriterium;
@@ -109,7 +85,7 @@ public abstract class BaseColaborativeFilteringServiceImpl implements
 			Integer howManyItems,
 			boolean filterInterestTags) {
 		
-		final List<ImmutablePair<UserEntity, OpenHubProjectEntity>> pageViewList = getProjectDetailPageViewService().findAllProjectDetailViews();
+		final List<ImmutablePair<UserEntity, OpenHubProjectEntity>> pageViewList = projectDetailPageViewService.findAllProjectDetailViews();
 		return recommendViewedProjectsByUser(userId, howManyItems, filterInterestTags, pageViewList);
 	}
 	
@@ -118,7 +94,7 @@ public abstract class BaseColaborativeFilteringServiceImpl implements
 	public List<RecommendedItem> recommendViewedProjectsByItem(
 			Long itemId, 
 			Integer howManyItems) {
-		final List<ImmutablePair<UserEntity, OpenHubProjectEntity>> pageViewList = getProjectDetailPageViewService().findAllProjectDetailViews();
+		final List<ImmutablePair<UserEntity, OpenHubProjectEntity>> pageViewList = projectDetailPageViewService.findAllProjectDetailViews();
 		return recommendViewedProjectsByItem(itemId, howManyItems, pageViewList);
 	}
 	
@@ -184,7 +160,7 @@ public abstract class BaseColaborativeFilteringServiceImpl implements
 	}
 	
 	public List<RecommendedItem> recommendRandomProjectsByUser(Long userId, Integer howManyItems, boolean filterInterestTags) {
-		Map<ImmutablePair<Long, Long>, Double> ratingsMap = getOverallRatingService().findAllLastOverallPreferenceValue();
+		Map<ImmutablePair<Long, Long>, Double> ratingsMap = overallRatingService.findAllLastOverallPreferenceValue();
 		
 		return recommendRandomProjectsByUser(userId, howManyItems, filterInterestTags, ratingsMap);
 	}
@@ -196,22 +172,7 @@ public abstract class BaseColaborativeFilteringServiceImpl implements
 			Map<ImmutablePair<Long, Long>, Double> ratingsMap);
 	
 	
-	@Transactional(readOnly = true)
-	public List<OpenHubProjectEntity> getRecommendedProjects(List<RecommendedItem> recommendedItems) {
-		List<OpenHubProjectEntity> projectList = null;
-		
-		if (recommendedItems != null) {
-			projectList = new LinkedList<OpenHubProjectEntity>();
-			
-			for (RecommendedItem recommendedItem : recommendedItems) {
-				OpenHubProjectEntity project = getProjectService().findById(recommendedItem.getItemID());
-				projectList.add(project);
-			}
-		}
-		
-		return projectList;
-		
-	}
+
 
 }
 

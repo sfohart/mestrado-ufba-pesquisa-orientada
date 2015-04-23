@@ -42,12 +42,17 @@
 					</h:panelGroup>
 					
 					
-					<h:panelGroup layout="block" rendered="#{not empty indexMB.recommendedProjectList}" id="recommendedProjects">
+					<h:panelGroup layout="block" rendered="#{not empty indexMB.colaborativeFilteringRecommendation}" id="recommendedProjects">
 						<hr/>
 						
 						<ui:include src="/detail/projectCart.xhtml">
-							<ui:param name="projectCart" value="#{indexMB.recommendedProjectList}"  />
-							<ui:param name="projectCartTitle" value="Projetos recomendados para você"  />
+							<ui:param name="projectCart" value="#{indexMB.colaborativeFilteringRecommendation}"  />
+							<ui:param name="projectCartTitle" value="Que tal dar uma olhadinha nestes projetos aqui?"  />
+						</ui:include>
+						
+						<ui:include src="/detail/projectCart.xhtml">
+							<ui:param name="projectCart" value="#{indexMB.multiCriteriaRecommendation}"  />
+							<ui:param name="projectCartTitle" value="Recomendamos estes projetos para você, com base nos critérios de avaliação disponíveis:"  />
 						</ui:include>
 						
 						<h:panelGroup layout="block" rendered="#{not empty loginMB.loggedUser.interestTags}">
