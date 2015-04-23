@@ -32,18 +32,19 @@
 			<url>https://maven.java.net/content/groups/public/</url>
 		</repository>
 		<repository>
-			<id>org.springframework.maven.milestone</id>
-			<name>Spring Maven Milestone Repository</name>
-			<url>http://repo.springsource.org/libs-milestone-local</url>
-		</repository>
-		<repository>
-			<id>spring-snapshots</id>
-			<name>Spring Snapshots</name>
-			<url>http://repo.spring.io/snapshot</url>
 			<snapshots>
-				<enabled>true</enabled>
+				<enabled>false</enabled>
 			</snapshots>
-		</repository>
+			<id>central</id>
+			<name>release</name>
+			<url>http://repo.spring.io/release</url>
+        </repository>
+        <repository>
+			<snapshots />
+			<id>snapshots</id>
+			<name>release</name>
+			<url>http://repo.spring.io/release</url>
+        </repository>
 	</repositories>
 
 	<modules>
@@ -51,24 +52,24 @@
 		<module>mestrado-crawler</module>
 		<module>mestrado-recommender</module>
 		<module>mestrado-web</module>
+		<module>mestrado-batch</module>
 	</modules>
 
 	<properties>
 		<project.build.sourceEncoding>cp1252</project.build.sourceEncoding>
 		<spring.version>4.1.6.RELEASE</spring.version>
+		
 
 		<java.version>1.7</java.version>
 		<servlet-api.version>3.0.1</servlet-api.version>
 
 		<jersey.version>2.17</jersey.version>
-		<joda-time.version>2.3</joda-time.version>
-		<junit.version>4.11</junit.version>
+		<joda-time.version>2.7</joda-time.version>
+		<junit.version>4.12</junit.version>
 
 		<!-- Hibenate Search apenas dá suporte a essa versão do Apache Lucene, 
 			embora o Apache Mahout suporte a versão 4.3.0 -->
 		<lucene.version>4.10.4</lucene.version>
-
-
 
 		<hibernate.version>4.3.8.Final</hibernate.version>
 		<hibernate-search.version>5.1.1.Final</hibernate-search.version>
@@ -137,6 +138,7 @@
 				<groupId>javax.servlet</groupId>
 				<artifactId>javax.servlet-api</artifactId>
 				<version>3.0.1</version>
+				<scope>provided</scope>
 			</dependency>
 
 			<!-- Hibernate -->
@@ -257,6 +259,7 @@
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
 			<version>${junit.version}</version>
+			<scope>test</scope>
 		</dependency>
 
 		<!-- JODA TIME -->
@@ -296,7 +299,18 @@
 			<artifactId>spring-test</artifactId>
 			<version>${spring.version}</version>
 		</dependency>
-
+		
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-tx</artifactId>
+    		<version>${spring.version}</version>
+		</dependency>
+		
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-aop</artifactId>
+    		<version>${spring.version}</version>
+		</dependency>
 
 	</dependencies>
 

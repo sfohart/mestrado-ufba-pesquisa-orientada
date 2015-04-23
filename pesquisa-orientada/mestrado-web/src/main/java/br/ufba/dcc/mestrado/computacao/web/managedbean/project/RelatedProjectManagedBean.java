@@ -15,11 +15,13 @@ import org.apache.commons.lang3.StringUtils;
 import org.apache.mahout.cf.taste.recommender.RecommendedItem;
 
 import br.ufba.dcc.mestrado.computacao.entities.openhub.core.project.OpenHubProjectEntity;
-import br.ufba.dcc.mestrado.computacao.entities.recommender.evaluation.RecommendationEnum;
-import br.ufba.dcc.mestrado.computacao.entities.recommender.evaluation.RecommenderEvaluationEntity;
+import br.ufba.dcc.mestrado.computacao.entities.recommender.evaluation.RecommendationEvaluationEntity;
+import br.ufba.dcc.mestrado.computacao.entities.recommender.recommendation.RecommendationEnum;
+import br.ufba.dcc.mestrado.computacao.entities.recommender.recommendation.UserRecommendationEntity;
 import br.ufba.dcc.mestrado.computacao.entities.recommender.user.UserEntity;
-import br.ufba.dcc.mestrado.computacao.service.base.RecommenderEvaluationService;
+import br.ufba.dcc.mestrado.computacao.service.base.RecommendationEvaluationService;
 import br.ufba.dcc.mestrado.computacao.service.base.SearchService;
+import br.ufba.dcc.mestrado.computacao.service.base.UserRecommendationService;
 import br.ufba.dcc.mestrado.computacao.service.basic.RepositoryBasedUserDetailsService;
 import br.ufba.dcc.mestrado.computacao.service.core.base.BaseColaborativeFilteringService;
 
@@ -57,12 +59,14 @@ public class RelatedProjectManagedBean extends ProjectManagedBean {
 	@ManagedProperty("#{repositoryBasedUserDetailsService}")
 	private RepositoryBasedUserDetailsService userDetailsService;
 	
-	@ManagedProperty("#{recommenderEvaluationService}")
-	private RecommenderEvaluationService recommenderEvaluationService;
-
-	private RecommenderEvaluationEntity alsoViewedProjecstRecommendation;	
-	private RecommenderEvaluationEntity similarProjectsRecomendation;
+	@ManagedProperty("#{userRecommendationService}")
+	private UserRecommendationService userRecommendationService;
 	
+	@ManagedProperty("#{recommendationEvaluationService}")
+	private RecommendationEvaluationService recommendationEvaluationService;
+	
+	private UserRecommendationEntity alsoViewedProjectsRecommendation;
+	private UserRecommendationEntity similarProjectsRecommendation;
 	
 
 	private Integer maxResults;
@@ -100,34 +104,36 @@ public class RelatedProjectManagedBean extends ProjectManagedBean {
 		if (! StringUtils.isEmpty(selectedProjectIdParam)) {		
 			Long selectedProjectId = Long.valueOf(selectedProjectIdParam);
 			
-			RecommenderEvaluationEntity recommenderEvaluationEntity = null;
+			RecommendationEvaluationEntity recommendationEvaluationEntity = null;
 			
-			if (similarProjectsRecomendation != null && similarProjectsRecomendation.getRecommendedProjects() != null) {
-				for (OpenHubProjectEntity project : similarProjectsRecomendation.getRecommendedProjects()) {
+			if (similarProjectsRecommendation != null && similarProjectsRecommendation.getRecommendedProjects() != null) {
+				for (OpenHubProjectEntity project : similarProjectsRecommendation.getRecommendedProjects()) {
 					if (project.getId().equals(selectedProjectId)) {
-						recommenderEvaluationEntity = similarProjectsRecomendation;
-						recommenderEvaluationEntity.setSelectedProject(project);
+						recommendationEvaluationEntity = new RecommendationEvaluationEntity();
+						recommendationEvaluationEntity.setSelectedProject(project);
+						recommendationEvaluationEntity.setUserRecommendation(similarProjectsRecommendation);
 						break;
 					}
 				}
 			}
 			
-			if (recommenderEvaluationEntity == null
-					&& alsoViewedProjecstRecommendation != null 
-					&& alsoViewedProjecstRecommendation.getRecommendedProjects() != null) {
+			if (recommendationEvaluationEntity == null
+					&& alsoViewedProjectsRecommendation != null 
+					&& alsoViewedProjectsRecommendation.getRecommendedProjects() != null) {
 				
-				for (OpenHubProjectEntity project : alsoViewedProjecstRecommendation.getRecommendedProjects()) {
+				for (OpenHubProjectEntity project : alsoViewedProjectsRecommendation.getRecommendedProjects()) {
 					if (project.getId().equals(selectedProjectId)) {
-						recommenderEvaluationEntity = alsoViewedProjecstRecommendation;
-						recommenderEvaluationEntity.setSelectedProject(project);
+						recommendationEvaluationEntity = new RecommendationEvaluationEntity();
+						recommendationEvaluationEntity.setSelectedProject(project);
+						recommendationEvaluationEntity.setUserRecommendation(alsoViewedProjectsRecommendation);
 						break;
 					}
 				}			
 			}
 			
-			if (recommenderEvaluationEntity != null) {
+			if (recommendationEvaluationEntity != null) {
 				try {
-					getRecommenderEvaluationService().save(recommenderEvaluationEntity);
+					getRecommendationEvaluationService().save(recommendationEvaluationEntity);
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -143,23 +149,23 @@ public class RelatedProjectManagedBean extends ProjectManagedBean {
 	
 
 	protected void configureAlsoViewedProjectsRecommendation() {
-		alsoViewedProjecstRecommendation = new RecommenderEvaluationEntity();	
+		alsoViewedProjectsRecommendation = new UserRecommendationEntity();	
 		
 		List<RecommendedItem> recommendedItems = getColaborativeFilteringService().recommendViewedProjectsByItem(getProject().getId(), getMaxResults());
 		List<OpenHubProjectEntity> recommendationList = getColaborativeFilteringService().getRecommendedProjects(recommendedItems);
 		
 		UserEntity currentUser = getUserDetailsService().loadFullLoggedUser();
 		Timestamp recommendationDate = new Timestamp(System.currentTimeMillis());
-		String viewId = FacesContext.getCurrentInstance().getViewRoot().getViewId();
+		String viewUri = FacesContext.getCurrentInstance().getViewRoot().getViewId();
 		
-		alsoViewedProjecstRecommendation.setRecommendationType(RecommendationEnum.COLABORATIVE_FILTERING_RECOMMENDATION);
-		alsoViewedProjecstRecommendation.setRecommendedProjects(recommendationList);
-		alsoViewedProjecstRecommendation.setUser(currentUser);
-		alsoViewedProjecstRecommendation.setRecommendationDate(recommendationDate);	
-		alsoViewedProjecstRecommendation.setViewId(viewId);
+		alsoViewedProjectsRecommendation.setRecommendationType(br.ufba.dcc.mestrado.computacao.entities.recommender.recommendation.RecommendationEnum.COLABORATIVE_FILTERING_ITEM_BASED_RECOMMENDATION);
+		alsoViewedProjectsRecommendation.setRecommendedProjects(recommendationList);
+		alsoViewedProjectsRecommendation.setUser(currentUser);
+		alsoViewedProjectsRecommendation.setRecommendationDate(recommendationDate);	
+		alsoViewedProjectsRecommendation.setViewUri(viewUri);
 		
 		try {
-			alsoViewedProjecstRecommendation = getRecommenderEvaluationService().save(alsoViewedProjecstRecommendation);
+			alsoViewedProjectsRecommendation = getUserRecommendationService().save(alsoViewedProjectsRecommendation);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -172,21 +178,21 @@ public class RelatedProjectManagedBean extends ProjectManagedBean {
 	protected void configureSimilarProjectsRecommendation() {
 		try {
 			
-			similarProjectsRecomendation = new RecommenderEvaluationEntity();
+			similarProjectsRecommendation = new UserRecommendationEntity();
 			
 			List <OpenHubProjectEntity> recommendationList = getSearchService().findRelatedProjects(getProject(), 0, getMaxResults());
 			UserEntity currentUser = getUserDetailsService().loadFullLoggedUser();
 			Timestamp recommendationDate = new Timestamp(System.currentTimeMillis());
-			String viewId = FacesContext.getCurrentInstance().getViewRoot().getViewId();
+			String viewUri = FacesContext.getCurrentInstance().getViewRoot().getViewId();
 			
-			similarProjectsRecomendation.setRecommendationType(RecommendationEnum.CONTENT_BASED_RECOMMENDATION);
-			similarProjectsRecomendation.setRecommendedProjects(recommendationList);
-			similarProjectsRecomendation.setUser(currentUser);
-			similarProjectsRecomendation.setRecommendationDate(recommendationDate);
-			similarProjectsRecomendation.setViewId(viewId);
+			similarProjectsRecommendation.setRecommendationType(RecommendationEnum.CONTENT_BASED_RECOMMENDATION);
+			similarProjectsRecommendation.setRecommendedProjects(recommendationList);
+			similarProjectsRecommendation.setUser(currentUser);
+			similarProjectsRecommendation.setRecommendationDate(recommendationDate);
+			similarProjectsRecommendation.setViewUri(viewUri);
 						
 			try {
-				similarProjectsRecomendation = getRecommenderEvaluationService().save(similarProjectsRecomendation);
+				similarProjectsRecommendation = getUserRecommendationService().save(similarProjectsRecommendation);
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
@@ -231,33 +237,43 @@ public class RelatedProjectManagedBean extends ProjectManagedBean {
 		this.userDetailsService = userDetailsService;
 	}
 
-	public RecommenderEvaluationService getRecommenderEvaluationService() {
-		return recommenderEvaluationService;
+	public UserRecommendationService getUserRecommendationService() {
+		return userRecommendationService;
 	}
 
-	public void setRecommenderEvaluationService(
-			RecommenderEvaluationService recommenderEvaluationService) {
-		this.recommenderEvaluationService = recommenderEvaluationService;
+	public void setUserRecommendationService(
+			UserRecommendationService userRecommendationService) {
+		this.userRecommendationService = userRecommendationService;
 	}
 
-	public RecommenderEvaluationEntity getAlsoViewedProjecstRecommendation() {
-		return alsoViewedProjecstRecommendation;
+	public RecommendationEvaluationService getRecommendationEvaluationService() {
+		return recommendationEvaluationService;
 	}
 
-	public void setAlsoViewedProjecstRecommendation(
-			RecommenderEvaluationEntity alsoViewedProjecstRecommendation) {
-		this.alsoViewedProjecstRecommendation = alsoViewedProjecstRecommendation;
+	public void setRecommendationEvaluationService(
+			RecommendationEvaluationService recommendationEvaluationService) {
+		this.recommendationEvaluationService = recommendationEvaluationService;
 	}
 
-	public RecommenderEvaluationEntity getSimilarProjectsRecomendation() {
-		return similarProjectsRecomendation;
+	public UserRecommendationEntity getAlsoViewedProjectsRecommendation() {
+		return alsoViewedProjectsRecommendation;
 	}
 
-	public void setSimilarProjectsRecomendation(
-			RecommenderEvaluationEntity similarProjectsRecomendation) {
-		this.similarProjectsRecomendation = similarProjectsRecomendation;
+	public void setAlsoViewedProjectsRecommendation(
+			UserRecommendationEntity alsoViewedProjectsRecommendation) {
+		this.alsoViewedProjectsRecommendation = alsoViewedProjectsRecommendation;
 	}
 
+	public UserRecommendationEntity getSimilarProjectsRecommendation() {
+		return similarProjectsRecommendation;
+	}
+
+	public void setSimilarProjectsRecommendation(
+			UserRecommendationEntity similarProjectsRecommendation) {
+		this.similarProjectsRecommendation = similarProjectsRecommendation;
+	}
+
+	
 	
 }
 

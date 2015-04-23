@@ -31,12 +31,13 @@
 		<class>br.ufba.dcc.mestrado.computacao.entities.recommender.preference.PreferenceEntryEntity</class>
 		<class>br.ufba.dcc.mestrado.computacao.entities.recommender.preference.PreferenceReviewEntity</class>
 		<class>br.ufba.dcc.mestrado.computacao.entities.recommender.user.UserEntity</class>
-		<class>br.ufba.dcc.mestrado.computacao.entities.recommender.evaluation.RecommenderEvaluationEntity</class>
+		<class>br.ufba.dcc.mestrado.computacao.entities.recommender.evaluation.RecommendationEvaluationEntity</class>
 		<class>br.ufba.dcc.mestrado.computacao.entities.openhub.crawler.OpenHubCrawlerEnlistmentEntity</class>
 		<class>br.ufba.dcc.mestrado.computacao.entities.openhub.crawler.OpenHubCrawlerLanguageEntity</class>
 		<class>br.ufba.dcc.mestrado.computacao.entities.openhub.crawler.OpenHubCrawlerLicenseEntity</class>
 		<class>br.ufba.dcc.mestrado.computacao.entities.openhub.crawler.OpenHubCrawlerProjectEntity</class>
 		<class>br.ufba.dcc.mestrado.computacao.entities.openhub.crawler.OpenHubCrawlerStackEntity</class>
+		<class>br.ufba.dcc.mestrado.computacao.entities.recommender.recommendation.UserRecommendationEntity</class>
 		
 		<exclude-unlisted-classes>false</exclude-unlisted-classes>
 	</persistence-unit>
