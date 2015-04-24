@@ -51,7 +51,7 @@ public class UserRecommendationEntity implements BaseEntity<Long>{
 	@Column(name = "user_id", insertable = false, updatable = false)
 	private Long userId;
 	
-	@ManyToOne
+	@ManyToOne(fetch=FetchType.EAGER)
 	@JoinColumn(name = "user_id", referencedColumnName = "id")
 	private UserEntity user;
 	
