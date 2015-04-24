@@ -4,6 +4,7 @@ import java.util.logging.Logger;
 
 import org.springframework.batch.core.Job;
 import org.springframework.batch.core.JobParameters;
+import org.springframework.batch.core.JobParametersBuilder;
 import org.springframework.batch.core.Step;
 import org.springframework.batch.core.configuration.annotation.EnableBatchProcessing;
 import org.springframework.batch.core.configuration.annotation.JobBuilderFactory;
@@ -87,8 +88,11 @@ public class BatchAppConfig {
 	
 	@Bean
 	public JobParameters buildJobParameters() {
-		JobParameters jobParameters = new JobParameters();
 		
+		JobParametersBuilder jobParametersBuilder = new JobParametersBuilder();
+		jobParametersBuilder.addLong("timestamp", System.currentTimeMillis());
+		
+		JobParameters jobParameters = jobParametersBuilder.toJobParameters(); 
 		
 		return jobParameters;
 	}
