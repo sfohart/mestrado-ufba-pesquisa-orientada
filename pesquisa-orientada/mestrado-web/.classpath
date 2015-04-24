@@ -33,5 +33,7 @@
 			<attribute name="org.eclipse.jst.component.dependency" value="/WEB-INF/lib"/>
 		</attributes>
 	</classpathentry>
+	<classpathentry combineaccessrules="false" kind="src" path="/mestrado-core"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/mestrado-recommender"/>
 	<classpathentry kind="output" path="target/classes"/>
 </classpath>

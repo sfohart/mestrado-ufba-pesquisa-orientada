@@ -1,23 +1,110 @@
 package br.ufba.dcc.mestrado.computacao.spring;
 
+import java.util.logging.Logger;
+
+import org.springframework.batch.core.Job;
+import org.springframework.batch.core.Step;
 import org.springframework.batch.core.configuration.annotation.EnableBatchProcessing;
 import org.springframework.batch.core.configuration.annotation.JobBuilderFactory;
 import org.springframework.batch.core.configuration.annotation.StepBuilderFactory;
+import org.springframework.batch.core.launch.JobLauncher;
+import org.springframework.batch.core.repository.JobRepository;
+import org.springframework.batch.core.step.skip.AlwaysSkipItemSkipPolicy;
+import org.springframework.batch.core.step.skip.SkipPolicy;
+import org.springframework.batch.test.JobLauncherTestUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Import;
+import org.springframework.context.annotation.PropertySource;
 
+import br.ufba.dcc.mestrado.computacao.batch.exception.MultiCriteriaBatchRecommenderException;
+import br.ufba.dcc.mestrado.computacao.batch.item.UserProcessor;
+import br.ufba.dcc.mestrado.computacao.batch.item.UserReader;
+import br.ufba.dcc.mestrado.computacao.batch.item.UserRecommendationWriter;
+import br.ufba.dcc.mestrado.computacao.entities.recommender.recommendation.UserRecommendationEntity;
+import br.ufba.dcc.mestrado.computacao.entities.recommender.user.UserEntity;
 
 @Configuration
 @EnableBatchProcessing
-@EnableAutoConfiguration
+@Import({ CoreAppConfig.class, RecommenderAppConfig.class })
+@PropertySource(value = {	
+		"classpath:batch.properties"
+	})
 public class BatchAppConfig {
-	
+
 	@Autowired
 	private JobBuilderFactory jobBuilderFactory;
 	
-	
+	@Autowired
+	private JobRepository jobRepository;
+
 	@Autowired
 	private StepBuilderFactory stepBuilderFactory;
-
+	
+	@Value("${user.recommendation.commitInterval:5}")
+	private Integer commitInterval;
+	
+	@Autowired
+	private UserReader userReader;
+	
+	@Autowired
+	private UserProcessor userProcessor;
+	
+	@Autowired
+	private JobLauncher jobLauncher;
+	
+	@Autowired
+	private UserRecommendationWriter userRecommendationWriter;
+	
+	
+	
+	@Bean
+	public JobLauncherTestUtils jobLauncherTestUtils() {
+		JobLauncherTestUtils utils = new JobLauncherTestUtils();
+		
+		utils.setJobLauncher(jobLauncher);
+		utils.setJobRepository(jobRepository);
+		utils.setJob(userRecommendationJob());
+		
+		return utils;
+	}
+	
+	@Bean(name = "batchLogger")
+	public Logger batchLogger() {
+		return Logger.getLogger("Multicriteria User Recommendation");
+	}
+	
+	@Bean
+	public Job userRecommendationJob() {
+		Job job = jobBuilderFactory.get("userRecommendationJob")
+				.start(userRecommendationStep(userReader, userProcessor, userRecommendationWriter))
+				.build();
+								
+		return job;
+	}
+		
+	@Bean
+	public Step userRecommendationStep(UserReader reader, UserProcessor processor, UserRecommendationWriter writer) {
+		Step step = stepBuilderFactory.get("userRecommendationStep")
+				.<UserEntity,UserRecommendationEntity>chunk(commitInterval)
+				.reader(reader)
+				.processor(processor)
+					.faultTolerant()
+					.skip(MultiCriteriaBatchRecommenderException.class)
+					.skipPolicy(skipPolicy())
+					.noRetry(MultiCriteriaBatchRecommenderException.class)
+				.writer(writer)					
+				.build();
+		
+		
+		return step;
+	}
+	
+	@Bean
+	public SkipPolicy skipPolicy() {
+		return new AlwaysSkipItemSkipPolicy();
+	}
+	
 }

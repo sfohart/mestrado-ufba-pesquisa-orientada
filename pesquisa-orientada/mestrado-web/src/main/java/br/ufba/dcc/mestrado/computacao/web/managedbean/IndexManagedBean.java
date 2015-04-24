@@ -149,8 +149,8 @@ public class IndexManagedBean implements Serializable {
 		this.multiCriteriaRecommendation = new ArrayList<>();
 		final UserEntity currentUser = getUserDetailsService().loadFullLoggedUser();
 		if (currentUser != null && currentUser.getId() != null) {
-			List<RecommendedItem> recommendedItems = multiCriteriaRecommenderService.recommendRatingProjectsByUser(currentUser.getId(), 6, true); 
-			this.multiCriteriaRecommendation = multiCriteriaRecommenderService.getRecommendedProjects(recommendedItems);
+			//List<RecommendedItem> recommendedItems = multiCriteriaRecommenderService.recommendRatingProjectsByUser(currentUser.getId(), 6, true); 
+			//this.multiCriteriaRecommendation = multiCriteriaRecommenderService.getRecommendedProjects(recommendedItems);
 		}
 	}
 	

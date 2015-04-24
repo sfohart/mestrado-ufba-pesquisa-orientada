@@ -20,7 +20,7 @@ public interface MultiCriteriaRecommenderService {
 	 * @param howManyItems
 	 * @return
 	 */
-	List<RecommendedItem> recommendRatingProjectsByUser(Long userId, Integer howManyItems);
+	List<RecommendedItem> recommendRatingProjectsByUser(Long userId, Integer howManyItems) throws TasteException;
 	
 	/**
 	 * 
@@ -29,14 +29,14 @@ public interface MultiCriteriaRecommenderService {
 	 * @param filterInterestTags
 	 * @return
 	 */
-	List<RecommendedItem> recommendRatingProjectsByUser(Long userId, Integer howManyItems, boolean filterInterestTags);
+	List<RecommendedItem> recommendRatingProjectsByUser(Long userId, Integer howManyItems, boolean filterInterestTags) throws TasteException;
 	
 	/**
 	 * 
 	 * @param recommendedItems
 	 * @return
 	 */
-	List<OpenHubProjectEntity> getRecommendedProjects(List<RecommendedItem> recommendedItems);
+	List<OpenHubProjectEntity> getRecommendedProjects(List<RecommendedItem> recommendedItems) throws TasteException;
 	
 	
 }

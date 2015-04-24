@@ -39,7 +39,7 @@ public abstract class AbstractMultiCriteriaRecommenderServiceImpl
 	public abstract MultiCriteriaRecommender buildMultiCriteriaRecommender(RecommenderBuilder recommenderBuilder);
 
 	@Override
-	public List<RecommendedItem> recommendRatingProjectsByUser(Long userID, Integer howMany)  {
+	public List<RecommendedItem> recommendRatingProjectsByUser(Long userID, Integer howMany) throws TasteException {
 		
 		initMultiCriteriaRecommender();
 		
@@ -57,23 +57,17 @@ public abstract class AbstractMultiCriteriaRecommenderServiceImpl
 	public List<RecommendedItem> recommendRatingProjectsByUser(
 			Long userId,
 			Integer howManyItems, 
-			boolean filterInterestTags)  {
+			boolean filterInterestTags) throws TasteException {
 		
 		initMultiCriteriaRecommender();
 		
 		List<RecommendedItem> recommendedItems = null;
 		
-		try {
-			
-			if (filterInterestTags) {
-				IDRescorer rescorer = buildIdRescorer(userId);				
-				recommendedItems = multiCriteriaRecommender.recommend(userId, howManyItems, rescorer, false);
-			} else {
-				recommendedItems = multiCriteriaRecommender.recommend(userId, howManyItems, false);
-			}
-			
-		} catch (TasteException e) {
-			e.printStackTrace();
+		if (filterInterestTags) {
+			IDRescorer rescorer = buildIdRescorer(userId);				
+			recommendedItems = multiCriteriaRecommender.recommend(userId, howManyItems, rescorer, false);
+		} else {
+			recommendedItems = multiCriteriaRecommender.recommend(userId, howManyItems, false);
 		}
 		
 		return recommendedItems;

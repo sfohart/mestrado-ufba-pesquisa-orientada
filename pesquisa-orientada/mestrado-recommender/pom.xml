@@ -14,6 +14,7 @@
 		<weka.version>3.6.12</weka.version>
 		<jmetal.version>5.0-Beta-29</jmetal.version>
 		<libsvm.version>3.18.1</libsvm.version>
+
 	</properties>
 
 	<build>
@@ -65,12 +66,15 @@
 			<version>${mahout.version}</version>
 		</dependency>
 
+
+
 		<!-- Mestrado Core -->
 		<dependency>
 			<groupId>${project.groupId}</groupId>
 			<artifactId>mestrado-core</artifactId>
 			<version>${project.version}</version>
 		</dependency>
+
 
 		<!-- Apache Commons Lang -->
 		<dependency>
