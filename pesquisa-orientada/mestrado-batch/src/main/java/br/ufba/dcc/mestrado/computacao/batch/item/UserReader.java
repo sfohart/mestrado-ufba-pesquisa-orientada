@@ -19,9 +19,7 @@ import br.ufba.dcc.mestrado.computacao.service.core.base.UserService;
 @Component
 public class UserReader implements ItemReader<UserEntity> {
 	
-	@Autowired
-	@Qualifier("batchLogger")
-	private Logger logger;
+	private Logger logger = Logger.getLogger(UserReader.class.getName());
 	
 	@Autowired
 	private UserService userService;

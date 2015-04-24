@@ -23,9 +23,7 @@ import br.ufba.dcc.mestrado.computacao.service.mahout.impl.MultiCriteriaListBase
 @Component
 public class UserProcessor implements ItemProcessor<UserEntity, UserRecommendationEntity> {
 
-	@Autowired
-	@Qualifier("batchLogger")
-	private Logger logger;
+	private Logger logger = Logger.getLogger(UserProcessor.class.getName());
 	
 	@Value("${recommender.results.sample.max}")
 	private Integer howManyItems;

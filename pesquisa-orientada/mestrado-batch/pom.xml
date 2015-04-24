@@ -11,10 +11,19 @@
 	<properties>
 		<spring-batch.version>3.0.3.RELEASE</spring-batch.version>
 		<spring-boot.version>1.2.3.RELEASE</spring-boot.version>
+		<quartz.version>2.2.1</quartz.version>
 	</properties>
 
 
 	<dependencies>
+
+		<!-- Quartz -->
+		<dependency>
+			<groupId>org.quartz-scheduler</groupId>
+			<artifactId>quartz</artifactId>
+			<version>${quartz.version}</version>
+		</dependency>
+
 		<!-- Mestrado Core -->
 		<dependency>
 			<groupId>${project.groupId}</groupId>
@@ -22,7 +31,7 @@
 			<version>${project.version}</version>
 		</dependency>
 
-		<!-- Mestrado Core -->
+		<!-- Mestrado Recommender -->
 		<dependency>
 			<groupId>${project.groupId}</groupId>
 			<artifactId>mestrado-recommender</artifactId>

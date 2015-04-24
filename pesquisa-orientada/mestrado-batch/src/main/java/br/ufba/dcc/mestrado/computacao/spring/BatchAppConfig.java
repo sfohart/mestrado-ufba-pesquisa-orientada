@@ -3,6 +3,7 @@ package br.ufba.dcc.mestrado.computacao.spring;
 import java.util.logging.Logger;
 
 import org.springframework.batch.core.Job;
+import org.springframework.batch.core.JobParameters;
 import org.springframework.batch.core.Step;
 import org.springframework.batch.core.configuration.annotation.EnableBatchProcessing;
 import org.springframework.batch.core.configuration.annotation.JobBuilderFactory;
@@ -18,6 +19,10 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
 import org.springframework.context.annotation.PropertySource;
+import org.springframework.scheduling.TaskScheduler;
+import org.springframework.scheduling.annotation.EnableAsync;
+import org.springframework.scheduling.annotation.EnableScheduling;
+import org.springframework.scheduling.concurrent.ConcurrentTaskScheduler;
 
 import br.ufba.dcc.mestrado.computacao.batch.exception.MultiCriteriaBatchRecommenderException;
 import br.ufba.dcc.mestrado.computacao.batch.item.UserProcessor;
@@ -28,6 +33,8 @@ import br.ufba.dcc.mestrado.computacao.entities.recommender.user.UserEntity;
 
 @Configuration
 @EnableBatchProcessing
+@EnableAsync
+@EnableScheduling
 @Import({ CoreAppConfig.class, RecommenderAppConfig.class })
 @PropertySource(value = {	
 		"classpath:batch.properties"
@@ -61,6 +68,13 @@ public class BatchAppConfig {
 	
 	
 	@Bean
+	public TaskScheduler buildTaskScheduler() {
+		TaskScheduler taskScheduler = new ConcurrentTaskScheduler();
+		
+		return taskScheduler;
+	}
+	
+	@Bean
 	public JobLauncherTestUtils jobLauncherTestUtils() {
 		JobLauncherTestUtils utils = new JobLauncherTestUtils();
 		
@@ -71,9 +85,12 @@ public class BatchAppConfig {
 		return utils;
 	}
 	
-	@Bean(name = "batchLogger")
-	public Logger batchLogger() {
-		return Logger.getLogger("Multicriteria User Recommendation");
+	@Bean
+	public JobParameters buildJobParameters() {
+		JobParameters jobParameters = new JobParameters();
+		
+		
+		return jobParameters;
 	}
 	
 	@Bean

@@ -14,9 +14,7 @@ import br.ufba.dcc.mestrado.computacao.service.base.UserRecommendationService;
 @Component
 public class UserRecommendationWriter implements ItemWriter<UserRecommendationEntity>{
 	
-	@Autowired
-	@Qualifier("batchLogger")
-	private Logger logger;
+	private Logger logger = Logger.getLogger(UserRecommendationWriter.class.getName());
 	
 	@Autowired
 	private UserRecommendationService userRecommendationService;
