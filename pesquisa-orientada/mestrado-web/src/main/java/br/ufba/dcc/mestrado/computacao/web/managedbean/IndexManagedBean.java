@@ -15,8 +15,10 @@ import org.apache.mahout.cf.taste.recommender.RecommendedItem;
 import br.ufba.dcc.mestrado.computacao.dto.pageview.ProjectDetailPageViewInfo;
 import br.ufba.dcc.mestrado.computacao.dto.pageview.ProjectReviewsInfo;
 import br.ufba.dcc.mestrado.computacao.entities.openhub.core.project.OpenHubProjectEntity;
+import br.ufba.dcc.mestrado.computacao.entities.recommender.recommendation.UserRecommendationEntity;
 import br.ufba.dcc.mestrado.computacao.entities.recommender.user.UserEntity;
 import br.ufba.dcc.mestrado.computacao.service.base.ProjectService;
+import br.ufba.dcc.mestrado.computacao.service.base.UserRecommendationService;
 import br.ufba.dcc.mestrado.computacao.service.basic.RepositoryBasedUserDetailsService;
 import br.ufba.dcc.mestrado.computacao.service.core.base.BaseColaborativeFilteringService;
 import br.ufba.dcc.mestrado.computacao.service.core.base.OverallRatingService;
@@ -52,6 +54,9 @@ public class IndexManagedBean implements Serializable {
 	@ManagedProperty("#{overallRatingService}")
 	private OverallRatingService overallRatingService;
 	
+	@ManagedProperty("#{userRecommendationService}")
+	private UserRecommendationService userRecommendationService;
+	
 	@ManagedProperty("#{recommenderCriteriumService}")
 	private RecommenderCriteriumService recommenderCriteriumService;
 	
@@ -63,7 +68,8 @@ public class IndexManagedBean implements Serializable {
 	
 	private List<OpenHubProjectEntity> projectViewedList;
 	private List<OpenHubProjectEntity> colaborativeFilteringRecommendation;
-	private List<OpenHubProjectEntity> multiCriteriaRecommendation;
+	
+	private UserRecommendationEntity multiCriteriaRecommendation;
 	
 	private ProjectReviewsInfo mostReviewedProjectPreferenceInfo;
 	private ProjectDetailPageViewInfo mostViewedProjectDetailInfo;
@@ -146,11 +152,10 @@ public class IndexManagedBean implements Serializable {
 
 	
 	protected void findMultiCriteriaRecommendedProjects() {
-		this.multiCriteriaRecommendation = new ArrayList<>();
 		final UserEntity currentUser = getUserDetailsService().loadFullLoggedUser();
 		if (currentUser != null && currentUser.getId() != null) {
-			//List<RecommendedItem> recommendedItems = multiCriteriaRecommenderService.recommendRatingProjectsByUser(currentUser.getId(), 6, true); 
-			//this.multiCriteriaRecommendation = multiCriteriaRecommenderService.getRecommendedProjects(recommendedItems);
+			multiCriteriaRecommendation = userRecommendationService.findLastUserRecommendation(currentUser);
+			
 		}
 	}
 	
@@ -263,7 +268,23 @@ public class IndexManagedBean implements Serializable {
 		this.multiCriteriaRecommenderService = multiCriteriaRecommenderService;
 	}
 
-	public List<OpenHubProjectEntity> getMultiCriteriaRecommendation() {
+	public UserRecommendationService getUserRecommendationService() {
+		return userRecommendationService;
+	}
+
+	public void setUserRecommendationService(
+			UserRecommendationService userRecommendationService) {
+		this.userRecommendationService = userRecommendationService;
+	}
+
+	public UserRecommendationEntity getMultiCriteriaRecommendation() {
 		return multiCriteriaRecommendation;
 	}
+
+	public void setMultiCriteriaRecommendation(
+			UserRecommendationEntity multiCriteriaRecommendation) {
+		this.multiCriteriaRecommendation = multiCriteriaRecommendation;
+	}
+
+	
 }

@@ -13,6 +13,11 @@
 	<h:panelGroup layout="block" rendered="#{not empty projectCart}">
 		<h:form>
 			<h3> <h:outputText value="#{projectCartTitle}" /> </h3>
+			<h:panelGroup class="small soft italic" rendered="#{lastUpdateTimestamp != null}">
+				<h:outputText value="#{lastUpdateTimestamp}">
+					<f:convertDateTime pattern="'Atualizado no dia' dd/MM/yyyy 'às' HH:mm:ss"  />
+				</h:outputText>
+			</h:panelGroup>
 			<div class="row">
 				<ul class="media-list">
 					<ui:repeat var="viewedProject" value="#{projectCart}" >
@@ -69,6 +74,7 @@
 				    });
 				</script>
 			</div>
+			
 		</h:form>
 	</h:panelGroup>
 	

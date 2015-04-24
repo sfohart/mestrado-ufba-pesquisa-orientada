@@ -13,6 +13,7 @@ import org.springframework.batch.core.repository.JobRestartException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
+import org.springframework.batch.core.JobParametersBuilder;
 
 @Component
 public class MultiCriteriaRecommendingTask {
@@ -23,9 +24,6 @@ public class MultiCriteriaRecommendingTask {
 	private JobLauncher jobLauncher;
 	
 	@Autowired
-	private JobParameters jobParameters;
-	
-	@Autowired
 	private Job multicriteriaRecommendingJob;
 		
 	@Scheduled(cron = "${user.recommendation.cronExpression}")
@@ -34,6 +32,12 @@ public class MultiCriteriaRecommendingTask {
 				JobRestartException, 
 				JobInstanceAlreadyCompleteException, 
 				JobParametersInvalidException {
+				
+		JobParametersBuilder jobParametersBuilder = new JobParametersBuilder();
+		jobParametersBuilder.addLong("timestamp", System.currentTimeMillis());
+		
+		JobParameters jobParameters = jobParametersBuilder.toJobParameters();
+				
 		JobExecution jobExecution = jobLauncher.run(multicriteriaRecommendingJob, jobParameters);
 		
 		logger.info(String.format("MultiCriteria Batch Recommending done with status %s", jobExecution.getExitStatus()));

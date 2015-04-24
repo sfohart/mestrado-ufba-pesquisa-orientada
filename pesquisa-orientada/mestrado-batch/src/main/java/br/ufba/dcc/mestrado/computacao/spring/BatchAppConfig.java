@@ -3,8 +3,7 @@ package br.ufba.dcc.mestrado.computacao.spring;
 import java.util.logging.Logger;
 
 import org.springframework.batch.core.Job;
-import org.springframework.batch.core.JobParameters;
-import org.springframework.batch.core.JobParametersBuilder;
+
 import org.springframework.batch.core.Step;
 import org.springframework.batch.core.configuration.annotation.EnableBatchProcessing;
 import org.springframework.batch.core.configuration.annotation.JobBuilderFactory;
@@ -85,18 +84,7 @@ public class BatchAppConfig {
 		
 		return utils;
 	}
-	
-	@Bean
-	public JobParameters buildJobParameters() {
 		
-		JobParametersBuilder jobParametersBuilder = new JobParametersBuilder();
-		jobParametersBuilder.addLong("timestamp", System.currentTimeMillis());
-		
-		JobParameters jobParameters = jobParametersBuilder.toJobParameters(); 
-		
-		return jobParameters;
-	}
-	
 	@Bean
 	public Job userRecommendationJob() {
 		Job job = jobBuilderFactory.get("userRecommendationJob")
