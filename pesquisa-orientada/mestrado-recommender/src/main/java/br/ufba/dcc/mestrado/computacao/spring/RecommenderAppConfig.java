@@ -11,9 +11,7 @@ import br.ufba.dcc.mestrado.computacao.service.RecommenderServiceConfig;
 @Configuration
 @ComponentScan("br.ufba.dcc.mestrado.computacao")
 @Import(RecommenderServiceConfig.class)
-@PropertySource(value = {	
-	"classpath:recommender.properties"
-})
+@PropertySource(name = "recommendationProps", value = { "classpath:recommender.properties" })
 public class RecommenderAppConfig {
 	
 	

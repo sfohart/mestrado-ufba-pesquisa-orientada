@@ -1,4 +1,4 @@
-package br.ufba.dcc.mestrado.computacao.service.mahout.base;
+package br.ufba.dcc.mestrado.computacao.service.recommender.base;
 
 import java.io.Serializable;
 import java.util.List;

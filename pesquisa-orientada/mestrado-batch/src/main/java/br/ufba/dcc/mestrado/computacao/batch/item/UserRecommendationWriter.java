@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
 import br.ufba.dcc.mestrado.computacao.entities.recommender.recommendation.UserRecommendationEntity;
+import br.ufba.dcc.mestrado.computacao.service.base.TagService;
 import br.ufba.dcc.mestrado.computacao.service.base.UserRecommendationService;
 
 @Component
@@ -18,6 +19,8 @@ public class UserRecommendationWriter implements ItemWriter<UserRecommendationEn
 	
 	@Autowired
 	private UserRecommendationService userRecommendationService;
+	
+	
 	
 	@Override
 	public void write(List<? extends UserRecommendationEntity> userRecommendations) throws Exception {

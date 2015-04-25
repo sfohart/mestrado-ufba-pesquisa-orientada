@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import br.ufba.dcc.mestrado.computacao.entities.recommender.recommendation.RecommendationTypeEnum;
 import br.ufba.dcc.mestrado.computacao.entities.recommender.recommendation.UserRecommendationEntity;
 import br.ufba.dcc.mestrado.computacao.entities.recommender.user.UserEntity;
 import br.ufba.dcc.mestrado.computacao.repository.base.UserRecommendationRepository;
@@ -30,7 +31,7 @@ public class UserRecommendationServiceImpl
 	
 	@Override
 	@Transactional(readOnly = true)
-	public UserRecommendationEntity findLastUserRecommendation(UserEntity user) {
-		return ((UserRecommendationRepository) getRepository()).findLastUserRecommendation(user);
+	public UserRecommendationEntity findLastUserRecommendation(UserEntity user, RecommendationTypeEnum recommendationType) {
+		return ((UserRecommendationRepository) getRepository()).findLastUserRecommendation(user, recommendationType);
 	}
 }

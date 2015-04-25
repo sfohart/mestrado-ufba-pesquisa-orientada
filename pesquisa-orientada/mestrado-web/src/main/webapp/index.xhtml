@@ -31,6 +31,43 @@
 					
 					<ui:include src="/layout/carousel.xhtml"  />
 					
+					<h:panelGroup layout="block" rendered="#{indexMB.multiCriteriaRecommendation != null}">
+						<hr/>
+						<ui:include src="/detail/projectCart.xhtml" >
+							<ui:param name="lastUpdateTimestamp" value="#{indexMB.multiCriteriaRecommendation.recommendationDate}" />
+							<ui:param name="projectCart" value="#{indexMB.multiCriteriaRecommendation.recommendedProjects}"  />
+							<ui:param name="projectCartTitle" value="Recomendamos estes projetos para você, com base nos critérios de avaliação disponíveis:"  />
+						</ui:include>
+						
+						<h:panelGroup layout="block" rendered="#{not empty indexMB.multiCriteriaRecommendation.interestTags}">
+							<h4>Quando lhe recomendamos estes projetos, suas <i>tags</i> de interesse eram:</h4>
+							<ui:include src="/detail/projectTagList.xhtml">
+								<ui:param name="tagList" value="#{indexMB.multiCriteriaRecommendation.interestTags}"/>
+								<ui:param name="fullList" value="true" />
+							</ui:include>
+						</h:panelGroup>
+						
+					</h:panelGroup>
+					
+					<h:panelGroup layout="block" rendered="#{indexMB.colaborativeFilteringRecommendation != null}">
+						<hr/>
+						<ui:include src="/detail/projectCart.xhtml">
+							<ui:param name="lastUpdateTimestamp" value="#{indexMB.colaborativeFilteringRecommendation.recommendationDate}" />
+							<ui:param name="projectCart" value="#{indexMB.colaborativeFilteringRecommendation.recommendedProjects}"  />
+							<ui:param name="projectCartTitle" value="Gente com perfil semelhante ao seu andou olhando estes projetos:"  />
+						</ui:include>
+						
+						<h:panelGroup layout="block" rendered="#{not empty indexMB.colaborativeFilteringRecommendation.interestTags}">
+							<h4>Quando lhe recomendamos estes projetos, suas <i>tags</i> de interesse eram:</h4>
+							<ui:include src="/detail/projectTagList.xhtml">
+								<ui:param name="tagList" value="#{indexMB.colaborativeFilteringRecommendation.interestTags}"/>
+								<ui:param name="fullList" value="true" />
+							</ui:include>
+						</h:panelGroup>
+						
+					</h:panelGroup>
+					
+					
 					<h:panelGroup layout="block" rendered="#{not empty indexMB.projectViewedList}">
 						<hr/>
 					
@@ -41,32 +78,6 @@
 						
 					</h:panelGroup>
 					
-					
-					<h:panelGroup layout="block" rendered="#{not empty indexMB.colaborativeFilteringRecommendation}" id="recommendedProjects">
-						<hr/>
-						
-						<ui:include src="/detail/projectCart.xhtml">
-							<ui:param name="projectCart" value="#{indexMB.colaborativeFilteringRecommendation}"  />
-							<ui:param name="projectCartTitle" value="Que tal dar uma olhadinha nestes projetos aqui?"  />
-						</ui:include>
-						
-						<h:panelGroup layout="block" rendered="#{indexMB.multiCriteriaRecommendation != null}">
-							<ui:include src="/detail/projectCart.xhtml" >
-								<ui:param name="lastUpdateTimestamp" value="#{indexMB.multiCriteriaRecommendation.recommendationDate}" />
-								<ui:param name="projectCart" value="#{indexMB.multiCriteriaRecommendation.recommendedProjects}"  />
-								<ui:param name="projectCartTitle" value="Recomendamos estes projetos para você, com base nos critérios de avaliação disponíveis:"  />
-							</ui:include>
-						</h:panelGroup>
-						
-						<h:panelGroup layout="block" rendered="#{not empty loginMB.loggedUser.interestTags}">
-							<h4>Filtrando por suas <i>tags</i> de interesse</h4>
-							<ui:include src="/detail/projectTagList.xhtml">
-								<ui:param name="tagList" value="#{loginMB.loggedUser.interestTags}"/>
-								<ui:param name="fullList" value="true" />
-							</ui:include>
-						</h:panelGroup>
-						
-					</h:panelGroup>
 					
 					<h:panelGroup layout="block" rendered="#{(not empty indexMB.topTenReviewedProjectList) or (not empty indexMB.topTenViewedProjectList)}">
 						<hr/>

@@ -1,5 +1,4 @@
-
-package br.ufba.dcc.mestrado.computacao.service.mahout.impl;
+package br.ufba.dcc.mestrado.computacao.service.recommender.impl;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -38,13 +37,12 @@ import br.ufba.dcc.mestrado.computacao.entities.openhub.core.project.OpenHubProj
 import br.ufba.dcc.mestrado.computacao.entities.recommender.user.UserEntity;
 import br.ufba.dcc.mestrado.computacao.service.base.ProjectService;
 import br.ufba.dcc.mestrado.computacao.service.core.base.UserService;
-import br.ufba.dcc.mestrado.computacao.service.core.impl.BaseColaborativeFilteringServiceImpl;
-import br.ufba.dcc.mestrado.computacao.service.mahout.base.MahoutColaborativeFilteringService;
-import br.ufba.dcc.mestrado.computacao.service.mahout.base.MahoutDataModelService;
+import br.ufba.dcc.mestrado.computacao.service.recommender.base.MahoutColaborativeFilteringService;
+import br.ufba.dcc.mestrado.computacao.service.recommender.base.MahoutDataModelService;
 
 @Service(MahoutColaborativeFilteringServiceImpl.BEAN_NAME)
 public class MahoutColaborativeFilteringServiceImpl
-		extends BaseColaborativeFilteringServiceImpl
+		extends ColaborativeFilteringServiceImpl
 		implements MahoutColaborativeFilteringService {
 	
 	/**
@@ -176,7 +174,7 @@ public class MahoutColaborativeFilteringServiceImpl
 			boolean filterInterestTags,
 			Map<Long, Map<ImmutablePair<Long, Long>, Double>> ratingsMap) {
 		
-		throw new NotImplementedException("Ainda não implementei o método para recomendar utilizando as avaliações multicritério dos outros usuários");
+		throw new NotImplementedException("Ainda nï¿½o implementei o mï¿½todo para recomendar utilizando as avaliaï¿½ï¿½es multicritï¿½rio dos outros usuï¿½rios");
 	}
 	
 	@Override

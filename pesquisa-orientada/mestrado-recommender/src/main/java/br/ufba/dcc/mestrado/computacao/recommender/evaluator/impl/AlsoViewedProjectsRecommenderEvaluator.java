@@ -14,7 +14,7 @@ import br.ufba.dcc.mestrado.computacao.entities.recommender.user.UserEntity;
 import br.ufba.dcc.mestrado.computacao.recommender.evaluator.base.OfflineRecommenderEvaluator;
 import br.ufba.dcc.mestrado.computacao.service.core.base.ProjectDetailPageViewService;
 import br.ufba.dcc.mestrado.computacao.service.core.base.UserService;
-import br.ufba.dcc.mestrado.computacao.service.mahout.base.MahoutColaborativeFilteringService;
+import br.ufba.dcc.mestrado.computacao.service.recommender.base.MahoutColaborativeFilteringService;
 
 @Component
 public class AlsoViewedProjectsRecommenderEvaluator implements OfflineRecommenderEvaluator {

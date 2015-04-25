@@ -17,8 +17,7 @@ import javax.persistence.criteria.Subquery;
 
 import org.springframework.stereotype.Repository;
 
-import br.ufba.dcc.mestrado.computacao.entities.openhub.core.project.OpenHubProjectEntity;
-import br.ufba.dcc.mestrado.computacao.entities.recommender.preference.PreferenceEntity;
+import br.ufba.dcc.mestrado.computacao.entities.recommender.recommendation.RecommendationTypeEnum;
 import br.ufba.dcc.mestrado.computacao.entities.recommender.recommendation.UserRecommendationEntity;
 import br.ufba.dcc.mestrado.computacao.entities.recommender.user.UserEntity;
 import br.ufba.dcc.mestrado.computacao.repository.base.UserRecommendationRepository;
@@ -41,7 +40,7 @@ public class UserRecommendationRepositoryImpl
 	}
 	
 	
-	public UserRecommendationEntity findLastUserRecommendation(UserEntity user) {
+	public UserRecommendationEntity findLastUserRecommendation(UserEntity user, RecommendationTypeEnum recommendationType) {
 		UserRecommendationEntity userRecommendation = null;
 		
 		if (user != null) {
@@ -62,8 +61,13 @@ public class UserRecommendationRepositoryImpl
 				predicateList.add(userPredicate);
 			}
 			
+			if (recommendationType != null) {
+				Predicate recommendationTypePredicate = criteriaBuilder.equal(root.get("recommendationType"), recommendationType);
+				predicateList.add(recommendationTypePredicate);
+			}
+			
 			/*
-			 * Criando subquery para trazer os últimos registros de cada usuario/projeto
+			 * Criando subquery para trazer os ï¿½ltimos registros de cada usuario/projeto
 			 */
 			Subquery<Timestamp> subquery = recommendationSelect.subquery(Timestamp.class);
 			
@@ -74,6 +78,7 @@ public class UserRecommendationRepositoryImpl
 			
 			List<Predicate> subqueryPredicateList = new ArrayList<>();
 			subqueryPredicateList.add(criteriaBuilder.equal(root.get("userId"), p2.get("userId")));
+			subqueryPredicateList.add(criteriaBuilder.equal(root.get("recommendationType"), p2.get("recommendationType")));
 			
 			subquery = subquery.where(subqueryPredicateList.toArray(new Predicate[0]));
 			

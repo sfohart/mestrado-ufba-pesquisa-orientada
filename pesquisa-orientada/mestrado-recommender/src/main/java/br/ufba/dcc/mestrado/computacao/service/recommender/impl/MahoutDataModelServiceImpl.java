@@ -1,4 +1,4 @@
-package br.ufba.dcc.mestrado.computacao.service.mahout.impl;
+package br.ufba.dcc.mestrado.computacao.service.recommender.impl;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -15,7 +15,7 @@ import org.apache.mahout.cf.taste.model.Preference;
 import org.apache.mahout.cf.taste.model.PreferenceArray;
 import org.springframework.stereotype.Service;
 
-import br.ufba.dcc.mestrado.computacao.service.mahout.base.MahoutDataModelService;
+import br.ufba.dcc.mestrado.computacao.service.recommender.base.MahoutDataModelService;
 
 @Service(MahoutDataModelServiceImpl.BEAN_NAME)
 public class MahoutDataModelServiceImpl implements MahoutDataModelService {

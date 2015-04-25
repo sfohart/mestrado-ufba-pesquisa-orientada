@@ -21,14 +21,13 @@ import br.ufba.dcc.mestrado.computacao.entities.recommender.criterium.Recommende
 import br.ufba.dcc.mestrado.computacao.entities.recommender.user.UserEntity;
 import br.ufba.dcc.mestrado.computacao.recommender.evaluator.base.OfflineRecommenderEvaluator;
 import br.ufba.dcc.mestrado.computacao.recommender.multicriteria.algorithm.base.MultiCriteriaRecommender;
-import br.ufba.dcc.mestrado.computacao.recommender.multicriteria.algorithm.impl.MultiCriteriaListBasedRecommender;
 import br.ufba.dcc.mestrado.computacao.service.core.base.OverallRatingService;
 import br.ufba.dcc.mestrado.computacao.service.core.base.ProjectDetailPageViewService;
 import br.ufba.dcc.mestrado.computacao.service.core.base.RatingByCriteriumService;
 import br.ufba.dcc.mestrado.computacao.service.core.base.RecommenderCriteriumService;
 import br.ufba.dcc.mestrado.computacao.service.core.base.UserService;
-import br.ufba.dcc.mestrado.computacao.service.mahout.base.MahoutColaborativeFilteringService;
-import br.ufba.dcc.mestrado.computacao.service.mahout.base.MahoutDataModelService;
+import br.ufba.dcc.mestrado.computacao.service.recommender.base.MahoutColaborativeFilteringService;
+import br.ufba.dcc.mestrado.computacao.service.recommender.base.MahoutDataModelService;
 
 @Component
 public abstract class AbstractMultiCriteriaRecommenderEvaluator implements OfflineRecommenderEvaluator {

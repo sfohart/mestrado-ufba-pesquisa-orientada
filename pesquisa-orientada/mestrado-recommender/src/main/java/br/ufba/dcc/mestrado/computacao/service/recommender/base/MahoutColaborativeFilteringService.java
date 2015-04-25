@@ -1,10 +1,10 @@
-package br.ufba.dcc.mestrado.computacao.service.mahout.base;
+package br.ufba.dcc.mestrado.computacao.service.recommender.base;
 
 import org.apache.mahout.cf.taste.eval.RecommenderBuilder;
 
-import br.ufba.dcc.mestrado.computacao.service.core.base.BaseColaborativeFilteringService;
+import br.ufba.dcc.mestrado.computacao.service.recommender.base.ColaborativeFilteringService;
 
-public interface MahoutColaborativeFilteringService extends BaseColaborativeFilteringService {
+public interface MahoutColaborativeFilteringService extends ColaborativeFilteringService {
 
 	RecommenderBuilder getUserBasedRecommenderBuilder();
 

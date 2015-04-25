@@ -1,5 +1,5 @@
 
-package br.ufba.dcc.mestrado.computacao.service.core.impl;
+package br.ufba.dcc.mestrado.computacao.service.recommender.impl;
 
 import java.util.List;
 import java.util.Map;
@@ -13,15 +13,15 @@ import org.springframework.transaction.annotation.Transactional;
 import br.ufba.dcc.mestrado.computacao.entities.openhub.core.project.OpenHubProjectEntity;
 import br.ufba.dcc.mestrado.computacao.entities.recommender.criterium.RecommenderCriteriumEntity;
 import br.ufba.dcc.mestrado.computacao.entities.recommender.user.UserEntity;
-import br.ufba.dcc.mestrado.computacao.service.core.base.BaseColaborativeFilteringService;
 import br.ufba.dcc.mestrado.computacao.service.core.base.OverallRatingService;
 import br.ufba.dcc.mestrado.computacao.service.core.base.ProjectDetailPageViewService;
 import br.ufba.dcc.mestrado.computacao.service.core.base.RatingByCriteriumService;
 import br.ufba.dcc.mestrado.computacao.service.core.base.RecommenderCriteriumService;
+import br.ufba.dcc.mestrado.computacao.service.recommender.base.ColaborativeFilteringService;
 
-public abstract class BaseColaborativeFilteringServiceImpl
+public abstract class ColaborativeFilteringServiceImpl
 		extends AbstractRecommenderServiceImpl
-		implements BaseColaborativeFilteringService {
+		implements ColaborativeFilteringService {
 	
 	/**
 	 * 

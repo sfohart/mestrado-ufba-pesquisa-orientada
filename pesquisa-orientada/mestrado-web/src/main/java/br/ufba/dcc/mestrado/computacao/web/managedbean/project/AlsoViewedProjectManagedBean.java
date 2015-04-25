@@ -1,7 +1,6 @@
 
 package br.ufba.dcc.mestrado.computacao.web.managedbean.project;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.faces.bean.ManagedBean;
@@ -9,10 +8,11 @@ import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
 import javax.faces.event.ComponentSystemEvent;
 
+import org.apache.mahout.cf.taste.common.TasteException;
 import org.apache.mahout.cf.taste.recommender.RecommendedItem;
 
 import br.ufba.dcc.mestrado.computacao.entities.openhub.core.project.OpenHubProjectEntity;
-import br.ufba.dcc.mestrado.computacao.service.core.base.BaseColaborativeFilteringService;
+import br.ufba.dcc.mestrado.computacao.service.recommender.base.ColaborativeFilteringService;
 
 @ManagedBean(name="alsoViewedProjectMB")
 @ViewScoped
@@ -30,7 +30,7 @@ public class AlsoViewedProjectManagedBean extends ProjectManagedBean {
 	private Integer maxResults;
 	
 	@ManagedProperty("#{mahoutColaborativeFilteringService}")
-	private BaseColaborativeFilteringService colaborativeFilteringService;
+	private ColaborativeFilteringService colaborativeFilteringService;
 	
 	private List<OpenHubProjectEntity> alsoViewedProjectList;
 	
@@ -39,12 +39,12 @@ public class AlsoViewedProjectManagedBean extends ProjectManagedBean {
 		this.maxResults = SAMPLE_MAX_RESULTS;
 	}
 
-	public BaseColaborativeFilteringService getColaborativeFilteringService() {
+	public ColaborativeFilteringService getColaborativeFilteringService() {
 		return colaborativeFilteringService;
 	}
 
 	public void setColaborativeFilteringService(
-			BaseColaborativeFilteringService colaborativeFilteringService) {
+			ColaborativeFilteringService colaborativeFilteringService) {
 		this.colaborativeFilteringService = colaborativeFilteringService;
 	}
 
@@ -58,14 +58,19 @@ public class AlsoViewedProjectManagedBean extends ProjectManagedBean {
 		super.init(event);
 		
 		if (getProject() != null && getProject().getId() != null) {
-			findAlsoViewedProjectList();
+			try {
+				findAlsoViewedProjectList();
+			} catch (TasteException e) {
+				e.printStackTrace();
+			}
 		}
 	}
 	
 	/**
-	 * Recomenda outros projetos vistos pelos mesmos usuários que viram o projeto corrente
+	 * Recomenda outros projetos vistos pelos mesmos usuï¿½rios que viram o projeto corrente
+	 * @throws TasteException 
 	 */
-	protected void findAlsoViewedProjectList() {
+	protected void findAlsoViewedProjectList() throws TasteException {
 		//limpa lista atual de projetos recomendados
 		List<RecommendedItem> recommendedItems = getColaborativeFilteringService().recommendViewedProjectsByItem(getProject().getId(), getMaxResults());
 		this.alsoViewedProjectList = getColaborativeFilteringService().getRecommendedProjects(recommendedItems);

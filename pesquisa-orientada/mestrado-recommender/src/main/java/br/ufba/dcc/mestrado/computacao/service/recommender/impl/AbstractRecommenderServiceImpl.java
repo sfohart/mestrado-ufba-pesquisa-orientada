@@ -1,4 +1,4 @@
-package br.ufba.dcc.mestrado.computacao.service.core.impl;
+package br.ufba.dcc.mestrado.computacao.service.recommender.impl;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -23,7 +23,7 @@ import br.ufba.dcc.mestrado.computacao.service.base.ProjectService;
 import br.ufba.dcc.mestrado.computacao.service.core.base.RatingByCriteriumService;
 import br.ufba.dcc.mestrado.computacao.service.core.base.RecommenderCriteriumService;
 import br.ufba.dcc.mestrado.computacao.service.core.base.UserService;
-import br.ufba.dcc.mestrado.computacao.service.mahout.base.MahoutDataModelService;
+import br.ufba.dcc.mestrado.computacao.service.recommender.base.MahoutDataModelService;
 
 public abstract class AbstractRecommenderServiceImpl {
 

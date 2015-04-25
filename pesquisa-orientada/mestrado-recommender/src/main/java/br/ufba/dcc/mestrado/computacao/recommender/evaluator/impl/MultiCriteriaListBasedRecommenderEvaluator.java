@@ -6,8 +6,8 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
 import br.ufba.dcc.mestrado.computacao.recommender.multicriteria.algorithm.base.MultiCriteriaRecommender;
-import br.ufba.dcc.mestrado.computacao.service.mahout.base.MultiCriteriaRecommenderService;
-import br.ufba.dcc.mestrado.computacao.service.mahout.impl.MultiCriteriaListBasedRecommenderServiceImpl;
+import br.ufba.dcc.mestrado.computacao.service.recommender.base.MultiCriteriaRecommenderService;
+import br.ufba.dcc.mestrado.computacao.service.recommender.impl.MultiCriteriaListBasedRecommenderServiceImpl;
 
 @Component
 public class MultiCriteriaListBasedRecommenderEvaluator extends AbstractMultiCriteriaRecommenderEvaluator {

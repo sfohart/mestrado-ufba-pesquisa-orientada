@@ -12,18 +12,19 @@ import javax.faces.context.FacesContext;
 import javax.faces.event.ComponentSystemEvent;
 
 import org.apache.commons.lang3.StringUtils;
+import org.apache.mahout.cf.taste.common.TasteException;
 import org.apache.mahout.cf.taste.recommender.RecommendedItem;
 
 import br.ufba.dcc.mestrado.computacao.entities.openhub.core.project.OpenHubProjectEntity;
 import br.ufba.dcc.mestrado.computacao.entities.recommender.evaluation.RecommendationEvaluationEntity;
-import br.ufba.dcc.mestrado.computacao.entities.recommender.recommendation.RecommendationEnum;
+import br.ufba.dcc.mestrado.computacao.entities.recommender.recommendation.RecommendationTypeEnum;
 import br.ufba.dcc.mestrado.computacao.entities.recommender.recommendation.UserRecommendationEntity;
 import br.ufba.dcc.mestrado.computacao.entities.recommender.user.UserEntity;
 import br.ufba.dcc.mestrado.computacao.service.base.RecommendationEvaluationService;
 import br.ufba.dcc.mestrado.computacao.service.base.SearchService;
 import br.ufba.dcc.mestrado.computacao.service.base.UserRecommendationService;
 import br.ufba.dcc.mestrado.computacao.service.basic.RepositoryBasedUserDetailsService;
-import br.ufba.dcc.mestrado.computacao.service.core.base.BaseColaborativeFilteringService;
+import br.ufba.dcc.mestrado.computacao.service.recommender.base.ColaborativeFilteringService;
 
 import com.ocpsoft.pretty.faces.annotation.URLMapping;
 import com.ocpsoft.pretty.faces.annotation.URLMappings;
@@ -54,7 +55,7 @@ public class RelatedProjectManagedBean extends ProjectManagedBean {
 	private SearchService searchService;
 	
 	@ManagedProperty("#{mahoutColaborativeFilteringService}")
-	private BaseColaborativeFilteringService colaborativeFilteringService;
+	private ColaborativeFilteringService colaborativeFilteringService;
 	
 	@ManagedProperty("#{repositoryBasedUserDetailsService}")
 	private RepositoryBasedUserDetailsService userDetailsService;
@@ -92,7 +93,11 @@ public class RelatedProjectManagedBean extends ProjectManagedBean {
 		super.init(event);
 		
 		if (getProject() != null && getProject().getId() != null) {
-			configureAlsoViewedProjectsRecommendation();
+			try {
+				configureAlsoViewedProjectsRecommendation();
+			} catch (TasteException e) {
+				e.printStackTrace();
+			}
 		}
 	}
 	
@@ -148,7 +153,7 @@ public class RelatedProjectManagedBean extends ProjectManagedBean {
 	}
 	
 
-	protected void configureAlsoViewedProjectsRecommendation() {
+	protected void configureAlsoViewedProjectsRecommendation() throws TasteException {
 		alsoViewedProjectsRecommendation = new UserRecommendationEntity();	
 		
 		List<RecommendedItem> recommendedItems = getColaborativeFilteringService().recommendViewedProjectsByItem(getProject().getId(), getMaxResults());
@@ -158,7 +163,7 @@ public class RelatedProjectManagedBean extends ProjectManagedBean {
 		Timestamp recommendationDate = new Timestamp(System.currentTimeMillis());
 		String viewUri = FacesContext.getCurrentInstance().getViewRoot().getViewId();
 		
-		alsoViewedProjectsRecommendation.setRecommendationType(br.ufba.dcc.mestrado.computacao.entities.recommender.recommendation.RecommendationEnum.COLABORATIVE_FILTERING_ITEM_BASED_RECOMMENDATION);
+		alsoViewedProjectsRecommendation.setRecommendationType(br.ufba.dcc.mestrado.computacao.entities.recommender.recommendation.RecommendationTypeEnum.COLABORATIVE_FILTERING_ITEM_BASED_RECOMMENDATION);
 		alsoViewedProjectsRecommendation.setRecommendedProjects(recommendationList);
 		alsoViewedProjectsRecommendation.setUser(currentUser);
 		alsoViewedProjectsRecommendation.setRecommendationDate(recommendationDate);	
@@ -173,7 +178,7 @@ public class RelatedProjectManagedBean extends ProjectManagedBean {
 	}
 
 	/**
-	 * Utiliza busca por conteúdo pra recomendar projetos similares.
+	 * Utiliza busca por conteï¿½do pra recomendar projetos similares.
 	 */
 	protected void configureSimilarProjectsRecommendation() {
 		try {
@@ -185,7 +190,7 @@ public class RelatedProjectManagedBean extends ProjectManagedBean {
 			Timestamp recommendationDate = new Timestamp(System.currentTimeMillis());
 			String viewUri = FacesContext.getCurrentInstance().getViewRoot().getViewId();
 			
-			similarProjectsRecommendation.setRecommendationType(RecommendationEnum.CONTENT_BASED_RECOMMENDATION);
+			similarProjectsRecommendation.setRecommendationType(RecommendationTypeEnum.CONTENT_BASED_RECOMMENDATION);
 			similarProjectsRecommendation.setRecommendedProjects(recommendationList);
 			similarProjectsRecommendation.setUser(currentUser);
 			similarProjectsRecommendation.setRecommendationDate(recommendationDate);
@@ -219,12 +224,12 @@ public class RelatedProjectManagedBean extends ProjectManagedBean {
 		this.searchService = searchService;
 	}
 
-	public BaseColaborativeFilteringService getColaborativeFilteringService() {
+	public ColaborativeFilteringService getColaborativeFilteringService() {
 		return colaborativeFilteringService;
 	}
 
 	public void setColaborativeFilteringService(
-			BaseColaborativeFilteringService colaborativeFilteringService) {
+			ColaborativeFilteringService colaborativeFilteringService) {
 		this.colaborativeFilteringService = colaborativeFilteringService;
 	}
 	

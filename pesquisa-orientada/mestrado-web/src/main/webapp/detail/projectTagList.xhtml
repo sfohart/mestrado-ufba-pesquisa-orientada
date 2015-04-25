@@ -11,7 +11,7 @@
 	>
 	
 	
-	<h:panelGroup layout="block" id="tagsPanel" class="root tags-panel" rendered="#{(not empty tagList) and (not fullList)}" style="margin-top: 10px">
+	<h:panelGroup layout="block" class="root tags-panel" rendered="#{(not empty tagList) and (not fullList)}" style="margin-top: 10px">
 		<span class="glyphicon glyphicon-tags" style="margin-right: 5px"></span>
 		<ui:repeat var="tag" value="#{tagList}" size="7">
 			<span class="label-custom"><h:outputText value="#{tag.name}" /></span>      														
@@ -22,7 +22,7 @@
 			value=" e #{tagOthersSize} outras"/>					
 	</h:panelGroup>
 	
-	<h:panelGroup id="tagsPanelFullList" rendered="#{(not empty tagList) and fullList}">
+	<h:panelGroup rendered="#{(not empty tagList) and fullList}">
 		<span class="glyphicon glyphicon-tags" style="margin-right: 5px"></span>
 		<ui:repeat var="tag" value="#{tagList}">
 			<span class="label-custom">

@@ -3,6 +3,7 @@ package br.ufba.dcc.mestrado.computacao.entities.recommender.recommendation;
 import java.sql.Timestamp;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
@@ -21,6 +22,7 @@ import javax.persistence.UniqueConstraint;
 
 import br.ufba.dcc.mestrado.computacao.entities.BaseEntity;
 import br.ufba.dcc.mestrado.computacao.entities.openhub.core.project.OpenHubProjectEntity;
+import br.ufba.dcc.mestrado.computacao.entities.openhub.core.project.OpenHubTagEntity;
 import br.ufba.dcc.mestrado.computacao.entities.recommender.user.UserEntity;
 
 @Entity
@@ -63,7 +65,16 @@ public class UserRecommendationEntity implements BaseEntity<Long>{
 	
 	@Enumerated(EnumType.STRING)
 	@Column(name = "recommendation_type")
-	private RecommendationEnum recommendationType;
+	private RecommendationTypeEnum recommendationType;
+	
+	@ManyToMany(cascade=CascadeType.ALL)
+	@JoinTable(
+			name="user_recommendation_interest_tags",
+			joinColumns=@JoinColumn(name = "user_recommendation_id", referencedColumnName="id"),
+			inverseJoinColumns=@JoinColumn(name = "tag_id", referencedColumnName="id"),
+			uniqueConstraints=@UniqueConstraint(columnNames={"user_recommendation_id","tag_id"})
+			)
+	private List<OpenHubTagEntity> interestTags;
 	
 	
 	public Long getId() {
@@ -115,14 +126,20 @@ public class UserRecommendationEntity implements BaseEntity<Long>{
 		this.recommendationDate = recommendationDate;
 	}
 
-	public RecommendationEnum getRecommendationType() {
+	public RecommendationTypeEnum getRecommendationType() {
 		return recommendationType;
 	}
 
-	public void setRecommendationType(RecommendationEnum recommendationType) {
+	public void setRecommendationType(RecommendationTypeEnum recommendationType) {
 		this.recommendationType = recommendationType;
 	}
-	
-	
+
+	public List<OpenHubTagEntity> getInterestTags() {
+		return interestTags;
+	}
+
+	public void setInterestTags(List<OpenHubTagEntity> interestTags) {
+		this.interestTags = interestTags;
+	}
 	
 }

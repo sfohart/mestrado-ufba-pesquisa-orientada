@@ -1,4 +1,4 @@
-package br.ufba.dcc.mestrado.computacao.service.mahout.impl;
+package br.ufba.dcc.mestrado.computacao.service.recommender.impl;
 
 import java.util.List;
 
@@ -10,9 +10,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import br.ufba.dcc.mestrado.computacao.recommender.multicriteria.algorithm.base.MultiCriteriaRecommender;
-import br.ufba.dcc.mestrado.computacao.service.core.impl.AbstractRecommenderServiceImpl;
-import br.ufba.dcc.mestrado.computacao.service.mahout.base.MahoutColaborativeFilteringService;
-import br.ufba.dcc.mestrado.computacao.service.mahout.base.MultiCriteriaRecommenderService;
+import br.ufba.dcc.mestrado.computacao.service.recommender.base.MahoutColaborativeFilteringService;
+import br.ufba.dcc.mestrado.computacao.service.recommender.base.MultiCriteriaRecommenderService;
 
 @Service
 public abstract class AbstractMultiCriteriaRecommenderServiceImpl

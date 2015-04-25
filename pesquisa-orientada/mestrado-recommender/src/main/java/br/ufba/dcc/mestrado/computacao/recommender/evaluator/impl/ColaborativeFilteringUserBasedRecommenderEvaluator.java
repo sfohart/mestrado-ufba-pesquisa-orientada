@@ -12,9 +12,9 @@ import org.springframework.stereotype.Component;
 import br.ufba.dcc.mestrado.computacao.entities.openhub.core.project.OpenHubProjectEntity;
 import br.ufba.dcc.mestrado.computacao.entities.recommender.user.UserEntity;
 import br.ufba.dcc.mestrado.computacao.recommender.evaluator.base.OfflineRecommenderEvaluator;
-import br.ufba.dcc.mestrado.computacao.service.core.base.BaseColaborativeFilteringService;
 import br.ufba.dcc.mestrado.computacao.service.core.base.ProjectDetailPageViewService;
 import br.ufba.dcc.mestrado.computacao.service.core.base.UserService;
+import br.ufba.dcc.mestrado.computacao.service.recommender.base.ColaborativeFilteringService;
 
 @Component
 public class ColaborativeFilteringUserBasedRecommenderEvaluator implements OfflineRecommenderEvaluator {
@@ -26,7 +26,7 @@ public class ColaborativeFilteringUserBasedRecommenderEvaluator implements Offli
 	private ProjectDetailPageViewService pageViewService;
 	
 	@Autowired
-	private BaseColaborativeFilteringService colaborativeFilteringService;
+	private ColaborativeFilteringService colaborativeFilteringService;
 	
 	@Value("${recommender.results.sample.max}")
 	private int howManyItems;

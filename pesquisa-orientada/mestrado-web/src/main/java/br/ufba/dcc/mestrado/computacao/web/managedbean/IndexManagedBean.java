@@ -6,29 +6,29 @@ import java.util.List;
 
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
-import javax.faces.bean.ViewScoped;
+import javax.faces.bean.SessionScoped;
 import javax.faces.event.ComponentSystemEvent;
 
 import org.apache.commons.lang3.tuple.ImmutablePair;
-import org.apache.mahout.cf.taste.recommender.RecommendedItem;
 
 import br.ufba.dcc.mestrado.computacao.dto.pageview.ProjectDetailPageViewInfo;
 import br.ufba.dcc.mestrado.computacao.dto.pageview.ProjectReviewsInfo;
 import br.ufba.dcc.mestrado.computacao.entities.openhub.core.project.OpenHubProjectEntity;
+import br.ufba.dcc.mestrado.computacao.entities.recommender.recommendation.RecommendationTypeEnum;
 import br.ufba.dcc.mestrado.computacao.entities.recommender.recommendation.UserRecommendationEntity;
 import br.ufba.dcc.mestrado.computacao.entities.recommender.user.UserEntity;
 import br.ufba.dcc.mestrado.computacao.service.base.ProjectService;
 import br.ufba.dcc.mestrado.computacao.service.base.UserRecommendationService;
 import br.ufba.dcc.mestrado.computacao.service.basic.RepositoryBasedUserDetailsService;
-import br.ufba.dcc.mestrado.computacao.service.core.base.BaseColaborativeFilteringService;
 import br.ufba.dcc.mestrado.computacao.service.core.base.OverallRatingService;
 import br.ufba.dcc.mestrado.computacao.service.core.base.ProjectDetailPageViewService;
 import br.ufba.dcc.mestrado.computacao.service.core.base.RecommenderCriteriumService;
 import br.ufba.dcc.mestrado.computacao.service.core.base.UserService;
-import br.ufba.dcc.mestrado.computacao.service.mahout.base.MultiCriteriaRecommenderService;
+import br.ufba.dcc.mestrado.computacao.service.recommender.base.ColaborativeFilteringService;
+import br.ufba.dcc.mestrado.computacao.service.recommender.base.MultiCriteriaRecommenderService;
 
 @ManagedBean(name="indexMB")
-@ViewScoped
+@SessionScoped
 public class IndexManagedBean implements Serializable {
 
 	/**
@@ -40,7 +40,7 @@ public class IndexManagedBean implements Serializable {
 	private ProjectService projectService;
 	
 	@ManagedProperty("#{mahoutColaborativeFilteringService}")
-	private BaseColaborativeFilteringService colaborativeFilteringService;
+	private ColaborativeFilteringService colaborativeFilteringService;
 	
 	@ManagedProperty("#{multiCriteriaListBasedRecommenderService}")
 	private MultiCriteriaRecommenderService multiCriteriaRecommenderService;
@@ -67,8 +67,8 @@ public class IndexManagedBean implements Serializable {
 	private List<ProjectDetailPageViewInfo> topTenViewedProjectList;
 	
 	private List<OpenHubProjectEntity> projectViewedList;
-	private List<OpenHubProjectEntity> colaborativeFilteringRecommendation;
 	
+	private UserRecommendationEntity colaborativeFilteringRecommendation;	
 	private UserRecommendationEntity multiCriteriaRecommendation;
 	
 	private ProjectReviewsInfo mostReviewedProjectPreferenceInfo;
@@ -78,10 +78,14 @@ public class IndexManagedBean implements Serializable {
 	}
 
 	public void init(ComponentSystemEvent event) {
-		findTopTenReviewedProjectList();
-		findTopTenViewedProjectList();		
 		
-		findUserRecentlyViewedProjectList();
+		if (topTenReviewedProjectList == null) {
+			findTopTenReviewedProjectList();
+		}
+		
+		if (topTenViewedProjectList == null) {
+			findTopTenViewedProjectList();		
+		}
 		
 		if (this.topTenReviewedProjectList != null && ! this.topTenReviewedProjectList.isEmpty()) {
 			this.mostReviewedProjectPreferenceInfo = this.topTenReviewedProjectList.get(0);
@@ -91,9 +95,17 @@ public class IndexManagedBean implements Serializable {
 			this.mostViewedProjectDetailInfo = this.topTenViewedProjectList.get(0);
 		}
 		
-		findUserRecentlyViewedProjectList();
-		findColaborativeFilteringRecommendedProjects();
-		findMultiCriteriaRecommendedProjects();
+		if (projectViewedList == null) {
+			findUserRecentlyViewedProjectList();
+		}
+		
+		if (colaborativeFilteringRecommendation == null) {
+			findColaborativeFilteringRecommendedProjects();
+		}
+		
+		if (multiCriteriaRecommendation == null) {
+			findMultiCriteriaRecommendedProjects();
+		}
 	}
 
 	protected void findTopTenViewedProjectList() {
@@ -130,7 +142,6 @@ public class IndexManagedBean implements Serializable {
 	}
 
 	private void findUserRecentlyViewedProjectList() {
-		this.projectViewedList = new ArrayList<>();
 		UserEntity currentUser = getUserDetailsService().loadFullLoggedUser();
 		
 		if (currentUser != null) {
@@ -142,11 +153,9 @@ public class IndexManagedBean implements Serializable {
 	}
 	
 	protected void findColaborativeFilteringRecommendedProjects() {
-		this.colaborativeFilteringRecommendation = new ArrayList<>();
 		final UserEntity currentUser = getUserDetailsService().loadFullLoggedUser();
 		if (currentUser != null && currentUser.getId() != null) {
-			List<RecommendedItem> recommendedItems = getColaborativeFilteringService().recommendViewedProjectsByUser(currentUser.getId(), 6, true); 
-			this.colaborativeFilteringRecommendation = getColaborativeFilteringService().getRecommendedProjects(recommendedItems);
+			this.colaborativeFilteringRecommendation = userRecommendationService.findLastUserRecommendation(currentUser, RecommendationTypeEnum.COLABORATIVE_FILTERING_USER_BASED_RECOMMENDATION);
 		}
 	}
 
@@ -154,8 +163,7 @@ public class IndexManagedBean implements Serializable {
 	protected void findMultiCriteriaRecommendedProjects() {
 		final UserEntity currentUser = getUserDetailsService().loadFullLoggedUser();
 		if (currentUser != null && currentUser.getId() != null) {
-			multiCriteriaRecommendation = userRecommendationService.findLastUserRecommendation(currentUser);
-			
+			this.multiCriteriaRecommendation = userRecommendationService.findLastUserRecommendation(currentUser, RecommendationTypeEnum.MULTICRITERIA_LIST_BASED_RECOMMENDATION);			
 		}
 	}
 	
@@ -210,12 +218,12 @@ public class IndexManagedBean implements Serializable {
 	}
 	
 	
-	public BaseColaborativeFilteringService getColaborativeFilteringService() {
+	public ColaborativeFilteringService getColaborativeFilteringService() {
 		return colaborativeFilteringService;
 	}
 
 	public void setColaborativeFilteringService(
-			BaseColaborativeFilteringService colaborativeFilteringService) {
+			ColaborativeFilteringService colaborativeFilteringService) {
 		this.colaborativeFilteringService = colaborativeFilteringService;
 	}
 
@@ -255,7 +263,7 @@ public class IndexManagedBean implements Serializable {
 		return projectViewedList;
 	}
 	
-	public List<OpenHubProjectEntity> getColaborativeFilteringRecommendation() {
+	public UserRecommendationEntity getColaborativeFilteringRecommendation() {
 		return colaborativeFilteringRecommendation;
 	}
 	
