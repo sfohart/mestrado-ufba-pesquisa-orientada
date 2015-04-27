@@ -1,6 +1,6 @@
 package br.ufba.dcc.mestrado.computacao.web.managedbean;
 
-import java.io.Serializable;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -14,10 +14,10 @@ import org.apache.commons.lang3.tuple.ImmutablePair;
 import br.ufba.dcc.mestrado.computacao.dto.pageview.ProjectDetailPageViewInfo;
 import br.ufba.dcc.mestrado.computacao.dto.pageview.ProjectReviewsInfo;
 import br.ufba.dcc.mestrado.computacao.entities.openhub.core.project.OpenHubProjectEntity;
+import br.ufba.dcc.mestrado.computacao.entities.recommender.evaluation.RecommendationEvaluationEntity;
 import br.ufba.dcc.mestrado.computacao.entities.recommender.recommendation.RecommendationTypeEnum;
 import br.ufba.dcc.mestrado.computacao.entities.recommender.recommendation.UserRecommendationEntity;
 import br.ufba.dcc.mestrado.computacao.entities.recommender.user.UserEntity;
-import br.ufba.dcc.mestrado.computacao.service.base.ProjectService;
 import br.ufba.dcc.mestrado.computacao.service.base.UserRecommendationService;
 import br.ufba.dcc.mestrado.computacao.service.basic.RepositoryBasedUserDetailsService;
 import br.ufba.dcc.mestrado.computacao.service.core.base.OverallRatingService;
@@ -26,18 +26,17 @@ import br.ufba.dcc.mestrado.computacao.service.core.base.RecommenderCriteriumSer
 import br.ufba.dcc.mestrado.computacao.service.core.base.UserService;
 import br.ufba.dcc.mestrado.computacao.service.recommender.base.ColaborativeFilteringService;
 import br.ufba.dcc.mestrado.computacao.service.recommender.base.MultiCriteriaRecommenderService;
+import br.ufba.dcc.mestrado.computacao.web.managedbean.project.RecommendedProjectManagedBean;
 
 @ManagedBean(name="indexMB")
 @SessionScoped
-public class IndexManagedBean implements Serializable {
+public class IndexManagedBean extends RecommendedProjectManagedBean {
 
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = -1409944916651513725L;
 	
-	@ManagedProperty("#{projectService}")
-	private ProjectService projectService;
 	
 	@ManagedProperty("#{mahoutColaborativeFilteringService}")
 	private ColaborativeFilteringService colaborativeFilteringService;
@@ -75,9 +74,12 @@ public class IndexManagedBean implements Serializable {
 	private ProjectDetailPageViewInfo mostViewedProjectDetailInfo;
 		
 	public IndexManagedBean() {
+		super();
 	}
 
+	@Override
 	public void init(ComponentSystemEvent event) {
+		super.init(event);
 		
 		if (topTenReviewedProjectList == null) {
 			findTopTenReviewedProjectList();
@@ -152,6 +154,45 @@ public class IndexManagedBean implements Serializable {
 		}
 	}
 	
+	protected RecommendationEvaluationEntity buildRecommendationEvaluation(Long selectedProjectId) {
+		RecommendationEvaluationEntity recommendationEvaluation = null;
+		
+		UserEntity currentUser = getUserDetailsService().loadFullLoggedUser();
+		
+		if (colaborativeFilteringRecommendation != null
+				&& colaborativeFilteringRecommendation.getRecommendedProjects() != null) {
+			for (OpenHubProjectEntity project : colaborativeFilteringRecommendation.getRecommendedProjects()) {
+				if (project.getId().equals(selectedProjectId)) {
+					recommendationEvaluation = new RecommendationEvaluationEntity();
+					recommendationEvaluation.setSelectedProject(project);
+					recommendationEvaluation.setUserRecommendation(colaborativeFilteringRecommendation);
+					recommendationEvaluation.getUserRecommendation().setUser(currentUser);
+					recommendationEvaluation.setEvaluationDate(new Timestamp(System.currentTimeMillis()));
+					break;
+				}
+			}
+		}
+		
+		if (recommendationEvaluation == null
+				&& multiCriteriaRecommendation != null
+				&& multiCriteriaRecommendation.getRecommendedProjects() != null) {
+			for (OpenHubProjectEntity project : multiCriteriaRecommendation.getRecommendedProjects()) {
+				if (project.getId().equals(selectedProjectId)) {
+					recommendationEvaluation = new RecommendationEvaluationEntity();
+					recommendationEvaluation.setSelectedProject(project);
+					recommendationEvaluation.setUserRecommendation(multiCriteriaRecommendation);
+					recommendationEvaluation.getUserRecommendation().setUser(currentUser);
+					recommendationEvaluation.setEvaluationDate(new Timestamp(System.currentTimeMillis()));
+					break;
+				}
+			}
+			
+		}
+	
+		return recommendationEvaluation;
+		
+	}
+	
 	protected void findColaborativeFilteringRecommendedProjects() {
 		final UserEntity currentUser = getUserDetailsService().loadFullLoggedUser();
 		if (currentUser != null && currentUser.getId() != null) {
@@ -166,15 +207,8 @@ public class IndexManagedBean implements Serializable {
 			this.multiCriteriaRecommendation = userRecommendationService.findLastUserRecommendation(currentUser, RecommendationTypeEnum.MULTICRITERIA_LIST_BASED_RECOMMENDATION);			
 		}
 	}
+
 	
-	public ProjectService getProjectService() {
-		return projectService;
-	}
-
-	public void setProjectService(ProjectService projectService) {
-		this.projectService = projectService;
-	}
-
 	public UserService getUserService() {
 		return userService;
 	}

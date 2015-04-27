@@ -1,5 +1,7 @@
 package br.ufba.dcc.mestrado.computacao.entities.recommender.evaluation;
 
+import java.sql.Timestamp;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -42,6 +44,9 @@ public class RecommendationEvaluationEntity implements BaseEntity<Long> {
 	@JoinColumn(name = "selected_project_id", referencedColumnName = "id")
 	private OpenHubProjectEntity selectedProject;
 	
+	@Column(name = "evaluation_date")
+	private Timestamp evaluationDate;
+	
 	
 	public Long getId() {
 		return id;
@@ -75,7 +80,13 @@ public class RecommendationEvaluationEntity implements BaseEntity<Long> {
 		this.selectedProject = selectedProject;
 	}
 
-	
-	
+	public Timestamp getEvaluationDate() {
+		return evaluationDate;
+	}
+
+	public void setEvaluationDate(Timestamp evaluationDate) {
+		this.evaluationDate = evaluationDate;
+	}
+
 	
 }

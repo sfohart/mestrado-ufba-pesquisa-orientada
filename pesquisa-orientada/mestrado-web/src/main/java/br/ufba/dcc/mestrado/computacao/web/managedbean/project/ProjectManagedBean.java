@@ -15,6 +15,7 @@ import br.ufba.dcc.mestrado.computacao.service.base.ProjectService;
 @ViewScoped
 public class ProjectManagedBean implements Serializable {
 
+	protected static final String SELECTED_PROJECT_PARAM = "selectedProjectId";
 
 	/**
 	 * 

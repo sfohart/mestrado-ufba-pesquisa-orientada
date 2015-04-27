@@ -11,7 +11,6 @@ import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 import javax.faces.event.ComponentSystemEvent;
 
-import org.apache.commons.lang3.StringUtils;
 import org.apache.mahout.cf.taste.common.TasteException;
 import org.apache.mahout.cf.taste.recommender.RecommendedItem;
 
@@ -38,7 +37,7 @@ import com.ocpsoft.pretty.faces.annotation.URLMappings;
 				pattern="/detail/#{ /[0-9]+/ projectId}/relatedProject",
 				viewId="/detail/relatedProjectList.jsf")	
 })
-public class RelatedProjectManagedBean extends ProjectManagedBean {
+public class RelatedProjectManagedBean extends RecommendedProjectManagedBean {
 
 	/**
 	 * 
@@ -48,7 +47,7 @@ public class RelatedProjectManagedBean extends ProjectManagedBean {
 	private static final Integer SAMPLE_MAX_RESULTS = 6;
 	private static final Integer TOP10_MAX_RESULTS = 10;
 
-	private static final String SELECTED_PROJECT_PARAM = "selectedProjectId";
+	
 
 
 	@ManagedProperty("#{searchService}")
@@ -63,8 +62,6 @@ public class RelatedProjectManagedBean extends ProjectManagedBean {
 	@ManagedProperty("#{userRecommendationService}")
 	private UserRecommendationService userRecommendationService;
 	
-	@ManagedProperty("#{recommendationEvaluationService}")
-	private RecommendationEvaluationService recommendationEvaluationService;
 	
 	private UserRecommendationEntity alsoViewedProjectsRecommendation;
 	private UserRecommendationEntity similarProjectsRecommendation;
@@ -101,58 +98,45 @@ public class RelatedProjectManagedBean extends ProjectManagedBean {
 		}
 	}
 	
-	public String saveRecommenderEvaluation() {
+	
+	protected RecommendationEvaluationEntity buildRecommendationEvaluation(Long selectedProjectId) {
+		RecommendationEvaluationEntity recommendationEvaluation = null;
 		
-		FacesContext facesContext = FacesContext.getCurrentInstance();
-		String selectedProjectIdParam = facesContext.getExternalContext().getRequestParameterMap().get(SELECTED_PROJECT_PARAM);
+		UserEntity currentUser = getUserDetailsService().loadFullLoggedUser();
 		
-		if (! StringUtils.isEmpty(selectedProjectIdParam)) {		
-			Long selectedProjectId = Long.valueOf(selectedProjectIdParam);
-			
-			RecommendationEvaluationEntity recommendationEvaluationEntity = null;
-			
-			if (similarProjectsRecommendation != null && similarProjectsRecommendation.getRecommendedProjects() != null) {
-				for (OpenHubProjectEntity project : similarProjectsRecommendation.getRecommendedProjects()) {
-					if (project.getId().equals(selectedProjectId)) {
-						recommendationEvaluationEntity = new RecommendationEvaluationEntity();
-						recommendationEvaluationEntity.setSelectedProject(project);
-						recommendationEvaluationEntity.setUserRecommendation(similarProjectsRecommendation);
-						break;
-					}
+		if (similarProjectsRecommendation != null 
+				&& similarProjectsRecommendation.getRecommendedProjects() != null) {
+			for (OpenHubProjectEntity project : similarProjectsRecommendation.getRecommendedProjects()) {
+				if (project.getId().equals(selectedProjectId)) {
+					recommendationEvaluation = new RecommendationEvaluationEntity();
+					recommendationEvaluation.setSelectedProject(project);
+					recommendationEvaluation.setUserRecommendation(similarProjectsRecommendation);
+					recommendationEvaluation.getUserRecommendation().setUser(currentUser);
+					recommendationEvaluation.setEvaluationDate(new Timestamp(System.currentTimeMillis()));
+					break;
 				}
 			}
-			
-			if (recommendationEvaluationEntity == null
-					&& alsoViewedProjectsRecommendation != null 
-					&& alsoViewedProjectsRecommendation.getRecommendedProjects() != null) {
-				
-				for (OpenHubProjectEntity project : alsoViewedProjectsRecommendation.getRecommendedProjects()) {
-					if (project.getId().equals(selectedProjectId)) {
-						recommendationEvaluationEntity = new RecommendationEvaluationEntity();
-						recommendationEvaluationEntity.setSelectedProject(project);
-						recommendationEvaluationEntity.setUserRecommendation(alsoViewedProjectsRecommendation);
-						break;
-					}
-				}			
-			}
-			
-			if (recommendationEvaluationEntity != null) {
-				try {
-					getRecommendationEvaluationService().save(recommendationEvaluationEntity);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-			
-			
-			return String.format("/detail/projectDetail.jsf?projectId=%d&faces-redirect=true", selectedProjectId);
-		} else {
-			return null;
 		}
 		
+		if (recommendationEvaluation == null
+				&& alsoViewedProjectsRecommendation != null 
+				&& alsoViewedProjectsRecommendation.getRecommendedProjects() != null) {
+			
+			for (OpenHubProjectEntity project : alsoViewedProjectsRecommendation.getRecommendedProjects()) {
+				if (project.getId().equals(selectedProjectId)) {
+					recommendationEvaluation = new RecommendationEvaluationEntity();
+					recommendationEvaluation.setSelectedProject(project);
+					recommendationEvaluation.setUserRecommendation(alsoViewedProjectsRecommendation);
+					recommendationEvaluation.getUserRecommendation().setUser(currentUser);
+					recommendationEvaluation.setEvaluationDate(new Timestamp(System.currentTimeMillis()));
+					break;
+				}
+			}			
+		}
+		
+		return recommendationEvaluation;
 	}
 	
-
 	protected void configureAlsoViewedProjectsRecommendation() throws TasteException {
 		alsoViewedProjectsRecommendation = new UserRecommendationEntity();	
 		
@@ -249,15 +233,6 @@ public class RelatedProjectManagedBean extends ProjectManagedBean {
 	public void setUserRecommendationService(
 			UserRecommendationService userRecommendationService) {
 		this.userRecommendationService = userRecommendationService;
-	}
-
-	public RecommendationEvaluationService getRecommendationEvaluationService() {
-		return recommendationEvaluationService;
-	}
-
-	public void setRecommendationEvaluationService(
-			RecommendationEvaluationService recommendationEvaluationService) {
-		this.recommendationEvaluationService = recommendationEvaluationService;
 	}
 
 	public UserRecommendationEntity getAlsoViewedProjectsRecommendation() {
