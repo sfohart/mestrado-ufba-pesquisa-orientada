@@ -3,7 +3,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>br.ufba.dcc.mestrado.computacao</groupId>
 	<artifactId>pesquisa-orientada</artifactId>
-	<version>1.2.1.RELEASE</version>
+	<version>1.2.2.RELEASE</version>
 	<packaging>pom</packaging>
 
 	<developers>

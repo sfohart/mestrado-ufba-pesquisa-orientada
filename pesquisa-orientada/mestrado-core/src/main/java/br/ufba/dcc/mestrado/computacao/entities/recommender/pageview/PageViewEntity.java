@@ -38,8 +38,8 @@ public abstract class PageViewEntity implements BaseEntity<Long> {
 	@Column(name = "viewed_at")
 	private Timestamp viewedAt;
 	
-	@Column(name = "ip_address")
-	private String ipAddress;
+	@Column(name = "user_hash")
+	private Integer userHash;
 
 	public Long getId() {
 		return id;
@@ -73,14 +73,13 @@ public abstract class PageViewEntity implements BaseEntity<Long> {
 		this.viewedAt = viewedAt;
 	}
 
-	public String getIpAddress() {
-		return ipAddress;
+	public Integer getUserHash() {
+		return userHash;
 	}
 
-	public void setIpAddress(String ipAddress) {
-		this.ipAddress = ipAddress;
+	public void setUseHash(Integer userHash) {
+		this.userHash = userHash;
 	}
-	
-	
+
 	
 }

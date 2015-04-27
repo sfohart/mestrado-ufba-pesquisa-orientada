@@ -54,6 +54,7 @@ public class UserEntity implements BaseEntity<Long>{
 	@JoinColumn(name="ohloh_account_id", referencedColumnName="id")
 	private OpenHubAccountEntity ohLohAccount;
 		
+	@Column(unique = true)
 	private String login;
 	
 	private String password;

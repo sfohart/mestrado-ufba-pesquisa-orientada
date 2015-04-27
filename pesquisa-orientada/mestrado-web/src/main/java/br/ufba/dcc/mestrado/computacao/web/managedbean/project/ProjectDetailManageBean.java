@@ -95,7 +95,15 @@ public class ProjectDetailManageBean extends ProjectManagedBean {
 		pageViewEntity.setUser(user);
 		pageViewEntity.setProject(getProject());
 		pageViewEntity.setViewedAt(new Timestamp(System.currentTimeMillis()));
-		pageViewEntity.setIpAddress(request.getRemoteAddr());
+		
+		Integer userHash = null;
+		if (user != null) {
+			userHash = user.hashCode();
+		} else {
+			userHash = request.getRemoteAddr().hashCode();
+		}
+				
+		pageViewEntity.setUseHash(userHash);
 		
 		getPageViewService().save(pageViewEntity);
 		
@@ -127,7 +135,7 @@ public class ProjectDetailManageBean extends ProjectManagedBean {
 			
 			this.overallPreferenceCount = getOverallRatingService().countAllLastPreferenceByProject(getProject().getId());
 			
-			//calculando valores médios de preferência
+			//calculando valores mï¿½dios de preferï¿½ncia
 			UserEntity currentUser = getUserDetailsService().loadFullLoggedUser();
 			
 			this.averagePreference = getOverallRatingService().averagePreferenceByItem(getProject().getId());
