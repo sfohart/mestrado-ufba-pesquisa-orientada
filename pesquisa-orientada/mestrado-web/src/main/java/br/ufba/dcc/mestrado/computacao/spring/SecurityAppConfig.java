@@ -53,6 +53,12 @@ public class SecurityAppConfig extends WebSecurityConfigurerAdapter {
 		http
 			.csrf()
 				.csrfTokenRepository(csrfTokenRepository())
+				.ignoringAntMatchers(
+						"/detail/**",
+						"/summary/**",
+						"/reviews/project/**",
+						"/reviews/user/**",
+						"/search/results.jsf")
 				.and()
 			.authorizeRequests()
 				.antMatchers(
@@ -60,7 +66,7 @@ public class SecurityAppConfig extends WebSecurityConfigurerAdapter {
 						"/account/new").permitAll()
 				.antMatchers(
 						"/account/*",
-						"/reviews/newProjectReview.jsf").hasRole("USER")
+						"/reviews/**/new").hasRole("USER")
 				.and()
 			.formLogin()
 				.loginPage("/account/login")

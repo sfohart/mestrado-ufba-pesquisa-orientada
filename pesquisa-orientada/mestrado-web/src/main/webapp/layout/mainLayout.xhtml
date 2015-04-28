@@ -5,6 +5,7 @@
       xmlns:f="http://java.sun.com/jsf/core"
 	  xmlns:fmt="http://java.sun.com/jsp/jstl/fmt"
       xmlns:passthrough="http://xmlns.jcp.org/jsf/passthrough"
+      xmlns:sec="http://www.springframework.org/security/tags"
       >
       
 	<h:head>
@@ -38,6 +39,9 @@
 		<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1"></meta>
 		<meta name="viewport" content="width=device-width, initial-scale=1.0"></meta>
 		
+		<meta name="_csrf" content="${_csrf.token}"/>
+	    <!-- default header name is X-CSRF-TOKEN -->
+	    <meta name="_csrf_header" content="${_csrf.headerName}"/>
 
 		<h:outputStylesheet library="default" name="css/rateit/rateit.css" />
 		<h:outputStylesheet library="default" name="css/social-buttons-3.css" />
