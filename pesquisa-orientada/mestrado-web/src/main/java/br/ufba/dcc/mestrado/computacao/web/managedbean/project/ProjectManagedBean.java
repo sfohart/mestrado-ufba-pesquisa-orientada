@@ -1,11 +1,8 @@
-
 package br.ufba.dcc.mestrado.computacao.web.managedbean.project;
 
 import java.io.Serializable;
 
-import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
-import javax.faces.bean.ViewScoped;
 import javax.faces.event.ComponentSystemEvent;
 
 import br.ufba.dcc.mestrado.computacao.entities.openhub.core.project.OpenHubProjectEntity;
@@ -53,4 +50,3 @@ public abstract class ProjectManagedBean implements Serializable {
 	}
 
 }
-

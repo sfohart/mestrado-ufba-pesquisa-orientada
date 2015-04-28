@@ -4,6 +4,7 @@ import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.SessionScoped;
@@ -82,11 +83,7 @@ public class IndexManagedBean extends RecommendedProjectManagedBean {
 		super();
 	}
 
-	//@PostConstruct
 	public void loadRecommendations(ComponentSystemEvent event) {
-		
-		String sessionId = FacesContext.getCurrentInstance().getExternalContext().getSessionId(false);
-		logger.info(String.format("Carregando recomendações: id de sessão %s | id %s", sessionId, this.toString()));
 		
 		if (topTenReviewedProjectList == null) {
 			findTopTenReviewedProjectList();
