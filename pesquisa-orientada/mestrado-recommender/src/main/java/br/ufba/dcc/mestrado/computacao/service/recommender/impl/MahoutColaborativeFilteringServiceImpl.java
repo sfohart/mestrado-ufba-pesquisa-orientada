@@ -230,14 +230,12 @@ public class MahoutColaborativeFilteringServiceImpl
 		if (ratingsMap != null) {
 			preferenceList = new ArrayList<Preference>();
 			
-			for (ImmutablePair<Long, Long> userItemPair : ratingsMap.keySet()) {
-				
-				Double preferenceValue = ratingsMap.get(userItemPair);
+			for (Map.Entry<ImmutablePair<Long, Long>, Double> entry : ratingsMap.entrySet()) {
 				
 				Preference preference = new GenericPreference(
-						userItemPair.getLeft(),
-						userItemPair.getRight(),
-						preferenceValue.floatValue()
+						entry.getKey().getLeft(),
+						entry.getKey().getRight(),
+						entry.getValue().floatValue()
 						);
 				
 				preferenceList.add(preference);
@@ -289,14 +287,12 @@ public class MahoutColaborativeFilteringServiceImpl
 		if (ratingsMap != null) {
 			preferenceList = new ArrayList<Preference>();
 			
-			for (ImmutablePair<Long, Long> userItemPair : ratingsMap.keySet()) {
-				
-				Double preferenceValue = ratingsMap.get(userItemPair);
+			for (Map.Entry<ImmutablePair<Long, Long>, Double> entry: ratingsMap.entrySet()) {
 				
 				Preference preference = new GenericPreference(
-						userItemPair.getLeft(),
-						userItemPair.getRight(),
-						preferenceValue.floatValue()
+						entry.getKey().getLeft(),
+						entry.getKey().getRight(),
+						entry.getValue().floatValue()
 						);
 				
 				preferenceList.add(preference);

@@ -113,19 +113,23 @@ public class MultiCriteriaPreditionBasedRecommender
 		
 		Map<Long, List<Preference>> preferenceMap = new HashMap<Long, List<Preference>>();
 		
-		for (ImmutablePair<Long,Long> key : data.keySet()) {
-			float value = aggregatePreference.aggregatePreference(data.get(key));
+		
+		for (Map.Entry<ImmutablePair<Long,Long>, Map<RecommenderCriteriumEntity, Preference>> entry : data.entrySet()) {
+			float value = aggregatePreference.aggregatePreference(entry.getValue());
 			
-			List<Preference> preferenceList = preferenceMap.get(key.getLeft());
+			List<Preference> preferenceList = preferenceMap.get(entry.getKey().getLeft());
 			if (preferenceList == null) {
 				preferenceList = new ArrayList<Preference>();
 			}
 			
-			GenericPreference preference = new GenericPreference(key.getKey(), key.getRight(), value);
+			GenericPreference preference = new GenericPreference(
+					entry.getKey().getLeft(), 
+					entry.getKey().getRight(),
+					value);
 			
 			preferenceList.add(preference);
 			
-			preferenceMap.put(key.getLeft(), preferenceList);
+			preferenceMap.put(entry.getKey().getLeft(), preferenceList);
 		}
 		
 		FastByIDMap<Collection<Preference>> userData = new FastByIDMap<Collection<Preference>>(preferenceMap.size());

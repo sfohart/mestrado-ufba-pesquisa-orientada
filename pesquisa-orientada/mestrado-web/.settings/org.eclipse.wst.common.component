@@ -10,6 +10,9 @@
         <dependent-module archiveName="mestrado-recommender-1.2.2.RELEASE.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/mestrado-recommender/mestrado-recommender">
             <dependency-type>uses</dependency-type>
         </dependent-module>
+        <dependent-module archiveName="mestrado-batch-1.2.2.RELEASE.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/mestrado-batch/mestrado-batch">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
         <property name="context-root" value="mestrado-web"/>
         <property name="java-output-path" value="/mestrado-web/target/classes"/>
     </wb-module>

@@ -18,12 +18,9 @@ public class OpenHubDTO2EntityConverter<DTO extends OpenHubResultDTO, ID extends
     private Class<DTO> dtoClass;
 	private Class<E> entityClass;
     
-    private ConverterHandler<DTO, ID, E> converterUtil;
-    
     public OpenHubDTO2EntityConverter(Class<DTO> dtoClass, Class<E> entityClass) {
     	this.dtoClass = dtoClass;
 		this.entityClass = entityClass;
-    	this.converterUtil = new ConverterHandler<DTO, ID, E>(dtoClass,entityClass);
     }
 
 	@SuppressWarnings("rawtypes")

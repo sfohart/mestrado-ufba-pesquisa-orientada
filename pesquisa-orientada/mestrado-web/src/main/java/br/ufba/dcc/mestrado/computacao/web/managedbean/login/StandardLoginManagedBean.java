@@ -84,7 +84,7 @@ public class StandardLoginManagedBean implements Serializable {
 		ExternalContext context = FacesContext.getCurrentInstance().getExternalContext();
 		
 		RequestDispatcher dispatcher = ((ServletRequest) context.getRequest())
-				.getRequestDispatcher("/login");
+				.getRequestDispatcher("/signin/authenticate");
 				//.getRequestDispatcher("/j_spring_security_check");
 		
 		dispatcher.forward(

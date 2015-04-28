@@ -61,7 +61,7 @@ public class OpenHubRestfulClientImpl implements Serializable {
 	 */
 	private static final long serialVersionUID = -6670332212734792427L;
 
-	public static Logger logger = Logger.getLogger(OpenHubRestfulClientImpl.class);
+	protected static final Logger logger = Logger.getLogger(OpenHubRestfulClientImpl.class);
 	
 	/**
 	 * Lista com todas as API Keys do OhLoh que eu estou utilizando

@@ -37,7 +37,7 @@ public class OpenHubStackServiceImpl extends DefaultOpenHubServiceImpl<OpenHubSt
 	
 	public static final String BEAN_NAME =  "ohLohStackService";
 
-	protected static Logger logger = Logger.getLogger(OpenHubStackServiceImpl.class.getName());
+	protected static final Logger logger = Logger.getLogger(OpenHubStackServiceImpl.class.getName());
 
 	@Autowired
 	private OpenHubProjectService projectService;

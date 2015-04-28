@@ -14,6 +14,18 @@
 		</developer>
 	</developers>
 
+	<scm>
+		<connection>scm:git:https://github.com/sfohart/mestrado-ufba-pesquisa-orientada.git</connection>
+		<url>https://github.com/sfohart/mestrado-ufba-pesquisa-orientada</url>
+	</scm>
+
+	<distributionManagement>
+		<site>
+			<id>Sfohart - Search Floss</id>
+			<url>scp://107.170.60.233/var/lib/tomcat7/mestrado/help/docs</url>
+		</site>
+	</distributionManagement>
+
 	<repositories>
 
 		<!-- JBoss Maven Repository -->
@@ -142,6 +154,7 @@
 					<artifactId>maven-resources-plugin</artifactId>
 					<version>2.6</version>
 				</plugin>
+
 			</plugins>
 		</pluginManagement>
 	</build>
@@ -342,16 +355,24 @@
 				<reportSets>
 					<reportSet>
 						<reports>
+							<report>index</report>
 							<report>dependencies</report>
 							<report>project-team</report>
+							<report>modules</report>
 							<report>mailing-list</report>
 							<report>cim</report>
 							<report>issue-tracking</report>
 							<report>license</report>
 							<report>scm</report>
+							<report>summary</report>
 						</reports>
 					</reportSet>
 				</reportSets>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-pmd-plugin</artifactId>
+				<version>3.4</version>
 			</plugin>
 			<plugin>
 				<groupId>org.codehaus.mojo</groupId>
