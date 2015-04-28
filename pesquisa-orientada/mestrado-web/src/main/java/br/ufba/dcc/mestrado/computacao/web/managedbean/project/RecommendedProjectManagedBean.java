@@ -8,7 +8,7 @@ import org.apache.commons.lang3.StringUtils;
 import br.ufba.dcc.mestrado.computacao.entities.recommender.evaluation.RecommendationEvaluationEntity;
 import br.ufba.dcc.mestrado.computacao.service.base.RecommendationEvaluationService;
 
-public class RecommendedProjectManagedBean extends ProjectManagedBean {
+public abstract class RecommendedProjectManagedBean extends ProjectManagedBean {
 
 	/**
 	 * 
