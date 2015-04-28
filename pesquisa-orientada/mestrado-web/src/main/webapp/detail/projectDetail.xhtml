@@ -351,27 +351,31 @@
 						</div>
 					</h:panelGroup>
 					
-					<div style="border-top: 1px solid #aaa; margin: 20px 0">
-						<h2>Projetos Relacionados</h2>
-					</div>
 					
 					<h:panelGroup layout="block"
-						rendered="#{relatedProjectMB.alsoViewedProjectsRecommendation != null}">
-						<ui:include src="/detail/projectCart.xhtml">
-							<ui:param name="projectCart" value="#{relatedProjectMB.alsoViewedProjectsRecommendation.recommendedProjects}"  />
-							<ui:param name="projectCartTitle" value="Quem se interessou por este projeto também viu:"  />
-							<ui:param name="bean" value="#{relatedProjectMB}" />
-						</ui:include>
-					</h:panelGroup>
-					
-					
-					<h:panelGroup layout="block"
-						rendered="#{relatedProjectMB.similarProjectsRecommendation != null}">
-						<ui:include src="/detail/projectCart.xhtml">
-							<ui:param name="projectCart" value="#{relatedProjectMB.similarProjectsRecommendation.recommendedProjects}"  />
-							<ui:param name="projectCartTitle" value="Projetos similares a este:"  />
-							<ui:param name="bean" value="#{relatedProjectMB}" />
-						</ui:include>
+						rendered="#{relatedProjectMB.alsoViewedProjectsRecommendation != null or relatedProjectMB.similarProjectsRecommendation != null}">
+						<div style="border-top: 1px solid #aaa; margin: 20px 0">
+							<h2>Projetos Relacionados</h2>
+						</div>
+						
+						<h:panelGroup layout="block"
+							rendered="#{relatedProjectMB.alsoViewedProjectsRecommendation != null}">
+							<ui:include src="/detail/projectCart.xhtml">
+								<ui:param name="projectCart" value="#{relatedProjectMB.alsoViewedProjectsRecommendation.recommendedProjects}"  />
+								<ui:param name="projectCartTitle" value="Quem se interessou por este projeto também viu:"  />
+								<ui:param name="bean" value="#{relatedProjectMB}" />
+							</ui:include>
+						</h:panelGroup>
+						
+						
+						<h:panelGroup layout="block"
+							rendered="#{relatedProjectMB.similarProjectsRecommendation != null}">
+							<ui:include src="/detail/projectCart.xhtml">
+								<ui:param name="projectCart" value="#{relatedProjectMB.similarProjectsRecommendation.recommendedProjects}"  />
+								<ui:param name="projectCartTitle" value="Projetos similares a este:"  />
+								<ui:param name="bean" value="#{relatedProjectMB}" />
+							</ui:include>
+						</h:panelGroup>
 					</h:panelGroup>
 					
 					<div style="border-top: 1px solid #aaa;">

@@ -12,6 +12,9 @@ import javax.faces.event.ComponentSystemEvent;
 
 import org.hibernate.search.query.facet.Facet;
 
+import com.ocpsoft.pretty.faces.annotation.URLMapping;
+import com.ocpsoft.pretty.faces.annotation.URLMappings;
+
 import br.ufba.dcc.mestrado.computacao.entities.openhub.core.project.OpenHubProjectEntity;
 import br.ufba.dcc.mestrado.computacao.search.SearchRequest;
 import br.ufba.dcc.mestrado.computacao.search.SearchResponse;
@@ -27,6 +30,13 @@ import br.ufba.dcc.mestrado.computacao.web.pagination.PageList;
  */
 @ManagedBean(name="mainMB")
 @ViewScoped
+@URLMappings(mappings={
+		@URLMapping(
+				id="mainMapping",
+				beanName="mainMB", 
+				pattern="/search/results",
+				viewId="/search/results.jsf")	
+	})
 public class MainManageBean extends AbstractListingManagedBean<Long, OpenHubProjectEntity> {
 
 	/**

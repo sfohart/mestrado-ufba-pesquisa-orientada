@@ -1,8 +1,6 @@
 package br.ufba.dcc.mestrado.computacao.web.managedbean.project;
 
-import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
-import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 
 import org.apache.commons.lang3.StringUtils;
@@ -10,8 +8,6 @@ import org.apache.commons.lang3.StringUtils;
 import br.ufba.dcc.mestrado.computacao.entities.recommender.evaluation.RecommendationEvaluationEntity;
 import br.ufba.dcc.mestrado.computacao.service.base.RecommendationEvaluationService;
 
-@ManagedBean(name="recommendedProjectMB")
-@ViewScoped
 public class RecommendedProjectManagedBean extends ProjectManagedBean {
 
 	/**

@@ -11,9 +11,11 @@
 	</context-param>
 
 	<!-- Bootstrap the root application context as usual using ContextLoaderListener -->
+	<!-- 
 	<listener>
 		<listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
 	</listener>
+	 -->
 
 	<listener>
 		<listener-class>org.springframework.web.context.request.RequestContextListener</listener-class>
@@ -25,6 +27,10 @@
 	 -->
 	<listener>
 		<listener-class>br.ufba.dcc.mestrado.computacao.web.listener.JdbcDriverLeakPreventerListener</listener-class>
+	</listener>
+	
+	<listener>
+		<listener-class>org.springframework.security.web.session.HttpSessionEventPublisher</listener-class>
 	</listener>
 
 	<!-- Encoding -->
@@ -92,6 +98,7 @@
 	</filter-mapping>
 	
 	<!-- Configurações para o spring security e o spring br.ufba.dcc.mestrado.computacao.social -->
+	<!-- 
 	<filter>
 	        <filter-name>springSecurityFilterChain</filter-name>
 	        <filter-class>org.springframework.web.filter.DelegatingFilterProxy</filter-class>
@@ -102,7 +109,9 @@
 	        <dispatcher>FORWARD</dispatcher>
 	        <dispatcher>REQUEST</dispatcher>
 	</filter-mapping>
-	
+	 -->
+	 
+	 
 	<filter>
 		<filter-name>hiddenHttpMethodFilter</filter-name>
 		<filter-class>org.springframework.web.filter.HiddenHttpMethodFilter</filter-class>
@@ -124,13 +133,16 @@
 
 	<!-- Configure ContextLoaderListener to use AnnotationConfigWebApplicationContext 
 		instead of the default XmlWebApplicationContext -->
+	<!-- 
 	<context-param>
 		<param-name>contextClass</param-name>
 		<param-value>
           org.springframework.web.context.support.AnnotationConfigWebApplicationContext
       </param-value>
 	</context-param>
-
+ 	-->
+ 	
+ 	
 	<!-- Configuration locations must consist of one or more comma- or space-delimited
        fully-qualified @Configuration classes. Fully-qualified packages may also be
        specified for component-scanning -->

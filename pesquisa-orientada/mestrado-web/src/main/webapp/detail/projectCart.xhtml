@@ -11,7 +11,6 @@
 	>
 	
 	<h:panelGroup layout="block" rendered="#{not empty projectCart}">
-		<h:form>
 			<h3> <h:outputText value="#{projectCartTitle}" /> </h3>
 			<h:panelGroup class="small soft italic" rendered="#{lastUpdateTimestamp != null}">
 				<h:outputText value="#{lastUpdateTimestamp}">
@@ -45,11 +44,13 @@
 							
 							<div class="media-body" style="min-height: 64px">
 								<h4 class="media-heading">
-								
-									<h:commandLink action="#{bean.saveRecommenderEvaluation}" rendered="#{not empty bean}">
-										<f:param name="selectedProjectId" value="#{viewedProject.id}" />
-										<h:outputText value="#{viewedProject.name}"  />
-									</h:commandLink>
+									<h:form>
+										<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"  />
+										<h:commandLink action="#{bean.saveRecommenderEvaluation}" rendered="#{not empty bean}">
+											<f:param name="selectedProjectId" value="#{viewedProject.id}" />
+											<h:outputText value="#{viewedProject.name}"  />
+										</h:commandLink>
+									</h:form>
 								
 									<h:outputLink value="#{facesContext.externalContext.applicationContextPath}/detail/projectDetail.jsf" rendered="#{empty bean}">
 										<f:param name="projectId" value="#{viewedProject.id}" />
@@ -75,7 +76,6 @@
 				</script>
 			</div>
 			
-		</h:form>
 	</h:panelGroup>
 	
 </ui:composition>

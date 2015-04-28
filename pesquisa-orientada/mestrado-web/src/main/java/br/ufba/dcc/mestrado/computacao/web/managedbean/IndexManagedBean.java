@@ -7,9 +7,11 @@ import java.util.List;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.SessionScoped;
+import javax.faces.context.FacesContext;
 import javax.faces.event.ComponentSystemEvent;
 
 import org.apache.commons.lang3.tuple.ImmutablePair;
+import org.apache.log4j.Logger;
 
 import br.ufba.dcc.mestrado.computacao.dto.pageview.ProjectDetailPageViewInfo;
 import br.ufba.dcc.mestrado.computacao.dto.pageview.ProjectReviewsInfo;
@@ -28,6 +30,7 @@ import br.ufba.dcc.mestrado.computacao.service.recommender.base.ColaborativeFilt
 import br.ufba.dcc.mestrado.computacao.service.recommender.base.MultiCriteriaRecommenderService;
 import br.ufba.dcc.mestrado.computacao.web.managedbean.project.RecommendedProjectManagedBean;
 
+
 @ManagedBean(name="indexMB")
 @SessionScoped
 public class IndexManagedBean extends RecommendedProjectManagedBean {
@@ -36,6 +39,8 @@ public class IndexManagedBean extends RecommendedProjectManagedBean {
 	 * 
 	 */
 	private static final long serialVersionUID = -1409944916651513725L;
+	
+	private Logger logger = Logger.getLogger(getClass());
 	
 	
 	@ManagedProperty("#{mahoutColaborativeFilteringService}")
@@ -77,9 +82,11 @@ public class IndexManagedBean extends RecommendedProjectManagedBean {
 		super();
 	}
 
-	@Override
-	public void init(ComponentSystemEvent event) {
-		super.init(event);
+	//@PostConstruct
+	public void loadRecommendations(ComponentSystemEvent event) {
+		
+		String sessionId = FacesContext.getCurrentInstance().getExternalContext().getSessionId(false);
+		logger.info(String.format("Carregando recomendações: id de sessão %s | id %s", sessionId, this.toString()));
 		
 		if (topTenReviewedProjectList == null) {
 			findTopTenReviewedProjectList();
@@ -108,6 +115,7 @@ public class IndexManagedBean extends RecommendedProjectManagedBean {
 		if (multiCriteriaRecommendation == null) {
 			findMultiCriteriaRecommendedProjects();
 		}
+		
 	}
 
 	protected void findTopTenViewedProjectList() {

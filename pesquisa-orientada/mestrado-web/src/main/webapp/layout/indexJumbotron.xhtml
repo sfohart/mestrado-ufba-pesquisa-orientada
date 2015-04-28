@@ -30,6 +30,7 @@
 							<div class="input-group input-group-lg col-md-8 col-md-offset-2">
 								<h:inputText styleClass="form-control" id="query" p:placeholder="Digite aqui palavras-chave para buscar um software"  value="#{mainMB.searchRequest.query}" />
 								<span class="input-group-btn">
+									<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"  />
 									<h:commandButton styleClass="btn btn-default" value="Buscar"
 				  						action="#{mainMB.loadResults}">
 				  						<f:param name="query" value="#{mainMB.searchRequest.query}"  />

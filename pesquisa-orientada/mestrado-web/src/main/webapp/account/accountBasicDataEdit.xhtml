@@ -83,7 +83,7 @@
 											value="#{accountBasicDataEditMB.account.twitterAccount}"/>
 									</div>
 									
-									
+									<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"  />
 									<h:commandButton 
 										styleClass="btn btn-primary" tabindex="6" value="Salvar"
 										action="#{accountBasicDataEditMB.saveAccount}"  
