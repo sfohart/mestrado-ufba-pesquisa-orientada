@@ -34,7 +34,7 @@ import com.ocpsoft.pretty.faces.annotation.URLMappings;
 	@URLMapping(
 			id="loginMapping",
 			beanName="loginMB", 
-			pattern="/login/login",
+			pattern="/account/login",
 			viewId="/login/login.jsf")
 })
 public class StandardLoginManagedBean implements Serializable {
@@ -83,7 +83,9 @@ public class StandardLoginManagedBean implements Serializable {
 	public String signIn() throws ServletException, IOException {
 		ExternalContext context = FacesContext.getCurrentInstance().getExternalContext();
 		
-		RequestDispatcher dispatcher = ((ServletRequest) context.getRequest()).getRequestDispatcher("/j_spring_security_check");
+		RequestDispatcher dispatcher = ((ServletRequest) context.getRequest())
+				.getRequestDispatcher("/login");
+				//.getRequestDispatcher("/j_spring_security_check");
 		
 		dispatcher.forward(
 				((ServletRequest) context.getRequest()), 
@@ -114,8 +116,8 @@ public class StandardLoginManagedBean implements Serializable {
 						null, 
 						new FacesMessage(
 								FacesMessage.SEVERITY_ERROR, 
-								"Usuário ou senha inválidos", 
-								"Usuário ou senha inválidos"));
+								"Usuï¿½rio ou senha invï¿½lidos", 
+								"Usuï¿½rio ou senha invï¿½lidos"));
 			}
 		}
 	}

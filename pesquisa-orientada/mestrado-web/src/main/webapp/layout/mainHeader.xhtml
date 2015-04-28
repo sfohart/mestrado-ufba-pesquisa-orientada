@@ -83,9 +83,10 @@
 									</li>
 									<li p:role="presentation" class="divider"></li>
 									<li p:role="presentation">
-										<h:commandLink action="#{loginMB.signOut}" >
+										<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"  />
+										<h:outputLink value="#{facesContext.externalContext.applicationContextPath}/account/logout">
 											<span class="fa fa-power-off"></span> Sair
-										</h:commandLink>
+										</h:outputLink>
 									</li>
 								</ul>
 							</li>

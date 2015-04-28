@@ -67,10 +67,6 @@ public class RepositoryBasedUserDetailsServiceImpl implements RepositoryBasedUse
 	public UserDetails loadUserByUsername(String login) throws UsernameNotFoundException {
 		UserEntity account = getUserService().findByLogin(login);
 		
-		if (account == null) {
-			account = getUserService().findBySocialLogin(login);
-		}
-		
 		if (account != null) {
 			boolean enabled = (account.getEnabled() != null ? account.getEnabled().booleanValue() : true);			
 			boolean accountNonExpired = true;
@@ -92,7 +88,7 @@ public class RepositoryBasedUserDetailsServiceImpl implements RepositoryBasedUse
 			
 			return userDetails;
 		} else {
-			throw new UsernameNotFoundException("Este usuário não existe no sistema");
+			throw new UsernameNotFoundException("Este usuï¿½rio nï¿½o existe no sistema");
 		}
 	}
 	

@@ -9,10 +9,9 @@ import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 @EnableWebMvc
 @ComponentScan("br.ufba.dcc.mestrado.computacao")
 @Import({
-	RecommenderAppConfig.class,		//Configurações do módulo de recomendação
-	SocialAppConfig.class,			//Configurações da integração com redes sociais (a implementar)
-	SecurityAppConfig.class,		//Configurações do módulo de segurança
-	BatchAppConfig.class			//Configurações de agendamento de tarefas
+	RecommenderAppConfig.class,		//Configuraï¿½ï¿½es do mï¿½dulo de recomendaï¿½ï¿½o
+	SecurityAppConfig.class,		//Configuraï¿½ï¿½es do mï¿½dulo de seguranï¿½a
+	BatchAppConfig.class			//Configuraï¿½ï¿½es de agendamento de tarefas
 })
 public class WebAppConfig {
 	

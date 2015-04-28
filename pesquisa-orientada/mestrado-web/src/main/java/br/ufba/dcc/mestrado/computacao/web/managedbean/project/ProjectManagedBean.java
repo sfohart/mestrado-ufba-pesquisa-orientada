@@ -11,8 +11,6 @@ import javax.faces.event.ComponentSystemEvent;
 import br.ufba.dcc.mestrado.computacao.entities.openhub.core.project.OpenHubProjectEntity;
 import br.ufba.dcc.mestrado.computacao.service.base.ProjectService;
 
-@ManagedBean(name="projectMB")
-@ViewScoped
 public class ProjectManagedBean implements Serializable {
 
 	protected static final String SELECTED_PROJECT_PARAM = "selectedProjectId";

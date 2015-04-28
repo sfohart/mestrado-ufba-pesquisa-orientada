@@ -4,6 +4,7 @@ import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.SessionScoped;
@@ -77,9 +78,8 @@ public class IndexManagedBean extends RecommendedProjectManagedBean {
 		super();
 	}
 
-	@Override
-	public void init(ComponentSystemEvent event) {
-		super.init(event);
+	@PostConstruct
+	public void loadRecommendations() {
 		
 		if (topTenReviewedProjectList == null) {
 			findTopTenReviewedProjectList();
@@ -108,6 +108,7 @@ public class IndexManagedBean extends RecommendedProjectManagedBean {
 		if (multiCriteriaRecommendation == null) {
 			findMultiCriteriaRecommendedProjects();
 		}
+		
 	}
 
 	protected void findTopTenViewedProjectList() {

@@ -58,7 +58,7 @@
 						
 						<div class="col-md-6">
 							<div class="well">
-								<h:form prependId="false">
+								<h:form prependId="false" >
 									<fieldset>
 										<legend>Entrar</legend>
 										<div class="form-group #{not usernameField.valid ? 'has-error has-feedback' : ''}">
@@ -67,7 +67,7 @@
 													<span class="input-group-addon">
 														<span class="fa fa-user"></span>
 													</span>
-													<h:inputText styleClass="form-control" id="j_username" tabindex="1" 
+													<h:inputText styleClass="form-control" id="username" tabindex="1" 
 														binding="#{usernameField}"
 														requiredMessage="#{messages['login.username.required.message']}"  
 														required="true"  
@@ -78,7 +78,7 @@
 													</h:panelGroup>											
 												</div>
 												<span class="help-block">
-													<h:message for="j_username"></h:message>
+													<h:message for="username"></h:message>
 												</span>
 											</div>
 										</div>
@@ -89,7 +89,7 @@
 													<span class="input-group-addon">
 														<span class="fa fa-key"></span>
 													</span>
-													<h:inputSecret  styleClass="form-control" id="j_password" tabindex="2"
+													<h:inputSecret  styleClass="form-control" id="password" tabindex="2"
 														binding="#{passwordField}"
 														requiredMessage="#{messages['login.password.required.message']}" 
 														required="true"  
@@ -100,11 +100,12 @@
 													</h:panelGroup>																					
 												</div>
 												<span class="help-block">
-													<h:message for="j_password"></h:message>
+													<h:message for="password"></h:message>
 												</span>
 											</div>
 										</div>
-										<h:commandButton  styleClass="btn btn-primary" tabindex="3" value="Login" action="#{loginMB.signIn}" />
+										<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"  />
+										<h:commandButton  styleClass="btn btn-primary" tabindex="3" value="Login" action="#{loginMB.signIn}" type="submit" />
 									</fieldset>
 								</h:form>
 							</div>
