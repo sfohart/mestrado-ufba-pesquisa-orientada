@@ -9,10 +9,11 @@ import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 @EnableWebMvc
 @ComponentScan("br.ufba.dcc.mestrado.computacao")
 @Import({
-	RecommenderAppConfig.class,		//Configura��es do m�dulo de recomenda��o
+	WebMvcAppConfig.class,
+	RecommenderAppConfig.class,		
 	SocialAppConfig.class,
-	SecurityAppConfig.class,		//Configura��es do m�dulo de seguran�a
-	BatchAppConfig.class			//Configura��es de agendamento de tarefas
+	SecurityAppConfig.class,
+	BatchAppConfig.class			
 })
 public class WebAppConfig {
 	

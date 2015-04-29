@@ -88,5 +88,32 @@ public class UserRepositoryImpl extends BaseRepositoryImpl<Long, UserEntity>
 
 		return result;
 	}
+	
+	@Override
+	public UserEntity findByEmail(String email) {
+		CriteriaBuilder criteriaBuilder = getEntityManager().getCriteriaBuilder();
+		CriteriaQuery<UserEntity> criteriaQuery = criteriaBuilder.createQuery(getEntityClass());
+
+		Root<UserEntity> root = criteriaQuery.from(getEntityClass());
+		CriteriaQuery<UserEntity> select = criteriaQuery.select(root);
+
+		Predicate namePredicate = criteriaBuilder.equal(root.get("email"), email);
+		select.where(namePredicate);
+
+		TypedQuery<UserEntity> query = getEntityManager().createQuery(
+				criteriaQuery);
+
+		UserEntity result = null;
+
+		try {
+			result = query.getSingleResult();
+		} catch (NoResultException ex) {
+
+		} catch (NonUniqueResultException ex) {
+
+		}
+
+		return result;
+	}
 
 }

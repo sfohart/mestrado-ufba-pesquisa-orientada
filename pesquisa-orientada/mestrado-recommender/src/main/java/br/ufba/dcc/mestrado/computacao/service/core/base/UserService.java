@@ -13,6 +13,14 @@ public interface UserService extends BaseService<Long, UserEntity> {
 	 */
 	UserEntity findByLogin(String login);
 	
+	
+	/**
+	 * 
+	 * @param email
+	 * @return
+	 */
+	UserEntity findByEmail(String email);
+	
 	/**
 	 * 
 	 * @param socialUsername

@@ -14,7 +14,7 @@
 		<spring-social.version>1.1.0.RELEASE</spring-social.version>
 		<spring-social-facebook.version>2.0.1.RELEASE</spring-social-facebook.version>
 		<spring-social-twitter.version>1.1.0.RELEASE</spring-social-twitter.version>
-		<spring-security.version>4.0.1.RELEASE</spring-security.version>
+		<spring-security.version>3.2.5.RELEASE</spring-security.version>
 		<jersey.version>2.4.1</jersey.version>
 		<pretty-faces.version>3.3.3</pretty-faces.version>
 		<java-mail.version>1.5.2</java-mail.version>
@@ -173,6 +173,22 @@
 			<groupId>org.apache.httpcomponents</groupId>
 			<artifactId>httpclient</artifactId>
 			<version>4.3.1</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.thymeleaf</groupId>
+			<artifactId>thymeleaf</artifactId>
+			<version>2.1.4.RELEASE</version>
+		</dependency>
+		<dependency>
+			<groupId>org.thymeleaf</groupId>
+			<artifactId>thymeleaf-spring4</artifactId>
+			<version>2.1.4.RELEASE</version>
+		</dependency>
+		<dependency>
+			<groupId>nz.net.ultraq.thymeleaf</groupId>
+			<artifactId>thymeleaf-layout-dialect</artifactId>
+			<version>1.2.8</version>
 		</dependency>
 
 

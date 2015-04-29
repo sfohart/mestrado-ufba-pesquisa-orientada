@@ -13,6 +13,7 @@ import org.springframework.security.crypto.password.StandardPasswordEncoder;
 import org.springframework.security.web.csrf.CsrfTokenRepository;
 import org.springframework.security.web.csrf.HttpSessionCsrfTokenRepository;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
+import org.springframework.social.security.SpringSocialConfigurer;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 
 import br.ufba.dcc.mestrado.computacao.service.basic.RepositoryBasedUserDetailsService;
@@ -47,7 +48,10 @@ public class SecurityAppConfig extends WebSecurityConfigurerAdapter {
 				.antMatchers(
 						"/resources",
 						"/restful/**",
+						"/signin",
+						"/signup",
 						"/signin/**",
+						"/signup/**",
 						"/javax.faces.resource/**");
 	}
 	
@@ -59,19 +63,18 @@ public class SecurityAppConfig extends WebSecurityConfigurerAdapter {
 				.maximumSessions(1);
 		
 		http
-			.csrf()
-				.csrfTokenRepository(csrfTokenRepository())
-				.ignoringAntMatchers(
-						"/detail/**",
-						"/summary/**",
-						"/reviews/project/**",
-						"/reviews/user/**",
-						"/search/results.jsf")
-				.and()
+			.csrf().disable()
 			.authorizeRequests()
 				.antMatchers(
 						"/",
-						"/favicon.ico",
+						"/favicon.ico", 
+						"/restful/**",
+						"/resources/**", 
+						"/auth/**",
+						"/signin",
+						"/signup",
+						"/signin/**", 
+						"/signup/**",
 						"/account/new").permitAll()
 				.antMatchers(
 						"/account/*",
@@ -91,16 +94,9 @@ public class SecurityAppConfig extends WebSecurityConfigurerAdapter {
 				.and()
 			.exceptionHandling()
 				.and()
-			.httpBasic();
-			/*
-			 * As linhas abaixo provocavam um NoSuchMethodError SocialAuthenticationFilter.getFilterProcessesUrl()
-			 * o método é utilizado no spring-social-security 1.1.0.RELEASE, mas foi removido da classe AbstractAuthenticationProcessingFilter no 
-			 * spring-security-web 4.0.1.
-			 * Neste caso, não seguir o tutorial descrito em 
-			 * http://docs.spring.io/spring-social/docs/1.1.0.RELEASE/reference/htmlsingle/#enabling-provider-sign-in-with-code-socialauthenticationfilter-code
-			 */
-			//	.and()
-			//.apply(new SpringSocialConfigurer());
+			.httpBasic()
+				.and()
+			.apply(new SpringSocialConfigurer());
 				
 		
 	}

@@ -35,9 +35,10 @@ public class AccountConnectionSignUp implements ConnectionSignUp {
 	public String execute(Connection<?> connection) {
 		UserProfile userProfile = connection.fetchUserProfile();
 		
-		UserEntity userEntity = getUserService().findBySocialLogin(userProfile.getUsername());
+		UserEntity userEntity = getUserService().findByEmail(userProfile.getEmail());
 		if (userEntity == null) {
 			userEntity = new UserEntity();
+			userEntity.setLogin(userProfile.getEmail());
 			
 			List<RoleEnum> roleList = new ArrayList<>();
 			roleList.add(RoleEnum.ROLE_USER);

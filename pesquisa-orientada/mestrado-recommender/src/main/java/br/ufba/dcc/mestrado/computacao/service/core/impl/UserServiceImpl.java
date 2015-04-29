@@ -31,20 +31,25 @@ public class UserServiceImpl extends BaseServiceImpl<Long, UserEntity>
 		super(repository,  UserEntity.class);
 	}
 	
-	@Transactional
+	@Transactional(readOnly = true)
 	@Override
 	public UserEntity findByLogin(String login) {
 		return ((UserRepository)  getRepository()).findByLogin(login);
 	}
 	
-	@Transactional
+	@Transactional(readOnly = true)
+	public UserEntity findByEmail(String email) {
+		return ((UserRepository)  getRepository()).findByEmail(email);
+	}
+	
+	@Transactional(readOnly = true)
 	@Override
 	public UserEntity findBySocialLogin(String socialUsername) {
 		return ((UserRepository)  getRepository()).findBySocialLogin(socialUsername);
 	}
 	
 	@Override
-	@Transactional
+	@Transactional(readOnly = true)
 	public UserEntity save(UserEntity entity) throws Exception {
 		validateEntity(entity);
 		return super.save(entity);

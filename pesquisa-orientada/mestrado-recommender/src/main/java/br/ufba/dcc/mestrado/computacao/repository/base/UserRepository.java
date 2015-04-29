@@ -13,6 +13,13 @@ public interface UserRepository extends BaseRepository<Long, UserEntity>{
 	
 	/**
 	 * 
+	 * @param email
+	 * @return
+	 */
+	UserEntity findByEmail(String email);
+	
+	/**
+	 * 
 	 * @param socialUsername
 	 * @return
 	 */

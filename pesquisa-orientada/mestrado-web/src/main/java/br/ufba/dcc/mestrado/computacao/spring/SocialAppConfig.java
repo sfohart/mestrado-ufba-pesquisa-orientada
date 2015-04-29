@@ -4,6 +4,7 @@ import javax.sql.DataSource;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.core.env.Environment;
@@ -20,8 +21,6 @@ import org.springframework.social.connect.web.ProviderSignInController;
 import org.springframework.social.facebook.connect.FacebookConnectionFactory;
 import org.springframework.social.security.AuthenticationNameUserIdSource;
 import org.springframework.social.twitter.connect.TwitterConnectionFactory;
-import org.springframework.web.servlet.config.annotation.DefaultServletHandlerConfigurer;
-import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 
 import br.ufba.dcc.mestrado.computacao.service.basic.SpringSecuritySignInAdapter;
 import br.ufba.dcc.mestrado.computacao.social.connect.AccountConnectionSignUp;
@@ -29,10 +28,11 @@ import br.ufba.dcc.mestrado.computacao.social.connect.AccountConnectionSignUp;
 
 @Configuration
 @EnableSocial
+@ComponentScan("org.springframework.social.connect.web")
 @PropertySource(value = {	
 		"classpath:social.properties"
 	})
-public class SocialAppConfig extends WebMvcConfigurerAdapter implements SocialConfigurer {
+public class SocialAppConfig  implements SocialConfigurer {
 
 	@Autowired
 	private DataSource dataSource;
@@ -91,26 +91,6 @@ public class SocialAppConfig extends WebMvcConfigurerAdapter implements SocialCo
         return Encryptors.noOpText();
     }
 	
-	/*@Bean
-    public ConnectController connectControllerBean(
-                ConnectionFactoryLocator connectionFactoryLocator,
-                ConnectionRepository connectionRepository) throws Exception {
-		
-		
-		ConnectController connectController = new ConnectController(connectionFactoryLocator, connectionRepository);
-		connectController.afterPropertiesSet();
-		connectController.setApplicationUrl(environment.getProperty("application.url"));
-		
-		return connectController;
-    }*/
-	
-	
-	
-	@Override
-    public void configureDefaultServletHandling(DefaultServletHandlerConfigurer configurer) {
-        configurer.enable();
-    }
-	
 	@Bean
 	public ProviderSignInController providerSignInController(
 	            ConnectionFactoryLocator connectionFactoryLocator,
@@ -122,7 +102,7 @@ public class SocialAppConfig extends WebMvcConfigurerAdapter implements SocialCo
 	        springSecuritySignInAdapter);
 		
 		controller.afterPropertiesSet();
-		
+		controller.setSignUpUrl("/account/new");		
 		controller.setApplicationUrl(environment.getProperty("application.url"));
 		
 		return controller;
