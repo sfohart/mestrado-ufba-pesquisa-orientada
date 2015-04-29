@@ -16,11 +16,15 @@ import org.springframework.social.config.annotation.SocialConfigurer;
 import org.springframework.social.connect.ConnectionFactoryLocator;
 import org.springframework.social.connect.UsersConnectionRepository;
 import org.springframework.social.connect.jdbc.JdbcUsersConnectionRepository;
+import org.springframework.social.connect.web.ProviderSignInController;
 import org.springframework.social.facebook.connect.FacebookConnectionFactory;
 import org.springframework.social.security.AuthenticationNameUserIdSource;
 import org.springframework.social.twitter.connect.TwitterConnectionFactory;
+import org.springframework.web.servlet.config.annotation.DefaultServletHandlerConfigurer;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 
-import br.ufba.dcc.mestrado.computacao.social.connect.UserConnectionSignUp;
+import br.ufba.dcc.mestrado.computacao.service.basic.SpringSecuritySignInAdapter;
+import br.ufba.dcc.mestrado.computacao.social.connect.AccountConnectionSignUp;
 
 
 @Configuration
@@ -28,13 +32,19 @@ import br.ufba.dcc.mestrado.computacao.social.connect.UserConnectionSignUp;
 @PropertySource(value = {	
 		"classpath:social.properties"
 	})
-public class SocialAppConfig implements SocialConfigurer {
+public class SocialAppConfig extends WebMvcConfigurerAdapter implements SocialConfigurer {
 
 	@Autowired
 	private DataSource dataSource;
 	
 	@Autowired
-	private UserConnectionSignUp connectionSignUp;
+	private AccountConnectionSignUp connectionSignUp;
+	
+	@Autowired
+	private Environment environment;
+	
+	@Autowired
+	private SpringSecuritySignInAdapter springSecuritySignInAdapter;
 	
 	@Override
 	public void addConnectionFactories(
@@ -80,5 +90,42 @@ public class SocialAppConfig implements SocialConfigurer {
     public TextEncryptor textEncryptor() {
         return Encryptors.noOpText();
     }
+	
+	/*@Bean
+    public ConnectController connectControllerBean(
+                ConnectionFactoryLocator connectionFactoryLocator,
+                ConnectionRepository connectionRepository) throws Exception {
+		
+		
+		ConnectController connectController = new ConnectController(connectionFactoryLocator, connectionRepository);
+		connectController.afterPropertiesSet();
+		connectController.setApplicationUrl(environment.getProperty("application.url"));
+		
+		return connectController;
+    }*/
+	
+	
+	
+	@Override
+    public void configureDefaultServletHandling(DefaultServletHandlerConfigurer configurer) {
+        configurer.enable();
+    }
+	
+	@Bean
+	public ProviderSignInController providerSignInController(
+	            ConnectionFactoryLocator connectionFactoryLocator,
+	            UsersConnectionRepository usersConnectionRepository) throws Exception {
+		
+		ProviderSignInController controller = new ProviderSignInController(
+	        connectionFactoryLocator,
+	        usersConnectionRepository,
+	        springSecuritySignInAdapter);
+		
+		controller.afterPropertiesSet();
+		
+		controller.setApplicationUrl(environment.getProperty("application.url"));
+		
+		return controller;
+	}
 
 }

@@ -4,6 +4,7 @@
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:ui="http://java.sun.com/jsf/facelets"
 	xmlns:f="http://java.sun.com/jsf/core"	
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
 	xmlns:p="http://xmlns.jcp.org/jsf/passthrough">
 
 	<f:metadata>
@@ -53,12 +54,20 @@
 									Cadastre-se 
 								</a>
 								e conte-nos a sua história como usuário de software livre - é de graça!
+							</p>
+							<p>
+								<form action="#{facesContext.externalContext.applicationContextPath}/signin/facebook"  method="post">
+									<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"  />
+									<button class="btn btn-facebook" type="submit">
+										<span class="fa fa-facebook"></span> | Conectar com o Facebook
+									</button>
+								</form>
 							</p>							
 						</div>
 						
 						<div class="col-md-6">
 							<div class="well">
-								<h:form prependId="false" >
+								<form action="#{facesContext.externalContext.applicationContextPath}/account/authenticate" method="post" >
 									<fieldset>
 										<legend>Entrar</legend>
 										<div class="form-group #{not usernameField.valid ? 'has-error has-feedback' : ''}">
@@ -67,7 +76,7 @@
 													<span class="input-group-addon">
 														<span class="fa fa-user"></span>
 													</span>
-													<h:inputText styleClass="form-control" id="username" tabindex="1" 
+													<h:inputText styleClass="form-control" id="username"  tabindex="1" 
 														binding="#{usernameField}"
 														requiredMessage="#{messages['login.username.required.message']}"  
 														required="true"  
@@ -89,7 +98,7 @@
 													<span class="input-group-addon">
 														<span class="fa fa-key"></span>
 													</span>
-													<h:inputSecret  styleClass="form-control" id="password" tabindex="2"
+													<h:inputSecret  styleClass="form-control" id="password"  tabindex="2"
 														binding="#{passwordField}"
 														requiredMessage="#{messages['login.password.required.message']}" 
 														required="true"  
@@ -105,14 +114,13 @@
 											</div>
 										</div>
 										<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"  />
-										<h:commandButton  styleClass="btn btn-primary" tabindex="3" value="Login" action="#{loginMB.signIn}" type="submit" />
+										<h:commandButton  styleClass="btn btn-primary" tabindex="3" value="Login" type="submit" />
 									</fieldset>
-								</h:form>
+								</form>
 							</div>
 						</div>
 					</div>
-				
-				
+					
 				</section>
 			</ui:define>
 		

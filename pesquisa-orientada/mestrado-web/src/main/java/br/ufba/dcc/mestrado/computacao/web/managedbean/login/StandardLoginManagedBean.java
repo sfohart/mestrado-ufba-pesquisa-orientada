@@ -17,8 +17,13 @@ import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
+import javax.servlet.http.HttpServletRequest;
 
+import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.WebAttributes;
 
 import br.ufba.dcc.mestrado.computacao.entities.recommender.user.UserEntity;
@@ -54,7 +59,6 @@ public class StandardLoginManagedBean implements Serializable {
 	
 	private UserEntity loggedUser;
 	
-	
 	public UserEntity getLoggedUser() {
 		if (this.loggedUser == null) {
 			this.loggedUser = getUserDetailsService().loadFullLoggedUser();
@@ -84,7 +88,7 @@ public class StandardLoginManagedBean implements Serializable {
 		ExternalContext context = FacesContext.getCurrentInstance().getExternalContext();
 		
 		RequestDispatcher dispatcher = ((ServletRequest) context.getRequest())
-				.getRequestDispatcher("/signin/authenticate");
+				.getRequestDispatcher("/account/authenticate");
 				//.getRequestDispatcher("/j_spring_security_check");
 		
 		dispatcher.forward(

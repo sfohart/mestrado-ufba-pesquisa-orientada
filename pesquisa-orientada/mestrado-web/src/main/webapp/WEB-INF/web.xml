@@ -162,6 +162,7 @@
 		<url-pattern>*.jsf</url-pattern>
 	</servlet-mapping>
 	
+	
 	<!-- WebServices Específicos da aplicação -->
 	<servlet>
         <servlet-name>Jersey Web Application</servlet-name>

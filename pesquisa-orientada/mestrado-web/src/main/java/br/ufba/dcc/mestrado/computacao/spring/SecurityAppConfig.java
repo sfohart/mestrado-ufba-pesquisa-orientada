@@ -3,7 +3,6 @@ package br.ufba.dcc.mestrado.computacao.spring;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.core.annotation.Order;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
@@ -14,13 +13,13 @@ import org.springframework.security.crypto.password.StandardPasswordEncoder;
 import org.springframework.security.web.csrf.CsrfTokenRepository;
 import org.springframework.security.web.csrf.HttpSessionCsrfTokenRepository;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
-import org.springframework.social.security.SpringSocialConfigurer;
+import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 
 import br.ufba.dcc.mestrado.computacao.service.basic.RepositoryBasedUserDetailsService;
 
 @Configuration
+@EnableWebMvc
 @EnableWebSecurity
-//@ImportResource({"classpath:META-INF/spring-security.xml"})
 public class SecurityAppConfig extends WebSecurityConfigurerAdapter {
 	
 	@Autowired
@@ -48,87 +47,65 @@ public class SecurityAppConfig extends WebSecurityConfigurerAdapter {
 				.antMatchers(
 						"/resources",
 						"/restful/**",
+						"/signin/**",
 						"/javax.faces.resource/**");
 	}
 	
-	@Configuration
-	@Order(1)
-	public static class CsrfWebSecurityConfigurerAdapter extends WebSecurityConfigurerAdapter {
+	protected void configure(HttpSecurity http) throws Exception {
 		
-		@Autowired
-		private CsrfTokenRepository csrfTokenRepository;
+		http
+			.sessionManagement()
+				.invalidSessionUrl("/account/login")
+				.maximumSessions(1);
 		
-		protected void configure(HttpSecurity http) throws Exception {
-			http
-				.csrf()
-					.csrfTokenRepository(csrfTokenRepository)
-					.ignoringAntMatchers(
-							"/detail/**",
-							"/summary/**",
-							"/reviews/project/**",
-							"/reviews/user/**",
-							"/search/results.jsf");
-		}
-					
+		http
+			.csrf()
+				.csrfTokenRepository(csrfTokenRepository())
+				.ignoringAntMatchers(
+						"/detail/**",
+						"/summary/**",
+						"/reviews/project/**",
+						"/reviews/user/**",
+						"/search/results.jsf")
+				.and()
+			.authorizeRequests()
+				.antMatchers(
+						"/",
+						"/favicon.ico",
+						"/account/new").permitAll()
+				.antMatchers(
+						"/account/*",
+						"/reviews/**/new").hasRole("USER")
+				.and()
+			.formLogin()
+				.loginPage("/account/login")
+				.loginProcessingUrl("/account/authenticate")
+				.failureUrl("/account/login")
+				.permitAll()
+				.and()
+			.logout()
+				.invalidateHttpSession(true)
+				//see http://docs.spring.io/spring-security/site/docs/4.0.1.RELEASE/reference/htmlsingle/#csrf-logout
+				.logoutRequestMatcher(new AntPathRequestMatcher("/account/logout"))
+				.logoutSuccessUrl("/")
+				.and()
+			.exceptionHandling()
+				.and()
+			.httpBasic();
+			/*
+			 * As linhas abaixo provocavam um NoSuchMethodError SocialAuthenticationFilter.getFilterProcessesUrl()
+			 * o método é utilizado no spring-social-security 1.1.0.RELEASE, mas foi removido da classe AbstractAuthenticationProcessingFilter no 
+			 * spring-security-web 4.0.1.
+			 * Neste caso, não seguir o tutorial descrito em 
+			 * http://docs.spring.io/spring-social/docs/1.1.0.RELEASE/reference/htmlsingle/#enabling-provider-sign-in-with-code-socialauthenticationfilter-code
+			 */
+			//	.and()
+			//.apply(new SpringSocialConfigurer());
+				
+		
 	}
 	
 	
-	@Configuration
-	@Order(2)
-	public static class DefaultWebSecurityConfigurerAdapter extends WebSecurityConfigurerAdapter {
-		protected void configure(HttpSecurity http) throws Exception {
-			http
-				.authorizeRequests()
-					.antMatchers(
-							"/",
-							"/account/new").permitAll()
-					.antMatchers(
-							"/account/*",
-							"/reviews/**/new").hasRole("USER")
-					.and()
-				.formLogin()
-					.loginPage("/account/login")
-					.loginProcessingUrl("/signin/authenticate")
-					.failureUrl("/account/login")
-					.permitAll()
-					.and()
-				.logout()
-					.invalidateHttpSession(true)
-					//see http://docs.spring.io/spring-security/site/docs/4.0.1.RELEASE/reference/htmlsingle/#csrf-logout
-					.logoutRequestMatcher(new AntPathRequestMatcher("/account/logout"))
-					.logoutSuccessUrl("/")
-					.and()
-				.exceptionHandling()
-					.and()
-				.httpBasic()
-					.and()	
-				.portMapper()
-					.http(80).mapsTo(443)
-					.http(8080).mapsTo(8443);
-		}
-	}
-	
-	
-	@Configuration
-	@Order(3)
-	public static class SocialWebSecurityConfigurerAdapter extends WebSecurityConfigurerAdapter {
-		protected void configure(HttpSecurity http) throws Exception {
-			http
-				.apply(new SpringSocialConfigurer());
-		}		
-	}
-	
-	
-	@Configuration
-	@Order(4)
-	public static class SessionWebSecurityConfigurerAdapter extends WebSecurityConfigurerAdapter {
-		protected void configure(HttpSecurity http) throws Exception {
-			http
-				.sessionManagement()
-					.invalidSessionUrl("/account/login")
-					.maximumSessions(1);
-		}
-	}
 	
 	
 }
