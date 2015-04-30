@@ -51,12 +51,14 @@ public class SocialAppConfig  implements SocialConfigurer {
 			ConnectionFactoryConfigurer connectionFactoryConfigurer,
 			Environment environment) {
 		
-		connectionFactoryConfigurer.addConnectionFactory(
-	    		new FacebookConnectionFactory(
-	    				environment.getProperty("facebook.appId"),
-	    				environment.getProperty("facebook.appSecret")
-	    			)
-	    	);
+		FacebookConnectionFactory facebookConnectionFactory = new FacebookConnectionFactory(
+				environment.getProperty("facebook.appId"),
+				environment.getProperty("facebook.appSecret")
+			);
+		
+		facebookConnectionFactory.setScope("email,public_profile,user_friends");
+		
+		connectionFactoryConfigurer.addConnectionFactory(facebookConnectionFactory);
 		
 		connectionFactoryConfigurer.addConnectionFactory(
 	    		new TwitterConnectionFactory(

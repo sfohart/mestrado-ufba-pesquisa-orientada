@@ -50,6 +50,11 @@
 								<fieldset>
 									<legend>Informações Pessoais</legend>
 									<div class="form-group">
+										<h:outputLabel for="login" value="Nome de Usuário"/>
+										<h:inputText id="login" styleClass="form-control" readonly="true" 
+											value="#{accountBasicDataEditMB.account.login}"/>
+									</div>
+									<div class="form-group">
 										<h:outputLabel for="firstName" value="Primeiro Nome"/>
 										<h:inputText id="firstName" styleClass="form-control" 
 											value="#{accountBasicDataEditMB.account.firstName}"/>

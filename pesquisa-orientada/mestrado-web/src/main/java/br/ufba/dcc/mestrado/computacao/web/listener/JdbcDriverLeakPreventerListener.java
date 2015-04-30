@@ -8,6 +8,8 @@ import java.util.Enumeration;
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
 
+import org.springframework.stereotype.Component;
+
 /**
  * 
  * @author leandro.ferreira
@@ -15,6 +17,7 @@ import javax.servlet.ServletContextListener;
  * @see http://plumbr.eu/permgen
  *
  */
+@Component
 public class JdbcDriverLeakPreventerListener implements ServletContextListener {
 
 	@Override

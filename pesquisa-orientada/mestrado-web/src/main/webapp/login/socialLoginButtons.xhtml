@@ -9,13 +9,20 @@
 	xmlns:p="http://xmlns.jcp.org/jsf/passthrough"
 	>
 	
-	<div class="row">
+	<h:panelGroup layout="block"  styleClass="row" rendered="#{facebook or twitter}">
+		
+		<div class="col-md-12">
+			<div style="border-top: 1px solid #aaa;">
+				<h4>Que tal utilizar as redes sociais para se conectar?</h4>
+			</div>
+		</div>
 		
 		<h:panelGroup layout="block" styleClass="col-md-6" rendered="#{facebook}">
 			<form action="#{facesContext.externalContext.applicationContextPath}/signin/facebook"  method="post">
 				<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"  />
+				<input type="hidden" name="scope" value="email,public_profile,user_friends" />
 				<button class="btn-social btn-xs btn-facebook" type="submit">
-					<span class="fa fa-facebook"></span> Conectar com o Facebook
+					<span class="fa fa-facebook"></span> Facebook
 				</button>
 			</form>
 		</h:panelGroup>
@@ -23,10 +30,10 @@
 			<form action="#{facesContext.externalContext.applicationContextPath}/signin/twitter"  method="post">
 				<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"  />
 				<button class="btn-social btn-xs btn-twitter" type="submit">
-					<span class="fa fa-twitter"></span> Conectar com o Twitter
+					<span class="fa fa-twitter"></span> Twitter
 				</button>
 			</form>
 		</h:panelGroup>
-	</div>
+	</h:panelGroup>
 	
 </ui:composition>

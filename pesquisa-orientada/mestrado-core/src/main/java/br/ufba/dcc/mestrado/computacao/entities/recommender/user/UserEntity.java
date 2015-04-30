@@ -32,10 +32,7 @@ import br.ufba.dcc.mestrado.computacao.entities.openhub.core.account.OpenHubAcco
 import br.ufba.dcc.mestrado.computacao.entities.openhub.core.project.OpenHubTagEntity;
 
 @Entity
-@Table(
-		name=UserEntity.NODE_NAME,
-		uniqueConstraints=@UniqueConstraint(columnNames={"login","facebook_account","twitter_account"})
-)
+@Table(name = UserEntity.NODE_NAME)
 public class UserEntity implements BaseEntity<Long>{
 
 	/**
@@ -59,6 +56,7 @@ public class UserEntity implements BaseEntity<Long>{
 	
 	private String password;
 	
+	@Column(unique = true)
 	private String email;
 		
 	private String name;
