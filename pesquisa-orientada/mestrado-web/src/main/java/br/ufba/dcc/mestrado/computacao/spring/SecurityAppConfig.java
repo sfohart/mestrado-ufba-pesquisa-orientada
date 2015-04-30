@@ -48,10 +48,6 @@ public class SecurityAppConfig extends WebSecurityConfigurerAdapter {
 				.antMatchers(
 						"/resources",
 						"/restful/**",
-						"/signin",
-						"/signup",
-						"/signin/**",
-						"/signup/**",
 						"/javax.faces.resource/**");
 	}
 	
@@ -70,11 +66,6 @@ public class SecurityAppConfig extends WebSecurityConfigurerAdapter {
 						"/favicon.ico", 
 						"/restful/**",
 						"/resources/**", 
-						"/auth/**",
-						"/signin",
-						"/signup",
-						"/signin/**", 
-						"/signup/**",
 						"/account/new").permitAll()
 				.antMatchers(
 						"/account/*",
@@ -92,11 +83,9 @@ public class SecurityAppConfig extends WebSecurityConfigurerAdapter {
 				.logoutRequestMatcher(new AntPathRequestMatcher("/account/logout"))
 				.logoutSuccessUrl("/")
 				.and()
-			.exceptionHandling()
-				.and()
-			.httpBasic()
-				.and()
-			.apply(new SpringSocialConfigurer());
+			.exceptionHandling();
+/*				.and()
+			.apply(new SpringSocialConfigurer());*/
 				
 		
 	}

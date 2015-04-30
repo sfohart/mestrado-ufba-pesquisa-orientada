@@ -35,52 +35,57 @@ public class AccountConnectionSignUp implements ConnectionSignUp {
 	public String execute(Connection<?> connection) {
 		UserProfile userProfile = connection.fetchUserProfile();
 		
-		UserEntity userEntity = getUserService().findByEmail(userProfile.getEmail());
-		if (userEntity == null) {
-			userEntity = new UserEntity();
-			userEntity.setLogin(userProfile.getEmail());
+		UserEntity user = getUserService().findByEmail(userProfile.getEmail());
+		if (user == null) {
+			user = new UserEntity();
+			user.setLogin(userProfile.getEmail());
 			
 			List<RoleEnum> roleList = new ArrayList<>();
 			roleList.add(RoleEnum.ROLE_USER);
 			
-			userEntity.setRoleList(roleList);
+			user.setRoleList(roleList);
 		}
 		
 		ApiBinding apiBinding = (ApiBinding) connection.getApi();
 		
 		if (apiBinding instanceof Facebook) {
-			if (StringUtils.isEmpty(userEntity.getFacebookAccount())) {
-				userEntity.setFacebookAccount(userProfile.getUsername());
+			
+			Facebook facebook = (Facebook) apiBinding;
+			if (StringUtils.isEmpty(user.getFacebookAccount())) {
+				user.setFacebookAccount(facebook.userOperations().getUserProfile().getLink());
 			}
 		} else if (apiBinding instanceof Twitter) {
-			if (StringUtils.isEmpty(userEntity.getTwitterAccount())) {
-				userEntity.setTwitterAccount(userProfile.getUsername());
+			
+			Twitter twitter = (Twitter) apiBinding;
+			
+			if (StringUtils.isEmpty(user.getTwitterAccount())) {
+				user.setTwitterAccount(twitter.userOperations().getUserProfile().getProfileUrl());
 			}
 		}
 		
-		if (StringUtils.isEmpty(userEntity.getName())) {
-			userEntity.setName(userProfile.getName());
+		if (StringUtils.isEmpty(user.getName())) {
+			user.setName(userProfile.getName());
 		}
 		
-		if (StringUtils.isEmpty(userEntity.getFirstName())) {
-			userEntity.setFirstName(userProfile.getFirstName());
+		if (StringUtils.isEmpty(user.getFirstName())) {
+			user.setFirstName(userProfile.getFirstName());
 		}
 		
-		if (StringUtils.isEmpty(userEntity.getLastName())) {
-			userEntity.setLastName(userProfile.getLastName());
+		if (StringUtils.isEmpty(user.getLastName())) {
+			user.setLastName(userProfile.getLastName());
 		}
 		
-		if (StringUtils.isEmpty(userEntity.getEmail())) {
-			userEntity.setEmail(userProfile.getEmail());
+		if (StringUtils.isEmpty(user.getEmail())) {
+			user.setEmail(userProfile.getEmail());
 		}
 		
 		try {
-			getUserService().save(userEntity);
+			getUserService().save(user);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		
-		return userProfile.getUsername();
+		return user.getLogin();
 	}
 
 }

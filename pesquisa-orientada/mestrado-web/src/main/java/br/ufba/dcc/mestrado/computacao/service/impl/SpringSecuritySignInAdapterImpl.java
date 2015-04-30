@@ -13,9 +13,11 @@ public class SpringSecuritySignInAdapterImpl implements SpringSecuritySignInAdap
 
 	@Override
 	public String signIn(String userId, Connection<?> connection, NativeWebRequest request) {
-		SecurityContextHolder.getContext().setAuthentication(
-				 new UsernamePasswordAuthenticationToken(userId, null, null));
-		 return null;
+		UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(
+				userId, 
+				null, 
+				null);
+		SecurityContextHolder.getContext().setAuthentication(authentication);
+		return null;
 	}
-
 }
