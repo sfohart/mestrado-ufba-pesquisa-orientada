@@ -49,19 +49,16 @@
 								</ul>
 							</div>
 							<p>
-								<a href="#{facesContext.externalContext.applicationContextPath}/account/newAccount.jsf" class="btn btn-success">
+								<a href="#{facesContext.externalContext.applicationContextPath}/account/new" class="btn btn-success">
 									<span class="glyphicon glyphicon-plus-sign white"></span>
 									Cadastre-se 
 								</a>
 								e conte-nos a sua história como usuário de software livre - é de graça!
 							</p>
+							
+							
 							<p>
-								<form action="#{facesContext.externalContext.applicationContextPath}/signin/facebook"  method="post">
-									<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"  />
-									<button class="btn btn-facebook" type="submit">
-										<span class="fa fa-facebook"></span> | Conectar com o Facebook
-									</button>
-								</form>
+								
 							</p>							
 						</div>
 						
@@ -118,6 +115,9 @@
 									</fieldset>
 								</form>
 							</div>
+							<ui:include src="/login/socialLoginButtons.xhtml">
+								<ui:param name="facebook" value="true" />
+							</ui:include>
 						</div>
 					</div>
 					

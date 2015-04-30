@@ -47,12 +47,15 @@
 								</ul>
 							</div>
 							<p>
-								<a href="#{facesContext.externalContext.applicationContextPath}/login/login.jsf" class="btn btn-success">
+								<a href="#{facesContext.externalContext.applicationContextPath}/account/login" class="btn btn-success">
 									<span class="glyphicon glyphicon-user"></span> 
 									Entre 
 								</a>
 								e conte-nos a sua história como usuário de software livre - é de graça!
 							</p>
+							<ui:include src="/login/socialLoginButtons.xhtml">
+								<ui:param name="facebook" value="true" />
+							</ui:include>
 						</div>
 						
 						<div class="col-md-6">
