@@ -341,6 +341,9 @@ public class OpenHubProjectEntity implements BaseEntity<Long> {
 		return true;
 	}
 	
-	
+	@Override
+	public String toString() {
+		return getName().toString();
+	}
 
 }

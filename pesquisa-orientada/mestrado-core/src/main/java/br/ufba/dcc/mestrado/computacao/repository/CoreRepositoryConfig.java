@@ -4,7 +4,6 @@ import java.util.Properties;
 
 import javax.sql.DataSource;
 
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -58,6 +57,11 @@ public class CoreRepositoryConfig {
 		connectionProperties.put("hibernate.dialect", env.getProperty("hibernate.dialect"));
 		
 		//Hibernate Search
+		
+		if (env.containsProperty("hibernate.search.default.indexBase")) {
+			connectionProperties.put("hibernate.search.default.indexBase", env.getProperty("hibernate.search.default.indexBase"));
+		}
+		
 		if (env.containsProperty("hibernate.search.default.directory_provider"))
 			connectionProperties.put("hibernate.search.default.directory_provider", env.getProperty("hibernate.search.default.directory_provider"));
 		

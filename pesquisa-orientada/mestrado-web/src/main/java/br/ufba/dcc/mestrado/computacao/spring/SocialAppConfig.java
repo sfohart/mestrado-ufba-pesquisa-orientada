@@ -29,9 +29,7 @@ import br.ufba.dcc.mestrado.computacao.social.connect.AccountConnectionSignUp;
 @Configuration
 @EnableSocial
 @ComponentScan("org.springframework.social.connect.web")
-@PropertySource(value = {	
-		"classpath:social.properties"
-	})
+@PropertySource(name = "socialProps", value = { "classpath:social.properties" })
 public class SocialAppConfig  implements SocialConfigurer {
 
 	@Autowired

@@ -48,7 +48,7 @@ public class IndexerRunner {
 	}
 
 	public static void main(String[] args) {
-		ApplicationContext context = new AnnotationConfigApplicationContext(
+		AnnotationConfigApplicationContext context = new AnnotationConfigApplicationContext(
 				CoreAppConfig.class);
 
 		IndexerRunner main = context.getBean(IndexerRunner.class);
@@ -56,6 +56,8 @@ public class IndexerRunner {
 		if (main != null) {
 			main.run();
 		}
+		
+		context.close();
 	}
 
 }

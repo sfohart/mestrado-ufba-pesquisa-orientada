@@ -16,8 +16,10 @@ import br.ufba.dcc.mestrado.computacao.service.core.base.ProjectDetailPageViewSe
 import br.ufba.dcc.mestrado.computacao.service.core.base.UserService;
 import br.ufba.dcc.mestrado.computacao.service.recommender.base.MahoutColaborativeFilteringService;
 
-@Component
+@Component(AlsoViewedProjectsRecommenderEvaluator.BEAN_NAME)
 public class AlsoViewedProjectsRecommenderEvaluator implements OfflineRecommenderEvaluator {
+	
+	public static final String BEAN_NAME = "alsoViewedProjectsRecommenderEvaluator";
 	
 	@Autowired
 	private UserService userService;
@@ -30,27 +32,34 @@ public class AlsoViewedProjectsRecommenderEvaluator implements OfflineRecommende
 	
 	@Value("${recommender.results.sample.max}")
 	private int howManyItems;
+	
+	public static void main(String[] args) throws TasteException {
+		OfflineRecommenderEvaluatorUtils.runEvaluator(AlsoViewedProjectsRecommenderEvaluator.BEAN_NAME);
+	}
 
 	@Override
 	public void evaluate() throws TasteException {
 		List<UserEntity> users = userService.findAll();
+		
+		System.out.println("Id do usuário;Projetos Visualizados;Recomendações com Sucesso;Recomendações com Sucesso (%);Recomendações sem Sucesso;Recomendações sem Sucesso (%)");
+		
 		if (users != null) {
 			for (UserEntity user : users) {
 				
 				int successfulRecommendations = 0;
 				int failedRecommendations = 0;
 				
-				List<OpenHubProjectEntity> projectsViewed = pageViewService.findAllProjectRecentlyViewedByUser(user);
+				List<OpenHubProjectEntity> viewedProjects = pageViewService.findAllProjectRecentlyViewedByUser(user);
 				
 				
-				if (projectsViewed != null && projectsViewed.size() >= 2) {
+				if (viewedProjects != null && viewedProjects.size() >= 2) {
 					
 					List<Long> ids = new ArrayList<Long>();
-					for (OpenHubProjectEntity project : projectsViewed) {
+					for (OpenHubProjectEntity project : viewedProjects) {
 						ids.add(project.getId());
 					}
 										
-					for (OpenHubProjectEntity project : projectsViewed) {
+					for (OpenHubProjectEntity project : viewedProjects) {
 						List<RecommendedItem> recommendedItems = 
 								mahoutColaborativeFilteringService.recommendViewedProjectsByItem(project.getId(), howManyItems);
 						
@@ -73,15 +82,17 @@ public class AlsoViewedProjectsRecommenderEvaluator implements OfflineRecommende
 					
 					int total = successfulRecommendations + failedRecommendations;
 					
-					System.out.println(
-							String.format("User: %02d | Projects Viewed: %d \t| Successful Recommendations: %d (%.2f%%) \t| Failed Recommendations: %2d (%.2f%%)", 
-									user.getId(),
-									projectsViewed.size(),
-									successfulRecommendations,
-									total > 0 ? successfulRecommendations * 100 / total : 0f,
-											failedRecommendations,
-											total > 0 ? failedRecommendations * 100 / total : 0f
-									));
+					String line = String.format(
+							"%02d;%d;%d;%.2f;%d;%.2f"
+							,user.getId()
+							,viewedProjects.size()
+							,successfulRecommendations
+							,(total > 0 ? successfulRecommendations * 100 / total : 0f)
+							,failedRecommendations
+							,(total > 0 ? failedRecommendations * 100 / total : 0f)
+							);
+					
+					System.out.println(line);
 				}
 				
 			}

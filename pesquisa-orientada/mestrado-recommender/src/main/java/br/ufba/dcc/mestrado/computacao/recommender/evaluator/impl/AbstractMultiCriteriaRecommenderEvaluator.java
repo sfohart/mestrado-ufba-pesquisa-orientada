@@ -99,6 +99,9 @@ public abstract class AbstractMultiCriteriaRecommenderEvaluator implements Offli
 		MultiCriteriaRecommender multiCriteriaRecommender = buildMultiCriteriaRecommender(recommenderBuilder);
 		
 		List<UserEntity> users = userService.findAll();
+		
+		System.out.println("Id do usuário;Projetos Visualizados;Recomendações com Sucesso;Recomendações com Sucesso (%);Recomendações sem Sucesso;Recomendações sem Sucesso (%)");
+		
 		if (users != null) {
 			for (UserEntity user : users) {
 				
@@ -106,11 +109,12 @@ public abstract class AbstractMultiCriteriaRecommenderEvaluator implements Offli
 				int failedRecommendations = 0;
 				
 				List<OpenHubProjectEntity> ratedProjects = overallRatingService.findAllRatedProjectsByUser(user.getId());
+				List<OpenHubProjectEntity> viewedProjects = pageViewService.findAllProjectRecentlyViewedByUser(user);
 				
 				if (ratedProjects != null && ratedProjects.size() >= 2) {
 					
 					List<Long> ids = new ArrayList<Long>();
-					for (OpenHubProjectEntity project : ratedProjects) {
+					for (OpenHubProjectEntity project : viewedProjects) {
 						ids.add(project.getId());
 					}
 										
@@ -134,15 +138,17 @@ public abstract class AbstractMultiCriteriaRecommenderEvaluator implements Offli
 					
 					int total = successfulRecommendations + failedRecommendations;
 					
-					System.out.println(
-							String.format("User: %02d | Projects Viewed: %d \t| Successful Recommendations: %d (%.2f%%) \t| Failed Recommendations: %2d (%.2f%%)", 
-									user.getId(),
-									ratedProjects.size(),
-									successfulRecommendations,
-									total > 0 ? successfulRecommendations * 100 / total : 0f,
-											failedRecommendations,
-											total > 0 ? failedRecommendations * 100 / total : 0f
-									));
+					String line = String.format(
+							"%02d;%d;%d;%.2f;%d;%.2f"
+							,user.getId()
+							,ratedProjects.size()
+							,successfulRecommendations
+							,(total > 0 ? successfulRecommendations * 100 / total : 0f)
+							,failedRecommendations
+							,(total > 0 ? failedRecommendations * 100 / total : 0f)
+							);
+					
+					System.out.println(line);
 				}
 				
 			}
