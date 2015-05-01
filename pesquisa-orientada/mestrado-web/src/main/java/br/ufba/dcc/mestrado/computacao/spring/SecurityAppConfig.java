@@ -13,7 +13,6 @@ import org.springframework.security.crypto.password.StandardPasswordEncoder;
 import org.springframework.security.web.csrf.CsrfTokenRepository;
 import org.springframework.security.web.csrf.HttpSessionCsrfTokenRepository;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
-import org.springframework.social.security.SpringSocialConfigurer;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 
 import br.ufba.dcc.mestrado.computacao.service.basic.RepositoryBasedUserDetailsService;
@@ -69,7 +68,10 @@ public class SecurityAppConfig extends WebSecurityConfigurerAdapter {
 						"/account/new").permitAll()
 				.antMatchers(
 						"/account/*",
-						"/reviews/**/new").hasRole("USER")
+						"/search/results",
+						"/detail/**",
+						"/summary/**",
+						"/reviews/**").authenticated()
 				.and()
 			.formLogin()
 				.loginPage("/account/login")

@@ -53,9 +53,8 @@
 								</a>
 								e conte-nos a sua história como usuário de software livre - é de graça!
 							</p>
-							<ui:include src="/login/socialLoginButtons.xhtml">
-								<ui:param name="facebook" value="#{socialProps['signin.facebook.enabled']}" />
-								<ui:param name="twitter" value="#{socialProps['signin.twitter.enabled']}" />
+							<ui:include src="/login/socialLoginButtons.xhtml" >
+								<ui:param name="facebook" value="true" />
 							</ui:include>
 						</div>
 						

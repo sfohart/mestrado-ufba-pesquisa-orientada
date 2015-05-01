@@ -115,9 +115,8 @@
 									</fieldset>
 								</form>
 							</div>
-							<ui:include src="/login/socialLoginButtons.xhtml">
-								<ui:param name="facebook" value="#{socialProps['signin.facebook.enabled']}" />
-								<ui:param name="twitter" value="#{socialProps['signin.twitter.enabled']}" />
+							<ui:include src="/login/socialLoginButtons.xhtml" >
+								<ui:param name="facebook" value="true" />
 							</ui:include>
 						</div>
 					</div>
