@@ -31,18 +31,28 @@ public class AccountConnectionSignUp implements ConnectionSignUp {
 		this.userService = userService;
 	}
 	
+	
+	
 	@Override
 	public String execute(Connection<?> connection) {
 		UserProfile userProfile = connection.fetchUserProfile();
 		
-		String username = userProfile.getEmail();
+		String username = null;
 		
-		if (! StringUtils.isEmpty(userProfile.getEmail())) {
-
-			UserEntity user = getUserService().findByEmail(userProfile.getEmail());
+		if (! StringUtils.isEmpty(userProfile.getEmail()) || ! StringUtils.isEmpty(userProfile.getUsername())) {
+			UserEntity user = null;
+			
+			if (! StringUtils.isEmpty(userProfile.getEmail())) {
+				user = getUserService().findByEmail(userProfile.getEmail());
+				if (user == null && ! StringUtils.isEmpty(userProfile.getUsername())) {
+					user = getUserService().findByLogin(userProfile.getUsername());
+				}
+			} else if (! StringUtils.isEmpty(userProfile.getUsername())) {
+				user = getUserService().findByLogin(userProfile.getUsername());
+			}
+			
 			if (user == null) {
 				user = new UserEntity();
-				user.setLogin(userProfile.getEmail());
 				
 				List<RoleEnum> roleList = new ArrayList<>();
 				roleList.add(RoleEnum.ROLE_USER);
@@ -50,8 +60,6 @@ public class AccountConnectionSignUp implements ConnectionSignUp {
 				user.setRoleList(roleList);
 			}
 			
-			
-			username = user.getLogin();
 			ApiBinding apiBinding = (ApiBinding) connection.getApi();
 			
 			if (apiBinding instanceof Facebook) {
@@ -84,6 +92,16 @@ public class AccountConnectionSignUp implements ConnectionSignUp {
 			if (StringUtils.isEmpty(user.getEmail())) {
 				user.setEmail(userProfile.getEmail());
 			}
+			
+			if (StringUtils.isEmpty(user.getLogin())) {
+				if (! StringUtils.isEmpty(userProfile.getUsername())) {
+					user.setLogin(userProfile.getUsername());
+				} else {
+					user.setLogin(userProfile.getEmail());
+				}
+			}
+			
+			username = user.getLogin();
 			
 			try {
 				getUserService().save(user);

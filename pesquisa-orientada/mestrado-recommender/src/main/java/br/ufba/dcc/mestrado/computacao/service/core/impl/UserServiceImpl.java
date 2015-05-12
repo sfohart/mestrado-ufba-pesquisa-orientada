@@ -56,17 +56,18 @@ public class UserServiceImpl extends BaseServiceImpl<Long, UserEntity>
 	}
 
 	private void validateEntity(UserEntity entity) {
-		if (entity != null) {
+		if (entity != null && entity.getId() == null) {
 			entity.setCreatedAt(new Timestamp(System.currentTimeMillis()));
 			entity.setEnabled(Boolean.TRUE);
 			entity.setLocked(Boolean.FALSE);
-			
-			if (StringUtils.isEmpty(entity.getFirstName()) || StringUtils.isEmpty(entity.getMiddleName()) || StringUtils.isEmpty(entity.getLastName()) ){
-				String name = entity.getFirstName() + " " + entity.getMiddleName() + " " + entity.getLastName();
-				name = name.replaceAll("  ", " ").replaceAll("null", "");
-				entity.setName(name);
-			}
 		}
+		
+		if (StringUtils.isEmpty(entity.getName())) {
+			String name = entity.getFirstName() + " " + entity.getMiddleName() + " " + entity.getLastName();
+			name = name.replaceAll("  ", " ").replaceAll("null", "");
+			entity.setName(name);
+		}
+		
 	}
 }
 
