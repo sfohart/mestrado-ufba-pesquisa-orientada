@@ -1,5 +1,6 @@
 package br.ufba.dcc.mestrado.computacao.spring;
 
+import javax.annotation.PostConstruct;
 import javax.sql.DataSource;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -43,6 +44,9 @@ public class SocialAppConfig  implements SocialConfigurer {
 	
 	@Autowired
 	private SpringSecuritySignInAdapter springSecuritySignInAdapter;
+	
+	@Autowired
+	private ProviderSignInController providerSignInController;
 	
 	@Override
 	public void addConnectionFactories(
@@ -91,21 +95,11 @@ public class SocialAppConfig  implements SocialConfigurer {
         return Encryptors.noOpText();
     }
 	
-	@Bean
-	public ProviderSignInController providerSignInController(
-	            ConnectionFactoryLocator connectionFactoryLocator,
-	            UsersConnectionRepository usersConnectionRepository) throws Exception {
-		
-		ProviderSignInController controller = new ProviderSignInController(
-	        connectionFactoryLocator,
-	        usersConnectionRepository,
-	        springSecuritySignInAdapter);
-		
-		controller.afterPropertiesSet();
-		controller.setSignUpUrl("/account/new");		
-		controller.setApplicationUrl(environment.getProperty("application.url"));
-		
-		return controller;
+	@PostConstruct
+	public void configureProviderUrl() {
+		providerSignInController.setSignUpUrl("/account/new");
+		providerSignInController.setSignInUrl("/account/login");
+		providerSignInController.setApplicationUrl(environment.getProperty("application.url"));
 	}
 
 }

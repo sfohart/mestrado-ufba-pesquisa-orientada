@@ -2,12 +2,12 @@ package br.ufba.dcc.mestrado.computacao.recommender.evaluator.impl;
 
 import java.io.IOException;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.List;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.mahout.cf.taste.common.TasteException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import br.ufba.dcc.mestrado.computacao.entities.openhub.core.project.OpenHubProjectEntity;
@@ -32,11 +32,106 @@ public class SimilarProjectsRecommenderEvaluator implements OfflineRecommenderEv
 	@Autowired
 	private SearchService searchService;
 	
+	private Integer maxResults = 6;
+	
 	public static void main(String[] args) throws TasteException {
 		OfflineRecommenderEvaluatorUtils.runEvaluator(SimilarProjectsRecommenderEvaluator.BEAN_NAME);
 	}
-
+	
 	@SuppressWarnings("unchecked")
+	@Override
+	public void evaluate() throws TasteException {
+		List<UserEntity> users = userService.findAll();
+		
+		if (users != null) {
+			
+			System.out.println("id do usuário;quantidade de projetos visualizados;buscando projetos similares a este;projeto recomendado;posição em que o projeto recomendado aparece;intersecção no conjunto de tags");
+			for (UserEntity user : users) {
+				List<OpenHubProjectEntity> viewedProjects = pageViewService.findAllProjectRecentlyViewedByUser(user);
+				
+				if (viewedProjects != null && viewedProjects.size() >= 2) {
+					for (OpenHubProjectEntity project : viewedProjects) {
+						
+						List<OpenHubProjectEntity> similarProjects = null;
+						try {
+							similarProjects = searchService.findRelatedProjects(project, 0, maxResults);
+						} catch (IOException e) {
+							throw new TasteException(e);
+						}
+						
+						if (similarProjects != null && ! similarProjects.isEmpty()) {
+							boolean found = false;
+							//for (OpenHubProjectEntity recommended : similarProjects) {
+							for (int index = 0; index < similarProjects.size(); index++) {
+								OpenHubProjectEntity recommended = similarProjects.get(index);
+								if (! project.equals(recommended)) {
+									if (viewedProjects.contains(recommended) ) {
+										found = true;
+										String linha = String.format(
+												"%d;%d;%s;%s;%d;%d",
+												user.getId(),					//id do usuário
+												viewedProjects.size(),			//quantidade de projetos visualizados
+												project.getName(),				//buscando projetos similares a este
+												recommended.getName(),			//projeto recomendado
+												index + 1,						//posição em que o projeto recomendado aparece
+												recommended.getTags().size()	//intersecção no conjunto de tags
+											);
+										
+										System.out.println(linha);
+									} else {
+										for (OpenHubProjectEntity viewed : viewedProjects) {
+											Collection<OpenHubTagEntity> intersection = (Collection<OpenHubTagEntity>) CollectionUtils.intersection(viewed.getTags(), recommended.getTags());
+											if (intersection != null && intersection.size() >= 3){
+												found = true;
+												String linha = String.format(
+														"%d;%d;%s;%s;%d;%d",
+														user.getId(),					//id do usuário
+														viewedProjects.size(),			//quantidade de projetos visualizados
+														project.getName(),				//buscando projetos similares a este
+														recommended.getName(),			//projeto recomendado
+														index + 1,						//posição em que o projeto recomendado aparece
+														intersection.size()				//intersecção no conjunto de tags
+													);
+												System.out.println(linha);
+											}
+										}
+									}
+									
+								}
+							}
+							
+							if (! found) {
+								String linha = String.format(
+										"%d;%d;%s;%s;%d;%d",
+										user.getId(),					//id do usuário
+										viewedProjects.size(),			//quantidade de projetos visualizados
+										project.getName(),				//buscando projetos similares a este
+										"",								//projeto recomendado
+										0,								//posição em que o projeto recomendado aparece
+										0								//intersecção no conjunto de tags
+									);
+								System.out.println(linha);
+							}
+						} else {
+							String linha = String.format(
+									"%d;%d;%s;%s;%d;%d",
+									user.getId(),					//id do usuário
+									viewedProjects.size(),			//quantidade de projetos visualizados
+									project.getName(),				//buscando projetos similares a este
+									"",								//projeto recomendado
+									0,								//posição em que o projeto recomendado aparece
+									0								//intersecção no conjunto de tags
+								);
+							System.out.println(linha);
+						}
+						
+					}
+				}
+			}
+		}
+	}
+
+	/*@SuppressWarnings("unchecked")
 	@Override
 	public void evaluate() throws TasteException {
 		List<UserEntity> users = userService.findAll();
@@ -64,7 +159,7 @@ public class SimilarProjectsRecommenderEvaluator implements OfflineRecommenderEv
 						}
 						
 						if (similarProjects != null && ! similarProjects.isEmpty()) {
-							boolean found = false;;
+							boolean found = false;
 							for (OpenHubProjectEntity recommended : similarProjects) {
 								
 								if (! project.equals(recommended)) {
@@ -113,6 +208,6 @@ public class SimilarProjectsRecommenderEvaluator implements OfflineRecommenderEv
 			}
 		}
 		
-	}
+	}*/
 
 }
