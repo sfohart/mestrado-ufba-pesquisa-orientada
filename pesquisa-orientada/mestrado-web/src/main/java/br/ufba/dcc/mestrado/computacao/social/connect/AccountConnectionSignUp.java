@@ -35,57 +35,66 @@ public class AccountConnectionSignUp implements ConnectionSignUp {
 	public String execute(Connection<?> connection) {
 		UserProfile userProfile = connection.fetchUserProfile();
 		
-		UserEntity user = getUserService().findByEmail(userProfile.getEmail());
-		if (user == null) {
-			user = new UserEntity();
-			user.setLogin(userProfile.getEmail());
-			
-			List<RoleEnum> roleList = new ArrayList<>();
-			roleList.add(RoleEnum.ROLE_USER);
-			
-			user.setRoleList(roleList);
-		}
+		String username = userProfile.getEmail();
 		
-		ApiBinding apiBinding = (ApiBinding) connection.getApi();
-		
-		if (apiBinding instanceof Facebook) {
-			
-			Facebook facebook = (Facebook) apiBinding;
-			if (StringUtils.isEmpty(user.getFacebookAccount())) {
-				user.setFacebookAccount(facebook.userOperations().getUserProfile().getLink());
+		if (! StringUtils.isEmpty(userProfile.getEmail())) {
+
+			UserEntity user = getUserService().findByEmail(userProfile.getEmail());
+			if (user == null) {
+				user = new UserEntity();
+				user.setLogin(userProfile.getEmail());
+				
+				List<RoleEnum> roleList = new ArrayList<>();
+				roleList.add(RoleEnum.ROLE_USER);
+				
+				user.setRoleList(roleList);
 			}
-		} else if (apiBinding instanceof Twitter) {
 			
-			Twitter twitter = (Twitter) apiBinding;
 			
-			if (StringUtils.isEmpty(user.getTwitterAccount())) {
-				user.setTwitterAccount(twitter.userOperations().getUserProfile().getProfileUrl());
+			username = user.getLogin();
+			ApiBinding apiBinding = (ApiBinding) connection.getApi();
+			
+			if (apiBinding instanceof Facebook) {
+				
+				Facebook facebook = (Facebook) apiBinding;
+				if (StringUtils.isEmpty(user.getFacebookAccount())) {
+					user.setFacebookAccount(facebook.userOperations().getUserProfile().getLink());
+				}
+			} else if (apiBinding instanceof Twitter) {
+				
+				Twitter twitter = (Twitter) apiBinding;
+				
+				if (StringUtils.isEmpty(user.getTwitterAccount())) {
+					user.setTwitterAccount(twitter.userOperations().getUserProfile().getProfileUrl());
+				}
 			}
+			
+			if (StringUtils.isEmpty(user.getName())) {
+				user.setName(userProfile.getName());
+			}
+			
+			if (StringUtils.isEmpty(user.getFirstName())) {
+				user.setFirstName(userProfile.getFirstName());
+			}
+			
+			if (StringUtils.isEmpty(user.getLastName())) {
+				user.setLastName(userProfile.getLastName());
+			}
+			
+			if (StringUtils.isEmpty(user.getEmail())) {
+				user.setEmail(userProfile.getEmail());
+			}
+			
+			try {
+				getUserService().save(user);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+			
 		}
 		
-		if (StringUtils.isEmpty(user.getName())) {
-			user.setName(userProfile.getName());
-		}
+		return username;
 		
-		if (StringUtils.isEmpty(user.getFirstName())) {
-			user.setFirstName(userProfile.getFirstName());
-		}
-		
-		if (StringUtils.isEmpty(user.getLastName())) {
-			user.setLastName(userProfile.getLastName());
-		}
-		
-		if (StringUtils.isEmpty(user.getEmail())) {
-			user.setEmail(userProfile.getEmail());
-		}
-		
-		try {
-			getUserService().save(user);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		
-		return user.getLogin();
 	}
 
 }
