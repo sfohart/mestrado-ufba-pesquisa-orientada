@@ -10,7 +10,7 @@
 	>
 
 	
-	<h:panelGroup layout="block"  styleClass="row form-inline" rendered="#{facebook or twitter}">
+	<h:panelGroup layout="block"  styleClass="row" rendered="#{facebook or twitter}">
 		
 		<div class="col-md-12">
 			<div style="border-top: 1px solid #aaa;">
@@ -18,34 +18,41 @@
 			</div>
 		</div>
 		
-		<h:panelGroup  rendered="#{facebook}">
+		<h:panelGroup  rendered="#{facebook}" styleClass="col-md-3" layout="block">
 			<form action="#{facesContext.externalContext.applicationContextPath}/signin/facebook"  method="post">
-				<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"  />
-				<button class="btn-social btn-xs btn-facebook" type="submit">
-					<span class="fa fa-facebook"></span> Facebook
-				</button>
+				<div class="form-group">
+					<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"  />
+					<button class="btn btn-social btn-block btn-sm btn-facebook" type="submit">
+						<span class="fa fa-facebook"></span> Facebook
+					</button>
+				</div>
 			</form>
 		</h:panelGroup>
 		
-		<h:panelGroup  rendered="#{twitter}">
+		<h:panelGroup  rendered="#{twitter}" styleClass="col-md-3" layout="block">
 			<form action="#{facesContext.externalContext.applicationContextPath}/signin/twitter"  method="post">
-				<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"  />
-				<button class="btn-social btn-xs btn-twitter" type="submit">
-					<span class="fa fa-twitter"></span> Twitter
-				</button>
+				<div class="form-group">
+					<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"  />
+					<button class="btn btn-social btn-block btn-sm btn-twitter" type="submit">
+						<span class="fa fa-twitter"></span> Twitter
+					</button>
+				</div>
 			</form>
 		</h:panelGroup>
 		
 		
-		<h:panelGroup  rendered="#{google}">
+		<h:panelGroup  rendered="#{google}" styleClass="col-md-3" layout="block">
 			<form action="#{facesContext.externalContext.applicationContextPath}/signin/google"  method="post">
-				<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"  />
-				
-				<button class="btn-social btn-xs btn-google" type="submit">
-					<span class="fa fa-google-plus"></span> Google
-				</button>
+				<div class="form-group">
+					<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"  />				
+					<button class="btn btn-social btn-block btn-sm btn-google" type="submit">
+						<span class="fa fa-google-plus"></span> Google
+					</button>
+				</div>
 			</form>
 		</h:panelGroup>
+		
+		<div class="col-md-3"></div>
 		
 	</h:panelGroup>
 	
