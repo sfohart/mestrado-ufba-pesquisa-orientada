@@ -19,7 +19,7 @@
 		</div>
 		
 		<h:panelGroup  rendered="#{facebook}" styleClass="col-md-3" layout="block">
-			<form action="#{facesContext.externalContext.applicationContextPath}/signin/facebook"  method="post">
+			<form action="#{request.contextPath}/signin/facebook"  method="post">
 				<div class="form-group">
 					<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"  />
 					<button class="btn btn-social btn-block btn-sm btn-facebook" type="submit">
@@ -30,7 +30,7 @@
 		</h:panelGroup>
 		
 		<h:panelGroup  rendered="#{twitter}" styleClass="col-md-3" layout="block">
-			<form action="#{facesContext.externalContext.applicationContextPath}/signin/twitter"  method="post">
+			<form action="#{request.contextPath}/signin/twitter"  method="post">
 				<div class="form-group">
 					<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"  />
 					<button class="btn btn-social btn-block btn-sm btn-twitter" type="submit">
@@ -42,7 +42,7 @@
 		
 		
 		<h:panelGroup  rendered="#{google}" styleClass="col-md-3" layout="block">
-			<form action="#{facesContext.externalContext.applicationContextPath}/signin/google"  method="post">
+			<form action="#{request.contextPath}/signin/google"  method="post">
 				<div class="form-group">
 					<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"  />				
 					<button class="btn btn-social btn-block btn-sm btn-google" type="submit">

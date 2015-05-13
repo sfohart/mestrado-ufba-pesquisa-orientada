@@ -41,6 +41,11 @@
 							<i class="fa fa-twitter"></i>
 						</h:outputLink>
 					</li>
+					<li>								
+						<h:outputLink value="#{account.googlePlusAccount}" styleClass="btn btn-social-icon btn-google" rendered="#{not empty account.googlePlusAccount}">
+							<i class="fa fa-google-plus"></i>
+						</h:outputLink>
+					</li>
 				</ul>
 			</h:panelGroup>
 		</div>
