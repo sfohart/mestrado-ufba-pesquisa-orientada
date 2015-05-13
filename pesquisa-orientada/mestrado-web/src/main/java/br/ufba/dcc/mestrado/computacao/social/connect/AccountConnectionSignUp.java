@@ -10,6 +10,7 @@ import org.springframework.social.connect.Connection;
 import org.springframework.social.connect.ConnectionSignUp;
 import org.springframework.social.connect.UserProfile;
 import org.springframework.social.facebook.api.Facebook;
+import org.springframework.social.google.api.Google;
 import org.springframework.social.twitter.api.Twitter;
 import org.springframework.stereotype.Component;
 
@@ -37,19 +38,37 @@ public class AccountConnectionSignUp implements ConnectionSignUp {
 	public String execute(Connection<?> connection) {
 		UserProfile userProfile = connection.fetchUserProfile();
 		
+		ApiBinding apiBinding = (ApiBinding) connection.getApi();
+		UserEntity user = null;
+		
+		Facebook facebook = null;
+		Twitter twitter = null;
+		Google google = null;
+		
 		String username = null;
 		
-		if (! StringUtils.isEmpty(userProfile.getEmail()) || ! StringUtils.isEmpty(userProfile.getUsername())) {
-			UserEntity user = null;
+		if (apiBinding instanceof Facebook) {
+			facebook = (Facebook) apiBinding;
 			
 			if (! StringUtils.isEmpty(userProfile.getEmail())) {
 				user = getUserService().findByEmail(userProfile.getEmail());
-				if (user == null && ! StringUtils.isEmpty(userProfile.getUsername())) {
-					user = getUserService().findByLogin(userProfile.getUsername());
-				}
-			} else if (! StringUtils.isEmpty(userProfile.getUsername())) {
+			}
+			
+		} else if (apiBinding instanceof Twitter) {
+			twitter = (Twitter) apiBinding;
+			
+			if (! StringUtils.isEmpty(userProfile.getUsername())) {
 				user = getUserService().findByLogin(userProfile.getUsername());
 			}
+		} else if (apiBinding instanceof Google) {
+			google = (Google) apiBinding;
+			
+			if (! StringUtils.isEmpty(userProfile.getEmail())) {
+				user = getUserService().findByEmail(userProfile.getEmail());
+			}
+		}
+		
+		if (! StringUtils.isEmpty(userProfile.getEmail()) || ! StringUtils.isEmpty(userProfile.getUsername())) {
 			
 			if (user == null) {
 				user = new UserEntity();
@@ -60,21 +79,16 @@ public class AccountConnectionSignUp implements ConnectionSignUp {
 				user.setRoleList(roleList);
 			}
 			
-			ApiBinding apiBinding = (ApiBinding) connection.getApi();
+			if (facebook != null) {
+				user.setFacebookAccount(facebook.userOperations().getUserProfile().getLink());
+			}
 			
-			if (apiBinding instanceof Facebook) {
-				
-				Facebook facebook = (Facebook) apiBinding;
-				if (StringUtils.isEmpty(user.getFacebookAccount())) {
-					user.setFacebookAccount(facebook.userOperations().getUserProfile().getLink());
-				}
-			} else if (apiBinding instanceof Twitter) {
-				
-				Twitter twitter = (Twitter) apiBinding;
-				
-				if (StringUtils.isEmpty(user.getTwitterAccount())) {
-					user.setTwitterAccount(twitter.userOperations().getUserProfile().getProfileUrl());
-				}
+			if (twitter != null) {
+				user.setTwitterAccount(twitter.userOperations().getUserProfile().getProfileUrl());
+			}
+			
+			if (google != null) {
+				user.setGooglePlusAccount(google.plusOperations().getGoogleProfile().getUrl());
 			}
 			
 			if (StringUtils.isEmpty(user.getName())) {
@@ -108,7 +122,6 @@ public class AccountConnectionSignUp implements ConnectionSignUp {
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
-			
 		}
 		
 		return username;

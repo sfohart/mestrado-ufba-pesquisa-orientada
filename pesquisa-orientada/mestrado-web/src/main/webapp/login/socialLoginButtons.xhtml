@@ -10,7 +10,7 @@
 	>
 
 	
-	<h:panelGroup layout="block"  styleClass="row" rendered="#{facebook or twitter}">
+	<h:panelGroup layout="block"  styleClass="row form-inline" rendered="#{facebook or twitter}">
 		
 		<div class="col-md-12">
 			<div style="border-top: 1px solid #aaa;">
@@ -18,16 +18,16 @@
 			</div>
 		</div>
 		
-		<h:panelGroup layout="block" styleClass="col-md-6" rendered="#{facebook}">
+		<h:panelGroup  rendered="#{facebook}">
 			<form action="#{facesContext.externalContext.applicationContextPath}/signin/facebook"  method="post">
 				<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"  />
-				<input type="hidden" name="scope" value="email,public_profile,user_friends" />
 				<button class="btn-social btn-xs btn-facebook" type="submit">
 					<span class="fa fa-facebook"></span> Facebook
 				</button>
 			</form>
 		</h:panelGroup>
-		<h:panelGroup layout="block" styleClass="col-md-6" rendered="#{twitter}">
+		
+		<h:panelGroup  rendered="#{twitter}">
 			<form action="#{facesContext.externalContext.applicationContextPath}/signin/twitter"  method="post">
 				<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"  />
 				<button class="btn-social btn-xs btn-twitter" type="submit">
@@ -35,6 +35,18 @@
 				</button>
 			</form>
 		</h:panelGroup>
+		
+		
+		<h:panelGroup  rendered="#{google}">
+			<form action="#{facesContext.externalContext.applicationContextPath}/signin/google"  method="post">
+				<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"  />
+				
+				<button class="btn-social btn-xs btn-google" type="submit">
+					<span class="fa fa-google-plus"></span> Google
+				</button>
+			</form>
+		</h:panelGroup>
+		
 	</h:panelGroup>
 	
 </ui:composition>

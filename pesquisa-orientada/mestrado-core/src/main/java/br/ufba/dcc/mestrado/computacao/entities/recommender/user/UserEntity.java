@@ -76,6 +76,9 @@ public class UserEntity implements BaseEntity<Long>{
 	@Column(name = "twitter_account")
 	private String twitterAccount;
 	
+	@Column(name = "google_plus_account")
+	private String googlePlusAccount;
+	
 	@ElementCollection(targetClass=RoleEnum.class)
 	@Enumerated(EnumType.ORDINAL)
 	@CollectionTable(
@@ -165,6 +168,14 @@ public class UserEntity implements BaseEntity<Long>{
 
 	public void setTwitterAccount(String twitterAccount) {
 		this.twitterAccount = twitterAccount;
+	}
+
+	public String getGooglePlusAccount() {
+		return googlePlusAccount;
+	}
+
+	public void setGooglePlusAccount(String googlePlusAccount) {
+		this.googlePlusAccount = googlePlusAccount;
 	}
 
 	public List<RoleEnum> getRoleList() {
