@@ -20,6 +20,7 @@ import org.springframework.social.connect.UsersConnectionRepository;
 import org.springframework.social.connect.jdbc.JdbcUsersConnectionRepository;
 import org.springframework.social.connect.web.ProviderSignInController;
 import org.springframework.social.facebook.connect.FacebookConnectionFactory;
+import org.springframework.social.google.connect.GoogleConnectionFactory;
 import org.springframework.social.security.AuthenticationNameUserIdSource;
 import org.springframework.social.twitter.connect.TwitterConnectionFactory;
 
@@ -62,13 +63,20 @@ public class SocialAppConfig  implements SocialConfigurer {
 		
 		connectionFactoryConfigurer.addConnectionFactory(facebookConnectionFactory);
 		
-		connectionFactoryConfigurer.addConnectionFactory(
-	    		new TwitterConnectionFactory(
-	    				environment.getProperty("twitter.consumerKey"),
-	    				environment.getProperty("twitter.consumerSecret")
-	    			)
-	    	);
+		TwitterConnectionFactory twitterConnectionFactory = new TwitterConnectionFactory(
+				environment.getProperty("twitter.consumerKey"),
+				environment.getProperty("twitter.consumerSecret")
+			);
 		
+		connectionFactoryConfigurer.addConnectionFactory(twitterConnectionFactory);
+		
+		GoogleConnectionFactory googleConnectionFactory = new GoogleConnectionFactory(
+				environment.getProperty("google.consumerKey"),
+				environment.getProperty("google.consumerSecret")
+			);
+		
+		googleConnectionFactory.setScope("https://www.googleapis.com/auth/userinfo.email https://www.googleapis.com/auth/plus.login");
+		connectionFactoryConfigurer.addConnectionFactory(googleConnectionFactory);
 	}
 
 	@Override

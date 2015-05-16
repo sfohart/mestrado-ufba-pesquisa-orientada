@@ -29,24 +29,22 @@
 				<f:param  name="accountId" value="#{account.id}" />
 				Configurações
 			</h:outputLink>
-			
 			<h:panelGroup layout="block" rendered="#{socialButtonsRendered}">
 				<ul class="nav nav-pills">
 					<li>
-						<h:outputLink value="#{account.facebookAccount}" rendered="#{not empty account.facebookAccount}">
-							<h:panelGroup styleClass="fa fa-facebook" style="color: #3b5998; font-size: 1.5em;"/>
+						<h:outputLink value="#{account.facebookAccount}" styleClass="btn btn-social-icon btn-facebook" rendered="#{not empty account.facebookAccount}">
+							<i class="fa fa-facebook"></i>
 						</h:outputLink>
-						
-						<h:panelGroup styleClass="fa fa-facebook" style="color: #ccc; font-size: 1.5em; padding: 10px 15px" 
-							rendered="#{empty account.facebookAccount}"/>
 					</li>
 					<li>								
-						<h:outputLink value="#{account.twitterAccount}" rendered="#{not empty account.twitterAccount}">
-							<h:panelGroup styleClass="fa fa-twitter" style="color: #00a0d1; font-size: 1.5em;"  />
+						<h:outputLink value="#{account.twitterAccount}" styleClass="btn btn-social-icon btn-twitter" rendered="#{not empty account.twitterAccount}">
+							<i class="fa fa-twitter"></i>
 						</h:outputLink>
-							
-						<h:panelGroup styleClass="fa fa-twitter" style="color: #ccc; font-size: 1.5em; padding: 10px 15px" 
-							rendered="#{empty account.twitterAccount}"/>
+					</li>
+					<li>								
+						<h:outputLink value="#{account.googlePlusAccount}" styleClass="btn btn-social-icon btn-google" rendered="#{not empty account.googlePlusAccount}">
+							<i class="fa fa-google-plus"></i>
+						</h:outputLink>
 					</li>
 				</ul>
 			</h:panelGroup>

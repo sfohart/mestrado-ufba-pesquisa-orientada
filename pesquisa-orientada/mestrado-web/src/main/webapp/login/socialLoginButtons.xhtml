@@ -18,23 +18,42 @@
 			</div>
 		</div>
 		
-		<h:panelGroup layout="block" styleClass="col-md-6" rendered="#{facebook}">
-			<form action="#{facesContext.externalContext.applicationContextPath}/signin/facebook"  method="post">
-				<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"  />
-				<input type="hidden" name="scope" value="email,public_profile,user_friends" />
-				<button class="btn-social btn-xs btn-facebook" type="submit">
-					<span class="fa fa-facebook"></span> Facebook
-				</button>
+		<h:panelGroup  rendered="#{facebook}" styleClass="col-md-3" layout="block">
+			<form action="#{request.contextPath}/signin/facebook"  method="post">
+				<div class="form-group">
+					<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"  />
+					<button class="btn btn-social btn-block btn-sm btn-facebook" type="submit">
+						<span class="fa fa-facebook"></span> Facebook
+					</button>
+				</div>
 			</form>
 		</h:panelGroup>
-		<h:panelGroup layout="block" styleClass="col-md-6" rendered="#{twitter}">
-			<form action="#{facesContext.externalContext.applicationContextPath}/signin/twitter"  method="post">
-				<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"  />
-				<button class="btn-social btn-xs btn-twitter" type="submit">
-					<span class="fa fa-twitter"></span> Twitter
-				</button>
+		
+		<h:panelGroup  rendered="#{twitter}" styleClass="col-md-3" layout="block">
+			<form action="#{request.contextPath}/signin/twitter"  method="post">
+				<div class="form-group">
+					<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"  />
+					<button class="btn btn-social btn-block btn-sm btn-twitter" type="submit">
+						<span class="fa fa-twitter"></span> Twitter
+					</button>
+				</div>
 			</form>
 		</h:panelGroup>
+		
+		
+		<h:panelGroup  rendered="#{google}" styleClass="col-md-3" layout="block">
+			<form action="#{request.contextPath}/signin/google"  method="post">
+				<div class="form-group">
+					<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"  />				
+					<button class="btn btn-social btn-block btn-sm btn-google" type="submit">
+						<span class="fa fa-google-plus"></span> Google
+					</button>
+				</div>
+			</form>
+		</h:panelGroup>
+		
+		<div class="col-md-3"></div>
+		
 	</h:panelGroup>
 	
 </ui:composition>

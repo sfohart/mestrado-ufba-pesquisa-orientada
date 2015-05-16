@@ -18,7 +18,7 @@
 			<ui:define name="content">
 				<section class="container">
 				
-					<ui:include src="accountHeader.xhtml" >
+					<ui:include src="/account/accountHeader.xhtml" >
 						<ui:param name="account" value="#{accountBasicDataEditMB.account}" />
 					</ui:include>
 
@@ -79,13 +79,37 @@
 									</div>
 									<div class="form-group">
 										<h:outputLabel for="facebookAccount" value="ID do Facebook"/>
-										<h:inputText id="facebookAccount" styleClass="form-control" 
-											value="#{accountBasicDataEditMB.account.facebookAccount}"/>
+										<div class="input-group">
+											<h:inputText id="facebookAccount" styleClass="form-control" 
+												value="#{accountBasicDataEditMB.account.facebookAccount}"/>
+											<span class="input-group-addon fa fa-facebook"></span>
+										</div>
+										<span class="help-block">
+											Campo opcional. Preencha com a url completa do seu perfil no Facebook
+										</span>
 									</div>
 									<div class="form-group">
 										<h:outputLabel for="twitterAccount" value="ID do Twitter"/>
-										<h:inputText id="twitterAccount" styleClass="form-control" 
-											value="#{accountBasicDataEditMB.account.twitterAccount}"/>
+										<div class="input-group">
+											<h:inputText id="twitterAccount" styleClass="form-control" 
+												value="#{accountBasicDataEditMB.account.twitterAccount}"/>
+											<span class="input-group-addon fa fa-twitter">
+											</span>
+										</div>
+										<span class="help-block">
+											Campo opcional. Preencha com a url completa do seu perfil no Twitter
+										</span>
+									</div>
+									<div class="form-group">
+										<h:outputLabel for="googlePlusAccount" value="ID do Google+"/>
+										<div class="input-group">
+											<h:inputText id="googlePlusAccount" styleClass="form-control" 
+												value="#{accountBasicDataEditMB.account.googlePlusAccount}"/>
+											<span class="input-group-addon fa fa-google-plus"></span>
+										</div>
+										<span class="help-block">
+											Campo opcional. Preencha com a url completa do seu perfil no Google+
+										</span>
 									</div>
 									
 									<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"  />
