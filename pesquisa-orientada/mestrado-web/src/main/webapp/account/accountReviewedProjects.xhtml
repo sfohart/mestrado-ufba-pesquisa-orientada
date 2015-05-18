@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core">
+	
+	<f:metadata>
+		<f:viewParam id="accountId" name="accountId" value="#{accountReviewedProjectsMB.account.id}" required="true" />
+		<f:event listener="#{accountReviewedProjectsMB.init}" type="preRenderView"  />
+	</f:metadata>
+	
+	<h:body>
+		<ui:composition template="/layout/mainLayout.xhtml">
+			<ui:define name="titlePage">Projetos Comentados pelo Usuário</ui:define>
+			
+			<ui:define name="content">
+				<section class="container">
+					
+					<ui:include src="/account/accountHeader.xhtml" >
+						<ui:param name="account" value="#{accountViewedProjectsMB.account}" />
+					</ui:include>
+					
+					<div style="border-top: 1px solid #aaa;">
+						<h3>Projetos Comentados pelo Usuário</h3>
+					</div>
+					
+				</section>
+			</ui:define>
+		</ui:composition>
+	</h:body>
+	
+</html>

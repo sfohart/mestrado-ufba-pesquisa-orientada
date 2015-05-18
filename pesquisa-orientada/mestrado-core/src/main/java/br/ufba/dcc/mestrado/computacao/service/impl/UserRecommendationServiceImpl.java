@@ -1,5 +1,7 @@
 package br.ufba.dcc.mestrado.computacao.service.impl;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
@@ -33,5 +35,10 @@ public class UserRecommendationServiceImpl
 	@Transactional(readOnly = true)
 	public UserRecommendationEntity findLastUserRecommendation(UserEntity user, RecommendationTypeEnum recommendationType) {
 		return ((UserRecommendationRepository) getRepository()).findLastUserRecommendation(user, recommendationType);
+	}
+	@Override
+	@Transactional(readOnly = true)
+	public List<UserRecommendationEntity> findAllUserRecommendation(UserEntity user, RecommendationTypeEnum recommendationType) {
+		return ((UserRecommendationRepository) getRepository()).findAllUserRecommendation(user, recommendationType);
 	}
 }

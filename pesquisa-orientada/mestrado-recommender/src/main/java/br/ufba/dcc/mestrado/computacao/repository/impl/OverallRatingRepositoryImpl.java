@@ -222,6 +222,20 @@ public class OverallRatingRepositoryImpl
 			//aplicando filtros
 			preferenceQuery = preferenceQuery.where(predicateList.toArray(new Predicate[0]));
 			
+			if (orderByRegisteredAt && orderByReviewRanking) {
+				preferenceQuery.orderBy(
+						criteriaBuilder.desc(root.get("registeredAt")),
+						criteriaBuilder.desc(root.get("value"))
+						);
+			} else if (orderByRegisteredAt) {
+				preferenceQuery.orderBy(
+						criteriaBuilder.desc(root.get("registeredAt"))
+						);
+			} else if (orderByReviewRanking) {
+				preferenceQuery.orderBy(
+						criteriaBuilder.desc(root.get("value"))
+						);
+			}
 			
 			TypedQuery<PreferenceEntity> typedQuery = getEntityManager().createQuery(preferenceQuery);
 			
@@ -258,7 +272,7 @@ public class OverallRatingRepositoryImpl
 	@Override
 	public Long  countAllLastPreferenceByUser(Long userId) {
 		//obtendo quantidade de registros
-		Long countResult = countAllLast(userId, null);
+		Long countResult = countAllLast(null, userId);
 		
 		return countResult;
 	}

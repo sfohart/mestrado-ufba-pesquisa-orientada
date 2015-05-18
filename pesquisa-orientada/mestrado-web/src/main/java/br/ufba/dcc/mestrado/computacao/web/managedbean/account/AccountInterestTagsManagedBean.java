@@ -23,7 +23,7 @@ import com.ocpsoft.pretty.faces.annotation.URLMappings;
 			pattern="/account/#{ /[0-9]+/ accountId}/interestTags",
 			viewId="/account/accountInterestTags.jsf"),
 })
-public class AccountInterestTagsManagedBean extends AccountManagedBean {
+public class AccountInterestTagsManagedBean extends AbstractAccountManagedBean {
 
 	/**
 	 * 

@@ -15,7 +15,7 @@ import com.ocpsoft.pretty.faces.annotation.URLMappings;
 			pattern="/account/#{ /[0-9]+/ accountId}/basicDataEdit",
 			viewId="/account/accountBasicDataEdit.jsf")
 })
-public class AccountBasicDataEditManagedBean extends AccountManagedBean {
+public class AccountBasicDataEditManagedBean extends AbstractAccountManagedBean {
 
 	/**
 	 * 

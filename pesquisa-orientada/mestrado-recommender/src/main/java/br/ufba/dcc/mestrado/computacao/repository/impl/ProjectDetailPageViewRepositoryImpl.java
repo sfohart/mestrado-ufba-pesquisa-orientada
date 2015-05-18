@@ -22,6 +22,8 @@ import org.springframework.stereotype.Repository;
 
 import br.ufba.dcc.mestrado.computacao.entities.openhub.core.project.OpenHubProjectEntity;
 import br.ufba.dcc.mestrado.computacao.entities.recommender.pageview.ProjectDetailPageViewEntity;
+import br.ufba.dcc.mestrado.computacao.entities.recommender.preference.PreferenceEntity;
+import br.ufba.dcc.mestrado.computacao.entities.recommender.preference.PreferenceReviewEntity;
 import br.ufba.dcc.mestrado.computacao.entities.recommender.user.UserEntity;
 import br.ufba.dcc.mestrado.computacao.repository.base.ProjectDetailPageViewRepository;
 
@@ -98,6 +100,56 @@ public class ProjectDetailPageViewRepositoryImpl
 		}
 		
 		return pageViewList;
+	}
+	
+	
+	public Long countAllProjectRecentlyViewedByUser(UserEntity user) {
+		
+		Long count = 0L;
+		
+		if (user != null) {
+			
+			CriteriaBuilder criteriaBuilder = getEntityManager().getCriteriaBuilder();
+			
+			CriteriaQuery<Long> criteriaQuery = criteriaBuilder.createQuery(Long.class);
+			Root<ProjectDetailPageViewEntity> root = criteriaQuery.from(ProjectDetailPageViewEntity.class);
+		
+			criteriaQuery = criteriaQuery.select(criteriaBuilder.count(root));
+			
+			
+			List<Predicate> predicateList = new ArrayList<>();
+			
+			Predicate projectPredicate = criteriaBuilder.equal(root.get("userId"), user.getId());
+			predicateList.add(projectPredicate);
+			
+			/*
+			 * Criando subquery para trazer os últimos registros de cada usuario/projeto
+			 */
+			Subquery<Timestamp> subquery = criteriaQuery.subquery(Timestamp.class);
+			
+			Root<ProjectDetailPageViewEntity> preferenceRoot = subquery.from(ProjectDetailPageViewEntity.class);
+			Expression<Timestamp> greatestRegisteredAt = preferenceRoot.get("viewedAt");
+			
+			subquery.select(criteriaBuilder.greatest((greatestRegisteredAt)));
+			subquery.where(
+					criteriaBuilder.equal(root.get("projectId"), preferenceRoot.get("projectId")),
+					criteriaBuilder.equal(root.get("userId"), preferenceRoot.get("userId"))
+				);
+			
+			Predicate registeredAtPredicate = criteriaBuilder.equal(root.get("viewedAt"), subquery);
+			predicateList.add(registeredAtPredicate);
+			
+			//aplicando os filtros
+			criteriaQuery = criteriaQuery.where(predicateList.toArray(new Predicate[0]));
+			
+			
+			TypedQuery<Long> typedQuery = getEntityManager().createQuery(criteriaQuery);
+			
+			count = typedQuery.getSingleResult();
+		}
+		
+		
+		return count;
 	}
 	
 	public List<OpenHubProjectEntity> findAllProjectRecentlyViewedByUser(

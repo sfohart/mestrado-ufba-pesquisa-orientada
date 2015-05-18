@@ -26,6 +26,13 @@ public interface ProjectDetailPageViewRepository extends BaseRepository<Long, Pr
 	/**
 	 * 
 	 * @param user
+	 * @return
+	 */
+	public Long countAllProjectRecentlyViewedByUser(UserEntity user);
+	
+	/**
+	 * 
+	 * @param user
 	 * @param startAt
 	 * @param offset
 	 * @return

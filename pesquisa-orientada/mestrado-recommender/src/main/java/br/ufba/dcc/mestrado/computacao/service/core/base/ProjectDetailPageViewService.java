@@ -37,6 +37,14 @@ public interface ProjectDetailPageViewService extends BaseService<Long, ProjectD
 	 */
 	public List<OpenHubProjectEntity> findAllProjectRecentlyViewedByUser(UserEntity user);
 	
+	
+	/**
+	 * 
+	 * @param user
+	 * @return
+	 */
+	public Long countAllProjectRecentlyViewedByUser(UserEntity user);
+	
 	/**
 	 * 
 	 * @param user

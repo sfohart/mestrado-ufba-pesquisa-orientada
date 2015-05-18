@@ -1,11 +1,14 @@
 package br.ufba.dcc.mestrado.computacao.recommender.evaluator.impl;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang3.tuple.ImmutablePair;
+import org.apache.log4j.Logger;
 import org.apache.mahout.cf.taste.common.TasteException;
 import org.apache.mahout.cf.taste.eval.RecommenderBuilder;
 import org.apache.mahout.cf.taste.impl.model.GenericPreference;
@@ -31,6 +34,8 @@ import br.ufba.dcc.mestrado.computacao.service.recommender.base.MahoutDataModelS
 
 @Component
 public abstract class AbstractMultiCriteriaRecommenderEvaluator implements OfflineRecommenderEvaluator {
+	
+	private static final Logger logger = Logger.getLogger(AbstractMultiCriteriaRecommenderEvaluator.class);
 
 	@Autowired
 	private MahoutDataModelService dataModelService;
@@ -96,15 +101,59 @@ public abstract class AbstractMultiCriteriaRecommenderEvaluator implements Offli
 		
 		RecommenderBuilder recommenderBuilder = colaborativeFilteringService.getUserBasedRecommenderBuilder();
 		
-		MultiCriteriaRecommender multiCriteriaRecommender = buildMultiCriteriaRecommender(recommenderBuilder);
-		
+		MultiCriteriaRecommender multiCriteriaRecommender = buildMultiCriteriaRecommender(recommenderBuilder);		
 		List<UserEntity> users = userService.findAll();
 		
-		System.out.println("Id do usuário;Projetos Visualizados;Recomendações com Sucesso;Recomendações com Sucesso (%);Recomendações sem Sucesso;Recomendações sem Sucesso (%)");
+		Collections.sort(users, new Comparator<UserEntity>() {
+			@Override
+			public int compare(UserEntity o1, UserEntity o2) {
+				return o1.getId().compareTo(o2.getId());
+			}
+		});
 		
 		if (users != null) {
+			listRatedAndViewedProjects(users);
+			evaluateRecommendations(multiCriteriaRecommender, users);
+		}
+		
+	}
+
+	protected void listRatedAndViewedProjects(List<UserEntity> users) {
+		if (users != null) {
+			logger.info("Listando projetos visualizados e avaliados pelos usuarios");
 			for (UserEntity user : users) {
+				List<OpenHubProjectEntity> ratedProjects = overallRatingService.findAllRatedProjectsByUser(user.getId());
+				List<OpenHubProjectEntity> viewedProjects = pageViewService.findAllProjectRecentlyViewedByUser(user);
 				
+				logger.info(String.format("Listando informações do usuário %d", user.getId()));
+				
+				if (! viewedProjects.isEmpty()){
+					logger.info(String.format("Listando projetos visualizados pelo usuário %d", user.getId()));
+					System.out.println("Id do Projeto; Nome do Projeto");
+					for (OpenHubProjectEntity project : viewedProjects) {
+						System.out.println(String.format("%d;%s", project.getId(), project.getName()));
+					}
+				}
+			
+				if (! ratedProjects.isEmpty()) {
+					logger.info(String.format("Listando projetos avaliados pelo usuário %d", user.getId()));
+					System.out.println("Id do Projeto; Nome do Projeto");
+					for (OpenHubProjectEntity project : ratedProjects) {
+						System.out.println(String.format("%d;%s", project.getId(), project.getName()));
+					}
+				}
+			}
+		}
+		
+	}
+
+	protected void evaluateRecommendations(
+			MultiCriteriaRecommender multiCriteriaRecommender,
+			List<UserEntity> users) throws TasteException {
+		
+		if (users != null) {
+			System.out.println("Id do usuario;Projetos Visualizados;Projetos avaliados;Projetos recomendados;Projetos recomendados vistos, mas nao avaliados;Projetos recomendados nao vistos ou ja avaliados");
+			for (UserEntity user : users) {				
 				int successfulRecommendations = 0;
 				int failedRecommendations = 0;
 				
@@ -113,39 +162,40 @@ public abstract class AbstractMultiCriteriaRecommenderEvaluator implements Offli
 				
 				if (ratedProjects != null && ratedProjects.size() >= 2) {
 					
-					List<Long> ids = new ArrayList<Long>();
+					List<Long> viewedIds = new ArrayList<Long>();
 					for (OpenHubProjectEntity project : viewedProjects) {
-						ids.add(project.getId());
+						viewedIds.add(project.getId());
+					}
+					
+					List<Long> ratedIds = new ArrayList<Long>();
+					for (OpenHubProjectEntity project : ratedProjects) {
+						ratedIds.add(project.getId());
 					}
 										
 					List<RecommendedItem> recommendedItems = multiCriteriaRecommender.recommend(user.getId(), howManyItems);
 					
 					if (recommendedItems != null) {
-						boolean found = false;;
 						for (RecommendedItem recommended : recommendedItems) {
-							if (ids.contains(Long.valueOf(recommended.getItemID()))) {
-								found = true;
-								break;
+							if (viewedIds.contains(Long.valueOf(recommended.getItemID()))) {
+								if (! ratedIds.contains(Long.valueOf(recommended.getItemID()))) {
+									successfulRecommendations++;
+								} else {
+									failedRecommendations++;
+								}
+							} else {
+								failedRecommendations++;
 							}
-						}
-						
-						if (found) {
-							successfulRecommendations++;
-						} else {
-							failedRecommendations++;
 						}
 					}
 					
-					int total = successfulRecommendations + failedRecommendations;
-					
 					String line = String.format(
-							"%02d;%d;%d;%.2f;%d;%.2f"
+							"%02d;%d;%d;%d;%d;%d"
 							,user.getId()
+							,viewedProjects.size()
 							,ratedProjects.size()
+							,recommendedItems.size()
 							,successfulRecommendations
-							,(total > 0 ? successfulRecommendations * 100 / total : 0f)
 							,failedRecommendations
-							,(total > 0 ? failedRecommendations * 100 / total : 0f)
 							);
 					
 					System.out.println(line);
@@ -153,7 +203,6 @@ public abstract class AbstractMultiCriteriaRecommenderEvaluator implements Offli
 				
 			}
 		}
-		
 	}
 
 }

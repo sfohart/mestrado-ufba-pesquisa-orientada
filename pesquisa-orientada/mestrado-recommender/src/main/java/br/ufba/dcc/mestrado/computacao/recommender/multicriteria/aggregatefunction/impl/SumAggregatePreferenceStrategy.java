@@ -18,7 +18,7 @@ public class SumAggregatePreferenceStrategy implements
 			sum += preference.getValue();
 		}
 		
-		return sum;
+		return sum / preferenceMap.size();
 	}
 
 }

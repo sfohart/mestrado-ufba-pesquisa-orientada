@@ -1,31 +1,18 @@
 
 package br.ufba.dcc.mestrado.computacao.web.managedbean.account;
 
-import java.io.Serializable;
-import java.io.UnsupportedEncodingException;
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
-import java.util.ResourceBundle;
 
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
-import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 import javax.faces.event.ComponentSystemEvent;
 
-import org.apache.commons.codec.binary.Hex;
-import org.apache.commons.lang3.StringUtils;
-import org.springframework.security.crypto.password.PasswordEncoder;
-
+import br.ufba.dcc.mestrado.computacao.entities.openhub.core.project.OpenHubProjectEntity;
 import br.ufba.dcc.mestrado.computacao.entities.recommender.user.RoleEnum;
 import br.ufba.dcc.mestrado.computacao.entities.recommender.user.UserEntity;
-import br.ufba.dcc.mestrado.computacao.service.base.TagService;
-import br.ufba.dcc.mestrado.computacao.service.basic.RepositoryBasedUserDetailsService;
-import br.ufba.dcc.mestrado.computacao.service.core.base.UserService;
 
 import com.ocpsoft.pretty.faces.annotation.URLMapping;
 import com.ocpsoft.pretty.faces.annotation.URLMappings;
@@ -45,154 +32,40 @@ import com.ocpsoft.pretty.faces.annotation.URLMappings;
 			pattern="/account/new",
 			viewId="/account/newAccount.jsf")
 })
-public class AccountManagedBean implements Serializable {
+public class AccountManagedBean extends AbstractAccountManagedBean {
 
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = -4801276509767530348L;
-
-	@ManagedProperty("#{repositoryBasedUserDetailsService}")
-	private RepositoryBasedUserDetailsService userDetailsService;
 	
-	@ManagedProperty("#{tagService}")
-	private TagService tagService;
 	
-	@ManagedProperty("#{userService}")
-	private UserService userService;
-	
-	@ManagedProperty("#{standardPasswordEncoder}")
-	private PasswordEncoder passwordEncoder;
-	
-	private UserEntity account;
-	
-	private boolean loggedUserOnly;
-	private boolean loggedUser;
-	
-	public AccountManagedBean() {
-		this.account = new UserEntity();
-	}
-	
-	public RepositoryBasedUserDetailsService getUserDetailsService() {
-		return userDetailsService;
-	}
-	
-	public void setUserDetailsService(
-			RepositoryBasedUserDetailsService userDetailsService) {
-		this.userDetailsService = userDetailsService;
-	}
-	
-	public UserService getUserService() {
-		return userService;
-	}
-	
-	public void setUserService(UserService userService) {
-		this.userService = userService;
-	}
-
-	public TagService getTagService() {
-		return tagService;
-	}
-
-	public void setTagService(TagService TagService) {
-		this.tagService = TagService;
-	}
-
-	public PasswordEncoder getPasswordEncoder() {
-		return passwordEncoder;
-	}
-	
-	public void setPasswordEncoder(PasswordEncoder passwordEncoder) {
-		this.passwordEncoder = passwordEncoder;
-	}
-	
-	public UserEntity getAccount() {
-		return account;
-	}
-	
-	public void setAccount(UserEntity account) {
-		this.account = account;
-	}
-	
-	public boolean isLoggedUserOnly() {
-		return loggedUserOnly;
-	}
-
-	public void setLoggedUserOnly(boolean loggedUserOnly) {
-		this.loggedUserOnly = loggedUserOnly;
-	}
+	private Long totalViewedProjects;
+	private Long totalRatedProjects;
+	private Long totalCommentedProjects;
 
 	public void init(ComponentSystemEvent event) {
-		if (this.account != null && this.account.getId() != null) {
-			this.account = getUserService().findById(account.getId());
-			
-			Collections.sort(account.getInterestTags());
-			
-			if (isLoggedUserOnly()) {
-				validateLoggedUser();
-			}
+		super.init(event);
+		
+		if (getAccount() != null && getAccount().getId() != null) {
+			loadViewedProjects();
+			loadRatedProjects();
+			loadCommentedProjects();
 		}
 	}
 	
-	protected void validateLoggedUser() {		
-		
-		UserEntity loggedUser = getUserDetailsService().loadFullLoggedUser();
-		if (loggedUser != null && ! getAccount().getId().equals(loggedUser.getId())) {
-			FacesContext context = FacesContext.getCurrentInstance();
-			ResourceBundle bundle = ResourceBundle.getBundle("br.ufba.dcc.mestrado.computacao.account");
-			
-			String summary = bundle.getString("account.edit.settings.loggedUser.summary");
-			String detail = bundle.getString("account.edit.settings.loggedUser.detail");
-			FacesMessage facesMessage = new FacesMessage(summary, detail);
-			
-			context.addMessage(null, facesMessage);
-			
-			this.loggedUser = false;
-		} else {
-			this.loggedUser = true;
-		}
+	protected void loadViewedProjects() {
+		this.totalViewedProjects = getPageViewService().countAllProjectRecentlyViewedByUser(getAccount());
 	}
 	
-	public void setLoggedUser(boolean loggedUser) {
-		this.loggedUser = loggedUser;
+	protected void loadRatedProjects() {
+		this.totalRatedProjects = getOverallRatingService().countAllLastPreferenceByUser(getAccount().getId());
 	}
 	
-	public boolean isLoggedUser() {
-		return this.loggedUser;
+	protected void loadCommentedProjects() {
+		this.totalCommentedProjects = getPreferenceReviewService().countAllLastReviewsByUser(getAccount().getId());
 	}
 	
-	
-	public String getEncodedEmail() {
-		String encoded = "";
-		
-		try {
-			MessageDigest messageDigest = MessageDigest.getInstance("MD5");
-			
-			if (account != null && ! StringUtils.isEmpty(account.getEmail())) {
-				byte[] bytes = account.getEmail().getBytes("CP1252");
-				encoded = Hex.encodeHexString(messageDigest.digest(bytes));
-			}
-			
-		} catch (NoSuchAlgorithmException e) {
-			e.printStackTrace();
-		} catch (UnsupportedEncodingException e) {
-			e.printStackTrace();
-		}
-		
-		return encoded;
-	}
-	
-	public String saveAccount() {
-		
-		try {
-			getUserService().save(getAccount());
-			return "/account/accountSettings.jsf?faces-redirect=true&includeViewParams=true&accountId=" + getAccount().getId();
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-
-		return null;
-	}
 	
 	public String createAccount() {
 		
@@ -203,8 +76,6 @@ public class AccountManagedBean implements Serializable {
 		roleList.add(RoleEnum.ROLE_USER);
 		
 		getAccount().setRoleList(roleList);
-		
-		
 		
 		try {
 			getUserService().save(getAccount());			
@@ -223,8 +94,17 @@ public class AccountManagedBean implements Serializable {
 		
 		return "/login/login.jsf";
 	}
+
+	public Long getTotalViewedProjects() {
+		return totalViewedProjects;
+	}
+
+	public Long getTotalRatedProjects() {
+		return totalRatedProjects;
+	}
 	
-	
-	
+	public Long getTotalCommentedProjects() {
+		return totalCommentedProjects;
+	}
 }
 

@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core">
+	
+	<f:metadata>
+		<f:viewParam id="accountId" name="accountId" value="#{accountViewedProjectsMB.account.id}" required="true" />
+		<f:event listener="#{accountViewedProjectsMB.init}" type="preRenderView"  />
+	</f:metadata>
+	
+	<h:body>
+		<ui:composition template="/layout/mainLayout.xhtml">
+			<ui:define name="titlePage">Projetos Visualizados pelo Usuário</ui:define>
+			
+			<ui:define name="content">
+				<section class="container">
+					
+					<ui:include src="/account/accountHeader.xhtml" >
+						<ui:param name="account" value="#{accountViewedProjectsMB.account}" />
+					</ui:include>
+					
+					
+					<h:panelGroup layout="block"
+						rendered="#{accountViewedProjectsMB.viewedProjects != null}">
+						
+						<div style="border-top: 1px solid #aaa; border-bottom: 1px solid #aaa; margin: 20px 0">
+							<h2>Projetos Visualizados pelo Usuário</h2>
+						</div>
+						
+						<h:panelGroup layout="block"
+							rendered="#{accountViewedProjectsMB.viewedProjects != null}">
+							<ui:include src="/detail/projectCart.xhtml">
+								<ui:param name="projectCart" value="#{accountViewedProjectsMB.viewedProjects}"  />
+								<ui:param name="projectCartTitle" value="Este usuário visualizou os seguintes projetos:"  />
+							</ui:include>
+						</h:panelGroup>
+					</h:panelGroup>
+					
+				</section>
+			</ui:define>
+		</ui:composition>
+	</h:body>
+	
+</html>

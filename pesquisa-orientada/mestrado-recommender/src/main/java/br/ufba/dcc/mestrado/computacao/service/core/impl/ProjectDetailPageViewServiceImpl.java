@@ -53,6 +53,15 @@ public class ProjectDetailPageViewServiceImpl
 		return findAllProjectRecentlyViewedByUser(user, null, null);
 	}
 			
+	/**
+	 * 
+	 * @param user
+	 * @return
+	 */
+	public Long countAllProjectRecentlyViewedByUser(UserEntity user) {
+		return ((ProjectDetailPageViewRepository) getRepository())
+				.countAllProjectRecentlyViewedByUser(user);
+	}
 	
 	@Override
 	public List<OpenHubProjectEntity> findAllProjectRecentlyViewedByUser(

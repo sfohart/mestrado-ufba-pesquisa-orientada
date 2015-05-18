@@ -17,7 +17,7 @@ import com.ocpsoft.pretty.faces.annotation.URLMappings;
 						pattern = "/account/#{ /[0-9]+/ accountId}/changePassword", 
 						viewId = "/account/accountChangePassword.jsf") 
 		})
-public class AccountChangePasswordManagedBean extends AccountManagedBean {
+public class AccountChangePasswordManagedBean extends AbstractAccountManagedBean {
 
 	/**
 	 * 

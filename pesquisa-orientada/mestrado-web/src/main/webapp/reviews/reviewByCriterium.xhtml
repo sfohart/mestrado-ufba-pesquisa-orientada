@@ -14,8 +14,9 @@
 		<ui:param name="modalId" value="#{ popupId eq null ? 'popupCriteria'.concat(preference.id) : ''.concat(popupId).concat(preference.id) }"  />
 		<ui:param name="dataTarget" value="#{'.'.concat(modalId)}" />
 		
-		<a class="btn btn-primary btn-sm" data-toggle="modal" data-target="#{dataTarget}">
-			Critérios
+		<a class="btn btn-primary btn-xs" data-toggle="modal" data-target="#{dataTarget}">
+			<span class="fa fa-sliders"></span> Critérios
+			
 		</a>
 		
 		<div class="modal fade #{modalId}" tabindex="-1" p:role="dialog" p:aria-labelledby="#{modalId}Label" p:aria-hidden="true">

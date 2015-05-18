@@ -27,6 +27,85 @@
 					</div>
 					
 					<h:panelGroup id="accountSummary" layout="block" styleClass="row" style="margin-bottom: 20px">
+						<div class="col-lg-3 col-md-6">
+	                        <div class="panel panel-yellow">
+	                            <div class="panel-heading">
+	                                <div class="row">
+	                                    <div class="col-xs-3">
+	                                        <i class="fa fa-eye fa-5x"></i>
+	                                    </div>
+	                                    <div class="col-xs-9 text-right">
+	                                        <div class="huge">
+		                                        <h:outputText value="#{accountMB.totalViewedProjects}" />
+	                                        </div>
+	                                        <div>Projetos Visualizados</div>
+	                                    </div>
+	                                </div>
+	                            </div>
+	                            <h:outputLink value="#{facesContext.externalContext.applicationContextPath}/account/accountViewedProjects.jsf">
+									<f:param name="accountId" value="#{accountMB.account.id}" />
+									<div class="panel-footer">
+	                                    <span class="pull-left">Mais detalhes</span>
+	                                    <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
+	                                    <div class="clearfix"></div>
+	                                </div>
+								</h:outputLink>
+	                        </div>
+	                    </div>
+	                    
+	                    <div class="col-lg-3 col-md-6">
+	                        <div class="panel panel-green">
+	                            <div class="panel-heading">
+	                                <div class="row">
+	                                    <div class="col-xs-3">
+	                                        <i class="fa fa-check fa-5x"></i>
+	                                    </div>
+	                                    <div class="col-xs-9 text-right">
+	                                        <div class="huge">
+		                                        <h:outputText value="#{accountMB.totalRatedProjects}" />
+	                                        </div>
+	                                        <div>Projetos Avaliados</div>
+	                                    </div>
+	                                </div>
+	                            </div>
+	                            
+	                           <h:outputLink value="#{facesContext.externalContext.applicationContextPath}/account/accountRatedProjects.jsf">
+									<f:param name="accountId" value="#{accountMB.account.id}" />
+	                                <div class="panel-footer">
+	                                    <span class="pull-left">Mais detalhes</span>
+	                                    <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
+	                                    <div class="clearfix"></div>
+	                                </div>
+	                           </h:outputLink>
+	                        </div>
+	                    </div>
+	                    
+	                    <div class="col-lg-3 col-md-6">
+	                        <div class="panel panel-primary">
+	                            <div class="panel-heading">
+	                                <div class="row">
+	                                    <div class="col-xs-3">
+	                                        <i class="fa fa-comments fa-5x"></i>
+	                                    </div>
+	                                    <div class="col-xs-9 text-right">
+	                                        <div class="huge">
+	                                        	<h:outputText value="#{accountMB.totalCommentedProjects}" />
+	                                        </div>
+	                                        <div>Projetos Comentados</div>
+	                                    </div>
+	                                </div>
+	                            </div>
+	                            <h:outputLink value="#{facesContext.externalContext.applicationContextPath}/account/accountReviewedProjects.jsf">
+									<f:param name="accountId" value="#{accountMB.account.id}" />
+	                                <div class="panel-footer">
+	                                    <span class="pull-left">Mais detalhes</span>
+	                                    <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
+	                                    <div class="clearfix"></div>
+	                                </div>
+	                            </h:outputLink>
+	                        </div>
+	                    </div>
+	                    
 						<div class="col-md-8">
 							<h:panelGroup layout="block" rendered="#{not empty loginMB.loggedUser.interestTags}">
 								<h4><i>Tags</i> de interesse</h4>

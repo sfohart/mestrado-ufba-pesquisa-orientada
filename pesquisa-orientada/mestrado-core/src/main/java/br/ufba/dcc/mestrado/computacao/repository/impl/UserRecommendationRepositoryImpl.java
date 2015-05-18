@@ -40,6 +40,43 @@ public class UserRecommendationRepositoryImpl
 	}
 	
 	
+	public List<UserRecommendationEntity> findAllUserRecommendation(UserEntity user, RecommendationTypeEnum recommendationType) {
+		List<UserRecommendationEntity> result = null;
+		
+		if (user != null) {
+			CriteriaBuilder criteriaBuilder = getEntityManager().getCriteriaBuilder();
+			
+			CriteriaQuery<UserRecommendationEntity> recommendationQuery = criteriaBuilder.createQuery(getEntityClass());
+			
+			Root<UserRecommendationEntity> root = recommendationQuery.from(getEntityClass());
+			root.fetch("recommendedProjects", JoinType.INNER);
+			root.fetch("user", JoinType.INNER);
+			
+			CriteriaQuery<UserRecommendationEntity> recommendationSelect = recommendationQuery.select(root);
+			
+			List<Predicate> predicateList = new ArrayList<Predicate>();
+			
+			if (user.getId() != null) {
+				Predicate userPredicate = criteriaBuilder.equal(root.get("userId"), user.getId());
+				predicateList.add(userPredicate);
+			}
+			
+			if (recommendationType != null) {
+				Predicate recommendationTypePredicate = criteriaBuilder.equal(root.get("recommendationType"), recommendationType);
+				predicateList.add(recommendationTypePredicate);
+			}
+			
+			recommendationSelect = recommendationSelect.where(predicateList.toArray(new Predicate[0]));
+			
+			TypedQuery<UserRecommendationEntity> typedQuery = getEntityManager().createQuery(recommendationSelect);
+			
+			result = typedQuery.getResultList();
+			
+		}
+		
+		return result;
+	}
+	
 	public UserRecommendationEntity findLastUserRecommendation(UserEntity user, RecommendationTypeEnum recommendationType) {
 		UserRecommendationEntity userRecommendation = null;
 		
