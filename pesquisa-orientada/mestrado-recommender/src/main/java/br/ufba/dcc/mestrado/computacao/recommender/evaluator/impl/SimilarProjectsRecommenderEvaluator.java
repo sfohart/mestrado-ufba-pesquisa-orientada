@@ -46,8 +46,8 @@ public class SimilarProjectsRecommenderEvaluator implements OfflineRecommenderEv
 		List<UserEntity> users = userService.findAll();
 		
 		if (users != null) {
-			evaluateBasedContentRecommendation(users);
 			generateTagIntersectionMatrix(users);
+			evaluateBasedContentRecommendation(users);
 		}
 	}
 

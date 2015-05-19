@@ -3,11 +3,14 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:ui="http://java.sun.com/jsf/facelets"
-	xmlns:f="http://java.sun.com/jsf/core">
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:fn="http://java.sun.com/jsp/jstl/functions"
+	xmlns:p="http://xmlns.jcp.org/jsf/passthrough">
 	
 	<f:metadata>
 		<f:viewParam id="accountId" name="accountId" value="#{accountReviewedProjectsMB.account.id}" required="true" />
-		<f:event listener="#{accountReviewedProjectsMB.init}" type="preRenderView"  />
+		<f:event listener="#{accountReviewedProjectsMB.initList}" type="preRenderView"  />
 	</f:metadata>
 	
 	<h:body>
@@ -18,13 +21,77 @@
 				<section class="container">
 					
 					<ui:include src="/account/accountHeader.xhtml" >
-						<ui:param name="account" value="#{accountViewedProjectsMB.account}" />
+						<ui:param name="account" value="#{accountReviewedProjectsMB.account}" />
 					</ui:include>
 					
-					<div style="border-top: 1px solid #aaa;">
-						<h3>Projetos Comentados pelo Usuário</h3>
-					</div>
 					
+					<h:panelGroup layout="block"
+						rendered="#{accountReviewedProjectsMB.dataList != null}">
+					
+						<div style="border-top: 1px solid #aaa;">
+							<h3>Projetos Comentados pelo Usuário</h3>
+						</div>
+						
+						<h:form id="reviewedProjectsForm">
+						
+							<h:panelGroup id="alert" layout="block" styleClass="alert alert-danger col-md-12" rendered="#{not empty facesContext.messageList}">
+								<strong>Vish! </strong>
+								<h:messages  />
+							</h:panelGroup>
+							
+							<h:panelGroup id="reviewedProjectsPanel" layout="block">
+							
+							
+								<h:panelGroup layout="block" rendered="#{not empty accountReviewedProjectsMB.dataList}">
+									<h3> <h:outputText value="Este usuário comentou os seguintes projetos:" /> </h3>
+									
+									<div class="row">
+										<ui:repeat var="review" value="#{accountReviewedProjectsMB.dataList}" >
+											<div class="col-md-6 pull-left" style="margin: 10px 0px; min-height: 300px; height: auto;">
+												<ui:include src="/reviews/review.xhtml">
+													<ui:param name="preference" value="#{review.preference}" />
+													
+													<ui:param name="criteriumInPopup" value="true" />
+													<ui:param name="popupId" value="mostHelpfulReview" />
+													
+													<ui:param name="hidingUser" value="true" />
+													<ui:param name="bean" value="#{accountReviewedProjectsMB}" />
+												</ui:include>
+											</div>
+										</ui:repeat>
+									</div>
+									
+									<h:panelGroup layout="block" styleClass="pagination-center" style="margin-bottom: 20px">										
+										<h:commandLink 
+											id="moreDataButton"
+											styleClass="ladda-button btn btn-info moreDataButton"
+											p:data-style="expand-left" p:data-spinner-color="#FFFFFF" p:data-size="xs"
+											actionListener="#{accountReviewedProjectsMB.moreData}" 
+											rendered="#{accountReviewedProjectsMB.startPosition != accountReviewedProjectsMB.total}" >	
+											<f:ajax execute="@form" render="@form" onevent="handleMoreDataFormEvent" />
+											<span class="ladda-label">Mais Dados</span>
+											<span class="ladda-spinner"></span>
+										</h:commandLink>
+									</h:panelGroup>
+									
+									<script type="text/javascript">
+										function handleMoreDataFormEvent(data) {
+											handleLaddaLoadingIndicator(data,'.moreDataButton');
+										}
+										
+										$('.rateit').rateit();
+										
+										$(function(){
+									        $('.truncate').succinct({
+									            size: 120
+									        });
+									    });
+									</script>
+									
+								</h:panelGroup>
+							</h:panelGroup>
+						</h:form>
+					</h:panelGroup>
 				</section>
 			</ui:define>
 		</ui:composition>

@@ -3,11 +3,14 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:ui="http://java.sun.com/jsf/facelets"
-	xmlns:f="http://java.sun.com/jsf/core">
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:fn="http://java.sun.com/jsp/jstl/functions"
+	xmlns:p="http://xmlns.jcp.org/jsf/passthrough">
 	
 	<f:metadata>
 		<f:viewParam id="accountId" name="accountId" value="#{accountViewedProjectsMB.account.id}" required="true" />
-		<f:event listener="#{accountViewedProjectsMB.init}" type="preRenderView"  />
+		<f:event listener="#{accountViewedProjectsMB.initList}" type="preRenderView"  />
 	</f:metadata>
 	
 	<h:body>
@@ -23,19 +26,50 @@
 					
 					
 					<h:panelGroup layout="block"
-						rendered="#{accountViewedProjectsMB.viewedProjects != null}">
+						rendered="#{accountViewedProjectsMB.dataList != null}">
 						
-						<div style="border-top: 1px solid #aaa; border-bottom: 1px solid #aaa; margin: 20px 0">
-							<h2>Projetos Visualizados pelo Usuário</h2>
-						</div>
+						<h:form id="viewedProjectsForm">
 						
-						<h:panelGroup layout="block"
-							rendered="#{accountViewedProjectsMB.viewedProjects != null}">
-							<ui:include src="/detail/projectCart.xhtml">
-								<ui:param name="projectCart" value="#{accountViewedProjectsMB.viewedProjects}"  />
-								<ui:param name="projectCartTitle" value="Este usuário visualizou os seguintes projetos:"  />
-							</ui:include>
-						</h:panelGroup>
+							<h:panelGroup id="alert" layout="block" styleClass="alert alert-danger col-md-12" rendered="#{not empty facesContext.messageList}">
+								<strong>Vish! </strong>
+								<h:messages  />
+							</h:panelGroup>
+							
+							<h:panelGroup id="viewedProjectsPanel" layout="block">
+						
+								<div style="border-top: 1px solid #aaa; border-bottom: 1px solid #aaa; margin: 20px 0">
+									<h2>Projetos Visualizados pelo Usuário</h2>
+								</div>
+								
+								<h:panelGroup layout="block"
+									rendered="#{accountViewedProjectsMB.dataList != null}">
+									<ui:include src="/detail/projectCart.xhtml">
+										<ui:param name="projectCart" value="#{accountViewedProjectsMB.dataList}"  />
+										<ui:param name="projectCartTitle" value="Este usuário visualizou os seguintes projetos:"  />
+									</ui:include>
+								</h:panelGroup>
+								
+								<h:panelGroup layout="block" styleClass="pagination-center" style="margin-bottom: 20px">										
+									<h:commandLink 
+										id="moreDataButton"
+										styleClass="ladda-button btn btn-info moreDataButton"
+										p:data-style="expand-left" p:data-spinner-color="#FFFFFF" p:data-size="xs"
+										actionListener="#{accountViewedProjectsMB.moreData}" 
+										rendered="#{accountViewedProjectsMB.startPosition != accountViewedProjectsMB.total}" >	
+										<f:ajax execute="@form" render="@form" onevent="handleMoreDataFormEvent" />
+										<span class="ladda-label">Mais Dados</span>
+										<span class="ladda-spinner"></span>
+									</h:commandLink>
+								</h:panelGroup>
+								
+								<script type="text/javascript">
+									function handleMoreDataFormEvent(data) {
+										handleLaddaLoadingIndicator(data,'.moreDataButton');
+									}
+								</script>
+								
+							</h:panelGroup>
+						</h:form>
 					</h:panelGroup>
 					
 				</section>
