@@ -1,8 +1,17 @@
 package br.ufba.dcc.mestrado.computacao.openhub.restful.responses;
 
+import java.io.Serializable;
+
+import javax.xml.bind.annotation.XmlElement;
+
 import com.thoughtworks.xstream.annotations.XStreamAlias;
 
-public class OpenHubBaseResponse {
+public class OpenHubBaseResponse  implements Serializable {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 4034993819512511173L;
+	
 	public final static String SUCCESS = "success";
 	public final static String FAILED = "failed";
 	
@@ -10,19 +19,21 @@ public class OpenHubBaseResponse {
 	
 	public final static String NODE_NAME = "response";
 	
+	
+	
 	private String status;
 	private String error;
-	@XStreamAlias("items_returned")
+	
+	
 	private Integer itemsReturned;
-	@XStreamAlias("items_available")
 	private Integer itemsAvailable;
-	@XStreamAlias("first_item_position")
 	private Integer firstItemPosition;
 
 	public OpenHubBaseResponse() {
 		super();
 	}
 
+	@XmlElement(name = "status")
 	public String getStatus() {
 		return status;
 	}
@@ -31,6 +42,7 @@ public class OpenHubBaseResponse {
 		this.status = status;
 	}
 
+	@XmlElement(name = "error")
 	public String getError() {
 		return error;
 	}
@@ -39,6 +51,7 @@ public class OpenHubBaseResponse {
 		this.error = error;
 	}
 
+	@XmlElement(name = "items_returned")
 	public Integer getItemsReturned() {
 		return itemsReturned;
 	}
@@ -47,6 +60,7 @@ public class OpenHubBaseResponse {
 		this.itemsReturned = itemsReturned;
 	}
 
+	@XmlElement(name = "items_available")
 	public Integer getItemsAvailable() {
 		return itemsAvailable;
 	}
@@ -55,6 +69,7 @@ public class OpenHubBaseResponse {
 		this.itemsAvailable = itemsAvailable;
 	}
 
+	@XmlElement(name = "first_item_position")
 	public Integer getFirstItemPosition() {
 		return firstItemPosition;
 	}

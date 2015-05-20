@@ -51,7 +51,7 @@ public class OpenHubSizeFactCrawler {
 				if (result != null && result.getSizeFacts() != null) {
 					for (OpenHubSizeFactDTO sizeFactDTO : result.getSizeFacts()) {
 						OpenHubProjectDTO projectDTO = new OpenHubProjectDTO();
-						projectDTO.setId(project.getId());
+						projectDTO.setId(project.getId().toString());
 						
 						sizeFactDTO.setProjectId(project.getId());
 						sizeFactDTO.setProject(projectDTO);

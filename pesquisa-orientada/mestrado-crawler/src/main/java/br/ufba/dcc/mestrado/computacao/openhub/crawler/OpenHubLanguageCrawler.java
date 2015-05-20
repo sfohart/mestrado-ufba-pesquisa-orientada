@@ -78,11 +78,10 @@ public class OpenHubLanguageCrawler {
 		
 		try {
 			do {
-				
-				//configurando requisi��o
+				//configurando requisicao
 				request.setPage(config.getCurrentPage());
 				
-				//efetuando requisi��o
+				//efetuando requisicao
 				OpenHubLanguageResponse response = getRestfulClient().getAllLanguages(request);
 				logger.info(String.format("Current Language Page %d | Total Language Pages: %d | Total Language Stored: %d", page, totalPages, getOhLanguageService().countAll()));
 				
@@ -104,7 +103,7 @@ public class OpenHubLanguageCrawler {
 						List<OpenHubLanguageDTO> languageDTOList = result.getLanguages();
 						if (languageDTOList != null && ! languageDTOList.isEmpty()) {
 							for (OpenHubLanguageDTO languageDTO : languageDTOList) {
-								if (getOhLanguageService().findById(languageDTO.getId()) == null) {
+								if (getOhLanguageService().findById(Long.valueOf(languageDTO.getId())) == null) {
 									getOhLanguageService().process(languageDTO);
 								}
 							}

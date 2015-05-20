@@ -152,7 +152,7 @@ public class OpenHubProjectCrawler {
 						
 						//iterar cada projeto da lista retornada
 						for (OpenHubProjectDTO project : openHubProjectDTOs) {
-							if (getProjectService().findById(project.getId()) == null) {
+							if (getProjectService().findById(Long.valueOf(project.getId())) == null) {
 								//armazenando projeto
 								OpenHubProjectEntity ohLohProject = getProjectService().process(project);								
 								

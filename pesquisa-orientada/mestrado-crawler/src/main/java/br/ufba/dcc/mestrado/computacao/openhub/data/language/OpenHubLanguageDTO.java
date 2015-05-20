@@ -1,12 +1,12 @@
 package br.ufba.dcc.mestrado.computacao.openhub.data.language;
 
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlID;
+import javax.xml.bind.annotation.XmlRootElement;
+
 import br.ufba.dcc.mestrado.computacao.openhub.data.OpenHubResultDTO;
-import br.ufba.dcc.mestrado.computacao.xstream.converters.NullableDoubleXStreamConverter;
 
-import com.thoughtworks.xstream.annotations.XStreamAlias;
-import com.thoughtworks.xstream.annotations.XStreamConverter;
-
-@XStreamAlias(OpenHubLanguageDTO.NODE_NAME)
+@XmlRootElement(name = OpenHubLanguageDTO.NODE_NAME)
 public class OpenHubLanguageDTO implements OpenHubResultDTO {
 
 	/**
@@ -16,11 +16,11 @@ public class OpenHubLanguageDTO implements OpenHubResultDTO {
 
 	public final static String NODE_NAME = "language";
 	
-	private Long id;
+	
+	private String id;
 	
 	private String name;
 	
-	@XStreamAlias("nice_name")
 	private String niceName;
 	
 	private String category;
@@ -31,8 +31,6 @@ public class OpenHubLanguageDTO implements OpenHubResultDTO {
 	
 	private Long blanks;
 	
-	@XStreamAlias("comment_ratio")
-	@XStreamConverter(value=NullableDoubleXStreamConverter.class)
 	private Double commentRatio;
 	
 	private Long projects;
@@ -40,12 +38,17 @@ public class OpenHubLanguageDTO implements OpenHubResultDTO {
 	private Long contributors;
 	
 	private Long commits;
+	
+	public OpenHubLanguageDTO() {
+		super();
+	}
 
-	public Long getId() {
+	@XmlID
+	public String getId() {
 		return id;
 	}
 
-	public void setId(Long id) {
+	public void setId(String id) {
 		this.id = id;
 	}
 
@@ -57,6 +60,7 @@ public class OpenHubLanguageDTO implements OpenHubResultDTO {
 		this.name = name;
 	}
 
+	@XmlElement(name = "nice_name")
 	public String getNiceName() {
 		return niceName;
 	}
@@ -97,6 +101,7 @@ public class OpenHubLanguageDTO implements OpenHubResultDTO {
 		this.blanks = blanks;
 	}
 
+	@XmlElement(name = "comment_ratio")
 	public Double getCommentRatio() {
 		return commentRatio;
 	}

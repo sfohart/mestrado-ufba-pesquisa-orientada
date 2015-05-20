@@ -1,13 +1,12 @@
 package br.ufba.dcc.mestrado.computacao.openhub.data.project;
 
+import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlValue;
+
 import br.ufba.dcc.mestrado.computacao.openhub.data.OpenHubResultDTO;
-import br.ufba.dcc.mestrado.computacao.xstream.converters.OpenHubTagDTOXStreamConverter;
 
-import com.thoughtworks.xstream.annotations.XStreamAlias;
-import com.thoughtworks.xstream.annotations.XStreamConverter;
 
-@XStreamAlias(OpenHubTagDTO.NODE_NAME)
-@XStreamConverter(value = OpenHubTagDTOXStreamConverter.class)
+@XmlRootElement(name = OpenHubTagDTO.NODE_NAME)
 public class OpenHubTagDTO implements OpenHubResultDTO {
 	/**
 	 * 
@@ -18,6 +17,7 @@ public class OpenHubTagDTO implements OpenHubResultDTO {
 
 	private String name;
 
+	@XmlValue
 	public String getName() {
 		return name;
 	}

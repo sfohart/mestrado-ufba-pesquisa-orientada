@@ -1,19 +1,18 @@
 package br.ufba.dcc.mestrado.computacao.openhub.data.project;
 
-import java.sql.Timestamp;
+import java.util.Date;
 import java.util.List;
+
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlElementWrapper;
+import javax.xml.bind.annotation.XmlID;
+import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlSchemaType;
 
 import br.ufba.dcc.mestrado.computacao.openhub.data.OpenHubResultDTO;
 import br.ufba.dcc.mestrado.computacao.openhub.data.analysis.OpenHubAnalysisDTO;
-import br.ufba.dcc.mestrado.computacao.xstream.converters.NullableDoubleXStreamConverter;
-import br.ufba.dcc.mestrado.computacao.xstream.converters.NullableLongXStreamConverter;
 
-import com.thoughtworks.xstream.annotations.XStreamAlias;
-import com.thoughtworks.xstream.annotations.XStreamAsAttribute;
-import com.thoughtworks.xstream.annotations.XStreamConverter;
-import com.thoughtworks.xstream.converters.extended.ISO8601SqlTimestampConverter;
-
-@XStreamAlias(OpenHubProjectDTO.NODE_NAME)
+@XmlRootElement(name = OpenHubProjectDTO.NODE_NAME)
 public class OpenHubProjectDTO implements OpenHubResultDTO {
 
 	/**
@@ -23,79 +22,47 @@ public class OpenHubProjectDTO implements OpenHubResultDTO {
 
 	public final static String NODE_NAME = "project";
 
-	@XStreamAsAttribute
-	@XStreamConverter(value = NullableLongXStreamConverter.class)
-	private Long id;
+	private String id;
 
 	private String name;
-
 	private String url;
-
-	@XStreamAlias("html_url")
 	private String htmlURL;
 
-	@XStreamConverter(value = ISO8601SqlTimestampConverter.class)
-	@XStreamAlias("created_at")
-	private Timestamp createdAt;
-
-	@XStreamConverter(value = ISO8601SqlTimestampConverter.class)
-	@XStreamAlias("updated_at")
-	private Timestamp updatedAt;
+	private Date createdAt;
+	private Date updatedAt;
 
 	private String description;
-
-	@XStreamAlias("homepage_url")
 	private String homepageURL;
-
-	@XStreamAlias("download_url")
 	private String downloadURL;
-
-	@XStreamAlias("url_name")
 	private String urlName;
-
-	@XStreamAlias("medium_logo_url")
 	private String mediumLogoURL;
-
-	@XStreamAlias("small_logo_url")
 	private String smallLogoURL;
 
-	@XStreamAlias("user_count")
-	@XStreamConverter(value = NullableLongXStreamConverter.class)
-	private Long userCount;
-
-	@XStreamAlias("average_rating")
-	@XStreamConverter(value = NullableDoubleXStreamConverter.class)
 	private Double averageRating;
-
-	@XStreamAlias("rating_count")
-	@XStreamConverter(value = NullableLongXStreamConverter.class)
+	
+	private Long userCount;
 	private Long ratingCount;
-
-	@XStreamAlias("review_count")
-	@XStreamConverter(value = NullableLongXStreamConverter.class)
 	private Long reviewCount;
-
-	@XStreamAlias("analysis_id")
-	@XStreamConverter(value = NullableLongXStreamConverter.class)
 	private Long analysisId;
 
-	@XStreamAlias("analysis")
 	private OpenHubAnalysisDTO analysis;
 
-	@XStreamAlias("licenses")
 	private List<OpenHubLicenseDTO> licenses;
-	
-	@XStreamAlias("links")
 	private List<OpenHubLinkDTO> links;
-
-	@XStreamAlias("tags")	
 	private List<OpenHubTagDTO> tags;
 	
-	@XStreamAlias("project_activity_index")
 	private OpenHubProjectActivityIndexDTO projectActivityIndex;
-	
-	
 
+	@XmlID
+	public String getId() {
+		return id;
+	}
+
+	public void setId(String id) {
+		this.id = id;
+	}
+
+	@XmlElement
 	public String getName() {
 		return name;
 	}
@@ -104,6 +71,7 @@ public class OpenHubProjectDTO implements OpenHubResultDTO {
 		this.name = name;
 	}
 
+	@XmlElement
 	public String getUrl() {
 		return url;
 	}
@@ -112,6 +80,7 @@ public class OpenHubProjectDTO implements OpenHubResultDTO {
 		this.url = url;
 	}
 
+	@XmlElement(name = "html_url")
 	public String getHtmlURL() {
 		return htmlURL;
 	}
@@ -120,22 +89,27 @@ public class OpenHubProjectDTO implements OpenHubResultDTO {
 		this.htmlURL = htmlURL;
 	}
 
-	public Timestamp getCreatedAt() {
+	@XmlElement(name = "created_at")
+	@XmlSchemaType(name = "date")
+	public Date getCreatedAt() {
 		return createdAt;
 	}
 
-	public void setCreatedAt(Timestamp createdAt) {
+	public void setCreatedAt(Date createdAt) {
 		this.createdAt = createdAt;
 	}
 
-	public Timestamp getUpdatedAt() {
+	@XmlElement(name = "updated_at")
+	@XmlSchemaType(name = "date")
+	public Date getUpdatedAt() {
 		return updatedAt;
 	}
 
-	public void setUpdatedAt(Timestamp updatedAt) {
+	public void setUpdatedAt(Date updatedAt) {
 		this.updatedAt = updatedAt;
 	}
 
+	@XmlElement
 	public String getDescription() {
 		return description;
 	}
@@ -144,6 +118,7 @@ public class OpenHubProjectDTO implements OpenHubResultDTO {
 		this.description = description;
 	}
 
+	@XmlElement(name = "homepage_url")
 	public String getHomepageURL() {
 		return homepageURL;
 	}
@@ -152,6 +127,7 @@ public class OpenHubProjectDTO implements OpenHubResultDTO {
 		this.homepageURL = homepageURL;
 	}
 
+	@XmlElement(name = "download_url")
 	public String getDownloadURL() {
 		return downloadURL;
 	}
@@ -160,6 +136,7 @@ public class OpenHubProjectDTO implements OpenHubResultDTO {
 		this.downloadURL = downloadURL;
 	}
 
+	@XmlElement(name = "url_name")
 	public String getUrlName() {
 		return urlName;
 	}
@@ -168,6 +145,7 @@ public class OpenHubProjectDTO implements OpenHubResultDTO {
 		this.urlName = urlName;
 	}
 
+	@XmlElement(name = "medium_logo_url")
 	public String getMediumLogoURL() {
 		return mediumLogoURL;
 	}
@@ -176,6 +154,7 @@ public class OpenHubProjectDTO implements OpenHubResultDTO {
 		this.mediumLogoURL = mediumLogoURL;
 	}
 
+	@XmlElement(name = "small_logo_url")
 	public String getSmallLogoURL() {
 		return smallLogoURL;
 	}
@@ -184,14 +163,7 @@ public class OpenHubProjectDTO implements OpenHubResultDTO {
 		this.smallLogoURL = smallLogoURL;
 	}
 
-	public Long getUserCount() {
-		return userCount;
-	}
-
-	public void setUserCount(Long userCount) {
-		this.userCount = userCount;
-	}
-
+	@XmlElement(name = "average_rating")
 	public Double getAverageRating() {
 		return averageRating;
 	}
@@ -200,6 +172,16 @@ public class OpenHubProjectDTO implements OpenHubResultDTO {
 		this.averageRating = averageRating;
 	}
 
+	@XmlElement(name = "user_count")
+	public Long getUserCount() {
+		return userCount;
+	}
+
+	public void setUserCount(Long userCount) {
+		this.userCount = userCount;
+	}
+
+	@XmlElement(name = "rating_count")
 	public Long getRatingCount() {
 		return ratingCount;
 	}
@@ -208,22 +190,7 @@ public class OpenHubProjectDTO implements OpenHubResultDTO {
 		this.ratingCount = ratingCount;
 	}
 
-	public Long getAnalysisId() {
-		return analysisId;
-	}
-
-	public void setAnalysisId(Long analysisId) {
-		this.analysisId = analysisId;
-	}
-
-	public List<OpenHubLicenseDTO> getLicenses() {
-		return licenses;
-	}
-	
-	public void setLicenses(List<OpenHubLicenseDTO> licenses) {
-		this.licenses = licenses;
-	}
-
+	@XmlElement(name = "review_count")
 	public Long getReviewCount() {
 		return reviewCount;
 	}
@@ -232,38 +199,55 @@ public class OpenHubProjectDTO implements OpenHubResultDTO {
 		this.reviewCount = reviewCount;
 	}
 
-	public List<OpenHubTagDTO> getTags() {
-		return tags;
-	}
-	
-	public void setTags(List<OpenHubTagDTO> tags) {
-		this.tags = tags;
+	@XmlElement(name = "analysis_id")
+	public Long getAnalysisId() {
+		return analysisId;
 	}
 
-	public Long getId() {
-		return id;
+	public void setAnalysisId(Long analysisId) {
+		this.analysisId = analysisId;
 	}
 
-	public void setId(Long id) {
-		this.id = id;
-	}
-
+	@XmlElement(name = "analysis")
 	public OpenHubAnalysisDTO getAnalysis() {
 		return analysis;
 	}
-	
+
 	public void setAnalysis(OpenHubAnalysisDTO analysis) {
 		this.analysis = analysis;
 	}
-	
+
+	@XmlElementWrapper(name = "licenses")
+	@XmlElement(name = "license")
+	public List<OpenHubLicenseDTO> getLicenses() {
+		return licenses;
+	}
+
+	public void setLicenses(List<OpenHubLicenseDTO> licenses) {
+		this.licenses = licenses;
+	}
+
+	@XmlElementWrapper(name = "links")
+	@XmlElement(name = "link")
 	public List<OpenHubLinkDTO> getLinks() {
 		return links;
 	}
-	
+
 	public void setLinks(List<OpenHubLinkDTO> links) {
 		this.links = links;
 	}
 
+	@XmlElementWrapper(name = "tags")
+	@XmlElement(name = "tag")
+	public List<OpenHubTagDTO> getTags() {
+		return tags;
+	}
+
+	public void setTags(List<OpenHubTagDTO> tags) {
+		this.tags = tags;
+	}
+
+	@XmlElement(name = "project_activity_index")
 	public OpenHubProjectActivityIndexDTO getProjectActivityIndex() {
 		return projectActivityIndex;
 	}
@@ -272,5 +256,8 @@ public class OpenHubProjectDTO implements OpenHubResultDTO {
 			OpenHubProjectActivityIndexDTO projectActivityIndex) {
 		this.projectActivityIndex = projectActivityIndex;
 	}
+	
+
+	
 	
 }

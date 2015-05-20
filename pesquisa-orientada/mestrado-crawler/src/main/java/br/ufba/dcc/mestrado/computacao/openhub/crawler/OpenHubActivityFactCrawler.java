@@ -52,7 +52,7 @@ public class OpenHubActivityFactCrawler {
 				if (result != null && result.getActivityFacts() != null) {
 					for (OpenHubActivityFactDTO activityFactDTO : result.getActivityFacts()) {
 						OpenHubProjectDTO projectDTO = new OpenHubProjectDTO();
-						projectDTO.setId(project.getId());
+						projectDTO.setId(project.getId().toString());
 						
 						activityFactDTO.setProjectId(project.getId());
 						activityFactDTO.setProject(projectDTO);
