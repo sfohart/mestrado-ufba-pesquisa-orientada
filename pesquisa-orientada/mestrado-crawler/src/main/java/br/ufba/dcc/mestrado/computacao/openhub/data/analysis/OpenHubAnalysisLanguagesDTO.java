@@ -2,15 +2,15 @@ package br.ufba.dcc.mestrado.computacao.openhub.data.analysis;
 
 import java.util.List;
 
+import javax.xml.bind.annotation.XmlAttribute;
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlID;
+import javax.xml.bind.annotation.XmlRootElement;
+
 import br.ufba.dcc.mestrado.computacao.openhub.data.OpenHubResultDTO;
-import br.ufba.dcc.mestrado.computacao.xstream.converters.NullableLongXStreamConverter;
 
-import com.thoughtworks.xstream.annotations.XStreamAlias;
-import com.thoughtworks.xstream.annotations.XStreamAsAttribute;
-import com.thoughtworks.xstream.annotations.XStreamConverter;
-import com.thoughtworks.xstream.annotations.XStreamImplicit;
 
-@XStreamAlias("languages")
+@XmlRootElement(name = OpenHubAnalysisLanguagesDTO.NODE_NAME)
 public class OpenHubAnalysisLanguagesDTO implements OpenHubResultDTO {
 
 	/**
@@ -18,20 +18,18 @@ public class OpenHubAnalysisLanguagesDTO implements OpenHubResultDTO {
 	 */
 	private static final long serialVersionUID = 3047964132725598415L;
 	
-	@XStreamAsAttribute	
-	@XStreamConverter(value=NullableLongXStreamConverter.class)
-	private Long id;
+	public final static String NODE_NAME = "languages";
+	
+	private String id;
 
-	@XStreamAlias("graph_url")
-	@XStreamAsAttribute
 	private String graphURL;
 
-	@XStreamImplicit(itemFieldName = "language")
+	
 	private List<OpenHubAnalysisLanguageDTO> content;
 	
-	@XStreamAsAttribute
 	private String color;
 
+	@XmlAttribute(name = "graph_url")
 	public String getGraphURL() {
 		return graphURL;
 	}
@@ -48,6 +46,7 @@ public class OpenHubAnalysisLanguagesDTO implements OpenHubResultDTO {
 		this.color = color;
 	}
 
+	@XmlElement(name = "language")
 	public List<OpenHubAnalysisLanguageDTO> getContent() {
 		return content;
 	}
@@ -56,11 +55,12 @@ public class OpenHubAnalysisLanguagesDTO implements OpenHubResultDTO {
 		this.content = content;
 	}
 
-	public Long getId() {
+	@XmlID
+	public String getId() {
 		return id;
 	}
 
-	public void setId(Long id) {
+	public void setId(String id) {
 		this.id = id;
 	}
 	

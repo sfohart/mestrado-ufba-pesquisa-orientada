@@ -1,13 +1,11 @@
 package br.ufba.dcc.mestrado.computacao.openhub.data.project;
 
-import com.thoughtworks.xstream.annotations.XStreamAlias;
-import com.thoughtworks.xstream.annotations.XStreamAsAttribute;
-import com.thoughtworks.xstream.annotations.XStreamConverter;
+import javax.xml.bind.annotation.XmlID;
+import javax.xml.bind.annotation.XmlRootElement;
 
 import br.ufba.dcc.mestrado.computacao.openhub.data.OpenHubResultDTO;
-import br.ufba.dcc.mestrado.computacao.xstream.converters.NullableLongXStreamConverter;
 
-@XStreamAlias(OpenHubLinkDTO.NODE_NAME)
+@XmlRootElement(name = OpenHubLinkDTO.NODE_NAME)
 public class OpenHubLinkDTO implements OpenHubResultDTO {
 	
 	/**
@@ -17,9 +15,7 @@ public class OpenHubLinkDTO implements OpenHubResultDTO {
 
 	public final static String NODE_NAME = "link";
 	
-	@XStreamAsAttribute	
-	@XStreamConverter(value=NullableLongXStreamConverter.class)
-	private Long id;
+	private String id;
 	
 	private String category;
 	
@@ -27,11 +23,12 @@ public class OpenHubLinkDTO implements OpenHubResultDTO {
 	
 	private String url;
 
-	public Long getId() {
+	@XmlID
+	public String getId() {
 		return id;
 	}
 
-	public void setId(Long id) {
+	public void setId(String id) {
 		this.id = id;
 	}
 

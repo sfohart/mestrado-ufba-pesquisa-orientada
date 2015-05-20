@@ -1,18 +1,18 @@
 package br.ufba.dcc.mestrado.computacao.openhub.data.analysis;
 
-import java.sql.Timestamp;
+import java.util.Date;
 import java.util.List;
+
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlElementWrapper;
+import javax.xml.bind.annotation.XmlID;
+import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlSchemaType;
 
 import br.ufba.dcc.mestrado.computacao.openhub.data.OpenHubResultDTO;
 import br.ufba.dcc.mestrado.computacao.openhub.data.factoid.OpenHubFactoidDTO;
-import br.ufba.dcc.mestrado.computacao.xstream.converters.NullableISO8601SqlTimestampXStreamConverter;
-import br.ufba.dcc.mestrado.computacao.xstream.converters.NullableLongXStreamConverter;
 
-import com.thoughtworks.xstream.annotations.XStreamAlias;
-import com.thoughtworks.xstream.annotations.XStreamAsAttribute;
-import com.thoughtworks.xstream.annotations.XStreamConverter;
-
-@XStreamAlias(OpenHubAnalysisDTO.NODE_NAME)
+@XmlRootElement(name = OpenHubAnalysisDTO.NODE_NAME)
 public class OpenHubAnalysisDTO implements OpenHubResultDTO {
 
 	/**
@@ -24,71 +24,46 @@ public class OpenHubAnalysisDTO implements OpenHubResultDTO {
 
 	private String url;
 
-	@XStreamAsAttribute
-	@XStreamConverter(value = NullableLongXStreamConverter.class)
-	private Long id;
+	private String id;
 
-	@XStreamAlias("project_id")
-	@XStreamConverter(value = NullableLongXStreamConverter.class)
 	private Long projectId;
 
-	@XStreamConverter(value = NullableISO8601SqlTimestampXStreamConverter.class)
-	@XStreamAlias("updated_at")
-	private Timestamp updatedAt;
+	private Date updatedAt;
 
-	@XStreamConverter(value = NullableISO8601SqlTimestampXStreamConverter.class)
-	@XStreamAlias("logged_at")
-	private Timestamp loggedAt;
+	private Date loggedAt;
 
-	@XStreamConverter(value = NullableISO8601SqlTimestampXStreamConverter.class)
-	@XStreamAlias("min_month")
-	private Timestamp minMonth;
+	private Date minMonth;
 
-	@XStreamConverter(value = NullableISO8601SqlTimestampXStreamConverter.class)
-	@XStreamAlias("max_month")
-	private Timestamp maxMonth;
+	private Date maxMonth;
 
-	@XStreamAlias("twelve_month_contributor_count")
-	@XStreamConverter(value = NullableLongXStreamConverter.class)
 	private Long twelveMonthContributorCount;
 
-	@XStreamAlias("total_contributor_count")
-	@XStreamConverter(value = NullableLongXStreamConverter.class)
 	private Long totalContributorCount;
 
-	@XStreamAlias("total_code_lines")
-	@XStreamConverter(value = NullableLongXStreamConverter.class)
 	private Long totalCodeLines;
 
-	@XStreamAlias("total_commit_count")
-	@XStreamConverter(value = NullableLongXStreamConverter.class)
 	private Long totalCommitCount;
 	
-	@XStreamAlias("twelve_month_commit_count")
-	@XStreamConverter(value = NullableLongXStreamConverter.class)
 	private Long twelveMonthCommitCount;
 
-	@XStreamAlias("factoids")
 	private List<OpenHubFactoidDTO> factoids;
 
-	@XStreamAlias("languages")
 	private OpenHubAnalysisLanguagesDTO analysisLanguages;
 
-	@XStreamAlias("main_language_id")
-	@XStreamConverter(value = NullableLongXStreamConverter.class)
 	private Long mainLanguageId;
 
-	@XStreamAlias("main_language_name")
 	private String mainLanguageName;
 
-	public Long getId() {
+	@XmlID
+	public String getId() {
 		return id;
 	}
 
-	public void setId(Long id) {
+	public void setId(String id) {
 		this.id = id;
 	}
 
+	@XmlElement
 	public String getUrl() {
 		return url;
 	}
@@ -97,6 +72,7 @@ public class OpenHubAnalysisDTO implements OpenHubResultDTO {
 		this.url = url;
 	}
 
+	@XmlElement(name = "project_id")
 	public Long getProjectId() {
 		return projectId;
 	}
@@ -105,38 +81,47 @@ public class OpenHubAnalysisDTO implements OpenHubResultDTO {
 		this.projectId = projectId;
 	}
 
-	public Timestamp getUpdatedAt() {
+	@XmlElement(name = "updated_at")
+	@XmlSchemaType(name = "date")
+	public Date getUpdatedAt() {
 		return updatedAt;
 	}
 
-	public void setUpdatedAt(Timestamp updatedAt) {
+	public void setUpdatedAt(Date updatedAt) {
 		this.updatedAt = updatedAt;
 	}
 
-	public Timestamp getLoggedAt() {
+	@XmlElement(name = "logged_at")
+	@XmlSchemaType(name = "date")
+	public Date getLoggedAt() {
 		return loggedAt;
 	}
 
-	public void setLoggedAt(Timestamp loggedAt) {
+	public void setLoggedAt(Date loggedAt) {
 		this.loggedAt = loggedAt;
 	}
 
-	public Timestamp getMinMonth() {
+	@XmlElement(name = "min_month")
+	@XmlSchemaType(name = "date")
+	public Date getMinMonth() {
 		return minMonth;
 	}
 
-	public void setMinMonth(Timestamp minMonth) {
+	public void setMinMonth(Date minMonth) {
 		this.minMonth = minMonth;
 	}
 
-	public Timestamp getMaxMonth() {
+	@XmlElement(name = "max_month")
+	@XmlSchemaType(name = "date")
+	public Date getMaxMonth() {
 		return maxMonth;
 	}
 
-	public void setMaxMonth(Timestamp maxMonth) {
+	public void setMaxMonth(Date maxMonth) {
 		this.maxMonth = maxMonth;
 	}
 
+	@XmlElement(name = "twelve_month_contributor_count")
 	public Long getTwelveMonthContributorCount() {
 		return twelveMonthContributorCount;
 	}
@@ -145,6 +130,7 @@ public class OpenHubAnalysisDTO implements OpenHubResultDTO {
 		this.twelveMonthContributorCount = twelveMonthContributorCount;
 	}
 
+	@XmlElement(name = "total_contributor_count")
 	public Long getTotalContributorCount() {
 		return totalContributorCount;
 	}
@@ -153,6 +139,7 @@ public class OpenHubAnalysisDTO implements OpenHubResultDTO {
 		this.totalContributorCount = totalContributorCount;
 	}
 
+	@XmlElement(name = "total_code_lines")
 	public Long getTotalCodeLines() {
 		return totalCodeLines;
 	}
@@ -161,6 +148,8 @@ public class OpenHubAnalysisDTO implements OpenHubResultDTO {
 		this.totalCodeLines = totalCodeLines;
 	}
 
+	@XmlElementWrapper(name = "factoids", required = false)
+	@XmlElement(name = "factoid")
 	public List<OpenHubFactoidDTO> getFactoids() {
 		return factoids;
 	}
@@ -169,6 +158,7 @@ public class OpenHubAnalysisDTO implements OpenHubResultDTO {
 		this.factoids = factoids;
 	}
 
+	@XmlElement(name = "languages")
 	public OpenHubAnalysisLanguagesDTO getAnalysisLanguages() {
 		return analysisLanguages;
 	}
@@ -177,6 +167,7 @@ public class OpenHubAnalysisDTO implements OpenHubResultDTO {
 		this.analysisLanguages = analysisLanguages;
 	}
 
+	@XmlElement(name = "main_language_id")
 	public Long getMainLanguageId() {
 		return mainLanguageId;
 	}
@@ -185,6 +176,7 @@ public class OpenHubAnalysisDTO implements OpenHubResultDTO {
 		this.mainLanguageId = mainLanguageId;
 	}
 
+	@XmlElement(name = "main_language_name")
 	public String getMainLanguageName() {
 		return mainLanguageName;
 	}
@@ -193,6 +185,7 @@ public class OpenHubAnalysisDTO implements OpenHubResultDTO {
 		this.mainLanguageName = mainLanguageName;
 	}
 
+	@XmlElement(name = "total_commit_count")
 	public Long getTotalCommitCount() {
 		return totalCommitCount;
 	}
@@ -201,6 +194,7 @@ public class OpenHubAnalysisDTO implements OpenHubResultDTO {
 		this.totalCommitCount = totalCommitCount;
 	}
 
+	@XmlElement(name = "twelve_month_commit_count")
 	public Long getTwelveMonthCommitCount() {
 		return twelveMonthCommitCount;
 	}

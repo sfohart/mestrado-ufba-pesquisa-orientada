@@ -11,7 +11,6 @@ import javax.ws.rs.client.Client;
 import javax.ws.rs.client.ClientBuilder;
 import javax.ws.rs.client.Invocation;
 import javax.ws.rs.client.WebTarget;
-import javax.ws.rs.core.Form;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
@@ -25,11 +24,13 @@ import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Component;
 
 import br.ufba.dcc.mestrado.computacao.openhub.data.analysis.OpenHubAnalysisDTO;
+import br.ufba.dcc.mestrado.computacao.openhub.data.analysis.OpenHubAnalysisResult;
 import br.ufba.dcc.mestrado.computacao.openhub.data.language.OpenHubLanguageDTO;
 import br.ufba.dcc.mestrado.computacao.openhub.data.language.OpenHubLanguageResult;
 import br.ufba.dcc.mestrado.computacao.openhub.data.project.OpenHubProjectDTO;
 import br.ufba.dcc.mestrado.computacao.openhub.restful.request.OpenHubBaseRequest;
 import br.ufba.dcc.mestrado.computacao.openhub.restful.responses.OpenHubActivityFactResponse;
+import br.ufba.dcc.mestrado.computacao.openhub.restful.responses.OpenHubAnalysisResponse;
 import br.ufba.dcc.mestrado.computacao.openhub.restful.responses.OpenHubBaseResponse;
 import br.ufba.dcc.mestrado.computacao.openhub.restful.responses.OpenHubEnlistmentResponse;
 import br.ufba.dcc.mestrado.computacao.openhub.restful.responses.OpenHubLanguageResponse;
@@ -258,7 +259,57 @@ public class OpenHubRestfulClientImpl implements Serializable {
 			String projectId, 
 			String analysisId,
 			OpenHubBaseRequest request) {
-		throw new NotImplementedException("Não implementado ainda. Mudando de RESTFULie para Jersey");
+		
+		OpenHubAnalysisDTO analysis = null;
+		String resourcePath = String.format("%s.xml", analysisId);
+		
+		WebTarget webTarget = configureWebTarget();
+		
+		webTarget = webTarget.register(new GenericMessageBodyReader<OpenHubAnalysisResponse>(OpenHubAnalysisResponse.class));
+		
+		webTarget = webTarget
+				.path("projects")
+				.path(projectId)
+				.path("analyses")
+				.path(resourcePath);
+		
+		webTarget.register(OpenHubAnalysisResponse.class);
+		webTarget.register(OpenHubAnalysisResult.class);
+		webTarget.register(OpenHubAnalysisDTO.class);
+		
+		boolean retry = true;
+		
+		try {
+			
+			while (retry) {
+				retry = false;
+				
+				webTarget = configureApiKeyParams(webTarget);
+				webTarget = configureRequestParams(webTarget, request);
+				
+				Invocation.Builder invocationBuilder = webTarget.request(MediaType.APPLICATION_ATOM_XML_TYPE);
+				OpenHubAnalysisResponse analysisResponse = invocationBuilder.get(OpenHubAnalysisResponse.class);
+				
+				if (analysisResponse != null) {
+					if (! analysisResponse.isStatusSuccess()) {
+						if (OpenHubBaseResponse.ERROR_API_KEY_EXCEDED.equals(analysisResponse.getError())) {
+							if (getCurrentApiKey() + 1 < getApiKeyList().size()) {
+								setCurrentApiKey(getCurrentApiKey() + 1);
+								retry = true;
+							}
+						}						
+					} else {
+						analysis = analysisResponse.getResult().getAnalysis();
+					}
+				}
+				
+			}
+			
+		} catch (Exception ex) {
+			throw ex;
+		}
+		
+		return analysis;
 	}
 
 	public OpenHubProjectDTO getProject(

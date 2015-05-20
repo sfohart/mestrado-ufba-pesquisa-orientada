@@ -1,15 +1,12 @@
 package br.ufba.dcc.mestrado.computacao.openhub.data.factoid;
 
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlID;
+import javax.xml.bind.annotation.XmlRootElement;
+
 import br.ufba.dcc.mestrado.computacao.openhub.data.OpenHubResultDTO;
-import br.ufba.dcc.mestrado.computacao.xstream.converters.NullableLongXStreamConverter;
 
-import com.thoughtworks.xstream.annotations.XStreamAlias;
-import com.thoughtworks.xstream.annotations.XStreamAsAttribute;
-import com.thoughtworks.xstream.annotations.XStreamConverter;
-import com.thoughtworks.xstream.converters.extended.ToAttributedValueConverter;
-
-@XStreamAlias(OpenHubFactoidDTO.NODE_NAME)
-@XStreamConverter(value = ToAttributedValueConverter.class, strings = { "description" })
+@XmlRootElement(name = OpenHubFactoidDTO.NODE_NAME)
 public class OpenHubFactoidDTO implements OpenHubResultDTO {
 
 	/**
@@ -19,20 +16,28 @@ public class OpenHubFactoidDTO implements OpenHubResultDTO {
 
 	public final static String NODE_NAME = "factoid";
 	
-	@XStreamAsAttribute
+	private String id;
+	
 	private String type;
-
-	@XStreamAlias("analysis_id")
-	@XStreamConverter(value = NullableLongXStreamConverter.class)
+	
 	private Long analysisId;
 
-	@XStreamConverter(value=NullableLongXStreamConverter.class)
 	private Long severity;
 
+	
 	private String description;
 	
 
+	@XmlID
+	public String getId() {
+		return id;
+	}
+	
+	public void setId(String id) {
+		this.id = id;
+	}
 
+	@XmlElement
 	public String getType() {
 		return type;
 	}
@@ -41,6 +46,7 @@ public class OpenHubFactoidDTO implements OpenHubResultDTO {
 		this.type = type;
 	}
 
+	@XmlElement
 	public Long getSeverity() {
 		return severity;
 	}
@@ -49,6 +55,7 @@ public class OpenHubFactoidDTO implements OpenHubResultDTO {
 		this.severity = severity;
 	}
 
+	@XmlElement(name = "analysis_id")
 	public Long getAnalysisId() {
 		return analysisId;
 	}
@@ -57,6 +64,7 @@ public class OpenHubFactoidDTO implements OpenHubResultDTO {
 		this.analysisId = analysisId;
 	}
 
+	@XmlElement
 	public String getDescription() {
 		return description;
 	}
