@@ -326,7 +326,50 @@ public class OpenHubRestfulClientImpl implements Serializable {
 	public OpenHubEnlistmentResponse getAllProjectEnlistments(
 			String projectId,
 			OpenHubBaseRequest request) {
-		throw new NotImplementedException("Não implementado ainda. Mudando de RESTFULie para Jersey");
+		
+		OpenHubEnlistmentResponse enlistmentResponse = null;
+		
+		WebTarget webTarget = configureWebTarget();
+		webTarget = webTarget.register(new GenericMessageBodyReader<OpenHubEnlistmentResponse>(OpenHubEnlistmentResponse.class));
+		
+		webTarget = webTarget
+				.path("projects")
+				.path(projectId)
+				.path("enlistments.xml");
+		
+		boolean retry = true;
+		
+		try {
+			
+			while (retry) {
+				retry = false;
+				
+				webTarget = configureApiKeyParams(webTarget);
+				webTarget = configureRequestParams(webTarget, request);
+				
+				Invocation.Builder invocationBuilder = webTarget.request(MediaType.APPLICATION_XML_TYPE);
+				Response response = invocationBuilder.get();
+				
+				enlistmentResponse = response.readEntity(OpenHubEnlistmentResponse.class);
+				
+				if (enlistmentResponse != null) {
+					if (! enlistmentResponse.isStatusSuccess()) {
+						if (OpenHubBaseResponse.ERROR_API_KEY_EXCEDED.equals(enlistmentResponse.getError())) {
+							if (getCurrentApiKey() + 1 < getApiKeyList().size()) {
+								setCurrentApiKey(getCurrentApiKey() + 1);
+								retry = true;
+							}
+						}						
+					} 
+				}
+				
+			}
+			
+		} catch (Exception ex) {
+			throw ex;
+		}
+		
+		return enlistmentResponse;
 	}
 
 	

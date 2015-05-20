@@ -1,17 +1,20 @@
 package br.ufba.dcc.mestrado.computacao.openhub.data.enlistment;
 
 import java.sql.Timestamp;
+import java.util.Date;
+
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlEnum;
+import javax.xml.bind.annotation.XmlID;
+import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlSchemaType;
 
 import br.ufba.dcc.mestrado.computacao.entities.openhub.core.enlistment.OpenHubRepositoryTypeEnum;
 import br.ufba.dcc.mestrado.computacao.openhub.data.OpenHubResultDTO;
-import br.ufba.dcc.mestrado.computacao.xstream.converters.NullableISO8601SqlTimestampXStreamConverter;
-import br.ufba.dcc.mestrado.computacao.xstream.converters.NullableLongXStreamConverter;
 
 import com.thoughtworks.xstream.annotations.XStreamAlias;
-import com.thoughtworks.xstream.annotations.XStreamAsAttribute;
-import com.thoughtworks.xstream.annotations.XStreamConverter;
 
-@XStreamAlias(OpenHubRepositoryDTO.NODE_NAME)
+@XmlRootElement(name = OpenHubRepositoryDTO.NODE_NAME)
 public class OpenHubRepositoryDTO implements OpenHubResultDTO {
 
 	/**
@@ -22,36 +25,31 @@ public class OpenHubRepositoryDTO implements OpenHubResultDTO {
 
 	public final static String NODE_NAME = "repository";
 	
-	@XStreamAsAttribute	
-	@XStreamConverter(value=NullableLongXStreamConverter.class)
-	private Long id;
+	private String id;
 
 	private OpenHubRepositoryTypeEnum type;
 
 	private String url;
 
-	@XStreamAlias("module_name")
 	private String moduleName;
 
 	private String username;
 
 	private String password;
 
-	@XStreamConverter(value = NullableISO8601SqlTimestampXStreamConverter.class)
-	@XStreamAlias("logged_at")
-	private Timestamp loggedAt;
+	private Date loggedAt;
 
-	@XStreamConverter(value=NullableLongXStreamConverter.class)
 	private Long commits;
 
 	@XStreamAlias("ohloh_job_status")
 	private String jobStatus;
 
-	public Long getId() {
+	@XmlID
+	public String getId() {
 		return id;
 	}
 
-	public void setId(Long id) {
+	public void setId(String id) {
 		this.id = id;
 	}
 	
@@ -71,6 +69,7 @@ public class OpenHubRepositoryDTO implements OpenHubResultDTO {
 		this.url = url;
 	}
 
+	@XmlElement(name = "module_name")
 	public String getModuleName() {
 		return moduleName;
 	}
@@ -95,11 +94,13 @@ public class OpenHubRepositoryDTO implements OpenHubResultDTO {
 		this.password = password;
 	}
 
-	public Timestamp getLoggedAt() {
+	@XmlElement(name = "logged_at")
+	@XmlSchemaType(name = "date")
+	public Date getLoggedAt() {
 		return loggedAt;
 	}
 
-	public void setLoggedAt(Timestamp loggedAt) {
+	public void setLoggedAt(Date loggedAt) {
 		this.loggedAt = loggedAt;
 	}
 
@@ -111,6 +112,7 @@ public class OpenHubRepositoryDTO implements OpenHubResultDTO {
 		this.commits = commits;
 	}
 
+	@XmlElement(name = "ohloh_job_status")
 	public String getJobStatus() {
 		return jobStatus;
 	}

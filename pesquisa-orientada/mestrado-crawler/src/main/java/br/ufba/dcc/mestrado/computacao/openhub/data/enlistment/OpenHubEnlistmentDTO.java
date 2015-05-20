@@ -1,13 +1,12 @@
 package br.ufba.dcc.mestrado.computacao.openhub.data.enlistment;
 
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlID;
+import javax.xml.bind.annotation.XmlRootElement;
+
 import br.ufba.dcc.mestrado.computacao.openhub.data.OpenHubResultDTO;
-import br.ufba.dcc.mestrado.computacao.xstream.converters.NullableLongXStreamConverter;
 
-import com.thoughtworks.xstream.annotations.XStreamAlias;
-import com.thoughtworks.xstream.annotations.XStreamAsAttribute;
-import com.thoughtworks.xstream.annotations.XStreamConverter;
-
-@XStreamAlias(OpenHubEnlistmentDTO.NODE_NAME)
+@XmlRootElement(name = OpenHubEnlistmentDTO.NODE_NAME)
 public class OpenHubEnlistmentDTO implements OpenHubResultDTO {
 
 	/**
@@ -17,21 +16,15 @@ public class OpenHubEnlistmentDTO implements OpenHubResultDTO {
 
 	public final static String NODE_NAME = "enlistment";
 
-	@XStreamAsAttribute	
-	@XStreamConverter(value=NullableLongXStreamConverter.class)
-	private Long id;
+	private String id;
 	
-	@XStreamAlias("project_id")
-	@XStreamConverter(value=NullableLongXStreamConverter.class)
 	private Long projectId;
 
-	@XStreamAlias("repository_id")
-	@XStreamConverter(value=NullableLongXStreamConverter.class)
 	private Long repositoryId;
 
-	@XStreamAlias("repository")
 	private OpenHubRepositoryDTO repository;
 
+	@XmlElement(name = "project_id")
 	public Long getProjectId() {
 		return projectId;
 	}
@@ -40,6 +33,7 @@ public class OpenHubEnlistmentDTO implements OpenHubResultDTO {
 		this.projectId = projectId;
 	}
 
+	@XmlElement(name = "repository_id")
 	public Long getRepositoryId() {
 		return repositoryId;
 	}
@@ -48,6 +42,7 @@ public class OpenHubEnlistmentDTO implements OpenHubResultDTO {
 		this.repositoryId = repositoryId;
 	}
 
+	@XmlElement(name = "repository")
 	public OpenHubRepositoryDTO getRepository() {
 		return repository;
 	}
@@ -56,11 +51,12 @@ public class OpenHubEnlistmentDTO implements OpenHubResultDTO {
 		this.repository = repository;
 	}
 
-	public Long getId() {
+	@XmlID
+	public String getId() {
 		return id;
 	}
 	
-	public void setId(Long id) {
+	public void setId(String id) {
 		this.id = id;
 	}
 

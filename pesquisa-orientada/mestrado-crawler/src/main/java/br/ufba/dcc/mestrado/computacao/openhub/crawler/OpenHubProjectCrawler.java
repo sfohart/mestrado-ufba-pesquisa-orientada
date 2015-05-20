@@ -169,7 +169,7 @@ public class OpenHubProjectCrawler {
 								//downloadSizeFacts(ohLohProject);
 								
 							} else {
-								logger.info(String.format("Projeto \"%s\" com id %d jï¿½ se encontra na base", project.getName(), project.getId()));
+								logger.info(String.format("Projeto \"%s\" com id %s já se encontra na base", project.getName(), project.getId()));
 							}
 						}
 					}
