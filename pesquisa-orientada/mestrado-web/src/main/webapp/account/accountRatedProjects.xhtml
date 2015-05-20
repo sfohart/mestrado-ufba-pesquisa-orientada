@@ -12,7 +12,7 @@
 	
 	<f:metadata>
 		<f:viewParam id="accountId" name="accountId" value="#{accountRatedProjectsMB.account.id}" required="true" />
-		<f:event listener="#{accountRatedProjectsMB.init}" type="preRenderView"  />
+		<f:event listener="#{accountRatedProjectsMB.initList}" type="preRenderView"  />
 	</f:metadata>
 	
 	<h:body>
@@ -28,101 +28,126 @@
 					
 					
 					<h:panelGroup layout="block"
-						rendered="#{accountRatedProjectsMB.ratedProjects != null}">
+						rendered="#{accountRatedProjectsMB.dataList != null}">
 						
 						<div style="border-top: 1px solid #aaa; border-bottom: 1px solid #aaa; margin: 20px 0">
 							<h2>Projetos Avaliados pelo Usuário</h2>
 						</div>
 						
 
+						<h:form id="ratedProjectsForm">
 						
-						<h:panelGroup layout="block" rendered="#{not empty accountRatedProjectsMB.ratedProjects}">
-							<h3> <h:outputText value="Este usuário avaliou os seguintes projetos:" /> </h3>
+							<h:panelGroup id="alert" layout="block" styleClass="alert alert-danger col-md-12" rendered="#{not empty facesContext.messageList}">
+								<strong>Vish! </strong>
+								<h:messages  />
+							</h:panelGroup>
 							
-							<div class="row">
-									<ui:repeat var="preference" value="#{accountRatedProjectsMB.ratedProjects}" >
-										<div class="media col-md-4 col-sm-4" style="margin: 10px 0px; min-height: 150px; height: auto;">
-											<div class="media-left">
-												<h:outputLink value="#{facesContext.externalContext.applicationContextPath}/detail/projectDetail.jsf">
-													<f:param name="projectId" value="#{preference.project.id}" />													
+							<h:panelGroup id="ratedProjectsPanel" layout="block">
+						
+								<h:panelGroup layout="block" rendered="#{not empty accountRatedProjectsMB.dataList}">
+									<h3> <h:outputText value="Este usuário avaliou os seguintes projetos:" /> </h3>
+									
+									<div class="row">
+										<ui:repeat var="preference" value="#{accountRatedProjectsMB.dataList}" >
+											<div class="media col-md-4 col-sm-4" style="margin: 10px 0px; min-height: 150px; height: auto;">
+												<div class="media-left">
+													<h:outputLink value="#{facesContext.externalContext.applicationContextPath}/detail/projectDetail.jsf">
+														<f:param name="projectId" value="#{preference.project.id}" />													
+														
+														<h:panelGroup layout="block" rendered="#{preference.project.mediumLogoURL eq 'no_logo.png'}" >
+															<p style="background-color:#EEE; color:#000; border:1px dashed #000;font-size:56px; line-height:64px; width:64px; height:64px;text-align:center; float:left; margin-bottom:0; margin-top:0; margin-right:0px">
+																<h:outputText value="#{fn:toUpperCase(fn:substring(preference.project.name,0,1))}" /> 
+															</p>
+														</h:panelGroup>
+														
+														<h:graphicImage
+															style="margin-bottom: 10px"
+															rendered="#{preference.project.mediumLogoURL != 'no_logo.png'}" 
+															styleClass="media-object" height="64" width="64"
+															value="#{preference.project.mediumLogoURL}" 
+															/>
+														
+														
+													</h:outputLink>
 													
-													<h:panelGroup layout="block" rendered="#{preference.project.mediumLogoURL eq 'no_logo.png'}" >
-														<p style="background-color:#EEE; color:#000; border:1px dashed #000;font-size:56px; line-height:64px; width:64px; height:64px;text-align:center; float:left; margin-bottom:0; margin-top:0; margin-right:0px">
-															<h:outputText value="#{fn:toUpperCase(fn:substring(preference.project.name,0,1))}" /> 
-														</p>
-													</h:panelGroup>
-													
-													<h:graphicImage
-														style="margin-bottom: 10px"
-														rendered="#{preference.project.mediumLogoURL != 'no_logo.png'}" 
-														styleClass="media-object" height="64" width="64"
-														value="#{preference.project.mediumLogoURL}" 
-														/>
-													
-													
-												</h:outputLink>
+													<div class="criteria-rating-list">
+														<ui:include src="/reviews/reviewByCriterium.xhtml">
+															<ui:param name="preference" value="#{preference}" />
+															<ui:param name="criteriumInPopup" value="true" />
+														</ui:include>
+													</div>
+												</div>
 												
-												<div class="criteria-rating-list">
-													<ui:include src="/reviews/reviewByCriterium.xhtml">
-														<ui:param name="preference" value="#{preference}" />
-														<ui:param name="criteriumInPopup" value="true" />
-													</ui:include>
+												
+												<div class="media-body" style="min-height: 64px">
+													<h4 class="media-heading">
+														<h:outputLink value="#{facesContext.externalContext.applicationContextPath}/detail/projectDetail.jsf" rendered="#{empty bean}">
+															<f:param name="projectId" value="#{preference.project.id}" />
+															<h:outputText value="#{preference.project.name}"  />
+														</h:outputLink>
+														<div>				
+															<!-- Estrelas -->
+															<div class="rateit" data-rateit-readonly="true"
+																	data-rateit-min="0" data-rateit-max="5"
+																	data-rateit-value="#{preference.value}" data-rateit-ispreset="true"  />
+														
+															<!-- legenda das estrelas -->
+															<h:panelGroup styleClass="soft small" rendered="#{preference.value != null and preference.value > 0}">
+																(<h:outputText value="#{preference.value}" >
+																	<f:convertNumber maxFractionDigits="2" maxIntegerDigits="2" pattern="#0.00" />
+																</h:outputText> / 5)
+															</h:panelGroup>
+															<h:panelGroup styleClass="soft small" rendered="#{preference.value == null or preference.value == 0}">
+																(0 / 5)
+															</h:panelGroup>																	
+														</div>
+													</h4>	
+													
+													
+																										
+													<p class="truncate">
+														<h:outputText value="#{preference.project.description}" />
+													</p>
 												</div>
 											</div>
-											
-											
-											<div class="media-body" style="min-height: 64px">
-												<h4 class="media-heading">
-													<h:outputLink value="#{facesContext.externalContext.applicationContextPath}/detail/projectDetail.jsf" rendered="#{empty bean}">
-														<f:param name="projectId" value="#{preference.project.id}" />
-														<h:outputText value="#{preference.project.name}"  />
-													</h:outputLink>
-													<div>				
-														<!-- Estrelas -->
-														<div class="rateit" data-rateit-readonly="true"
-																data-rateit-min="0" data-rateit-max="5"
-																data-rateit-value="#{preference.value}" data-rateit-ispreset="true"  />
-													
-														<!-- legenda das estrelas -->
-														<h:panelGroup styleClass="soft small" rendered="#{preference.value != null and preference.value > 0}">
-															(<h:outputText value="#{preference.value}" >
-																<f:convertNumber maxFractionDigits="2" maxIntegerDigits="2" pattern="#0.00" />
-															</h:outputText> / 5)
-														</h:panelGroup>
-														<h:panelGroup styleClass="soft small" rendered="#{preference.value == null or preference.value == 0}">
-															(0 / 5)
-														</h:panelGroup>																	
-													</div>
-												</h4>	
-												
-												
-																									
-												<p class="truncate">
-													<h:outputText value="#{preference.project.description}" />
-												</p>
-											</div>
-										</div>
-									</ui:repeat>
-										
-								
-								<!-- leia mais para a descricao do projeto -->
-								<script type="text/javascript">
-								    $(function(){
-								        $('.truncate').succinct({
-								            size: 120
-								        });
-								    });
-								    
-								    $('.rateit').rateit();
+										</ui:repeat>
+									</div>
 									
-									$('.timeline').tooltip({
-										selector: "a[data-toggle=tooltip]"
-									})
-								</script>
-							</div>
-								
-						</h:panelGroup>
-						
+									<h:panelGroup layout="block" styleClass="pagination-center" style="margin-bottom: 20px">										
+										<h:commandLink 
+											id="moreDataButton"
+											styleClass="ladda-button btn btn-info moreDataButton"
+											p:data-style="expand-left" p:data-spinner-color="#FFFFFF" p:data-size="xs"
+											actionListener="#{accountRatedProjectsMB.moreData}" 
+											rendered="#{accountRatedProjectsMB.startPosition != accountRatedProjectsMB.total}" >	
+											<f:ajax execute="@form" render="@form" onevent="handleMoreDataFormEvent" />
+											<span class="ladda-label">Mais Dados</span>
+											<span class="ladda-spinner"></span>
+										</h:commandLink>
+									</h:panelGroup>
+									
+									<!-- leia mais para a descricao do projeto -->
+									<script type="text/javascript">
+									    $(function(){
+									        $('.truncate').succinct({
+									            size: 120
+									        });
+									    });
+									    
+									    function handleMoreDataFormEvent(data) {
+											handleLaddaLoadingIndicator(data,'.moreDataButton');
+										}
+									    
+									    $('.rateit').rateit();
+										
+										$('.timeline').tooltip({
+											selector: "a[data-toggle=tooltip]"
+										})
+									</script>
+										
+								</h:panelGroup>
+							</h:panelGroup>
+						</h:form>
 						
 					</h:panelGroup>
 					

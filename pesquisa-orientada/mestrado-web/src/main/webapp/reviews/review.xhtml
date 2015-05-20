@@ -13,7 +13,7 @@
 	<h:panelGroup layout="block" styleClass="media" rendered="#{preference != null}">
 		<!-- Dados do usuario ou projeto -->
 		
-		<h:panelGroup layout="block"  rendered="#{hidingProject}" styleClass="pull-left" >
+		<h:panelGroup layout="block"  rendered="#{hidingProject}" styleClass="media-left" >
 			<h:outputLink value="#{facesContext.externalContext.applicationContextPath}/account/account.jsf?accountId=#{preference.user.id}">
 				
 				<ui:include src="/account/accountName.xhtml"  >
@@ -33,7 +33,7 @@
 			</h:panelGroup>
 		</h:panelGroup>
 		
-		<h:panelGroup  rendered="#{hidingUser}" styleClass="pull-left" >
+		<h:panelGroup  rendered="#{hidingUser}" styleClass="media-left" >
 			<div style="margin-left: 15px" >
 				<h:outputLink  rendered="#{preference.project.mediumLogoURL != 'no_logo.png'}">													
 					<img class="media-object" src="#{preference.project.mediumLogoURL}" height="64px" width="64px" />
@@ -41,13 +41,22 @@
 				<h:outputLink styleClass="pull-left" rendered="#{preference.project.mediumLogoURL eq 'no_logo.png'}">
 					<h:graphicImage styleClass="media-object" height="64" width="64" library="default" name="img/#{preference.project.mediumLogoURL}" />													
 				</h:outputLink>
-			</div>
-			<div style="margin-left: 15px">
+			
 				<h:outputLink value="#{facesContext.externalContext.applicationContextPath}/detail/projectDetail.jsf" class="pull-left">
 					<f:param name="projectId" value="#{preference.project.id}" />
 					<h4><h:outputText value="#{preference.project.name}" style="font-size: 14px" /></h4>														
 				</h:outputLink>
 			</div>
+			<!-- notas por critério -->
+			<h:panelGroup layout="block" style="margin-left: 15px; clear: both; margin-top: 20px"
+					rendered="#{not empty preference.preferenceEntryList}">
+					
+				<ui:include src="/reviews/reviewByCriterium.xhtml">
+					<ui:param name="preference" value="#{preference}" />
+					<ui:param name="criteriumInPopup" value="#{criteriumInPopup}" />
+					<ui:param name="reviewId" value="#{preference.id}"  />
+				</ui:include>
+			</h:panelGroup>
 			
 		</h:panelGroup>
 		
@@ -91,7 +100,7 @@
 			
 			<!-- notas por critério -->
 			<h:panelGroup layout="block" style="clear: both; margin-top: 20px"
-					rendered="#{not empty preference.preferenceEntryList}">
+					rendered="#{hidingProject and not empty preference.preferenceEntryList}">
 					
 				<ui:include src="/reviews/reviewByCriterium.xhtml">
 					<ui:param name="preference" value="#{preference}" />
@@ -123,7 +132,7 @@
 						value="#{preference.preferenceReview.uselessCount}" />
 				</h:panelGroup>
 				
-				<h:panelGroup layout="block" styleClass="small soft col-md-8"    rendered="#{loginMB.loggedUser != null}">															
+				<h:panelGroup layout="block" styleClass="small soft col-md-8" rendered="#{loginMB.loggedUser != null and enableVoting}">															
 					<h:commandLink id="voteUseful" style="text-decoration: none; margin-right: 10px" actionListener="#{bean['watchLikeReview']}">
 						<f:ajax execute="@all" render="@form :helpfulCounter"  />
 						<f:attribute name="preference" value="#{preference}"  />

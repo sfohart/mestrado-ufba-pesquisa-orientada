@@ -4,13 +4,11 @@ import java.util.List;
 
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
-import javax.faces.event.ComponentSystemEvent;
+
+import br.ufba.dcc.mestrado.computacao.entities.recommender.preference.PreferenceEntity;
 
 import com.ocpsoft.pretty.faces.annotation.URLMapping;
 import com.ocpsoft.pretty.faces.annotation.URLMappings;
-
-import br.ufba.dcc.mestrado.computacao.entities.openhub.core.project.OpenHubProjectEntity;
-import br.ufba.dcc.mestrado.computacao.entities.recommender.preference.PreferenceEntity;
 
 @ManagedBean(name="accountRatedProjectsMB")
 @ViewScoped
@@ -21,29 +19,21 @@ import br.ufba.dcc.mestrado.computacao.entities.recommender.preference.Preferenc
 				pattern="/account/#{ /[0-9]+/ accountId}/ratedProjects",
 				viewId="/account/accountRatedProjects.jsf")
 	})
-public class AccountRatedProjectsManagedBean extends AbstractAccountManagedBean {
+public class AccountRatedProjectsManagedBean extends AbstractAccountDataListManagedBean<Long, PreferenceEntity> {
 
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = -6594352167721079964L;
 	
-	private List<PreferenceEntity> ratedProjects;
-
-	public void init(ComponentSystemEvent event) {
-		super.init(event);
-		
-		if (getAccount() != null && getAccount().getId() != null) {
-			loadRatedProjects();
-		}
+	@Override
+	protected List<PreferenceEntity> searchDataList(Integer startPosition, Integer offset) {
+		return getOverallRatingService().findAllLastPreferenceByUser(getAccount().getId(), startPosition, offset, Boolean.TRUE,Boolean.TRUE);
 	}
 
-	private void loadRatedProjects() {
-		this.ratedProjects = getOverallRatingService().findAllLastPreferenceByUser(getAccount().getId(), null, null, Boolean.TRUE,Boolean.TRUE);
-	}
-	
-	public List<PreferenceEntity> getRatedProjects() {
-		return ratedProjects;
+	@Override
+	protected Long countDataList() {
+		return getOverallRatingService().countAllLastPreferenceByUser(getAccount().getId());
 	}
 	
 }
