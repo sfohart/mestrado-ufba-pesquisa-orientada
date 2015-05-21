@@ -1,18 +1,15 @@
 package br.ufba.dcc.mestrado.computacao.openhub.data.contributorfact;
 
-import java.sql.Timestamp;
+import java.util.Date;
 import java.util.List;
 
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlSchemaType;
+
 import br.ufba.dcc.mestrado.computacao.openhub.data.OpenHubResultDTO;
-import br.ufba.dcc.mestrado.computacao.xstream.converters.NullableDoubleXStreamConverter;
-import br.ufba.dcc.mestrado.computacao.xstream.converters.NullableLongXStreamConverter;
 
-import com.thoughtworks.xstream.annotations.XStreamAlias;
-import com.thoughtworks.xstream.annotations.XStreamAsAttribute;
-import com.thoughtworks.xstream.annotations.XStreamConverter;
-import com.thoughtworks.xstream.converters.extended.ISO8601SqlTimestampConverter;
-
-@XStreamAlias(OpenHubContributorFactDTO.NODE_NAME)
+@XmlRootElement(name = OpenHubContributorFactDTO.NODE_NAME)
 public class OpenHubContributorFactDTO implements OpenHubResultDTO {
 
 	/**
@@ -22,61 +19,44 @@ public class OpenHubContributorFactDTO implements OpenHubResultDTO {
 
 	public final static String NODE_NAME = "contributor_fact";
 	
-	@XStreamAsAttribute	
-	@XStreamConverter(value=NullableLongXStreamConverter.class)
-	private Long id;
-
-	@XStreamAlias("contributor_id")
-	@XStreamConverter(value=NullableLongXStreamConverter.class)
 	private Long contributorId;
 
-	@XStreamAlias("account_id")
-	@XStreamConverter(value=NullableLongXStreamConverter.class)
 	private Long accountId;
 
-	@XStreamAlias("account_name")
 	private String accountName;
 
-	@XStreamAlias("analysis_id")
-	@XStreamConverter(value=NullableLongXStreamConverter.class)
 	private Long analysisId;
 
-	@XStreamAlias("contributor_name")
 	private String contributorName;
 
-	@XStreamAlias("primary_language_id")
-	@XStreamConverter(value=NullableLongXStreamConverter.class)
 	private Long primaryLanguageId;
 
-	@XStreamAlias("primary_language_nice_name")
 	private String primaryLanguageNiceName;
 
-	@XStreamAlias("comment_ratio")
-	@XStreamConverter(value = NullableDoubleXStreamConverter.class)
 	private Double commentRatio;
 
-	@XStreamConverter(value = ISO8601SqlTimestampConverter.class)
-	@XStreamAlias("first_commit_time")
-	private Timestamp firstCommitTime;
+	private Date firstCommitTime;
 
-	@XStreamConverter(value = ISO8601SqlTimestampConverter.class)
-	@XStreamAlias("last_commit_time")
-	private Timestamp lastCommitTime;
+	private Date lastCommitTime;
 
-	@XStreamAlias("man_months")
-	@XStreamConverter(value=NullableLongXStreamConverter.class)
 	private Long manMonths;
 
-	@XStreamConverter(value=NullableLongXStreamConverter.class)
 	private Long commits;
 
-	@XStreamConverter(value = NullableDoubleXStreamConverter.class)
-	@XStreamAlias("median_commits")
 	private Double medianCommits;
 
-	@XStreamAlias("contributor_language_facts")
 	private List<OpenHubContributorLanguageFactDTO> contributorLanguageFacts;
 
+	@XmlElement(name = "contributor_id")
+	public Long getContributorId() {
+		return contributorId;
+	}
+
+	public void setContributorId(Long contributorId) {
+		this.contributorId = contributorId;
+	}
+
+	@XmlElement(name = "account_id")
 	public Long getAccountId() {
 		return accountId;
 	}
@@ -85,6 +65,7 @@ public class OpenHubContributorFactDTO implements OpenHubResultDTO {
 		this.accountId = accountId;
 	}
 
+	@XmlElement(name = "account_name")
 	public String getAccountName() {
 		return accountName;
 	}
@@ -93,6 +74,7 @@ public class OpenHubContributorFactDTO implements OpenHubResultDTO {
 		this.accountName = accountName;
 	}
 
+	@XmlElement(name = "analysis_id")
 	public Long getAnalysisId() {
 		return analysisId;
 	}
@@ -101,6 +83,7 @@ public class OpenHubContributorFactDTO implements OpenHubResultDTO {
 		this.analysisId = analysisId;
 	}
 
+	@XmlElement(name = "contributor_name")
 	public String getContributorName() {
 		return contributorName;
 	}
@@ -109,6 +92,7 @@ public class OpenHubContributorFactDTO implements OpenHubResultDTO {
 		this.contributorName = contributorName;
 	}
 
+	@XmlElement(name = "primary_language_id")
 	public Long getPrimaryLanguageId() {
 		return primaryLanguageId;
 	}
@@ -117,6 +101,7 @@ public class OpenHubContributorFactDTO implements OpenHubResultDTO {
 		this.primaryLanguageId = primaryLanguageId;
 	}
 
+	@XmlElement(name = "primary_language_nice_name")
 	public String getPrimaryLanguageNiceName() {
 		return primaryLanguageNiceName;
 	}
@@ -125,6 +110,7 @@ public class OpenHubContributorFactDTO implements OpenHubResultDTO {
 		this.primaryLanguageNiceName = primaryLanguageNiceName;
 	}
 
+	@XmlElement(name = "comment_ratio")
 	public Double getCommentRatio() {
 		return commentRatio;
 	}
@@ -133,22 +119,27 @@ public class OpenHubContributorFactDTO implements OpenHubResultDTO {
 		this.commentRatio = commentRatio;
 	}
 
-	public Timestamp getFirstCommitTime() {
+	@XmlElement(name = "first_commit_time")
+	@XmlSchemaType(name = "date")
+	public Date getFirstCommitTime() {
 		return firstCommitTime;
 	}
 
-	public void setFirstCommitTime(Timestamp firstCommitTime) {
+	public void setFirstCommitTime(Date firstCommitTime) {
 		this.firstCommitTime = firstCommitTime;
 	}
 
-	public Timestamp getLastCommitTime() {
+	@XmlElement(name = "last_commit_time")
+	@XmlSchemaType(name = "date")
+	public Date getLastCommitTime() {
 		return lastCommitTime;
 	}
 
-	public void setLastCommitTime(Timestamp lastCommitTime) {
+	public void setLastCommitTime(Date lastCommitTime) {
 		this.lastCommitTime = lastCommitTime;
 	}
 
+	@XmlElement(name = "man_months")
 	public Long getManMonths() {
 		return manMonths;
 	}
@@ -157,6 +148,7 @@ public class OpenHubContributorFactDTO implements OpenHubResultDTO {
 		this.manMonths = manMonths;
 	}
 
+	@XmlElement(name = "commits")
 	public Long getCommits() {
 		return commits;
 	}
@@ -168,11 +160,12 @@ public class OpenHubContributorFactDTO implements OpenHubResultDTO {
 	public Double getMedianCommits() {
 		return medianCommits;
 	}
-
+	
 	public void setMedianCommits(Double medianCommits) {
 		this.medianCommits = medianCommits;
 	}
 
+	@XmlElement(name = "contributor_language_facts")
 	public List<OpenHubContributorLanguageFactDTO> getContributorLanguageFacts() {
 		return contributorLanguageFacts;
 	}

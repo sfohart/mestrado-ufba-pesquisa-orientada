@@ -5,8 +5,9 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
-import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
@@ -143,11 +144,11 @@ public class OpenHubStackServiceImpl extends DefaultOpenHubServiceImpl<OpenHubSt
 						stackEntry.setStackId(entity.getId());
 					} else {
 						iterator.remove();
-						logger.error(String.format("stack entry %d project %d nao persistiu corretamente", stackEntry.getId(), stackEntry.getProjectId()));
+						logger.log(Level.SEVERE, String.format("stack entry %d project %d nao persistiu corretamente", stackEntry.getId(), stackEntry.getProjectId()));
 					}
 				} else if (stackEntry.getProject() == null || stackEntry.getStack() == null) {
 					iterator.remove();
-					logger.error(String.format("stack entry %d project %d nao persistiu corretamente", stackEntry.getId(), stackEntry.getProjectId()));
+					logger.log(Level.SEVERE, String.format("stack entry %d project %d nao persistiu corretamente", stackEntry.getId(), stackEntry.getProjectId()));
 				}
 			}
 		}

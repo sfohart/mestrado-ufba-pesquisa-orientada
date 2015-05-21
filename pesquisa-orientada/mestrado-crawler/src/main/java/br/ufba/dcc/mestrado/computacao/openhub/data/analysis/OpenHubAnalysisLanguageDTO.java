@@ -1,15 +1,12 @@
 package br.ufba.dcc.mestrado.computacao.openhub.data.analysis;
 
+import javax.xml.bind.annotation.XmlAttribute;
+import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlValue;
+
 import br.ufba.dcc.mestrado.computacao.openhub.data.OpenHubResultDTO;
-import br.ufba.dcc.mestrado.computacao.xstream.converters.NullableLongXStreamConverter;
 
-import com.thoughtworks.xstream.annotations.XStreamAlias;
-import com.thoughtworks.xstream.annotations.XStreamAsAttribute;
-import com.thoughtworks.xstream.annotations.XStreamConverter;
-import com.thoughtworks.xstream.converters.extended.ToAttributedValueConverter;
-
-@XStreamAlias(OpenHubAnalysisLanguageDTO.NODE_NAME)
-@XStreamConverter(value=ToAttributedValueConverter.class, strings={"entryContent"})
+@XmlRootElement(name = OpenHubAnalysisLanguageDTO.NODE_NAME)
 public class OpenHubAnalysisLanguageDTO implements OpenHubResultDTO {
 
 	/**
@@ -19,19 +16,15 @@ public class OpenHubAnalysisLanguageDTO implements OpenHubResultDTO {
 
 	public final static String NODE_NAME = "language";
 
-	@XStreamAlias("id")
-	@XStreamAsAttribute
-	@XStreamConverter(value = NullableLongXStreamConverter.class)
-	private Long languageId;
+	private String languageId;
 
-	@XStreamAsAttribute
 	private String percentage;
 
-	@XStreamAsAttribute
 	private String color;
 
 	private String entryContent;
 
+	@XmlAttribute
 	public String getPercentage() {
 		return percentage;
 	}
@@ -40,6 +33,7 @@ public class OpenHubAnalysisLanguageDTO implements OpenHubResultDTO {
 		this.percentage = percentage;
 	}
 
+	@XmlAttribute
 	public String getColor() {
 		return color;
 	}
@@ -48,6 +42,7 @@ public class OpenHubAnalysisLanguageDTO implements OpenHubResultDTO {
 		this.color = color;
 	}
 
+	@XmlValue
 	public String getEntryContent() {
 		return entryContent;
 	}
@@ -56,11 +51,12 @@ public class OpenHubAnalysisLanguageDTO implements OpenHubResultDTO {
 		this.entryContent = entryContent;
 	}
 
-	public Long getLanguageId() {
+	@XmlAttribute(name = "id")
+	public String getLanguageId() {
 		return languageId;
 	}
 
-	public void setLanguageId(Long languageId) {
+	public void setLanguageId(String languageId) {
 		this.languageId = languageId;
 	}
 

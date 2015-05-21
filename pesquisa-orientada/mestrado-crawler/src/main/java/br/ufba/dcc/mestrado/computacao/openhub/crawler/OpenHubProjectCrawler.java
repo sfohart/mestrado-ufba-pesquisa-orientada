@@ -1,8 +1,8 @@
 package br.ufba.dcc.mestrado.computacao.openhub.crawler;
 
 import java.util.List;
+import java.util.logging.Logger;
 
-import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
@@ -24,7 +24,7 @@ public class OpenHubProjectCrawler {
 	
 	private static final String OHLOH_PROJECT_SORT_BY_ID = "id";
 
-	public static Logger logger = Logger.getLogger(OpenHubProjectCrawler.class);
+	public static Logger logger = Logger.getLogger(OpenHubProjectCrawler.class.getName());
 	
 	@Autowired
 	private OpenHubRestfulClientImpl ohLohRestfulClient;

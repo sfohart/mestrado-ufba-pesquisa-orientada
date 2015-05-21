@@ -2,14 +2,10 @@ package br.ufba.dcc.mestrado.computacao.openhub.data.contributorfact;
 
 import java.io.Serializable;
 
-import br.ufba.dcc.mestrado.computacao.xstream.converters.NullableDoubleXStreamConverter;
-import br.ufba.dcc.mestrado.computacao.xstream.converters.NullableLongXStreamConverter;
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlRootElement;
 
-import com.thoughtworks.xstream.annotations.XStreamAlias;
-import com.thoughtworks.xstream.annotations.XStreamAsAttribute;
-import com.thoughtworks.xstream.annotations.XStreamConverter;
-
-@XStreamAlias(OpenHubContributorLanguageFactDTO.NODE_NAME)
+@XmlRootElement(name = OpenHubContributorLanguageFactDTO.NODE_NAME)
 public class OpenHubContributorLanguageFactDTO implements Serializable {
 
 	/**
@@ -19,43 +15,24 @@ public class OpenHubContributorLanguageFactDTO implements Serializable {
 
 	public final static String NODE_NAME = "contributor_language_fact";
 
-	@XStreamAsAttribute	
-	@XStreamConverter(value=NullableLongXStreamConverter.class)
-	private Long id;
 
-	@XStreamAlias("analysis_id")
-	@XStreamConverter(value=NullableLongXStreamConverter.class)
 	private Long analysisId;
 
-	@XStreamAlias("contributor_id")
-	@XStreamConverter(value=NullableLongXStreamConverter.class)
 	private Long contributorId;
 
-	@XStreamAlias("contributor_name")
 	private String contributorName;
 
-	@XStreamAlias("language_id")
-	@XStreamConverter(value=NullableLongXStreamConverter.class)
 	private Long languageId;
 
-	@XStreamAlias("language_nice_name")
 	private String languageNiceName;
 
-	@XStreamAlias("comment_ratio")
-	@XStreamConverter(value = NullableDoubleXStreamConverter.class)
 	private Double commentRatio;
 
-	@XStreamAlias("man_months")
-	@XStreamConverter(value=NullableLongXStreamConverter.class)
 	private Long manMonths;
 
-	@XStreamConverter(value=NullableLongXStreamConverter.class)
 	private Long commits;
 
-	@XStreamConverter(value = NullableDoubleXStreamConverter.class)
-	@XStreamAlias("median_commits")
-	private Double medianCommits;
-
+	@XmlElement(name = "analysis_id")
 	public Long getAnalysisId() {
 		return analysisId;
 	}
@@ -64,6 +41,7 @@ public class OpenHubContributorLanguageFactDTO implements Serializable {
 		this.analysisId = analysisId;
 	}
 
+	@XmlElement(name = "contributor_id")
 	public Long getContributorId() {
 		return contributorId;
 	}
@@ -72,6 +50,7 @@ public class OpenHubContributorLanguageFactDTO implements Serializable {
 		this.contributorId = contributorId;
 	}
 
+	@XmlElement(name = "contributor_name")
 	public String getContributorName() {
 		return contributorName;
 	}
@@ -80,6 +59,7 @@ public class OpenHubContributorLanguageFactDTO implements Serializable {
 		this.contributorName = contributorName;
 	}
 
+	@XmlElement(name = "language_id")
 	public Long getLanguageId() {
 		return languageId;
 	}
@@ -88,6 +68,7 @@ public class OpenHubContributorLanguageFactDTO implements Serializable {
 		this.languageId = languageId;
 	}
 
+	@XmlElement(name = "language_nice_name")
 	public String getLanguageNiceName() {
 		return languageNiceName;
 	}
@@ -96,6 +77,7 @@ public class OpenHubContributorLanguageFactDTO implements Serializable {
 		this.languageNiceName = languageNiceName;
 	}
 
+	@XmlElement(name = "comment_ratio")
 	public Double getCommentRatio() {
 		return commentRatio;
 	}
@@ -104,6 +86,7 @@ public class OpenHubContributorLanguageFactDTO implements Serializable {
 		this.commentRatio = commentRatio;
 	}
 
+	@XmlElement(name = "man_months")
 	public Long getManMonths() {
 		return manMonths;
 	}
@@ -112,20 +95,13 @@ public class OpenHubContributorLanguageFactDTO implements Serializable {
 		this.manMonths = manMonths;
 	}
 
+	@XmlElement(name = "commits")
 	public Long getCommits() {
 		return commits;
 	}
 
 	public void setCommits(Long commits) {
 		this.commits = commits;
-	}
-
-	public Double getMedianCommits() {
-		return medianCommits;
-	}
-
-	public void setMedianCommits(Double medianCommits) {
-		this.medianCommits = medianCommits;
 	}
 
 }

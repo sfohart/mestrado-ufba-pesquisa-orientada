@@ -1,16 +1,14 @@
 package br.ufba.dcc.mestrado.computacao.openhub.data.kudo;
 
-import java.sql.Timestamp;
+import java.util.Date;
+
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlSchemaType;
 
 import br.ufba.dcc.mestrado.computacao.openhub.data.OpenHubResultDTO;
-import br.ufba.dcc.mestrado.computacao.xstream.converters.NullableLongXStreamConverter;
 
-import com.thoughtworks.xstream.annotations.XStreamAlias;
-import com.thoughtworks.xstream.annotations.XStreamAsAttribute;
-import com.thoughtworks.xstream.annotations.XStreamConverter;
-import com.thoughtworks.xstream.converters.extended.ISO8601SqlTimestampConverter;
-
-@XStreamAlias(OpenHubKudoDTO.NODE_NAME)
+@XmlRootElement(name = OpenHubKudoDTO.NODE_NAME)
 public class OpenHubKudoDTO implements OpenHubResultDTO {
 
 	/**
@@ -20,50 +18,36 @@ public class OpenHubKudoDTO implements OpenHubResultDTO {
 
 	public final static String NODE_NAME = "kudo";
 	
-	@XStreamAsAttribute	
-	@XStreamConverter(value=NullableLongXStreamConverter.class)
-	private Long id;
 
-	@XStreamConverter(value = ISO8601SqlTimestampConverter.class)
-	@XStreamAlias("created_at")
-	private Timestamp createdAt;
+	private Date createdAt;
 
-	@XStreamAlias("sender_account_id")
-	@XStreamConverter(value=NullableLongXStreamConverter.class)
 	private Long senderAccountId;
 
-	@XStreamAlias("sender_account_name")
 	private String senderAccountName;
 
-	@XStreamAlias("receiver_account_id")
-	@XStreamConverter(value=NullableLongXStreamConverter.class)
 	private Long receiverAccountId;
 
-	@XStreamAlias("receiver_account_name")
 	private String receiverAccountName;
 
-	@XStreamAlias("project_id")
-	@XStreamConverter(value=NullableLongXStreamConverter.class)
 	private Long projectId;
 
-	@XStreamAlias("project_name")
 	private String projectName;
 
-	@XStreamAlias("contributor_id")
-	@XStreamConverter(value=NullableLongXStreamConverter.class)
 	private Long contributorId;
 
-	@XStreamAlias("contributor_name")
 	private String contributorName;
 
-	public Timestamp getCreatedAt() {
+	@XmlElement(name = "created_at")
+	@XmlSchemaType(name = "date")
+	public Date getCreatedAt() {
 		return createdAt;
 	}
 
-	public void setCreatedAt(Timestamp createdAt) {
+	public void setCreatedAt(Date createdAt) {
 		this.createdAt = createdAt;
 	}
 
+	@XmlElement(name = "sender_account_id")
 	public Long getSenderAccountId() {
 		return senderAccountId;
 	}
@@ -72,6 +56,7 @@ public class OpenHubKudoDTO implements OpenHubResultDTO {
 		this.senderAccountId = senderAccountId;
 	}
 
+	@XmlElement(name = "sender_account_name")
 	public String getSenderAccountName() {
 		return senderAccountName;
 	}
@@ -80,6 +65,7 @@ public class OpenHubKudoDTO implements OpenHubResultDTO {
 		this.senderAccountName = senderAccountName;
 	}
 
+	@XmlElement(name = "receiver_account_id")
 	public Long getReceiverAccountId() {
 		return receiverAccountId;
 	}
@@ -88,6 +74,7 @@ public class OpenHubKudoDTO implements OpenHubResultDTO {
 		this.receiverAccountId = receiverAccountId;
 	}
 
+	@XmlElement(name = "receiver_account_name")
 	public String getReceiverAccountName() {
 		return receiverAccountName;
 	}
@@ -96,6 +83,7 @@ public class OpenHubKudoDTO implements OpenHubResultDTO {
 		this.receiverAccountName = receiverAccountName;
 	}
 
+	@XmlElement(name = "project_id")
 	public Long getProjectId() {
 		return projectId;
 	}
@@ -104,6 +92,7 @@ public class OpenHubKudoDTO implements OpenHubResultDTO {
 		this.projectId = projectId;
 	}
 
+	@XmlElement(name = "project_name")
 	public String getProjectName() {
 		return projectName;
 	}
@@ -112,6 +101,7 @@ public class OpenHubKudoDTO implements OpenHubResultDTO {
 		this.projectName = projectName;
 	}
 
+	@XmlElement(name = "contributor_id")
 	public Long getContributorId() {
 		return contributorId;
 	}
@@ -120,6 +110,7 @@ public class OpenHubKudoDTO implements OpenHubResultDTO {
 		this.contributorId = contributorId;
 	}
 
+	@XmlElement(name = "contributor_name")
 	public String getContributorName() {
 		return contributorName;
 	}
