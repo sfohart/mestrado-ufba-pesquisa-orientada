@@ -1,14 +1,15 @@
 package br.ufba.dcc.mestrado.computacao.openhub.data.organization;
 
-import java.sql.Timestamp;
+import java.util.Date;
+import java.util.List;
+
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlSchemaType;
 
 import br.ufba.dcc.mestrado.computacao.openhub.data.OpenHubResultDTO;
 
-import com.thoughtworks.xstream.annotations.XStreamAlias;
-import com.thoughtworks.xstream.annotations.XStreamConverter;
-import com.thoughtworks.xstream.converters.extended.ISO8601SqlTimestampConverter;
-
-@XStreamAlias(OpenHubOrganizationDTO.NODE_NAME)
+@XmlRootElement(name = OpenHubOrganizationDTO.NODE_NAME)
 public class OpenHubOrganizationDTO implements OpenHubResultDTO {
 
 
@@ -23,42 +24,35 @@ public class OpenHubOrganizationDTO implements OpenHubResultDTO {
 	
 	private String url;
 	
-	@XStreamAlias("html_url")
 	private String htmlURL;
 	
-	@XStreamConverter(value = ISO8601SqlTimestampConverter.class)
-	@XStreamAlias("created_at")
-	private Timestamp createdAt;
+	private Date createdAt;
 
-	@XStreamConverter(value = ISO8601SqlTimestampConverter.class)
-	@XStreamAlias("updated_at")
-	private Timestamp updatedAt;
+	private Date updatedAt;
 	
 	private String description;
 
-	@XStreamAlias("homepage_url")
 	private String homepageURL;
 	
-	@XStreamAlias("url_name")
 	private String urlName;
 	
 	private String type;
 	
-	@XStreamAlias("medium_logo_url")
 	private String mediumLogoURL;
 
-	@XStreamAlias("small_logo_url")
 	private String smallLogoURL;
 	
-	@XStreamAlias("projects_count")
-	private Long projectsCount;
-		
-	@XStreamAlias("affiliated_committers")
-	private Long affiliatedCommitters;	
-	
-	@XStreamAlias("infographic_details")
 	private OpenHubInfographicDettailsDTO infographicDetails;
+	
+	private List<OpenHubPortifolioProjectDTO> portifolioProjects;
+	
+	private List<OpenHubOutsideProjectDTO> outsideProjects;
+	
+	private List<OpenHubOutsideCommittterDTO> outsideCommitters;
+	
+	private List<OpenHubAffiliatedCommitterDTO> affiliatedCommitters;
 
+	@XmlElement(name = "name")
 	public String getName() {
 		return name;
 	}
@@ -67,6 +61,7 @@ public class OpenHubOrganizationDTO implements OpenHubResultDTO {
 		this.name = name;
 	}
 
+	@XmlElement(name = "url")
 	public String getUrl() {
 		return url;
 	}
@@ -75,6 +70,7 @@ public class OpenHubOrganizationDTO implements OpenHubResultDTO {
 		this.url = url;
 	}
 
+	@XmlElement(name = "html_url")
 	public String getHtmlURL() {
 		return htmlURL;
 	}
@@ -83,22 +79,27 @@ public class OpenHubOrganizationDTO implements OpenHubResultDTO {
 		this.htmlURL = htmlURL;
 	}
 
-	public Timestamp getCreatedAt() {
+	@XmlElement(name = "created_at")
+	@XmlSchemaType(name = "date")
+	public Date getCreatedAt() {
 		return createdAt;
 	}
 
-	public void setCreatedAt(Timestamp createdAt) {
+	public void setCreatedAt(Date createdAt) {
 		this.createdAt = createdAt;
 	}
 
-	public Timestamp getUpdatedAt() {
+	@XmlElement(name = "updated_at")
+	@XmlSchemaType(name = "date")
+	public Date getUpdatedAt() {
 		return updatedAt;
 	}
 
-	public void setUpdatedAt(Timestamp updatedAt) {
+	public void setUpdatedAt(Date updatedAt) {
 		this.updatedAt = updatedAt;
 	}
 
+	@XmlElement(name = "description")
 	public String getDescription() {
 		return description;
 	}
@@ -107,6 +108,7 @@ public class OpenHubOrganizationDTO implements OpenHubResultDTO {
 		this.description = description;
 	}
 
+	@XmlElement(name = "homepage_url")
 	public String getHomepageURL() {
 		return homepageURL;
 	}
@@ -115,6 +117,7 @@ public class OpenHubOrganizationDTO implements OpenHubResultDTO {
 		this.homepageURL = homepageURL;
 	}
 
+	@XmlElement(name = "url_name")
 	public String getUrlName() {
 		return urlName;
 	}
@@ -123,6 +126,7 @@ public class OpenHubOrganizationDTO implements OpenHubResultDTO {
 		this.urlName = urlName;
 	}
 
+	@XmlElement(name = "type")
 	public String getType() {
 		return type;
 	}
@@ -131,6 +135,7 @@ public class OpenHubOrganizationDTO implements OpenHubResultDTO {
 		this.type = type;
 	}
 
+	@XmlElement(name = "medium_logo_url")
 	public String getMediumLogoURL() {
 		return mediumLogoURL;
 	}
@@ -139,6 +144,7 @@ public class OpenHubOrganizationDTO implements OpenHubResultDTO {
 		this.mediumLogoURL = mediumLogoURL;
 	}
 
+	@XmlElement(name = "small_logo_url")
 	public String getSmallLogoURL() {
 		return smallLogoURL;
 	}
@@ -146,23 +152,8 @@ public class OpenHubOrganizationDTO implements OpenHubResultDTO {
 	public void setSmallLogoURL(String smallLogoURL) {
 		this.smallLogoURL = smallLogoURL;
 	}
-
-	public Long getProjectsCount() {
-		return projectsCount;
-	}
-
-	public void setProjectsCount(Long projectsCount) {
-		this.projectsCount = projectsCount;
-	}
-
-	public Long getAffiliatedCommitters() {
-		return affiliatedCommitters;
-	}
-
-	public void setAffiliatedCommitters(Long affiliatedCommitters) {
-		this.affiliatedCommitters = affiliatedCommitters;
-	}
-
+	
+	@XmlElement(name = "inforgraphic_details")
 	public OpenHubInfographicDettailsDTO getInfographicDetails() {
 		return infographicDetails;
 	}
@@ -170,6 +161,46 @@ public class OpenHubOrganizationDTO implements OpenHubResultDTO {
 	public void setInfographicDetails(OpenHubInfographicDettailsDTO infographicDetails) {
 		this.infographicDetails = infographicDetails;
 	}
+
+	@XmlElement(name = "portfolio_projects")
+	public List<OpenHubPortifolioProjectDTO> getPortifolioProjects() {
+		return portifolioProjects;
+	}
+
+	public void setPortifolioProjects(
+			List<OpenHubPortifolioProjectDTO> portifolioProjects) {
+		this.portifolioProjects = portifolioProjects;
+	}
+
+	@XmlElement(name = "outside_projects")
+	public List<OpenHubOutsideProjectDTO> getOutsideProjects() {
+		return outsideProjects;
+	}
+
+	public void setOutsideProjects(List<OpenHubOutsideProjectDTO> outsideProjects) {
+		this.outsideProjects = outsideProjects;
+	}
+
+	@XmlElement(name = "outside_committers")
+	public List<OpenHubOutsideCommittterDTO> getOutsideCommitters() {
+		return outsideCommitters;
+	}
+
+	public void setOutsideCommitters(
+			List<OpenHubOutsideCommittterDTO> outsideCommitters) {
+		this.outsideCommitters = outsideCommitters;
+	}
+
+	@XmlElement(name = "affiliated_committers")
+	public List<OpenHubAffiliatedCommitterDTO> getAffiliatedCommitters() {
+		return affiliatedCommitters;
+	}
+
+	public void setAffiliatedCommitters(
+			List<OpenHubAffiliatedCommitterDTO> affiliatedCommitters) {
+		this.affiliatedCommitters = affiliatedCommitters;
+	}
+	
 	
 	
 }

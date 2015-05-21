@@ -1,11 +1,11 @@
 package br.ufba.dcc.mestrado.computacao.openhub.data.organization;
 
-import com.thoughtworks.xstream.annotations.XStreamAlias;
+import javax.xml.bind.annotation.XmlRootElement;
 
 import br.ufba.dcc.mestrado.computacao.openhub.data.OpenHubResultDTO;
 
-@XStreamAlias(OpenHubOutsideCommitterDTO.NODE_NAME)
-public class OpenHubOutsideCommitterDTO implements OpenHubResultDTO {
+@XmlRootElement(name = OpenHubOutsideCommittterDTO.NODE_NAME)
+public class OpenHubOutsideCommittterDTO implements OpenHubResultDTO {
 	
 	
 	/**
