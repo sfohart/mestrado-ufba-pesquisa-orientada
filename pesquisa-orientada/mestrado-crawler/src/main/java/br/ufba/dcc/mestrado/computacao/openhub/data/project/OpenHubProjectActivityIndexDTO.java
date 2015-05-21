@@ -1,10 +1,11 @@
 package br.ufba.dcc.mestrado.computacao.openhub.data.project;
 
-import com.thoughtworks.xstream.annotations.XStreamAlias;
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlRootElement;
 
 import br.ufba.dcc.mestrado.computacao.openhub.data.OpenHubResultDTO;
 
-@XStreamAlias(OpenHubProjectActivityIndexDTO.NODE_NAME)
+@XmlRootElement(name = OpenHubProjectActivityIndexDTO.NODE_NAME)
 public class OpenHubProjectActivityIndexDTO implements OpenHubResultDTO {
 	
 	/**
@@ -18,6 +19,7 @@ public class OpenHubProjectActivityIndexDTO implements OpenHubResultDTO {
 	
 	private String description;
 
+	@XmlElement(name = "value")
 	public Long getValue() {
 		return value;
 	}
@@ -26,6 +28,7 @@ public class OpenHubProjectActivityIndexDTO implements OpenHubResultDTO {
 		this.value = value;
 	}
 
+	@XmlElement(name = "description")
 	public String getDescription() {
 		return description;
 	}

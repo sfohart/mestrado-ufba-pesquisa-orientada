@@ -1,14 +1,20 @@
 package br.ufba.dcc.mestrado.computacao.openhub.restful.responses;
 
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlRootElement;
+
 import br.ufba.dcc.mestrado.computacao.openhub.data.kudo.OpenHubKudoResult;
 
-import com.thoughtworks.xstream.annotations.XStreamAlias;
-
-@XStreamAlias(OpenHubKudoResponse.NODE_NAME)
+@XmlRootElement(name = OpenHubKudoResponse.NODE_NAME)
 public class OpenHubKudoResponse extends OpenHubBaseResponse {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -8466956196390788609L;
 	private OpenHubKudoResult result;
 	
+	@XmlElement(name = OpenHubKudoResult.NODE_NAME)
 	public OpenHubKudoResult getResult() {
 		return result;
 	}

@@ -33,27 +33,6 @@
 			<artifactId>jersey-media-moxy</artifactId>
 		</dependency>
 
-
-		<!-- RESTfulie -->
-		<dependency>
-			<groupId>br.com.caelum</groupId>
-			<artifactId>restfulie</artifactId>
-			<version>${restfulie.version}</version>
-			<exclusions>
-				<exclusion>
-					<groupId>com.thoughtworks.xstream</groupId>
-					<artifactId>xstream</artifactId>
-				</exclusion>
-			</exclusions>
-		</dependency>
-
-		<!-- XSTREAM -->
-		<dependency>
-			<groupId>com.thoughtworks.xstream</groupId>
-			<artifactId>xstream</artifactId>
-			<version>${xstream.version}</version>
-		</dependency>
-
 		<!-- APACHE COMMONS -->
 		<dependency>
 			<groupId>commons-beanutils</groupId>

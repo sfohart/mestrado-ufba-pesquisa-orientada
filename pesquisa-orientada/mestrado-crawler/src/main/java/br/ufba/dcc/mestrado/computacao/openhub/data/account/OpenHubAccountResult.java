@@ -2,15 +2,23 @@ package br.ufba.dcc.mestrado.computacao.openhub.data.account;
 
 import java.util.List;
 
-import com.thoughtworks.xstream.annotations.XStreamAlias;
-import com.thoughtworks.xstream.annotations.XStreamImplicit;
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlRootElement;
 
-@XStreamAlias("result")
-public class OpenHubAccountResult {
+import br.ufba.dcc.mestrado.computacao.openhub.data.OpenHubBaseResult;
+
+@XmlRootElement(name = OpenHubBaseResult.NODE_NAME)
+public class OpenHubAccountResult implements OpenHubBaseResult {
 	
-	@XStreamImplicit(itemFieldName="account")
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -6370873125004948140L;
+	
+	
 	private List<OpenHubAccountDTO> accounts;
 	
+	@XmlElement(name = "account")
 	public List<OpenHubAccountDTO> getAccounts() {
 		return accounts;
 	}

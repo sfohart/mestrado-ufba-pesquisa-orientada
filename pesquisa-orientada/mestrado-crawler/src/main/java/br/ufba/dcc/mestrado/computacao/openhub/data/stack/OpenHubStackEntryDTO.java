@@ -1,17 +1,16 @@
 package br.ufba.dcc.mestrado.computacao.openhub.data.stack;
 
-import java.sql.Timestamp;
+import java.util.Date;
+
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlID;
+import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlSchemaType;
 
 import br.ufba.dcc.mestrado.computacao.openhub.data.OpenHubResultDTO;
 import br.ufba.dcc.mestrado.computacao.openhub.data.project.OpenHubProjectDTO;
-import br.ufba.dcc.mestrado.computacao.xstream.converters.NullableLongXStreamConverter;
 
-import com.thoughtworks.xstream.annotations.XStreamAlias;
-import com.thoughtworks.xstream.annotations.XStreamAsAttribute;
-import com.thoughtworks.xstream.annotations.XStreamConverter;
-import com.thoughtworks.xstream.converters.extended.ISO8601SqlTimestampConverter;
-
-@XStreamAlias(OpenHubStackEntryDTO.NODE_NAME)
+@XmlRootElement (name = OpenHubStackEntryDTO.NODE_NAME)
 public class OpenHubStackEntryDTO implements OpenHubResultDTO {
 
 	/**
@@ -21,26 +20,17 @@ public class OpenHubStackEntryDTO implements OpenHubResultDTO {
 
 	public final static String NODE_NAME = "stack_entry";
 	
-	@XStreamAsAttribute	
-	@XStreamConverter(value=NullableLongXStreamConverter.class)
-	private Long id;
+	private String id;
 
-	@XStreamAlias("stack_id")
-	@XStreamConverter(value=NullableLongXStreamConverter.class)
 	private Long stackId;
 
-
-	@XStreamAlias("project_id")
-	@XStreamConverter(value=NullableLongXStreamConverter.class)
 	private Long projectId;
 
-	@XStreamConverter(value = ISO8601SqlTimestampConverter.class)
-	@XStreamAlias("created_at")
-	private Timestamp createdAt;
+	private Date createdAt;
 
-	@XStreamAlias("project")
 	private OpenHubProjectDTO project;
 
+	@XmlElement(name = "stack_id")
 	public Long getStackId() {
 		return stackId;
 	}
@@ -49,6 +39,7 @@ public class OpenHubStackEntryDTO implements OpenHubResultDTO {
 		this.stackId = stackId;
 	}
 
+	@XmlElement(name = "project_id")
 	public Long getProjectId() {
 		return projectId;
 	}
@@ -57,14 +48,17 @@ public class OpenHubStackEntryDTO implements OpenHubResultDTO {
 		this.projectId = projectId;
 	}
 
-	public Timestamp getCreatedAt() {
+	@XmlElement(name = "created_at")
+	@XmlSchemaType(name = "date")
+	public Date getCreatedAt() {
 		return createdAt;
 	}
 
-	public void setCreatedAt(Timestamp createdAt) {
+	public void setCreatedAt(Date createdAt) {
 		this.createdAt = createdAt;
 	}
 
+	@XmlElement(name = "project")
 	public OpenHubProjectDTO getProject() {
 		return project;
 	}
@@ -73,11 +67,12 @@ public class OpenHubStackEntryDTO implements OpenHubResultDTO {
 		this.project = project;
 	}
 	
-	public Long getId() {
+	@XmlID
+	public String getId() {
 		return id;
 	}
 	
-	public void setId(Long id) {
+	public void setId(String id) {
 		this.id = id;
 	}
 

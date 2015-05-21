@@ -1,13 +1,12 @@
 package br.ufba.dcc.mestrado.computacao.openhub.data.project;
 
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlID;
+import javax.xml.bind.annotation.XmlRootElement;
+
 import br.ufba.dcc.mestrado.computacao.openhub.data.OpenHubResultDTO;
-import br.ufba.dcc.mestrado.computacao.xstream.converters.NullableLongXStreamConverter;
 
-import com.thoughtworks.xstream.annotations.XStreamAlias;
-import com.thoughtworks.xstream.annotations.XStreamAsAttribute;
-import com.thoughtworks.xstream.annotations.XStreamConverter;
-
-@XStreamAlias(OpenHubLicenseDTO.NODE_NAME)
+@XmlRootElement(name = OpenHubLicenseDTO.NODE_NAME)
 public class OpenHubLicenseDTO implements OpenHubResultDTO {
 
 	/**
@@ -17,15 +16,13 @@ public class OpenHubLicenseDTO implements OpenHubResultDTO {
 
 	public final static String NODE_NAME = "license";
 	
-	@XStreamAsAttribute	
-	@XStreamConverter(value=NullableLongXStreamConverter.class)
-	private Long id;
+	private String id;
 
 	private String name;
 
-	@XStreamAlias("nice_name")
 	private String niceName;
 
+	@XmlElement(name = "name")
 	public String getName() {
 		return name;
 	}
@@ -34,6 +31,7 @@ public class OpenHubLicenseDTO implements OpenHubResultDTO {
 		this.name = name;
 	}
 
+	@XmlElement(name = "nice_name")
 	public String getNiceName() {
 		return niceName;
 	}
@@ -42,11 +40,12 @@ public class OpenHubLicenseDTO implements OpenHubResultDTO {
 		this.niceName = niceName;
 	}
 	
-	public Long getId() {
+	@XmlID
+	public String getId() {
 		return id;
 	}
 	
-	public void setId(Long id) {
+	public void setId(String id) {
 		this.id = id;
 	}
 

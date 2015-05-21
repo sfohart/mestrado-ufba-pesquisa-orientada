@@ -1,16 +1,15 @@
 package br.ufba.dcc.mestrado.computacao.openhub.data.activityfact;
 
-import java.sql.Timestamp;
+import java.util.Date;
+
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlSchemaType;
 
 import br.ufba.dcc.mestrado.computacao.openhub.data.OpenHubResultDTO;
 import br.ufba.dcc.mestrado.computacao.openhub.data.project.OpenHubProjectDTO;
-import br.ufba.dcc.mestrado.computacao.xstream.converters.NullableLongXStreamConverter;
 
-import com.thoughtworks.xstream.annotations.XStreamAlias;
-import com.thoughtworks.xstream.annotations.XStreamConverter;
-import com.thoughtworks.xstream.converters.extended.ISO8601SqlTimestampConverter;
-
-@XStreamAlias(OpenHubActivityFactDTO.NODE_NAME)
+@XmlRootElement(name = OpenHubActivityFactDTO.NODE_NAME)
 public class OpenHubActivityFactDTO implements OpenHubResultDTO {
 
 	/**
@@ -20,50 +19,39 @@ public class OpenHubActivityFactDTO implements OpenHubResultDTO {
 
 	public final static String NODE_NAME = "activity_fact";
 
-	@XStreamConverter(value = ISO8601SqlTimestampConverter.class)
-	private Timestamp month;
+	private Date month;
 
-	@XStreamAlias("code_added")
-	@XStreamConverter(value=NullableLongXStreamConverter.class)
 	private Long codeAdded;
 
-	@XStreamAlias("code_removed")
-	@XStreamConverter(value=NullableLongXStreamConverter.class)
 	private Long codeRemoved;
 
-	@XStreamAlias("comments_added")
-	@XStreamConverter(value=NullableLongXStreamConverter.class)
 	private Long commentsAdded;
 
-	@XStreamAlias("comments_removed")
-	@XStreamConverter(value=NullableLongXStreamConverter.class)
 	private Long commentsRemoved;
 
-	@XStreamAlias("blanks_added")
 	private Long blanksAdded;
 
-	@XStreamAlias("blanks_removed")
-	@XStreamConverter(value=NullableLongXStreamConverter.class)
 	private Long blanksRemoved;
 
-	@XStreamConverter(value=NullableLongXStreamConverter.class)
 	private Long commits;
 
-	@XStreamConverter(value=NullableLongXStreamConverter.class)
 	private Long contributors;
 	
 	private Long projectId;
 	
 	private OpenHubProjectDTO project;
 
-	public Timestamp getMonth() {
+	@XmlElement(name = "month")
+	@XmlSchemaType(name = "date")
+	public Date getMonth() {
 		return month;
 	}
 
-	public void setMonth(Timestamp month) {
+	public void setMonth(Date month) {
 		this.month = month;
 	}
 
+	@XmlElement(name = "code_added")
 	public Long getCodeAdded() {
 		return codeAdded;
 	}
@@ -72,6 +60,7 @@ public class OpenHubActivityFactDTO implements OpenHubResultDTO {
 		this.codeAdded = codeAdded;
 	}
 
+	@XmlElement(name = "code_removed")
 	public Long getCodeRemoved() {
 		return codeRemoved;
 	}
@@ -80,6 +69,7 @@ public class OpenHubActivityFactDTO implements OpenHubResultDTO {
 		this.codeRemoved = codeRemoved;
 	}
 
+	@XmlElement(name = "comments_added")
 	public Long getCommentsAdded() {
 		return commentsAdded;
 	}
@@ -88,6 +78,7 @@ public class OpenHubActivityFactDTO implements OpenHubResultDTO {
 		this.commentsAdded = commentsAdded;
 	}
 
+	@XmlElement(name = "comments_removed")
 	public Long getCommentsRemoved() {
 		return commentsRemoved;
 	}
@@ -96,6 +87,7 @@ public class OpenHubActivityFactDTO implements OpenHubResultDTO {
 		this.commentsRemoved = commentsRemoved;
 	}
 
+	@XmlElement(name = "blanks_added")
 	public Long getBlanksAdded() {
 		return blanksAdded;
 	}
@@ -104,6 +96,7 @@ public class OpenHubActivityFactDTO implements OpenHubResultDTO {
 		this.blanksAdded = blanksAdded;
 	}
 
+	@XmlElement(name = "blanks_removed")
 	public Long getBlanksRemoved() {
 		return blanksRemoved;
 	}
@@ -112,6 +105,7 @@ public class OpenHubActivityFactDTO implements OpenHubResultDTO {
 		this.blanksRemoved = blanksRemoved;
 	}
 
+	@XmlElement(name = "commits")
 	public Long getCommits() {
 		return commits;
 	}
@@ -120,6 +114,7 @@ public class OpenHubActivityFactDTO implements OpenHubResultDTO {
 		this.commits = commits;
 	}
 
+	@XmlElement(name = "contributors")
 	public Long getContributors() {
 		return contributors;
 	}
@@ -128,6 +123,7 @@ public class OpenHubActivityFactDTO implements OpenHubResultDTO {
 		this.contributors = contributors;
 	}
 
+	@XmlElement(name = "project_id")
 	public Long getProjectId() {
 		return projectId;
 	}
@@ -136,6 +132,7 @@ public class OpenHubActivityFactDTO implements OpenHubResultDTO {
 		this.projectId = projectId;
 	}
 
+	@XmlElement(name = "project")
 	public OpenHubProjectDTO getProject() {
 		return project;
 	}

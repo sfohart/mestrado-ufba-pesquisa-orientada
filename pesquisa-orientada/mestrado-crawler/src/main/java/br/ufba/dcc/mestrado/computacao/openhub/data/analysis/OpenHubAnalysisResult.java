@@ -1,29 +1,29 @@
 package br.ufba.dcc.mestrado.computacao.openhub.data.analysis;
 
-import java.io.Serializable;
+import java.util.List;
 
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
-@XmlRootElement(name = OpenHubAnalysisResult.NODE_NAME)
-public class OpenHubAnalysisResult implements Serializable {
+import br.ufba.dcc.mestrado.computacao.openhub.data.OpenHubBaseResult;
+
+@XmlRootElement(name = OpenHubBaseResult.NODE_NAME)
+public class OpenHubAnalysisResult implements OpenHubBaseResult {
 	
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = -7775842708109166229L;
 
-	public final static String NODE_NAME = "result";
-
-	private OpenHubAnalysisDTO analysis;
+	private List<OpenHubAnalysisDTO> analises;
 	
 	@XmlElement(name = "analysis")
-	public OpenHubAnalysisDTO getAnalysis() {
-		return analysis;
+	public List<OpenHubAnalysisDTO> getAnalises() {
+		return analises;
 	}
 	
-	public void setAnalysis(OpenHubAnalysisDTO analysis) {
-		this.analysis = analysis;
+	public void setAnalises(List<OpenHubAnalysisDTO> analises) {
+		this.analises = analises;
 	}
 	
 }

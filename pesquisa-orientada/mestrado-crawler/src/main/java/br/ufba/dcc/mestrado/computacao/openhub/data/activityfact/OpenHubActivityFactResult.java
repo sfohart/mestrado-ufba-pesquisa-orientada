@@ -2,16 +2,25 @@ package br.ufba.dcc.mestrado.computacao.openhub.data.activityfact;
 
 import java.util.List;
 
-import com.thoughtworks.xstream.annotations.XStreamAlias;
-import com.thoughtworks.xstream.annotations.XStreamImplicit;
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlRootElement;
 
-@XStreamAlias("result")
-public class OpenHubActivityFactResult {
+import br.ufba.dcc.mestrado.computacao.openhub.data.OpenHubBaseResult;
+
+@XmlRootElement(name = OpenHubBaseResult.NODE_NAME)
+public class OpenHubActivityFactResult implements OpenHubBaseResult {
 
 	
-	@XStreamImplicit(itemFieldName="activity_fact")
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -3427208861341075797L;
+	
+	
+	
 	private List<OpenHubActivityFactDTO> activityFacts;
 	
+	@XmlElement(name = "activity_fact")
 	public List<OpenHubActivityFactDTO> getActivityFacts() {
 		return activityFacts;
 	}

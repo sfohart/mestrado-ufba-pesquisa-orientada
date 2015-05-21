@@ -2,6 +2,7 @@ package br.ufba.dcc.mestrado.computacao.openhub.restful.client;
 
 import java.io.Serializable;
 import java.util.List;
+import java.util.logging.Logger;
 
 import javax.net.ssl.HttpsURLConnection;
 import javax.net.ssl.SSLContext;
@@ -14,9 +15,7 @@ import javax.ws.rs.client.WebTarget;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
-import org.apache.commons.lang3.NotImplementedException;
 import org.apache.commons.lang3.StringUtils;
-import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Scope;
@@ -24,9 +23,7 @@ import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Component;
 
 import br.ufba.dcc.mestrado.computacao.openhub.data.analysis.OpenHubAnalysisDTO;
-import br.ufba.dcc.mestrado.computacao.openhub.data.analysis.OpenHubAnalysisResult;
 import br.ufba.dcc.mestrado.computacao.openhub.data.language.OpenHubLanguageDTO;
-import br.ufba.dcc.mestrado.computacao.openhub.data.language.OpenHubLanguageResult;
 import br.ufba.dcc.mestrado.computacao.openhub.data.project.OpenHubProjectDTO;
 import br.ufba.dcc.mestrado.computacao.openhub.restful.request.OpenHubBaseRequest;
 import br.ufba.dcc.mestrado.computacao.openhub.restful.responses.OpenHubActivityFactResponse;
@@ -47,7 +44,7 @@ public class OpenHubRestfulClientImpl implements Serializable {
 	private static final long serialVersionUID = -6670332212734792427L;
 
 	protected static final Logger logger = Logger
-			.getLogger(OpenHubRestfulClientImpl.class);
+			.getLogger(OpenHubRestfulClientImpl.class.getName());
 
 	/**
 	 * Lista com todas as API Keys do OhLoh que eu estou utilizando
@@ -118,9 +115,6 @@ public class OpenHubRestfulClientImpl implements Serializable {
 		
 		Client client = ClientBuilder.newBuilder().sslContext(sslContext).build();
 		
-	    //ClientConfig configuration = new ClientConfig();
-		//Client client = ClientBuilder.newClient(configuration);
-		
 		return client;
 	}
 	
@@ -164,13 +158,14 @@ public class OpenHubRestfulClientImpl implements Serializable {
 		OpenHubLanguageDTO language = null;
 		String resourcePath = String.format("%d.xml", languageId);
 		
-		WebTarget webTarget = configureWebTarget()
+		WebTarget webTarget = configureWebTarget();
+		
+		webTarget = webTarget.register(new GenericMessageBodyReader<OpenHubLanguageResponse>(OpenHubLanguageResponse.class));
+		
+		webTarget = webTarget
 				.path("languages")
 				.path(resourcePath);
 		
-		webTarget.register(OpenHubLanguageResponse.class);
-		webTarget.register(OpenHubLanguageResult.class);
-		webTarget.register(OpenHubLanguageDTO.class);
 		
 		boolean retry = true;
 		
@@ -273,9 +268,6 @@ public class OpenHubRestfulClientImpl implements Serializable {
 				.path("analyses")
 				.path(resourcePath);
 		
-		webTarget.register(OpenHubAnalysisResponse.class);
-		webTarget.register(OpenHubAnalysisResult.class);
-		webTarget.register(OpenHubAnalysisDTO.class);
 		
 		boolean retry = true;
 		
@@ -299,7 +291,7 @@ public class OpenHubRestfulClientImpl implements Serializable {
 							}
 						}						
 					} else {
-						analysis = analysisResponse.getResult().getAnalysis();
+						analysis = analysisResponse.getResult().getAnalises().get(0);
 					}
 				}
 				
@@ -315,12 +307,104 @@ public class OpenHubRestfulClientImpl implements Serializable {
 	public OpenHubProjectDTO getProject(
 			String projectId,
 			OpenHubBaseRequest request) {
-		throw new NotImplementedException("Não implementado ainda. Mudando de RESTFULie para Jersey");
+		
+		
+		OpenHubProjectDTO project = null;
+		String resourcePath = String.format("%s.xml", projectId);
+		
+		WebTarget webTarget = configureWebTarget();
+		
+		webTarget = webTarget.register(new GenericMessageBodyReader<OpenHubProjectResponse>(OpenHubProjectResponse.class));
+		
+		webTarget = webTarget
+				.path("projects")
+				.path(resourcePath);
+		
+		
+		boolean retry = true;
+		
+		try {
+			
+			while (retry) {
+				retry = false;
+				
+				webTarget = configureApiKeyParams(webTarget);
+				webTarget = configureRequestParams(webTarget, request);
+				
+				Invocation.Builder invocationBuilder = webTarget.request(MediaType.APPLICATION_ATOM_XML_TYPE);
+				OpenHubProjectResponse projectResponse = invocationBuilder.get(OpenHubProjectResponse.class);
+				
+				if (projectResponse != null) {
+					if (! projectResponse.isStatusSuccess()) {
+						if (OpenHubBaseResponse.ERROR_API_KEY_EXCEDED.equals(projectResponse.getError())) {
+							if (getCurrentApiKey() + 1 < getApiKeyList().size()) {
+								setCurrentApiKey(getCurrentApiKey() + 1);
+								retry = true;
+							}
+						}						
+					} else {
+						project = projectResponse.getResult().getProjects().get(0);
+					}
+				}
+				
+			}
+			
+		} catch (Exception ex) {
+			throw ex;
+		}
+		
+		
+		return project;
+		
 	}
 
 	public OpenHubActivityFactResponse getLatestProjectActivityFacts(
 			String projectId) {
-		throw new NotImplementedException("Não implementado ainda. Mudando de RESTFULie para Jersey");
+		
+		OpenHubActivityFactResponse activityFactResponse = null;
+		
+		WebTarget webTarget = configureWebTarget();
+		
+		webTarget = webTarget.register(new GenericMessageBodyReader<OpenHubActivityFactResponse>(OpenHubActivityFactResponse.class));
+		
+		webTarget = webTarget
+				.path("projects")
+				.path(projectId)
+				.path("analyses")
+				.path("latest")
+				.path("activity_facts.xml");
+		
+		
+		boolean retry = true;
+		
+		try {
+			
+			while (retry) {
+				retry = false;
+				
+				webTarget = configureApiKeyParams(webTarget);
+				
+				Invocation.Builder invocationBuilder = webTarget.request(MediaType.APPLICATION_ATOM_XML_TYPE);
+				activityFactResponse = invocationBuilder.get(OpenHubActivityFactResponse.class);
+				
+				if (activityFactResponse != null) {
+					if (! activityFactResponse.isStatusSuccess()) {
+						if (OpenHubBaseResponse.ERROR_API_KEY_EXCEDED.equals(activityFactResponse.getError())) {
+							if (getCurrentApiKey() + 1 < getApiKeyList().size()) {
+								setCurrentApiKey(getCurrentApiKey() + 1);
+								retry = true;
+							}
+						}						
+					} 
+				}
+				
+			}
+			
+		} catch (Exception ex) {
+			throw ex;
+		}
+		
+		return activityFactResponse;
 	}
 
 	public OpenHubEnlistmentResponse getAllProjectEnlistments(
@@ -417,7 +501,51 @@ public class OpenHubRestfulClientImpl implements Serializable {
 	}
 
 	public OpenHubSizeFactResponse getLatestSizeFackByProject(String projectId) {
-		throw new NotImplementedException("Não implementado ainda. Mudando de RESTFULie para Jersey");
+		
+		OpenHubSizeFactResponse sizeFactResponse = null;
+		
+		WebTarget webTarget = configureWebTarget();
+		
+		webTarget = webTarget.register(new GenericMessageBodyReader<OpenHubSizeFactResponse>(OpenHubSizeFactResponse.class));
+		
+		webTarget = webTarget
+				.path("projects")
+				.path(projectId)
+				.path("analyses")
+				.path("latest")
+				.path("size_facts.xml");
+		
+		
+		boolean retry = true;
+		
+		try {
+			
+			while (retry) {
+				retry = false;
+				
+				webTarget = configureApiKeyParams(webTarget);
+				
+				Invocation.Builder invocationBuilder = webTarget.request(MediaType.APPLICATION_ATOM_XML_TYPE);
+				sizeFactResponse = invocationBuilder.get(OpenHubSizeFactResponse.class);
+				
+				if (sizeFactResponse != null) {
+					if (! sizeFactResponse.isStatusSuccess()) {
+						if (OpenHubBaseResponse.ERROR_API_KEY_EXCEDED.equals(sizeFactResponse.getError())) {
+							if (getCurrentApiKey() + 1 < getApiKeyList().size()) {
+								setCurrentApiKey(getCurrentApiKey() + 1);
+								retry = true;
+							}
+						}						
+					} 
+				}
+				
+			}
+			
+		} catch (Exception ex) {
+			throw ex;
+		}
+		
+		return sizeFactResponse;
 	}
 
 }

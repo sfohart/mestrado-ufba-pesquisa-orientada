@@ -4,8 +4,6 @@ import java.io.Serializable;
 
 import javax.xml.bind.annotation.XmlElement;
 
-import com.thoughtworks.xstream.annotations.XStreamAlias;
-
 public class OpenHubBaseResponse  implements Serializable {
 	/**
 	 * 

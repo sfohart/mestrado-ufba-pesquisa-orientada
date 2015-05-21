@@ -1,18 +1,17 @@
 package br.ufba.dcc.mestrado.computacao.openhub.data.stack;
 
-import java.sql.Timestamp;
+import java.util.Date;
 import java.util.List;
+
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlID;
+import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlSchemaType;
 
 import br.ufba.dcc.mestrado.computacao.openhub.data.OpenHubResultDTO;
 import br.ufba.dcc.mestrado.computacao.openhub.data.account.OpenHubAccountDTO;
-import br.ufba.dcc.mestrado.computacao.xstream.converters.NullableLongXStreamConverter;
 
-import com.thoughtworks.xstream.annotations.XStreamAlias;
-import com.thoughtworks.xstream.annotations.XStreamAsAttribute;
-import com.thoughtworks.xstream.annotations.XStreamConverter;
-import com.thoughtworks.xstream.converters.extended.ISO8601SqlTimestampConverter;
-
-@XStreamAlias(OpenHubStackDTO.NODE_NAME)
+@XmlRootElement(name = OpenHubStackDTO.NODE_NAME)
 public class OpenHubStackDTO implements OpenHubResultDTO {
 
 	/**
@@ -22,32 +21,23 @@ public class OpenHubStackDTO implements OpenHubResultDTO {
 
 	public final static String NODE_NAME = "stack";
 	
-	@XStreamAsAttribute	
-	@XStreamConverter(value=NullableLongXStreamConverter.class)
-	private Long id;
+	private String id;
 
 	private String title;
 
 	private String description;
 
-	@XStreamConverter(value = ISO8601SqlTimestampConverter.class)
-	@XStreamAlias("updated_at")
-	private Timestamp updatedAt;
+	private Date updatedAt;
 
-	@XStreamAlias("project_count")
-	@XStreamConverter(value=NullableLongXStreamConverter.class)
 	private Long projectCount;
 
-	@XStreamAlias("stack_entries")
 	private List<OpenHubStackEntryDTO> stackEntries;
 
-	@XStreamAlias("account_id")
-	@XStreamConverter(value=NullableLongXStreamConverter.class)
 	private Long acountId;
 	
-	@XStreamAlias("account")
 	private OpenHubAccountDTO account;
 
+	@XmlElement(name = "title")
 	public String getTitle() {
 		return title;
 	}
@@ -56,6 +46,7 @@ public class OpenHubStackDTO implements OpenHubResultDTO {
 		this.title = title;
 	}
 
+	@XmlElement(name = "description")
 	public String getDescription() {
 		return description;
 	}
@@ -64,22 +55,26 @@ public class OpenHubStackDTO implements OpenHubResultDTO {
 		this.description = description;
 	}
 
-	public Timestamp getUpdatedAt() {
+	@XmlElement(name = "updated_at")
+	@XmlSchemaType(name = "date")
+	public Date getUpdatedAt() {
 		return updatedAt;
 	}
 
-	public void setUpdatedAt(Timestamp updatedAt) {
+	public void setUpdatedAt(Date updatedAt) {
 		this.updatedAt = updatedAt;
 	}
 
+	@XmlElement(name = "project_count")
 	public Long getProjectCount() {
 		return projectCount;
 	}
-
+	
 	public void setProjectCount(Long projectCount) {
 		this.projectCount = projectCount;
 	}
 
+	@XmlElement(name = "stack_entries")
 	public List<OpenHubStackEntryDTO> getStackEntries() {
 		return stackEntries;
 	}
@@ -88,6 +83,7 @@ public class OpenHubStackDTO implements OpenHubResultDTO {
 		this.stackEntries = stackEntries;
 	}
 
+	@XmlElement(name = "account_id")
 	public Long getAcountId() {
 		return acountId;
 	}
@@ -96,6 +92,7 @@ public class OpenHubStackDTO implements OpenHubResultDTO {
 		this.acountId = acountId;
 	}
 
+	@XmlElement(name = "account")
 	public OpenHubAccountDTO getAccount() {
 		return account;
 	}
@@ -104,11 +101,12 @@ public class OpenHubStackDTO implements OpenHubResultDTO {
 		this.account = account;
 	}
 
-	public Long getId() {
+	@XmlID
+	public String getId() {
 		return id;
 	}
 
-	public void setId(Long id) {
+	public void setId(String id) {
 		this.id = id;
 	}
 

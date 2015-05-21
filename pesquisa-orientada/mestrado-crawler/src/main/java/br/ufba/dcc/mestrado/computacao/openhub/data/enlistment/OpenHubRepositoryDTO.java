@@ -1,18 +1,14 @@
 package br.ufba.dcc.mestrado.computacao.openhub.data.enlistment;
 
-import java.sql.Timestamp;
 import java.util.Date;
 
 import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlEnum;
 import javax.xml.bind.annotation.XmlID;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlSchemaType;
 
 import br.ufba.dcc.mestrado.computacao.entities.openhub.core.enlistment.OpenHubRepositoryTypeEnum;
 import br.ufba.dcc.mestrado.computacao.openhub.data.OpenHubResultDTO;
-
-import com.thoughtworks.xstream.annotations.XStreamAlias;
 
 @XmlRootElement(name = OpenHubRepositoryDTO.NODE_NAME)
 public class OpenHubRepositoryDTO implements OpenHubResultDTO {
@@ -41,7 +37,7 @@ public class OpenHubRepositoryDTO implements OpenHubResultDTO {
 
 	private Long commits;
 
-	@XStreamAlias("ohloh_job_status")
+	
 	private String jobStatus;
 
 	@XmlID

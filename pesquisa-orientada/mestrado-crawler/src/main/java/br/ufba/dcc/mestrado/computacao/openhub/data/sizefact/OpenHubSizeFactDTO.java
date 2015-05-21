@@ -1,18 +1,16 @@
 package br.ufba.dcc.mestrado.computacao.openhub.data.sizefact;
 
-import java.sql.Timestamp;
+import java.util.Date;
+
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlID;
+import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlSchemaType;
 
 import br.ufba.dcc.mestrado.computacao.openhub.data.OpenHubResultDTO;
 import br.ufba.dcc.mestrado.computacao.openhub.data.project.OpenHubProjectDTO;
-import br.ufba.dcc.mestrado.computacao.xstream.converters.NullableDoubleXStreamConverter;
-import br.ufba.dcc.mestrado.computacao.xstream.converters.NullableLongXStreamConverter;
 
-import com.thoughtworks.xstream.annotations.XStreamAlias;
-import com.thoughtworks.xstream.annotations.XStreamAsAttribute;
-import com.thoughtworks.xstream.annotations.XStreamConverter;
-import com.thoughtworks.xstream.converters.extended.ISO8601SqlTimestampConverter;
-
-@XStreamAlias(OpenHubSizeFactDTO.NODE_NAME)
+@XmlRootElement(name = OpenHubSizeFactDTO.NODE_NAME)
 public class OpenHubSizeFactDTO implements OpenHubResultDTO {
 
 	/**
@@ -22,43 +20,46 @@ public class OpenHubSizeFactDTO implements OpenHubResultDTO {
 
 	public final static String NODE_NAME = "size_fact";
 	
-	@XStreamAsAttribute	
-	@XStreamConverter(value=NullableLongXStreamConverter.class)
-	private Long id;
+	private String id;
 
-	@XStreamConverter(value = ISO8601SqlTimestampConverter.class)
-	private Timestamp month;
+	private Date month;
 
-	@XStreamConverter(value=NullableLongXStreamConverter.class)
 	private Long code;
 
-	@XStreamConverter(value=NullableLongXStreamConverter.class)
 	private Long comments;
 
-	@XStreamConverter(value=NullableLongXStreamConverter.class)
 	private Long blanks;
 
-	@XStreamAlias("comment_ratio")
-	@XStreamConverter(value = NullableDoubleXStreamConverter.class)
 	private Double commentRatio;
 
 	private String commits;
 
-	@XStreamAlias("man_months")
 	private Long manMonths;
 	
 	private Long projectId;
 	
 	private OpenHubProjectDTO project;
 
-	public Timestamp getMonth() {
+	@XmlID
+	public String getId() {
+		return id;
+	}
+
+	public void setId(String id) {
+		this.id = id;
+	}
+
+	@XmlElement(name = "month")
+	@XmlSchemaType(name = "date")
+	public Date getMonth() {
 		return month;
 	}
 
-	public void setMonth(Timestamp month) {
+	public void setMonth(Date month) {
 		this.month = month;
 	}
 
+	@XmlElement(name = "code")
 	public Long getCode() {
 		return code;
 	}
@@ -67,6 +68,7 @@ public class OpenHubSizeFactDTO implements OpenHubResultDTO {
 		this.code = code;
 	}
 
+	@XmlElement(name = "comments")
 	public Long getComments() {
 		return comments;
 	}
@@ -75,6 +77,7 @@ public class OpenHubSizeFactDTO implements OpenHubResultDTO {
 		this.comments = comments;
 	}
 
+	@XmlElement(name = "blanks")
 	public Long getBlanks() {
 		return blanks;
 	}
@@ -83,6 +86,7 @@ public class OpenHubSizeFactDTO implements OpenHubResultDTO {
 		this.blanks = blanks;
 	}
 
+	@XmlElement(name = "comment_ratio")
 	public Double getCommentRatio() {
 		return commentRatio;
 	}
@@ -91,6 +95,7 @@ public class OpenHubSizeFactDTO implements OpenHubResultDTO {
 		this.commentRatio = commentRatio;
 	}
 
+	@XmlElement(name = "commits")
 	public String getCommits() {
 		return commits;
 	}
@@ -99,6 +104,7 @@ public class OpenHubSizeFactDTO implements OpenHubResultDTO {
 		this.commits = commits;
 	}
 
+	@XmlElement(name = "man_months")
 	public Long getManMonths() {
 		return manMonths;
 	}
@@ -107,6 +113,7 @@ public class OpenHubSizeFactDTO implements OpenHubResultDTO {
 		this.manMonths = manMonths;
 	}
 
+	
 	public Long getProjectId() {
 		return projectId;
 	}

@@ -2,16 +2,24 @@ package br.ufba.dcc.mestrado.computacao.openhub.data.contributorfact;
 
 import java.util.List;
 
-import com.thoughtworks.xstream.annotations.XStreamAlias;
-import com.thoughtworks.xstream.annotations.XStreamImplicit;
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlRootElement;
 
-@XStreamAlias("result")
-public class OpenHubContributorFactResult {
+import br.ufba.dcc.mestrado.computacao.openhub.data.OpenHubBaseResult;
+
+@XmlRootElement(name = OpenHubBaseResult.NODE_NAME)
+public class OpenHubContributorFactResult implements OpenHubBaseResult {
 
 	
-	@XStreamImplicit(itemFieldName="contributor_fact")
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 5627330615888759844L;
+	
+	
 	private List<OpenHubContributorFactDTO> contributorFacts;
 	
+	@XmlElement(name = "contributor_fact")
 	public List<OpenHubContributorFactDTO> getContributorFacts() {
 		return contributorFacts;
 	}

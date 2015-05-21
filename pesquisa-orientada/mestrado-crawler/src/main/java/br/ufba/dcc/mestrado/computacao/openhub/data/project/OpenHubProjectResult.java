@@ -1,20 +1,19 @@
 package br.ufba.dcc.mestrado.computacao.openhub.data.project;
 
-import java.io.Serializable;
 import java.util.List;
 
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
-@XmlRootElement(name = OpenHubProjectResult.NODE_NAME)
-public class OpenHubProjectResult implements Serializable {
+import br.ufba.dcc.mestrado.computacao.openhub.data.OpenHubBaseResult;
+
+@XmlRootElement(name = OpenHubBaseResult.NODE_NAME)
+public class OpenHubProjectResult implements OpenHubBaseResult {
 	
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = -6180783452341172860L;
-
-	public final static String NODE_NAME = "result";
 
 	private List<OpenHubProjectDTO> projects;
 	

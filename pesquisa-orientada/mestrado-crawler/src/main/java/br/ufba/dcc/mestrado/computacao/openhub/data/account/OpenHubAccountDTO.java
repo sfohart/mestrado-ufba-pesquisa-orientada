@@ -1,19 +1,15 @@
 package br.ufba.dcc.mestrado.computacao.openhub.data.account;
 
-import java.sql.Timestamp;
+import java.util.Date;
+
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlSchemaType;
 
 import br.ufba.dcc.mestrado.computacao.openhub.data.OpenHubResultDTO;
 import br.ufba.dcc.mestrado.computacao.openhub.data.kudoskore.OpenHubKudoScoreDTO;
-import br.ufba.dcc.mestrado.computacao.xstream.converters.NullableDoubleXStreamConverter;
-import br.ufba.dcc.mestrado.computacao.xstream.converters.NullableLongXStreamConverter;
-import br.ufba.dcc.mestrado.computacao.xstream.converters.OpenHubTagDTOXStreamConverter;
 
-import com.thoughtworks.xstream.annotations.XStreamAlias;
-import com.thoughtworks.xstream.annotations.XStreamAsAttribute;
-import com.thoughtworks.xstream.annotations.XStreamConverter;
-import com.thoughtworks.xstream.converters.extended.ISO8601SqlTimestampConverter;
-
-@XStreamAlias(OpenHubAccountDTO.NODE_NAME)
+@XmlRootElement(name = OpenHubAccountDTO.NODE_NAME)
 public class OpenHubAccountDTO implements OpenHubResultDTO {
 
 	/**
@@ -23,9 +19,7 @@ public class OpenHubAccountDTO implements OpenHubResultDTO {
 
 	public final static String NODE_NAME = "account";
 	
-	@XStreamAsAttribute	
-	@XStreamConverter(value=NullableLongXStreamConverter.class)
-	private Long id;
+	private String id;
 		
 	/**
 	 * The public name for this Account.
@@ -34,59 +28,45 @@ public class OpenHubAccountDTO implements OpenHubResultDTO {
 	
 	private String about;
 	
-	@XStreamConverter(value=ISO8601SqlTimestampConverter.class)
-	@XStreamAlias("created_at")
-	private Timestamp createdAt;
+	private Date createdAt;
 	
-	@XStreamConverter(value=ISO8601SqlTimestampConverter.class)
-	@XStreamAlias("updated_at")
-	private Timestamp updatedAt;
+	private Date updatedAt;
 	
-	@XStreamAlias("homepage_url")
 	private String homepageURL;
 	
-	@XStreamAlias("avatar_url")
 	private String avatarURL;
 	
-	@XStreamAlias("email_sha1")
 	private String emailSHA1;
 	
-	@XStreamAlias("posts_count")
-	@XStreamConverter(value=NullableLongXStreamConverter.class)
 	private Long postsCount;
 	
 	private String location;
 	
-	@XStreamAlias("country_code")
 	private String countryCode;
 	
-	@XStreamConverter(value=NullableDoubleXStreamConverter.class)	
 	private Double latitude;
 	
-	@XStreamConverter(value=NullableDoubleXStreamConverter.class)
 	private Double longitude;
 	
-	@XStreamAlias("kudo_score")
 	private OpenHubKudoScoreDTO kudoScore;
 	
 	private String url;
 	
-	@XStreamAlias("html_url")
 	private String htmlURL;
 	
 	private String login;
 	
-	@XStreamAlias("twitter_account")
 	private String twitterAccount;
 
-	public Long getId() {
+	public String getId() {
 		return id;
 	}
 	
-	public void setId(Long id) {
+	public void setId(String id) {
 		this.id = id;
 	}
 	
+	@XmlElement(name = "name")
 	public String getName() {
 		return name;
 	}
@@ -95,6 +75,7 @@ public class OpenHubAccountDTO implements OpenHubResultDTO {
 		this.name = name;
 	}
 
+	@XmlElement(name = "about")
 	public String getAbout() {
 		return about;
 	}
@@ -103,22 +84,27 @@ public class OpenHubAccountDTO implements OpenHubResultDTO {
 		this.about = about;
 	}
 
-	public Timestamp getCreatedAt() {
+	@XmlElement(name = "created_at")
+	@XmlSchemaType(name = "date")
+	public Date getCreatedAt() {
 		return createdAt;
 	}
 
-	public void setCreatedAt(Timestamp createdAt) {
+	public void setCreatedAt(Date createdAt) {
 		this.createdAt = createdAt;
 	}
 
-	public Timestamp getUpdatedAt() {
+	@XmlElement(name = "updated_at")
+	@XmlSchemaType(name = "date")
+	public Date getUpdatedAt() {
 		return updatedAt;
 	}
 
-	public void setUpdatedAt(Timestamp updatedAt) {
+	public void setUpdatedAt(Date updatedAt) {
 		this.updatedAt = updatedAt;
 	}
 
+	@XmlElement(name = "homepage_url")
 	public String getHomepageURL() {
 		return homepageURL;
 	}
@@ -127,6 +113,7 @@ public class OpenHubAccountDTO implements OpenHubResultDTO {
 		this.homepageURL = homepageURL;
 	}
 
+	@XmlElement(name = "avatar_url")
 	public String getAvatarURL() {
 		return avatarURL;
 	}
@@ -135,6 +122,7 @@ public class OpenHubAccountDTO implements OpenHubResultDTO {
 		this.avatarURL = avatarURL;
 	}
 
+	@XmlElement(name = "email_sha1")
 	public String getEmailSHA1() {
 		return emailSHA1;
 	}
@@ -143,6 +131,7 @@ public class OpenHubAccountDTO implements OpenHubResultDTO {
 		this.emailSHA1 = emailSHA1;
 	}
 
+	@XmlElement(name = "posts_count")
 	public Long getPostsCount() {
 		return postsCount;
 	}
@@ -151,6 +140,7 @@ public class OpenHubAccountDTO implements OpenHubResultDTO {
 		this.postsCount = postsCount;
 	}
 
+	@XmlElement(name = "location")
 	public String getLocation() {
 		return location;
 	}
@@ -159,6 +149,7 @@ public class OpenHubAccountDTO implements OpenHubResultDTO {
 		this.location = location;
 	}
 
+	@XmlElement(name = "country_code")
 	public String getCountryCode() {
 		return countryCode;
 	}
@@ -167,6 +158,7 @@ public class OpenHubAccountDTO implements OpenHubResultDTO {
 		this.countryCode = countryCode;
 	}
 
+	@XmlElement(name = "latitude")
 	public Double getLatitude() {
 		return latitude;
 	}
@@ -175,6 +167,7 @@ public class OpenHubAccountDTO implements OpenHubResultDTO {
 		this.latitude = latitude;
 	}
 
+	@XmlElement(name = "longitude")
 	public Double getLongitude() {
 		return longitude;
 	}
@@ -183,6 +176,7 @@ public class OpenHubAccountDTO implements OpenHubResultDTO {
 		this.longitude = longitude;
 	}
 
+	@XmlElement(name = "kudo_score")
 	public OpenHubKudoScoreDTO getKudoScore() {
 		return kudoScore;
 	}
@@ -191,6 +185,7 @@ public class OpenHubAccountDTO implements OpenHubResultDTO {
 		this.kudoScore = kudoScore;
 	}
 
+	@XmlElement(name = "url")
 	public String getUrl() {
 		return url;
 	}
@@ -199,6 +194,7 @@ public class OpenHubAccountDTO implements OpenHubResultDTO {
 		this.url = url;
 	}
 
+	@XmlElement(name = "html_url")
 	public String getHtmlURL() {
 		return htmlURL;
 	}
@@ -207,6 +203,7 @@ public class OpenHubAccountDTO implements OpenHubResultDTO {
 		this.htmlURL = htmlURL;
 	}
 
+	@XmlElement(name = "login")
 	public String getLogin() {
 		return login;
 	}
@@ -215,6 +212,7 @@ public class OpenHubAccountDTO implements OpenHubResultDTO {
 		this.login = login;
 	}
 
+	@XmlElement(name = "twitter_account")
 	public String getTwitterAccount() {
 		return twitterAccount;
 	}
