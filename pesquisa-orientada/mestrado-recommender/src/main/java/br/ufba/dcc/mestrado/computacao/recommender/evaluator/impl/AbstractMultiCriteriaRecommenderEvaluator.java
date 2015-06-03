@@ -94,7 +94,7 @@ public abstract class AbstractMultiCriteriaRecommenderEvaluator implements Offli
 		return dataModelMap;
 	}
 	
-	protected abstract MultiCriteriaRecommender buildMultiCriteriaRecommender(RecommenderBuilder recommenderBuilder);
+	protected abstract MultiCriteriaRecommender buildMultiCriteriaRecommender(RecommenderBuilder recommenderBuilder) throws TasteException;
 	
 	@Override
 	public void evaluate() throws TasteException {

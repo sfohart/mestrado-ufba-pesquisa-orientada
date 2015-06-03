@@ -39,7 +39,7 @@ public class MultiCriteriaPreditionBasedRecommender
 	public MultiCriteriaPreditionBasedRecommender(
 			RecommenderBuilder recommenderBuilder,
 			AggregatePreferenceStrategy aggregatePreference,
-			Map<RecommenderCriteriumEntity, DataModel> dataModelMap) {
+			Map<RecommenderCriteriumEntity, DataModel> dataModelMap) throws TasteException {
 		
 		super(recommenderBuilder, dataModelMap);		
 		this.aggregatePreference = aggregatePreference;
@@ -53,7 +53,7 @@ public class MultiCriteriaPreditionBasedRecommender
 			RecommenderBuilder recommenderBuilder,
 			AggregatePreferenceStrategy aggregatePreference,
 			Map<RecommenderCriteriumEntity, DataModel> dataModelMap,
-			CandidateItemsStrategy candidateItemsStrategy) {
+			CandidateItemsStrategy candidateItemsStrategy) throws TasteException {
 		super(recommenderBuilder, dataModelMap, candidateItemsStrategy);
 		this.aggregatePreference = aggregatePreference;
 		
@@ -71,13 +71,15 @@ public class MultiCriteriaPreditionBasedRecommender
 		}
 	}
 
-	private void buildOverallDataModel() {
+	private void buildOverallDataModel() throws TasteException {
 		
 		Map<ImmutablePair<Long,Long>, Map<RecommenderCriteriumEntity, Preference>> data = new HashMap<ImmutablePair<Long,Long>, Map<RecommenderCriteriumEntity,Preference>>();
 		
 		if (dataModelMap != null) {
 			for (Map.Entry<RecommenderCriteriumEntity, DataModel> entry : dataModelMap.entrySet()) {
 				DataModel dataModel = entry.getValue();
+				
+				Recommender criteriumRecommender = recommenderBuilder.buildRecommender(dataModel);
 				
 				try {
 					LongPrimitiveIterator userIterator = dataModel.getUserIDs();
@@ -90,6 +92,13 @@ public class MultiCriteriaPreditionBasedRecommender
 						while (iterator.hasNext()) {
 							Preference preference = iterator.next();
 							
+							if (Float.valueOf(0.0f).equals(preference.getValue()) || preference.getValue() == Float.NaN) {
+								float value = criteriumRecommender.estimatePreference(
+										preference.getUserID(), 
+										preference.getItemID());
+								preference.setValue(value);
+							}
+						
 							ImmutablePair<Long, Long> keyPair = new ImmutablePair<Long, Long>(
 									preference.getUserID(), 
 									preference.getItemID());

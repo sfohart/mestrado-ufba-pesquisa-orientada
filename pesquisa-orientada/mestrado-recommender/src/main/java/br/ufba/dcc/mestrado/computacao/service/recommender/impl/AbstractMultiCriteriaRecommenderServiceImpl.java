@@ -19,6 +19,11 @@ public abstract class AbstractMultiCriteriaRecommenderServiceImpl
 		implements MultiCriteriaRecommenderService {
 	
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -6636228265229819668L;
+
 	protected MultiCriteriaRecommender multiCriteriaRecommender;
 	
 	@Autowired
@@ -28,14 +33,14 @@ public abstract class AbstractMultiCriteriaRecommenderServiceImpl
 	public AbstractMultiCriteriaRecommenderServiceImpl() {
 	}
 	
-	private void initMultiCriteriaRecommender() {
+	private void initMultiCriteriaRecommender() throws TasteException {
 		if (multiCriteriaRecommender == null) {
 			RecommenderBuilder recommenderBuilder = colaborativeFilteringService.getUserBasedRecommenderBuilder();
 			this.multiCriteriaRecommender = buildMultiCriteriaRecommender(recommenderBuilder);
 		}
 	}
 
-	public abstract MultiCriteriaRecommender buildMultiCriteriaRecommender(RecommenderBuilder recommenderBuilder);
+	public abstract MultiCriteriaRecommender buildMultiCriteriaRecommender(RecommenderBuilder recommenderBuilder) throws TasteException;
 
 	@Override
 	public List<RecommendedItem> recommendRatingProjectsByUser(Long userID, Integer howMany) throws TasteException {

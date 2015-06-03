@@ -20,7 +20,7 @@ public class MultiCriteriaListBasedRecommenderEvaluator extends AbstractMultiCri
 	private MultiCriteriaRecommenderService recommenderService;
 	
 	@Override
-	protected MultiCriteriaRecommender buildMultiCriteriaRecommender(RecommenderBuilder recommenderBuilder) {
+	protected MultiCriteriaRecommender buildMultiCriteriaRecommender(RecommenderBuilder recommenderBuilder) throws TasteException {
 		return recommenderService.buildMultiCriteriaRecommender(recommenderBuilder);
 	}
 	

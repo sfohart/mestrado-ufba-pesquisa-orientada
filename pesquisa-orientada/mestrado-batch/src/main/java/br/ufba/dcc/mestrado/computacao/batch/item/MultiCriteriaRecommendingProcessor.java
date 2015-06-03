@@ -10,7 +10,7 @@ import org.springframework.stereotype.Component;
 
 import br.ufba.dcc.mestrado.computacao.entities.recommender.recommendation.RecommendationTypeEnum;
 import br.ufba.dcc.mestrado.computacao.service.recommender.base.MultiCriteriaRecommenderService;
-import br.ufba.dcc.mestrado.computacao.service.recommender.impl.MultiCriteriaListBasedRecommenderServiceImpl;
+import br.ufba.dcc.mestrado.computacao.service.recommender.impl.MultiCriteriaPredictionBasedRecommenderServiceImpl;
 
 @Component
 public class MultiCriteriaRecommendingProcessor extends AbstractRecommendingProcessor {
@@ -18,8 +18,8 @@ public class MultiCriteriaRecommendingProcessor extends AbstractRecommendingProc
 	
 	@Autowired
 	public MultiCriteriaRecommendingProcessor(
-			@Qualifier(MultiCriteriaListBasedRecommenderServiceImpl.BEAN_NAME) MultiCriteriaRecommenderService multiCriteriaRecommenderService) {
-		super(multiCriteriaRecommenderService, RecommendationTypeEnum.MULTICRITERIA_LIST_BASED_RECOMMENDATION);
+			@Qualifier(MultiCriteriaPredictionBasedRecommenderServiceImpl.BEAN_NAME) MultiCriteriaRecommenderService multiCriteriaRecommenderService) {
+		super(multiCriteriaRecommenderService, RecommendationTypeEnum.MULTICRITERIA_PREDICTION_BASED_RECOMMENDATION);
 	}
 
 	@Override

@@ -124,9 +124,19 @@ public class OpenHubRestfulClientImpl implements Serializable {
 
 	protected WebTarget configureApiKeyParams(WebTarget webTarget) {
 		
+		try {
+			Thread.sleep(1000L);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+		
 		if (getApiKeyList() != null && ! getApiKeyList().isEmpty()) {
-			String apiKey = getApiKeyList().get(getCurrentApiKey());
-			return webTarget.queryParam("api_key", apiKey);
+			if (getCurrentApiKey() < getApiKeyList().size()) {
+				String apiKey = getApiKeyList().get(getCurrentApiKey());
+				return webTarget.queryParam("api_key", apiKey);
+			} else {
+				throw new IllegalStateException("Não há mais api keys disponíveis para esta operação");
+			}
 		}
 		
 		return webTarget;
