@@ -13,14 +13,14 @@
 			<!-- Brand and toggle get grouped for better mobile display -->
   			<div class="navbar-header">
   				<h:outputLink styleClass="navbar-brand" value="#{facesContext.externalContext.applicationContextPath}/" >Sfohart</h:outputLink>
-				<button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-responsive-collapse">
+				<button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#sfohart-navbar-colapse">
 					<span class="icon-bar"></span>
 					<span class="icon-bar"></span>
 					<span class="icon-bar"></span>
 				</button>
   			</div>
   			
-  			<div class="collapse navbar-collapse navbar-responsive-collapse navbar-right hidden-xs" >
+  			<div class="collapse navbar-collapse navbar-responsive-collapse navbar-right hidden-xs" id="sfohart-navbar-colapse" >
   				<h:form styleClass="navbar-form navbar-left" p:role="search" rendered="#{not hideSearchForm}" >
   					<div class="form-group" style="margin-right: 5px">
   						<h:inputText styleClass="form-control" id="query" p:placeholder="Digite aqui"  value="#{mainMB.searchRequest.query}" />
